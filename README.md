@@ -1,7 +1,7 @@
 # MoveIt! Tutorials
 
-To build locally:
+To build locally, run in root of repo:
 
-    . build_locally.sh
+    rosdoc_lite -o build .
 
 Then open ``/build/html/build/doc/index.html`` in your web browser.
