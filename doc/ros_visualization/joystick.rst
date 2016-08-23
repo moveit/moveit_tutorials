@@ -24,7 +24,7 @@ This script can read three types of joy sticks:
 
 1. XBox360 Controller via USB
 2. PS3 Controller via USB
-3. PS3 Contrlller via Bluetooth (Please use ps3joy package <http://wiki.ros.org/ps3joy>)
+3. PS3 Controller via Bluetooth (Please use ps3joy package at `http://wiki.ros.org/ps3joy <http://wiki.ros.org/ps3joy>`_)
 
 Joystick Command Mappings
 -------------------------
