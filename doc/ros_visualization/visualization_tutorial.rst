@@ -10,7 +10,7 @@ Pre-requisites
 ---------------
 
 You should have completed the `MoveIt! Setup Assistant tutorial
-<http://docs.ros.org/api/moveit_setup_assistant/html/doc/tutorial.html>`_
+<../setup_assistant/setup_assistant_tutorial.html>`_
 and you should now have a MoveIt! configuration for the PR2 that you
 can use.  This tutorial assumes the generated MoveIt! configuration
 package is called "pr2_moveit_config".
