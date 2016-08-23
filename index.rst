@@ -11,9 +11,9 @@ The primary user interface to MoveIt! is through the move_group_interface. You c
 .. toctree::
    :maxdepth: 1
 
-   ros_visualization/visualization_tutorial
-   pr2_tutorials/planning/src/doc/move_group_interface_tutorial
-   pr2_tutorials/planning/scripts/doc/move_group_python_interface_tutorial
+   doc/ros_visualization/visualization_tutorial
+   doc/pr2_tutorials/planning/src/doc/move_group_interface_tutorial
+   doc/pr2_tutorials/planning/scripts/doc/move_group_python_interface_tutorial
 
 Advanced
 --------
@@ -23,14 +23,14 @@ This set of advanced tutorials is meant for developers who are using MoveIt!’s
 .. toctree::
    :maxdepth: 1
 
-   pr2_tutorials/kinematics/src/doc/kinematics_tutorial
-   pr2_tutorials/planning/src/doc/planning_scene_tutorial
-   pr2_tutorials/planning/src/doc/planning_scene_ros_api_tutorial
-   pr2_tutorials/planning/src/doc/motion_planning_api_tutorial
-   pr2_tutorials/planning/src/doc/planning_pipeline_tutorial
-   fake_controller_manager_tutorial
-   ros_visualization/joystick.rst
-   custom_constraint_samplers
+   doc/pr2_tutorials/kinematics/src/doc/kinematics_tutorial
+   doc/pr2_tutorials/planning/src/doc/planning_scene_tutorial
+   doc/pr2_tutorials/planning/src/doc/planning_scene_ros_api_tutorial
+   doc/pr2_tutorials/planning/src/doc/motion_planning_api_tutorial
+   doc/pr2_tutorials/planning/src/doc/planning_pipeline_tutorial
+   doc/fake_controller_manager_tutorial
+   doc/ros_visualization/joystick.rst
+   doc/custom_constraint_samplers
 
 Integration with New Robot
 --------------------------
@@ -40,11 +40,11 @@ Before attempting to integrate a new robot with MoveIt!, check whether your robo
 .. toctree::
    :maxdepth: 1
 
-   setup_assistant/setup_assistant_tutorial
-   pr2_tutorials/planning/src/doc/controller_configuration
-   pr2_tutorials/planning/src/doc/perception_configuration
-   ikfast_tutorial
-   trac_ik_tutorial
+   doc/setup_assistant/setup_assistant_tutorial
+   doc/pr2_tutorials/planning/src/doc/controller_configuration
+   doc/pr2_tutorials/planning/src/doc/perception_configuration
+   doc/ikfast_tutorial
+   doc/trac_ik_tutorial
 
 Configuration
 -------------
@@ -52,8 +52,8 @@ Configuration
 .. toctree::
    :maxdepth: 1
 
-   pr2_tutorials/kinematics/src/doc/kinematics_configuration
-   ompl_interface_tutorial
+   doc/pr2_tutorials/kinematics/src/doc/kinematics_configuration
+   doc/ompl_interface_tutorial
 
 Attribution
 -----------
