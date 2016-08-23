@@ -119,8 +119,7 @@ Add the right arm
 
   * Choose *kdl_kinematics_plugin/KDLKinematicsPlugin* as the
     kinematics solver. *Note: if you have a custom robot and would
-    like a powerful custom IK solver, see
-    `Kinematics/IKFast<../ikfast_tutorial.html>`_*
+    like a powerful custom IK solver, see `Kinematics/IKFast <../ikfast_tutorial.html>`_ *
 
   * Let *Kin. Search Resolution* and *Kin. Search Timeout* stay at
     their default values.
