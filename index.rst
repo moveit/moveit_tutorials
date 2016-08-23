@@ -3,6 +3,8 @@ MoveIt! Tutorials
 
 These tutorials will run you through how to use MoveIt! with your robot. It is assumed that you have already configured MoveIt! for your robot - check the `list of robots running MoveIt! <http://moveit.ros.org/robots/>`_ to see whether MoveIt! is already available for your robot. Otherwise, skip to the tutorial on Setting up MoveIt! for your robot. If you just want to test MoveIt!, use the PR2 as your quick-start robot.
 
+.. note:: All tutorials referencing the PR2 have only been tested with ROS Indigo but likely work with ROS Jade. See `issue <https://github.com/ros-planning/moveit/issues/110>`_ for more information.
+
 Beginner
 --------
 
