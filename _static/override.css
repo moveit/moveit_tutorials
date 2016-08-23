@@ -1,0 +1,15 @@
+.icon:before {
+    white-space: pre-wrap !important;
+}
+.header-override {
+  margin-bottom: 20px;
+}
+.header-override p {
+  padding: 5px;
+  font-size: 1.2em;
+  text-align: right;
+  float: right;
+}
+.header-override img {
+  width: 200px;
+}

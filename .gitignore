@@ -1,0 +1,5 @@
+*~
+*.pyc
+doc/manifest.yaml
+doc/html
+build

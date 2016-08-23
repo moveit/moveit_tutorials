@@ -1,0 +1,8 @@
+<launch>
+
+  <include file="$(find pr2_moveit_config)/launch/demo.launch"/>
+
+  <node name="planning_scene_ros_api_tutorial" pkg="moveit_tutorials" type="planning_scene_ros_api_tutorial" respawn="false" output="screen">
+  </node>
+
+</launch>

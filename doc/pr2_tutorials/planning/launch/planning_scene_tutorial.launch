@@ -1,0 +1,17 @@
+<launch>
+
+    <arg name="kinect" default="true"/>
+    <!-- send pr2 urdf to param server -->
+    <group if="$(arg kinect)">
+      <param name="robot_description" command="$(find xacro)/xacro.py '$(find pr2_description)/robots/pr2.urdf.xacro'" />
+    </group>
+    <group unless="$(arg kinect)">
+      <param name="robot_description" command="$(find xacro)/xacro.py '$(find pr2_description)/robots/pr2_no_kinect.urdf.xacro'" />
+    </group>
+
+  <include file="$(find pr2_moveit_config)/launch/planning_context.launch"/>
+
+  <node name="planning_scene_tutorial" pkg="moveit_tutorials" type="planning_scene_tutorial" respawn="false" output="screen">
+    <rosparam command="load" file="$(find pr2_moveit_config)/config/kinematics.yaml"/>
+  </node>
+</launch>

@@ -1,0 +1,13 @@
+<launch>
+  <include file="$(find pr2_moveit_config)/launch/planning_context.launch">
+    <arg name="load_robot_description" value="true"/>
+  </include>
+
+  <node name="kinematic_model_tutorial"
+        pkg="moveit_tutorials"
+        type="kinematic_model_tutorial"
+        respawn="false" output="screen">
+    <rosparam command="load"
+              file="$(find pr2_moveit_config)/config/kinematics.yaml"/>
+  </node>
+</launch>

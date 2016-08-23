@@ -1,0 +1,34 @@
+<launch>
+  <!-- Debug Info -->
+  <arg name="debug" default="false" />
+  <arg unless="$(arg debug)" name="launch_prefix" value="" />
+  <arg     if="$(arg debug)" name="launch_prefix" value="gdb --ex run --args" />
+  <arg name="planning_plugin" value="ompl_interface/OMPLPlanner" />
+  <arg name="planning_adapters" value="default_planner_request_adapters/AddTimeParameterization default_planner_request_adapters/FixWorkspaceBounds default_planner_request_adapters/FixStartStateBounds default_planner_request_adapters/FixStartStateCollision default_planner_request_adapters/FixStartStatePathConstraints" />
+
+  <include file="$(find pr2_moveit_config)/launch/planning_context.launch">
+    <arg name="load_robot_description" value="true"/>
+  </include>
+
+  <node pkg="tf" type="static_transform_publisher" name="virtual_joint_broadcaster_0" args="0 0 0 0 0 0 odom_combined base_footprint 100" />
+
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+    <param name="/use_gui" value="true"/>
+  </node>
+  
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen" />
+
+  <include file="$(find pr2_moveit_config)/launch/moveit_rviz.launch">
+    <arg name="config" value="true"/>
+  </include>
+
+  <node name="planning_pipeline_tutorial" pkg="moveit_tutorials" type="planning_pipeline_tutorial" respawn="false" launch-prefix="$(arg launch_prefix)" output="screen">
+    <param name="planning_plugin" value="$(arg planning_plugin)" />
+    <param name="request_adapters" value="$(arg planning_adapters)" />
+    <param name="start_state_max_bounds_error" value="0.1" />
+  </node>
+
+  <rosparam command="load" file="$(find pr2_moveit_config)/config/kinematics.yaml"/>
+  <rosparam command="load" file="$(find pr2_moveit_config)/config/ompl_planning.yaml"/>
+
+</launch>

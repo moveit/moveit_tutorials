@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<package>
+  <name>moveit_tutorials</name>
+  <version>0.1.0</version>
+  <description>The moveit_tutorials package</description>
+  <license>BSD</license>
+
+  <author email="sachinc@willowgarage.com">Sachin Chitta</author>
+  <author email="dave@dav.ee">Dave Coleman</author>
+
+  <maintainer email="dave@dav.ee">Dave Coleman</maintainer>
+  <maintainer email="mferguson@fetchrobotics.com">Michael Ferguson</maintainer>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>pluginlib</build_depend>
+  <build_depend>moveit_core</build_depend>
+  <build_depend>moveit_ros_planning_interface</build_depend>
+  <build_depend>moveit_ros_perception</build_depend>
+  <build_depend>interactive_markers</build_depend>
+  <build_depend>cmake_modules</build_depend>
+  <build_depend>geometric_shapes</build_depend>
+
+  <run_depend>pluginlib</run_depend>
+  <run_depend>moveit_core</run_depend>
+  <run_depend>moveit_fake_controller_manager</run_depend>
+  <run_depend>moveit_ros_planning_interface</run_depend>
+  <run_depend>moveit_ros_perception</run_depend>
+  <run_depend>interactive_markers</run_depend>
+  <run_depend>pr2_arm_kinematics</run_depend>
+  <run_depend>pr2_moveit_config</run_depend>
+  <run_depend>pr2_moveit_plugins</run_depend>
+
+</package>
