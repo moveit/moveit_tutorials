@@ -55,10 +55,10 @@ int main(int argc, char **argv)
   // BEGIN_TUTORIAL
   // Start
   // ^^^^^
-  // Setting up to start using a planner is pretty easy. Planners are 
+  // Setting up to start using a planner is pretty easy. Planners are
   // setup as plugins in MoveIt! and you can use the ROS pluginlib
-  // interface to load any planner that you want to use. Before we 
-  // can load the planner, we need two objects, a RobotModel 
+  // interface to load any planner that you want to use. Before we
+  // can load the planner, we need two objects, a RobotModel
   // and a PlanningScene.
   // We will start by instantiating a
   // `RobotModelLoader`_
@@ -66,17 +66,17 @@ int main(int argc, char **argv)
   // the robot description on the ROS parameter server and construct a
   // :moveit_core:`RobotModel` for us to use.
   //
-  // .. _RobotModelLoader: http://docs.ros.org/api/moveit_ros_planning/html/classrobot__model__loader_1_1RobotModelLoader.html
+  // .. _RobotModelLoader: http://docs.ros.org/indigo/api/moveit_ros_planning/html/classrobot__model__loader_1_1RobotModelLoader.html
   robot_model_loader::RobotModelLoader robot_model_loader("robot_description");
   robot_model::RobotModelPtr robot_model = robot_model_loader.getModel();
 
-  
+
   // Using the :moveit_core:`RobotModel`, we can construct a
-  // :planning_scene:`PlanningScene` that maintains the state of 
-  // the world (including the robot). 
+  // :planning_scene:`PlanningScene` that maintains the state of
+  // the world (including the robot).
   planning_scene::PlanningScenePtr planning_scene(new planning_scene::PlanningScene(robot_model));
 
-  // We will now construct a loader to load a planner, by name. 
+  // We will now construct a loader to load a planner, by name.
   // Note that we are using the ROS pluginlib library here.
   boost::scoped_ptr<pluginlib::ClassLoader<planning_interface::PlannerManager> > planner_plugin_loader;
   planning_interface::PlannerManagerPtr planner_instance;
@@ -134,18 +134,18 @@ int main(int argc, char **argv)
   std::vector<double> tolerance_pose(3, 0.01);
   std::vector<double> tolerance_angle(3, 0.01);
 
-  // We will create the request as a constraint using a helper function available 
-  // from the 
+  // We will create the request as a constraint using a helper function available
+  // from the
   // `kinematic_constraints`_
   // package.
   //
-  // .. _kinematic_constraints: http://docs.ros.org/api/moveit_core/html/namespacekinematic__constraints.html#a88becba14be9ced36fefc7980271e132
+  // .. _kinematic_constraints: http://docs.ros.org/indigo/api/moveit_core/html/namespacekinematic__constraints.html#a88becba14be9ced36fefc7980271e132
   req.group_name = "right_arm";
   moveit_msgs::Constraints pose_goal = kinematic_constraints::constructGoalConstraints("r_wrist_roll_link", pose, tolerance_pose, tolerance_angle);
   req.goal_constraints.push_back(pose_goal);
 
   // We now construct a planning context that encapsulate the scene,
-  // the request and the response. We call the planner using this 
+  // the request and the response. We call the planner using this
   // planning context
   planning_interface::PlanningContextPtr context = planner_instance->getPlanningContext(planning_scene, req, res.error_code_);
   context->solve(res);
@@ -210,7 +210,7 @@ int main(int argc, char **argv)
   /* Now you should see two planned trajectories in series*/
   display_publisher.publish(display_trajectory);
 
-  /* We will add more goals. But first, set the state in the planning 
+  /* We will add more goals. But first, set the state in the planning
      scene to the final state of the last plan */
   robot_state.setJointGroupPositions(joint_model_group, response.trajectory.joint_trajectory.points.back().positions);
 

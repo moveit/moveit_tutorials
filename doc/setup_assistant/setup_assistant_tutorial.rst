@@ -120,7 +120,7 @@ Add the right arm
   * Choose *kdl_kinematics_plugin/KDLKinematicsPlugin* as the
     kinematics solver. *Note: if you have a custom robot and would
     like a powerful custom IK solver, see
-    `Kinematics/IKFast<http://moveit.ros.org/wiki/Kinematics/IKFast>`_*
+    `Kinematics/IKFast<../ikfast_tutorial.html>`_*
 
   * Let *Kin. Search Resolution* and *Kin. Search Timeout* stay at
     their default values.
@@ -277,13 +277,13 @@ The MoveIt! Rviz plugin
 
 * Start looking at how you can use the generated configuration files
   to play with MoveIt! using the
-  `MoveIt! Rviz Plugin <http://moveit.ros.org/wiki/PR2/Rviz_Plugin/Quick_Start>`_.
+  `MoveIt! Rviz Plugin <../ros_visualization/visualization_tutorial.html>`_.
 
 Setup IKFast Inverse Kinematics Solver
 
 * A faster IK solver than the default KDL solver, but takes some
   additional steps to setup:
-  `Kinematics/IKFast <http://moveit.ros.org/wiki/Kinematics/IKFast>`_
+  `Kinematics/IKFast <../ikfast_tutorial.html>`_
 
 Additional Reading
 ---------------------
