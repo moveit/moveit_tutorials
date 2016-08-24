@@ -36,7 +36,9 @@ Inside your catkin workspace ::
 
 OpenRAVE Installation
 ----------------------
-OpenRave is available for Ubuntu using these commands::
+**Binary Install**
+
+OpenRave is available for Ubuntu up to version 12.04 using these commands::
 
  sudo add-apt-repository ppa:openrave/release
  sudo apt-get update
@@ -52,7 +54,22 @@ Edit /usr/lib/python2.7/dist-packages/openravepy/__init__.py to add the followin
 
 **Note:** Use ''openrave0.8'' instead of ''openrave'' in the following tutorial if installed from packages
 
-*Please report your results with this on the moveit-users mailing list.*
+**Source Install**
+
+For Ubuntu version later than 12.04, a source install is required due to lack of newer openrave releases.
+
+Thanks to instructions from Stéphane Caron in https://scaron.info/teaching/troubleshooting-openrave-installation.html ::
+
+ git clone --branch latest_stable https://github.com/rdiankov/openrave.git
+ cd openrave && mkdir build && cd build
+ cmake ..
+ make -j4
+ sudo make install
+
+Working commit numbers 9c79ea26... comfirmed for Ubuntu 14.04 and comfirmed, according to Stéphane Caron, for 16.04.
+
+
+**Please report your results with this on the moveit-users mailing list.**
 
 
 Create Collada File For Use With OpenRave
@@ -74,7 +91,9 @@ From experience we recommend 5 decimal places, but if the OpenRave ikfast genera
 
  rosrun moveit_ikfast round_collada_numbers.py <myrobot_name>.dae <myrobot_name>.rounded.dae 5
 
-To see the links in your newly generated Collada file::
+To see the links in your newly generated Collada file
+
+You may need to install package **libsoqt4-dev** to have the display working::
 
  /usr/bin/openrave-robot.py <myrobot_name>.dae --info links
 
@@ -141,6 +160,10 @@ For a 7 dof arm, you will need to specify a free link::
 
 The speed and success of this process will depend on the complexity of your robot. A typical 6 DOF manipulator with 3 intersecting axis at the base or wrist will take only a few minutes to generate the IK.
 
+**Known issue**
+--freeindex argument is known to have a bug that it cannot handle tree index correctly.
+Say --baselink=2 --eelink=16 and links index from 3 to 9 is not related to current planning group chain. In that case --freeindex will expect index 2 as link 2, but index 3 as link 10 ... and index 9 as link 16.
+
 You should consult the OpenRAVE mailing list and ROS Answers for information about 5 and 7 DOF manipulators.
 
 Create Plugin
@@ -189,8 +212,8 @@ The IKFast plugin should function identically to the default KDL IK Solver, but 
 Edit these parts::
 
  <planning_group_name>:
-   kinematics_solver: <moveit_ik_plugin_pkg>/IKFastKinematicsPlugin
- -OR-
+   kinematics_solver: <myrobot_name>_<planning_group_name>_kinematics/IKFastKinematicsPlugin
+ -INSTEAD OF-
    kinematics_solver: kdl_kinematics_plugin/KDLKinematicsPlugin
 
 Test the Plugin
