@@ -56,7 +56,7 @@ Edit /usr/lib/python2.7/dist-packages/openravepy/__init__.py to add the followin
 
 **Source Install**
 
-For Ubuntu version later than 12.04, installation has to go through source.
+For Ubuntu version later than 12.04, a source install is required due to lack of newer openrave releases.
 
 Thanks to instructions from Stéphane Caron in https://scaron.info/teaching/troubleshooting-openrave-installation.html ::
 
@@ -66,9 +66,7 @@ Thanks to instructions from Stéphane Caron in https://scaron.info/teaching/trou
  make -j4
  sudo make install
 
-According to Stéphane Caron, working commit numbers 5cfc7444... for Ubuntu 14.04 and 9c79ea26... for 16.04.
-
-9c79ea26... is also comfirmed to be working well in 14.04.
+Working commit numbers 9c79ea26... comfirmed for Ubuntu 14.04 and comfirmed, according to Stéphane Caron, for 16.04.
 
 
 **Please report your results with this on the moveit-users mailing list.**
@@ -161,6 +159,10 @@ For a 7 dof arm, you will need to specify a free link::
  python `openrave-config --python-dir`/openravepy/_openravepy_/ikfast.py --robot=<myrobot_name>.dae --iktype=transform6d --baselink=1 --eelink=8 --freeindex=4 --savefile=<ikfast_output_path>
 
 The speed and success of this process will depend on the complexity of your robot. A typical 6 DOF manipulator with 3 intersecting axis at the base or wrist will take only a few minutes to generate the IK.
+
+**Known issue**
+--freeindex argument is known to have a bug that it cannot handle tree index correctly.
+Say --baselink=0 --eelink=16 and links index from 1 to 9 is not related to current planning group chain. In that case --freeindex will expect index 1 as link 10 ... and index 7 as link 16.
 
 You should consult the OpenRAVE mailing list and ROS Answers for information about 5 and 7 DOF manipulators.
 
