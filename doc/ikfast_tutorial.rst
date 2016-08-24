@@ -162,7 +162,7 @@ The speed and success of this process will depend on the complexity of your robo
 
 **Known issue**
 --freeindex argument is known to have a bug that it cannot handle tree index correctly.
-Say --baselink=0 --eelink=16 and links index from 1 to 9 is not related to current planning group chain. In that case --freeindex will expect index 1 as link 10 ... and index 7 as link 16.
+Say --baselink=2 --eelink=16 and links index from 3 to 9 is not related to current planning group chain. In that case --freeindex will expect index 2 as link 2, but index 3 as link 10 ... and index 9 as link 16.
 
 You should consult the OpenRAVE mailing list and ROS Answers for information about 5 and 7 DOF manipulators.
 
