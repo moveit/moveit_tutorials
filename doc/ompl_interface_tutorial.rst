@@ -33,7 +33,11 @@ For more information on the OMPL optimal planners, the reader is referred to the
 Source Install For OMPL Within Catkin Workspace
 -----------------------------------------------
 
-These instructions assume you are using catkin_tools. Clone the OMPL repos from either Bitbucket or Github:
+These instructions assume you are using catkin_tools.
+
+First ensure you do not have the ``ros-DISTRO-ompl`` binary installed, as it will override any local build of OMPL that your try to overlay. To understand the limitation see `Github issue <https://github.com/ros-planning/moveit/issues/169#issuecomment-242849008>`_.
+
+Clone the OMPL repos from either Bitbucket or Github:
 
 .. code-block:: bash
 
