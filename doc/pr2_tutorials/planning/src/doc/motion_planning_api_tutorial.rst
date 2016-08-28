@@ -30,7 +30,6 @@ Roslaunch the launch file to run the code directly from moveit_tutorials::
 Expected Output
 ^^^^^^^^^^^^^^^
 
-sdf
 In Rviz, we should be able to see four trajectories being replayed eventually:
 
  1. The robot moves its right arm to the pose goal in front of it,
