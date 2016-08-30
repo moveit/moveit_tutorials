@@ -1,6 +1,6 @@
 Benchmarking tutorial
 =====================
-The benchmarking package provides methods to benchmark motion planning algorithms and aggregate/plot statistics.
+The [benchmarking package](https://github.com/ros-planning/moveit/tree/kinetic-devel/moveit_ros/benchmarks) provides methods to benchmark motion planning algorithms and aggregate/plot statistics.
 The example below demonstrates how the benchamrking can be run for a Fanuc M10ia.
 
 Example
