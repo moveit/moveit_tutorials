@@ -13,3 +13,10 @@
 .header-override img {
   width: 200px;
 }
+
+.wy-breadcrumbs li.wy-breadcrumbs-aside {
+  display: block;
+  width: 100%;
+  text-align: right;
+  margin-bottom: -25px;
+}
