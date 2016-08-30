@@ -57,6 +57,14 @@ Configuration
    doc/pr2_tutorials/kinematics/src/doc/kinematics_configuration
    doc/ompl_interface_tutorial
 
+Benchmarking Planners
+---------------------
+
+.. toctree::
+   :maxdepth: 1
+
+   doc/benchmarking_tutorial
+
 Attribution
 -----------
 
