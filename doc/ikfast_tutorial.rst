@@ -38,25 +38,11 @@ OpenRAVE Installation
 ----------------------
 **Binary Install**
 
-OpenRave is available for Ubuntu up to version 12.04 using these commands::
+ sudo add-apt install ros-indigo-openrave
 
- sudo add-apt-repository ppa:openrave/release
- sudo apt-get update
- sudo apt-get install openrave0.8-dp-ikfast
-
-More detailed and updated instructions are available at `OpenRave.org <http://openrave.org/docs/latest_stable/install/#install>`_.
-
-**Note:** You may need to use this hack reported by MoveIt! users:
-
-Edit /usr/lib/python2.7/dist-packages/openravepy/__init__.py to add the following line just after the copyright::
-
- __openravepy_version__ = "0.8"
-
-**Note:** Use ''openrave0.8'' instead of ''openrave'' in the following tutorial if installed from packages
+Note: you have to set `export PYTHONPATH=$PYTHONPATH:`openrave-config` (2016.9.1)
 
 **Source Install**
-
-For Ubuntu version later than 12.04, a source install is required due to lack of newer openrave releases.
 
 Thanks to instructions from Stéphane Caron in https://scaron.info/teaching/troubleshooting-openrave-installation.html ::
 
@@ -95,7 +81,7 @@ To see the links in your newly generated Collada file
 
 You may need to install package **libsoqt4-dev** to have the display working::
 
- /usr/bin/openrave-robot.py <myrobot_name>.dae --info links
+ openrave-robot.py <myrobot_name>.dae --info links
 
 This is useful if you have a 7-dof arm and you need to fill in a --freeindex parameter, discussed later.
 
@@ -124,8 +110,6 @@ Identify Link Numbers
 You also need the link index numbers for the *base_link* and *end_link* between which the IK will be calculated. You can count the number of links by viewing a list of links in your model::
 
  openrave-robot.py <myrobot_name>.dae --info links
-
-**NOTE**: use ''openrave0.8-robot.py'' if installed from packages
 
 A typical 6-DOF manipulator should have 6 arm links + a dummy base_link as required by ROS specifications.  If no extra links are present in the model, this gives: *baselink=0* and *eelink=6*.  Often, an additional tool_link will be provided to position the grasp/tool frame, giving *eelink=7*.
 
