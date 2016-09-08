@@ -1,4 +1,4 @@
-Planning Scene Tutorial
+ROS API Planning Scene Tutorial
 ==================================
 
 In this tutorial, we will examine the use of planning scene diffs to perform
