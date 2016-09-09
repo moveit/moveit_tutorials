@@ -33,6 +33,7 @@ This set of advanced tutorials is meant for developers who are using MoveIt!’s
    doc/fake_controller_manager_tutorial
    doc/ros_visualization/joystick.rst
    doc/custom_constraint_samplers
+   doc/benchmarking_tutorial
 
 Integration with New Robot
 --------------------------
@@ -56,14 +57,6 @@ Configuration
 
    doc/pr2_tutorials/kinematics/src/doc/kinematics_configuration
    doc/ompl_interface_tutorial
-
-Benchmarking Planners
----------------------
-
-.. toctree::
-   :maxdepth: 1
-
-   doc/benchmarking_tutorial
 
 Attribution
 -----------
