@@ -33,6 +33,7 @@ This set of advanced tutorials is meant for developers who are using MoveIt!’s
    doc/fake_controller_manager_tutorial
    doc/ros_visualization/joystick.rst
    doc/custom_constraint_samplers
+   doc/benchmarking_tutorial
 
 Integration with New Robot
 --------------------------
