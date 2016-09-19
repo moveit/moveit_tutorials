@@ -28,25 +28,3 @@ The configuration of these optimization objectives can be done in the *ompl_plan
 
 For more information on the OMPL optimal planners, the reader is referred to the
 `OMPL - Optimal Planning documentation <http://ompl.kavrakilab.org/optimalPlanning.html>`_.
-
-
-Source Install For OMPL Within Catkin Workspace
------------------------------------------------
-
-These instructions assume you are using catkin_tools.
-
-First ensure you do not have the ``ros-DISTRO-ompl`` binary installed, as it will override any local build of OMPL that your try to overlay. To understand the limitation see `Github issue <https://github.com/ros-planning/moveit/issues/169#issuecomment-242849008>`_.
-
-Clone the OMPL repos from either Bitbucket or Github:
-
-.. code-block:: bash
-
-    git clone https://github.com/ompl/ompl
-
-Next manually add a package.xml as used in the ROS release wrapper for OMPL (modify ROS distro version as necessary)
-
-.. code-block:: bash
-
-    wget https://raw.githubusercontent.com/ros-gbp/ompl-release/debian/kinetic/xenial/ompl/package.xml
-
-Now you should be able to build using regular ``catkin build``
