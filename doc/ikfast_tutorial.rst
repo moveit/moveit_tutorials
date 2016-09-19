@@ -36,11 +36,11 @@ Inside your catkin workspace ::
 
 OpenRAVE Installation
 ----------------------
-**Binary Install**
+**Binary Install (only Indigo / Ubuntu 14.04) **
 
- sudo add-apt install ros-indigo-openrave
+ sudo apt-get install ros-indigo-openrave
 
-Note: you have to set `export PYTHONPATH=$PYTHONPATH:`openrave-config` (2016.9.1)
+Note: you have to set `export PYTHONPATH=$PYTHONPATH:`openrave-config --python-dir` (2016.9.1)
 
 **Source Install**
 
