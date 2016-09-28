@@ -55,8 +55,8 @@ int main(int argc, char **argv)
   // BEGIN_TUTORIAL
   // Start
   // ^^^^^
-  // Setting up to start using a planning pipeline is pretty easy. 
-  // Before we can load the planner, we need two objects, a RobotModel 
+  // Setting up to start using a planning pipeline is pretty easy.
+  // Before we can load the planner, we need two objects, a RobotModel
   // and a PlanningScene.
   // We will start by instantiating a
   // `RobotModelLoader`_
@@ -69,14 +69,13 @@ int main(int argc, char **argv)
   robot_model::RobotModelPtr robot_model = robot_model_loader.getModel();
 
   // Using the :moveit_core:`RobotModel`, we can construct a
-  // :planning_scene:`PlanningScene` that maintains the state of 
-  // the world (including the robot). 
+  // :planning_scene:`PlanningScene` that maintains the state of
+  // the world (including the robot).
   planning_scene::PlanningScenePtr planning_scene(new planning_scene::PlanningScene(robot_model));
 
-  // We can now setup the 
-  // `PlanningPipeline`_
-  // object, which will use the ROS param server 
-  // to determine the set of request adapters and the 
+  // We can now setup the PlanningPipeline
+  // object, which will use the ROS param server
+  // to determine the set of request adapters and the
   // planning plugin to use
   planning_pipeline::PlanningPipelinePtr planning_pipeline(new planning_pipeline::PlanningPipeline(robot_model, node_handle, "planning_plugin", "request_adapters"));
 
@@ -102,8 +101,8 @@ int main(int argc, char **argv)
   std::vector<double> tolerance_pose(3, 0.01);
   std::vector<double> tolerance_angle(3, 0.01);
 
-  // We will create the request as a constraint using a helper function available 
-  // from the 
+  // We will create the request as a constraint using a helper function available
+  // from the
   // `kinematic_constraints`_
   // package.
   //
@@ -177,13 +176,13 @@ int main(int argc, char **argv)
 
   // Using a Planning Request Adapter
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  // A planning request adapter allows us to specify a series of operations that 
-  // should happen either before planning takes place or after the planning 
+  // A planning request adapter allows us to specify a series of operations that
+  // should happen either before planning takes place or after the planning
   // has been done on the resultant path
 
-  // First, let's purposefully set the initial state to be outside the 
+  // First, let's purposefully set the initial state to be outside the
   // joint limits and let the
-  // planning request adapter deal with it 
+  // planning request adapter deal with it
   /* First, set the state in the planning scene to the final state of the last plan */
   robot_state = planning_scene->getCurrentStateNonConst();
   planning_scene->setCurrentState(response.trajectory_start);

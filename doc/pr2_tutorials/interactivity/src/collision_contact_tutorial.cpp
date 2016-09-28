@@ -35,7 +35,7 @@
 /* Author: Acorn Pooley */
 
 // This code goes with the Collision Contact Visualization tutorial
-//    http://moveit.ros.org/wiki/index.php/Groovy/InteractiveRobot/CollisionContact
+//    http://picknik.io/moveit_wiki/index.php?title=InteractiveRobot/CollisionContact
 
 #include <ros/ros.h>
 #include "interactive_robot.h"

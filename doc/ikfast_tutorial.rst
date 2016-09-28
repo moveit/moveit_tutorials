@@ -36,7 +36,8 @@ Inside your catkin workspace ::
 
 OpenRAVE Installation
 ----------------------
-**Binary Install (only Indigo / Ubuntu 14.04) **
+
+**Binary Install (only Indigo / Ubuntu 14.04)**
 
  sudo apt-get install ros-indigo-openrave
 

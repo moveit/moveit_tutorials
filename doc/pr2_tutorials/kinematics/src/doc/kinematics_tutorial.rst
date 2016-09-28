@@ -76,8 +76,3 @@ The expected output will be in the following form. The numbers will not match si
            0    0.965189    0.229185    0.973042  -0.0665617   -0.991369  -0.0900434
            0    0.261552   -0.845745    0.212168   -0.116995     0.12017    -0.91467
            1           0    -0.48186   0.0904127    0.990899  -0.0524048   -0.394045
-
-Additional Reading
-^^^^^^^^^^^^^^^^^^
-
- * `RobotState Display <http://moveit.ros.org/wiki/RobotStateDisplay/C%2B%2B_API>`_ - Visualization of the RobotState using Rviz

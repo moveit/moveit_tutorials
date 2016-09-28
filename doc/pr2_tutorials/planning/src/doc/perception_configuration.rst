@@ -8,7 +8,7 @@ In this section, we will walk through configuring the 3D sensors on your robot w
 YAML Configuration file (Point Cloud)
 -------------------------------------
 
-We will have to generate a YAML configuration file for configuring the 3D sensors. An example file for processing point clouds can be found in the `moveit_pr2 github project <https://github.com/ros-planning/moveit_pr2/blob/hydro-devel/pr2_moveit_config/config/sensors_kinect.yaml>`_ ::
+We will have to generate a YAML configuration file for configuring the 3D sensors. An example file for processing point clouds can be found in the `moveit_pr2 github project <https://github.com/ros-planning/moveit_pr2/blob/indigo-devel/pr2_moveit_config/config/sensors_kinect.yaml>`_ ::
 
  sensors:
    - sensor_plugin: occupancy_map_monitor/PointCloudOctomapUpdater
@@ -34,7 +34,7 @@ Parameters specific to the Point cloud updater are:
 YAML Configuration file (Depth Map)
 -----------------------------------
 
-We will have to generate a rgbd.yaml configuration file for configuring the 3D sensors. An example file for processing point clouds can be found in the `moveit_advanced github project <https://github.com/ros-planning/moveit_advanced/blob/hydro-devel/pr2_advanced_config/config/sensors_kinect.yaml>`_ ::
+We will have to generate a rgbd.yaml configuration file for configuring the 3D sensors. An example file for processing point clouds can be found in the `moveit_advanced github project <https://github.com/ros-planning/moveit_advanced/blob/indigo-devel/pr2_advanced_config/config/sensors_kinect.yaml>`_ ::
 
  sensors:
    - sensor_plugin: occupancy_map_monitor/DepthImageOctomapUpdater

@@ -50,7 +50,7 @@
 
 
 // This code is described in the RobotStateDisplay tutorial here:
-//    http://moveit.ros.org/wiki/index.php/Groovy/RobotStateDisplay/C%2B%2B_API
+//    http://picknik.io/moveit_wiki/index.php?title=RobotStateDisplay/C%2B%2B_API
 
 
 int main(int argc, char **argv)
