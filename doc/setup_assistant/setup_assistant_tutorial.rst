@@ -9,7 +9,7 @@ configuring any robot for use with MoveIt!. Its primary function is
 generating a Semantic Robot Description Format (SRDF) file for your
 robot. Additionally, it generates other necessary configuration files
 for use with the MoveIt! pipeline. To learn more about the SRDF, you
-can go through the `SRDF Overview <http://moveit.ros.org/wiki/SRDF>`_
+can go through the `SRDF Overview <http://picknik.io/moveit_wiki/index.php?title=SRDF>`_
 page.
 
 Pre-requisites
@@ -37,9 +37,9 @@ Step 1: Start
 .. image:: setup_assistant_start.png
 
 * Click on the browse button and navigate to the *pr2.urdf.xacro* file
-  installed when you installed ros-hydro-moveit-full-pr2. (This file
+  installed when you installed ros-indigo-moveit-full-pr2. (This file
   gets installed in
-  /opt/ros/hydro/share/pr2_description/robots/pr2.urdf.xacro on Ubuntu
+  /opt/ros/indigo/share/pr2_description/robots/pr2.urdf.xacro on Ubuntu
   with ROS Hydro.)  Choose that file and then click *Load Files*. The
   Setup Assistant will load the files (this might take a few seconds)
   and present you with this screen:
@@ -289,7 +289,7 @@ Additional Reading
 
 The SRDF
 
-* See the `SRDF <http://moveit.ros.org/wiki/SRDF>`_ page for more
+* See the `SRDF <http://picknik.io/moveit_wiki/index.php?title=SRDF>`_ page for more
   details on the components of the SRDF mentioned in this tutorial.
 
 URDF
@@ -297,5 +297,5 @@ URDF
 * The URDF is the native robot description format in ROS and allows
   you to describe the kinematics, inertial, visual and sensing
   properties of your robot. Read through the `URDF specific
-  documentation <http://moveit.ros.org/wiki/URDF>`_ to see how the
+  documentation <http://picknik.io/moveit_wiki/index.php?title=URDF>`_ to see how the
   URDF is used with MoveIt!

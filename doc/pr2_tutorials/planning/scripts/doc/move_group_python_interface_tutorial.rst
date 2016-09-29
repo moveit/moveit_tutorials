@@ -16,7 +16,7 @@ The entire code can be seen :codedir:`here in the moveit_pr2 github project<plan
 The launch file
 ^^^^^^^^^^^^^^^
 The entire launch file is `here
-<https://github.com/ros-planning/moveit_pr2/blob/hydro-devel/moveit_tutorials/planning/launch/move_group_python_interface_tutorial.launch>`_
+<https://github.com/ros-planning/moveit_tutorials/tree/master/doc/pr2_tutorials/planning/launch/move_group_python_interface_tutorial.launch>`_
 on github. All the code in this tutorial can be run from the
 moveit_tutorials package that you have as part of your MoveIt! setup.
 

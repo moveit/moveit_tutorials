@@ -35,7 +35,7 @@
 /* Author: Acorn Pooley */
 
 // This code goes with the Attached Body tutorial
-//    http://moveit.ros.org/wiki/index.php/Groovy/InteractiveRobot/AttachedBody
+//    http://picknik.io/moveit_wiki/index.php?title=InteractiveRobot/AttachedBody
 
 #include <ros/ros.h>
 #include "interactive_robot.h"

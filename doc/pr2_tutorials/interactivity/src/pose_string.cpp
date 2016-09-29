@@ -35,7 +35,7 @@
 /* Author: Acorn Pooley */
 
 // This code goes with the interactivity tutorial
-//    http://moveit.ros.org/wiki/index.php/Groovy/InteractiveRobot/InteractivityTutorial
+//    http://picknik.io/moveit_wiki/index.php?title=InteractiveRobot/InteractivityTutorial
 
 #include "pose_string.h"
 

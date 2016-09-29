@@ -19,7 +19,7 @@ Alternately, you can just install the pre-made MoveIt! configuration
 for the PR2 in the pr2_moveit_config ROS package.  To install it,
 run::
 
-  sudo apt-get install ros-hydro-moveit-pr2
+  sudo apt-get install ros-indigo-moveit-pr2
 
 This tutorial does **not** require you to actually have a PR2 robot,
 it just needs a set of working robot model files.
@@ -156,5 +156,5 @@ What's Next
 -------------
 
 * `MoveIt! and a simulated robot
-  <http://moveit.ros.org/wiki/PR2/Gazebo/Quick_Start>`_ - You can now
+  <http://picknik.io/moveit_wiki/index.php?title=PR2/Gazebo/Quick_Start>`_ - You can now
   start using MoveIt! with a simulated robot in Gazebo.
