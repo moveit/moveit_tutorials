@@ -119,8 +119,10 @@ collisions to happen in the solution. The links in collision will
 always still be visualized in red, regardless of the state of the
 checkbox.
 
-.. image:: rviz_plugin_collision_aware_ik_checkbox.png
+.. image:: rviz_plugin_allowapprox-ik.png
    :width: 300px
+
+If your Planning Group has 5DOF or less, you may want to tick "Allow Approximate IK Solutions" checkbox and untick "Use Collision-Aware IK".
 
 Moving out of reachable workspace
 -----------------------------------
