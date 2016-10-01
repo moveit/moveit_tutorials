@@ -45,6 +45,8 @@
 #include <moveit_msgs/DisplayTrajectory.h>
 #include <moveit_msgs/PlanningScene.h>
 
+#include <boost/scoped_ptr.hpp>
+
 int main(int argc, char **argv)
 {
   ros::init (argc, argv, "move_group_tutorial");
