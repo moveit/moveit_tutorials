@@ -34,6 +34,7 @@ This set of advanced tutorials is meant for developers who are using MoveIt!’s
    doc/ros_visualization/joystick.rst
    doc/custom_constraint_samplers
    doc/benchmarking_tutorial
+   doc/tests
 
 Integration with New Robot
 --------------------------
