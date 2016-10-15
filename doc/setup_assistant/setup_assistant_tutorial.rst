@@ -40,7 +40,7 @@ Step 1: Start
   installed when you installed ros-indigo-moveit-full-pr2. (This file
   gets installed in
   /opt/ros/indigo/share/pr2_description/robots/pr2.urdf.xacro on Ubuntu
-  with ROS Hydro.)  Choose that file and then click *Load Files*. The
+  with ROS Indigo.)  Choose that file and then click *Load Files*. The
   Setup Assistant will load the files (this might take a few seconds)
   and present you with this screen:
 
