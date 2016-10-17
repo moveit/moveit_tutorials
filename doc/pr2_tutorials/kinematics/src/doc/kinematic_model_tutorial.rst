@@ -1,5 +1,5 @@
-Kinematics Tutorial
-===================
+Kinematic Model Tutorial
+========================
 
 In this section, we will walk you through the C++ API for using kinematics.
 

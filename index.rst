@@ -25,7 +25,7 @@ This set of advanced tutorials is meant for developers who are using MoveIt!’s
 .. toctree::
    :maxdepth: 1
 
-   doc/pr2_tutorials/kinematics/src/doc/kinematics_tutorial
+   doc/pr2_tutorials/kinematics/src/doc/kinematic_model_tutorial
    doc/pr2_tutorials/planning/src/doc/planning_scene_tutorial
    doc/pr2_tutorials/planning/src/doc/planning_scene_ros_api_tutorial
    doc/pr2_tutorials/planning/src/doc/motion_planning_api_tutorial
