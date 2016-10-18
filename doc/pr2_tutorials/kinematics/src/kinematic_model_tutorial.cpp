@@ -124,9 +124,9 @@ int main(int argc, char **argv)
   // ^^^^^^^^^^^^^^^^^^
   // We can now solve inverse kinematics (IK) for the right arm of the
   // PR2 robot. To solve IK, we will need the following:
-  //  * The desired pose of the end-effector (by default, this is the last link in the "right_arm" chain): end_effector_state that we computed in the step above.
-  //  * The number of attempts to be made at solving IK: 5
-  //  * The timeout for each attempt: 0.1 s
+  // * The desired pose of the end-effector (by default, this is the last link in the "right_arm" chain): end_effector_state that we computed in the step above.
+  // * The number of attempts to be made at solving IK: 5
+  // * The timeout for each attempt: 0.1 s
   bool found_ik = kinematic_state->setFromIK(joint_model_group, end_effector_state, 10, 0.1);
 
   // Now, we can print out the IK solution (if found):

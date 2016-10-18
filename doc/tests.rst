@@ -14,13 +14,13 @@ A Python-based integration test is available for testing higher-level move_group
 Test Robots
 -----------
 
-**PR2** ::
+**PR2**
 
 From the package `moveit_pr2 <https://github.com/ros-planning/moveit_pr2>`_ ::
 
   roslaunch pr2_moveit_config demo.launch
 
-**Fanuc M-10iA** ::
+**Fanuc M-10iA**
 
 From the package `moveit_resources <https://github.com/ros-planning/moveit_resources>`_ ::
 

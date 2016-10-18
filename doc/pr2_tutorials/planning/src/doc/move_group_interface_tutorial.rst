@@ -42,12 +42,12 @@ In Rviz, we should be able to see the following (there will be a delay of 5-10 s
  3. The robot moves its right arm to the joint goal at its right side.
  4. The robot moves its right arm back to a new pose goal while maintaining the end-effector level.
  5. The robot moves its right arm along the desired cartesian path (a triangle up+forward, left, down+back).
- 6. A box object is added into the environment to the right of the right arm. 
-|B|
+ 6. A box object is added into the environment to the right of the right arm.
+    |B|
 
  7. The robot moves its right arm to the pose goal, avoiding collision with the box.
  8. The object is attached to the wrist (its color will change to purple/orange/green).
  9. The object is detached from the wrist (its color will change back to green).
  10. The object is removed from the environment.
 
-.. |B| image:: ./move_group_interface_tutorial_robot_with_box.png 
+.. |B| image:: ./move_group_interface_tutorial_robot_with_box.png
