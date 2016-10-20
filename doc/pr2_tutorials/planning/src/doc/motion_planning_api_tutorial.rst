@@ -17,7 +17,7 @@ Follow the `instructions for compiling code from source <http://moveit.ros.org/i
 
 The launch file
 ^^^^^^^^^^^^^^^
-The entire launch file is `here <https://github.com/ros-planning/moveit_tutorials/tree/master/doc/pr2_tutorials/planning/launch/planning_pipeline_tutorial.launch>`_ on github. All the code in this tutorial can be compiled and run from the moveit_tutorials package
+The entire launch file is `here <https://github.com/ros-planning/moveit_tutorials/tree/indigo-devel/doc/pr2_tutorials/planning/launch/planning_pipeline_tutorial.launch>`_ on github. All the code in this tutorial can be compiled and run from the moveit_tutorials package
 that you have as part of your MoveIt! setup.
 
 Running the code
