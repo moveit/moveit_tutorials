@@ -1,6 +1,6 @@
 # MoveIt! Tutorials
 
-This repo is automatically built by the ROS build farm and its output is hosted here: http://docs.ros.org/indigo/api/moveit_tutorials/html/
+This repo is automatically built by the ROS build farm and its output is hosted here: http://docs.ros.org/kinetic/api/moveit_tutorials/html/
 
 ## Travis Continuous Integration
 
@@ -8,7 +8,11 @@ This repo is automatically built by the ROS build farm and its output is hosted 
 
 ## ROS Buildfarm
 
-[![Build Status](http://build.ros.org/buildStatus/icon?job=Idoc__moveit_tutorials__ubuntu_trusty_amd64&build=2)](http://build.ros.org/job/Idoc__moveit_tutorials__ubuntu_trusty_amd64/2/)
+[![Build Status](http://build.ros.org/buildStatus/icon?job=Kdoc__moveit_tutorials__ubuntu_xenial_amd64)](http://build.ros.org/job/Kdoc__moveit_tutorials__ubuntu_xenial_amd64/)
+
+## Versions
+
+The ``indigo-devel`` branch should be considered for the most part "frozen" for historical reasons, and new changes to tutorials should be in the ``kinetic-devel`` branch.
 
 ## Build
 
