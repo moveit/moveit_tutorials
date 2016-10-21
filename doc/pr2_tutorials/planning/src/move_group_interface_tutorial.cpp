@@ -87,7 +87,7 @@ int main(int argc, char **argv)
   // end-effector.
   geometry_msgs::Pose target_pose1;
   target_pose1.orientation.w = 1.0;
-  target_pose1.position.x = 0.28;
+  target_pose1.position.x = 0.3;
   target_pose1.position.y = -0.7;
   target_pose1.position.z = 1.0;
   group.setPoseTarget(target_pose1);
@@ -181,8 +181,8 @@ int main(int argc, char **argv)
   robot_state::RobotState start_state(*group.getCurrentState());
   geometry_msgs::Pose start_pose2;
   start_pose2.orientation.w = 1.0;
-  start_pose2.position.x = 0.55;
-  start_pose2.position.y = -0.05;
+  start_pose2.position.x = 0.5;
+  start_pose2.position.y = -0.5;
   start_pose2.position.z = 0.8;
   const robot_state::JointModelGroup *joint_model_group =
                   start_state.getJointModelGroup(group.getName());
