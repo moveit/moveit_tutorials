@@ -146,6 +146,12 @@
           {% include "breadcrumbs.html" %}
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
+
+            <div class="admonition note">
+              <p class="first admonition-title">Outdated Documentation</p>
+              <p class="last">This is the old Indigo tutorials, the latest can be found <a href="http://docs.ros.org/kinetic/api/moveit_tutorials/html/">here for Kinetic</a></p>
+            </div>
+
             {% block body %}{% endblock %}
 
             {% if display_github %}
