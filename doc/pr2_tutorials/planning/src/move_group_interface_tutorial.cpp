@@ -87,7 +87,7 @@ int main(int argc, char **argv)
   // end-effector.
   geometry_msgs::Pose target_pose1;
   target_pose1.orientation.w = 1.0;
-  target_pose1.position.x = 0.3;
+  target_pose1.position.x = 0.28;
   target_pose1.position.y = -0.7;
   target_pose1.position.z = 1.0;
   group.setPoseTarget(target_pose1);
@@ -177,12 +177,14 @@ int main(int argc, char **argv)
   // We will reuse the old goal that we had and plan to it.
   // Note that this will only work if the current state already 
   // satisfies the path constraints. So, we need to set the start
-  // state to a new pose. 
+  // state to a new pose. We also increase the default planning time from 5s to 60s.
+  
+  my_plan.planning_time_ = 60;
   robot_state::RobotState start_state(*group.getCurrentState());
   geometry_msgs::Pose start_pose2;
   start_pose2.orientation.w = 1.0;
-  start_pose2.position.x = 0.5;
-  start_pose2.position.y = -0.5;
+  start_pose2.position.x = 0.55;
+  start_pose2.position.y = -0.05;
   start_pose2.position.z = 0.8;
   const robot_state::JointModelGroup *joint_model_group =
                   start_state.getJointModelGroup(group.getName());
@@ -191,6 +193,7 @@ int main(int argc, char **argv)
   
   // Now we will plan to the earlier pose target from the new 
   // start state that we have just created.
+  // Note that since this is based on a random search, it is possible a plan will not be found.
   group.setPoseTarget(target_pose1);
   success = group.plan(my_plan);
 
