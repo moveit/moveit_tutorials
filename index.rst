@@ -5,6 +5,8 @@ These tutorials will run you through how to use MoveIt! with your robot. It is a
 
 .. note:: All tutorials referencing the PR2 have only been tested with ROS Indigo but likely work with ROS Jade. See `issue <https://github.com/ros-planning/moveit/issues/110>`_ for more information.
 
+Before beginning the tutorials it is recommended that you read through the `Concepts <http://moveit.ros.org/documentation/concepts/>`_ page to get a general overview of how MoveIt! works. This page runs through some of the basic concepts underlying the MoveIt! system architecture, interfaces and usage.
+
 Beginner
 --------
 
