@@ -5,6 +5,8 @@ These tutorials will run you through how to use MoveIt! with your robot. It is a
 
 .. note:: All tutorials referencing the PR2 have only been tested with ROS Indigo but likely work with ROS Jade. See `issue <https://github.com/ros-planning/moveit/issues/110>`_ for more information.
 
+Previous version of these tutorials: `ROS Indigo <http://docs.ros.org/indigo/api/moveit_tutorials/html/>`_
+
 Beginner
 --------
 
@@ -58,6 +60,7 @@ Configuration
 
    doc/pr2_tutorials/kinematics/src/doc/kinematics_configuration
    doc/ompl_interface_tutorial
+   doc/chomp_interface_tutorial
 
 Attribution
 -----------

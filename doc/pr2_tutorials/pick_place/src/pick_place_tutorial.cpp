@@ -38,7 +38,7 @@
 
 // MoveIt!
 #include <moveit/planning_scene_monitor/planning_scene_monitor.h>
-#include <moveit/move_group_interface/move_group.h>
+#include <moveit/move_group_interface/move_group_interface.h>
 #include <geometric_shapes/solid_primitive_dims.h>
 
 static const std::string ROBOT_DESCRIPTION="robot_description";
@@ -82,7 +82,7 @@ void closedGripper(trajectory_msgs::JointTrajectory& posture){
 }
 
 
-void pick(moveit::planning_interface::MoveGroup &group)
+void pick(moveit::planning_interface::MoveGroupInterface &group)
 {
   std::vector<moveit_msgs::Grasp> grasps;
 
@@ -117,7 +117,7 @@ void pick(moveit::planning_interface::MoveGroup &group)
   group.pick("part", grasps);
 }
 
-void place(moveit::planning_interface::MoveGroup &group)
+void place(moveit::planning_interface::MoveGroupInterface &group)
 {
   std::vector<moveit_msgs::PlaceLocation> loc;
 
@@ -180,7 +180,7 @@ int main(int argc, char **argv)
 
   ros::WallDuration(1.0).sleep();
 
-  moveit::planning_interface::MoveGroup group("right_arm");
+  moveit::planning_interface::MoveGroupInterface group("right_arm");
   group.setPlanningTime(45.0);
 
   moveit_msgs::CollisionObject co;
@@ -229,11 +229,11 @@ int main(int argc, char **argv)
   co.id = "part";
   co.operation = moveit_msgs::CollisionObject::REMOVE;
   pub_co.publish(co);
-  
+
   moveit_msgs::AttachedCollisionObject aco;
   aco.object = co;
   pub_aco.publish(aco);
-  
+
   co.operation = moveit_msgs::CollisionObject::ADD;
   co.primitives[0].dimensions[shape_msgs::SolidPrimitive::BOX_X] = 0.15;
   co.primitives[0].dimensions[shape_msgs::SolidPrimitive::BOX_Y] = 0.1;
