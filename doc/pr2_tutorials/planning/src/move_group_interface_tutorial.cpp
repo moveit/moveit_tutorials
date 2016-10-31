@@ -83,7 +83,7 @@ int main(int argc, char **argv)
   ROS_INFO("Reference frame: %s", move_group.getPlanningFrame().c_str());
 
   // We can also print the name of the end-effector link for this group.
-  ROS_INFO("Reference frame: %s", move_group.getEndEffectorLink().c_str());
+  ROS_INFO("End effector link: %s", move_group.getEndEffectorLink().c_str());
 
   // Planning to a Pose goal
   // ^^^^^^^^^^^^^^^^^^^^^^^
@@ -149,7 +149,7 @@ int main(int argc, char **argv)
   current_state->copyJointGroupPositions(joint_model_group, joint_group_positions);
 
   // Now, let's modify one of the joints, plan to the new joint space goal and visualize the plan.
-  joint_group_positions[0] = -1.0;
+  joint_group_positions[0] = -1.0; // radians
   move_group.setJointValueTarget(joint_group_positions);
 
   success = move_group.plan(my_plan);
@@ -228,6 +228,8 @@ int main(int argc, char **argv)
   // We want the cartesian path to be interpolated at a resolution of 1 cm
   // which is why we will specify 0.01 as the max step in cartesian
   // translation.  We will specify the jump threshold as 0.0, effectively disabling it.
+  // Warning - disabling the jump threshold while operating real hardware can cause
+  // large unpredictable motions of redundant joints and could be a safety issue
   moveit_msgs::RobotTrajectory trajectory;
   double fraction = move_group.computeCartesianPath(waypoints,
                                                     0.01,  // eef_step
