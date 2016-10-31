@@ -46,7 +46,7 @@
 #include <iomanip>
 
 /** return a string describing a pose (position and quaternion) */
-std::string PoseString(const geometry_msgs::Pose& pose)
+std::string PoseString(const geometry_msgs::Pose &pose)
 {
   std::stringstream ss;
   ss << "p(";

@@ -49,12 +49,10 @@
 #include <moveit/collision_detection_fcl/collision_robot_fcl.h>
 #include <moveit/collision_detection/collision_tools.h>
 
-
 planning_scene::PlanningScene* g_planning_scene = 0;
 shapes::ShapePtr g_world_cube_shape;
-ros::Publisher *g_marker_array_publisher = 0;
+ros::Publisher* g_marker_array_publisher = 0;
 visualization_msgs::MarkerArray g_collision_points;
-
 
 void help()
 {
@@ -80,7 +78,7 @@ void publishMarkers(visualization_msgs::MarkerArray& markers)
   // delete old markers
   if (g_collision_points.markers.size())
   {
-    for (int i=0; i<g_collision_points.markers.size(); i++)
+    for (int i = 0; i < g_collision_points.markers.size(); i++)
       g_collision_points.markers[i].action = visualization_msgs::Marker::DELETE;
 
     g_marker_array_publisher->publish(g_collision_points);
@@ -93,7 +91,6 @@ void publishMarkers(visualization_msgs::MarkerArray& markers)
   if (g_collision_points.markers.size())
     g_marker_array_publisher->publish(g_collision_points);
 }
-
 
 void userCallback(InteractiveRobot& robot)
 {
@@ -118,7 +115,7 @@ void userCallback(InteractiveRobot& robot)
   // display results of the collision check
   if (c_res.collision)
   {
-    ROS_INFO("COLLIDING contact_point_count=%d",(int)c_res.contact_count);
+    ROS_INFO("COLLIDING contact_point_count=%d", (int)c_res.contact_count);
 
     // get the contact points and display them as markers
     if (c_res.contact_count > 0)
@@ -129,12 +126,9 @@ void userCallback(InteractiveRobot& robot)
       color.b = 1.0;
       color.a = 0.5;
       visualization_msgs::MarkerArray markers;
-      collision_detection::getCollisionMarkersFromContacts(markers,
-                                                           "base_footprint",
-                                                           c_res.contacts,
-                                                           color,
-                                                           ros::Duration(), // remain until deleted
-                                                           0.01);           // radius
+      collision_detection::getCollisionMarkersFromContacts(markers, "base_footprint", c_res.contacts, color,
+                                                           ros::Duration(),  // remain until deleted
+                                                           0.01);            // radius
       publishMarkers(markers);
     }
   }
@@ -148,10 +142,9 @@ void userCallback(InteractiveRobot& robot)
   }
 }
 
-
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
-  ros::init (argc, argv, "acorn_play");
+  ros::init(argc, argv, "acorn_play");
   ros::NodeHandle nh;
 
   InteractiveRobot robot;
@@ -167,7 +160,8 @@ int main(int argc, char **argv)
   g_planning_scene->getWorldNonConst()->addToObject("world_cube", g_world_cube_shape, world_cube_pose);
 
   // Create a marker array publisher for publishing contact points
-  g_marker_array_publisher = new ros::Publisher(nh.advertise<visualization_msgs::MarkerArray>("interactive_robot_marray",100));
+  g_marker_array_publisher =
+      new ros::Publisher(nh.advertise<visualization_msgs::MarkerArray>("interactive_robot_marray", 100));
 
   robot.setUserCallback(userCallback);
 
@@ -176,7 +170,8 @@ int main(int argc, char **argv)
   ros::spin();
 
   delete g_planning_scene;
-  delete g_marker_array_publisher;;
+  delete g_marker_array_publisher;
+  ;
 
   ros::shutdown();
   return 0;

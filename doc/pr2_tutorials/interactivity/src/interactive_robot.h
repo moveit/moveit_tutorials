@@ -47,17 +47,16 @@
 #include <moveit_msgs/DisplayRobotState.h>
 #include "imarker.h"
 
-
 /** Keeps track of the state of the robot and the world.
  * Updates the state when interactive markers are manipulated.
  * Publishes the state to rviz. */
-class InteractiveRobot {
+class InteractiveRobot
+{
 public:
-  InteractiveRobot(
-        const std::string& robot_description = "robot_description",
-        const std::string& robot_topic = "interactive_robot_state",
-        const std::string& marker_topic = "interactive_robot_markers",
-        const std::string& imarker_topic = "interactive_robot_imarkers");
+  InteractiveRobot(const std::string& robot_description = "robot_description",
+                   const std::string& robot_topic = "interactive_robot_state",
+                   const std::string& marker_topic = "interactive_robot_markers",
+                   const std::string& imarker_topic = "interactive_robot_imarkers");
   ~InteractiveRobot();
 
   /** set which group to manipulate */
@@ -71,32 +70,38 @@ public:
   void setWorldObjectPose(const Eigen::Affine3d& pose);
 
   /** set a callback to call when updates occur */
-  void setUserCallback(boost::function<void (InteractiveRobot& robot)> callback)
+  void setUserCallback(boost::function<void(InteractiveRobot& robot)> callback)
   {
     user_callback_ = callback;
   }
 
   /** access RobotModel */
-  robot_model::RobotModelPtr& robotModel() { return robot_model_; }
+  robot_model::RobotModelPtr& robotModel()
+  {
+    return robot_model_;
+  }
   /** access RobotState */
-  robot_state::RobotStatePtr& robotState() { return robot_state_; }
+  robot_state::RobotStatePtr& robotState()
+  {
+    return robot_state_;
+  }
 
   /** return size and pose of world object cube */
   void getWorldGeometry(Eigen::Affine3d& pose, double& size);
 
   /** exception thrown when a problem occurs */
   class RobotLoadException : std::exception
-  { };
+  {
+  };
 
   /** hook for user data.  Unused by the InteractiveRobot class.
    * initialized to 0 */
-  void *user_data_;
+  void* user_data_;
 
 private:
   /* Indicate that the world or the robot has changed and
    * the new state needs to be updated and published to rviz */
   void scheduleUpdate();
-
 
   /* set the callback timer to fire if needed.
    * Return true if callback should happen immediately. */
@@ -111,23 +116,20 @@ private:
   void publishWorldState();
 
   /* callback called when marker moves.  Moves right hand to new marker pose. */
-  static void movedRobotMarkerCallback(
-      InteractiveRobot *robot,
-      const visualization_msgs::InteractiveMarkerFeedbackConstPtr &feedback );
+  static void movedRobotMarkerCallback(InteractiveRobot* robot,
+                                       const visualization_msgs::InteractiveMarkerFeedbackConstPtr& feedback);
 
   /* callback called when marker moves.  Moves world object to new pose. */
-  static void movedWorldMarkerCallback(
-      InteractiveRobot *robot,
-      const visualization_msgs::InteractiveMarkerFeedbackConstPtr &feedback );
-
+  static void movedWorldMarkerCallback(InteractiveRobot* robot,
+                                       const visualization_msgs::InteractiveMarkerFeedbackConstPtr& feedback);
 
   /* marker publishers */
   ros::NodeHandle nh_;
   ros::Publisher robot_state_publisher_;
   ros::Publisher world_state_publisher_;
   interactive_markers::InteractiveMarkerServer interactive_marker_server_;
-  IMarker *imarker_robot_;
-  IMarker *imarker_world_;
+  IMarker* imarker_robot_;
+  IMarker* imarker_world_;
 
   /* robot info */
   robot_model_loader::RobotModelLoader rm_loader_;
@@ -144,7 +146,7 @@ private:
   static const Eigen::Affine3d DEFAULT_WORLD_OBJECT_POSE_;
 
   /* user callback function */
-  boost::function<void (InteractiveRobot& robot)> user_callback_;
+  boost::function<void(InteractiveRobot& robot)> user_callback_;
 
   /* timer info for rate limiting */
   ros::Timer publish_timer_;
@@ -155,4 +157,4 @@ private:
   int schedule_request_count_;
 };
 
-#endif // MOVEIT_TUTORIALS_INTERACTIVITY_SRC_INTERACTIVE_ROBOT_H_
+#endif  // MOVEIT_TUTORIALS_INTERACTIVITY_SRC_INTERACTIVE_ROBOT_H_

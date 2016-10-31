@@ -43,7 +43,7 @@
 
 int main(int argc, char **argv)
 {
-  ros::init (argc, argv, "right_arm_kinematics");
+  ros::init(argc, argv, "right_arm_kinematics");
   ros::AsyncSpinner spinner(1);
   spinner.start();
 
@@ -79,7 +79,7 @@ int main(int argc, char **argv)
   // robot.
   robot_state::RobotStatePtr kinematic_state(new robot_state::RobotState(kinematic_model));
   kinematic_state->setToDefaultValues();
-  const robot_state::JointModelGroup* joint_model_group = kinematic_model->getJointModelGroup("right_arm");
+  const robot_state::JointModelGroup *joint_model_group = kinematic_model->getJointModelGroup("right_arm");
 
   const std::vector<std::string> &joint_names = joint_model_group->getJointModelNames();
 
@@ -88,7 +88,7 @@ int main(int argc, char **argv)
   // We can retreive the current set of joint values stored in the state for the right arm.
   std::vector<double> joint_values;
   kinematic_state->copyJointGroupPositions(joint_model_group, joint_values);
-  for(std::size_t i = 0; i < joint_names.size(); ++i)
+  for (std::size_t i = 0; i < joint_names.size(); ++i)
   {
     ROS_INFO("Joint %s: %f", joint_names[i].c_str(), joint_values[i]);
   }
@@ -124,7 +124,8 @@ int main(int argc, char **argv)
   // ^^^^^^^^^^^^^^^^^^
   // We can now solve inverse kinematics (IK) for the right arm of the
   // PR2 robot. To solve IK, we will need the following:
-  // * The desired pose of the end-effector (by default, this is the last link in the "right_arm" chain): end_effector_state that we computed in the step above.
+  // * The desired pose of the end-effector (by default, this is the last link in the "right_arm" chain):
+  // end_effector_state that we computed in the step above.
   // * The number of attempts to be made at solving IK: 5
   // * The timeout for each attempt: 0.1 s
   bool found_ik = kinematic_state->setFromIK(joint_model_group, end_effector_state, 10, 0.1);
@@ -133,7 +134,7 @@ int main(int argc, char **argv)
   if (found_ik)
   {
     kinematic_state->copyJointGroupPositions(joint_model_group, joint_values);
-    for(std::size_t i=0; i < joint_names.size(); ++i)
+    for (std::size_t i = 0; i < joint_names.size(); ++i)
     {
       ROS_INFO("Joint %s: %f", joint_names[i].c_str(), joint_values[i]);
     }
@@ -146,11 +147,11 @@ int main(int argc, char **argv)
   // Get the Jacobian
   // ^^^^^^^^^^^^^^^^
   // We can also get the Jacobian from the :moveit_core:`RobotState`.
-  Eigen::Vector3d reference_point_position(0.0,0.0,0.0);
+  Eigen::Vector3d reference_point_position(0.0, 0.0, 0.0);
   Eigen::MatrixXd jacobian;
-  kinematic_state->getJacobian(joint_model_group, kinematic_state->getLinkModel(joint_model_group->getLinkModelNames().back()),
-                               reference_point_position,
-                               jacobian);
+  kinematic_state->getJacobian(joint_model_group,
+                               kinematic_state->getLinkModel(joint_model_group->getLinkModelNames().back()),
+                               reference_point_position, jacobian);
   ROS_INFO_STREAM("Jacobian: " << jacobian);
   // END_TUTORIAL
 

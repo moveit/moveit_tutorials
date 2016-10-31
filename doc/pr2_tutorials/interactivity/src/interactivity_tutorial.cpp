@@ -41,7 +41,6 @@
 #include "interactive_robot.h"
 #include "pose_string.h"
 
-
 void help()
 {
   ROS_INFO("#####################################################");
@@ -59,16 +58,14 @@ void help()
   ROS_INFO("#####################################################");
 }
 
-
-void userCallback(InteractiveRobot& robot)
+void userCallback(InteractiveRobot &robot)
 {
   ROS_INFO_STREAM("Robot position: " << PoseString(robot.robotState()->getGlobalLinkTransform("r_wrist_roll_link")));
 }
 
-
 int main(int argc, char **argv)
 {
-  ros::init (argc, argv, "acorn_play");
+  ros::init(argc, argv, "acorn_play");
   ros::NodeHandle nh;
 
   InteractiveRobot robot;
