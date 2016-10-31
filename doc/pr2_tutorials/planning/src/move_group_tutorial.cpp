@@ -49,15 +49,16 @@
 
 int main(int argc, char **argv)
 {
-  ros::init (argc, argv, "move_group_tutorial");
+  ros::init(argc, argv, "move_group_tutorial");
   ros::AsyncSpinner spinner(1);
   spinner.start();
   ros::NodeHandle node_handle;
 
   /* First put an object into the scene*/
   /* Advertise the collision object message publisher*/
-  ros::Publisher collision_object_publisher = node_handle.advertise<moveit_msgs::CollisionObject>("collision_object", 1);
-  while(collision_object_publisher.getNumSubscribers() < 1)
+  ros::Publisher collision_object_publisher =
+      node_handle.advertise<moveit_msgs::CollisionObject>("collision_object", 1);
+  while (collision_object_publisher.getNumSubscribers() < 1)
   {
     ros::WallDuration sleep_t(0.5);
     sleep_t.sleep();
@@ -120,20 +121,20 @@ int main(int argc, char **argv)
   get_state_validity_request.group_name = "right_arm";
 
   /* Service client for checking state validity */
-  ros::ServiceClient service_client =  node_handle.serviceClient<moveit_msgs::GetStateValidity>("/check_state_validity");
+  ros::ServiceClient service_client = node_handle.serviceClient<moveit_msgs::GetStateValidity>("/check_state_validity");
 
   /* Publisher for display */
   ros::Publisher display_publisher = node_handle.advertise<moveit_msgs::DisplayRobotState>("/display_robot_state", 1);
   moveit_msgs::DisplayRobotState display_state;
 
-  for(std::size_t i=0; i < 20; ++i)
+  for (std::size_t i = 0; i < 20; ++i)
   {
     /* Make the service call */
     service_client.call(get_state_validity_request, get_state_validity_response);
-    if(get_state_validity_response.valid)
-      ROS_INFO("State %d was valid", (int) i);
+    if (get_state_validity_response.valid)
+      ROS_INFO("State %d was valid", (int)i);
     else
-      ROS_ERROR("State %d was invalid", (int) i);
+      ROS_ERROR("State %d was invalid", (int)i);
 
     /* Visualize the state */
     display_state.state = robot_state;

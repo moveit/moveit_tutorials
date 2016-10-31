@@ -45,9 +45,9 @@
 #include <moveit_msgs/DisplayTrajectory.h>
 #include <moveit_msgs/PlanningScene.h>
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
-  ros::init (argc, argv, "move_group_tutorial");
+  ros::init(argc, argv, "move_group_tutorial");
   ros::AsyncSpinner spinner(1);
   spinner.start();
   ros::NodeHandle node_handle("~");
@@ -77,7 +77,8 @@ int main(int argc, char **argv)
   // object, which will use the ROS param server
   // to determine the set of request adapters and the
   // planning plugin to use
-  planning_pipeline::PlanningPipelinePtr planning_pipeline(new planning_pipeline::PlanningPipeline(robot_model, node_handle, "planning_plugin", "request_adapters"));
+  planning_pipeline::PlanningPipelinePtr planning_pipeline(
+      new planning_pipeline::PlanningPipeline(robot_model, node_handle, "planning_plugin", "request_adapters"));
 
   /* Sleep a little to allow time to startup rviz, etc. */
   ros::WallDuration sleep_time(20.0);
@@ -108,13 +109,14 @@ int main(int argc, char **argv)
   //
   // .. _kinematic_constraints: http://docs.ros.org/indigo/api/moveit_core/html/namespacekinematic__constraints.html#a88becba14be9ced36fefc7980271e132
   req.group_name = "right_arm";
-  moveit_msgs::Constraints pose_goal = kinematic_constraints::constructGoalConstraints("r_wrist_roll_link", pose, tolerance_pose, tolerance_angle);
+  moveit_msgs::Constraints pose_goal =
+      kinematic_constraints::constructGoalConstraints("r_wrist_roll_link", pose, tolerance_pose, tolerance_angle);
   req.goal_constraints.push_back(pose_goal);
 
   // Now, call the pipeline and check whether planning was successful.
   planning_pipeline->generatePlan(planning_scene, req, res);
   /* Check that the planning was successful */
-  if(res.error_code_.val != res.error_code_.SUCCESS)
+  if (res.error_code_.val != res.error_code_.SUCCESS)
   {
     ROS_ERROR("Could not compute plan successfully");
     return 0;
@@ -122,7 +124,8 @@ int main(int argc, char **argv)
 
   // Visualize the result
   // ^^^^^^^^^^^^^^^^^^^^
-  ros::Publisher display_publisher = node_handle.advertise<moveit_msgs::DisplayTrajectory>("/move_group/display_planned_path", 1, true);
+  ros::Publisher display_publisher =
+      node_handle.advertise<moveit_msgs::DisplayTrajectory>("/move_group/display_planned_path", 1, true);
   moveit_msgs::DisplayTrajectory display_trajectory;
 
   /* Visualize the trajectory */
@@ -159,7 +162,7 @@ int main(int argc, char **argv)
   // Call the pipeline and visualize the trajectory
   planning_pipeline->generatePlan(planning_scene, req, res);
   /* Check that the planning was successful */
-  if(res.error_code_.val != res.error_code_.SUCCESS)
+  if (res.error_code_.val != res.error_code_.SUCCESS)
   {
     ROS_ERROR("Could not compute plan successfully");
     return 0;
@@ -172,7 +175,6 @@ int main(int argc, char **argv)
   // Now you should see two planned trajectories in series
   display_publisher.publish(display_trajectory);
   sleep_time.sleep();
-
 
   // Using a Planning Request Adapter
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -199,7 +201,7 @@ int main(int argc, char **argv)
 
   // Call the planner again and visualize the trajectories
   planning_pipeline->generatePlan(planning_scene, req, res);
-  if(res.error_code_.val != res.error_code_.SUCCESS)
+  if (res.error_code_.val != res.error_code_.SUCCESS)
   {
     ROS_ERROR("Could not compute plan successfully");
     return 0;

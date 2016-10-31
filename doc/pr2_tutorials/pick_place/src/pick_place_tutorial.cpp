@@ -41,9 +41,10 @@
 #include <moveit/move_group_interface/move_group_interface.h>
 #include <geometric_shapes/solid_primitive_dims.h>
 
-static const std::string ROBOT_DESCRIPTION="robot_description";
+static const std::string ROBOT_DESCRIPTION = "robot_description";
 
-void openGripper(trajectory_msgs::JointTrajectory& posture){
+void openGripper(trajectory_msgs::JointTrajectory &posture)
+{
   posture.joint_names.resize(6);
   posture.joint_names[0] = "r_gripper_joint";
   posture.joint_names[1] = "r_gripper_motor_screw_joint";
@@ -62,7 +63,8 @@ void openGripper(trajectory_msgs::JointTrajectory& posture){
   posture.points[0].positions[5] = 0.477;
 }
 
-void closedGripper(trajectory_msgs::JointTrajectory& posture){
+void closedGripper(trajectory_msgs::JointTrajectory &posture)
+{
   posture.joint_names.resize(6);
   posture.joint_names[0] = "r_gripper_joint";
   posture.joint_names[1] = "r_gripper_motor_screw_joint";
@@ -80,7 +82,6 @@ void closedGripper(trajectory_msgs::JointTrajectory& posture){
   posture.points[0].positions[4] = 0.002;
   posture.points[0].positions[5] = 0.002;
 }
-
 
 void pick(moveit::planning_interface::MoveGroupInterface &group)
 {
@@ -147,7 +148,6 @@ void place(moveit::planning_interface::MoveGroupInterface &group)
   loc.push_back(g);
   group.setSupportSurfaceName("table");
 
-
   // add path constraints
   moveit_msgs::Constraints constr;
   constr.orientation_constraints.resize(1);
@@ -170,7 +170,7 @@ void place(moveit::planning_interface::MoveGroupInterface &group)
 
 int main(int argc, char **argv)
 {
-  ros::init (argc, argv, "right_arm_pick_place");
+  ros::init(argc, argv, "right_arm_pick_place");
   ros::AsyncSpinner spinner(1);
   spinner.start();
 
@@ -207,8 +207,6 @@ int main(int argc, char **argv)
   co.primitive_poses[0].orientation.w = 1.0;
   pub_co.publish(co);
 
-
-
   // remove table
   co.id = "table";
   co.operation = moveit_msgs::CollisionObject::REMOVE;
@@ -223,8 +221,6 @@ int main(int argc, char **argv)
   co.primitive_poses[0].position.y = -0.2;
   co.primitive_poses[0].position.z = 0.175;
   pub_co.publish(co);
-
-
 
   co.id = "part";
   co.operation = moveit_msgs::CollisionObject::REMOVE;

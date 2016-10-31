@@ -47,9 +47,9 @@
 
 #include <boost/scoped_ptr.hpp>
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
-  ros::init (argc, argv, "move_group_tutorial");
+  ros::init(argc, argv, "move_group_tutorial");
   ros::AsyncSpinner spinner(1);
   spinner.start();
   ros::NodeHandle node_handle("~");
@@ -57,10 +57,10 @@ int main(int argc, char **argv)
   // BEGIN_TUTORIAL
   // Start
   // ^^^^^
-  // Setting up to start using a planner is pretty easy. Planners are 
+  // Setting up to start using a planner is pretty easy. Planners are
   // setup as plugins in MoveIt! and you can use the ROS pluginlib
-  // interface to load any planner that you want to use. Before we 
-  // can load the planner, we need two objects, a RobotModel 
+  // interface to load any planner that you want to use. Before we
+  // can load the planner, we need two objects, a RobotModel
   // and a PlanningScene.
   // We will start by instantiating a
   // `RobotModelLoader`_
@@ -72,15 +72,14 @@ int main(int argc, char **argv)
   robot_model_loader::RobotModelLoader robot_model_loader("robot_description");
   robot_model::RobotModelPtr robot_model = robot_model_loader.getModel();
 
-  
   // Using the :moveit_core:`RobotModel`, we can construct a
-  // :planning_scene:`PlanningScene` that maintains the state of 
-  // the world (including the robot). 
+  // :planning_scene:`PlanningScene` that maintains the state of
+  // the world (including the robot).
   planning_scene::PlanningScenePtr planning_scene(new planning_scene::PlanningScene(robot_model));
 
-  // We will now construct a loader to load a planner, by name. 
+  // We will now construct a loader to load a planner, by name.
   // Note that we are using the ROS pluginlib library here.
-  boost::scoped_ptr<pluginlib::ClassLoader<planning_interface::PlannerManager> > planner_plugin_loader;
+  boost::scoped_ptr<pluginlib::ClassLoader<planning_interface::PlannerManager>> planner_plugin_loader;
   planning_interface::PlannerManagerPtr planner_instance;
   std::string planner_plugin_name;
 
@@ -91,9 +90,10 @@ int main(int argc, char **argv)
     ROS_FATAL_STREAM("Could not find planner plugin name");
   try
   {
-    planner_plugin_loader.reset(new pluginlib::ClassLoader<planning_interface::PlannerManager>("moveit_core", "planning_interface::PlannerManager"));
+    planner_plugin_loader.reset(new pluginlib::ClassLoader<planning_interface::PlannerManager>(
+        "moveit_core", "planning_interface::PlannerManager"));
   }
-  catch(pluginlib::PluginlibException& ex)
+  catch (pluginlib::PluginlibException& ex)
   {
     ROS_FATAL_STREAM("Exception while creating planning plugin loader " << ex.what());
   }
@@ -104,14 +104,14 @@ int main(int argc, char **argv)
       ROS_FATAL_STREAM("Could not initialize planner instance");
     ROS_INFO_STREAM("Using planning interface '" << planner_instance->getDescription() << "'");
   }
-  catch(pluginlib::PluginlibException& ex)
+  catch (pluginlib::PluginlibException& ex)
   {
-    const std::vector<std::string> &classes = planner_plugin_loader->getDeclaredClasses();
+    const std::vector<std::string>& classes = planner_plugin_loader->getDeclaredClasses();
     std::stringstream ss;
-    for (std::size_t i = 0 ; i < classes.size() ; ++i)
+    for (std::size_t i = 0; i < classes.size(); ++i)
       ss << classes[i] << " ";
     ROS_ERROR_STREAM("Exception while loading planner '" << planner_plugin_name << "': " << ex.what() << std::endl
-                     << "Available plugins: " << ss.str());
+                                                         << "Available plugins: " << ss.str());
   }
 
   /* Sleep a little to allow time to startup rviz, etc. */
@@ -136,22 +136,24 @@ int main(int argc, char **argv)
   std::vector<double> tolerance_pose(3, 0.01);
   std::vector<double> tolerance_angle(3, 0.01);
 
-  // We will create the request as a constraint using a helper function available 
-  // from the 
+  // We will create the request as a constraint using a helper function available
+  // from the
   // `kinematic_constraints`_
   // package.
   //
   // .. _kinematic_constraints: http://docs.ros.org/indigo/api/moveit_core/html/namespacekinematic__constraints.html#a88becba14be9ced36fefc7980271e132
   req.group_name = "right_arm";
-  moveit_msgs::Constraints pose_goal = kinematic_constraints::constructGoalConstraints("r_wrist_roll_link", pose, tolerance_pose, tolerance_angle);
+  moveit_msgs::Constraints pose_goal =
+      kinematic_constraints::constructGoalConstraints("r_wrist_roll_link", pose, tolerance_pose, tolerance_angle);
   req.goal_constraints.push_back(pose_goal);
 
   // We now construct a planning context that encapsulate the scene,
-  // the request and the response. We call the planner using this 
+  // the request and the response. We call the planner using this
   // planning context
-  planning_interface::PlanningContextPtr context = planner_instance->getPlanningContext(planning_scene, req, res.error_code_);
+  planning_interface::PlanningContextPtr context =
+      planner_instance->getPlanningContext(planning_scene, req, res.error_code_);
   context->solve(res);
-  if(res.error_code_.val != res.error_code_.SUCCESS)
+  if (res.error_code_.val != res.error_code_.SUCCESS)
   {
     ROS_ERROR("Could not compute plan successfully");
     return 0;
@@ -159,7 +161,8 @@ int main(int argc, char **argv)
 
   // Visualize the result
   // ^^^^^^^^^^^^^^^^^^^^
-  ros::Publisher display_publisher = node_handle.advertise<moveit_msgs::DisplayTrajectory>("/move_group/display_planned_path", 1, true);
+  ros::Publisher display_publisher =
+      node_handle.advertise<moveit_msgs::DisplayTrajectory>("/move_group/display_planned_path", 1, true);
   moveit_msgs::DisplayTrajectory display_trajectory;
 
   /* Visualize the trajectory */
@@ -198,7 +201,7 @@ int main(int argc, char **argv)
   /* Call the Planner */
   context->solve(res);
   /* Check that the planning was successful */
-  if(res.error_code_.val != res.error_code_.SUCCESS)
+  if (res.error_code_.val != res.error_code_.SUCCESS)
   {
     ROS_ERROR("Could not compute plan successfully");
     return 0;
@@ -212,7 +215,7 @@ int main(int argc, char **argv)
   /* Now you should see two planned trajectories in series*/
   display_publisher.publish(display_trajectory);
 
-  /* We will add more goals. But first, set the state in the planning 
+  /* We will add more goals. But first, set the state in the planning
      scene to the final state of the last plan */
   robot_state.setJointGroupPositions(joint_model_group, response.trajectory.joint_trajectory.points.back().positions);
 
@@ -232,7 +235,8 @@ int main(int argc, char **argv)
   pose.pose.position.x = 0.65;
   pose.pose.position.y = -0.2;
   pose.pose.position.z = -0.1;
-  moveit_msgs::Constraints pose_goal_2 = kinematic_constraints::constructGoalConstraints("r_wrist_roll_link", pose, tolerance_pose, tolerance_angle);
+  moveit_msgs::Constraints pose_goal_2 =
+      kinematic_constraints::constructGoalConstraints("r_wrist_roll_link", pose, tolerance_pose, tolerance_angle);
   /* First, set the state in the planning scene to the final state of the last plan */
   robot_state.setJointGroupPositions(joint_model_group, response.trajectory.joint_trajectory.points.back().positions);
   /* Now, let's try to move to this new pose goal*/
@@ -251,10 +255,13 @@ int main(int argc, char **argv)
   // because of this, we need to specify a bound for the allowed planning volume as well;
   // Note: a default bound is automatically filled by the WorkspaceBounds request adapter (part of the OMPL pipeline,
   // but that is not being used in this example).
-  // We use a bound that definitely includes the reachable space for the arm. This is fine because sampling is not done in this volume
+  // We use a bound that definitely includes the reachable space for the arm. This is fine because sampling is not done
+  // in this volume
   // when planning for the arm; the bounds are only used to determine if the sampled configurations are valid.
-  req.workspace_parameters.min_corner.x = req.workspace_parameters.min_corner.y = req.workspace_parameters.min_corner.z = -2.0;
-  req.workspace_parameters.max_corner.x = req.workspace_parameters.max_corner.y = req.workspace_parameters.max_corner.z =  2.0;
+  req.workspace_parameters.min_corner.x = req.workspace_parameters.min_corner.y =
+      req.workspace_parameters.min_corner.z = -2.0;
+  req.workspace_parameters.max_corner.x = req.workspace_parameters.max_corner.y =
+      req.workspace_parameters.max_corner.z = 2.0;
 
   // Call the planner and visualize all the plans created so far.
   context = planner_instance->getPlanningContext(planning_scene, req, res.error_code_);
@@ -264,7 +271,7 @@ int main(int argc, char **argv)
   // Now you should see four planned trajectories in series
   display_publisher.publish(display_trajectory);
 
-  //END_TUTORIAL
+  // END_TUTORIAL
   sleep_time.sleep();
   ROS_INFO("Done");
   planner_instance.reset();

@@ -48,14 +48,12 @@
 // PI
 #include <boost/math/constants/constants.hpp>
 
-
 // This code is described in the RobotStateDisplay tutorial here:
 //    http://picknik.io/moveit_wiki/index.php?title=RobotStateDisplay/C%2B%2B_API
 
-
 int main(int argc, char **argv)
 {
-  ros::init (argc, argv, "state_display_tutorial");
+  ros::init(argc, argv, "state_display_tutorial");
 
   /* Needed for ROS_INFO commands to work */
   ros::AsyncSpinner spinner(1);
@@ -71,18 +69,16 @@ int main(int argc, char **argv)
   robot_state::RobotStatePtr kinematic_state(new robot_state::RobotState(kinematic_model));
 
   /* Get the configuration for the joints in the right arm of the PR2*/
-  const robot_model::JointModelGroup* joint_model_group = kinematic_model->getJointModelGroup("right_arm");
-
-
+  const robot_model::JointModelGroup *joint_model_group = kinematic_model->getJointModelGroup("right_arm");
 
   /* PUBLISH RANDOM ARM POSITIONS */
   ros::NodeHandle nh;
-  ros::Publisher robot_state_publisher = nh.advertise<moveit_msgs::DisplayRobotState>( "tutorial_robot_state", 1 );
+  ros::Publisher robot_state_publisher = nh.advertise<moveit_msgs::DisplayRobotState>("tutorial_robot_state", 1);
 
   /* loop at 1 Hz */
   ros::Rate loop_rate(1);
 
-  for (int cnt=0; cnt<5 && ros::ok(); cnt++)
+  for (int cnt = 0; cnt < 5 && ros::ok(); cnt++)
   {
     kinematic_state->setToRandomPositions(joint_model_group);
 
@@ -91,14 +87,12 @@ int main(int argc, char **argv)
     robot_state::robotStateToRobotStateMsg(*kinematic_state, msg.state);
 
     /* send the message to the RobotState display */
-    robot_state_publisher.publish( msg );
+    robot_state_publisher.publish(msg);
 
     /* let ROS send the message, then wait a while */
     ros::spinOnce();
     loop_rate.sleep();
   }
-
-
 
   /* POSITION END EFFECTOR AT SPECIFIC LOCATIONS */
 
@@ -110,12 +104,11 @@ int main(int argc, char **argv)
   const double PI = boost::math::constants::pi<double>();
   const double RADIUS = 0.1;
 
-  for (double angle=0; angle<=2*PI && ros::ok(); angle+=2*PI/20)
+  for (double angle = 0; angle <= 2 * PI && ros::ok(); angle += 2 * PI / 20)
   {
-
     /* calculate a position for the end effector */
     Eigen::Affine3d end_effector_pose =
-      Eigen::Translation3d(RADIUS * cos(angle), RADIUS * sin(angle), 0.0) * end_effector_default_pose;
+        Eigen::Translation3d(RADIUS * cos(angle), RADIUS * sin(angle), 0.0) * end_effector_default_pose;
 
     ROS_INFO_STREAM("End effector position:\n" << end_effector_pose.translation());
 
@@ -132,7 +125,7 @@ int main(int argc, char **argv)
     robot_state::robotStateToRobotStateMsg(*kinematic_state, msg.state);
 
     /* send the message to the RobotState display */
-    robot_state_publisher.publish( msg );
+    robot_state_publisher.publish(msg);
 
     /* let ROS send the message, then wait a while */
     ros::spinOnce();

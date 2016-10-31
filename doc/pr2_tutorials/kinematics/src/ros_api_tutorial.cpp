@@ -50,17 +50,18 @@
 
 int main(int argc, char **argv)
 {
-  ros::init (argc, argv, "right_arm_kinematics");
+  ros::init(argc, argv, "right_arm_kinematics");
   ros::AsyncSpinner spinner(1);
   spinner.start();
 
   ros::NodeHandle node_handle;
 
   // Start a service client
-  ros::ServiceClient service_client = node_handle.serviceClient<moveit_msgs::GetPositionIK> ("compute_ik");
-  ros::Publisher robot_state_publisher = node_handle.advertise<moveit_msgs::DisplayRobotState>( "tutorial_robot_state", 1 );
+  ros::ServiceClient service_client = node_handle.serviceClient<moveit_msgs::GetPositionIK>("compute_ik");
+  ros::Publisher robot_state_publisher =
+      node_handle.advertise<moveit_msgs::DisplayRobotState>("tutorial_robot_state", 1);
 
-  while(!service_client.exists())
+  while (!service_client.exists())
   {
     ROS_INFO("Waiting for service");
     sleep(1.0);
@@ -82,24 +83,30 @@ int main(int argc, char **argv)
 
   /* Call the service */
   service_client.call(service_request, service_response);
-  ROS_INFO_STREAM("Result: " << ((service_response.error_code.val == service_response.error_code.SUCCESS) ? "True " : "False ") << service_response.error_code.val);
+  ROS_INFO_STREAM(
+      "Result: " << ((service_response.error_code.val == service_response.error_code.SUCCESS) ? "True " : "False ")
+                 << service_response.error_code.val);
 
   /* Filling in a seed state */
   robot_model_loader::RobotModelLoader robot_model_loader("robot_description");
   robot_model::RobotModelPtr kinematic_model = robot_model_loader.getModel();
   robot_state::RobotStatePtr kinematic_state(new robot_state::RobotState(kinematic_model));
-  const robot_state::JointModelGroup* joint_model_group = kinematic_model->getJointModelGroup("left_arm");
+  const robot_state::JointModelGroup *joint_model_group = kinematic_model->getJointModelGroup("left_arm");
 
   /* Get the names of the joints in the right_arm*/
   service_request.ik_request.robot_state.joint_state.name = joint_model_group->getJointModelNames();
 
-  /* Get the joint values and put them into the message, this is where you could put in your own set of values as well.*/
+  /* Get the joint values and put them into the message, this is where you could put in your own set of values as
+   * well.*/
   kinematic_state->setToRandomPositions(joint_model_group);
-  kinematic_state->copyJointGroupPositions(joint_model_group, service_request.ik_request.robot_state.joint_state.position);
+  kinematic_state->copyJointGroupPositions(joint_model_group,
+                                           service_request.ik_request.robot_state.joint_state.position);
 
   /* Call the service again*/
   service_client.call(service_request, service_response);
-  ROS_INFO_STREAM("Result: " << ((service_response.error_code.val == service_response.error_code.SUCCESS) ? "True " : "False ") << service_response.error_code.val);
+  ROS_INFO_STREAM(
+      "Result: " << ((service_response.error_code.val == service_response.error_code.SUCCESS) ? "True " : "False ")
+                 << service_response.error_code.val);
 
   /* Check for collisions*/
   service_request.ik_request.avoid_collisions = true;
@@ -107,7 +114,9 @@ int main(int argc, char **argv)
   /* Call the service again*/
   service_client.call(service_request, service_response);
 
-  ROS_INFO_STREAM("Result: " << ((service_response.error_code.val == service_response.error_code.SUCCESS) ? "True " : "False ") << service_response.error_code.val);
+  ROS_INFO_STREAM(
+      "Result: " << ((service_response.error_code.val == service_response.error_code.SUCCESS) ? "True " : "False ")
+                 << service_response.error_code.val);
 
   /* Visualize the result*/
   moveit_msgs::DisplayRobotState msg;
@@ -115,7 +124,7 @@ int main(int argc, char **argv)
   robot_state::robotStateToRobotStateMsg(*kinematic_state, msg.state);
   robot_state_publisher.publish(msg);
 
-  //Sleep to let the message go through
+  // Sleep to let the message go through
   ros::Duration(2.0).sleep();
 
   ros::shutdown();
