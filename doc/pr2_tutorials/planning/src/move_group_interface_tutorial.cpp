@@ -177,7 +177,9 @@ int main(int argc, char **argv)
   // We will reuse the old goal that we had and plan to it.
   // Note that this will only work if the current state already
   // satisfies the path constraints. So, we need to set the start
-  // state to a new pose.
+  // state to a new pose. We also increase the default planning time from 5s to 10s.
+  
+  my_plan.planning_time_ = 10;
   robot_state::RobotState start_state(*group.getCurrentState());
   geometry_msgs::Pose start_pose2;
   start_pose2.orientation.w = 1.0;
@@ -191,6 +193,7 @@ int main(int argc, char **argv)
 
   // Now we will plan to the earlier pose target from the new
   // start state that we have just created.
+  // Note that since this is based on a random search, it is possible a plan will not be found.
   group.setPoseTarget(target_pose1);
   success = group.plan(my_plan);
 
