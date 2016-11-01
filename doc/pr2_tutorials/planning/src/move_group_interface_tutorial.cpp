@@ -62,7 +62,7 @@ int main(int argc, char **argv)
   // are used interchangably.
   static const std::string PLANNING_GROUP = "right_arm";
 
-  // The :move_group_interface:`MoveGroupInterface` class can be easily
+  // The :move_group_interface:`MoveGroup` class can be easily
   // setup using just the name of the planning group you would like to control and plan for.
   moveit::planning_interface::MoveGroupInterface move_group(PLANNING_GROUP);
 
@@ -83,8 +83,8 @@ int main(int argc, char **argv)
   moveit_visual_tools::MoveItVisualTools visual_tools("odom_combined");
   visual_tools.deleteAllMarkers();
 
-  // Remove control is an introspection tool that allows users to step through Rviz via buttons and keyboard
-  // shortcuts in Rviz
+  // Remote control is an introspection tool that allows users to step through a high level script
+  // via buttons and keyboard shortcuts in Rviz
   visual_tools.loadRemoteControl();
 
   // Rviz provides many types of markers, in this demo we will use text, cylinders, and spheres
@@ -213,7 +213,7 @@ int main(int argc, char **argv)
   // start state that we have just created.
   move_group.setPoseTarget(target_pose1);
 
-  // Planning with constraints can be slow because every sample must call and inverse kinematics solver.
+  // Planning with constraints can be slow because every sample must call an inverse kinematics solver.
   // Lets increase the planning time from the default 5 seconds to be sure the planner has enough time to succeed.
   move_group.setPlanningTime(10.0);
 
@@ -318,7 +318,7 @@ int main(int argc, char **argv)
   visual_tools.publishText(text_pose, "Add object", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
 
-  // Sleep so we have time to see the object in RViz
+  // Sleep to allow MoveGroup to recieve and process the collision object message
   ros::Duration(1.0).sleep();
 
   // Now when we plan a trajectory it will avoid the obstacle
@@ -343,7 +343,7 @@ int main(int argc, char **argv)
   visual_tools.publishText(text_pose, "Object attached to robot", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
 
-  /* Sleep to give Rviz time to show the object attached (different color).*/
+  /* Sleep to allow MoveGroup to recieve and process the attached collision object message */
   ros::Duration(1.0).sleep();
 
   // Now, let's detach the collision object from the robot.
@@ -354,7 +354,7 @@ int main(int argc, char **argv)
   visual_tools.publishText(text_pose, "Object dettached from robot", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
 
-  /* Sleep to give Rviz time to show the object detached.*/
+  /* Sleep to allow MoveGroup to recieve and process the detach collision object message */
   ros::Duration(1.0).sleep();
 
   // Now, let's remove the collision object from the world.

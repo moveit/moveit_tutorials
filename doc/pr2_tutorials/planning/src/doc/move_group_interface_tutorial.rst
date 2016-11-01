@@ -1,7 +1,7 @@
 Move Group Interface Tutorial
 ==================================
 
-In MoveIt!, the primary user interface is through the :move_group_interface:`MoveGroupInterface` class. It provides easy to use functionality for most operations that a user may want to carry out, specifically setting joint or pose goals, creating motion plans, moving the robot, adding objects into the environment and attaching/detaching objects from the robot. This interface communicates over ROS topics, services, and actions to the `MoveGroup Node <http://docs.ros.org/indigo/api/moveit_ros_move_group/html/annotated.html>`_.
+In MoveIt!, the primary user interface is through the :move_group_interface:`MoveGroup` class. It provides easy to use functionality for most operations that a user may want to carry out, specifically setting joint or pose goals, creating motion plans, moving the robot, adding objects into the environment and attaching/detaching objects from the robot. This interface communicates over ROS topics, services, and actions to the `MoveGroup Node <http://docs.ros.org/indigo/api/moveit_ros_move_group/html/annotated.html>`_.
 
 .. image:: move_group_interface_tutorial_start_screen.png
 
@@ -22,8 +22,8 @@ You will also need a **pr2_moveit_config** package to run this tutorial. Current
   git clone https://github.com/davetcoleman/pr2_moveit_config.git
   rosdep install --from-paths . --ignore-src --rosdistro kinetic
 
-Start Rviz
-^^^^^^^^^^
+Start Rviz and MoveGroup node
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Start Rviz and wait for everything to finish loading::
 
@@ -32,7 +32,7 @@ Start Rviz and wait for everything to finish loading::
 Running the demo
 ^^^^^^^^^^^^^^^^
 
-In a new window, run the `move_group_interface_tutorial.launch <https://github.com/ros-planning/moveit_tutorials/tree/kinetic-devel/doc/pr2_tutorials/planning/launch/move_group_interface_tutorial.launch>`_ roslaunch file::
+In a new terminal window, run the `move_group_interface_tutorial.launch <https://github.com/ros-planning/moveit_tutorials/tree/kinetic-devel/doc/pr2_tutorials/planning/launch/move_group_interface_tutorial.launch>`_ roslaunch file::
 
   roslaunch moveit_tutorials move_group_interface_tutorial.launch
 
