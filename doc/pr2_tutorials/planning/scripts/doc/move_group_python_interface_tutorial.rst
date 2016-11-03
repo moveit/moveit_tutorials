@@ -15,17 +15,25 @@ The entire code can be seen :codedir:`here in the moveit_pr2 github project<plan
 
 The launch file
 ^^^^^^^^^^^^^^^
-The entire launch file is `here
-<https://github.com/ros-planning/moveit_tutorials/tree/kinetic-devel/doc/pr2_tutorials/planning/launch/move_group_python_interface_tutorial.launch>`_
+The entire launch file is `here <https://github.com/ros-planning/moveit_tutorials/tree/kinetic-devel/doc/pr2_tutorials/planning/launch/move_group_python_interface_tutorial.launch>`_
 on github. All the code in this tutorial can be run from the
 moveit_tutorials package that you have as part of your MoveIt! setup.
 
 Running the code
 ^^^^^^^^^^^^^^^^
 
-Roslaunch the launch file to run the code directly from moveit_tutorials::
+Make sure your python file is executable (chmod +x scripts/move_group_python_interface_tutorial.py).
+
+Either run the python code directly using Rosrun::
+
+ rosrun moveit_tutorials move_group_python_interface_tutorial.py
+
+Or roslaunch the launch file to run the code directly from moveit_tutorials::
 
  roslaunch moveit_tutorials move_group_python_interface_tutorial.launch
+
+Please note that due to a bug discussed in issue `#15 <https://github.com/ros-planning/moveit_commander/issues/15>`_ the moveit_commander throws an exception when shutting down.
+This does not interfere with the functioning of the code itself.
 
 Expected Output
 ^^^^^^^^^^^^^^^
