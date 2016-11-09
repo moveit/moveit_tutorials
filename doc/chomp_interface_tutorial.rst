@@ -16,7 +16,7 @@ Assumptions:
 ------------
 
  1. You have the latest version of moveit installed. On ROS kinetic you may need to build it from source.
- 2. You have a moveit configuration package for your robot already. For example, if you have a Kinova Jaco arm, it's probably called "jaco_moveit_config". This is typically build using the Moveit Setup Assistant.
+ 2. You have a moveit configuration package for your robot already. For example, if you have a Kinova Jaco arm, it's probably called "jaco_moveit_config". This is typically built using the Moveit Setup Assistant.
  3. Lets assume that you are using the **jaco** manipulator. And hence, the moveit config package is *jaco_moveit_config*.
 
 
