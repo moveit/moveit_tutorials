@@ -20,6 +20,7 @@
   <build_depend>moveit_ros_perception</build_depend>
   <build_depend>interactive_markers</build_depend>
   <build_depend>geometric_shapes</build_depend>
+  <build_depend>moveit_visual_tools</build_depend>
 
   <run_depend>pluginlib</run_depend>
   <run_depend>moveit_core</run_depend>
@@ -27,8 +28,6 @@
   <run_depend>moveit_ros_planning_interface</run_depend>
   <run_depend>moveit_ros_perception</run_depend>
   <run_depend>interactive_markers</run_depend>
-  <run_depend>pr2_arm_kinematics</run_depend>
-  <run_depend>pr2_moveit_config</run_depend>
-  <run_depend>pr2_moveit_plugins</run_depend>
+  <run_depend>moveit_visual_tools</run_depend>
 
 </package>

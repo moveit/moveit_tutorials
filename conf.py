@@ -53,7 +53,7 @@ html_context = {
 # Add any paths that contain custom themes here, relative to this directory.
 
 # Links
-extlinks = {'codedir': ('https://github.com/ros-planning/moveit_tutorials/tree/kinetic-devel/doc/pr2_tutorials//%s', ''),
+extlinks = {'codedir': ('https://github.com/ros-planning/moveit_tutorials/tree/kinetic-devel/doc/pr2_tutorials/%s', ''),
             'moveit_core': ('http://docs.ros.org/indigo/api/moveit_core/html/classmoveit_1_1core_1_1%s.html', ''),
             'planning_scene': ('http://docs.ros.org/indigo/api/moveit_core/html/classplanning__scene_1_1%s.html', ''),
             'planning_scene_interface': ('http://docs.ros.org/indigo/api/moveit_ros_planning_interface/html/classmoveit_1_1planning__interface_1_1%s.html', ''),

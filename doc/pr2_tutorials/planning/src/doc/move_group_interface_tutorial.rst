@@ -1,53 +1,65 @@
 Move Group Interface Tutorial
 ==================================
 
-In MoveIt!, the primary user interface is through the :move_group_interface:`MoveGroup` class. It provides easy to use functionality for most operations that a user may want to carry out, specifically setting joint or pose goals, creating motion plans, moving the robot, adding objects into the environment and attaching/detaching objects from the robot.
-
-.. tutorial-formatter:: ../move_group_interface_tutorial.cpp
-
-The entire code
-^^^^^^^^^^^^^^^
-The entire code can be seen :codedir:`here in the moveit_pr2 github project<planning>`.
-
-Compiling the code
-^^^^^^^^^^^^^^^^^^
-Follow the `instructions for compiling code from source <http://moveit.ros.org/install/>`_.
-
-The launch file
-^^^^^^^^^^^^^^^
-The entire launch file is `here <https://github.com/ros-planning/moveit_tutorials/tree/kinetic-devel/doc/pr2_tutorials/planning/launch/move_group_interface_tutorial.launch>`_ on github. All the code in this tutorial can be compiled and run from the moveit_tutorials package
-that you have as part of your MoveIt! setup.
-
-Running the code
-^^^^^^^^^^^^^^^^
-
-Roslaunch the launch file to run the code directly from moveit_tutorials::
-
- roslaunch moveit_tutorials move_group_interface_tutorial.launch
-
-After a short moment, the Rviz window should appear:
+In MoveIt!, the primary user interface is through the :move_group_interface:`MoveGroup` class. It provides easy to use functionality for most operations that a user may want to carry out, specifically setting joint or pose goals, creating motion plans, moving the robot, adding objects into the environment and attaching/detaching objects from the robot. This interface communicates over ROS topics, services, and actions to the `MoveGroup Node <http://docs.ros.org/indigo/api/moveit_ros_move_group/html/annotated.html>`_.
 
 .. image:: move_group_interface_tutorial_start_screen.png
 
-The *Motion Planning* section in the bottom right part of the window can be closed to get a better view of the robot.
+Watch the `YouTube video demo <https://youtu.be/4FSmZRQh37Q>`_
 
+Compiling the example code
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+You do not need to build all of MoveIt! from source, but you can follow similar instructions as documented on the  `MoveIt! source install page <http://moveit.ros.org/install/source/>`_ for setting up your catkin workspace. Within your catkin workspace, download this example::
+
+  git clone https://github.com/ros-planning/moveit_tutorials.git
+
+Temporary PR2 on Kinetic Instructions
+-------------------------------------
+
+You will also need a **pr2_moveit_config** package to run this tutorial. Currently this is unreleased in ROS Kinetic but the following is a temporary workaround::
+
+  git clone https://github.com/PR2/pr2_common.git -b kinetic-devel
+  git clone https://github.com/davetcoleman/pr2_moveit_config.git
+  rosdep install --from-paths . --ignore-src --rosdistro kinetic
+
+Start Rviz and MoveGroup node
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Start Rviz and wait for everything to finish loading::
+
+  roslaunch pr2_moveit_config demo.launch
+
+Running the demo
+^^^^^^^^^^^^^^^^
+
+In a new terminal window, run the `move_group_interface_tutorial.launch <https://github.com/ros-planning/moveit_tutorials/tree/kinetic-devel/doc/pr2_tutorials/planning/launch/move_group_interface_tutorial.launch>`_ roslaunch file::
+
+  roslaunch moveit_tutorials move_group_interface_tutorial.launch
+
+After a short moment, the Rviz window should appear and look similar to the one at the top of this page. Press the **Next** button at the bottom of the screen or press 'N' on your keyboard while Rviz is focused to progress through each demo step.
 
 Expected Output
 ^^^^^^^^^^^^^^^
 
-In Rviz, we should be able to see the following (there will be a delay of 5-10 seconds between each step):
+Watch the `YouTube video demo <https://youtu.be/4FSmZRQh37Q>`_ for expected output. In Rviz, we should be able to see the following:
 
  1. The robot moves its right arm to the pose goal to its right front.
- 2. The robot repeats the same motion from 1.
- 3. The robot moves its right arm to the joint goal at its right side.
- 4. The robot moves its right arm back to a new pose goal while maintaining the end-effector level.
- 5. The robot moves its right arm along the desired cartesian path (a triangle up+forward, left, down+back).
- 6. A box object is added into the environment to the right of the right arm.
+ 2. The robot moves its right arm to the joint goal at its right side.
+ 3. The robot moves its right arm back to a new pose goal while maintaining the end-effector level.
+ 4. The robot moves its right arm along the desired cartesian path (a triangle up+forward, left, down+back).
+ 5. A box object is added into the environment to the right of the right arm.
     |B|
 
- 7. The robot moves its right arm to the pose goal, avoiding collision with the box.
- 8. The object is attached to the wrist (its color will change to purple/orange/green).
- 9. The object is detached from the wrist (its color will change back to green).
- 10. The object is removed from the environment.
+ 6. The robot moves its right arm to the pose goal, avoiding collision with the box.
+ 7. The object is attached to the wrist (its color will change to purple/orange/green).
+ 8. The object is detached from the wrist (its color will change back to green).
+ 9. The object is removed from the environment.
+ 10. The robot moves both arms to two different pose goals at the same time
 
 .. |B| image:: ./move_group_interface_tutorial_robot_with_box.png
+
+Explaining the Demo
+^^^^^^^^^^^^^^^^^^^
+The entire code is located in the moveit_tutorials github repo under the subfolder :codedir:`pr2_tutorials/planning<planning>`. Next we step through the code piece by piece to explain its functionality.
+
+.. tutorial-formatter:: ../move_group_interface_tutorial.cpp
