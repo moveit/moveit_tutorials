@@ -146,7 +146,7 @@ int main(int argc, char **argv)
   // and report success on execution of a trajectory.
 
   /* Uncomment below line when working with a real robot */
-  /* group.move() */
+  /* move_group.move() */
 
   // Planning to a joint-space goal
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -242,6 +242,7 @@ int main(int argc, char **argv)
   waypoints.push_back(start_pose2);
 
   geometry_msgs::Pose target_pose3 = start_pose2;
+  target_pose3.position.x += 0.2;
   target_pose3.position.z += 0.2;
   waypoints.push_back(target_pose3);  // up and out
 
