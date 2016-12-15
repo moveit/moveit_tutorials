@@ -146,7 +146,7 @@ int main(int argc, char **argv)
   // and report success on execution of a trajectory.
 
   /* Uncomment below line when working with a real robot */
-  /* group.move() */
+  /* move_group.move() */
 
   // Planning to a joint-space goal
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -242,8 +242,9 @@ int main(int argc, char **argv)
   waypoints.push_back(start_pose2);
 
   geometry_msgs::Pose target_pose3 = start_pose2;
+
   target_pose3.position.z += 0.2;
-  waypoints.push_back(target_pose3);  // up and out
+  waypoints.push_back(target_pose3);  // up 
 
   target_pose3.position.y -= 0.1;
   waypoints.push_back(target_pose3);  // left
@@ -251,7 +252,7 @@ int main(int argc, char **argv)
   target_pose3.position.z -= 0.2;
   target_pose3.position.y += 0.2;
   target_pose3.position.x -= 0.2;
-  waypoints.push_back(target_pose3);  // down and right (back to start)
+  waypoints.push_back(target_pose3);  // down and right 
 
   // Cartesian motions are frequently needed to be slower for actions such as approach and retreat
   // grasp motions. Here we demonstrate how to reduce the speed of the robot arm via a scaling factor
