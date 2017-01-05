@@ -96,3 +96,14 @@ The ``FollowJointTrajectory`` or ``GripperCommand`` interfaces on your robot mus
  * /gripper_controller/gripper_action/result
 
 You should also be able to see (using *rostopic info topic_name*) that the topics are published/subscribed to by the controllers on your robot and also by the *move_group* node.
+
+Remapping /joint_states topic
+-----------------------------
+
+When you have a program that uses move group, you need to remap the topic /joint_states to /robot/joint_states, otherwise the feedback of the joints will start from zeros (I don't know the exact reason) hence messing the planning process. To do this remapping you could make a simple launch file for your node as follows ::
+
+<launch>
+<node name="any_name" pkg="your_package_name" type="your_executable_name" output="screen" args="joint_states:=/robot/joint_states"/>
+</launch>
+
+Or you can make a subscriber with the correct topic name and then ensure that the starting robot state for your move group corresponds to a correct joints angle by using the call back of this subscriber.   
