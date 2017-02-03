@@ -34,9 +34,6 @@ Now run the python code directly using rosrun::
 
  rosrun moveit_tutorials move_group_python_interface_tutorial.py
 
-Please note that due to a bug in ros-Indigo discussed in issue `#15 <https://github.com/ros-planning/moveit_commander/issues/15>`_ the moveit_commander throws an exception when shutting down.
-This does not interfere with the functioning of the code itself.
-
 Expected Output
 ^^^^^^^^^^^^^^^
 
