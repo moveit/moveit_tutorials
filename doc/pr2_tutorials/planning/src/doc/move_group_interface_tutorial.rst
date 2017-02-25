@@ -15,15 +15,15 @@ Follow the `instructions for compiling code from source <http://moveit.ros.org/i
 
 The launch file
 ^^^^^^^^^^^^^^^
-The entire launch file is `here <https://github.com/ros-planning/moveit_tutorials/tree/indigo-devel/doc/pr2_tutorials/planning/launch/move_group_interface_tutorial.launch>`_ on github. All the code in this tutorial can be compiled and run from the moveit_tutorials package
+The entire launch file is `here <https://github.com/ros-planning/moveit_tutorials/tree/indigo-devel/doc/pr2_tutorials/planning/launch/move_group_interface_tutorial.launch>`_ on github. All the code in this tutorial can be compiled and run from the pr2_moveit_tutorials package
 that you have as part of your MoveIt! setup.
 
 Running the code
 ^^^^^^^^^^^^^^^^
 
-Roslaunch the launch file to run the code directly from moveit_tutorials::
+Roslaunch the launch file to run the code directly from pr2_moveit_tutorials::
 
- roslaunch moveit_tutorials move_group_interface_tutorial.launch
+ roslaunch pr2_moveit_tutorials move_group_interface_tutorial.launch
 
 After a short moment, the Rviz window should appear:
 
