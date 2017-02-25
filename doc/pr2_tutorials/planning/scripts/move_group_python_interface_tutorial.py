@@ -80,7 +80,8 @@ def move_group_python_interface_tutorial():
   ## trajectories for RVIZ to visualize.
   display_trajectory_publisher = rospy.Publisher(
                                       '/move_group/display_planned_path',
-                                      moveit_msgs.msg.DisplayTrajectory)
+                                      moveit_msgs.msg.DisplayTrajectory,
+                                      queue_size=20)
 
   ## Wait for RVIZ to initialize. This sleep is ONLY to allow Rviz to come up.
   print "============ Waiting for RVIZ..."
