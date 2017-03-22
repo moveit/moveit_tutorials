@@ -146,8 +146,11 @@
           {% include "breadcrumbs.html" %}
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
+             <div class="admonition note"> 
+               <p class="first admonition-title">Code Used in this Tutorial Available</p> 
+               <p class="last">Code can be found at <a href = "https://github.com/ros-planning/moveit_tutorials">moveit_tutorials repository</a> in doc folder. Use kinetic-devel branch.</p>
+             </div> 
             {% block body %}{% endblock %}
-
             {% if display_github %}
             <div class="admonition note">
               <p class="first admonition-title">Open Source Feedback</p>
