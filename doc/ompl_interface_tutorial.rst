@@ -20,7 +20,7 @@ A quick analysis of the effect of this parameter on two of the MoveIt! tutorial 
 Projection Evaluator
 ^^^^^^^^^^^^^^^^^^^^
 
-The ``projection_evaluator`` can take in a list of joints or links to approximate the coverage of a configuration space. This settings is used by planners such as `KPIECE <http://www.kavrakilab.org/robotics/kpiece.html>`_, BKPIECE, LBKPIECE, and PDST. For more information read the corresponding publications.
+The ``projection_evaluator`` can take in a list of joints or links to approximate the coverage of a configuration space. This settings is used by planners such as KPIECE, BKPIECE, LBKPIECE, and PDST. For more information read the corresponding publications.
 
 Other Settings
 ^^^^^^^^^^^^^^
