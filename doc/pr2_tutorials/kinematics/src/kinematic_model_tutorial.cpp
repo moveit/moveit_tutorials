@@ -81,7 +81,7 @@ int main(int argc, char **argv)
   kinematic_state->setToDefaultValues();
   const robot_state::JointModelGroup *joint_model_group = kinematic_model->getJointModelGroup("right_arm");
 
-  const std::vector<std::string> &joint_names = joint_model_group->getJointModelNames();
+  const std::vector<std::string> &joint_names = joint_model_group->getVariableNames();
 
   // Get Joint Values
   // ^^^^^^^^^^^^^^^^
