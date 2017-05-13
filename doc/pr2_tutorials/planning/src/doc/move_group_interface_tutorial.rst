@@ -7,9 +7,14 @@ In MoveIt!, the primary user interface is through the :move_group_interface:`Mov
 
 Watch the `YouTube video demo <https://youtu.be/4FSmZRQh37Q>`_
 
-Compiling the example code
+Create A Catkin Workspace
+^^^^^^^^^^^^^^^^^^^^^^^^^
+You do not need to build all of MoveIt! from source, but you do need to have a catkin workspace setup. If you do not have a workspace already setup, follow the "Prerequisites" section on the  `MoveIt! source install page <http://moveit.ros.org/install/source/>`_ and be sure to then source the workspace as documented at the bottom of that page under "Source the Catkin Workspace."
+
+Compiling the Example Code
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
-You do not need to build all of MoveIt! from source, but you can follow similar instructions as documented on the  `MoveIt! source install page <http://moveit.ros.org/install/source/>`_ for setting up your catkin workspace. Within your catkin workspace, download this example::
+
+Within your catkin workspace (``cd ~/ws_moveit/src``), download this tutorial::
 
   git clone https://github.com/ros-planning/moveit_tutorials.git
 
@@ -20,7 +25,14 @@ You will also need a **pr2_moveit_config** package to run this tutorial. Current
 
   git clone https://github.com/PR2/pr2_common.git -b kinetic-devel
   git clone https://github.com/davetcoleman/pr2_moveit_config.git
+
+Install Dependencies and Build
+--------------------------------------
+
+Scans your catkin workspace for missing packages before compiling new code::
+
   rosdep install --from-paths . --ignore-src --rosdistro kinetic
+  catkin build
 
 Start Rviz and MoveGroup node
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
