@@ -125,6 +125,7 @@ def move_group_python_interface_tutorial():
   ## Note that we are just planning, not asking move_group 
   ## to actually move the robot
   plan1 = group.plan()
+  
 
   print "============ Waiting while RVIZ displays plan1..."
   rospy.sleep(5)
@@ -157,6 +158,10 @@ def move_group_python_interface_tutorial():
 
   # Uncomment below line when working with a real robot
   # group.go(wait=True)
+  
+  # Use execute instead if you would like the robot to follow 
+  # the plan that has already been computed
+  # group.execute(plan1)
 
   ## Planning to a joint-space goal 
   ## ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -218,7 +223,10 @@ def move_group_python_interface_tutorial():
   print "============ Waiting while RVIZ displays plan3..."
   rospy.sleep(5)
 
- 
+  # Uncomment the line below to execute this plan on a real robot.
+  # group.execute(plan3)
+  
+  
   ## Adding/Removing Objects and Attaching/Detaching Objects
   ## ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   ## First, we will define the collision object message
