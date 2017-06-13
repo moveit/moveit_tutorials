@@ -152,6 +152,24 @@ Step 4: Use Motion Planning with the PR2
 .. image:: rviz_plugin_planned_path.png
    :width: 700px
 
+Introspecting trajectory waypoints
+++++++++++++++++++++++++++++++++++
+
+*Available since: Indigo 0.7.10, Kinetic and Lunar 0.9.7*
+
+You can visually introspect trajectory point by point on RViz.
+
+* From "`Panel`" menu, enable "`MotionPlanning - Slider`" that is disabled by default. You'll see a new Slider panel on RViz.
+
+* Set your goal pose, then run `Plan`.
+
+* Play with the "`Slider`" panel, e.g. move the slider, push "`Play`" button.
+
+NOTE: Once you placed your EEF to a new goal, be sure to run `Plan` before running `Play` -- otherwise you'll see the waypoints for the previous goal if available.
+
+.. image:: pr2_moveit_pr491.png
+   :width: 700px
+
 What's Next
 -------------
 
