@@ -103,7 +103,7 @@ Step 3: Interact with the PR2
    :width: 500px
 
 Moving into collision
-----------------------
++++++++++++++++++++++
 
 Note what happens when you try to move one of the arms into collision
 with the other. The two links that are in collision will turn red.
@@ -123,7 +123,7 @@ checkbox.
    :width: 300px
 
 Moving out of reachable workspace
------------------------------------
++++++++++++++++++++++++++++++++++
 
 Note also what happens when you try to move an end-effector out of its
 reachable workspace (sometimes the access denied sign will not
