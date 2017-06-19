@@ -100,7 +100,7 @@ You should also be able to see (using *rostopic info topic_name*) that the topic
 Remapping /joint_states topic
 -----------------------------
 
-When you run a `move group node <http://docs.ros.org//api/moveit_tutorials/html/doc/pr2_tutorials/planning/src/doc/move_group_interface_tutorial.html>`_, you may need to remap the topic /joint_states to /robot/joint_states, otherwise MoveIt! won't have feedback from the joints. To do this remapping you could make a simple launch file for your node as follows ::
+When you run a `move group node <http://docs.ros.org/kinetic/api/moveit_tutorials/html/doc/pr2_tutorials/planning/src/doc/move_group_interface_tutorial.html>`_, you may need to remap the topic /joint_states to /robot/joint_states, otherwise MoveIt! won't have feedback from the joints. To do this remapping you could make a simple launch file for your node as follows ::
 
   <node pkg="moveit_ros_move_group" type="move_group" name="any_name" output="screen">
     <rename from="joint_states" to="robot/joint_states"/>
