@@ -103,7 +103,7 @@ Remapping /joint_states topic
 When you run a `move group node <http://docs.ros.org/kinetic/api/moveit_tutorials/html/doc/pr2_tutorials/planning/src/doc/move_group_interface_tutorial.html>`_, you may need to remap the topic /joint_states to /robot/joint_states, otherwise MoveIt! won't have feedback from the joints. To do this remapping you could make a simple launch file for your node as follows ::
 
   <node pkg="moveit_ros_move_group" type="move_group" name="any_name" output="screen">
-    <rename from="joint_states" to="robot/joint_states"/>
+    <remap from="joint_states" to="robot/joint_states"/>
   </node>
 
 Or you can make a subscriber with the correct topic name and then ensure that the starting robot state for your move group corresponds to a correct joints angle by using the call back of this subscriber.   
