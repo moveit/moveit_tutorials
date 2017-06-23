@@ -108,7 +108,7 @@ int main(int argc, char **argv)
   // "r_wrist_roll_link" which is the most distal link in the
   // "right_arm" of the robot.
   kinematic_state->setToRandomPositions(joint_model_group);
-  const Eigen::Affine3d &end_effector_state = kinematic_state->getGlobalLinkTransform("r_wrist_roll_link");
+  const Eigen::Affine3d &end_effector_state = kinematic_state->getGlobalLinkTransform("ee_link");
 
   /* Print end-effector pose. Remember that this is in the model frame */
   ROS_INFO_STREAM("Translation: " << end_effector_state.translation());
