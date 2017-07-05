@@ -248,11 +248,11 @@ files that you will need to start using MoveIt!
 
 * Click on the *Configuration Files* pane. Choose a location and
   name for the ROS package that will be generated containing your new
-  set of configuration files (e.g. click browse, select a good
-  location (e.g. your home dir), click **Create New Folder**, enter
-  "pr2_moveit_generated", and click **Choose**.
-  "pr2_moveit_generated" is the location used in the rest of the
-  documentation on this wiki). This does not have to be within your
+  set of configuration files. Click browse, select a good
+  location (for example, your home dir), click **Create New Folder**, enter
+  "pr2_moveit_config", and click **Choose**.
+  "pr2_moveit_config" is the location used in the rest of the
+  documentation on this wiki. This package does not have to be within your
   ROS package path. All generated files will go directly into the
   directory you have chosen.
 
