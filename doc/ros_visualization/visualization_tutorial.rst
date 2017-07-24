@@ -170,9 +170,3 @@ NOTE: Once you placed your EEF to a new goal, be sure to run `Plan` before runni
 .. image:: pr2_moveit_pr491.png
    :width: 700px
 
-What's Next
--------------
-
-* `MoveIt! and a simulated robot
-  <http://picknik.io/moveit_wiki/index.php?title=PR2/Gazebo/Quick_Start>`_ - You can now
-  start using MoveIt! with a simulated robot in Gazebo.
