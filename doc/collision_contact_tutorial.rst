@@ -19,7 +19,7 @@ Code Description
 
 We will walk through the code in the order that it is run in the program, starting with the **main()** function in **collision_contact_tutorial.cpp**: 
 ::
-   int main(int argc, char **argv)
+      int main(int argc, char **argv)
    {
    ros::init (argc, argv, "acorn_play");
    ros::NodeHandle nh;
