@@ -201,7 +201,7 @@ You should now see the PR2 robot with 2 interactive markers which you can drag a
 Interacting
 ^^^^^^^^^^^
 
-In Rviz you will see 2 sets of Red/Green/Blue interactive marker arrows. Drag these around with the mouse. 
+In Rviz you will see two sets of Red/Green/Blue interactive marker arrows. Drag these around with the mouse. 
 Move the right arm so it is in contact with the left arm. You will see magenta spheres marking the contact points. 
 If you do not see the magenta spheres be sure that you added the MarkerArray display with interactive_robot_marray topic as described above. Also be sure to set RobotAlpha to 0.3 (or some other value less than 1) so the robot is transparent and the spheres can be seen. 
 Move the right arm so it is in contact with the yellow cube (you may also move the yellow cube). You will see magenta spheres marking the contact points. 
