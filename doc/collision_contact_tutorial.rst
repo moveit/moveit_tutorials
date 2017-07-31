@@ -121,6 +121,7 @@ And finally we publish the markers to Rviz: ::
    
 If no collision occurred we erase any collision contact point markers that we may have placed there last time the callback was called: 
 ::
+
  else
  {
  ROS_INFO("Not colliding");
@@ -139,7 +140,7 @@ The **publishMarkers()** function deletes any old markers and then adds new ones
  {
   for (int i=0; i<g_collision_points.markers.size(); i++)
  g_collision_points.markers[i].action = visualization_msgs::Marker::DELETE;
-     
+
  g_marker_array_publisher->publish(g_collision_points);
  }
    
@@ -164,6 +165,7 @@ Launch file
 
 A launch file is located here. It loads the URDF and SRDF parameters for the PR2 robot, launches Rviz, and runs the collision_contact_tutorial program described above. If moveit_tutorials is in your ROS_PACKAGE_PATH then launch it by typing: 
 ::
+
  roslaunch moveit_tutorials collision_contact_tutorial.launch
      
 Rviz setup
