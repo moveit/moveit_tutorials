@@ -101,7 +101,7 @@ Step 3: Interact with the PR2
       tip link of each arm) to drag the arm around and change its
       orientation.
 
-.. image:: rviz_add_interact_button.png
+.. image:: rviz_interact_button.png
    :width: 250px
       
 .. image:: rviz_plugin_interact.png
