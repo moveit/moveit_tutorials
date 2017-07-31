@@ -90,10 +90,6 @@ Step 3: Interact with the PR2
     couple of interactive markers appear for the right arm of the PR2.
     If you do not see the **Interact** button, you may need to add it;
     click the plus sign and choose it from the popup window:
-
-.. image:: rviz_interact_button.png
-   :width: 500px
-
     
     * One marker (corresponding to the orange colored right arm) will
       be used to set the "Goal State" for motion planning. Another
@@ -105,6 +101,9 @@ Step 3: Interact with the PR2
       tip link of each arm) to drag the arm around and change its
       orientation.
 
+.. image:: rviz_add_interact_button.png
+   :width: 250px
+      
 .. image:: rviz_plugin_interact.png
    :width: 500px
 
