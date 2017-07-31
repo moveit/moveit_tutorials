@@ -196,7 +196,7 @@ When Rviz starts up you will have to add some displays to see the objects your c
 
 You should now see the PR2 robot with 2 interactive markers which you can drag around. 
 
-.. image:: collision_contact_tutorial_screen1.png
+.. image:: /ros_visualization/collision_contact_tutorial_screen.png
 
 Interacting
 ^^^^^^^^^^^
