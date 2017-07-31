@@ -49,6 +49,7 @@ We have to tell the **PlanningScene** about the world geometry: ::
      
 The **g_marker_array_publisher** is used to publish collision contact points for display in Rviz.
 ::
+
  robot.setUserCallback(userCallback);
  ros::spin();
    
