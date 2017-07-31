@@ -74,7 +74,7 @@ The display states for each of these visualizations can be toggled on and off us
 
 #. The goal state using the "Query Goal State" checkbox in the "Planning Request" tab.
 
-#. The planning scene robot using the "Show Scene Robot" checkbox in the "Scene Robot" tab.
+#. The planning scene robot using the "Show Robot Visual" checkbox in the "Scene Robot" tab.
 
 #. The planned path using the "Show Robot Visual" checkbox in the "Planned Path" tab.
 
@@ -88,7 +88,13 @@ Step 3: Interact with the PR2
 
   * Press **Interact** in the top menu of rviz. You should see a
     couple of interactive markers appear for the right arm of the PR2.
+    If you do not see the **Interact** button, you may need to add it;
+    click the plus sign and choose it from the popup window:
 
+.. image:: rviz_interact_button.png
+   :width: 500px
+
+    
     * One marker (corresponding to the orange colored right arm) will
       be used to set the "Goal State" for motion planning. Another
       marker corresponding to a green colored representation of the
