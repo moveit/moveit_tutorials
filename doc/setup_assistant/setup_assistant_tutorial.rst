@@ -20,6 +20,12 @@ MoveIt! and ROS
 * Follow the instructions for :moveit_website:`installing MoveIt!<install>`
   first if you have not already done that.
 
+* If you haven't already done so, make sure you have the `pr2_common
+  package <https://github.com/PR2/pr2_common>`_ 
+  for kinetic.
+
+  sudo apt-get install ros-kinetic-pr2-common
+
 Step 1: Start
 ---------------
 
@@ -37,10 +43,10 @@ Step 1: Start
 .. image:: setup_assistant_start.png
 
 * Click on the browse button and navigate to the *pr2.urdf.xacro* file
-  installed when you installed ros-indigo-moveit-full-pr2. (This file
+  installed when you installed the pr2 package above. (This file
   gets installed in
-  /opt/ros/indigo/share/pr2_description/robots/pr2.urdf.xacro on Ubuntu
-  with ROS Indigo.)  Choose that file and then click *Load Files*. The
+  /opt/ros/kinetic/share/pr2_description/robots/pr2.urdf.xacro on Ubuntu
+  with ROS Kinetic.)  Choose that file and then click *Load Files*. The
   Setup Assistant will load the files (this might take a few seconds)
   and present you with this screen:
 
@@ -63,7 +69,7 @@ be disabled. The default value is 10,000 collision checks. Collision
 checking is done in parallel to decrease processing time.
 
 * Click on the *Self-Collisions* pane selector on the left-hand side
-  and click on the *Regenerate Default Collision Matrix* button. The
+  and click on the *Generate Collision Matrix* button. The
   Setup Assistant will work for a few second before presenting you the
   results of its computation in the main table.
 
@@ -127,7 +133,7 @@ Add the right arm
 .. image:: setup_assistant_pr2_right_arm.png
    :width: 700px
 
-* Now, click on the *Save and Add Joints* button. You will see a
+* Now, click on the *Add Joints* button. You will see a
   list of joints on the left hand side. You need to choose all the
   joints that belong to the right arm and add them to the right hand
   side. The joints are arranged in the order that they are stored in
@@ -143,8 +149,9 @@ Add the right arm
    :width: 700px
 
 * Click *Save* to save the selected group. Note that each arm of the
-  PR2 has only 7 joints and yet we added 9 joints here. Some of the
-  joints (r_upper_arm_joint and r_forearm_joint) are **Fixed** joints
+  PR2 has only 7 joints and yet we added 11 joints here. Some of the
+  joints (r_upper_arm_joint, r_forearm_joint, r_forearm_cam_frame_joint,
+  r_forearm_cam_optical_frame_joint) are **Fixed** joints
   and will not be used for planning or kinematics.
 
 .. image:: setup_assistant_pr2_right_arm_joints_saved.png
@@ -214,7 +221,7 @@ some special operations to happen on them internally.
 
 * Click on the *End Effectors* pane.
 
-* Click *Add End-Effectors*.
+* Click *Add End-Effector*.
 
 * Choose **right_eef** as the *End Effector Name* for the right gripper.
 
@@ -227,18 +234,22 @@ some special operations to happen on them internally.
 .. image:: setup_assistant_pr2_end_effectors_add.png
    :width: 700px
 
-* Click *Save*.
-
 * Add the **left_eef** in a similar manner.
 
 Step 7: Add Passive Joints
 --------------------------
 
 The passive joints tab is meant to allow specification of any passive
-joints that might exist in a robot. This tells the planners that they
-cannot (kinematically) plan for these joints. Examples of passive
-joints include passive casters. The PR2 does not have any passive
+joints that might exist in a robot. These are joints that are unactuated
+on a robot (e.g. passive casters.) This tells the planners that they
+cannot (kinematically) plan for these joints because they can't be
+directly controlled. The PR2 does not have any passive
 joints so we will skip this step.
+
+Step 8: Add Author Information
+
+* catkin requires author information for publishing purposes. You can 
+  enter your name and email address in the *Author Information* pane.
 
 Step 8: Generate Configuration Files
 ------------------------------------
@@ -249,7 +260,7 @@ files that you will need to start using MoveIt!
 * Click on the *Configuration Files* pane. Choose a location and
   name for the ROS package that will be generated containing your new
   set of configuration files. Click browse, select a good
-  location (for example, your home dir), click **Create New Folder**, enter
+  location (for example, your home dir), click **Create New Folder**, call it
   "pr2_moveit_config", and click **Choose**.
   "pr2_moveit_config" is the location used in the rest of the
   documentation on this wiki. This package does not have to be within your
@@ -299,3 +310,4 @@ URDF
   properties of your robot. Read through the `URDF specific
   documentation <http://picknik.io/moveit_wiki/index.php?title=URDF>`_ to see how the
   URDF is used with MoveIt!
+  
