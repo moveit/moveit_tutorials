@@ -86,7 +86,7 @@ The display states for each of these visualizations can be toggled on and off us
 
 #. The goal state using the "Query Goal State" checkbox in the "Planning Request" tab.
 
-#. The planning scene robot using the "Show Scene Robot" checkbox in the "Scene Robot" tab.
+#. The planning scene robot using the "Show Robot Visual" checkbox in the "Scene Robot" tab.
 
 #. The planned path using the "Show Robot Visual" checkbox in the "Planned Path" tab.
 
