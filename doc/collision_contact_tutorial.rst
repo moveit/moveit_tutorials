@@ -1,5 +1,3 @@
-:orphan:
-
 Collision Contact Tutorial
 ==========================
 

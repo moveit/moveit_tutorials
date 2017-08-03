@@ -32,6 +32,7 @@ This set of advanced tutorials is meant for developers who are using MoveIt!’s
    doc/pr2_tutorials/planning/src/doc/planning_scene_ros_api_tutorial
    doc/pr2_tutorials/planning/src/doc/motion_planning_api_tutorial
    doc/pr2_tutorials/planning/src/doc/planning_pipeline_tutorial
+   doc/collision_contact_tutorial
    doc/time_parameterization_tutorial
    doc/fake_controller_manager_tutorial
    doc/ros_visualization/joystick.rst
