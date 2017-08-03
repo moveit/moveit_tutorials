@@ -216,9 +216,9 @@ def move_group_python_interface_tutorial():
   ## translation.  We will specify the jump threshold as 0.0, effectively
   ## disabling it.
   (plan3, fraction) = group.compute_cartesian_path(
-                               waypoints,   # waypoints to follow
-                               0.01,        # eef_step
-                               0.0)         # jump_threshold
+                               waypoints=waypoints,
+                               eef_step=0.01,
+                               jump_threshold=0.0)
                                
   print "============ Waiting while RVIZ displays plan3..."
   rospy.sleep(5)

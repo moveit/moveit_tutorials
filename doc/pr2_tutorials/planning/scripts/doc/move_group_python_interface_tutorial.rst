@@ -1,11 +1,13 @@
 Move Group Python Interface Tutorial
 ================================================
 
-In MoveIt!, the primary user interface is through the RobotCommander class. It
-provides functionality for most operations that a user may want to carry out,
-specifically setting joint or pose goals, creating motion plans, moving the
-robot, adding objects into the environment and attaching/detaching objects from
-the robot.
+In MoveIt!, the primary user interface is through `the RobotCommander
+and MoveGroupCommander classes
+<http://docs.ros.org/kinetic/api/moveit_commander/html/namespacemoveit__commander.html>`_. It
+provides functionality for most operations that a user may want to
+carry out, specifically setting joint or pose goals, creating motion
+plans, moving the robot, adding objects into the environment and
+attaching/detaching objects from the robot.
 
 .. tutorial-formatter:: ../move_group_python_interface_tutorial.py
 
