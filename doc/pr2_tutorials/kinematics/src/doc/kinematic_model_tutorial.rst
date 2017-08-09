@@ -14,7 +14,7 @@ the process of using the classes for the right arm of the PR2.
 
 The entire code
 ^^^^^^^^^^^^^^^
-The entire code can be seen :codedir:`here in the moveit_pr2 github project<kinematics>`.
+The entire code can be seen :codedir:`here in the MoveIt! Github project<kinematics>`.
 
 Compiling the code
 ^^^^^^^^^^^^^^^^^^
