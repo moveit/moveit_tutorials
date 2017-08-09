@@ -13,7 +13,7 @@ run you through the C++ code to instantiate and call such a planning pipeline.
 
 The entire code
 ^^^^^^^^^^^^^^^
-The entire code can be seen :codedir:`here in the moveit_pr2 github project<planning>`.
+The entire code can be seen :codedir:`here in the MoveIt! Github project<planning>`.
 
 Compiling the code
 ^^^^^^^^^^^^^^^^^^
