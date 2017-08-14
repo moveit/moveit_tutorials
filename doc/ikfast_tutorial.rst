@@ -26,13 +26,13 @@ Install the MoveIt! IKFast package either from debs or from source.
 
 **Binary Install** ::
 
- sudo apt-get install ros-indigo-moveit-ikfast
+ sudo apt-get install ros-kinetic-moveit-kinematics
 
 **Source**
 
 Inside your catkin workspace ::
 
- git clone https://github.com/ros-planning/moveit_ikfast.git
+ git clone https://github.com/ros-planning/moveit.git
 
 OpenRAVE Installation
 ----------------------
@@ -72,11 +72,11 @@ where <myrobot_name> is the name of your robot.
 
 Often floating point issues arrise in converting a URDF file to Collada file, so a script has been created to round all the numbers down to x decimal places in your .dae file. Its probably best if you skip this step initially and see if IKFast can generate a solution with your default values, but if the generator takes longer than, say, an hour, try the following::
 
- rosrun moveit_ikfast round_collada_numbers.py <input_dae> <output_dae> <decimal places>
+ rosrun moveit_kinematics round_collada_numbers.py <input_dae> <output_dae> <decimal places>
 
 From experience we recommend 5 decimal places, but if the OpenRave ikfast generator takes to long to find a solution, lowering the number of decimal places should help. For example::
 
- rosrun moveit_ikfast round_collada_numbers.py <myrobot_name>.dae <myrobot_name>.rounded.dae 5
+ rosrun moveit_kinematics round_collada_numbers.py <myrobot_name>.dae <myrobot_name>.rounded.dae 5
 
 To see the links in your newly generated Collada file
 
@@ -166,7 +166,7 @@ Build your workspace so the new package is detected (can be 'roscd')::
 
 Create the plugin source code::
 
- rosrun moveit_ikfast create_ikfast_moveit_plugin.py <myrobot_name> <planning_group_name> <moveit_ik_plugin_pkg> <ikfast_output_path>
+ rosrun moveit_kinematics create_ikfast_moveit_plugin.py <myrobot_name> <planning_group_name> <moveit_ik_plugin_pkg> <ikfast_output_path>
 
 Or without ROS::
 
