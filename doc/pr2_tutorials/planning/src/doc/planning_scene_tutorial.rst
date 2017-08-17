@@ -9,7 +9,7 @@ will explore the C++ interface to this class.
 
 The entire code
 ^^^^^^^^^^^^^^^
-The entire code can be seen :codedir:`here in the moveit_pr2 github project<planning>`.
+The entire code can be seen :codedir:`here in the MoveIt! Github project<planning>`.
 
 Compiling the code
 ^^^^^^^^^^^^^^^^^^

@@ -16,7 +16,7 @@ Test Robots
 
 **PR2**
 
-From the package `moveit_pr2 <https://github.com/ros-planning/moveit_pr2>`_ ::
+From the package `pr2_moveit_config <https://github.com/davetcoleman/pr2_moveit_config>`_ ::
 
   roslaunch pr2_moveit_config demo.launch
 
