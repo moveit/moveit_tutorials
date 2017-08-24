@@ -96,7 +96,7 @@ The display states for each of these visualizations can be toggled on and off us
 Step 3: Interact with the PR2
 -----------------------------
 
-  * Press **Interact** in the top menu of rviz (Note: some tools may be
+* Press **Interact** in the top menu of rviz (Note: some tools may be
   hidden, press **+** in the top menu to add the **Interact** tool. 
   You should see a couple of interactive markers appear for the 
   right arm of the PR2.
