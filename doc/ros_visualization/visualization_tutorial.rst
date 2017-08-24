@@ -15,11 +15,21 @@ and you should now have a MoveIt! configuration for the PR2 that you
 can use.  This tutorial assumes the generated MoveIt! configuration
 package is called "pr2_moveit_config".
 
-Alternately, you can just install the pre-made MoveIt! configuration
-for the PR2 in the pr2_moveit_config ROS package.  To install it,
-run::
+Alternately, you can source the MoveIt! configuration
+for the PR2 in the pr2_moveit_config ROS package. If you don't yet
+have a workspace for this tutorial create one below. Otherwise continue 
+to sourcing::
 
-  sudo apt-get install ros-indigo-moveit-pr2
+  mkdir -p ~/ws_moveit/src
+  cd ~/ws_moveit/src
+  catkin build
+
+Source and Build the moveit_config package
+
+  cd src
+  git clone https://github.com/davetcoleman/pr2_moveit_config.git
+  cd ..
+  catkin build
 
 This tutorial does **not** require you to actually have a PR2 robot,
 it just needs a set of working robot model files.
@@ -43,7 +53,7 @@ Step 1: Launch the demo and Configure the Plugin
 * In the "Global Options" tab of the "Displays" subwindow, set the **Fixed Frame** field to "/odom_combined"
 
 * Now, you can start configuring the Plugin for your robot (the PR2 in
-  this case).  Click on "MotionPlanning" in "Displays".
+  this case).  Click on "MotionPlanning" within "Displays".
 
   * Make sure the **Robot Description** field is set to "robot_description"
 
@@ -86,25 +96,21 @@ The display states for each of these visualizations can be toggled on and off us
 Step 3: Interact with the PR2
 -----------------------------
 
-* Press **Interact** in the top menu of rviz. You should see a
-  couple of interactive markers appear for the right arm of the PR2.
-  If you do not see the **Interact** button, you may need to add it;
-  click the plus sign and choose it from the popup window as shown below.
-    
-  * One marker (corresponding to the orange colored right arm) will
-    be used to set the "Goal State" for motion planning. Another
-    marker corresponding to a green colored representation of the
-    right arm will be used to set the "Start State" for motion
-    planning.
+  * Press **Interact** in the top menu of rviz (Note: some tools may be
+  hidden, press **+** in the top menu to add the **Interact** tool. 
+  You should see a couple of interactive markers appear for the 
+  right arm of the PR2.
 
-  * You will be able to use these markers (which are attached to the
-    tip link of each arm) to drag the arm around and change its
-    orientation.
+    * One marker (corresponding to the orange colored right arm) will
+      be used to set the "Goal State" for motion planning. Another
+      marker corresponding to a green colored representation of the
+      right arm will be used to set the "Start State" for motion
+      planning.
 
+    * You will be able to use these markers (which are attached to the
+      tip link of each arm) to drag the arm around and change its
+      orientation.
 
-.. image:: rviz_interact_button.png
-   :width: 250px
-      
 .. image:: rviz_plugin_interact.png
    :width: 500px
 
@@ -117,13 +123,13 @@ with the other. The two links that are in collision will turn red.
 .. image:: rviz_plugin_collision.png
    :width: 300px
 
-The "Use Collision-Aware IK" checkbox allows you to toggle the
-behavior of the IK solver. When the checkbox is ticked, the solver
-will keep attempting to find a collision-free solution for the desired
-end-effector pose. When it is unticked, the solver will allow
-collisions to happen in the solution. The links in collision will
-always still be visualized in red, regardless of the state of the
-checkbox.
+The "Use Collision-Aware IK" checkbox found within the MotionPlanning
+plugin allows you to toggle the behavior of the IK solver. When the 
+checkbox is ticked, the solver will keep attempting to find a 
+collision-free solution for the desired end-effector pose. When it is 
+unticked, the solver will allow collisions to happen in the solution. 
+The links in collision will always still be visualized in red, 
+regardless of the state of the checkbox.
 
 .. image:: rviz_plugin_collision_aware_ik_checkbox.png
    :width: 300px
