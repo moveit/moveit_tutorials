@@ -10,7 +10,7 @@ In this section, we will walk through configuring the 3D sensors on your robot w
 YAML Configuration file (Point Cloud)
 -------------------------------------
 
-We will have to generate a YAML configuration file for configuring the 3D sensors. An example file for processing point clouds can be found in the `pr2_moveit_config directory for Kinetic <https://github.com/davetcoleman/pr2_moveit_config/config/sensors_kinect_depthmap.yaml>`_. ::
+We will have to generate a YAML configuration file for configuring the 3D sensors. An example file for processing point clouds can be found in the `pr2_moveit_config directory for Kinetic <https://github.com/davetcoleman/pr2_moveit_config/blob/master/config/sensors_kinect_depthmap.yaml>`_. ::
 
  sensors:
    - sensor_plugin: occupancy_map_monitor/PointCloudOctomapUpdater
@@ -43,7 +43,7 @@ We will have to generate a YAML configuration file for configuring the 3D sensor
 YAML Configuration file (Depth Map)
 -----------------------------------
 
-We will have to generate a rgbd.yaml configuration file for configuring the 3D sensors. An example file for processing point clouds can be found in the `pr2_moveit_config directory for Kinetic <https://github.com/davetcoleman/pr2_moveit_config/config/sensors_kinect_pointcloud.yaml>`_ ::
+We will have to generate a rgbd.yaml configuration file for configuring the 3D sensors. An example file for processing point clouds can be found in the `pr2_moveit_config directory for Kinetic <https://github.com/davetcoleman/pr2_moveit_config/blob/master/config/sensors_kinect_pointcloud.yaml>`_ ::
 
  sensors:
    - sensor_plugin: occupancy_map_monitor/DepthImageOctomapUpdater
