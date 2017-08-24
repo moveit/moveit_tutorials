@@ -2,13 +2,15 @@
 =====================================
 
 In this section, we will walk through configuring the 3D sensors on your robot with MoveIt!. The primary component in MoveIt! that deals with 3D perception is the Occupancy Map Updater. The updater uses a plugin architecture to process different types of input. The currently available plugins in MoveIt! are:
- * The PointCloud Occupany Map Updater: which can take as input point clouds (``sensor_msgs/PointCloud2``)
- * The Depth Image Occupancy Map Updater: which can take as input Depth Images (``sensor_msgs/Image``)
+
+* The PointCloud Occupany Map Updater: which can take as input point clouds (``sensor_msgs/PointCloud2``)
+ 
+* The Depth Image Occupancy Map Updater: which can take as input Depth Images (``sensor_msgs/Image``)
 
 YAML Configuration file (Point Cloud)
 -------------------------------------
 
-We will have to generate a YAML configuration file for configuring the 3D sensors. An example file for processing point clouds can be found in the `moveit_pr2 github project <https://github.com/ros-planning/moveit_pr2/blob/indigo-devel/pr2_moveit_config/config/sensors_kinect.yaml>`_ ::
+We will have to generate a YAML configuration file for configuring the 3D sensors. An example file for processing point clouds can be found in the `pr2_moveit_config directory for Kinetic <https://github.com/davetcoleman/pr2_moveit_config/config/sensors_kinect_depthmap.yaml>`_. ::
 
  sensors:
    - sensor_plugin: occupancy_map_monitor/PointCloudOctomapUpdater
@@ -19,22 +21,29 @@ We will have to generate a YAML configuration file for configuring the 3D sensor
      padding_scale: 1.0
      filtered_cloud_topic: filtered_cloud
 
-The general parameters are:
- * *sensor_plugin*: The name of the plugin that we are using.
+**The general parameters are:**
 
-Parameters specific to the Point cloud updater are:
- * *point_cloud_topic*: This specifies the topic to listen on for a point cloud.
- * *max_range*: (in m) Points further than this will not be used.
- * *point_subsample*: Choose one of every *point_subsample* points.
- * *padding_offset*: The size of the padding (in cm).
- * *padding_scale*:
- * *filtered_cloud_topic*: The topic on which the filtered cloud will be published (mainly for debugging). The filtering cloud is the resultant cloud after self-filtering has been performed.
+* *sensor_plugin*: The name of the plugin that we are using.
+
+**Parameters specific to the Point cloud updater are:**
+
+* *point_cloud_topic*: This specifies the topic to listen on for a point cloud.
+
+* *max_range*: (in m) Points further than this will not be used.
+
+* *point_subsample*: Choose one of every *point_subsample* points.
+ 
+* *padding_offset*: The size of the padding (in cm).
+ 
+* *padding_scale*: The scale of the padding.
+ 
+* *filtered_cloud_topic*: The topic on which the filtered cloud will be published (mainly for debugging). The filtering cloud is the resultant cloud after self-filtering has been performed.
 
 
 YAML Configuration file (Depth Map)
 -----------------------------------
 
-We will have to generate a rgbd.yaml configuration file for configuring the 3D sensors. An example file for processing point clouds can be found in the `moveit_advanced github project <https://github.com/ros-planning/moveit_advanced/blob/indigo-devel/pr2_advanced_config/config/sensors_kinect.yaml>`_ ::
+We will have to generate a rgbd.yaml configuration file for configuring the 3D sensors. An example file for processing point clouds can be found in the `pr2_moveit_config directory for Kinetic <https://github.com/davetcoleman/pr2_moveit_config/config/sensors_kinect_pointcloud.yaml>`_ ::
 
  sensors:
    - sensor_plugin: occupancy_map_monitor/DepthImageOctomapUpdater
@@ -47,18 +56,27 @@ We will have to generate a rgbd.yaml configuration file for configuring the 3D s
      padding_offset: 0.03
      filtered_cloud_topic: filtered_cloud
 
-The general parameters are:
- * *sensor_plugin*: The name of the plugin that we are using.
+**The general parameters are:**
 
-Parameters specific to the Depth Map updater are:
- * *image_topic*: This specifies the topic to listen on for a depth image.
- * *queue_size*: he number of images to queue up
- * *near_clipping_plane_distance*:
- * *far_clipping_plane_distance*:
- * *shadow_threshold*:
- * *padding_offset*: The size of the padding (in cm).
- * *padding_scale*:
- * *filtered_cloud_topic*: The topic on which the filtered cloud will be published (mainly for debugging). The filtering cloud is the resultant cloud after self-filtering has been performed.
+* *sensor_plugin*: The name of the plugin that we are using.
+
+**Parameters specific to the Depth Map updater are:**
+
+* *image_topic*: This specifies the topic to listen on for a depth image.
+
+* *queue_size*: The number of images to queue up.
+
+* *near_clipping_plane_distance*: The minimum distance before lack of visibility.
+
+* *far_clipping_plane_distance*: The maximum distance before lack of visibility.
+
+* *shadow_threshold*: The minimum brightness of the shadow map below an entity for its dynamic shadow to be visible
+
+* *padding_offset*: The size of the padding (in cm).
+
+* *padding_scale*: The scale of the padding.
+
+* *filtered_cloud_topic*: The topic on which the filtered cloud will be published (mainly for debugging). The filtering cloud is the resultant cloud after self-filtering has been performed.
 
 
 Update the launch file
@@ -66,21 +84,21 @@ Update the launch file
 
 Add the YAML file to the launch script
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-You will now need to update the *moveit_sensor_manager.launch* file in the "launch" directory of your MoveIt! configuration directory with this sensor information (this file is auto-generated by the Setup Assistant but is empty). You will need to add the following line into that file to configure the set of sensor sources for MoveIt! to use::
+You will now need to update the *sensor_manager.launch* file in the "launch" directory of your pr2_moveit_config directory with this sensor information (this file is auto-generated by the Setup Assistant but is empty). You will need to add the following line into that file to configure the set of sensor sources for MoveIt! to use::
 
- <rosparam command="load" file="$(find my_moveit_config)/config/sensors_kinect.yaml" />
+ <rosparam command="load" file="$(find pr2_moveit_config)/config/sensors_kinect.yaml" />
 
 Note that you will need to input the path to the right file you have created above.
 
 Octomap Configuration
 ^^^^^^^^^^^^^^^^^^^^^
-You will also need to configure the Octomap by adding the following lines into the *moveit_sensor_manager.launch*::
+You will also need to configure the `Octomap <http://octomap.github.io/>`_ by adding the following lines into the *sensor_manager.launch*::
 
  <param name="octomap_frame" type="string" value="odom_combined" />
  <param name="octomap_resolution" type="double" value="0.05" />
  <param name="max_range" type="double" value="5.0" />
 
-MoveIt! uses an octree based framework to represent the world around it. The *Octomap* parameters above are configuration parameters for this representation:
+MoveIt! uses an octree-based framework to represent the world around it. The *Octomap* parameters above are configuration parameters for this representation:
  * *octomap_frame*: specifies the coordinate frame in which this representation will be stored. If you are working with a mobile robot, this frame should be a fixed frame in the world.
  * *octomap_resolution*: specifies the resolution at which this representation is maintained (in meters).
  * *max_range*: specifies the maximum range value to be applied for any sensor input to this node.

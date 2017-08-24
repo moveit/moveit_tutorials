@@ -13,7 +13,7 @@ attaching/detaching objects from the robot.
 
 The entire code
 ^^^^^^^^^^^^^^^
-The entire code can be seen :codedir:`here in the moveit_pr2 github project<planning/scripts/move_group_python_interface_tutorial.py>`.
+The entire code can be seen :codedir:`here in the MoveIt! Github project<planning/scripts/move_group_python_interface_tutorial.py>`.
 
 The launch file
 ^^^^^^^^^^^^^^^
