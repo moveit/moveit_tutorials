@@ -97,7 +97,7 @@ Step 3: Interact with the PR2
 -----------------------------
 
 * Press **Interact** in the top menu of rviz (Note: some tools may be
-  hidden, press **+** in the top menu to add the **Interact** tool. 
+  hidden, press **+** in the top menu to add the **Interact** tool as shown below). 
   You should see a couple of interactive markers appear for the 
   right arm of the PR2.
 
@@ -110,6 +110,9 @@ Step 3: Interact with the PR2
     * You will be able to use these markers (which are attached to the
       tip link of each arm) to drag the arm around and change its
       orientation.
+
+.. image:: rviz_interact_button.png
+   :width: 250px
 
 .. image:: rviz_plugin_interact.png
    :width: 500px
