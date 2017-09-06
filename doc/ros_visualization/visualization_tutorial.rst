@@ -21,7 +21,7 @@ have a workspace for this tutorial create one below. Otherwise continue
 to sourcing::
 
   mkdir -p ~/ws_moveit/src
-  cd ~/ws_moveit/src
+  cd ~/ws_moveit
   catkin build
 
 Source and Build the moveit_config package
