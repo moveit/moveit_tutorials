@@ -43,7 +43,7 @@ OpenRAVE Installation
 
  sudo apt-get install ros-indigo-openrave
 
-Note: you have to set `export PYTHONPATH=$PYTHONPATH:`openrave-config --python-dir` (2016.9.1)
+Note: you have to set `export PYTHONPATH=$PYTHONPATH:`openrave-config --python-dir`` (2016.9.1)
 
 **Source Install**
 
@@ -55,7 +55,7 @@ Thanks to instructions from Stéphane Caron in https://scaron.info/teaching/trou
  make -j4
  sudo make install
 
-Working commit numbers 9c79ea26... comfirmed for Ubuntu 14.04 and comfirmed, according to Stéphane Caron, for 16.04.
+Working commit numbers 5cfc7444... comfirmed for Ubuntu 14.04 and 9c79ea26... comfirmed for Ubuntu 16.04, according to Stéphane Caron.
 
 
 **Please report your results with this on the moveit-users mailing list.**
