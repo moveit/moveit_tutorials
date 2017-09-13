@@ -53,7 +53,7 @@ Thanks to instructions from Stéphane Caron in https://scaron.info/teaching/trou
  make -j4
  sudo make install
 
-Working commit numbers 5cfc7444... comfirmed for Ubuntu 14.04 and 9c79ea26... comfirmed for Ubuntu 16.04, according to Stéphane Caron, for 16.04.
+Working commit numbers 5cfc7444... confirmed for Ubuntu 14.04 and 9c79ea26... confirmed for Ubuntu 16.04, according to Stéphane Caron.
 
 
 **Please report your results with this on the moveit-users mailing list.**
