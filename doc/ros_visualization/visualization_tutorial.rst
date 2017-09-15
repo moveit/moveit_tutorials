@@ -17,19 +17,22 @@ package is called "pr2_moveit_config".
 
 Alternately, you can source the MoveIt! configuration
 for the PR2 in the pr2_moveit_config ROS package. If you don't yet
-have a workspace for this tutorial create one below. Otherwise continue 
+have a workspace for this tutorial, create one below. Otherwise continue 
 to sourcing::
 
   mkdir -p ~/ws_moveit/src
   cd ~/ws_moveit
   catkin build
 
-Source and Build the moveit_config package
+Build and source the moveit_config package::
 
   cd src
   git clone https://github.com/davetcoleman/pr2_moveit_config.git
   cd ..
   catkin build
+  . ~/ws_moveit/devel/setup.bash
+
+*(NOTE: If you don't use the catkin package, simply replace 'catkin build' with 'catkin_make')*
 
 This tutorial does **not** require you to actually have a PR2 robot,
 it just needs a set of working robot model files.
