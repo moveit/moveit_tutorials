@@ -8,7 +8,7 @@ Command Line Tool
 
 The **moveit_commander** package also includes a command line tool for controlling the robot. 
 
-First, launch the MoveIt! demo interface: ::
+First, launch the MoveIt! simulated environment interface: ::
 
  roslaunch pr2_moveit_config demo.launch
 
@@ -29,13 +29,14 @@ To record that state under a specific name you can simply type: ::
 
  rec c
  
-This will remember the current joint values of the robot group under the name c. To get the robot to move, you could type, for example: :: 
+This will remember the current joint values of the robot group under the name c. Matlab-like syntax is available for modifying joint values. The code above copies the joint values of c into a new variable named goal. We then modify the first joint of goal to 0.2. You may need to use a different value instead of 0.2 (it needs to be within your allowed bounds and not cause collisions). The **go** command plans a motion and executes it. 
+
+To get the robot to move, you could type, for example: :: 
 
  goal = c
  goal[0] = 0.2
  go goal
  
-Matlab-like syntax is available for modifying joint values. The code above copies the joint values of c into a new variable named goal. We then modify the first joint of goal to 0.2. You may need to use a different value instead of 0.2 (it needs to be within your allowed bounds and not cause collisions). The **go** command plans a motion and executes it. 
   
 Instead of calling **go** you could also type: ::
  
