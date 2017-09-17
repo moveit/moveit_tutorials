@@ -33,7 +33,7 @@ Step 1: Start
 
    roslaunch moveit_setup_assistant setup_assistant.launch
 
-* This will bringup the start screen with two choices: *Create New
+* This will bring up the start screen with two choices: *Create New
   MoveIt! Configuration Package* or *Edit Existing MoveIt!
   Configuration Package*.
 
@@ -174,7 +174,7 @@ Add the grippers
 
   * Let *Kin. Search Resolution* and *Kin. Search Timeout* stay at their default values.
 
-  * Click on the *Save and Add Links* button.
+  * Click on the *Add Links* button.
 
   * Choose all links that start with **right_gripper** and add them
     to the list of *Selected Links* on the right hand side.
@@ -216,12 +216,12 @@ Step 6: Label End Effectors
 
 We have already added the right and left grippers of the PR2. Now, we
 will designate these two groups as special groups:
-**end-effectors**. Designating these groups as end effector allows
+**end effectors**. Designating these groups as end effectors allows
 some special operations to happen on them internally.
 
 * Click on the *End Effectors* pane.
 
-* Click *Add End-Effector*.
+* Click *Add End Effector*.
 
 * Choose **right_eef** as the *End Effector Name* for the right gripper.
 
