@@ -9,13 +9,7 @@ robot. We will explore the plugin in this tutorial.
 Pre-requisites
 ---------------
 
-You should have completed the `MoveIt! Setup Assistant tutorial
-<../setup_assistant/setup_assistant_tutorial.html>`_
-and you should now have a MoveIt! configuration for the PR2 that you
-can use.  This tutorial assumes the generated MoveIt! configuration
-package is called "pr2_moveit_config".
-
-Alternately, you can source the MoveIt! configuration
+Source the MoveIt! configuration
 for the PR2 in the pr2_moveit_config ROS package. If you don't yet
 have a workspace for this tutorial, create one below. Otherwise continue 
 to sourcing::
@@ -34,6 +28,13 @@ Build and source the moveit_config package::
 
 *(NOTE: If you don't use the catkin package, simply replace 'catkin build' with 'catkin_make')*
 
+Alternatively, you can complete the `MoveIt! Setup Assistant tutorial
+<../setup_assistant/setup_assistant_tutorial.html>`_
+to generate a MoveIt! configuration for the PR2 that you
+can use.  This tutorial assumes the generated MoveIt! configuration
+package is called "pr2_moveit_config".
+
+
 This tutorial does **not** require you to actually have a PR2 robot,
 it just needs a set of working robot model files.
 
@@ -44,7 +45,7 @@ Step 1: Launch the demo and Configure the Plugin
 
    roslaunch pr2_moveit_config demo.launch
 
-* If you are doing this for the first time, you will have to add the Motion Planning Plugin.
+* If you are doing this for the first time, you may have to add the Motion Planning Plugin.
 
   * In the Rviz Displays Tab, press *Add*
 
@@ -94,12 +95,12 @@ The display states for each of these visualizations can be toggled on and off us
 .. image:: rviz_plugin_visualize_robots.png
    :width: 500px
 
-* Play with all these checkboxes to switch on and off different visualizations.
+* Play with all these checkboxes to switch on and off different visualizations. Note that by default, "Query Start State" and "Query Goal State" are set to the current state of the robot and may not be visible when checked. Continue to the next section to see how to move these states.
 
 Step 3: Interact with the PR2
 -----------------------------
 
-* Press **Interact** in the top menu of rviz (Note: some tools may be
+* Press **Interact** in the top menu of rviz (NOTE: some tools may be
   hidden, press **+** in the top menu to add the **Interact** tool as shown below). 
   You should see a couple of interactive markers appear for the 
   right arm of the PR2.
@@ -191,6 +192,5 @@ NOTE: Once you placed your EEF to a new goal, be sure to run `Plan` before runni
 What's Next
 -------------
 
-* `MoveIt! and a simulated robot
-  <http://picknik.io/moveit_wiki/index.php?title=PR2/Gazebo/Quick_Start>`_ - You can now
-  start using MoveIt! with a simulated robot in Gazebo.
+* `Move Group Interface Tutorial
+  <../pr2_tutorials/planning/src/doc/move_group_interface_tutorial.html>`_ - overview of the :move_group_interface:`MoveGroup` class, the primary user interface in MoveIt!.
