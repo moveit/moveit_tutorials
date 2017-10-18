@@ -16,7 +16,7 @@ Now initiate the **moveit_commander** interface: ::
 
  rosrun moveit_commander moveit_commander_cmdline.py
   
-The command above will start a command line interface tool that allows you to connect to a running instance of the move_group node. The first command you should type is: ::
+The command below will start a command line interface tool that allows you to connect to a running instance of the move_group node. The first command you should type is: ::
 
  use <group name>
 
