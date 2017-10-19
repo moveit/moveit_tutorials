@@ -12,19 +12,21 @@ Once you have this package simply run::
 
  roslaunch moveit_resources demo_chomp.launch
 
-Assumptions:
-------------
+Applying CHOMP with your own robot
+-------------------------------
+
+Assumptions
+============
 
  1. You have the latest version of moveit installed. On ROS kinetic you may need to build it from source.
  2. You have a moveit configuration package for your robot already. For example, if you have a Kinova Jaco arm, it's probably called "jaco_moveit_config". This is typically built using the Moveit Setup Assistant.
- 3. Lets assume that you are using the **jaco** manipulator. And hence, the moveit config package is *jaco_moveit_config*.
+ 3. Lets assume that you want to apply to **jaco** manipulator. Hence, the moveit config package is *jaco_moveit_config*.
 
-
-Using CHOMP with your own robot
--------------------------------
+Step to apply CHOMP
+====================
 
 1. Simply download `chomp_planning_pipeline.launch.xml <https://github.com/ros-planning/moveit_resources/blob/master/fanuc_moveit_config/launch/chomp_planning_pipeline.launch.xml>`_ file into the launch directory of your moveit config package. So into the *jaco_moveit_config/launch* directory.
-2. Adjust the line <rosparam command="load" file="$(find moveit_resources)/fanuc_moveit_config/config/chomp_planning.yaml" /> to <rosparam command="load" file="$(find jaco_moveit_config)/config/chomp_planning.yaml" />
+2. Adjust the line `<rosparam command="load" file="$(find moveit_resources)/fanuc_moveit_config/config/chomp_planning.yaml" />` to `<rosparam command="load" file="$(find jaco_moveit_config)/config/chomp_planning.yaml" />`
 3. Download `chomp_planning.yaml <https://github.com/ros-planning/moveit_resources/blob/master/fanuc_moveit_config/config/chomp_planning.yaml>`_ file into the config directory of your moveit config package. So into the *jaco_moveit_config/config* directory.
 4. Copy the *demo.launch* file to *demo_chomp.launch*. Note that this file is also in the launch directory of the *jaco_moveit_config* package.
 5. Find the lines where *move_group.launch* is included and change it to::
