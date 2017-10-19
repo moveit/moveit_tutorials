@@ -36,10 +36,10 @@ Step to apply CHOMP
       <arg name="fake_execution" value="true"/>
       <arg name="info" value="true"/>
       <arg name="debug" value="$(arg debug)"/>
-      <arg name="planner" value="chomp" />
+      <arg name="pipeline" value="chomp" />
     </include>
 
-You probably only need to change the planner arg to chomp.
+You probably only need to change/add the `pipeline` arg to `chomp`.
 
 6. Run the demo::
        
