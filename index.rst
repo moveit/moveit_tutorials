@@ -36,6 +36,7 @@ This set of advanced tutorials is meant for developers who are using MoveIt!’s
    doc/time_parameterization_tutorial
    doc/fake_controller_manager_tutorial
    doc/ros_visualization/joystick.rst
+   doc/constraints_approximation_database
    doc/custom_constraint_samplers
    doc/benchmarking_tutorial
    doc/tests
