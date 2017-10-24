@@ -176,7 +176,7 @@ Add the grippers
 
   * Click on the *Add Links* button.
 
-  * Choose all links that start with **right_gripper** and add them
+  * Choose all links that start with **r_gripper** and add them
     to the list of *Selected Links* on the right hand side.
 
   * Click *Save*
