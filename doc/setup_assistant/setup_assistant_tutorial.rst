@@ -182,8 +182,8 @@ Add the grippers
   * Click *Save*
 
   * Repeat the same procedure for the left arm of the PR2, choosing
-    links that start with **left_gripper** instead of
-    **right_gripper** this time.
+    links that start with **l_gripper** instead of
+    **r_gripper** this time.
 
 .. image:: setup_assistant_pr2_planning_groups_grippers.png
    :width: 700px
