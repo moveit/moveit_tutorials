@@ -16,6 +16,7 @@ The primary user interface to MoveIt! is through the move_group_interface. You c
    doc/ros_visualization/visualization_tutorial
    doc/pr2_tutorials/planning/src/doc/move_group_interface_tutorial
    doc/pr2_tutorials/planning/scripts/doc/move_group_python_interface_tutorial
+   doc/pr2_tutorials/planning/src/doc/moveit_commander
 
 Advanced
 --------
