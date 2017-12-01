@@ -9,7 +9,7 @@ configuring any robot for use with MoveIt!. Its primary function is
 generating a Semantic Robot Description Format (SRDF) file for your
 robot. Additionally, it generates other necessary configuration files
 for use with the MoveIt! pipeline. To learn more about the SRDF, you
-can go through the `SRDF Overview <http://picknik.io/moveit_wiki/index.php?title=SRDF>`_
+can go through the `URDF/SRDF Overview <../urdf_srdf_tutorial.html>`_
 page.
 
 Pre-requisites
@@ -21,7 +21,7 @@ MoveIt! and ROS
   first if you have not already done that.
 
 * If you haven't already done so, make sure you have the `pr2_common
-  package <https://github.com/PR2/pr2_common>`_ 
+  package <https://github.com/PR2/pr2_common>`_
   for kinetic.
 
   sudo apt-get install ros-kinetic-pr2-common
@@ -248,7 +248,7 @@ joints so we will skip this step.
 
 Step 8: Add Author Information
 
-* catkin requires author information for publishing purposes. You can 
+* catkin requires author information for publishing purposes. You can
   enter your name and email address in the *Author Information* pane.
 
 Step 8: Generate Configuration Files
@@ -298,16 +298,5 @@ Setup IKFast Inverse Kinematics Solver
 Additional Reading
 ---------------------
 
-The SRDF
-
-* See the `SRDF <http://picknik.io/moveit_wiki/index.php?title=SRDF>`_ page for more
-  details on the components of the SRDF mentioned in this tutorial.
-
-URDF
-
-* The URDF is the native robot description format in ROS and allows
-  you to describe the kinematics, inertial, visual and sensing
-  properties of your robot. Read through the `URDF specific
-  documentation <http://picknik.io/moveit_wiki/index.php?title=URDF>`_ to see how the
-  URDF is used with MoveIt!
-  
+* See the `URDF and SRDF <../urdf_srdf_tutorial.html>`_ page for more
+  details on the components of the URDF and SRDF mentioned in this tutorial.

@@ -62,6 +62,7 @@ Configuration
 .. toctree::
    :maxdepth: 1
 
+   doc/urdf_srdf_tutorial
    doc/pr2_tutorials/kinematics/src/doc/kinematics_configuration
    doc/ompl_interface_tutorial
    doc/chomp_interface_tutorial
