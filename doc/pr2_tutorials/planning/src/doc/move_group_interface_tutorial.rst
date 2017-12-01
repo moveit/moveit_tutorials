@@ -32,10 +32,15 @@ Install Dependencies and Build
 Scans your catkin workspace for missing packages before compiling new code::
 
   rosdep install --from-paths . --ignore-src --rosdistro kinetic
+  cd ~/ws_moveit
+  catkin config --extend /opt/ros/kinetic --cmake-args -DCMAKE_BUILD_TYPE=Release
   catkin build
 
 Start Rviz and MoveGroup node
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Make sure you have re-sourced the setup files::
+
+  source ~/ws_moveit/devel/setup.bash
 
 Start Rviz and wait for everything to finish loading::
 
