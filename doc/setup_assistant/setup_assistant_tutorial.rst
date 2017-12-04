@@ -247,11 +247,15 @@ directly controlled. The PR2 does not have any passive
 joints so we will skip this step.
 
 Step 8: Add Author Information
+------------------------------
 
-* catkin requires author information for publishing purposes. You can
-  enter your name and email address in the *Author Information* pane.
+Catkin requires author information for publishing purposes
 
-Step 8: Generate Configuration Files
+* Click on the *Author Information* pane.
+* Enter your name and email address.
+
+
+Step 9: Generate Configuration Files
 ------------------------------------
 
 You are almost there. One last step - generating all the configuration
