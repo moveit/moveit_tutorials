@@ -9,33 +9,31 @@ robot. We will explore the plugin in this tutorial.
 Pre-requisites
 ---------------
 
-You should have completed the `MoveIt! Setup Assistant tutorial
-<../setup_assistant/setup_assistant_tutorial.html>`_
-and you should now have a MoveIt! configuration for the PR2 that you
-can use.  This tutorial assumes the generated MoveIt! configuration
-package is called "pr2_moveit_config".
+To use the Rviz plugin, a ``moveit_ROBOT_config`` package must exist containing all the necessary
+configurations to use MoveIt!. If you are using a standard robot, it is highly likely a MoveIt!
+config package already exists, e.g. the PR2, Baxter, UR5, etc. The recommended robot to run these
+tutorials is currently the PR2. If you want to try these tutorials with your own
+custom robot see the  `MoveIt! Setup Assistant tutorial
+<../setup_assistant/setup_assistant_tutorial.html>`_, otherwise follow these next steps:
 
-Alternately, you can source the MoveIt! configuration
-for the PR2 in the pr2_moveit_config ROS package. If you don't yet
-have a workspace for this tutorial, create one below. Otherwise continue 
-to sourcing::
+**Use Default PR2 MoveIt! Configuration**
+
+Note: This tutorial does **not** require you to actually have a PR2 robot, it just needs a set of
+working robot model files.
+
+If you don't yet have a catkin workspace for this tutorial, create one now::
 
   mkdir -p ~/ws_moveit/src
-  cd ~/ws_moveit
-  catkin build
+  cd ~/ws_moveit/src
 
 Build and source the moveit_config package::
 
-  cd src
   git clone https://github.com/davetcoleman/pr2_moveit_config.git
   cd ..
   catkin build
   . ~/ws_moveit/devel/setup.bash
 
-*(NOTE: If you don't use the catkin package, simply replace 'catkin build' with 'catkin_make')*
-
-This tutorial does **not** require you to actually have a PR2 robot,
-it just needs a set of working robot model files.
+*(NOTE: If you prefer the older catkin_make tool, simply replace 'catkin build' with 'catkin_make')*
 
 Step 1: Launch the demo and Configure the Plugin
 ------------------------------------------------
@@ -100,8 +98,8 @@ Step 3: Interact with the PR2
 -----------------------------
 
 * Press **Interact** in the top menu of rviz (Note: some tools may be
-  hidden, press **+** in the top menu to add the **Interact** tool as shown below). 
-  You should see a couple of interactive markers appear for the 
+  hidden, press **+** in the top menu to add the **Interact** tool as shown below).
+  You should see a couple of interactive markers appear for the
   right arm of the PR2.
 
     * One marker (corresponding to the orange colored right arm) will
@@ -130,11 +128,11 @@ with the other. The two links that are in collision will turn red.
    :width: 300px
 
 The "Use Collision-Aware IK" checkbox found within the MotionPlanning
-plugin allows you to toggle the behavior of the IK solver. When the 
-checkbox is ticked, the solver will keep attempting to find a 
-collision-free solution for the desired end-effector pose. When it is 
-unticked, the solver will allow collisions to happen in the solution. 
-The links in collision will always still be visualized in red, 
+plugin allows you to toggle the behavior of the IK solver. When the
+checkbox is ticked, the solver will keep attempting to find a
+collision-free solution for the desired end-effector pose. When it is
+unticked, the solver will allow collisions to happen in the solution.
+The links in collision will always still be visualized in red,
 regardless of the state of the checkbox.
 
 .. image:: rviz_plugin_collision_aware_ik_checkbox.png
