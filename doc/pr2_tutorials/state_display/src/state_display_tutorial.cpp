@@ -49,7 +49,6 @@
 #include <boost/math/constants/constants.hpp>
 
 // This code is described in the RobotStateDisplay tutorial here:
-//    http://picknik.io/moveit_wiki/index.php?title=RobotStateDisplay/C%2B%2B_API
 
 int main(int argc, char **argv)
 {

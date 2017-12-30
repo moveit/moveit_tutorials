@@ -1,7 +1,7 @@
 Benchmarking Tutorial
 =====================
 
-.. note:: This is the new benchmarking method only available in ROS Kinetic, onward. Documentation for the previous benchmarking tutorial for Jade and earlier can be found on the `deprecated wiki <http://picknik.io/moveit_wiki/index.php?title=Benchmarking>`_
+.. note:: This is the new benchmarking method only available in ROS Kinetic, onward.
 
 .. note:: To use this benchmarking method, you will need to download and install the ROS Warehouse plugin. Currently this is not available from debians and requires a source install for at least some aspects. For source instructions, see `this page <http://moveit.ros.org/install/source/dependencies/>`_
 

@@ -17,7 +17,7 @@ package is called "pr2_moveit_config".
 
 Alternately, you can source the MoveIt! configuration
 for the PR2 in the pr2_moveit_config ROS package. If you don't yet
-have a workspace for this tutorial, create one below. Otherwise continue 
+have a workspace for this tutorial, create one below. Otherwise continue
 to sourcing::
 
   mkdir -p ~/ws_moveit/src
@@ -100,8 +100,8 @@ Step 3: Interact with the PR2
 -----------------------------
 
 * Press **Interact** in the top menu of rviz (Note: some tools may be
-  hidden, press **+** in the top menu to add the **Interact** tool as shown below). 
-  You should see a couple of interactive markers appear for the 
+  hidden, press **+** in the top menu to add the **Interact** tool as shown below).
+  You should see a couple of interactive markers appear for the
   right arm of the PR2.
 
     * One marker (corresponding to the orange colored right arm) will
@@ -130,11 +130,11 @@ with the other. The two links that are in collision will turn red.
    :width: 300px
 
 The "Use Collision-Aware IK" checkbox found within the MotionPlanning
-plugin allows you to toggle the behavior of the IK solver. When the 
-checkbox is ticked, the solver will keep attempting to find a 
-collision-free solution for the desired end-effector pose. When it is 
-unticked, the solver will allow collisions to happen in the solution. 
-The links in collision will always still be visualized in red, 
+plugin allows you to toggle the behavior of the IK solver. When the
+checkbox is ticked, the solver will keep attempting to find a
+collision-free solution for the desired end-effector pose. When it is
+unticked, the solver will allow collisions to happen in the solution.
+The links in collision will always still be visualized in red,
 regardless of the state of the checkbox.
 
 .. image:: rviz_plugin_collision_aware_ik_checkbox.png
@@ -187,10 +187,3 @@ NOTE: Once you placed your EEF to a new goal, be sure to run `Plan` before runni
 
 .. image:: pr2_moveit_pr491.png
    :width: 700px
-
-What's Next
--------------
-
-* `MoveIt! and a simulated robot
-  <http://picknik.io/moveit_wiki/index.php?title=PR2/Gazebo/Quick_Start>`_ - You can now
-  start using MoveIt! with a simulated robot in Gazebo.

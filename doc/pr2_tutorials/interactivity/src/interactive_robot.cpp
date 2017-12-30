@@ -35,7 +35,6 @@
 /* Author: Acorn Pooley */
 
 // This code goes with the interactivity tutorial
-//    http://picknik.io/moveit_wiki/index.php?title=InteractiveRobot/InteractivityTutorial
 
 #include "interactive_robot.h"
 #include <eigen_conversions/eigen_msg.h>
