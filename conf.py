@@ -18,9 +18,9 @@ project = u'moveit_tutorials'
 # built documents.
 #
 # The short X.Y version.
-version = 'Indigo'
+version = 'Kinetic'
 # The full version, including alpha/beta/rc tags.
-release = 'Indigo'
+release = 'Kinetic'
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'
