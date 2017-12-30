@@ -16,10 +16,6 @@ tutorials is currently the PR2. If you want to try these tutorials with your own
 custom robot see the  `MoveIt! Setup Assistant tutorial
 <../setup_assistant/setup_assistant_tutorial.html>`_, otherwise follow these next steps:
 
-Alternately, you can source the MoveIt! configuration
-for the PR2 in the pr2_moveit_config ROS package. If you don't yet
-have a workspace for this tutorial, create one below. 
-
 **Use Default PR2 MoveIt! Configuration**
 
 Note: This tutorial does **not** require you to actually have a PR2 robot, it just needs a set of
