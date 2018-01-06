@@ -23,7 +23,6 @@ Temporary PR2 on Kinetic Instructions
 
 You will also need a **pr2_moveit_config** package to run this tutorial. Currently this is unreleased in ROS Kinetic but the following is a temporary workaround::
 
-  git clone https://github.com/PR2/pr2_common.git -b kinetic-devel
   git clone https://github.com/davetcoleman/pr2_moveit_config.git
 
 Install Dependencies and Build

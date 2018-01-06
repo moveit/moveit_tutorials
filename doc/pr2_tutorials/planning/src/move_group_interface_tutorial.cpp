@@ -120,9 +120,9 @@ int main(int argc, char **argv)
   // to actually move the robot.
   moveit::planning_interface::MoveGroupInterface::Plan my_plan;
 
-  bool success = move_group.plan(my_plan);
+  moveit::planning_interface::MoveItErrorCode result = move_group.plan(my_plan);
 
-  ROS_INFO_NAMED("tutorial", "Visualizing plan 1 (pose goal) %s", success ? "" : "FAILED");
+  ROS_INFO_NAMED("tutorial", "Visualizing plan 1 (pose goal) %s", (result.val == result.SUCCESS) ? "" : "FAILED");
 
   // Visualizing plans
   // ^^^^^^^^^^^^^^^^^
@@ -166,8 +166,8 @@ int main(int argc, char **argv)
   joint_group_positions[0] = -1.0;  // radians
   move_group.setJointValueTarget(joint_group_positions);
 
-  success = move_group.plan(my_plan);
-  ROS_INFO_NAMED("tutorial", "Visualizing plan 2 (joint space goal) %s", success ? "" : "FAILED");
+  result = move_group.plan(my_plan);
+  ROS_INFO_NAMED("tutorial", "Visualizing plan 2 (joint space goal) %s", (result.val == result.SUCCESS) ? "" : "FAILED");
 
   // Visualize the plan in Rviz
   visual_tools.deleteAllMarkers();
@@ -217,8 +217,8 @@ int main(int argc, char **argv)
   // Lets increase the planning time from the default 5 seconds to be sure the planner has enough time to succeed.
   move_group.setPlanningTime(10.0);
 
-  success = move_group.plan(my_plan);
-  ROS_INFO_NAMED("tutorial", "Visualizing plan 3 (constraints) %s", success ? "" : "FAILED");
+  result = move_group.plan(my_plan);
+  ROS_INFO_NAMED("tutorial", "Visualizing plan 3 (constraints) %s", (result.val == result.SUCCESS) ? "" : "FAILED");
 
   // Visualize the plan in Rviz
   visual_tools.deleteAllMarkers();
@@ -326,8 +326,8 @@ int main(int argc, char **argv)
   move_group.setStartState(*move_group.getCurrentState());
   move_group.setPoseTarget(target_pose1);
 
-  success = move_group.plan(my_plan);
-  ROS_INFO_NAMED("tutorial", "Visualizing plan 5 (pose goal move around cuboid) %s", success ? "" : "FAILED");
+  result = move_group.plan(my_plan);
+  ROS_INFO_NAMED("tutorial", "Visualizing plan 5 (pose goal move around cuboid) %s", (result.val == result.SUCCESS) ? "" : "FAILED");
 
   // Visualize the plan in Rviz
   visual_tools.deleteAllMarkers();
@@ -392,8 +392,8 @@ int main(int argc, char **argv)
   // Now, we can plan and visualize
   moveit::planning_interface::MoveGroupInterface::Plan two_arms_plan;
 
-  success = two_arms_move_group.plan(two_arms_plan);
-  ROS_INFO_NAMED("tutorial", "Visualizing plan 7 (dual arm plan) %s", success ? "" : "FAILED");
+  result = two_arms_move_group.plan(two_arms_plan);
+  ROS_INFO_NAMED("tutorial", "Visualizing plan 7 (dual arm plan) %s", (result.val == result.SUCCESS) ? "" : "FAILED");
 
   // Visualize the plan in Rviz
   visual_tools.deleteAllMarkers();

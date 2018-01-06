@@ -29,5 +29,7 @@
   <run_depend>moveit_ros_perception</run_depend>
   <run_depend>interactive_markers</run_depend>
   <run_depend>moveit_visual_tools</run_depend>
+  <run_depend>pr2_common</run_depend>
+  <run_depend>pr2_moveit_config</run_depend>
 
 </package>
