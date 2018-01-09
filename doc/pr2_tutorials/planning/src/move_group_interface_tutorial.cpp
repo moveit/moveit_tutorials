@@ -120,7 +120,7 @@ int main(int argc, char **argv)
   // to actually move the robot.
   moveit::planning_interface::MoveGroupInterface::Plan my_plan;
 
-  bool success = move_group.plan(my_plan);
+  bool success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
 
   ROS_INFO_NAMED("tutorial", "Visualizing plan 1 (pose goal) %s", success ? "" : "FAILED");
 
@@ -166,7 +166,7 @@ int main(int argc, char **argv)
   joint_group_positions[0] = -1.0;  // radians
   move_group.setJointValueTarget(joint_group_positions);
 
-  success = move_group.plan(my_plan);
+  success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
   ROS_INFO_NAMED("tutorial", "Visualizing plan 2 (joint space goal) %s", success ? "" : "FAILED");
 
   // Visualize the plan in Rviz
@@ -217,7 +217,7 @@ int main(int argc, char **argv)
   // Lets increase the planning time from the default 5 seconds to be sure the planner has enough time to succeed.
   move_group.setPlanningTime(10.0);
 
-  success = move_group.plan(my_plan);
+  success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
   ROS_INFO_NAMED("tutorial", "Visualizing plan 3 (constraints) %s", success ? "" : "FAILED");
 
   // Visualize the plan in Rviz
@@ -326,7 +326,7 @@ int main(int argc, char **argv)
   move_group.setStartState(*move_group.getCurrentState());
   move_group.setPoseTarget(target_pose1);
 
-  success = move_group.plan(my_plan);
+  success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
   ROS_INFO_NAMED("tutorial", "Visualizing plan 5 (pose goal move around cuboid) %s", success ? "" : "FAILED");
 
   // Visualize the plan in Rviz
@@ -392,7 +392,7 @@ int main(int argc, char **argv)
   // Now, we can plan and visualize
   moveit::planning_interface::MoveGroupInterface::Plan two_arms_plan;
 
-  success = two_arms_move_group.plan(two_arms_plan);
+  success = (two_arms_move_group.plan(two_arms_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
   ROS_INFO_NAMED("tutorial", "Visualizing plan 7 (dual arm plan) %s", success ? "" : "FAILED");
 
   // Visualize the plan in Rviz
