@@ -193,11 +193,9 @@ def move_group_python_interface_tutorial():
   waypoints = []
 
   # first orient gripper and move forward (+x)
-  wpose = geometry_msgs.msg.Pose()
+  wpose = geometry_msgs.msg.Pose()  
   wpose.orientation.w = 1.0
-  wpose.position.x = wpose.position.x + 0.1
-  wpose.position.y = wpose.position.y
-  wpose.position.z = wpose.position.z
+  wpose.position.x += 0.1
   waypoints.append(copy.deepcopy(wpose))
 
 
