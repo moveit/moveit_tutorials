@@ -54,15 +54,15 @@ html_context = {
 
 # Links
 extlinks = {'codedir': ('https://github.com/ros-planning/moveit_tutorials/tree/kinetic-devel/doc/pr2_tutorials/%s', ''),
-            'moveit_core': ('http://docs.ros.org/indigo/api/moveit_core/html/classmoveit_1_1core_1_1%s.html', ''),
-            'planning_scene': ('http://docs.ros.org/indigo/api/moveit_core/html/classplanning__scene_1_1%s.html', ''),
-            'planning_scene_interface': ('http://docs.ros.org/indigo/api/moveit_ros_planning_interface/html/classmoveit_1_1planning__interface_1_1%s.html', ''),
-            'planning_scene_monitor': ('http://docs.ros.org/indigo/api/moveit_ros_planning/html/classplanning__scene__monitor_1_1%s.html', ''),
-            'collision_detection_struct': ('http://docs.ros.org/indigo/api/moveit_core/html/structcollision__detection_1_1%s.html', ''),
-            'collision_detection_class': ('http://docs.ros.org/indigo/api/moveit_core/html/classcollision__detection_1_1%s.html', ''),
-            'kinematic_constraints': ('http://docs.ros.org/indigo/api/moveit_core/html/classkinematic__constraints_1_1%s.html', ''),
-            'moveit_core_files': ('http://docs.ros.org/indigo/api/moveit_core/html/%s.html', ''),
-            'move_group_interface': ('http://docs.ros.org/indigo/api/moveit_ros_planning_interface/html/classmoveit_1_1planning__interface_1_1%s.html', ''),
+            'moveit_core': ('http://docs.ros.org/kinetic/api/moveit_core/html/classmoveit_1_1core_1_1%s.html', ''),
+            'planning_scene': ('http://docs.ros.org/kinetic/api/moveit_core/html/classplanning__scene_1_1%s.html', ''),
+            'planning_scene_interface': ('http://docs.ros.org/kinetic/api/moveit_ros_planning_interface/html/classmoveit_1_1planning__interface_1_1%s.html', ''),
+            'planning_scene_monitor': ('http://docs.ros.org/kinetic/api/moveit_ros_planning/html/classplanning__scene__monitor_1_1%s.html', ''),
+            'collision_detection_struct': ('http://docs.ros.org/kinetic/api/moveit_core/html/structcollision__detection_1_1%s.html', ''),
+            'collision_detection_class': ('http://docs.ros.org/kinetic/api/moveit_core/html/classcollision__detection_1_1%s.html', ''),
+            'kinematic_constraints': ('http://docs.ros.org/kinetic/api/moveit_core/html/classkinematic__constraints_1_1%s.html', ''),
+            'moveit_core_files': ('http://docs.ros.org/kinetic/api/moveit_core/html/%s.html', ''),
+            'move_group_interface': ('http://docs.ros.org/kinetic/api/moveit_ros_planning_interface/html/classmoveit_1_1planning__interface_1_1%s.html', ''),
             'moveit_website': ('http://moveit.ros.org/%s/', '')}
 
 # Output file base name for HTML help builder.
