@@ -21,6 +21,7 @@ Usage
 - Find the MoveIt! `kinematics.yaml <http://docs.ros.org/kinetic/api/moveit_tutorials/html/doc/pr2_tutorials/kinematics/src/doc/kinematics_configuration.html>`_ file created for your robot.
 - Replace ``kinematics_solver: kdl_kinematics_plugin/KDLKinematicsPlugin`` (or similar) with ``kinematics_solver: trac_ik_kinematics_plugin/TRAC_IKKinematicsPlugin``
 - Set parameters as desired:
+
   - **kinematics\_solver\_timeout** (timeout in seconds, e.g., 0.005) and **position\_only\_ik** **ARE** supported.
   - **solve\_type** can be Speed, Distance, Manipulation1, Manipulation2 (see trac\_ik\_lib documentation for details).  Default is Speed.
   - **kinematics\_solver\_attempts** parameter is unneeded: unlike KDL, TRAC-IK solver already restarts when it gets stuck
