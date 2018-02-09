@@ -121,7 +121,7 @@ Add the right arm
 
 * We will first add Panda arm as a planning group
 
-  * Enter *Group Name* as **arm**
+  * Enter *Group Name* as **panda_arm**
 
   * Choose *kdl_kinematics_plugin/KDLKinematicsPlugin* as the
     kinematics solver. *Note: if you have a custom robot and would
@@ -148,7 +148,7 @@ Add the right arm
 .. image:: setup_assistant_panda_arm_joints.png
    :width: 700px
 
-* Click *Save* to save the selected group. 
+* Click *Save* to save the selected group.
 
 .. image:: setup_assistant_panda_arm_joints_saved.png
    :width: 700px
