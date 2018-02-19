@@ -1,11 +1,9 @@
 MoveIt! Tutorials
 =================
 
-These tutorials will run you through how to use MoveIt! with your robot. It is assumed that you have already configured MoveIt! for your robot - check the `list of robots running MoveIt! <http://moveit.ros.org/robots/>`_ to see whether MoveIt! is already available for your robot. Otherwise, skip to the tutorial on Setting up MoveIt! for your robot. If you just want to test MoveIt!, use the PR2 as your quick-start robot.
+These tutorials will run you through how to use MoveIt! with your robot. It is assumed that you have already configured MoveIt! for your robot - check the `list of robots running MoveIt! <http://moveit.ros.org/robots/>`_ to see whether MoveIt! is already available for your robot. Otherwise, skip to the tutorial on Setting up MoveIt! for your robot. If you just want to test MoveIt!, use the Panda as your quick-start robot.
 
-.. note:: All tutorials referencing the PR2 have only been tested with ROS Indigo but likely work with ROS Jade. See `issue <https://github.com/ros-planning/moveit/issues/110>`_ for more information.
-
-Previous version of these tutorials: `ROS Indigo <http://docs.ros.org/indigo/api/moveit_tutorials/html/>`_
+.. note:: All tutorials referencing the Panda have only been tested with ROS Kinetic. For earlier versions of ROS (eg. indigo) See `the ROS Indigo tutorials with the PR2 here <http://docs.ros.org/indigo/api/moveit_tutorials/html/doc/ikfast_tutorial.html>`_
 
 Beginner
 --------
@@ -16,9 +14,9 @@ The primary user interface to MoveIt! is through the move_group_interface. You c
    :maxdepth: 1
 
    doc/ros_visualization/visualization_tutorial
-   doc/pr2_tutorials/planning/src/doc/move_group_interface_tutorial
-   doc/pr2_tutorials/planning/scripts/doc/move_group_python_interface_tutorial
-   doc/pr2_tutorials/planning/src/doc/moveit_commander
+   doc/planning/src/doc/move_group_interface_tutorial
+   doc/planning/scripts/doc/move_group_python_interface_tutorial
+   doc/planning/src/doc/moveit_commander
 
 Advanced
 --------
@@ -28,11 +26,11 @@ This set of advanced tutorials is meant for developers who are using MoveIt!’s
 .. toctree::
    :maxdepth: 1
 
-   doc/pr2_tutorials/kinematics/src/doc/kinematic_model_tutorial
-   doc/pr2_tutorials/planning/src/doc/planning_scene_tutorial
-   doc/pr2_tutorials/planning/src/doc/planning_scene_ros_api_tutorial
-   doc/pr2_tutorials/planning/src/doc/motion_planning_api_tutorial
-   doc/pr2_tutorials/planning/src/doc/planning_pipeline_tutorial
+   doc/kinematics/src/doc/kinematic_model_tutorial
+   doc/planning/src/doc/planning_scene_tutorial
+   doc/planning/src/doc/planning_scene_ros_api_tutorial
+   doc/planning/src/doc/motion_planning_api_tutorial
+   doc/planning/src/doc/planning_pipeline_tutorial
    doc/collision_contact_tutorial
    doc/time_parameterization_tutorial
    doc/fake_controller_manager_tutorial
@@ -51,8 +49,8 @@ Before attempting to integrate a new robot with MoveIt!, check whether your robo
    :maxdepth: 1
 
    doc/setup_assistant/setup_assistant_tutorial
-   doc/pr2_tutorials/planning/src/doc/controller_configuration
-   doc/pr2_tutorials/planning/src/doc/perception_configuration
+   doc/planning/src/doc/controller_configuration
+   doc/planning/src/doc/perception_configuration
    doc/ikfast_tutorial
    doc/trac_ik_tutorial
 
@@ -63,7 +61,7 @@ Configuration
    :maxdepth: 1
 
    doc/urdf_srdf_tutorial
-   doc/pr2_tutorials/kinematics/src/doc/kinematics_configuration
+   doc/kinematics/src/doc/kinematics_configuration
    doc/ompl_interface_tutorial
    doc/chomp_interface_tutorial
 
