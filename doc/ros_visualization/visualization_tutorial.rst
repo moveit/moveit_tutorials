@@ -9,16 +9,16 @@ robot. We will explore the plugin in this tutorial.
 Pre-requisites
 ---------------
 
-To use the Rviz plugin, a ``moveit_ROBOT_config`` package must exist containing all the necessary
+To use the Rviz plugin, a ``ROBOT_moveit_config`` package must exist containing all the necessary
 configurations to use MoveIt!. If you are using a standard robot, it is highly likely a MoveIt!
 config package already exists, e.g. the PR2, Baxter, UR5, etc. The recommended robot to run these
-tutorials is currently the PR2. If you want to try these tutorials with your own
+tutorials is currently the Panda. If you want to try these tutorials with your own
 custom robot see the  `MoveIt! Setup Assistant tutorial
 <../setup_assistant/setup_assistant_tutorial.html>`_, otherwise follow these next steps:
 
-**Use Default PR2 MoveIt! Configuration**
+**Use Default Panda MoveIt! Configuration**
 
-Note: This tutorial does **not** require you to actually have a PR2 robot, it just needs a set of
+Note: This tutorial does **not** require you to actually have a Panda robot, it just needs a set of
 working robot model files.
 
 If you don't yet have a catkin workspace for this tutorial, create one now::
@@ -28,8 +28,10 @@ If you don't yet have a catkin workspace for this tutorial, create one now::
 
 Build and source the moveit_config package::
 
-  git clone https://github.com/davetcoleman/pr2_moveit_config.git
+  git clone https://github.com/PickNikRobotics/panda_moveit_config.git
+  rosdep install --from-paths . --ignore-src --rosdistro kinetic
   cd ..
+  catkin config --extend /opt/ros/kinetic --cmake-args -DCMAKE_BUILD_TYPE=Release
   catkin build
   . ~/ws_moveit/devel/setup.bash
 
@@ -40,7 +42,7 @@ Step 1: Launch the demo and Configure the Plugin
 
 * Launch the demo::
 
-   roslaunch pr2_moveit_config demo.launch
+   roslaunch panda_moveit_config demo.launch
 
 * If you are doing this for the first time, you will have to add the Motion Planning Plugin.
 
@@ -53,14 +55,14 @@ Step 1: Launch the demo and Configure the Plugin
 
 * In the "Global Options" tab of the "Displays" subwindow, set the **Fixed Frame** field to "/odom_combined"
 
-* Now, you can start configuring the Plugin for your robot (the PR2 in
+* Now, you can start configuring the Plugin for your robot (the Panda in
   this case).  Click on "MotionPlanning" within "Displays".
 
   * Make sure the **Robot Description** field is set to "robot_description"
 
   * Make sure the **Planning Scene Topic** field is set to "planning_scene".
 
-  * In **Planning Request**, change the **Planning Group** to "right_arm".
+  * In **Planning Request**, change the **Planning Group** to "arm".
 
   * Set the **Trajectory Topic** in the Planned Path tab to "/move_group/display_planned_path".
 
@@ -94,13 +96,13 @@ The display states for each of these visualizations can be toggled on and off us
 
 * Play with all these checkboxes to switch on and off different visualizations.
 
-Step 3: Interact with the PR2
+Step 3: Interact with the Panda
 -----------------------------
 
 * Press **Interact** in the top menu of rviz (Note: some tools may be
   hidden, press **+** in the top menu to add the **Interact** tool as shown below).
   You should see a couple of interactive markers appear for the
-  right arm of the PR2.
+  arm of the Panda.
 
     * One marker (corresponding to the orange colored right arm) will
       be used to set the "Goal State" for motion planning. Another
@@ -142,16 +144,15 @@ Moving out of reachable workspace
 +++++++++++++++++++++++++++++++++
 
 Note also what happens when you try to move an end-effector out of its
-reachable workspace (sometimes the access denied sign will not
-appear).
+reachable workspace.
 
 .. image:: rviz_plugin_invalid.png
    :width: 300px
 
-Step 4: Use Motion Planning with the PR2
+Step 4: Use Motion Planning with the Panda
 ----------------------------------------
 
-* Now, you can start motion planning with the PR2 in the MoveIt! Rviz Plugin.
+* Now, you can start motion planning with the Panda in the MoveIt! Rviz Plugin.
 
   * Move the Start State to a desired location.
 
@@ -183,5 +184,5 @@ You can visually introspect trajectory point by point on RViz.
 
 NOTE: Once you placed your EEF to a new goal, be sure to run `Plan` before running `Play` -- otherwise you'll see the waypoints for the previous goal if available.
 
-.. image:: pr2_moveit_pr491.png
+.. image:: panda_moveit_pr491.png
    :width: 700px
