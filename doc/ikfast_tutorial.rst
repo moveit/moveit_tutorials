@@ -88,17 +88,17 @@ Working commit numbers 5cfc7444... confirmed for Ubuntu 14.04 and 9c79ea26... co
 
 **Please report your results with this on** `this Github repo. <https://github.com/ros-planning/moveit_tutorials>`_
 
+
+Create Collada File For Use With OpenRAVE
+-----------------------------------------
+
 Parameters
-----------
+^^^^^^^^^^
 
  * *MYROBOT_NAME* - name of robot as in your URDF
  * *PLANNING_GROUP* - name of the planning group you would like to use this solver for, as referenced in your SRDF and kinematics.yaml
  * *MOVEIT_IK_PLUGIN_PKG* - name of the new package you just created
- * *ikfast_output_path* - file path to the location of your generated IKFast output.cpp file
-
-
-Create Collada File For Use With OpenRAVE
------------------------------------------
+ * *IKFAST_OUTPUT_PATH* - file path to the location of your generated IKFast output.cpp file
 
 To make using this tutorial copy/paste friendly, set a MYROBOT_NAME environment variable with the name of your robot::
 
@@ -142,15 +142,15 @@ You should see your robot.
 
 
 Create IKFast Solution CPP File
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-------------------------------
 Once you have a numerically rounded Collada file its time to generate the C++ .h header file that contains the analytical IK solution for your robot.
 
 Select IK Type
---------------
+^^^^^^^^^^^^^^
 You need to choose which sort of IK you want. See `this page <http://openrave.org/docs/latest_stable/openravepy/ikfast/#ik-types>`_ for more info.  The most common IK type is *transform6d*.
 
 Choose Planning Group
----------------------
+^^^^^^^^^^^^^^^^^^^^^
 If your robot has more than one arm or "planning group" that you want to generate an IKFast solution for, choose one to generate first. The following instructions will assume you have chosen one <planning_group_name> that you will create a plugin for. Once you have verified that the plugin works, repeat the following instructions for any other planning groups you have. For example, you might have 2 planning groups::
 
  <planning_group_name> = "left_arm"
@@ -161,8 +161,7 @@ To make it easy to use copy/paste for the rest of this tutorial. Set a PLANNING_
  export PLANNING_GROUP="panda_arm"
 
 Identify Link Numbers
----------------------
-
+^^^^^^^^^^^^^^^^^^^^^
 You also need the link index numbers for the *base_link* and *end_link* between which the IK will be calculated. You can count the number of links by viewing a list of links in your model::
 
  openrave-robot.py "$MYROBOT_NAME".dae --info links
@@ -218,7 +217,7 @@ Say --baselink=2 --eelink=16 and links index from 3 to 9 is not related to curre
 You should consult the OpenRAVE mailing list and ROS Answers for information about 5 and 7 DOF manipulators.
 
 Create Plugin
-^^^^^^^^^^^^^
+-------------
 
 Create the package that will contain the IK plugin. We recommend you name the package "$MYROBOT_NAME"_ikfast_"$PLANNING_GROUP"_plugin. ::
 
@@ -239,7 +238,7 @@ Or without ROS::
  python /path/to/create_ikfast_moveit_plugin.py "$MYROBOT_NAME" "$PLANNING_GROUP" "$MOVEIT_IK_PLUGIN_PKG" "$IKFAST_OUTPUT_PATH"
 
 Usage
-^^^^^
+-----
 The IKFast plugin should function identically to the default KDL IK Solver, but with greatly increased performance. The MoveIt configuration file is automatically edited by the moveit_ikfast script but you can switch between the KDL and IKFast solvers using the *kinematics_solver* parameter in the robot's kinematics.yaml file ::
 
  rosed "$MYROBOT_NAME"_moveit_config/config/kinematics.yaml
@@ -257,6 +256,6 @@ Test the Plugin
 Use the MoveIt Rviz Motion Planning Plugin and use the interactive markers to see if correct IK Solutions are found.
 
 Updating the Plugin
-^^^^^^^^^^^^^^^^^^^
+-------------------
 
 If any future changes occur with MoveIt! or IKFast, you might need to re-generate this plugin using our scripts. To allow you to easily do this, a bash script is automatically created in the root of your IKFast package, named *update_ikfast_plugin.sh*. This does the same thing you did manually earlier, but uses the IKFast solution header file that is copied into the ROS package.
