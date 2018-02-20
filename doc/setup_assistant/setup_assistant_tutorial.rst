@@ -95,7 +95,7 @@ robot in a plane.
 
 * Set the joint name as "virtual_joint"
 
-* Set the child link as "base_footprint" and the parent frame name as "world".
+* Set the child link as "panda_link0" and the parent frame name as "world".
 
 * Set the Joint Type as "fixed".
 
@@ -117,7 +117,7 @@ of your robot, such as defining what an arm is, or an end effector.
 .. image:: setup_assistant_panda_planning_groups.png
    :width: 700px
 
-Add the right arm
+Add the arm
 
 * We will first add Panda arm as a planning group
 
@@ -135,7 +135,7 @@ Add the right arm
 
 * Now, click on the *Add Joints* button. You will see a
   list of joints on the left hand side. You need to choose all the
-  joints that belong to the right arm and add them to the right hand
+  joints that belong to the arm and add them to the hand
   side. The joints are arranged in the order that they are stored in
   an internal tree structure. This makes it easy to select a serial
   chain of joints.
@@ -161,7 +161,7 @@ Add the gripper
 
   * Click on the *Add Group* button.
 
-  * Enter *Group Name* as **gripper**
+  * Enter *Group Name* as **hand**
 
   * Let *Kin. Search Resolution* and *Kin. Search Timeout* stay at their default values.
 
@@ -210,9 +210,9 @@ some special operations to happen on them internally.
 
 * Click *Add End Effector*.
 
-* Choose **eef** as the *End Effector Name* for the right gripper.
+* Choose **hand** as the *End Effector Name* for the gripper.
 
-* Select **gripper** as the *End Effector Group*.
+* Select **hand** as the *End Effector Group*.
 
 * Select **panda_link8** as the *Parent Link* for this end-effector.
 
