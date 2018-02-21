@@ -36,7 +36,7 @@
 
 // This code goes with the interactivity tutorial
 
-#include "interactive_robot.h"
+#include "interactivity/interactive_robot.h"
 #include <eigen_conversions/eigen_msg.h>
 #include <moveit/robot_state/conversions.h>
 
