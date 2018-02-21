@@ -13,10 +13,10 @@ The primary user interface to MoveIt! is through the move_group_interface. You c
 .. toctree::
    :maxdepth: 1
 
-   doc/ros_visualization/visualization_tutorial
-   doc/planning/src/doc/move_group_interface_tutorial
-   doc/planning/scripts/doc/move_group_python_interface_tutorial
-   doc/planning/src/doc/moveit_commander
+   doc/visualization/visualization_tutorial
+   doc/move_group_interface/move_group_interface_tutorial
+   doc/move_group_python_interface/move_group_python_interface_tutorial
+   doc/moveit_commander/moveit_commander_tutorial
 
 Advanced
 --------
@@ -26,19 +26,19 @@ This set of advanced tutorials is meant for developers who are using MoveIt!’s
 .. toctree::
    :maxdepth: 1
 
-   doc/kinematics/src/doc/kinematic_model_tutorial
-   doc/planning/src/doc/planning_scene_tutorial
-   doc/planning/src/doc/planning_scene_ros_api_tutorial
-   doc/planning/src/doc/motion_planning_api_tutorial
-   doc/planning/src/doc/planning_pipeline_tutorial
-   doc/collision_contact_tutorial
-   doc/time_parameterization_tutorial
-   doc/fake_controller_manager_tutorial
-   doc/ros_visualization/joystick.rst
-   doc/constraints_approximation_database
-   doc/custom_constraint_samplers
-   doc/benchmarking_tutorial
-   doc/tests
+   doc/kinematic_model/kinematic_model_tutorial
+   doc/planning_scene/planning_scene_tutorial
+   doc/planning_scene_ros_api/planning_scene_ros_api_tutorial
+   doc/motion_planning_api/motion_planning_api_tutorial
+   doc/motion_planning_pipeline/motion_planning_pipeline_tutorial
+   doc/collision_contact/collision_contact_tutorial
+   doc/time_parameterization/time_parameterization_tutorial
+   doc/fake_controller_manager/fake_controller_manager_tutorial
+   doc/joystick_control_teleoperation/joystick_control_teleoperation_tutorial
+   doc/planning_with_approximated_constraint_manifolds/planning_with_approximated_constraint_manifolds_tutorial
+   doc/custom_constraint_samplers/custom_constraint_samplers_tutorial
+   doc/benchmarking/benchmarking_tutorial
+   doc/tests/tests_tutorial
 
 Integration with New Robot
 --------------------------
@@ -49,10 +49,10 @@ Before attempting to integrate a new robot with MoveIt!, check whether your robo
    :maxdepth: 1
 
    doc/setup_assistant/setup_assistant_tutorial
-   doc/planning/src/doc/controller_configuration
-   doc/planning/src/doc/perception_configuration
-   doc/ikfast_tutorial
-   doc/trac_ik_tutorial
+   doc/controller_configuration/controller_configuration_tutorial
+   doc/perception_configuration/perception_configuration_tutorial
+   doc/ikfast/ikfast_tutorial
+   doc/trac_ik/trac_ik_tutorial
 
 Configuration
 -------------
@@ -60,10 +60,10 @@ Configuration
 .. toctree::
    :maxdepth: 1
 
-   doc/urdf_srdf_tutorial
-   doc/kinematics/src/doc/kinematics_configuration
-   doc/ompl_interface_tutorial
-   doc/chomp_interface_tutorial
+   doc/urdf_srdf/urdf_srdf_tutorial
+   doc/kinematics_configuration/kinematics_configuration_tutorial
+   doc/ompl_interface/ompl_interface_tutorial
+   doc/chomp_interface/chomp_interface_tutorial
 
 Attribution
 -----------

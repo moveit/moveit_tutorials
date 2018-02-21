@@ -36,7 +36,7 @@
 
 // This code goes with the interactivity tutorial
 
-#include "pose_string.h"
+#include "interactivity/pose_string.h"
 
 // tf
 #include <eigen_conversions/eigen_msg.h>

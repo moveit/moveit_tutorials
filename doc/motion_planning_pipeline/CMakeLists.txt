@@ -1,0 +1,4 @@
+add_executable(motion_planning_pipeline_tutorial src/motion_planning_pipeline_tutorial.cpp)
+target_link_libraries(motion_planning_pipeline_tutorial ${catkin_LIBRARIES} ${Boost_LIBRARIES})
+install(TARGETS motion_planning_pipeline_tutorial DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+

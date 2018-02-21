@@ -9,7 +9,7 @@ configuring any robot for use with MoveIt!. Its primary function is
 generating a Semantic Robot Description Format (SRDF) file for your
 robot. Additionally, it generates other necessary configuration files
 for use with the MoveIt! pipeline. To learn more about the SRDF, you
-can go through the `URDF/SRDF Overview <../urdf_srdf_tutorial.html>`_
+can go through the `URDF/SRDF Overview <../urdf_srdf/urdf_srdf_tutorial.html>`_
 page.
 
 Pre-requisites
@@ -20,11 +20,11 @@ MoveIt! and ROS
 * Follow the instructions for :moveit_website:`installing MoveIt!<install>`
   first if you have not already done that.
 
-* If you haven't already done so, make sure you have the `franka_description
+* If you haven't already done so, make sure you have the `franka description
   package <https://github.com/frankaemika/franka_ros>`_
-  for kinetic.
+  for kinetic.::
 
-  sudo apt-get install ros-kinetic-franka-description
+   sudo apt-get install ros-kinetic-franka-description
 
 Step 1: Start
 ---------------
@@ -125,7 +125,7 @@ Add the right arm
 
   * Choose *kdl_kinematics_plugin/KDLKinematicsPlugin* as the
     kinematics solver. *Note: if you have a custom robot and would
-    like a powerful custom IK solver, see* `Kinematics/IKFast <../ikfast_tutorial.html>`_
+    like a powerful custom IK solver, see* `Kinematics/IKFast <../ikfast/ikfast_tutorial.html>`_
 
   * Let *Kin. Search Resolution* and *Kin. Search Timeout* stay at
     their default values.
@@ -276,16 +276,16 @@ The MoveIt! Rviz plugin
 
 * Start looking at how you can use the generated configuration files
   to play with MoveIt! using the
-  `MoveIt! Rviz Plugin <../ros_visualization/visualization_tutorial.html>`_.
+  `MoveIt! Rviz Plugin <../visualization/visualization_tutorial.html>`_.
 
 Setup IKFast Inverse Kinematics Solver
 
 * A faster IK solver than the default KDL solver, but takes some
   additional steps to setup:
-  `Kinematics/IKFast <../ikfast_tutorial.html>`_
+  `Kinematics/IKFast <../ikfast/ikfast_tutorial.html>`_
 
 Additional Reading
 ---------------------
 
-* See the `URDF and SRDF <../urdf_srdf_tutorial.html>`_ page for more
+* See the `URDF and SRDF <../urdf_srdf/urdf_srdf_tutorial.html>`_ page for more
   details on the components of the URDF and SRDF mentioned in this tutorial.

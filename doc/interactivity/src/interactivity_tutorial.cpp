@@ -37,8 +37,8 @@
 // This code goes with the interactivity tutorial
 
 #include <ros/ros.h>
-#include "interactive_robot.h"
-#include "pose_string.h"
+#include "interactivity/interactive_robot.h"
+#include "interactivity/pose_string.h"
 
 void help()
 {

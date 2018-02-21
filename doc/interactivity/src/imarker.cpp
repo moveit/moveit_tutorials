@@ -36,8 +36,8 @@
 
 // This code goes with the interactivity tutorial
 
-#include "imarker.h"
-#include "pose_string.h"
+#include "interactivity/imarker.h"
+#include "interactivity/pose_string.h"
 #include <eigen_conversions/eigen_msg.h>
 
 /* default callback which just prints the current pose */
