@@ -78,7 +78,7 @@ Note: you have to set::
 
 **Source Install** ::
 
- git clone --branch latest_stable https://github.com/rdiankov/openrave.git 
+ git clone --branch latest_stable https://github.com/rdiankov/openrave.git
  cd openrave && mkdir build && cd build
  cmake -DODE_USE_MULTITHREAD=ON -DOSG_DIR=/usr/local/lib64/ ..
  make -j$(nproc)
@@ -198,7 +198,7 @@ Generate IK Solver
 
 To generate the IK solution between the manipulator's base and tool frames for a 6 dof arm, use the following command format. We recommend you name the output ikfast61\_"$PLANNING_GROUP".cpp ::
 
- export IKFAST_OUTPUT_PATH=ikfast61_"$PLANNING_GROUP".cpp
+ export IKFAST_OUTPUT_PATH=`pwd`/ikfast61_"$PLANNING_GROUP".cpp
 
 For a 6 dof arm::
 
@@ -221,7 +221,7 @@ Create Plugin
 
 Create the package that will contain the IK plugin. We recommend you name the package "$MYROBOT_NAME"_ikfast_"$PLANNING_GROUP"_plugin. ::
 
- export MOVEIT_IK_PLUGIN_PKG="$MYROBOT_NAME"_ikfast_"$PLANNING_GROUP"
+ export MOVEIT_IK_PLUGIN_PKG="$MYROBOT_NAME"_ikfast_"$PLANNING_GROUP"_plugin
  cd ~/catkin_ws/src
  catkin_create_pkg "$MOVEIT_IK_PLUGIN_PKG"
 
