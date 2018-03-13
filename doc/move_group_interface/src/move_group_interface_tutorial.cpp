@@ -32,7 +32,7 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *********************************************************************/
 
-/* Author: Sachin Chitta, Dave Coleman */
+/* Author: Sachin Chitta, Dave Coleman, Mike Lautman */
 
 #include <moveit/move_group_interface/move_group_interface.h>
 #include <moveit/planning_scene_interface/planning_scene_interface.h>
@@ -328,7 +328,12 @@ int main(int argc, char **argv)
 
   // Now when we plan a trajectory it will avoid the obstacle
   move_group.setStartState(*move_group.getCurrentState());
-  move_group.setPoseTarget(target_pose1);
+  geometry_msgs::Pose another_pose;
+  another_pose.orientation.w = 1.0;
+  another_pose.position.x = 0.4;
+  another_pose.position.y = -0.4;
+  another_pose.position.z = 0.9;
+  move_group.setPoseTarget(another_pose);
 
   success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
   ROS_INFO_NAMED("tutorial", "Visualizing plan 5 (pose goal move around cuboid) %s", success ? "" : "FAILED");
