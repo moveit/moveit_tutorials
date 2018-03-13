@@ -5,6 +5,11 @@ The :planning_scene:`PlanningScene` class provides the main interface that you w
 for collision checking and constraint checking. In this tutorial, we
 will explore the C++ interface to this class.
 
+Prerequisites
+^^^^^^^^^^^^^
+If you haven't already done so, make sure you've completed the steps in `Prerequisites
+<../prerequisites/prerequisites.html>`_.
+
 .. tutorial-formatter:: ./src/planning_scene_tutorial.cpp
 
 The entire code

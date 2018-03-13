@@ -10,6 +10,11 @@ The :moveit_core:`RobotModel` and :moveit_core:`RobotState` classes are the core
 you access to the kinematics. In this example, we will walk through
 the process of using the classes for the right arm of the PR2.
 
+Prerequisites
+^^^^^^^^^^^^^
+If you haven't already done so, make sure you've completed the steps in `Prerequisites
+<../prerequisites/prerequisites.html>`_.
+
 .. tutorial-formatter:: ./src/kinematic_model_tutorial.cpp
 
 The entire code

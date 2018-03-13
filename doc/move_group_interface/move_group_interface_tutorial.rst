@@ -1,40 +1,18 @@
 Move Group Interface Tutorial
 ==================================
 
-In MoveIt!, the primary user interface is through the :move_group_interface:`MoveGroup` class. It provides easy to use functionality for most operations that a user may want to carry out, specifically setting joint or pose goals, creating motion plans, moving the robot, adding objects into the environment and attaching/detaching objects from the robot. This interface communicates over ROS topics, services, and actions to the `MoveGroup Node <http://docs.ros.org/indigo/api/moveit_ros_move_group/html/annotated.html>`_.
+In MoveIt!, the simplest user interface is through the :move_group_interface:`MoveGroup` class. It provides easy to use functionality for most operations that a user may want to carry out, specifically setting joint or pose goals, creating motion plans, moving the robot, adding objects into the environment and attaching/detaching objects from the robot. This interface communicates over ROS topics, services, and actions to the `MoveGroup Node <http://docs.ros.org/indigo/api/moveit_ros_move_group/html/annotated.html>`_.
 
 .. image:: move_group_interface_tutorial_start_screen.png
 
 Watch the `YouTube video demo <https://youtu.be/4FSmZRQh37Q>`_
 
-Create A Catkin Workspace
-^^^^^^^^^^^^^^^^^^^^^^^^^
-You do not need to build all of MoveIt! from source, but you do need to have a catkin workspace setup. If you do not have a workspace already setup, follow the "Prerequisites" section on the  `MoveIt! source install page <http://moveit.ros.org/install/source/>`_ and be sure to then source the workspace as documented at the bottom of that page under "Source the Catkin Workspace."
 
-Compiling the Example Code
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+Prerequisites
+^^^^^^^^^^^^^
+If you haven't already done so, make sure you've completed the steps in `Prerequisites
+<../prerequisites/prerequisites.html>`_.
 
-Within your catkin workspace (``cd ~/ws_moveit/src``), download this tutorial::
-
-  git clone https://github.com/ros-planning/moveit_tutorials.git
-
-Temporary PR2 on Kinetic Instructions
--------------------------------------
-
-You will also need a **pr2_moveit_config** package to run this tutorial. Currently this is unreleased in ROS Kinetic but the following is a temporary workaround::
-
-  git clone https://github.com/PR2/pr2_common.git -b kinetic-devel
-  git clone https://github.com/davetcoleman/pr2_moveit_config.git
-
-Install Dependencies and Build
---------------------------------------
-
-Scans your catkin workspace for missing packages before compiling new code::
-
-  rosdep install --from-paths . --ignore-src --rosdistro kinetic
-  cd ~/ws_moveit
-  catkin config --extend /opt/ros/kinetic --cmake-args -DCMAKE_BUILD_TYPE=Release
-  catkin build
 
 Start Rviz and MoveGroup node
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -44,7 +22,7 @@ Make sure you have re-sourced the setup files::
 
 Start Rviz and wait for everything to finish loading::
 
-  roslaunch pr2_moveit_config demo.launch
+  roslaunch panda_moveit_config demo.launch
 
 Running the demo
 ^^^^^^^^^^^^^^^^
@@ -60,18 +38,17 @@ Expected Output
 
 Watch the `YouTube video demo <https://youtu.be/4FSmZRQh37Q>`_ for expected output. In Rviz, we should be able to see the following:
 
- 1. The robot moves its right arm to the pose goal to its right front.
- 2. The robot moves its right arm to the joint goal at its right side.
- 3. The robot moves its right arm back to a new pose goal while maintaining the end-effector level.
- 4. The robot moves its right arm along the desired cartesian path (a triangle up+forward, left, down+back).
- 5. A box object is added into the environment to the right of the right arm.
+ 1. The robot moves its arm to the pose goal to its front.
+ 2. The robot moves its arm to the joint goal at its side.
+ 3. The robot moves its arm back to a new pose goal while maintaining the end-effector level.
+ 4. The robot moves its arm along the desired cartesian path (a triangle up+forward, left, down+back).
+ 5. A box object is added into the environment to the right of the arm.
     |B|
 
- 6. The robot moves its right arm to the pose goal, avoiding collision with the box.
+ 6. The robot moves its arm to the pose goal, avoiding collision with the box.
  7. The object is attached to the wrist (its color will change to purple/orange/green).
  8. The object is detached from the wrist (its color will change back to green).
  9. The object is removed from the environment.
- 10. The robot moves both arms to two different pose goals at the same time
 
 .. |B| image:: ./move_group_interface_tutorial_robot_with_box.png
 

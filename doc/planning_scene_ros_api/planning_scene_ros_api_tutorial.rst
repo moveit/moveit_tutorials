@@ -7,6 +7,11 @@ two operations:
  * Adding and removing objects into the world
  * Attaching and detaching objects to the robot
 
+Prerequisites
+^^^^^^^^^^^^^
+If you haven't already done so, make sure you've completed the steps in `Prerequisites
+<../prerequisites/prerequisites.html>`_.
+
 .. tutorial-formatter:: ./src/planning_scene_ros_api_tutorial.cpp
 
 The entire code

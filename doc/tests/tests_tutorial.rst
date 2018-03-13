@@ -4,6 +4,11 @@ How to test changes to MoveIt! on various robots, including unit and integration
 
 **Note:** *This is a stub tutorial, to be expanded upon in the future*
 
+Prerequisites
+-------------
+If you haven't already done so, make sure you've completed the steps in `Prerequisites
+<../prerequisites/prerequisites.html>`_.
+
 Integration Test
 ----------------
 
@@ -16,9 +21,9 @@ Test Robots
 
 **PR2**
 
-From the package `pr2_moveit_config <https://github.com/davetcoleman/pr2_moveit_config>`_ ::
+From the package `panda_moveit_config <https://github.com/PickNikRobotics/panda_moveit_config>`_ ::
 
-  roslaunch pr2_moveit_config demo.launch
+  roslaunch panda_moveit_config demo.launch
 
 **Fanuc M-10iA**
 

@@ -6,36 +6,10 @@ allows you to setup scenes in which the robot will work, generate
 plans, visualize the output and interact directly with a visualized
 robot. We will explore the plugin in this tutorial.
 
-Pre-requisites
---------------
-
-To use the Rviz plugin, a ``ROBOT_moveit_config`` package must exist containing all the necessary
-configurations to use MoveIt!. If you are using a standard robot, it is highly likely a MoveIt!
-config package already exists, e.g. the PR2, Baxter, UR5, etc. The recommended robot to run these
-tutorials is currently the Panda. If you want to try these tutorials with your own
-custom robot see the  `MoveIt! Setup Assistant tutorial
-<../setup_assistant/setup_assistant_tutorial.html>`_, otherwise follow these next steps:
-
-**Use Default Panda MoveIt! Configuration**
-
-Note: This tutorial does **not** require you to actually have a Panda robot, it just needs a set of
-working robot model files.
-
-If you don't yet have a catkin workspace for this tutorial, create one now::
-
-  mkdir -p ~/ws_moveit/src
-  cd ~/ws_moveit/src
-
-Build and source the moveit_config package::
-
-  git clone https://github.com/PickNikRobotics/panda_moveit_config.git
-  rosdep install --from-paths . --ignore-src --rosdistro kinetic
-  cd ..
-  catkin config --extend /opt/ros/kinetic --cmake-args -DCMAKE_BUILD_TYPE=Release
-  catkin build
-  . ~/ws_moveit/devel/setup.bash
-
-*(NOTE: If you prefer the older catkin_make tool, simply replace 'catkin build' with 'catkin_make')*
+Prerequisites
+-------------
+If you haven't already done so, make sure you've completed the steps in `Prerequisites
+<../prerequisites/prerequisites.html>`_.
 
 Step 1: Launch the demo and Configure the Plugin
 ------------------------------------------------

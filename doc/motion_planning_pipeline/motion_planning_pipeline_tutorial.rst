@@ -9,6 +9,11 @@ stages. The pre and post-processing stages, called planning request adapters, ca
 be configured by name from the ROS parameter server. In this tutorial, we will
 run you through the C++ code to instantiate and call such a planning pipeline.
 
+Prerequisites
+^^^^^^^^^^^^^
+If you haven't already done so, make sure you've completed the steps in `Prerequisites
+<../prerequisites/prerequisites.html>`_.
+
 .. tutorial-formatter:: ./src/motion_planning_pipeline_tutorial.cpp
 
 The entire code
