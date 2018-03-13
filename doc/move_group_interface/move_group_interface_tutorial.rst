@@ -13,7 +13,6 @@ Prerequisites
 If you haven't already done so, make sure you've completed the steps in `Prerequisites
 <../prerequisites/prerequisites.html>`_.
 
-
 Start Rviz and MoveGroup node
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Make sure you have re-sourced the setup files::
@@ -36,7 +35,7 @@ After a short moment, the Rviz window should appear and look similar to the one 
 Expected Output
 ^^^^^^^^^^^^^^^
 
-Watch the `YouTube video demo <https://youtu.be/4FSmZRQh37Q>`_ for expected output. In Rviz, we should be able to see the following:
+Watch the `YouTube video demo <https://youtu.be/_5siHkFQPBQ>`_ for expected output. In Rviz, we should be able to see the following:
 
  1. The robot moves its arm to the pose goal to its front.
  2. The robot moves its arm to the joint goal at its side.
