@@ -12,7 +12,7 @@ for use with the MoveIt! pipeline. To learn more about the SRDF, you
 can go through the `URDF/SRDF Overview <../urdf_srdf/urdf_srdf_tutorial.html>`_
 page.
 
-Pre-requisites
+Prerequisites
 ----------------------
 
 MoveIt! and ROS

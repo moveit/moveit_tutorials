@@ -4,6 +4,11 @@ Collision Contact Tutorial
 This section walks you through C++ code which allows you to see collision contact points between the robot, itself, and the world as you move and interact with the robot’s arm in Rviz.
 
 
+Prerequisites
+-------------
+If you haven't already done so, make sure you've completed the steps in `Prerequisites
+<../prerequisites/prerequisites.html>`_.
+
 Code
 ----
 
@@ -18,23 +23,23 @@ The **InteractiveRobot** class uses the **IMarker** class which maintains an int
 Code Description
 ^^^^^^^^^^^^^^^^
 
-We will walk through the code in the order that it is run in the program, starting with the **main()** function in **collision_contact_tutorial.cpp**: 
+We will walk through the code in the order that it is run in the program, starting with the **main()** function in **collision_contact_tutorial.cpp**:
 ::
 
  int main(int argc, char **argv)
  {
  ros::init (argc, argv, "acorn_play");
  ros::NodeHandle nh;
- 
+
  InteractiveRobot robot;
 
-After the standard ROS initialization we create an instance of the **InteractiveRobot** class. 
+After the standard ROS initialization we create an instance of the **InteractiveRobot** class.
 Next we implement a planning scene: ::
 
  g_planning_scene = new planning_scene::PlanningScene();
  g_planning_scene->configure(robot.robotModel());
 
-Among other things the **PlanningScene** maintains collision information for the robot and the world. 
+Among other things the **PlanningScene** maintains collision information for the robot and the world.
 We have to tell the **PlanningScene** about the world geometry: ::
 
  Eigen::Affine3d world_cube_pose;
@@ -46,20 +51,20 @@ We have to tell the **PlanningScene** about the world geometry: ::
 **getWorldGeometry()** gets the size and pose of the cube from the **InteractiveRobot** class. **g_world_cube_shape** is a shared pointer to a new box shape describing the cube. ::
 
  g_marker_array_publisher = new ros::Publisher(nh.advertise<visualization_msgs::MarkerArray>("interactive_robot_marray",100));
-     
+
 The **g_marker_array_publisher** is used to publish collision contact points for display in Rviz.
 ::
 
  robot.setUserCallback(userCallback);
  ros::spin();
-   
+
 Here we set the callback, which will be called when the interactive markers are manipulated, and then enter the ros::spin() infinite loop.
 The rest of the main function is just cleanup: ::
 
  delete g_planning_scene;
  delete g_marker_array_publisher;;
-   
- ros::shutdown(); 
+
+ ros::shutdown();
  return 0;
  }
 
@@ -91,13 +96,13 @@ Then actually run the collision check: ::
 
  g_planning_scene->checkCollision(c_req, c_res, *robot.robotState());
 
-This checks for collisions between the "right_arm" and the world, as well as between the "right_arm" and the rest of the robot. 
+This checks for collisions between the "right_arm" and the world, as well as between the "right_arm" and the rest of the robot.
 If a collision occurred (c_res.collision is true) then we display the collision points: ::
 
  if (c_res.collision)
  {
  ROS_INFO("COLLIDING contact_point_count=%d",(int)c_res.contact_count);
-     
+
  if (c_res.contact_count > 0)
   {
  std_msgs::ColorRGBA color;
@@ -118,19 +123,19 @@ And finally we publish the markers to Rviz: ::
 
  publishMarkers(markers);
  }
-   
-If no collision occurred we erase any collision contact point markers that we may have placed there last time the callback was called: 
+
+If no collision occurred we erase any collision contact point markers that we may have placed there last time the callback was called:
 ::
 
  else
  {
  ROS_INFO("Not colliding");
-     
+
  // delete the old collision point markers
  visualization_msgs::MarkerArray empty_marker_array;
  publishMarkers(empty_marker_array);
  }
-   
+
 The **publishMarkers()** function deletes any old markers and then adds new ones: ::
 
  void publishMarkers(visualization_msgs::MarkerArray& markers)
@@ -143,10 +148,10 @@ The **publishMarkers()** function deletes any old markers and then adds new ones
 
  g_marker_array_publisher->publish(g_collision_points);
  }
-   
+
  // move new markers into g_collision_points
  std::swap(g_collision_points.markers, markers.markers);
-   
+
  // draw new markers (if there are any)
   if (g_collision_points.markers.size())
  g_marker_array_publisher->publish(g_collision_points);
@@ -163,45 +168,45 @@ Running
 Launch file
 ^^^^^^^^^^^
 
-A launch file is located here. It loads the URDF and SRDF parameters for the PR2 robot, launches Rviz, and runs the collision_contact_tutorial program described above. If moveit_tutorials is in your ROS_PACKAGE_PATH then launch it by typing: 
+A launch file is located here. It loads the URDF and SRDF parameters for the PR2 robot, launches Rviz, and runs the collision_contact_tutorial program described above. If moveit_tutorials is in your ROS_PACKAGE_PATH then launch it by typing:
 ::
 
  roslaunch moveit_tutorials collision_contact_tutorial.launch
-     
+
 Rviz setup
 ^^^^^^^^^^
 
-When Rviz starts up you will have to add some displays to see the objects your code is publishing. This is done in the "Displays" panel in rviz. 
+When Rviz starts up you will have to add some displays to see the objects your code is publishing. This is done in the "Displays" panel in rviz.
 
 * Under GlobalOptions set FixedFrame to /base_footprint.
-* Cick Add and (under moveit_ros_visualization) add a RobotState display. 
+* Cick Add and (under moveit_ros_visualization) add a RobotState display.
 
   * Set the RobotState::RobotDescription to robot_description
-  
+
   * Set the RobotState::RobotStateTopic to interactive_robot_state
-  
+
   * Set the RobotState::RobotAlpha to 0.3 (to make the robot transparent and see the collision points)
-  
-* Click Add and (under Rviz) add a Marker display. 
+
+* Click Add and (under Rviz) add a Marker display.
 
   * Set the Marker::MarkerTopic to interactive_robot_markers
-  
-* Click Add and (under Rviz) add a InteractiveMarkers display. 
+
+* Click Add and (under Rviz) add a InteractiveMarkers display.
 
   * Set the Marker::UpdateTopic to interactive_robot_imarkers/update
-  
-* Click Add and (under Rviz) add a MarkerArray display. 
+
+* Click Add and (under Rviz) add a MarkerArray display.
 
   * Set the Marker::UpdateTopic to interactive_robot_marray.
 
-You should now see the PR2 robot with 2 interactive markers which you can drag around. 
+You should now see the PR2 robot with 2 interactive markers which you can drag around.
 
 .. image:: collision_contact_tutorial_screen.png
 
 Interacting
 ^^^^^^^^^^^
 
-In Rviz you will see two sets of Red/Green/Blue interactive marker arrows. Drag these around with the mouse. 
-Move the right arm so it is in contact with the left arm. You will see magenta spheres marking the contact points. 
-If you do not see the magenta spheres be sure that you added the MarkerArray display with interactive_robot_marray topic as described above. Also be sure to set RobotAlpha to 0.3 (or some other value less than 1) so the robot is transparent and the spheres can be seen. 
-Move the right arm so it is in contact with the yellow cube (you may also move the yellow cube). You will see magenta spheres marking the contact points. 
+In Rviz you will see two sets of Red/Green/Blue interactive marker arrows. Drag these around with the mouse.
+Move the right arm so it is in contact with the left arm. You will see magenta spheres marking the contact points.
+If you do not see the magenta spheres be sure that you added the MarkerArray display with interactive_robot_marray topic as described above. Also be sure to set RobotAlpha to 0.3 (or some other value less than 1) so the robot is transparent and the spheres can be seen.
+Move the right arm so it is in contact with the yellow cube (you may also move the yellow cube). You will see magenta spheres marking the contact points.

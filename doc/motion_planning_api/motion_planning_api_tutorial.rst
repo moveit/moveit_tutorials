@@ -5,6 +5,11 @@ In MoveIt!, the motion planners are loaded using a plugin infrastructure. This
 allows MoveIt! to load motion planners at runtime. In this example, we will
 run through the C++ code required to do this.
 
+Prerequisites
+^^^^^^^^^^^^^
+If you haven't already done so, make sure you've completed the steps in `Prerequisites
+<../prerequisites/prerequisites.html>`_.
+
 .. tutorial-formatter:: ./src/motion_planning_api_tutorial.cpp
 
 The entire code

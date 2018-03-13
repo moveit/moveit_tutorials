@@ -60,7 +60,7 @@ int main(int argc, char **argv)
   // MoveIt! operates on sets of joints called "planning groups" and stores them in an object called
   // the `JointModelGroup`. Throughout MoveIt! the terms "planning group" and "joint model group"
   // are used interchangably.
-  static const std::string PLANNING_GROUP = "right_arm";
+  static const std::string PLANNING_GROUP = "panda_arm";
 
   // The :move_group_interface:`MoveGroup` class can be easily
   // setup using just the name of the planning group you would like to control and plan for.
@@ -80,7 +80,7 @@ int main(int argc, char **argv)
   // The package MoveItVisualTools provides many capabilties for visualizing objects, robots,
   // and trajectories in Rviz as well as debugging tools such as step-by-step introspection of a script
   namespace rvt = rviz_visual_tools;
-  moveit_visual_tools::MoveItVisualTools visual_tools("odom_combined");
+  moveit_visual_tools::MoveItVisualTools visual_tools("panda_link0");
   visual_tools.deleteAllMarkers();
 
   // Remote control is an introspection tool that allows users to step through a high level script
@@ -89,7 +89,7 @@ int main(int argc, char **argv)
 
   // Rviz provides many types of markers, in this demo we will use text, cylinders, and spheres
   Eigen::Affine3d text_pose = Eigen::Affine3d::Identity();
-  text_pose.translation().z() = 1.75; // above head of PR2
+  text_pose.translation().z() = 1.75;
   visual_tools.publishText(text_pose, "MoveGroupInterface Demo", rvt::WHITE, rvt::XLARGE);
 
   // Batch publishing is used to reduce the number of messages being sent to Rviz for large visualizations
@@ -104,6 +104,10 @@ int main(int argc, char **argv)
   // We can also print the name of the end-effector link for this group.
   ROS_INFO_NAMED("tutorial", "End effector link: %s", move_group.getEndEffectorLink().c_str());
 
+  // Start the demo
+  // ^^^^^^^^^^^^^^^^^^^^^^^^^
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to start the demo");
+
   // Planning to a Pose goal
   // ^^^^^^^^^^^^^^^^^^^^^^^
   // We can plan a motion for this group to a desired pose for the
@@ -111,8 +115,8 @@ int main(int argc, char **argv)
   geometry_msgs::Pose target_pose1;
   target_pose1.orientation.w = 1.0;
   target_pose1.position.x = 0.28;
-  target_pose1.position.y = -0.7;
-  target_pose1.position.z = 1.0;
+  target_pose1.position.y = -0.2;
+  target_pose1.position.z = 0.5;
   move_group.setPoseTarget(target_pose1);
 
   // Now, we call the planner to compute the plan and visualize it.
@@ -183,8 +187,8 @@ int main(int argc, char **argv)
   // Let's specify a path constraint and a pose goal for our group.
   // First define the path constraint.
   moveit_msgs::OrientationConstraint ocm;
-  ocm.link_name = "r_wrist_roll_link";
-  ocm.header.frame_id = "base_link";
+  ocm.link_name = "panda_link7";
+  ocm.header.frame_id = "panda_link0";
   ocm.orientation.w = 1.0;
   ocm.absolute_x_axis_tolerance = 0.1;
   ocm.absolute_y_axis_tolerance = 0.1;
@@ -244,7 +248,7 @@ int main(int argc, char **argv)
   geometry_msgs::Pose target_pose3 = start_pose2;
 
   target_pose3.position.z += 0.2;
-  waypoints.push_back(target_pose3);  // up 
+  waypoints.push_back(target_pose3);  // up
 
   target_pose3.position.y -= 0.1;
   waypoints.push_back(target_pose3);  // left
@@ -252,7 +256,7 @@ int main(int argc, char **argv)
   target_pose3.position.z -= 0.2;
   target_pose3.position.y += 0.2;
   target_pose3.position.x -= 0.2;
-  waypoints.push_back(target_pose3);  // down and right 
+  waypoints.push_back(target_pose3);  // down and right
 
   // Cartesian motions are frequently needed to be slower for actions such as approach and retreat
   // grasp motions. Here we demonstrate how to reduce the speed of the robot arm via a scaling factor
@@ -300,9 +304,9 @@ int main(int argc, char **argv)
   //Define a pose for the box (specified relative to frame_id)
   geometry_msgs::Pose box_pose;
   box_pose.orientation.w = 1.0;
-  box_pose.position.x = 0.6;
-  box_pose.position.y = -0.4;
-  box_pose.position.z = 1.2;
+  box_pose.position.x = 0.4;
+  box_pose.position.y = -0.2;
+  box_pose.position.z = 1.0;
 
   collision_object.primitives.push_back(primitive);
   collision_object.primitive_poses.push_back(box_pose);
@@ -370,39 +374,6 @@ int main(int argc, char **argv)
 
   /* Sleep to give Rviz time to show the object is no longer there.*/
   ros::Duration(1.0).sleep();
-
-  // Dual-arm pose goals
-  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  // First define a new group for addressing the two arms.
-  static const std::string PLANNING_GROUP2 = "arms";
-  moveit::planning_interface::MoveGroupInterface two_arms_move_group(PLANNING_GROUP2);
-
-  // Define two separate pose goals, one for each end-effector. Note that
-  // we are reusing the goal for the right arm above
-  two_arms_move_group.setPoseTarget(target_pose1, "r_wrist_roll_link");
-
-  geometry_msgs::Pose target_pose4;
-  target_pose4.orientation.w = 1.0;
-  target_pose4.position.x = 0.7;
-  target_pose4.position.y = 0.15;
-  target_pose4.position.z = 1.0;
-
-  two_arms_move_group.setPoseTarget(target_pose4, "l_wrist_roll_link");
-
-  // Now, we can plan and visualize
-  moveit::planning_interface::MoveGroupInterface::Plan two_arms_plan;
-
-  success = (two_arms_move_group.plan(two_arms_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
-  ROS_INFO_NAMED("tutorial", "Visualizing plan 7 (dual arm plan) %s", success ? "" : "FAILED");
-
-  // Visualize the plan in Rviz
-  visual_tools.deleteAllMarkers();
-  visual_tools.publishAxisLabeled(target_pose1, "goal1");
-  visual_tools.publishAxisLabeled(target_pose4, "goal2");
-  visual_tools.publishText(text_pose, "Two Arm Goal", rvt::WHITE, rvt::XLARGE);
-  joint_model_group = move_group.getCurrentState()->getJointModelGroup(PLANNING_GROUP2);
-  visual_tools.publishTrajectoryLine(two_arms_plan.trajectory_, joint_model_group);
-  visual_tools.trigger();
 
   // END_TUTORIAL
 

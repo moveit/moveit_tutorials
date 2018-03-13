@@ -5,10 +5,17 @@ These tutorials will run you through how to use MoveIt! with your robot. It is a
 
 .. note:: All tutorials referencing the Panda have only been tested with ROS Kinetic. For earlier versions of ROS (eg. indigo) See `the ROS Indigo tutorials with the PR2 here <http://docs.ros.org/indigo/api/moveit_tutorials/html/doc/ikfast_tutorial.html>`_
 
+To follow along with these tutorials you will need a **ROBOT_moveit_config** package. This tutorial will use the Panda robot from Franka Emika. To get a working **panda_movit_config** package you can install from source, create your own, or install from debian. We will walk through each method in the following tutuorial:
+
+.. toctree::
+   :maxdepth: 1
+
+   doc/prerequisites/prerequisites
+
 Beginner
 --------
 
-The primary user interface to MoveIt! is through the move_group_interface. You can use this interface both through C++ and Python. A GUI-based interface is available through the use of the MoveIt! Rviz Plugin. We will walk through each of these interfaces in detail:
+The simplest and easiest way to get started with MoveIt! is through the move_group_interface. You can use this interface both through C++ and Python. A GUI-based interface is available through the use of the MoveIt! Rviz Plugin. We will walk through each of these interfaces in detail:
 
 .. toctree::
    :maxdepth: 1
@@ -21,7 +28,7 @@ The primary user interface to MoveIt! is through the move_group_interface. You c
 Advanced
 --------
 
-This set of advanced tutorials is meant for developers who are using MoveIt!’s C++ API. Most users wanting to access MoveIt! in C++ or Python should use the move_group_interface (above).
+This set of advanced tutorials is meant for developers who are using MoveIt!’s C++ API.
 
 .. toctree::
    :maxdepth: 1

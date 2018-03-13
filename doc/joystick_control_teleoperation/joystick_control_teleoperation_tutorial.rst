@@ -1,6 +1,11 @@
 Joystick Control Teleoperation
 ==========================================
 
+Prerequisites
+-------------
+If you haven't already done so, make sure you've completed the steps in `Prerequisites
+<../prerequisites/prerequisites.html>`_.
+
 Run
 ---
 
@@ -8,17 +13,17 @@ Startup regular MoveIt! planning node with Rviz (for example demo.launch)
 
 Make sure you have the dependencies installed::
 
-    sudo apt-get install ros-indigo-joy
+    sudo apt-get install ros-kinetic-joy
 
 In the Motion Planning plugin of Rviz, enable "Allow External Comm." checkbox in the "Planning" tab. Enable the 'Query Goal State' robot display in the MoveIt! Motion Planning Plugins's 'Planning Request' section.
 
 Now launch the joystick control launch file specific to your robot. If you are missing this file, first re-run the MoveIt! Setup Assistant using the latest version of the Setup Assistant::
 
-    roslaunch YOURROBOT_moveit_config joystick_control.launch
+    roslaunch ROBOT_moveit_config joystick_control.launch
 
 The script defaults to using ``/dev/input/js0`` for your game controller port. To customize, you can also use, for example::
 
-    roslaunch YOURROBOT_moveit_config joystick_control.launch dev:=/dev/input/js1
+    roslaunch ROBOT_moveit_config joystick_control.launch dev:=/dev/input/js1
 
 This script can read four types of joysticks:
 
