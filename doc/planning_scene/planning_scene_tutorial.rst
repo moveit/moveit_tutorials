@@ -6,53 +6,49 @@ for collision checking and constraint checking. In this tutorial, we
 will explore the C++ interface to this class.
 
 Prerequisites
-^^^^^^^^^^^^^
+-------------
 If you haven't already done so, make sure you've completed the steps in `Prerequisites
 <../prerequisites/prerequisites.html>`_.
 
-.. tutorial-formatter:: ./src/planning_scene_tutorial.cpp
-
 The entire code
-^^^^^^^^^^^^^^^
+---------------
 The entire code can be seen :codedir:`here in the MoveIt! Github project<planning_scene>`.
 
-Compiling the code
-^^^^^^^^^^^^^^^^^^
-Follow the `instructions for compiling code from source <http://moveit.ros.org/install/>`_.
+.. tutorial-formatter:: ./src/planning_scene_tutorial.cpp
 
 The launch file
-^^^^^^^^^^^^^^^
-The entire launch file is :codedir:`here <planning_scene/launch/planning_scene_tutorial.launch>` on github. All the code in this
-tutorial can be compiled and run from the moveit_tutorials package
-that you have as part of your MoveIt! setup.
+---------------
+The entire launch file is :codedir:`here <planning_scene/launch/planning_scene_tutorial.launch>` on github. All the code in this tutorial can be compiled and run from the moveit_tutorials package.
 
 Running the code
-^^^^^^^^^^^^^^^^
+----------------
+Make sure you have sourced the setup files::
+
+ source ~/ws_moveit/devel/setup.bash
 
 Roslaunch the launch file to run the code directly from moveit_tutorials::
 
  roslaunch moveit_tutorials planning_scene_tutorial.launch
 
 Expected Output
-^^^^^^^^^^^^^^^
+---------------
 
 The output should look something like this, though we are using random
-joint values so some things may be different::
+joint values so some things may be different. ::
 
- [ INFO] [1385487628.853237681]: Test 1: Current state is not in self collision
- [ INFO] [1385487628.857680844]: Test 2: Current state is in self collision
- [ INFO] [1385487628.861798756]: Test 3: Current state is not in self collision
- [ INFO] [1385487628.861876838]: Current state is not valid
- [ INFO] [1385487628.866177315]: Test 4: Current state is in self collision
- [ INFO] [1385487628.866228020]: Contact between: l_shoulder_pan_link and r_forearm_link
- [ INFO] [1385487628.866259030]: Contact between: l_shoulder_pan_link and r_shoulder_lift_link
- [ INFO] [1385487628.866305963]: Contact between: l_shoulder_pan_link and r_shoulder_pan_link
- [ INFO] [1385487628.866331036]: Contact between: l_shoulder_pan_link and r_upper_arm_link
- [ INFO] [1385487628.866358135]: Contact between: l_shoulder_pan_link and r_upper_arm_roll_link
- [ INFO] [1385487628.870629418]: Test 5: Current state is not in self collision
- [ INFO] [1385487628.877406467]: Test 6: Current state is not in self collision
- [ INFO] [1385487628.879610797]: Test 7: Random state is not constrained
- [ INFO] [1385487628.880027331]: Test 8: Random state is not constrained
- [ INFO] [1385487628.880315077]: Test 9: Random state is not constrained
- [ INFO] [1385487628.880377445]: Test 10: Random state is feasible
- [ INFO] [1385487628.887157707]: Test 10: Random state is not valid
+ ros.moveit_tutorials: Test 1: Current state is not in self collision
+ ros.moveit_tutorials: Test 2: Current state is not in self collision
+ ros.moveit_tutorials: Test 3: Current state is not in self collision
+ ros.moveit_tutorials: Test 4: Current state is valid
+ ros.moveit_tutorials: Test 5: Current state is in self collision
+ ros.moveit_tutorials: Contact between: panda_leftfinger and panda_link1
+ ros.moveit_tutorials: Contact between: panda_link1 and panda_rightfinger
+ ros.moveit_tutorials: Test 6: Current state is not in self collision
+ ros.moveit_tutorials: Test 7: Current state is not in self collision
+ ros.moveit_tutorials: Test 8: Random state is not constrained
+ ros.moveit_tutorials: Test 9: Random state is not constrained
+ ros.moveit_tutorials: Test 10: Random state is not constrained
+ ros.moveit_tutorials: Test 11: Random state is feasible
+ ros.moveit_tutorials: Test 12: Random state is not valid
+
+**Note:** Don't worry if your output has different ROS console format. You can customize your ROS console logger by following `this blog post. <http://dav.ee/blog/notes/archives/898>`_

@@ -32,7 +32,7 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *********************************************************************/
 
-/* Author: Sachin Chitta */
+/* Author: Sachin Chitta, Michael Lautman */
 
 #include <ros/ros.h>
 
@@ -43,26 +43,26 @@
 #include <moveit/kinematic_constraints/utils.h>
 #include <eigen_conversions/eigen_msg.h>
 
-// BEGIN_SUB_TUTORIAL userCallback
+// BEGIN_SUB_TUTORIAL stateFeasibilityTestExample
 //
 // User defined constraints can also be specified to the PlanningScene
 // class. This is done by specifying a callback using the
 // setStateFeasibilityPredicate function. Here's a simple example of a
-// user-defined callback that checks whether the "r_shoulder_pan" of
-// the PR2 robot is at a positive or negative angle:
-bool userCallback(const robot_state::RobotState& kinematic_state, bool verbose)
+// user-defined callback that checks whether the "panda_joint1" of
+// the Panda robot is at a positive or negative angle:
+bool stateFeasibilityTestExample(const robot_state::RobotState& kinematic_state, bool verbose)
 {
-  const double* joint_values = kinematic_state.getJointPositions("r_shoulder_pan_joint");
+  const double* joint_values = kinematic_state.getJointPositions("panda_joint1");
   return (joint_values[0] > 0.0);
 }
 // END_SUB_TUTORIAL
 
 int main(int argc, char** argv)
 {
-  ros::init(argc, argv, "right_arm_kinematics");
+  ros::init(argc, argv, "panda_arm_kinematics");
   ros::AsyncSpinner spinner(1);
   spinner.start();
-
+  std::size_t count = 0;
   // BEGIN_TUTORIAL
   //
   // Setup
@@ -124,13 +124,13 @@ int main(int argc, char** argv)
   // Checking for a group
   // ~~~~~~~~~~~~~~~~~~~~
   //
-  // Now, we will do collision checking only for the right_arm of the
-  // PR2, i.e. we will check whether there are any collisions between
-  // the right arm and other parts of the body of the robot. We can ask
-  // for this specifically by adding the group name "right_arm" to the
+  // Now, we will do collision checking only for the hand of the
+  // Panda, i.e. we will check whether there are any collisions between
+  // the hand and other parts of the body of the robot. We can ask
+  // for this specifically by adding the group name "hand" to the
   // collision request.
 
-  collision_request.group_name = "right_arm";
+  collision_request.group_name = "hand";
   current_state.setToRandomPositions();
   collision_result.clear();
   planning_scene.checkSelfCollision(collision_request, collision_result);
@@ -139,20 +139,18 @@ int main(int argc, char** argv)
   // Getting Contact Information
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~
   //
-  // First, manually set the right arm to a position where we know
+  // First, manually set the panda arm to a position where we know
   // internal (self) collisions do happen. Note that this state is now
-  // actually outside the joint limits of the PR2, which we can also
+  // actually outside the joint limits of the Panda, which we can also
   // check for directly.
 
-  std::vector<double> joint_values;
-  const robot_model::JointModelGroup* joint_model_group = current_state.getJointModelGroup("right_arm");
-  current_state.copyJointGroupPositions(joint_model_group, joint_values);
-  joint_values[0] = 1.57;  // hard-coded since we know collisions will happen here
+  std::vector<double> joint_values = {0.0, 0.0, 0.0, -2.9, 0.0, 1.4, 0.0};
+  const robot_model::JointModelGroup* joint_model_group = current_state.getJointModelGroup("panda_arm");
   current_state.setJointGroupPositions(joint_model_group, joint_values);
-  ROS_INFO_STREAM("Current state is " << (current_state.satisfiesBounds(joint_model_group) ? "valid" : "not valid"));
+  ROS_INFO_STREAM("Test 4: Current state is " << (current_state.satisfiesBounds(joint_model_group) ? "valid" : "not valid"));
 
   // Now, we can get contact information for any collisions that might
-  // have happened at a given configuration of the right arm. We can ask
+  // have happened at a given configuration of the Panda arm. We can ask
   // for contact information by filling in the appropriate field in the
   // collision request and specifying the maximum number of contacts to
   // be returned as a large number.
@@ -164,7 +162,7 @@ int main(int argc, char** argv)
 
   collision_result.clear();
   planning_scene.checkSelfCollision(collision_request, collision_result);
-  ROS_INFO_STREAM("Test 4: Current state is " << (collision_result.collision ? "in" : "not in") << " self collision");
+  ROS_INFO_STREAM("Test 5: Current state is " << (collision_result.collision ? "in" : "not in") << " self collision");
   collision_detection::CollisionResult::ContactMap::const_iterator it;
   for (it = collision_result.contacts.begin(); it != collision_result.contacts.end(); ++it)
   {
@@ -197,7 +195,7 @@ int main(int argc, char** argv)
   }
   collision_result.clear();
   planning_scene.checkSelfCollision(collision_request, collision_result, copied_state, acm);
-  ROS_INFO_STREAM("Test 5: Current state is " << (collision_result.collision ? "in" : "not in") << " self collision");
+  ROS_INFO_STREAM("Test 6: Current state is " << (collision_result.collision ? "in" : "not in") << " self collision");
 
   // Full Collision Checking
   // ~~~~~~~~~~~~~~~~~~~~~~~
@@ -212,7 +210,7 @@ int main(int argc, char** argv)
   // from obstacles in the environment.*/
   collision_result.clear();
   planning_scene.checkCollision(collision_request, collision_result, copied_state, acm);
-  ROS_INFO_STREAM("Test 6: Current state is " << (collision_result.collision ? "in" : "not in") << " self collision");
+  ROS_INFO_STREAM("Test 7: Current state is " << (collision_result.collision ? "in" : "not in") << " self collision");
 
   // Constraint Checking
   // ^^^^^^^^^^^^^^^^^^^
@@ -232,7 +230,7 @@ int main(int argc, char** argv)
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   //
   // We will first define a simple position and orientation constraint
-  // on the end-effector of the right_arm of the PR2 robot. Note the
+  // on the end-effector of the panda_arm group of the Panda robot. Note the
   // use of convenience functions for filling up the constraints
   // (these functions are found in the :moveit_core_files:`utils.h<utils_8h>` file from the
   // kinematic_constraints directory in moveit_core).
@@ -241,10 +239,10 @@ int main(int argc, char** argv)
 
   geometry_msgs::PoseStamped desired_pose;
   desired_pose.pose.orientation.w = 1.0;
-  desired_pose.pose.position.x = 0.75;
+  desired_pose.pose.position.x = 0.3;
   desired_pose.pose.position.y = -0.185;
-  desired_pose.pose.position.z = 1.3;
-  desired_pose.header.frame_id = "base_footprint";
+  desired_pose.pose.position.z = 0.5;
+  desired_pose.header.frame_id = "panda_link0";
   moveit_msgs::Constraints goal_constraint =
       kinematic_constraints::constructGoalConstraints(end_effector_name, desired_pose);
 
@@ -254,7 +252,7 @@ int main(int argc, char** argv)
   copied_state.setToRandomPositions();
   copied_state.update();
   bool constrained = planning_scene.isStateConstrained(copied_state, goal_constraint);
-  ROS_INFO_STREAM("Test 7: Random state is " << (constrained ? "constrained" : "not constrained"));
+  ROS_INFO_STREAM("Test 8: Random state is " << (constrained ? "constrained" : "not constrained"));
 
   // There's a more efficient way of checking constraints (when you want
   // to check the same constraint over and over again, e.g. inside a
@@ -265,33 +263,33 @@ int main(int argc, char** argv)
   kinematic_constraints::KinematicConstraintSet kinematic_constraint_set(kinematic_model);
   kinematic_constraint_set.add(goal_constraint, planning_scene.getTransforms());
   bool constrained_2 = planning_scene.isStateConstrained(copied_state, kinematic_constraint_set);
-  ROS_INFO_STREAM("Test 8: Random state is " << (constrained_2 ? "constrained" : "not constrained"));
+  ROS_INFO_STREAM("Test 9: Random state is " << (constrained_2 ? "constrained" : "not constrained"));
 
   // There's a direct way to do this using the KinematicConstraintSet
   // class.
 
   kinematic_constraints::ConstraintEvaluationResult constraint_eval_result =
       kinematic_constraint_set.decide(copied_state);
-  ROS_INFO_STREAM("Test 9: Random state is " << (constraint_eval_result.satisfied ? "constrained" : "not constrained"));
+  ROS_INFO_STREAM("Test 10: Random state is " << (constraint_eval_result.satisfied ? "constrained" : "not constrained"));
 
   // User-defined constraints
   // ~~~~~~~~~~~~~~~~~~~~~~~~
   //
-  // CALL_SUB_TUTORIAL userCallback
+  // CALL_SUB_TUTORIAL stateFeasibilityTestExample
 
   // Now, whenever isStateFeasible is called, this user-defined callback
   // will be called.
 
-  planning_scene.setStateFeasibilityPredicate(userCallback);
+  planning_scene.setStateFeasibilityPredicate(stateFeasibilityTestExample);
   bool state_feasible = planning_scene.isStateFeasible(copied_state);
-  ROS_INFO_STREAM("Test 10: Random state is " << (state_feasible ? "feasible" : "not feasible"));
+  ROS_INFO_STREAM("Test 11: Random state is " << (state_feasible ? "feasible" : "not feasible"));
 
   // Whenever isStateValid is called, three checks are conducted: (a)
   // collision checking (b) constraint checking and (c) feasibility
   // checking using the user-defined callback.
 
-  bool state_valid = planning_scene.isStateValid(copied_state, kinematic_constraint_set, "right_arm");
-  ROS_INFO_STREAM("Test 10: Random state is " << (state_valid ? "valid" : "not valid"));
+  bool state_valid = planning_scene.isStateValid(copied_state, kinematic_constraint_set, "panda_arm");
+  ROS_INFO_STREAM("Test 12: Random state is " << (state_valid ? "valid" : "not valid"));
 
   // Note that all the planners available through MoveIt! and OMPL will
   // currently perform collision checking, constraint checking and
