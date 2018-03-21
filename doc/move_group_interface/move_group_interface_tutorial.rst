@@ -5,36 +5,39 @@ In MoveIt!, the simplest user interface is through the :move_group_interface:`Mo
 
 .. image:: move_group_interface_tutorial_start_screen.png
 
-Watch the `YouTube video demo <https://youtu.be/4FSmZRQh37Q>`_
-
-
 Prerequisites
-^^^^^^^^^^^^^
+-------------
 If you haven't already done so, make sure you've completed the steps in `Prerequisites
 <../prerequisites/prerequisites.html>`_.
 
-Start Rviz and MoveGroup node
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Make sure you have re-sourced the setup files::
+The entire code
+---------------
+The entire code can be seen :codedir:`here in the MoveIt! Github project<move_group_interface/src/move_group_interface_tutorial.cpp>`.
+
+.. tutorial-formatter:: ./src/move_group_interface_tutorial.cpp
+
+The launch file
+---------------
+The entire launch file is :codedir:`here<move_group_interface/launch/move_group_interface_tutorial.launch>` on github. All the code in this tutorial can be run from the moveit_tutorials package that you have as part of your MoveIt! setup.
+
+Running the Code
+----------------
+Open two shells and make sure you have re-sourced the setup files in both of them::
 
   source ~/ws_moveit/devel/setup.bash
 
-Start Rviz and wait for everything to finish loading::
+In the first shell start Rviz and wait for everything to finish loading::
 
   roslaunch panda_moveit_config demo.launch
 
-Running the demo
-^^^^^^^^^^^^^^^^
-
-In a new terminal window, run the :codedir:`move_group_interface_tutorial.launch<move_group_interface/launch/move_group_interface_tutorial.launch>` roslaunch file::
+In the second shell, run the launch file::
 
   roslaunch moveit_tutorials move_group_interface_tutorial.launch
 
-After a short moment, the Rviz window should appear and look similar to the one at the top of this page. Press the **Next** button at the bottom of the screen or press 'N' on your keyboard while Rviz is focused to progress through each demo step.
+After a short moment, the Rviz window should appear and look similar to the one at the top of this page. To progress through each demo step either press the **Next** button in the **RvizVisualToolsGui** pannel at the bottom of the screen or select **Key Tool** in the **Tools** pannel at the top of the screen and then press **N** on your keyboard while Rviz is focused.
 
 Expected Output
-^^^^^^^^^^^^^^^
-
+---------------
 Watch the `YouTube video demo <https://youtu.be/_5siHkFQPBQ>`_ for expected output. In Rviz, we should be able to see the following:
 
  1. The robot moves its arm to the pose goal to its front.
@@ -50,9 +53,3 @@ Watch the `YouTube video demo <https://youtu.be/_5siHkFQPBQ>`_ for expected outp
  9. The object is removed from the environment.
 
 .. |B| image:: ./move_group_interface_tutorial_robot_with_box.png
-
-Explaining the Demo
-^^^^^^^^^^^^^^^^^^^
-The entire code is located in the moveit_tutorials github repo under the subfolder :codedir:`move_group_interface<move_group_interface>`. Next we step through the code piece by piece to explain its functionality.
-
-.. tutorial-formatter:: ./src/move_group_interface_tutorial.cpp
