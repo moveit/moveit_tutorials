@@ -32,7 +32,7 @@
 # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 #
-# Author: Acorn Pooley
+# Author: Acorn Pooley, Mike Lautman
 
 ## BEGIN_SUB_TUTORIAL imports
 ##
@@ -44,11 +44,12 @@ import rospy
 import moveit_commander
 import moveit_msgs.msg
 import geometry_msgs.msg
+from math import pi
 ## END_SUB_TUTORIAL
 
 from std_msgs.msg import String
 
-def move_group_python_interface_tutorial():
+try:
   ## BEGIN_TUTORIAL
   ##
   ## Setup
@@ -70,22 +71,21 @@ def move_group_python_interface_tutorial():
   scene = moveit_commander.PlanningSceneInterface()
 
   ## Instantiate a MoveGroupCommander object.  This object is an interface
-  ## to one group of joints.  In this case the group is the joints in the left
-  ## arm.  This interface can be used to plan and execute motions on the left
+  ## to one group of joints.  In this case the group is the joints in the panda
+  ## arm.  This interface can be used to plan and execute motions on the panda
   ## arm.
-  group = moveit_commander.MoveGroupCommander("left_arm")
+  group = moveit_commander.MoveGroupCommander("panda_arm")
 
 
   ## We create this DisplayTrajectory publisher which is used below to publish
-  ## trajectories for RVIZ to visualize.
+  ## trajectories for Rviz to visualize.
   display_trajectory_publisher = rospy.Publisher(
                                       '/move_group/display_planned_path',
                                       moveit_msgs.msg.DisplayTrajectory,
                                       queue_size=20)
 
-  ## Wait for RVIZ to initialize. This sleep is ONLY to allow Rviz to come up.
-  print "============ Waiting for RVIZ..."
-  rospy.sleep(10)
+  print "============ Press Enter to Begin the Tutorial..."
+  raw_input()
   print "============ Starting tutorial "
 
   ## Getting Basic Information
@@ -110,28 +110,44 @@ def move_group_python_interface_tutorial():
 
   ## Planning to a Pose goal
   ## ^^^^^^^^^^^^^^^^^^^^^^^
-  ## We can plan a motion for this group to a desired pose for the 
+  ## The panda's zero configuration is at a singularity so the first
+  ## thing we want to do is move it to a slightly better configuration
+  print "============ Commanding the robot with a joint command"
+  ## We can get the joint values from the group
+  joints = group.get_current_joint_values()
+  ## We will adjust some of the joint values
+  joints[1] = -pi/4
+  joints[3] = -pi/2
+  joints[5] = pi/3
+  ## The go command can be called with joint values, poses, or without any
+  ## parameters if you have already set the pose or joint target for the
+  ## group
+  group.go(joints, wait=True)
+
+  print "============ Press Enter to Continue the Tutorial After Rviz Displays Plan1..."
+  raw_input()
+  group.stop()
+
+  ## We can plan a motion for this group to a desired pose for the
   ## end-effector
-  print "============ Generating plan 1"
+  print "============ Generating plan 2"
   pose_target = geometry_msgs.msg.Pose()
   pose_target.orientation.w = 1.0
-  pose_target.position.x = 0.7
+  pose_target.position.x = 0.2
   pose_target.position.y = -0.05
-  pose_target.position.z = 1.1
+  pose_target.position.z = 0.3
   group.set_pose_target(pose_target)
 
   ## Now, we call the planner to compute the plan
   ## and visualize it if successful
-  ## Note that we are just planning, not asking move_group 
+  ## Note that we are just planning, not asking move_group
   ## to actually move the robot
   plan1 = group.plan()
-  
 
-  print "============ Waiting while RVIZ displays plan1..."
-  rospy.sleep(5)
+  print "============ Press Enter to Continue the Tutorial After Rviz Displays Plan2..."
+  raw_input()
 
- 
-  ## You can ask RVIZ to visualize a plan (aka trajectory) for you.  But the
+  ## You can ask Rviz to visualize a plan (aka trajectory) for you.  But the
   ## group.plan() method does this automatically so this is not that useful
   ## here (it just displays the same trajectory again).
   print "============ Visualizing plan1"
@@ -141,32 +157,31 @@ def move_group_python_interface_tutorial():
   display_trajectory.trajectory.append(plan1)
   display_trajectory_publisher.publish(display_trajectory);
 
-  print "============ Waiting while plan1 is visualized (again)..."
-  rospy.sleep(5)
-
+  print "============ Press Enter to Continue the Tutorial After Rviz Displays Plan2 (again)..."
+  raw_input()
 
   ## Moving to a pose goal
   ## ^^^^^^^^^^^^^^^^^^^^^
   ##
   ## Moving to a pose goal is similar to the step above
   ## except we now use the go() function. Note that
-  ## the pose goal we had set earlier is still active 
+  ## the pose goal we had set earlier is still active
   ## and so the robot will try to move to that goal. We will
-  ## not use that function in this tutorial since it is 
+  ## not use that function in this tutorial since it is
   ## a blocking function and requires a controller to be active
   ## and report success on execution of a trajectory.
 
   # Uncomment below line when working with a real robot
   # group.go(wait=True)
-  
-  # Use execute instead if you would like the robot to follow 
+
+  # Use execute instead if you would like the robot to follow
   # the plan that has already been computed
   # group.execute(plan1)
 
-  ## Planning to a joint-space goal 
+  ## Planning to a joint-space goal
   ## ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   ##
-  ## Let's set a joint space goal and move towards it. 
+  ## Let's set a joint space goal and move towards it.
   ## First, we will clear the pose target we had just set.
 
   group.clear_pose_targets()
@@ -182,47 +197,45 @@ def move_group_python_interface_tutorial():
 
   plan2 = group.plan()
 
-  print "============ Waiting while RVIZ displays plan2..."
-  rospy.sleep(5)
+  print "============ Press Enter to Continue the Tutorial After Rviz Displays Plan3..."
+  raw_input()
 
 
   ## Cartesian Paths
   ## ^^^^^^^^^^^^^^^
-  ## You can plan a cartesian path directly by specifying a list of waypoints 
+  ## You can plan a cartesian path directly by specifying a list of waypoints
   ## for the end-effector to go through.
   waypoints = []
 
-  # first orient gripper and move forward (+x)
-  wpose = geometry_msgs.msg.Pose()  
-  wpose.orientation.w = 1.0
-  wpose.position.x += 0.1
+  # first move down (-z)
+  wpose = group.get_current_pose().pose
+  wpose.position.z -= 0.2
   waypoints.append(copy.deepcopy(wpose))
 
 
-  # second move down
-  wpose.position.z -= 0.10
+  # second move forwards
+  wpose.position.x = 0.40
   waypoints.append(copy.deepcopy(wpose))
 
   # third move to the side
-  wpose.position.y += 0.05
+  wpose.position.y += 0.3
   waypoints.append(copy.deepcopy(wpose))
 
   ## We want the cartesian path to be interpolated at a resolution of 1 cm
   ## which is why we will specify 0.01 as the eef_step in cartesian
-  ## translation.  We will specify the jump threshold as 0.0, effectively
-  ## disabling it.
+  ## translation.  We will specify the jump threshold to 0.0 disabling it.
   (plan3, fraction) = group.compute_cartesian_path(
                                waypoints,   # waypoints to follow
                                0.01,        # eef_step
                                0.0)         # jump_threshold
-                               
-  print "============ Waiting while RVIZ displays plan3..."
-  rospy.sleep(5)
+
+  print "============ Press Enter to Continue the Tutorial After Rviz Displays Plan4..."
+  raw_input()
 
   # Uncomment the line below to execute this plan on a real robot.
   # group.execute(plan3)
-  
-  
+
+
   ## Adding/Removing Objects and Attaching/Detaching Objects
   ## ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   ## First, we will define the collision object message
@@ -237,10 +250,6 @@ def move_group_python_interface_tutorial():
 
   print "============ STOPPING"
 
-
-if __name__=='__main__':
-  try:
-    move_group_python_interface_tutorial()
-  except rospy.ROSInterruptException:
-    pass
+except rospy.ROSInterruptException:
+  pass
 
