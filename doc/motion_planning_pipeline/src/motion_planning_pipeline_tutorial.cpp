@@ -81,7 +81,7 @@ int main(int argc, char** argv)
       new planning_pipeline::PlanningPipeline(robot_model, node_handle, "planning_plugin", "request_adapters"));
 
   /* Sleep a little to allow time to startup rviz, etc. */
-  ros::WallDuration sleep_time(20.0);
+  ros::WallDuration sleep_time(15.0);
   sleep_time.sleep();
 
   // Pose Goal
@@ -91,10 +91,10 @@ int main(int argc, char** argv)
   planning_interface::MotionPlanRequest req;
   planning_interface::MotionPlanResponse res;
   geometry_msgs::PoseStamped pose;
-  pose.header.frame_id = "torso_lift_link";
-  pose.pose.position.x = 0.75;
+  pose.header.frame_id = "panda_link0";
+  pose.pose.position.x = 0.3;
   pose.pose.position.y = 0.0;
-  pose.pose.position.z = 0.0;
+  pose.pose.position.z = 0.75;
   pose.pose.orientation.w = 1.0;
 
   // A tolerance of 0.01 m is specified in position
@@ -108,9 +108,9 @@ int main(int argc, char** argv)
   // package.
   //
   // .. _kinematic_constraints: http://docs.ros.org/indigo/api/moveit_core/html/namespacekinematic__constraints.html#a88becba14be9ced36fefc7980271e132
-  req.group_name = "right_arm";
+  req.group_name = "panda_arm";
   moveit_msgs::Constraints pose_goal =
-      kinematic_constraints::constructGoalConstraints("r_wrist_roll_link", pose, tolerance_pose, tolerance_angle);
+      kinematic_constraints::constructGoalConstraints("panda_link8", pose, tolerance_pose, tolerance_angle);
   req.goal_constraints.push_back(pose_goal);
 
   // Now, call the pipeline and check whether planning was successful.
@@ -144,15 +144,12 @@ int main(int argc, char** argv)
   /* First, set the state in the planning scene to the final state of the last plan */
   robot_state::RobotState& robot_state = planning_scene->getCurrentStateNonConst();
   planning_scene->setCurrentState(response.trajectory_start);
-  const robot_model::JointModelGroup* joint_model_group = robot_state.getJointModelGroup("right_arm");
+  const robot_model::JointModelGroup* joint_model_group = robot_state.getJointModelGroup("panda_arm");
   robot_state.setJointGroupPositions(joint_model_group, response.trajectory.joint_trajectory.points.back().positions);
 
   // Now, setup a joint space goal
   robot_state::RobotState goal_state(robot_model);
-  std::vector<double> joint_values(7, 0.0);
-  joint_values[0] = -2.0;
-  joint_values[3] = -0.2;
-  joint_values[5] = -0.15;
+  std::vector<double> joint_values = {-1.0, 0.7, 0.7, -1.5, -0.7, 2.0, 0.0};
   goal_state.setJointGroupPositions(joint_model_group, joint_values);
   moveit_msgs::Constraints joint_goal = kinematic_constraints::constructGoalConstraints(goal_state, joint_model_group);
 
@@ -182,16 +179,13 @@ int main(int argc, char** argv)
   // should happen either before planning takes place or after the planning
   // has been done on the resultant path
 
-  // First, let's purposefully set the initial state to be outside the
-  // joint limits and let the
-  // planning request adapter deal with it
   /* First, set the state in the planning scene to the final state of the last plan */
   robot_state = planning_scene->getCurrentStateNonConst();
   planning_scene->setCurrentState(response.trajectory_start);
   robot_state.setJointGroupPositions(joint_model_group, response.trajectory.joint_trajectory.points.back().positions);
 
   // Now, set one of the joints slightly outside its upper limit
-  const robot_model::JointModel* joint_model = joint_model_group->getJointModel("r_shoulder_pan_joint");
+  const robot_model::JointModel* joint_model = joint_model_group->getJointModel("panda_joint3");
   const robot_model::JointModel::Bounds& joint_bounds = joint_model->getVariableBounds();
   std::vector<double> tmp_values(1, 0.0);
   tmp_values[0] = joint_bounds[0].min_position_ - 0.01;
