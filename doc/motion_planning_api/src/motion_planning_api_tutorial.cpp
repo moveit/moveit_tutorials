@@ -32,7 +32,7 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *********************************************************************/
 
-/* Author: Sachin Chitta */
+/* Author: Sachin Chitta, Michael Lautman */
 
 #include <pluginlib/class_loader.h>
 #include <ros/ros.h>
@@ -60,13 +60,11 @@ int main(int argc, char** argv)
   // Setting up to start using a planner is pretty easy. Planners are
   // setup as plugins in MoveIt! and you can use the ROS pluginlib
   // interface to load any planner that you want to use. Before we
-  // can load the planner, we need two objects, a RobotModel
-  // and a PlanningScene.
-  // We will start by instantiating a
-  // `RobotModelLoader`_
-  // object, which will look up
-  // the robot description on the ROS parameter server and construct a
-  // :moveit_core:`RobotModel` for us to use.
+  // can load the planner, we need two objects, a RobotModel and a
+  // PlanningScene. We will start by instantiating a `RobotModelLoader`_
+  // object, which will look up the robot description on the ROS
+  // parameter server and construct a :moveit_core:`RobotModel` for us
+  // to use.
   //
   // .. _RobotModelLoader: http://docs.ros.org/indigo/api/moveit_ros_planning/html/classrobot__model__loader_1_1RobotModelLoader.html
   robot_model_loader::RobotModelLoader robot_model_loader("robot_description");
@@ -120,15 +118,15 @@ int main(int argc, char** argv)
 
   // Pose Goal
   // ^^^^^^^^^
-  // We will now create a motion plan request for the right arm of the PR2
+  // We will now create a motion plan request for the arm of the Panda
   // specifying the desired pose of the end-effector as input.
   planning_interface::MotionPlanRequest req;
   planning_interface::MotionPlanResponse res;
   geometry_msgs::PoseStamped pose;
-  pose.header.frame_id = "torso_lift_link";
-  pose.pose.position.x = 0.75;
+  pose.header.frame_id = "panda_link0";
+  pose.pose.position.x = 0.3;
   pose.pose.position.y = 0.0;
-  pose.pose.position.z = 0.0;
+  pose.pose.position.z = 0.75;
   pose.pose.orientation.w = 1.0;
 
   // A tolerance of 0.01 m is specified in position
@@ -142,9 +140,9 @@ int main(int argc, char** argv)
   // package.
   //
   // .. _kinematic_constraints: http://docs.ros.org/indigo/api/moveit_core/html/namespacekinematic__constraints.html#a88becba14be9ced36fefc7980271e132
-  req.group_name = "right_arm";
+  req.group_name = "panda_arm";
   moveit_msgs::Constraints pose_goal =
-      kinematic_constraints::constructGoalConstraints("r_wrist_roll_link", pose, tolerance_pose, tolerance_angle);
+      kinematic_constraints::constructGoalConstraints("panda_link8", pose, tolerance_pose, tolerance_angle);
   req.goal_constraints.push_back(pose_goal);
 
   // We now construct a planning context that encapsulate the scene,
@@ -181,15 +179,12 @@ int main(int argc, char** argv)
   /* First, set the state in the planning scene to the final state of the last plan */
   robot_state::RobotState& robot_state = planning_scene->getCurrentStateNonConst();
   planning_scene->setCurrentState(response.trajectory_start);
-  const robot_state::JointModelGroup* joint_model_group = robot_state.getJointModelGroup("right_arm");
+  const robot_state::JointModelGroup* joint_model_group = robot_state.getJointModelGroup("panda_arm");
   robot_state.setJointGroupPositions(joint_model_group, response.trajectory.joint_trajectory.points.back().positions);
 
   // Now, setup a joint space goal
   robot_state::RobotState goal_state(robot_model);
-  std::vector<double> joint_values(7, 0.0);
-  joint_values[0] = -2.0;
-  joint_values[3] = -0.2;
-  joint_values[5] = -0.15;
+  std::vector<double> joint_values = {-1.0, 0.7, 0.7, -1.5, -0.7, 2.0, 0.0};
   goal_state.setJointGroupPositions(joint_model_group, joint_values);
   moveit_msgs::Constraints joint_goal = kinematic_constraints::constructGoalConstraints(goal_state, joint_model_group);
   req.goal_constraints.clear();
@@ -232,11 +227,13 @@ int main(int argc, char** argv)
   // ^^^^^^^^^^^^^^^^^^^^^^^
   // Let's add a new pose goal again. This time we will also add a path constraint to the motion.
   /* Let's create a new pose goal */
-  pose.pose.position.x = 0.65;
-  pose.pose.position.y = -0.2;
-  pose.pose.position.z = -0.1;
+
+  pose.pose.position.x = 0.32;
+  pose.pose.position.y = -0.25;
+  pose.pose.position.z = 0.65;
+  pose.pose.orientation.w = 1.0;
   moveit_msgs::Constraints pose_goal_2 =
-      kinematic_constraints::constructGoalConstraints("r_wrist_roll_link", pose, tolerance_pose, tolerance_angle);
+      kinematic_constraints::constructGoalConstraints("panda_link8", pose, tolerance_pose, tolerance_angle);
   /* First, set the state in the planning scene to the final state of the last plan */
   robot_state.setJointGroupPositions(joint_model_group, response.trajectory.joint_trajectory.points.back().positions);
   /* Now, let's try to move to this new pose goal*/
@@ -246,9 +243,9 @@ int main(int argc, char** argv)
   /* But, let's impose a path constraint on the motion.
      Here, we are asking for the end-effector to stay level*/
   geometry_msgs::QuaternionStamped quaternion;
-  quaternion.header.frame_id = "torso_lift_link";
+  quaternion.header.frame_id = "panda_link0";
   quaternion.quaternion.w = 1.0;
-  req.path_constraints = kinematic_constraints::constructGoalConstraints("r_wrist_roll_link", quaternion);
+  req.path_constraints = kinematic_constraints::constructGoalConstraints("panda_link8", quaternion);
 
   // Imposing path constraints requires the planner to reason in the space of possible positions of the end-effector
   // (the workspace of the robot)
