@@ -38,7 +38,7 @@ MoveIt! uses the meshes specified in the URDF for collision checking. The URDF a
 
 Test your URDF
 """"""""""""""
-It is very important to test your URDF out and make sure things are ok. The ROS URDF packages provide a tool that can help you check your URDF. To use this tool, follow the instructions here.
+It is very important to test your URDF out and make sure things are ok. The ROS URDF packages provide a check_urdf tool. To verify your URDF using the check_urdf tool, follow the instructions `here <http://wiki.ros.org/urdf#Verification>`_.
 
 URDF Examples
 ^^^^^^^^^^^^^
