@@ -4,22 +4,24 @@ Prerequisites
 Install ROS and MoveIt!
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-Install ROS `Indigo <http://wiki.ros.org/indigo/Installation/Ubuntu>`_, `Kinetic <http://wiki.ros.org/kinetic/Installation/Ubuntu>`_, or `Lunar <http://wiki.ros.org/lunar/Installation/Ubuntu>`_. (We recommend Kinetic) Please make sure you have followed all steps and have the latest versions of packages installed::
+Install ROS `Indigo <http://wiki.ros.org/indigo/Installation/Ubuntu>`_, `Kinetic <http://wiki.ros.org/kinetic/Installation/Ubuntu>`_, or `Lunar <http://wiki.ros.org/lunar/Installation/Ubuntu>`_ (we recommend Kinetic). Please make sure you have followed all steps and have the latest versions of packages installed::
 
-  rosdep update 
+  rosdep update
   sudo apt-get update
   sudo apt-get dist-upgrade
 
-Install MoveIt! ::
+Install MoveIt! from pre-built binaries ::
 
-  sudo apt-install ros-<YOUR DISTRO>-moveit
+  sudo apt install ros-kinetic-moveit
 
-Advanced users might want to `install MoveIt! from source <http://moveit.ros.org/install/source/>`_.
+**Note:** If you are using a version of MoveIt! other than Kinetic replace `kinetic` with the apropriate distribution.
+
+**Note:** Advanced users might want to `install MoveIt! from source <http://moveit.ros.org/install/source/>`_.
 
 Create A Catkin Workspace
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-You will need to have a `Catkin <wiki.ros.org/catkin>`_ workspace setup::
+You will need to have a `Catkin <wiki.ros.org/catkin>`_ workspace setup to build this tutorials package::
 
   mkdir -p ~/ws_moveit/src
   cd ~/ws_moveit/src
@@ -30,7 +32,7 @@ Download and Build the Example Code
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Within your `Catkin <wiki.ros.org/catkin>`_ workspace, download these tutorials::
-  
+
   cd ~/ws_moveit/src
   git clone https://github.com/ros-planning/moveit_tutorials.git
   rosdep install -y --from-paths . --ignore-src --rosdistro lunar
@@ -38,7 +40,7 @@ Within your `Catkin <wiki.ros.org/catkin>`_ workspace, download these tutorials:
   catkin config --extend /opt/ros/lunar --cmake-args -DCMAKE_BUILD_TYPE=Release
   catkin build
 
-Source the Catkin Workspace:: 
+Source the Catkin Workspace::
 
   source ~/ws_moveit/devel/setup.bash
 
