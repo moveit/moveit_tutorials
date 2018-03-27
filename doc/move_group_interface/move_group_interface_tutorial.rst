@@ -5,20 +5,12 @@ In MoveIt!, the simplest user interface is through the :move_group_interface:`Mo
 
 .. image:: move_group_interface_tutorial_start_screen.png
 
+Watch this quick `YouTube video demo <https://youtu.be/_5siHkFQPBQ>`_ to see the power of the move group interface!
+
 Prerequisites
 -------------
 If you haven't already done so, make sure you've completed the steps in `Prerequisites
 <../prerequisites/prerequisites.html>`_.
-
-The entire code
----------------
-The entire code can be seen :codedir:`here in the MoveIt! Github project<move_group_interface/src/move_group_interface_tutorial.cpp>`.
-
-.. tutorial-formatter:: ./src/move_group_interface_tutorial.cpp
-
-The launch file
----------------
-The entire launch file is :codedir:`here<move_group_interface/launch/move_group_interface_tutorial.launch>` on github. All the code in this tutorial can be run from the moveit_tutorials package that you have as part of your MoveIt! setup.
 
 Running the Code
 ----------------
@@ -38,8 +30,7 @@ After a short moment, the Rviz window should appear and look similar to the one 
 
 Expected Output
 ---------------
-Watch the `YouTube video demo <https://youtu.be/_5siHkFQPBQ>`_ for expected output. In Rviz, we should be able to see the following:
-
+See the `YouTube video <https://youtu.be/_5siHkFQPBQ>`_ at the top of this tutorial for expected output. In Rviz, we should be able to see the following:
  1. The robot moves its arm to the pose goal to its front.
  2. The robot moves its arm to the joint goal at its side.
  3. The robot moves its arm back to a new pose goal while maintaining the end-effector level.
@@ -53,3 +44,13 @@ Watch the `YouTube video demo <https://youtu.be/_5siHkFQPBQ>`_ for expected outp
  9. The object is removed from the environment.
 
 .. |B| image:: ./move_group_interface_tutorial_robot_with_box.png
+
+The Entire Code
+---------------
+The entire code can be seen :codedir:`here in the MoveIt! Github project<move_group_interface/src/move_group_interface_tutorial.cpp>`. Next we step through the code piece by piece to explain its functionality.
+
+.. tutorial-formatter:: ./src/move_group_interface_tutorial.cpp
+
+The Launch File
+---------------
+The entire launch file is :codedir:`here<move_group_interface/launch/move_group_interface_tutorial.launch>` on GitHub. All the code in this tutorial can be run from the **moveit_tutorials** package that you have as part of your MoveIt! setup.
