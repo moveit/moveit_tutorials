@@ -19,7 +19,7 @@ A Python-based integration test is available for testing higher-level move_group
 Test Robots
 -----------
 
-**PR2**
+**Panda**
 
 From the package `panda_moveit_config <https://github.com/PickNikRobotics/panda_moveit_config>`_ ::
 
