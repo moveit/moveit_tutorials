@@ -32,7 +32,7 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *********************************************************************/
 
-/* Author: Acorn Pooley */
+/* Author: Acorn Pooley, Michael Lautman */
 
 // This code goes with the Collision Contact Visualization tutorial
 
@@ -59,7 +59,7 @@ void help()
   ROS_INFO("RVIZ SETUP");
   ROS_INFO("----------");
   ROS_INFO("  Global options:");
-  ROS_INFO("    FixedFrame = /base_footprint");
+  ROS_INFO("    FixedFrame = /panda_link0");
   ROS_INFO("  Add a RobotState display:");
   ROS_INFO("    RobotDescription = robot_description");
   ROS_INFO("    RobotStateTopic  = interactive_robot_state");
@@ -91,7 +91,7 @@ void publishMarkers(visualization_msgs::MarkerArray& markers)
     g_marker_array_publisher->publish(g_collision_points);
 }
 
-void userCallback(InteractiveRobot& robot)
+void computeCollisionContactPoints(InteractiveRobot& robot)
 {
   // move the world geometry in the collision world
   Eigen::Affine3d world_cube_pose;
@@ -99,7 +99,11 @@ void userCallback(InteractiveRobot& robot)
   robot.getWorldGeometry(world_cube_pose, world_cube_size);
   g_planning_scene->getWorldNonConst()->moveShapeInObject("world_cube", g_world_cube_shape, world_cube_pose);
 
-  // prepare to check collisions
+  // BEGIN_SUB_TUTORIAL computeCollisionContactPoints
+  //
+  // Collision Requests
+  // ^^^^^^^^^^^^^^^^^^
+  // We will create a collision request for the Panda robot
   collision_detection::CollisionRequest c_req;
   collision_detection::CollisionResult c_res;
   c_req.group_name = robot.getGroupName();
@@ -108,15 +112,23 @@ void userCallback(InteractiveRobot& robot)
   c_req.max_contacts_per_pair = 5;
   c_req.verbose = false;
 
-  // check for collisions between robot and itself or the world
+  // Checking for Collisions
+  // ^^^^^^^^^^^^^^^^^^^^^^^
+  // We check for collisions between robot and itself or the world.
   g_planning_scene->checkCollision(c_req, c_res, *robot.robotState());
 
-  // display results of the collision check
+  // Displaying Collision Contacts
+  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  // If there are collisions, we get the contact points and display them as markers.
+  // **getCollisionMarkersFromContacts()** is a helper function that adds the
+  // collision contact points into a MarkerArray message. If you want to use
+  // the contact points for something other than displaying them you can
+  // iterate through **c_res.contacts** which is a std::map of contact points.
+  // Look at the implementation of getCollisionMarkersFromContacts() in
+  // `collision_tools.cpp <https://github.com/ros-planning/moveit/blob/kinetic-devel/moveit_core/collision_detection/src/collision_tools.cpp>`_ for how.
   if (c_res.collision)
   {
     ROS_INFO("COLLIDING contact_point_count=%d", (int)c_res.contact_count);
-
-    // get the contact points and display them as markers
     if (c_res.contact_count > 0)
     {
       std_msgs::ColorRGBA color;
@@ -125,12 +137,18 @@ void userCallback(InteractiveRobot& robot)
       color.b = 1.0;
       color.a = 0.5;
       visualization_msgs::MarkerArray markers;
-      collision_detection::getCollisionMarkersFromContacts(markers, "base_footprint", c_res.contacts, color,
+
+      /* Get the contact ponts and display them as markers */
+      collision_detection::getCollisionMarkersFromContacts(markers,
+                                                           "panda_link0",
+                                                           c_res.contacts,
+                                                           color,
                                                            ros::Duration(),  // remain until deleted
                                                            0.01);            // radius
       publishMarkers(markers);
     }
   }
+  // END_SUB_TUTORIAL
   else
   {
     ROS_INFO("Not colliding");
@@ -143,26 +161,36 @@ void userCallback(InteractiveRobot& robot)
 
 int main(int argc, char** argv)
 {
-  ros::init(argc, argv, "acorn_play");
+  ros::init(argc, argv, "collision_contact_tutorial");
   ros::NodeHandle nh;
 
+  // BEGIN_TUTORIAL
+  //
+  // Initializing the Planning Scene and Markers
+  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  // For this tutorial we use an :codedir:`InteractiveRobot <interactivity/src/interactive_robot.cpp>`
+  // object as a wrapper that combines a robot_model with the cube and an interactive marker. We also
+   // create a :planning_scene:`PlanningScene` for collision checking. If you haven't already gone through the
+  // `planning scene tutorial <../planning_scene/planning_scene_tutorial.html>`_, you go through that first.
   InteractiveRobot robot;
-
-  // create a PlanningScene
+  /* Create a PlanningScene */
   g_planning_scene = new planning_scene::PlanningScene(robot.robotModel());
 
-  // Add the world geometry to the PlanningScene's collision detection world
+  // Adding geometry to the PlanningScene
   Eigen::Affine3d world_cube_pose;
   double world_cube_size;
   robot.getWorldGeometry(world_cube_pose, world_cube_size);
   g_world_cube_shape.reset(new shapes::Box(world_cube_size, world_cube_size, world_cube_size));
   g_planning_scene->getWorldNonConst()->addToObject("world_cube", g_world_cube_shape, world_cube_pose);
 
+  // CALL_SUB_TUTORIAL computeCollisionContactPoints
+  // END_TUTORIAL
+
   // Create a marker array publisher for publishing contact points
   g_marker_array_publisher =
       new ros::Publisher(nh.advertise<visualization_msgs::MarkerArray>("interactive_robot_marray", 100));
 
-  robot.setUserCallback(userCallback);
+  robot.setUserCallback(computeCollisionContactPoints);
 
   help();
 
@@ -170,7 +198,6 @@ int main(int argc, char** argv)
 
   delete g_planning_scene;
   delete g_marker_array_publisher;
-  ;
 
   ros::shutdown();
   return 0;

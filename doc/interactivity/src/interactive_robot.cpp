@@ -32,7 +32,7 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *********************************************************************/
 
-/* Author: Acorn Pooley */
+/* Author: Acorn Pooley, Michael Lautman */
 
 // This code goes with the interactivity tutorial
 
@@ -87,18 +87,18 @@ InteractiveRobot::InteractiveRobot(const std::string& robot_description, const s
   }
   robot_state_->setToDefaultValues();
 
-  // Prepare to move the "right_arm" group
-  group_ = robot_state_->getJointModelGroup("right_arm");
+  // Prepare to move the "panda_arm" group
+  group_ = robot_state_->getJointModelGroup("panda_arm");
   std::string end_link = group_->getLinkModelNames().back();
   desired_group_end_link_pose_ = robot_state_->getGlobalLinkTransform(end_link);
 
-  // Create a marker to control the "right_arm" group
-  imarker_robot_ = new IMarker(interactive_marker_server_, "robot", desired_group_end_link_pose_, "/base_footprint",
+  // Create a marker to control the "panda_arm" group
+  imarker_robot_ = new IMarker(interactive_marker_server_, "robot", desired_group_end_link_pose_, "/panda_link0",
                                boost::bind(movedRobotMarkerCallback, this, _1), IMarker::BOTH),
 
   // create an interactive marker to control the world geometry (the yellow cube)
       desired_world_object_pose_ = DEFAULT_WORLD_OBJECT_POSE_;
-  imarker_world_ = new IMarker(interactive_marker_server_, "world", desired_world_object_pose_, "/base_footprint",
+  imarker_world_ = new IMarker(interactive_marker_server_, "world", desired_world_object_pose_, "/panda_link0",
                                boost::bind(movedWorldMarkerCallback, this, _1), IMarker::POS),
 
   // start publishing timer.
@@ -292,7 +292,7 @@ void InteractiveRobot::setWorldObjectPose(const Eigen::Affine3d& pose)
 void InteractiveRobot::publishWorldState()
 {
   visualization_msgs::Marker marker;
-  marker.header.frame_id = "/base_footprint";
+  marker.header.frame_id = "/panda_link0";
   marker.header.stamp = ros::Time::now();
   marker.ns = "world_box";
   marker.id = 0;

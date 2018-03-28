@@ -32,7 +32,7 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *********************************************************************/
 
-/* Author: Acorn Pooley */
+/* Author: Acorn Pooley, Mike Lautman */
 
 // This code goes with the Attached Body tutorial
 
@@ -59,7 +59,7 @@ void help()
   ROS_INFO("RVIZ SETUP");
   ROS_INFO("----------");
   ROS_INFO("  Global options:");
-  ROS_INFO("    FixedFrame = /base_footprint");
+  ROS_INFO("    FixedFrame = /panda_link0");
   ROS_INFO("  Add a RobotState display:");
   ROS_INFO("    RobotDescription = robot_description");
   ROS_INFO("    RobotStateTopic  = interactive_robot_state");
@@ -102,8 +102,8 @@ void userCallback(InteractiveRobot& robot)
   // prepare to check collisions
   collision_detection::CollisionRequest c_req;
   collision_detection::CollisionResult c_res;
-  c_req.group_name = "right_gripper";
-  // c_req.group_name = "right_arm";
+  c_req.group_name = "hand";
+  // c_req.group_name = "panda_arm";
   c_req.contacts = true;
   c_req.max_contacts = 100;
   c_req.max_contacts_per_pair = 5;
@@ -126,7 +126,10 @@ void userCallback(InteractiveRobot& robot)
       color.b = 1.0;
       color.a = 0.5;
       visualization_msgs::MarkerArray markers;
-      collision_detection::getCollisionMarkersFromContacts(markers, "base_footprint", c_res.contacts, color,
+      collision_detection::getCollisionMarkersFromContacts(markers,
+                                                           "panda_link0",
+                                                           c_res.contacts,
+                                                           color,
                                                            ros::Duration(),  // remain until deleted
                                                            0.01);            // radius
       publishMarkers(markers);
@@ -144,7 +147,7 @@ void userCallback(InteractiveRobot& robot)
 
 int main(int argc, char** argv)
 {
-  ros::init(argc, argv, "acorn_play");
+  ros::init(argc, argv, "attached_body_tutorial");
   ros::NodeHandle nh;
 
   InteractiveRobot robot;
@@ -179,7 +182,7 @@ int main(int argc, char** argv)
   const robot_model::JointModelGroup* r_gripper_group = robot.robotModel()->getJointModelGroup("right_gripper");
   const std::vector<std::string>& touch_links = r_gripper_group->getLinkModelNames();
 
-  robot.robotState()->attachBody("bar", shapes, poses, touch_links, "r_gripper_palm_link");
+  robot.robotState()->attachBody("bar", shapes, poses, touch_links, "robot_link8");
 
   robot.setUserCallback(userCallback);
 
