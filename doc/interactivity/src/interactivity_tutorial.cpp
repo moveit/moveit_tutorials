@@ -32,7 +32,7 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *********************************************************************/
 
-/* Author: Acorn Pooley */
+/* Author: Acorn Pooley, Michael Lautman */
 
 // This code goes with the interactivity tutorial
 
@@ -46,7 +46,7 @@ void help()
   ROS_INFO("RVIZ SETUP");
   ROS_INFO("----------");
   ROS_INFO("  Global options:");
-  ROS_INFO("    FixedFrame = /base_footprint");
+  ROS_INFO("    FixedFrame = /panda_link0");
   ROS_INFO("  Add a RobotState display:");
   ROS_INFO("    RobotDescription = robot_description");
   ROS_INFO("    RobotStateTopic  = interactive_robot_state");
@@ -59,12 +59,12 @@ void help()
 
 void userCallback(InteractiveRobot &robot)
 {
-  ROS_INFO_STREAM("Robot position: " << PoseString(robot.robotState()->getGlobalLinkTransform("r_wrist_roll_link")));
+  ROS_INFO_STREAM("Robot position: " << PoseString(robot.robotState()->getGlobalLinkTransform("panda_link8")));
 }
 
 int main(int argc, char **argv)
 {
-  ros::init(argc, argv, "acorn_play");
+  ros::init(argc, argv, "interactivity_tutorial");
   ros::NodeHandle nh;
 
   InteractiveRobot robot;
