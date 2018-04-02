@@ -139,7 +139,7 @@ int main(int argc, char** argv)
   // Getting Contact Information
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~
   //
-  // First, manually set the panda arm to a position where we know
+  // First, manually set the Panda arm to a position where we know
   // internal (self) collisions do happen. Note that this state is now
   // actually outside the joint limits of the Panda, which we can also
   // check for directly.
