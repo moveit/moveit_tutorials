@@ -43,7 +43,7 @@
 
 int main(int argc, char **argv)
 {
-  ros::init(argc, argv, "right_arm_kinematics");
+  ros::init(argc, argv, "kinematic_model_tutorial");
   ros::AsyncSpinner spinner(1);
   spinner.start();
 
@@ -85,7 +85,7 @@ int main(int argc, char **argv)
 
   // Get Joint Values
   // ^^^^^^^^^^^^^^^^
-  // We can retreive the current set of joint values stored in the state for the right arm.
+  // We can retreive the current set of joint values stored in the state for the Panda arm.
   std::vector<double> joint_values;
   kinematic_state->copyJointGroupPositions(joint_model_group, joint_values);
   for (std::size_t i = 0; i < joint_names.size(); ++i)
@@ -96,7 +96,7 @@ int main(int argc, char **argv)
   // Joint Limits
   // ^^^^^^^^^^^^
   // setJointGroupPositions() does not enforce joint limits by itself, but a call to enforceBounds() will do it.
-  /* Set one joint in the right arm outside its joint limit */
+  /* Set one joint in the Panda arm outside its joint limit */
   joint_values[0] = 5.57;
   kinematic_state->setJointGroupPositions(joint_model_group, joint_values);
 
@@ -111,8 +111,8 @@ int main(int argc, char **argv)
   // ^^^^^^^^^^^^^^^^^^
   // Now, we can compute forward kinematics for a set of random joint
   // values. Note that we would like to find the pose of the
-  // "r_wrist_roll_link" which is the most distal link in the
-  // "right_arm" of the robot.
+  // "panda_link8" which is the most distal link in the
+  // "panda_arm" group of the robot.
   kinematic_state->setToRandomPositions(joint_model_group);
   const Eigen::Affine3d &end_effector_state = kinematic_state->getGlobalLinkTransform("panda_link8");
 
@@ -122,7 +122,7 @@ int main(int argc, char **argv)
 
   // Inverse Kinematics
   // ^^^^^^^^^^^^^^^^^^
-  // We can now solve inverse kinematics (IK) for the right arm of the
+  // We can now solve inverse kinematics (IK) for the arm of the
   // Panda robot. To solve IK, we will need the following:
   //
   // * The desired pose of the end-effector (by default, this is the last link in the "panda_arm" chain):
