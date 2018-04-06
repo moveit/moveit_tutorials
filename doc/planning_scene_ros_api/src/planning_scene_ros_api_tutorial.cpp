@@ -32,7 +32,7 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *********************************************************************/
 
-/* Author: Sachin Chitta */
+/* Author: Sachin Chitta, Michael Lautman */
 
 #include <ros/ros.h>
 #include <geometry_msgs/Pose.h>
@@ -48,6 +48,8 @@
 #include <moveit/robot_state/robot_state.h>
 #include <moveit/robot_state/conversions.h>
 
+#include <moveit_visual_tools/moveit_visual_tools.h>
+
 int main(int argc, char **argv)
 {
   ros::init(argc, argv, "planning_scene_ros_api_tutorial");
@@ -55,12 +57,15 @@ int main(int argc, char **argv)
   spinner.start();
 
   ros::NodeHandle node_handle;
-  ros::Duration sleep_time(10.0);
-  sleep_time.sleep();
-  sleep_time.sleep();
-
   // BEGIN_TUTORIAL
   //
+  // Visualization
+  // ^^^^^^^^^^^^^
+  // The package MoveItVisualTools provides many capabilties for visualizing objects, robots,
+  // and trajectories in Rviz as well as debugging tools such as step-by-step introspection of a script
+  moveit_visual_tools::MoveItVisualTools visual_tools("panda_link0");
+  visual_tools.deleteAllMarkers();
+
   // ROS API
   // ^^^^^^^
   // The ROS API to the planning scene publisher is through a topic interface
@@ -70,13 +75,15 @@ int main(int argc, char **argv)
   //
   // Advertise the required topic
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  // We create a publisher and wait for there to be subscribers
   // Note that this topic may need to be remapped in the launch file
   ros::Publisher planning_scene_diff_publisher = node_handle.advertise<moveit_msgs::PlanningScene>("planning_scene", 1);
+  ros::WallDuration sleep_t(0.5);
   while (planning_scene_diff_publisher.getNumSubscribers() < 1)
   {
-    ros::WallDuration sleep_t(0.5);
     sleep_t.sleep();
   }
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to start the demo");
 
   // Define the attached object message
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -84,9 +91,9 @@ int main(int argc, char **argv)
   // subtract the object from the world
   // and to attach the object to the robot
   moveit_msgs::AttachedCollisionObject attached_object;
-  attached_object.link_name = "r_wrist_roll_link";
+  attached_object.link_name = "panda_leftfinger";
   /* The header must contain a valid TF frame*/
-  attached_object.object.header.frame_id = "r_wrist_roll_link";
+  attached_object.object.header.frame_id = "panda_leftfinger";
   /* The id of the object */
   attached_object.object.id = "box";
 
@@ -109,18 +116,22 @@ int main(int argc, char **argv)
   // the corresponding operation to be specified as an ADD operation
   attached_object.object.operation = attached_object.object.ADD;
 
+  // Since we are attaching the object to the robot hand to simulate picking up the object,
+  // we want the collision checker to ignore collisions between the object and the robot hand
+  attached_object.touch_links = std::vector<std::string>{"panda_hand","panda_leftfinger","panda_rightfinger"};
+
   // Add an object into the environment
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   // Add the object into the environment by adding it to
   // the set of collision objects in the "world" part of the
   // planning scene. Note that we are using only the "object"
   // field of the attached_object message here.
-  ROS_INFO("Adding the object into the world at the location of the right wrist.");
+  ROS_INFO("Adding the object into the world at the location of the hand.");
   moveit_msgs::PlanningScene planning_scene;
   planning_scene.world.collision_objects.push_back(attached_object.object);
   planning_scene.is_diff = true;
   planning_scene_diff_publisher.publish(planning_scene);
-  sleep_time.sleep();
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
 
   // Interlude: Synchronous vs Asynchronous updates
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -159,20 +170,21 @@ int main(int argc, char **argv)
   /* First, define the REMOVE object message*/
   moveit_msgs::CollisionObject remove_object;
   remove_object.id = "box";
-  remove_object.header.frame_id = "odom_combined";
+  remove_object.header.frame_id = "panda_link0";
   remove_object.operation = remove_object.REMOVE;
 
   // Note how we make sure that the diff message contains no other
   // attached objects or collisions objects by clearing those fields
   // first.
   /* Carry out the REMOVE + ATTACH operation */
-  ROS_INFO("Attaching the object to the right wrist and removing it from the world.");
+  ROS_INFO("Attaching the object to the hand and removing it from the world.");
   planning_scene.world.collision_objects.clear();
   planning_scene.world.collision_objects.push_back(remove_object);
   planning_scene.robot_state.attached_collision_objects.push_back(attached_object);
   planning_scene_diff_publisher.publish(planning_scene);
 
-  sleep_time.sleep();
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
+
 
   // Detach an object from the robot
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -183,7 +195,7 @@ int main(int argc, char **argv)
   /* First, define the DETACH object message*/
   moveit_msgs::AttachedCollisionObject detach_object;
   detach_object.object.id = "box";
-  detach_object.link_name = "r_wrist_roll_link";
+  detach_object.link_name = "panda_link8";
   detach_object.object.operation = attached_object.object.REMOVE;
 
   // Note how we make sure that the diff message contains no other
@@ -199,7 +211,8 @@ int main(int argc, char **argv)
   planning_scene.is_diff = true;
   planning_scene_diff_publisher.publish(planning_scene);
 
-  sleep_time.sleep();
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
+
 
   // Remove the object from the collision world
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -214,6 +227,8 @@ int main(int argc, char **argv)
   planning_scene.world.collision_objects.push_back(remove_object);
   planning_scene_diff_publisher.publish(planning_scene);
   // END_TUTORIAL
+
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to end the demo");
 
   ros::shutdown();
   return 0;
