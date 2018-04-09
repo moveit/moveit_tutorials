@@ -170,7 +170,7 @@ void place(moveit::planning_interface::MoveGroupInterface &group)
 
 int main(int argc, char **argv)
 {
-  ros::init(argc, argv, "right_arm_pick_place");
+  ros::init(argc, argv, "panda_arm_pick_place");
   ros::AsyncSpinner spinner(1);
   spinner.start();
 
@@ -180,7 +180,7 @@ int main(int argc, char **argv)
 
   ros::WallDuration(1.0).sleep();
 
-  moveit::planning_interface::MoveGroupInterface group("right_arm");
+  moveit::planning_interface::MoveGroupInterface group("panda_arm");
   group.setPlanningTime(45.0);
 
   moveit_msgs::CollisionObject co;
