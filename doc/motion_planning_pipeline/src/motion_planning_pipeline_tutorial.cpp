@@ -86,7 +86,7 @@ int main(int argc, char** argv)
 
   // Pose Goal
   // ^^^^^^^^^
-  // We will now create a motion plan request for the right arm of the PR2
+  // We will now create a motion plan request for the right arm of the Panda
   // specifying the desired pose of the end-effector as input.
   planning_interface::MotionPlanRequest req;
   planning_interface::MotionPlanResponse res;

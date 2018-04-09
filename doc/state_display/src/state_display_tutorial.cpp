@@ -67,7 +67,7 @@ int main(int argc, char **argv)
   /* Create a kinematic state - this represents the configuration for the robot represented by kinematic_model */
   robot_state::RobotStatePtr kinematic_state(new robot_state::RobotState(kinematic_model));
 
-  /* Get the configuration for the joints in the right arm of the PR2*/
+  /* Get the configuration for the joints in the right arm of the Panda*/
   const robot_model::JointModelGroup *joint_model_group = kinematic_model->getJointModelGroup("right_arm");
 
   /* PUBLISH RANDOM ARM POSITIONS */

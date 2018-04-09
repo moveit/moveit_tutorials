@@ -24,7 +24,7 @@ We hope to be able to get rid of these restrictions on the joint names soon.
 
 Safety Limits
 """""""""""""
-Some URDFs have safety limits set in addition to the joint limits of the robot. Here's an example of the safety controller specified for the PR2 head pan joint::
+Some URDFs have safety limits set in addition to the joint limits of the robot. Here's an example of the safety controller specified for the Panda head pan joint::
 
    <safety_controller k_position="100" k_velocity="1.5" soft_lower_limit="-2.857" soft_upper_limit="2.857"/>
 
@@ -54,7 +54,7 @@ The SRDF or Semantic Robot Description Format complement the URDF and specifies 
 
 Virtual Joints
 ^^^^^^^^^^^^^^
-The URDF contains information only about the physical joints on the robot. Often, additional joints need to be defined to specify the pose of the root link on the robot with respect to a world coordinate system. In such cases, a virtual joint is used to specify this connection. E.g., a mobile robot like the PR2 that moves around in the plane is specified using a planar virtual joint that attaches the world coordinate frame to the frame of the robot. A fixed robot (like an industrial manipulator) should be attached to the world using a fixed joint.
+The URDF contains information only about the physical joints on the robot. Often, additional joints need to be defined to specify the pose of the root link on the robot with respect to a world coordinate system. In such cases, a virtual joint is used to specify this connection. E.g., a mobile robot like the Panda that moves around in the plane is specified using a planar virtual joint that attaches the world coordinate frame to the frame of the robot. A fixed robot (like an industrial manipulator) should be attached to the world using a fixed joint.
 
 Passive Joints
 ^^^^^^^^^^^^^^

@@ -40,7 +40,7 @@
 #include <eigen_conversions/eigen_msg.h>
 #include <moveit/robot_state/conversions.h>
 
-// default world object position is just in front and left of PR2 robot.
+// default world object position is just in front and left of Panda robot.
 const Eigen::Affine3d InteractiveRobot::DEFAULT_WORLD_OBJECT_POSE_(Eigen::Affine3d(Eigen::Translation3d(0.25, -0.5,
                                                                                                         0.5)));
 
