@@ -1,7 +1,7 @@
 <launch>
 
   <!-- load URDF -->
-  <param name="robot_description" command="$(find xacro)/xacro.py '$(find panda_description)/robots/panda.urdf.xacro'" /> 
+  <param name="robot_description" command="$(find xacro)/xacro.py '$(find panda_description)/robots/panda.urdf.xacro'" />
 
   <!-- load SRDF -->
   <param name="robot_description_semantic" textfile="$(find panda_moveit_config)/config/panda.srdf" />
