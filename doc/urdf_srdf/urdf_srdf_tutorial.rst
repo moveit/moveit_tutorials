@@ -78,7 +78,7 @@ A serial chain is specified using the base link and the tip link. The tip link i
 
 Collection of Sub-groups
 """"""""""""""""""""""""
-A group can also be a collection of groups. E.g., you can define the left_arm and right_arm as two groups and then define a new group called both_arms that includes these two groups.
+A group can also be a collection of groups. E.g., you can define the panda_arm and panda_arm as two groups and then define a new group called both_arms that includes these two groups.
 
 End-Effectors
 ^^^^^^^^^^^^^

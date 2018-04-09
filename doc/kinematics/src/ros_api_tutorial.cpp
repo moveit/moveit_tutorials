@@ -50,7 +50,7 @@
 
 int main(int argc, char **argv)
 {
-  ros::init(argc, argv, "right_arm_kinematics");
+  ros::init(argc, argv, "panda_arm_kinematics");
   ros::AsyncSpinner spinner(1);
   spinner.start();
 
@@ -70,7 +70,7 @@ int main(int argc, char **argv)
   moveit_msgs::GetPositionIK::Request service_request;
   moveit_msgs::GetPositionIK::Response service_response;
 
-  service_request.ik_request.group_name = "left_arm";
+  service_request.ik_request.group_name = "panda_arm";
   service_request.ik_request.pose_stamped.header.frame_id = "torso_lift_link";
   service_request.ik_request.pose_stamped.pose.position.x = 0.75;
   service_request.ik_request.pose_stamped.pose.position.y = 0.188;
@@ -91,9 +91,9 @@ int main(int argc, char **argv)
   robot_model_loader::RobotModelLoader robot_model_loader("robot_description");
   robot_model::RobotModelPtr kinematic_model = robot_model_loader.getModel();
   robot_state::RobotStatePtr kinematic_state(new robot_state::RobotState(kinematic_model));
-  const robot_state::JointModelGroup *joint_model_group = kinematic_model->getJointModelGroup("left_arm");
+  const robot_state::JointModelGroup *joint_model_group = kinematic_model->getJointModelGroup("panda_arm");
 
-  /* Get the names of the joints in the right_arm*/
+  /* Get the names of the joints in the panda_arm*/
   service_request.ik_request.robot_state.joint_state.name = joint_model_group->getJointModelNames();
 
   /* Get the joint values and put them into the message, this is where you could put in your own set of values as
