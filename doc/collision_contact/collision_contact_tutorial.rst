@@ -1,5 +1,5 @@
 Collision Contact
-==========================
+=================
 This section walks you through C++ code which allows you to see collision contact points between the robot, itself, and the world as you move and interact with the robot’s arm in Rviz.
 
 Getting Started
