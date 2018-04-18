@@ -12,7 +12,7 @@ MoveIt! IKFast
 ---------------
 
 MoveIt! IKFast is a tool that generates a IKFast kinematics plugin for MoveIt using OpenRAVE generated cpp files.
-This tutorial will step you through setting up your robot to utilize the power of IKFast. MoveIt! IKFast is tested on ROS Groovy with Catkin using OpenRAVE 0.8 with a 6dof and 7dof robot arm manipulator.
+This tutorial will step you through setting up your robot to utilize the power of IKFast. MoveIt! IKFast is tested on ROS Kinetic with Catkin using OpenRAVE 0.8 with a 6dof and 7dof robot arm manipulator.
 While it works in theory, currently the IKFast plugin generator tool does not work with >7 degree of freedom arms.
 
 Getting Started
