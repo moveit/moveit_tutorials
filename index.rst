@@ -16,9 +16,9 @@ Getting Started with MoveIt! and RViz
    doc/getting_started/getting_started
    doc/visualization/visualization_tutorial
 
-Move Group
-----------
-The simplest way to get started with MoveIt! is through the ``move_group_interface``. You can use this interface both through C++ and Python. We will walk through each of these interfaces in detail:
+MoveGroup - ROS Wrappers in C++ and Python
+------------------------------------------
+The simplest way to get started with MoveIt! is through the ``move_group_interface``. The interface gives you unified access to many of the features MoveIt! provides and is ideal for beginners.
 
 .. toctree::
    :maxdepth: 1
@@ -27,9 +27,9 @@ The simplest way to get started with MoveIt! is through the ``move_group_interfa
    doc/move_group_python_interface/move_group_python_interface_tutorial
    doc/moveit_commander/moveit_commander_tutorial
 
-MoveIt's C++ API
-----------------
-Building more complex applications with MoveIt! often requires developers to dig into MoveIt!’s C++ API.
+Using MoveIt! Directly Through the C++ API
+------------------------------------------
+Building more complex applications with MoveIt! often requires developers to dig into MoveIt!’s C++ API. As an added plus, using the C++ API directly skips many of the ROS Service/Action layers resulting in significantly faster performance.
 
 .. toctree::
    :maxdepth: 1
@@ -51,6 +51,7 @@ Before attempting to integrate a new robot with MoveIt!, check whether your robo
    :maxdepth: 1
 
    doc/setup_assistant/setup_assistant_tutorial
+   doc/urdf_srdf/urdf_srdf_tutorial
    doc/controller_configuration/controller_configuration_tutorial
    doc/perception_configuration/perception_configuration_tutorial
    doc/ikfast/ikfast_tutorial
@@ -61,7 +62,6 @@ Configuration
 .. toctree::
    :maxdepth: 1
 
-   doc/urdf_srdf/urdf_srdf_tutorial
    doc/fake_controller_manager/fake_controller_manager_tutorial
    doc/kinematics_configuration/kinematics_configuration_tutorial
    doc/custom_constraint_samplers/custom_constraint_samplers_tutorial
@@ -70,7 +70,6 @@ Configuration
 
 Miscellaneous
 ----------------------------
-Before attempting to integrate a new robot with MoveIt!, check whether your robot has already been setup (see the `list of robots running MoveIt! <http://moveit.ros.org/robots/>`_). Otherwise, follow the tutorials in this section to integrate your robot with MoveIt! (and share your results on the MoveIt! mailing list)
 
 .. toctree::
    :maxdepth: 1
