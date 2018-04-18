@@ -1,14 +1,13 @@
-Motion Planning API Tutorial
+Motion Planning API
 ==================================
 
 In MoveIt!, the motion planners are loaded using a plugin infrastructure. This
 allows MoveIt! to load motion planners at runtime. In this example, we will
 run through the C++ code required to do this.
 
-Prerequisites
--------------
-If you haven't already done so, make sure you've completed the steps in `Prerequisites
-<../prerequisites/prerequisites.html>`_.
+Getting Started
+---------------
+If you haven't already done so, make sure you've completed the steps in `Getting Started <../getting_started/getting_started.html>`_.
 
 The entire code
 ---------------

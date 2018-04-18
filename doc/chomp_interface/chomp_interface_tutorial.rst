@@ -40,5 +40,5 @@ Using CHOMP with your own robot
 You probably only need to change the planner arg to chomp.
 
 6. Run the demo::
-       
+
     roslaunch jaco_moveit_config demo_chomp.launch

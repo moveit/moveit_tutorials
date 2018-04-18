@@ -1,4 +1,4 @@
-Motion Planning Pipeline Tutorial
+Motion Planning Pipeline
 ==================================
 
 In MoveIt!, the motion planners are setup to plan paths. However, there are often
@@ -9,10 +9,9 @@ stages. The pre and post-processing stages, called planning request adapters, ca
 be configured by name from the ROS parameter server. In this tutorial, we will
 run you through the C++ code to instantiate and call such a planning pipeline.
 
-Prerequisites
--------------
-If you haven't already done so, make sure you've completed the steps in `Prerequisites
-<../prerequisites/prerequisites.html>`_.
+Getting Started
+---------------
+If you haven't already done so, make sure you've completed the steps in `Getting Started <../getting_started/getting_started.html>`_.
 
 
 The entire code

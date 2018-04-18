@@ -1,4 +1,4 @@
-Controllers Configuration Tutorial
+Controllers Configuration
 ===================================
 
 In this section, we will walk through configuring MoveIt! with the controllers on your robot. We will assume that your robot offers a ``FollowJointTrajectory`` action service for the arms on your robot and (optionally) a ``GripperCommand`` service for your gripper.
@@ -106,4 +106,4 @@ When you run a `move group node <../move_group_interface/move_group_interface_tu
     <remap from="joint_states" to="robot/joint_states"/>
   </node>
 
-Or you can make a subscriber with the correct topic name and then ensure that the starting robot state for your move group corresponds to a correct joints angle by using the call back of this subscriber.   
+Or you can make a subscriber with the correct topic name and then ensure that the starting robot state for your move group corresponds to a correct joints angle by using the call back of this subscriber.

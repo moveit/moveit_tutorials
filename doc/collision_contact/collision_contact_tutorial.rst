@@ -1,11 +1,10 @@
-Collision Contact Tutorial
+Collision Contact
 ==========================
 This section walks you through C++ code which allows you to see collision contact points between the robot, itself, and the world as you move and interact with the robot’s arm in Rviz.
 
-Prerequisites
--------------
-If you haven't already done so, make sure you've completed the steps in `Prerequisites
-<../prerequisites/prerequisites.html>`_.
+Getting Started
+---------------
+If you haven't already done so, make sure you've completed the steps in `Getting Started <../getting_started/getting_started.html>`_.
 
 Running the Code
 ----------------

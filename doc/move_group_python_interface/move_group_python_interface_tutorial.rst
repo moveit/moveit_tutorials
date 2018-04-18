@@ -1,4 +1,4 @@
-Move Group Python Interface Tutorial
+Move Group Python Interface
 ================================================
 
 In MoveIt!, the simplest user interface is through the RobotCommander class. It
@@ -7,10 +7,9 @@ specifically setting joint or pose goals, creating motion plans, moving the
 robot, adding objects into the environment and attaching/detaching objects from
 the robot.
 
-Prerequisites
-^^^^^^^^^^^^^
-If you haven't already done so, make sure you've completed the steps in `Prerequisites
-<../prerequisites/prerequisites.html>`_.
+Getting Started
+---------------
+If you haven't already done so, make sure you've completed the steps in `Getting Started <../getting_started/getting_started.html>`_.
 
 The entire code
 ---------------

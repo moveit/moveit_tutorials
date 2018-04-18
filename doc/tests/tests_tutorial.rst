@@ -4,10 +4,9 @@ How to test changes to MoveIt! on various robots, including unit and integration
 
 **Note:** *This is a stub tutorial, to be expanded upon in the future*
 
-Prerequisites
--------------
-If you haven't already done so, make sure you've completed the steps in `Prerequisites
-<../prerequisites/prerequisites.html>`_.
+Getting Started
+---------------
+If you haven't already done so, make sure you've completed the steps in `Getting Started <../getting_started/getting_started.html>`_.
 
 Integration Test
 ----------------

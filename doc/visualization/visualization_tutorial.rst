@@ -1,11 +1,11 @@
-Visualization with MoveIt! RViz Plugin Tutorial
+Visualization with MoveIt! RViz Plugin
 ===============================================
 
 MoveIt! comes with a plugin for the ROS Visualizer (RViz). The plugin allows you to setup scenes in which the robot will work, generate plans, visualize the output and interact directly with a visualized robot. We will explore the plugin in this tutorial.
 
-Prerequisites
--------------
-If you haven't already done so, make sure you've completed the steps in `Prerequisites <../prerequisites/prerequisites.html>`_.
+Getting Started
+---------------
+If you haven't already done so, make sure you've completed the steps in `Getting Started <../getting_started/getting_started.html>`_.
 
 Step 1: Launch the demo and Configure the Plugin
 ------------------------------------------------
@@ -25,10 +25,10 @@ Step 1: Launch the demo and Configure the Plugin
 
 * In the "Global Options" tab of the "Displays" subwindow, set the **Fixed Frame** field to "/panda_link0"
 
-* Now, you can start configuring the Plugin for your robot (the Panda in this case). Click on "MotionPlanning" within "Displays".
-
 .. image:: rviz_motion_planning.png
    :width: 700px
+
+* Now, you can start configuring the Plugin for your robot (the Panda in this case). Click on "MotionPlanning" within "Displays".
 
   * Make sure the **Robot Description** field is set to ``robot_description``
 
@@ -102,7 +102,7 @@ Note also what happens when you try to move an end-effector out of its reachable
    :width: 700px
 
 Step 4: Use Motion Planning with the Panda
-----------------------------------------
+-------------------------------------------
 
 * Now, you can start motion planning with the Panda in the MoveIt! Rviz Plugin.
 

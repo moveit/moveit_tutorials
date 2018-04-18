@@ -1,10 +1,10 @@
-Perception/Configuration Tutorial
+Perception/Configuration
 =================================
 
 In this section, we will walk through configuring the 3D sensors on your robot with MoveIt!. The primary component in MoveIt! that deals with 3D perception is the Occupancy Map Updater. The updater uses a plugin architecture to process different types of input. The currently available plugins in MoveIt! are:
 
 * The PointCloud Occupany Map Updater: which can take as input point clouds (``sensor_msgs/PointCloud2``)
- 
+
 * The Depth Image Occupancy Map Updater: which can take as input Depth Images (``sensor_msgs/Image``)
 
 YAML Configuration file (Point Cloud)
@@ -32,11 +32,11 @@ We will have to generate a YAML configuration file for configuring the 3D sensor
 * *max_range*: (in m) Points further than this will not be used.
 
 * *point_subsample*: Choose one of every *point_subsample* points.
- 
+
 * *padding_offset*: The size of the padding (in cm).
- 
+
 * *padding_scale*: The scale of the padding.
- 
+
 * *filtered_cloud_topic*: The topic on which the filtered cloud will be published (mainly for debugging). The filtering cloud is the resultant cloud after self-filtering has been performed.
 
 

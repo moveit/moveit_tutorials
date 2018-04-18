@@ -1,4 +1,4 @@
-URDF and SRDF Tutorial
+URDF and SRDF
 ======================
 
 URDF

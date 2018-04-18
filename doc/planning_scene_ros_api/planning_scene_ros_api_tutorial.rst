@@ -1,4 +1,4 @@
-Planning Scene ROS API Tutorial
+Planning Scene ROS API
 ==================================
 
 In this tutorial, we will examine the use of planning scene diffs to perform
@@ -7,10 +7,9 @@ two operations:
  * Adding and removing objects into the world
  * Attaching and detaching objects to the robot
 
-Prerequisites
--------------
-If you haven't already done so, make sure you've completed the steps in `Prerequisites
-<../prerequisites/prerequisites.html>`_.
+Getting Started
+---------------
+If you haven't already done so, make sure you've completed the steps in `Getting Started <../getting_started/getting_started.html>`_.
 
 Running the code
 ----------------

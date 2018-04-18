@@ -1,4 +1,4 @@
-Move Group Interface Tutorial
+Move Group Interface
 ==================================
 
 In MoveIt!, the simplest user interface is through the :move_group_interface:`MoveGroup` class. It provides easy to use functionality for most operations that a user may want to carry out, specifically setting joint or pose goals, creating motion plans, moving the robot, adding objects into the environment and attaching/detaching objects from the robot. This interface communicates over ROS topics, services, and actions to the `MoveGroup Node <http://docs.ros.org/indigo/api/moveit_ros_move_group/html/annotated.html>`_.
@@ -7,10 +7,9 @@ In MoveIt!, the simplest user interface is through the :move_group_interface:`Mo
 
 Watch this quick `YouTube video demo <https://youtu.be/_5siHkFQPBQ>`_ to see the power of the move group interface!
 
-Prerequisites
--------------
-If you haven't already done so, make sure you've completed the steps in `Prerequisites
-<../prerequisites/prerequisites.html>`_.
+Getting Started
+---------------
+If you haven't already done so, make sure you've completed the steps in `Getting Started <../getting_started/getting_started.html>`_.
 
 Running the Code
 ----------------

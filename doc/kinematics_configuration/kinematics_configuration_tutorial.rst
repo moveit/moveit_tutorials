@@ -1,4 +1,4 @@
-Kinematics Configuration Tutorial
+Kinematics Configuration
 =================================
 
 In this section, we will examine some of the parameters for configuring kinematics for your robot.
