@@ -1,4 +1,4 @@
-Kinematic Model Tutorial
+Kinematic Model
 ========================
 In this section, we will walk you through the C++ API for using kinematics in MoveIt!.
 
@@ -18,10 +18,9 @@ RobotState also contains helper functions for setting the arm location based on 
 
 In this example, we will walk through the process of using these classes with the Panda.
 
-Prerequisites
--------------
-If you haven't already done so, make sure you've completed the steps in `Prerequisites
-<../prerequisites/prerequisites.html>`_.
+Getting Started
+---------------
+If you haven't already done so, make sure you've completed the steps in `Getting Started <../getting_started/getting_started.html>`_.
 
 Running the Code
 ----------------

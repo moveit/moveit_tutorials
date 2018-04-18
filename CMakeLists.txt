@@ -33,6 +33,7 @@ catkin_package(
     ${THIS_PACKAGE_INCLUDE_DIRS}
   CATKIN_DEPENDS
     moveit_core
+    moveit_visual_tools
     moveit_ros_planning_interface
     interactive_markers
   DEPENDS

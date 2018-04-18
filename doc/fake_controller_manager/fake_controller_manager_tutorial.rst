@@ -1,4 +1,4 @@
-Fake Controller Manager Tutorials
+Fake Controller Manager
 =================================
 
 MoveIt! comes with a series of fake trajectory controllers to be used in simulation.

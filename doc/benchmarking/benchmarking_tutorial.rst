@@ -1,4 +1,4 @@
-Benchmarking Tutorial
+Benchmarking
 =====================
 
 .. note:: This is the new benchmarking method only available in ROS Kinetic, onward.

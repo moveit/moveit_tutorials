@@ -1,4 +1,4 @@
-Time Parameterization Tutorial
+Time Parameterization
 ==============================
 
 MoveIt! is currently primarily a *kinematic* motion planning framework - it plans for joint or end effector positions but not velocity or acceleration. However, MoveIt! does utilize *post*-processing to time parameterize kinematic trajectories for velocity and acceleration values. Below we explain the settings and components involved in this part of MoveIt!.
