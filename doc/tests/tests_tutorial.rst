@@ -11,7 +11,7 @@ If you haven't already done so, make sure you've completed the steps in `Getting
 Integration Test
 ----------------
 
-A Python-based integration test is available for testing higher-level move_group functionality in MoveIt! - to run ::
+A Python-based integration test is available for testing higher-level move_group functionality in MoveIt! - to run: ::
 
  rostest moveit_ros_planning_interface python_move_group.test
 
@@ -20,20 +20,20 @@ Test Robots
 
 **Panda**
 
-From the package `panda_moveit_config <https://github.com/PickNikRobotics/panda_moveit_config>`_ ::
+From the package `panda_moveit_config <https://github.com/PickNikRobotics/panda_moveit_config>`_: ::
 
   roslaunch panda_moveit_config demo.launch
 
 **Fanuc M-10iA**
 
-From the package `moveit_resources <https://github.com/ros-planning/moveit_resources>`_ ::
+From the package `moveit_resources <https://github.com/ros-planning/moveit_resources>`_: ::
 
   roslaunch moveit_resources demo.launch
 
 Unit Tests
 ----------
 
-To run unit tests locally on the entire MoveIt! catkin workspace using catkin-tools::
+To run unit tests locally on the entire MoveIt! catkin workspace using catkin-tools: ::
 
   catkin run_tests -iv
 
@@ -44,4 +44,4 @@ To run a test for just 1 package::
 Kinematic Tests
 ---------------
 
-An additional test suite for the KinematicBase features in MoveIt! is available in the package `moveit_kinematic_tests <https://github.com/ros-planning/moveit_kinematics_tests>`_
+An additional test suite for the KinematicBase features in MoveIt! is available in the package `moveit_kinematic_tests <https://github.com/ros-planning/moveit_kinematics_tests>`_.

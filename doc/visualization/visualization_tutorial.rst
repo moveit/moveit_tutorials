@@ -10,7 +10,7 @@ If you haven't already done so, make sure you've completed the steps in `Getting
 Step 1: Launch the demo and Configure the Plugin
 ------------------------------------------------
 
-* Launch the demo::
+* Launch the demo: ::
 
    roslaunch panda_moveit_config demo.launch
 

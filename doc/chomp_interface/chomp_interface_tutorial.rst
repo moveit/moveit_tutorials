@@ -27,7 +27,7 @@ Using CHOMP with your own robot
 2. Adjust the line <rosparam command="load" file="$(find moveit_resources)/fanuc_moveit_config/config/chomp_planning.yaml" /> to <rosparam command="load" file="$(find jaco_moveit_config)/config/chomp_planning.yaml" />
 3. Download `chomp_planning.yaml <https://github.com/ros-planning/moveit_resources/blob/master/fanuc_moveit_config/config/chomp_planning.yaml>`_ file into the config directory of your moveit config package. So into the *jaco_moveit_config/config* directory.
 4. Copy the *demo.launch* file to *demo_chomp.launch*. Note that this file is also in the launch directory of the *jaco_moveit_config* package.
-5. Find the lines where *move_group.launch* is included and change it to::
+5. Find the lines where *move_group.launch* is included and change it to: ::
 
     <include file="$(find jaco_moveit_config)/launch/move_group.launch">
       <arg name="allow_trajectory_execution" value="true"/>

@@ -24,7 +24,7 @@ We hope to be able to get rid of these restrictions on the joint names soon.
 
 Safety Limits
 """""""""""""
-Some URDFs have safety limits set in addition to the joint limits of the robot. Here's an example of the safety controller specified for the Panda head pan joint::
+Some URDFs have safety limits set in addition to the joint limits of the robot. Here's an example of the safety controller specified for the Panda head pan joint: ::
 
    <safety_controller k_position="100" k_velocity="1.5" soft_lower_limit="-2.857" soft_upper_limit="2.857"/>
 

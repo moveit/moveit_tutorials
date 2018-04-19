@@ -9,11 +9,11 @@ If you haven't already done so, make sure you've completed the steps in `Getting
 
 Starting Rviz and the Command Line Tool
 ---------------------------------------
-Open two shells and make sure you have sourced the setup files in both shells::
+Open two shells and make sure you have sourced the setup files in both shells: ::
 
   source ~/ws_moveit/devel/setup.bash
 
-Start Rviz and wait for everything to finish loading in the first shell::
+Start Rviz and wait for everything to finish loading in the first shell: ::
 
   roslaunch panda_moveit_config demo.launch
 

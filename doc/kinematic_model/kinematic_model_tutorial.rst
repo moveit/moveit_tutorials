@@ -40,7 +40,7 @@ Expected Output
 ---------------
 The expected output will be in the following form. The numbers will not match since we are using random joint values
 
-**Note:** Don't worry if your output has different ROS console format. You can customize your ROS console logger by following `this blog post. <http://dav.ee/blog/notes/archives/898>`_ ::
+**Note:** Don't worry if your output has different ROS console format. You can customize your ROS console logger by following `this blog post <http://dav.ee/blog/notes/archives/898>`_: ::
 
  ros.moveit_tutorials: Model frame: /panda_link0
  ros.moveit_tutorials: Joint panda_joint1: 0.000000

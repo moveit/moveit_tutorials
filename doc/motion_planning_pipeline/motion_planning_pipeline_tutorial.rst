@@ -26,11 +26,11 @@ The entire launch file is :codedir:`here <motion_planning_pipeline/launch/motion
 
 Running the code
 ----------------
-Make sure you have sourced the setup files::
+Make sure you have sourced the setup files: ::
 
  source ~/ws_moveit/devel/setup.bash
 
-Roslaunch the launch file to run the code directly from moveit_tutorials::
+Roslaunch the launch file to run the code directly from moveit_tutorials: ::
 
  roslaunch moveit_tutorials motion_planning_pipeline_tutorial.launch
 
