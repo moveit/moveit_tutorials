@@ -20,6 +20,7 @@ Creating a constraint sampler
 * In your ROBOT_moveit_config/launch/move_group.launch file, within the <node name="move_group">, add
   the parameter:
 
+::
     <param name="constraint_samplers" value="YOURROBOT_moveit_constraint_sampler/YOURROBOTConstraintSamplerAllocator"/>
 
 * Now when you launch move_group, it should default to your new constraint sampler.

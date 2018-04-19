@@ -21,11 +21,11 @@ The entire launch file is :codedir:`here <planning_scene/launch/planning_scene_t
 
 Running the code
 ----------------
-Make sure you have sourced the setup files::
+Make sure you have sourced the setup files: ::
 
  source ~/ws_moveit/devel/setup.bash
 
-Roslaunch the launch file to run the code directly from moveit_tutorials::
+Roslaunch the launch file to run the code directly from moveit_tutorials: ::
 
  roslaunch moveit_tutorials planning_scene_tutorial.launch
 
@@ -50,4 +50,4 @@ joint values so some things may be different. ::
  ros.moveit_tutorials: Test 11: Random state is feasible
  ros.moveit_tutorials: Test 12: Random state is not valid
 
-**Note:** Don't worry if your output has different ROS console format. You can customize your ROS console logger by following `this blog post. <http://dav.ee/blog/notes/archives/898>`_
+**Note:** Don't worry if your output has different ROS console format. You can customize your ROS console logger by following `this blog post <http://dav.ee/blog/notes/archives/898>`_.

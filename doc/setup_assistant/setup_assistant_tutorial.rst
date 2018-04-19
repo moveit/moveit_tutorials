@@ -21,15 +21,14 @@ MoveIt! and ROS
   first if you have not already done that.
 
 * If you haven't already done so, make sure you have the `franka description
-  package <https://github.com/frankaemika/franka_ros>`_
-  for kinetic.::
+  package <https://github.com/frankaemika/franka_ros>`_ for Kinetic: ::
 
    sudo apt-get install ros-kinetic-franka-description
 
 Step 1: Start
 ---------------
 
-* To start the MoveIt! Setup Assistant::
+* To start the MoveIt! Setup Assistant: ::
 
    roslaunch moveit_setup_assistant setup_assistant.launch
 

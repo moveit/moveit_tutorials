@@ -25,22 +25,22 @@ moveit_tutorials package that you have as part of your MoveIt! setup.
 
 Running the code
 ----------------
-Make sure your python file is executable::
+Make sure your python file is executable: ::
 
  roscd moveit_tutorials/doc/move_group_python_interface/scripts/
  chmod +x move_group_python_interface_tutorial.py
 
 Start Rviz and MoveGroup node
 -----------------------------
-Open two shells and make sure you have re-sourced the setup files in both shells::
+Open two shells and make sure you have re-sourced the setup files in both shells: ::
 
   source ~/ws_moveit/devel/setup.bash
 
-Start Rviz and wait for everything to finish loading in the first shell::
+Start Rviz and wait for everything to finish loading in the first shell: ::
 
   roslaunch panda_moveit_config demo.launch
 
-Now run the python code directly in the other shell using rosrun::
+Now run the python code directly in the other shell using rosrun: ::
 
  rosrun moveit_tutorials move_group_python_interface_tutorial.py
 

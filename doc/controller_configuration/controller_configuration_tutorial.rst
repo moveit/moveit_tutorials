@@ -4,7 +4,7 @@ In this section, we will walk through configuring MoveIt! with the controllers o
 
 YAML Configuration
 ------------------
-The first file to create is a YAML configuration file (call it ``controllers.yaml`` and place it in the ``ROBOT_moveit_config/config`` directory of your MoveIt! robot config package). This will specify the controller configuration for your robot. Here's an example file for configuring a ``FollowJointTrajectory`` action controller for the ``panda_arm`` and a ``GripperCommand`` gripper controller for its ``hand``::
+The first file to create is a YAML configuration file (call it ``controllers.yaml`` and place it in the ``robot_moveit_config/config`` directory of your MoveIt! robot config package). This will specify the controller configuration for your robot. Here's an example file for configuring a ``FollowJointTrajectory`` action controller for the ``panda_arm`` and a ``GripperCommand`` gripper controller for its ``hand``: ::
 
  controller_list:
   - name: panda_arm_controller
@@ -53,7 +53,7 @@ Create the Controller launch file
 ---------------------------------
 Now, create the controller launch file (call it ``robot_moveit_controller_manager.launch.xml`` where ``robot`` is the name of your robot as specified when you created your MoveIt! robot config package).
 
-Add the following lines to this file ::
+Add the following lines to this file: ::
 
  <launch>
   <!-- Set the param that trajectory_execution_manager needs to find the controller plugin -->
@@ -83,7 +83,7 @@ You should also be able to see (using ``rostopic info topic_name``) that the top
 Remapping /joint_states topic
 -----------------------------
 
-When you run a `move group node <../move_group_interface/move_group_interface_tutorial.html>`_, you may need to remap the topic /joint_states to /robot/joint_states, otherwise MoveIt! won't have feedback from the joints. To do this remapping you could make a simple launch file for your node as follows ::
+When you run a `move group node <../move_group_interface/move_group_interface_tutorial.html>`_, you may need to remap the topic /joint_states to /robot/joint_states, otherwise MoveIt! won't have feedback from the joints. To do this remapping you could make a simple launch file for your node as follows: ::
 
   <node pkg="moveit_ros_move_group" type="move_group" name="any_name" output="screen">
     <remap from="joint_states" to="robot/joint_states"/>
