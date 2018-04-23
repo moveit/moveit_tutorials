@@ -48,7 +48,7 @@
 // Kinematics
 #include <moveit_msgs/GetPositionIK.h>
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
   ros::init(argc, argv, "panda_arm_kinematics");
   ros::AsyncSpinner spinner(1);
@@ -91,7 +91,7 @@ int main(int argc, char **argv)
   robot_model_loader::RobotModelLoader robot_model_loader("robot_description");
   robot_model::RobotModelPtr kinematic_model = robot_model_loader.getModel();
   robot_state::RobotStatePtr kinematic_state(new robot_state::RobotState(kinematic_model));
-  const robot_state::JointModelGroup *joint_model_group = kinematic_model->getJointModelGroup("panda_arm");
+  const robot_state::JointModelGroup* joint_model_group = kinematic_model->getJointModelGroup("panda_arm");
 
   /* Get the names of the joints in the panda_arm*/
   service_request.ik_request.robot_state.joint_state.name = joint_model_group->getJointModelNames();

@@ -57,12 +57,12 @@ void help()
   ROS_INFO("#####################################################");
 }
 
-void userCallback(InteractiveRobot &robot)
+void userCallback(InteractiveRobot& robot)
 {
   ROS_INFO_STREAM("Robot position: " << PoseString(robot.robotState()->getGlobalLinkTransform("panda_link8")));
 }
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
   ros::init(argc, argv, "interactivity_tutorial");
   ros::NodeHandle nh;

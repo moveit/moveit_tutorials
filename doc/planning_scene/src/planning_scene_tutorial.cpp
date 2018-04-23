@@ -144,10 +144,11 @@ int main(int argc, char** argv)
   // actually outside the joint limits of the Panda, which we can also
   // check for directly.
 
-  std::vector<double> joint_values = {0.0, 0.0, 0.0, -2.9, 0.0, 1.4, 0.0};
+  std::vector<double> joint_values = { 0.0, 0.0, 0.0, -2.9, 0.0, 1.4, 0.0 };
   const robot_model::JointModelGroup* joint_model_group = current_state.getJointModelGroup("panda_arm");
   current_state.setJointGroupPositions(joint_model_group, joint_values);
-  ROS_INFO_STREAM("Test 4: Current state is " << (current_state.satisfiesBounds(joint_model_group) ? "valid" : "not valid"));
+  ROS_INFO_STREAM("Test 4: Current state is "
+                  << (current_state.satisfiesBounds(joint_model_group) ? "valid" : "not valid"));
 
   // Now, we can get contact information for any collisions that might
   // have happened at a given configuration of the Panda arm. We can ask
@@ -270,7 +271,8 @@ int main(int argc, char** argv)
 
   kinematic_constraints::ConstraintEvaluationResult constraint_eval_result =
       kinematic_constraint_set.decide(copied_state);
-  ROS_INFO_STREAM("Test 10: Random state is " << (constraint_eval_result.satisfied ? "constrained" : "not constrained"));
+  ROS_INFO_STREAM("Test 10: Random state is "
+                  << (constraint_eval_result.satisfied ? "constrained" : "not constrained"));
 
   // User-defined constraints
   // ~~~~~~~~~~~~~~~~~~~~~~~~

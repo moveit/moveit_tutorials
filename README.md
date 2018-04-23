@@ -31,3 +31,7 @@ Then open ``LOCAL_PACKAGE_PATH/build/html/index.html`` in your web browser.
 ## Deployment
 
 For deploying documentation changes to the web, [Section 3 of rosdoc_lite wiki](http://wiki.ros.org/rosdoc_lite) says that "rosdoc_lite is automatically run for packages in repositories that have rosinstall files listed in the rosdistro repository." This is done about once every 24 hours, [overnight](http://wiki.ros.org/rosdistro/Tutorials/Indexing%20Your%20ROS%20Repository%20for%20Documentation%20Generation).
+
+## Contributing
+
+These tutorials use the same [style guidelines](http://moveit.ros.org/documentation/contributing/code/) as the MoveIt! project. When modifying or adding to these tutorials, it is required that code is auto formatted using [clang-format](http://moveit.ros.org/documentation/contributing/code/).

@@ -43,7 +43,7 @@
 
 static const std::string ROBOT_DESCRIPTION = "robot_description";
 
-void openGripper(trajectory_msgs::JointTrajectory &posture)
+void openGripper(trajectory_msgs::JointTrajectory& posture)
 {
   posture.joint_names.resize(6);
   posture.joint_names[0] = "r_gripper_joint";
@@ -63,7 +63,7 @@ void openGripper(trajectory_msgs::JointTrajectory &posture)
   posture.points[0].positions[5] = 0.477;
 }
 
-void closedGripper(trajectory_msgs::JointTrajectory &posture)
+void closedGripper(trajectory_msgs::JointTrajectory& posture)
 {
   posture.joint_names.resize(6);
   posture.joint_names[0] = "r_gripper_joint";
@@ -83,7 +83,7 @@ void closedGripper(trajectory_msgs::JointTrajectory &posture)
   posture.points[0].positions[5] = 0.002;
 }
 
-void pick(moveit::planning_interface::MoveGroupInterface &group)
+void pick(moveit::planning_interface::MoveGroupInterface& group)
 {
   std::vector<moveit_msgs::Grasp> grasps;
 
@@ -118,7 +118,7 @@ void pick(moveit::planning_interface::MoveGroupInterface &group)
   group.pick("part", grasps);
 }
 
-void place(moveit::planning_interface::MoveGroupInterface &group)
+void place(moveit::planning_interface::MoveGroupInterface& group)
 {
   std::vector<moveit_msgs::PlaceLocation> loc;
 
@@ -151,7 +151,7 @@ void place(moveit::planning_interface::MoveGroupInterface &group)
   // add path constraints
   moveit_msgs::Constraints constr;
   constr.orientation_constraints.resize(1);
-  moveit_msgs::OrientationConstraint &ocm = constr.orientation_constraints[0];
+  moveit_msgs::OrientationConstraint& ocm = constr.orientation_constraints[0];
   ocm.link_name = "r_wrist_roll_link";
   ocm.header.frame_id = p.header.frame_id;
   ocm.orientation.x = 0.0;
@@ -168,7 +168,7 @@ void place(moveit::planning_interface::MoveGroupInterface &group)
   group.place("part", loc);
 }
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
   ros::init(argc, argv, "panda_arm_pick_place");
   ros::AsyncSpinner spinner(1);
