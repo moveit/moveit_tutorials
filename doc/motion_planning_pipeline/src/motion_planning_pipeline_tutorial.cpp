@@ -74,7 +74,7 @@ int main(int argc, char** argv)
   planning_scene::PlanningScenePtr planning_scene(new planning_scene::PlanningScene(robot_model));
 
   // We can now setup the PlanningPipeline
-  // object, which will use the ROS param server
+  // object, which will use the ROS parameter server
   // to determine the set of request adapters and the
   // planning plugin to use
   planning_pipeline::PlanningPipelinePtr planning_pipeline(

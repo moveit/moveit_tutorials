@@ -7,13 +7,13 @@ Getting Started
 ---------------
 If you haven't already done so, make sure you've completed the steps in `Getting Started <../getting_started/getting_started.html>`_.
 
-Starting Rviz and the Command Line Tool
+Starting RViz and the Command Line Tool
 ---------------------------------------
 Open two shells and make sure you have sourced the setup files in both shells: ::
 
   source ~/ws_moveit/devel/setup.bash
 
-Start Rviz and wait for everything to finish loading in the first shell: ::
+Start RViz and wait for everything to finish loading in the first shell: ::
 
   roslaunch panda_moveit_config demo.launch
 
@@ -52,6 +52,6 @@ Instead of calling ``go`` you could also type: ::
  plan goal
  execute
 
-This is slightly inefficient, but the advantage is that the ``plan`` command allows you to visualize the computed motion plan in Rviz before you actually issue the execute command.
+This is slightly inefficient, but the advantage is that the ``plan`` command allows you to visualize the computed motion plan in RViz before you actually issue the execute command.
 
 For a list of supported commands, you can type ``help``. To exit the ``moveit_commander`` interface you can type ``quit``.

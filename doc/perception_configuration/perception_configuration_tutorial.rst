@@ -3,7 +3,7 @@ Perception/Configuration
 
 In this section, we will walk through configuring the 3D sensors on your robot with MoveIt!. The primary component in MoveIt! that deals with 3D perception is the Occupancy Map Updater. The updater uses a plugin architecture to process different types of input. The currently available plugins in MoveIt! are:
 
-* The PointCloud Occupany Map Updater: which can take as input point clouds (``sensor_msgs/PointCloud2``)
+* The PointCloud Occupancy Map Updater: which can take as input point clouds (``sensor_msgs/PointCloud2``)
 
 * The Depth Image Occupancy Map Updater: which can take as input Depth Images (``sensor_msgs/Image``)
 
@@ -43,7 +43,7 @@ We will have to generate a YAML configuration file for configuring the 3D sensor
 YAML Configuration file (Depth Map)
 -----------------------------------
 
-We will have to generate a YAML configuration file for configuring the 3D sensors. An `example file for processing depth images <https://github.com/PickNikRobotics/panda_moveit_config/blob/master/config/sensors_kinect_depthmap.yaml>`_ can be found in the `panda_moveit_config repo <https://github.com/PickNikRobotics/panda_moveit_config>`_ as well: ::
+We will have to generate a YAML configuration file for configuring the 3D sensors. An `example file for processing depth images <https://github.com/PickNikRobotics/panda_moveit_config/blob/master/config/sensors_kinect_depthmap.yaml>`_ can be found in the `panda_moveit_config repository <https://github.com/PickNikRobotics/panda_moveit_config>`_ as well: ::
 
  sensors:
    - sensor_plugin: occupancy_map_monitor/DepthImageOctomapUpdater

@@ -20,7 +20,7 @@ MoveIt! and ROS
 * Follow the instructions for :moveit_website:`installing MoveIt!<install>`
   first if you have not already done that.
 
-* If you haven't already done so, make sure you have the `franka description
+* If you haven't already done so, make sure you have the `Franka description
   package <https://github.com/frankaemika/franka_ros>`_ for Kinetic: ::
 
    sudo apt-get install ros-kinetic-franka-description
@@ -248,7 +248,7 @@ files that you will need to start using MoveIt!
 * Click on the *Configuration Files* pane. Choose a location and
   name for the ROS package that will be generated containing your new
   set of configuration files. Click browse, select a good
-  location (for example, your home dir), click **Create New Folder**, call it
+  location (for example, your home directory), click **Create New Folder**, call it
   "panda_moveit_config", and click **Choose**.
   "panda_moveit_config" is the location used in the rest of the
   documentation on this wiki. This package does not have to be within your
@@ -271,11 +271,11 @@ What's Next
 ---------------
 
 
-The MoveIt! Rviz plugin
+The MoveIt! RViz plugin
 
 * Start looking at how you can use the generated configuration files
   to play with MoveIt! using the
-  `MoveIt! Rviz Plugin <../visualization/visualization_tutorial.html>`_.
+  `MoveIt! RViz Plugin <../visualization/visualization_tutorial.html>`_.
 
 Setup IKFast Inverse Kinematics Solver
 

@@ -10,7 +10,7 @@ URDF Resources
 
 * `URDF ROS Wiki Page <http://www.ros.org/wiki/urdf>`_ - The URDF ROS Wiki page is the source of most information about the URDF.
 * `URDF Tutorials <http://www.ros.org/wiki/urdf/Tutorials>`_ - Tutorials for working with the URDF.
-* `Solidworks URDF Plugin <http://www.ros.org/wiki/sw_urdf_exporter>`_ - A plugin that lets you generate a URDF directly from a Solidworks model.
+* `SOLIDWORKS URDF Plugin <http://www.ros.org/wiki/sw_urdf_exporter>`_ - A plugin that lets you generate a URDF directly from a SOLIDWORKS model.
 
 Important Tips
 ^^^^^^^^^^^^^^
@@ -76,7 +76,7 @@ Serial Chain
 """"""""""""
 A serial chain is specified using the base link and the tip link. The tip link in a chain is the child link of the last joint in the chain. The base link in a chain is the parent link for the first joint in the chain.
 
-Collection of Sub-groups
+Collection of Sub-Groups
 """"""""""""""""""""""""
 A group can also be a collection of groups. E.g., you can define the panda_arm and panda_arm as two groups and then define a new group called both_arms that includes these two groups.
 

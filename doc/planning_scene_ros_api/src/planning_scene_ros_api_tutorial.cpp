@@ -62,7 +62,7 @@ int main(int argc, char **argv)
   // Visualization
   // ^^^^^^^^^^^^^
   // The package MoveItVisualTools provides many capabilties for visualizing objects, robots,
-  // and trajectories in Rviz as well as debugging tools such as step-by-step introspection of a script
+  // and trajectories in RViz as well as debugging tools such as step-by-step introspection of a script
   moveit_visual_tools::MoveItVisualTools visual_tools("panda_link0");
   visual_tools.deleteAllMarkers();
 

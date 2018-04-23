@@ -12,7 +12,7 @@ MoveIt! IKFast
 ---------------
 
 MoveIt! IKFast is a tool that generates a IKFast kinematics plugin for MoveIt using OpenRAVE generated cpp files.
-This tutorial will step you through setting up your robot to utilize the power of IKFast. MoveIt! IKFast is tested on ROS Kinetic with Catkin using OpenRAVE 0.8 with a 6dof and 7dof robot arm manipulator.
+This tutorial will step you through setting up your robot to utilize the power of IKFast. MoveIt! IKFast is tested on ROS Kinetic with Catkin using OpenRAVE 0.8 with a 6DOF and 7DOF robot arm manipulator.
 While it works in theory, currently the IKFast plugin generator tool does not work with >7 degree of freedom arms.
 
 Getting Started
@@ -21,7 +21,7 @@ If you haven't already done so, make sure you've completed the steps in `Getting
 
 You should have MoveIt! configuration package for your robot that was created by using the `Setup Assistant <../setup_assistant/setup_assistant_tutorial.html>`_
 
-Installing OpenRAVE on Ubuntu 16.04 is tricky. Here are 2 blog posts that give slightly different recepies for installing OpenRAVE.
+Installing OpenRAVE on Ubuntu 16.04 is tricky. Here are 2 blog posts that give slightly different recipes for installing OpenRAVE.
 
  * `Stéphane Caron's Installing OpenRAVE on Ubuntu 16.04 <https://scaron.info/teaching/installing-openrave-on-ubuntu-16.04.html>`_
  * `Francisco Suárez-Ruiz's Robotics Workstation Setup in Ubuntu 16.04 <https://fsuarez6.github.io/blog/workstation-setup-xenial>`_
@@ -30,7 +30,7 @@ Make sure you have these programs installed: ::
 
  sudo apt-get install cmake g++ git ipython minizip python-dev python-h5py python-numpy python-scipy qt4-dev-tools
 
-You may also need the followng libraries: ::
+You may also need the following libraries: ::
 
  sudo apt-get install libassimp-dev libavcodec-dev libavformat-dev libavformat-dev libboost-all-dev libboost-date-time-dev libbullet-dev libfaac-dev libglew-dev libgsm1-dev liblapack-dev liblog4cxx-dev libmpfr-dev libode-dev libogg-dev libpcrecpp0v5 libpcre3-dev libqhull-dev libqt4-dev libsoqt-dev-common libsoqt4-dev libswscale-dev libswscale-dev libvorbis-dev libx264-dev libxml2-dev libxvidcore-dev
 
@@ -87,7 +87,7 @@ Note: you have to set: ::
 
 Working commit numbers 5cfc7444... confirmed for Ubuntu 14.04 and 9c79ea26... confirmed for Ubuntu 16.04, according to Stéphane Caron.
 
-**Please report your results with this on** `this Github repo. <https://github.com/ros-planning/moveit_tutorials>`_
+**Please report your results with this on** `this GitHub repository. <https://github.com/ros-planning/moveit_tutorials>`_
 
 
 Create Collada File For Use With OpenRAVE
@@ -117,13 +117,13 @@ Once you have your robot in URDF format, you can convert it to Collada (.dae) fi
 
  rosrun collada_urdf urdf_to_collada "$MYROBOT_NAME".urdf "$MYROBOT_NAME".dae
 
-Often floating point issues arrise in converting a URDF file to Collada file, so a script has been created to round all the numbers down to x decimal places in your .dae file. Its probably best if you skip this step initially and see if IKFast can generate a solution with your default values, but if the generator takes longer than, say, an hour, try the following: ::
+Often floating point issues arise in converting a URDF file to Collada file, so a script has been created to round all the numbers down to x decimal places in your .dae file. Its probably best if you skip this step initially and see if IKFast can generate a solution with your default values, but if the generator takes longer than, say, an hour, try the following: ::
 
     export IKFAST_PRECISION="5"
-    cp "$MYROBOT_NAME".dae "$MYROBOT_NAME".bakup.dae  # create a backup of your full precision dae.
+    cp "$MYROBOT_NAME".dae "$MYROBOT_NAME".backup.dae  # create a backup of your full precision dae.
     rosrun moveit_kinematics round_collada_numbers.py "$MYROBOT_NAME".dae "$MYROBOT_NAME".dae "$IKFAST_PRECISION"
 
-From experience we recommend 5 decimal places, but if the OpenRAVE ikfast generator takes to long to find a solution, lowering the number of decimal places should help.
+From experience we recommend 5 decimal places, but if the OpenRAVE IKFast generator takes to long to find a solution, lowering the number of decimal places should help.
 
 To see the links in your newly generated Collada file
 
@@ -190,18 +190,18 @@ Set the base link and EEF link to the desired index::
  export BASE_LINK="0"
  export EEF_LINK="8"
 
-If you have a 7 DOF arm you will need ot specify a free link::
+If you have a 7 DOF arm you will need to specify a free link::
 
  export FREE_INDEX="1"
 
 Generate IK Solver
 ^^^^^^^^^^^^^^^^^^
 
-To generate the IK solution between the manipulator's base and tool frames for a 6 dof arm, use the following command format. We recommend you name the output ikfast61\_"$PLANNING_GROUP".cpp: ::
+To generate the IK solution between the manipulator's base and tool frames for a 6DOF arm, use the following command format. We recommend you name the output ikfast61\_"$PLANNING_GROUP".cpp: ::
 
  export IKFAST_OUTPUT_PATH=`pwd`/ikfast61_"$PLANNING_GROUP".cpp
 
-For a 6 dof arm: ::
+For a 6DOF arm: ::
 
  python `openrave-config --python-dir`/openravepy/_openravepy_/ikfast.py --robot="$MYROBOT_NAME".dae --iktype=transform6d --baselink="$BASE_LINK" --eelink="$EEF_LINK" --savefile="$IKFAST_OUTPUT_PATH"
 
@@ -254,7 +254,7 @@ Edit these parts: ::
 Test the Plugin
 ^^^^^^^^^^^^^^^
 
-Use the MoveIt Rviz Motion Planning Plugin and use the interactive markers to see if correct IK Solutions are found.
+Use the MoveIt RViz Motion Planning Plugin and use the interactive markers to see if correct IK Solutions are found.
 
 Updating the Plugin
 -------------------

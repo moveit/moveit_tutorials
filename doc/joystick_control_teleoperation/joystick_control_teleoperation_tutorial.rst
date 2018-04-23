@@ -8,13 +8,13 @@ If you haven't already done so, make sure you've completed the steps in `Getting
 Run
 ---
 
-Startup regular MoveIt! planning node with Rviz (for example demo.launch)
+Startup regular MoveIt! planning node with RViz (for example demo.launch)
 
 Make sure you have the dependencies installed: ::
 
     sudo apt-get install ros-kinetic-joy
 
-In the Motion Planning plugin of Rviz, enable "Allow External Comm." checkbox in the "Planning" tab. Enable the 'Query Goal State' robot display in the MoveIt! Motion Planning Plugins's 'Planning Request' section.
+In the Motion Planning plugin of RViz, enable "Allow External Comm." checkbox in the "Planning" tab. Enable the 'Query Goal State' robot display in the MoveIt! Motion Planning Plugins' 'Planning Request' section.
 
 Now launch the joystick control launch file specific to your robot. If you are missing this file, first re-run the MoveIt! Setup Assistant using the latest version of the Setup Assistant: ::
 
@@ -51,6 +51,6 @@ execute                 circle               B                     2
 Debugging
 ---------
 
-Add "Pose" to rviz Displays and subscribe to ``/joy_pose`` in order to see the output from joystick.
+Add "Pose" to RViz Displays and subscribe to ``/joy_pose`` in order to see the output from joystick.
 
 Note that only planning groups that have IK solvers for all their End Effector parent groups will work.

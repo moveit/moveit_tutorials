@@ -11,13 +11,13 @@ If you haven't already done so, make sure you've completed the steps in `Getting
 
 The entire code
 ---------------
-The entire code can be seen :codedir:`here in the MoveIt! Github project<planning_scene>`.
+The entire code can be seen :codedir:`here in the MoveIt! GitHub project<planning_scene>`.
 
 .. tutorial-formatter:: ./src/planning_scene_tutorial.cpp
 
 The launch file
 ---------------
-The entire launch file is :codedir:`here <planning_scene/launch/planning_scene_tutorial.launch>` on github. All the code in this tutorial can be compiled and run from the moveit_tutorials package.
+The entire launch file is :codedir:`here <planning_scene/launch/planning_scene_tutorial.launch>` on GitHub. All the code in this tutorial can be compiled and run from the moveit_tutorials package.
 
 Running the code
 ----------------

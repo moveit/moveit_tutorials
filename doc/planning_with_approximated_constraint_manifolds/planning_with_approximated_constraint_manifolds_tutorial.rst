@@ -1,8 +1,8 @@
 Planning with Approximated Constraint Manifolds
 ===============================================
 
-OMPL supports custom constraints to enable planning trajectories that follow a desired behaviour.
-Constraints can be defined in joint space and cartesian space where the latter is either orientation or position based.
+OMPL supports custom constraints to enable planning trajectories that follow a desired behavior.
+Constraints can be defined in joint space and Cartesian space where the latter is either orientation or position based.
 While planning a trajectory each joint state needs to follow all of the set constraints, which is performed by rejection sampling by default.
 This however might lead to very long planning times, especially when the constraints are very restrictive and the rejection rate is correspondingly high.
 
@@ -57,8 +57,8 @@ Graph size
 
 Obviously stable planning results require a detailed approximation, thus the higher the **samples** is the more reliable the performance.
 However higher values lead to linearly longer construction time for the database.
-Finding an appropriate size of the manifold is a problem that is highly dependend on how restrictive the constraints are.
-For most constraints it should suffice to use values in range of 1000 to 10000 with no noticable improvements with higher values as suggested in the paper.
+Finding an appropriate size of the manifold is a problem that is highly dependent on how restrictive the constraints are.
+For most constraints it should suffice to use values in range of 1000 to 10000 with no noticeable improvements with higher values as suggested in the paper.
 
 Edges
 """""
@@ -67,7 +67,7 @@ Adding edges to the manifold is **optional** and can be disabled by setting **ed
 Trajectory planning will work without edges in most cases just fine since the sampling process only needs the states to function.
 **max_edge_length** defines the maximum distance of two states that allows an edge between them to be added.
 By setting **explicit_motions** to *true* the edges are also enforced to match the constraints, making them represent valid paths between adjacent states.
-That is advantagous especially in approximations that are very sparse with many regions that are hard to reach since absolute distance is not necessary a measure for reachability.
+That is advantageous especially in approximations that are very sparse with many regions that are hard to reach since absolute distance is not necessary a measure for reachability.
 The check if an edge matches a constraint is done by testing linearly interpolated points between the state pair.
 The number of these interpolated points is set to **explicit_points_resolution** times the edge length and is limited by **max_explicit_points**.
 
@@ -82,7 +82,7 @@ After adding the constraints to the ConstraintsLibrary object the database can b
 
 Database Loading and Usage
 --------------------------
-The constraints database must be loaded at launch of the movegroup by setting the ros param::
+The constraints database must be loaded at launch of the move group node by setting the ros parameter::
 
  <param name="move_group/constraint_approximations_path" value="<path_to_database>"/>
 

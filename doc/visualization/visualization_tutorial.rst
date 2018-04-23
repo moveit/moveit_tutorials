@@ -1,4 +1,4 @@
-Visualization with MoveIt! RViz Plugin
+Visualization with the MoveIt! RViz Plugin
 ===============================================
 
 MoveIt! comes with a plugin for the ROS Visualizer (RViz). The plugin allows you to setup scenes in which the robot will work, generate plans, visualize the output and interact directly with a visualized robot. We will explore the plugin in this tutorial.
@@ -7,7 +7,7 @@ Getting Started
 ---------------
 If you haven't already done so, make sure you've completed the steps in `Getting Started <../getting_started/getting_started.html>`_.
 
-Step 1: Launch the demo and Configure the Plugin
+Step 1: Launch the Demo and Configure the Plugin
 ------------------------------------------------
 
 * Launch the demo: ::
@@ -16,7 +16,7 @@ Step 1: Launch the demo and Configure the Plugin
 
 * If you are doing this for the first time, you may have to add the Motion Planning Plugin.
 
-  * In the Rviz Displays Tab, press *Add*
+  * In the RViz Displays Tab, press *Add*
 
   * From the moveit_ros_visualization folder, choose "MotionPlanning" as the DisplayType. Press "Ok".
 
@@ -41,7 +41,7 @@ Step 1: Launch the demo and Configure the Plugin
 .. image:: rviz_plugin_start.png
    :width: 700px
 
-Step 2: Play with the visualized robots
+Step 2: Play with the Visualized Robots
 ---------------------------------------
 There are four different overlapping visualizations:
 
@@ -71,7 +71,7 @@ The display states for each of these visualizations can be toggled on and off us
 Step 3: Interact with the Panda
 -------------------------------
 
-* Press **Interact** in the top menu of rviz (Note: some tools may be hidden, press **+** in the top menu to add the **Interact** tool as shown below). You should see a couple of interactive markers appear for the arm of the Panda.
+* Press **Interact** in the top menu of RViz (Note: some tools may be hidden, press **+** in the top menu to add the **Interact** tool as shown below). You should see a couple of interactive markers appear for the arm of the Panda.
 
     * One marker (corresponding to the orange colored right arm) will be used to set the "Goal State" for motion planning. Another marker corresponding to a green colored representation of the right arm will be used to set the "Start State" for motion planning.
 
@@ -80,7 +80,7 @@ Step 3: Interact with the Panda
 .. image:: rviz_plugin_interact.png
    :width: 700px
 
-Moving into collision
+Moving into Collision
 +++++++++++++++++++++
 
 Note what happens when you try to move one of the arms into collision with the other. The two links that are in collision will turn red.
@@ -88,12 +88,12 @@ Note what happens when you try to move one of the arms into collision with the o
 .. image:: rviz_plugin_collision.png
    :width: 700px
 
-The "Use Collision-Aware IK" checkbox found within the MotionPlanning plugin allows you to toggle the behavior of the IK solver. When the checkbox is ticked, the solver will keep attempting to find a collision-free solution for the desired end-effector pose. When it is unticked, the solver will allow collisions to happen in the solution. The links in collision will always still be visualized in red, regardless of the state of the checkbox.
+The "Use Collision-Aware IK" checkbox found within the MotionPlanning plugin allows you to toggle the behavior of the IK solver. When the checkbox is ticked, the solver will keep attempting to find a collision-free solution for the desired end-effector pose. When it is not checked, the solver will allow collisions to happen in the solution. The links in collision will always still be visualized in red, regardless of the state of the checkbox.
 
 .. image:: rviz_plugin_collision_aware_ik_checkbox.png
    :width: 700px
 
-Moving out of reachable workspace
+Moving out of Reachable Workspace
 +++++++++++++++++++++++++++++++++
 
 Note also what happens when you try to move an end-effector out of its reachable workspace.
@@ -104,7 +104,7 @@ Note also what happens when you try to move an end-effector out of its reachable
 Step 4: Use Motion Planning with the Panda
 -------------------------------------------
 
-* Now, you can start motion planning with the Panda in the MoveIt! Rviz Plugin.
+* Now, you can start motion planning with the Panda in the MoveIt! RViz Plugin.
 
   * Move the Start State to a desired location.
 
@@ -121,7 +121,7 @@ Step 4: Use Motion Planning with the Panda
 .. image:: rviz_plugin_planned_path.png
    :width: 700px
 
-Introspecting trajectory waypoints
+Introspecting Trajectory Waypoints
 ++++++++++++++++++++++++++++++++++
 
 *Available since: Indigo 0.7.10, Kinetic and Lunar 0.9.7*

@@ -6,7 +6,7 @@
   <!-- load SRDF -->
   <param name="robot_description_semantic" textfile="$(find panda_moveit_config)/config/panda.srdf" />
 
-  <!-- Run Rviz with a custom config -->
+  <!-- Run RViz with a custom config -->
   <node name="$(anon rviz)" pkg="rviz" type="rviz" respawn="false"
 	args="-d $(find moveit_tutorials)/doc/collision_contact/launch/moveit.rviz" output="screen">
     <rosparam command="load" file="$(find panda_moveit_config)/config/kinematics.yaml"/>

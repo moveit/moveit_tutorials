@@ -17,7 +17,7 @@ Open two shells and make sure you have re-sourced the setup files in both of the
 
   source ~/ws_moveit/devel/setup.bash
 
-In the first shell start Rviz and wait for everything to finish loading: ::
+In the first shell start RViz and wait for everything to finish loading: ::
 
   roslaunch panda_moveit_config demo.launch
 
@@ -27,7 +27,7 @@ In the second shell, run the launch file for this demo: ::
 
 Expected Output
 ---------------
-In rviz, you should be able to see the following:
+In RViz, you should be able to see the following:
  * Object appear in the planning scene
  * Object gets attached to the robot
  * Object gets detached from the robot

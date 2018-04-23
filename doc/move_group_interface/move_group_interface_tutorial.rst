@@ -17,7 +17,7 @@ Open two shells and make sure you have re-sourced the setup files in both of the
 
   source ~/ws_moveit/devel/setup.bash
 
-In the first shell start Rviz and wait for everything to finish loading: ::
+In the first shell start RViz and wait for everything to finish loading: ::
 
   roslaunch panda_moveit_config demo.launch
 
@@ -25,15 +25,15 @@ In the second shell, run the launch file: ::
 
   roslaunch moveit_tutorials move_group_interface_tutorial.launch
 
-After a short moment, the Rviz window should appear and look similar to the one at the top of this page. To progress through each demo step either press the **Next** button in the **RvizVisualToolsGui** pannel at the bottom of the screen or select **Key Tool** in the **Tools** pannel at the top of the screen and then press **N** on your keyboard while Rviz is focused.
+After a short moment, the RViz window should appear and look similar to the one at the top of this page. To progress through each demo step either press the **Next** button in the **RvizVisualToolsGui** pannel at the bottom of the screen or select **Key Tool** in the **Tools** pannel at the top of the screen and then press **N** on your keyboard while RViz is focused.
 
 Expected Output
 ---------------
-See the `YouTube video <https://youtu.be/_5siHkFQPBQ>`_ at the top of this tutorial for expected output. In Rviz, we should be able to see the following:
+See the `YouTube video <https://youtu.be/_5siHkFQPBQ>`_ at the top of this tutorial for expected output. In RViz, we should be able to see the following:
  1. The robot moves its arm to the pose goal to its front.
  2. The robot moves its arm to the joint goal at its side.
  3. The robot moves its arm back to a new pose goal while maintaining the end-effector level.
- 4. The robot moves its arm along the desired cartesian path (a triangle up+forward, left, down+back).
+ 4. The robot moves its arm along the desired Cartesian path (a triangle up+forward, left, down+back).
  5. A box object is added into the environment to the right of the arm.
     |B|
 
@@ -46,7 +46,7 @@ See the `YouTube video <https://youtu.be/_5siHkFQPBQ>`_ at the top of this tutor
 
 The Entire Code
 ---------------
-The entire code can be seen :codedir:`here in the MoveIt! Github project<move_group_interface/src/move_group_interface_tutorial.cpp>`. Next we step through the code piece by piece to explain its functionality.
+The entire code can be seen :codedir:`here in the MoveIt! GitHub project<move_group_interface/src/move_group_interface_tutorial.cpp>`. Next we step through the code piece by piece to explain its functionality.
 
 .. tutorial-formatter:: ./src/move_group_interface_tutorial.cpp
 

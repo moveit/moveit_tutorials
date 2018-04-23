@@ -1,6 +1,6 @@
 # MoveIt! Tutorials
 
-This repo is automatically built by the ROS build farm and its output is hosted here: http://docs.ros.org/kinetic/api/moveit_tutorials/html/
+This repository is automatically built by the ROS build farm and its output is hosted here: http://docs.ros.org/kinetic/api/moveit_tutorials/html/
 
 The tutorials use the [reStructuredText](http://www.sphinx-doc.org/en/stable/rest.html) format commonly used in the Sphinx "Python Documentation Generator". This unfortunately differs from the common Markdown format.
 

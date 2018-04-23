@@ -82,7 +82,7 @@ int main(int argc, char** argv)
   std::string planner_plugin_name;
 
   // We will get the name of planning plugin we want to load
-  // from the ROS param server, and then load the planner
+  // from the ROS parameter server, and then load the planner
   // making sure to catch all exceptions.
   if (!node_handle.getParam("planning_plugin", planner_plugin_name))
     ROS_FATAL_STREAM("Could not find planner plugin name");
