@@ -78,21 +78,21 @@ int main(int argc, char **argv)
   // ^^^^^^^^^^^^^
   //
   // The package MoveItVisualTools provides many capabilties for visualizing objects, robots,
-  // and trajectories in Rviz as well as debugging tools such as step-by-step introspection of a script
+  // and trajectories in RViz as well as debugging tools such as step-by-step introspection of a script
   namespace rvt = rviz_visual_tools;
   moveit_visual_tools::MoveItVisualTools visual_tools("panda_link0");
   visual_tools.deleteAllMarkers();
 
   // Remote control is an introspection tool that allows users to step through a high level script
-  // via buttons and keyboard shortcuts in Rviz
+  // via buttons and keyboard shortcuts in RViz
   visual_tools.loadRemoteControl();
 
-  // Rviz provides many types of markers, in this demo we will use text, cylinders, and spheres
+  // RViz provides many types of markers, in this demo we will use text, cylinders, and spheres
   Eigen::Affine3d text_pose = Eigen::Affine3d::Identity();
   text_pose.translation().z() = 1.75;
   visual_tools.publishText(text_pose, "MoveGroupInterface Demo", rvt::WHITE, rvt::XLARGE);
 
-  // Batch publishing is used to reduce the number of messages being sent to Rviz for large visualizations
+  // Batch publishing is used to reduce the number of messages being sent to RViz for large visualizations
   visual_tools.trigger();
 
   // Getting Basic Information
@@ -130,7 +130,7 @@ int main(int argc, char **argv)
 
   // Visualizing plans
   // ^^^^^^^^^^^^^^^^^
-  // We can also visualize the plan as a line with markers in Rviz.
+  // We can also visualize the plan as a line with markers in RViz.
   ROS_INFO_NAMED("tutorial", "Visualizing plan 1 as trajectory line");
   visual_tools.publishAxisLabeled(target_pose1, "pose1");
   visual_tools.publishText(text_pose, "Pose Goal", rvt::WHITE, rvt::XLARGE);
@@ -173,7 +173,7 @@ int main(int argc, char **argv)
   success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
   ROS_INFO_NAMED("tutorial", "Visualizing plan 2 (joint space goal) %s", success ? "" : "FAILED");
 
-  // Visualize the plan in Rviz
+  // Visualize the plan in RViz
   visual_tools.deleteAllMarkers();
   visual_tools.publishText(text_pose, "Joint Space Goal", rvt::WHITE, rvt::XLARGE);
   visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group);
@@ -224,7 +224,7 @@ int main(int argc, char **argv)
   success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
   ROS_INFO_NAMED("tutorial", "Visualizing plan 3 (constraints) %s", success ? "" : "FAILED");
 
-  // Visualize the plan in Rviz
+  // Visualize the plan in RViz
   visual_tools.deleteAllMarkers();
   visual_tools.publishAxisLabeled(start_pose2, "start");
   visual_tools.publishAxisLabeled(target_pose1, "goal");
@@ -238,7 +238,7 @@ int main(int argc, char **argv)
 
   // Cartesian Paths
   // ^^^^^^^^^^^^^^^
-  // You can plan a cartesian path directly by specifying a list of waypoints
+  // You can plan a Cartesian path directly by specifying a list of waypoints
   // for the end-effector to go through. Note that we are starting
   // from the new start state above.  The initial pose (start state) does not
   // need to be added to the waypoint list but adding it can help with visualizations
@@ -263,8 +263,8 @@ int main(int argc, char **argv)
   // of the maxiumum speed of each joint. Note this is not the speed of the end effector point.
   move_group.setMaxVelocityScalingFactor(0.1);
 
-  // We want the cartesian path to be interpolated at a resolution of 1 cm
-  // which is why we will specify 0.01 as the max step in cartesian
+  // We want the Cartesian path to be interpolated at a resolution of 1 cm
+  // which is why we will specify 0.01 as the max step in Cartesian
   // translation.  We will specify the jump threshold as 0.0, effectively disabling it.
   // Warning - disabling the jump threshold while operating real hardware can cause
   // large unpredictable motions of redundant joints and could be a safety issue
@@ -272,9 +272,9 @@ int main(int argc, char **argv)
   const double jump_threshold = 0.0;
   const double eef_step = 0.01;
   double fraction = move_group.computeCartesianPath(waypoints, eef_step, jump_threshold, trajectory);
-  ROS_INFO_NAMED("tutorial", "Visualizing plan 4 (cartesian path) (%.2f%% acheived)", fraction * 100.0);
+  ROS_INFO_NAMED("tutorial", "Visualizing plan 4 (Cartesian path) (%.2f%% acheived)", fraction * 100.0);
 
-  // Visualize the plan in Rviz
+  // Visualize the plan in RViz
   visual_tools.deleteAllMarkers();
   visual_tools.publishText(text_pose, "Joint Space Goal", rvt::WHITE, rvt::XLARGE);
   visual_tools.publishPath(waypoints, rvt::LIME_GREEN, rvt::SMALL);
@@ -319,7 +319,7 @@ int main(int argc, char **argv)
   ROS_INFO_NAMED("tutorial", "Add an object into the world");
   planning_scene_interface.addCollisionObjects(collision_objects);
 
-  // Show text in Rviz of status
+  // Show text in RViz of status
   visual_tools.publishText(text_pose, "Add object", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
 
@@ -338,7 +338,7 @@ int main(int argc, char **argv)
   success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
   ROS_INFO_NAMED("tutorial", "Visualizing plan 5 (pose goal move around cuboid) %s", success ? "" : "FAILED");
 
-  // Visualize the plan in Rviz
+  // Visualize the plan in RViz
   visual_tools.deleteAllMarkers();
   visual_tools.publishText(text_pose, "Obstacle Goal", rvt::WHITE, rvt::XLARGE);
   visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group);
@@ -349,7 +349,7 @@ int main(int argc, char **argv)
   ROS_INFO_NAMED("tutorial", "Attach the object to the robot");
   move_group.attachObject(collision_object.id);
 
-  // Show text in Rviz of status
+  // Show text in RViz of status
   visual_tools.publishText(text_pose, "Object attached to robot", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
 
@@ -360,7 +360,7 @@ int main(int argc, char **argv)
   ROS_INFO_NAMED("tutorial", "Detach the object from the robot");
   move_group.detachObject(collision_object.id);
 
-  // Show text in Rviz of status
+  // Show text in RViz of status
   visual_tools.publishText(text_pose, "Object dettached from robot", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
 
@@ -373,11 +373,11 @@ int main(int argc, char **argv)
   object_ids.push_back(collision_object.id);
   planning_scene_interface.removeCollisionObjects(object_ids);
 
-  // Show text in Rviz of status
+  // Show text in RViz of status
   visual_tools.publishText(text_pose, "Object removed", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
 
-  /* Sleep to give Rviz time to show the object is no longer there.*/
+  /* Sleep to give RViz time to show the object is no longer there.*/
   ros::Duration(1.0).sleep();
 
   // END_TUTORIAL

@@ -5,7 +5,7 @@ These tutorials will run you through how to use MoveIt! with your robot. It is a
 
 .. note:: All tutorials referencing the Panda have only been tested with ROS Kinetic. For earlier versions of ROS (eg. indigo) See `the ROS Indigo tutorials with the PR2 here <http://docs.ros.org/indigo/api/moveit_tutorials/html/doc/ikfast_tutorial.html>`_
 
-To follow along with these tutorials you will need a **ROBOT_moveit_config** package. This tutorial will use the Panda robot from Franka Emika. To get a working **panda_movit_config** package you can install from source, create your own, or install from Debian. We will walk through each method in the following tutuorial:
+To follow along with these tutorials you will need a **ROBOT_moveit_config** package. This tutorial will use the Panda robot from Franka Emika. To get a working **panda_movit_config** package you can install from source, create your own, or install from Debian. We will walk through each method in the following tutorial:
 
 
 Getting Started with MoveIt! and RViz
@@ -82,7 +82,7 @@ Attribution
 -----------
 Major contributors to the MoveIt! tutorials are listed in chronological order: Sachin Chitta, Dave Hershberger, Acorn Pooley, Dave Coleman, Michael Gorner, Francisco Suarez, Mike Lautman. Help us improve these docs and we'll be happy to include you here also!
 
-The tutorials had a major update in 2018 during a codesprint sponsored by Franka Emika in collaboration with PickNik (`Check out the blog post! <http://moveit.ros.org/moveit!/ros/2018/02/26/tutorials-documentation-codesprint.html>`_)
+The tutorials had a major update in 2018 during a code sprint sponsored by Franka Emika in collaboration with PickNik (`Check out the blog post! <http://moveit.ros.org/moveit!/ros/2018/02/26/tutorials-documentation-codesprint.html>`_)
 
 .. image:: ./_static/franka_logo.png
    :width: 300px

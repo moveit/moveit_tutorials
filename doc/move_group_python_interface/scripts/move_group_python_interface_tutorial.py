@@ -78,7 +78,7 @@ try:
 
 
   ## We create this DisplayTrajectory publisher which is used below to publish
-  ## trajectories for Rviz to visualize.
+  ## trajectories for RViz to visualize.
   display_trajectory_publisher = rospy.Publisher(
                                       '/move_group/display_planned_path',
                                       moveit_msgs.msg.DisplayTrajectory,
@@ -124,7 +124,7 @@ try:
   ## group
   group.go(joints, wait=True)
 
-  print "============ Press Enter to Continue the Tutorial After Rviz Displays Plan1..."
+  print "============ Press Enter to Continue the Tutorial After RViz Displays Plan1..."
   raw_input()
   group.stop()
 
@@ -144,10 +144,10 @@ try:
   ## to actually move the robot
   plan1 = group.plan()
 
-  print "============ Press Enter to Continue the Tutorial After Rviz Displays Plan2..."
+  print "============ Press Enter to Continue the Tutorial After RViz Displays Plan2..."
   raw_input()
 
-  ## You can ask Rviz to visualize a plan (aka trajectory) for you.  But the
+  ## You can ask RViz to visualize a plan (aka trajectory) for you.  But the
   ## group.plan() method does this automatically so this is not that useful
   ## here (it just displays the same trajectory again).
   print "============ Visualizing plan1"
@@ -157,7 +157,7 @@ try:
   display_trajectory.trajectory.append(plan1)
   display_trajectory_publisher.publish(display_trajectory);
 
-  print "============ Press Enter to Continue the Tutorial After Rviz Displays Plan2 (again)..."
+  print "============ Press Enter to Continue the Tutorial After RViz Displays Plan2 (again)..."
   raw_input()
 
   ## Moving to a pose goal
@@ -197,13 +197,13 @@ try:
 
   plan2 = group.plan()
 
-  print "============ Press Enter to Continue the Tutorial After Rviz Displays Plan3..."
+  print "============ Press Enter to Continue the Tutorial After RViz Displays Plan3..."
   raw_input()
 
 
   ## Cartesian Paths
   ## ^^^^^^^^^^^^^^^
-  ## You can plan a cartesian path directly by specifying a list of waypoints
+  ## You can plan a Cartesian path directly by specifying a list of waypoints
   ## for the end-effector to go through.
   waypoints = []
 
@@ -221,15 +221,15 @@ try:
   wpose.position.y += 0.3
   waypoints.append(copy.deepcopy(wpose))
 
-  ## We want the cartesian path to be interpolated at a resolution of 1 cm
-  ## which is why we will specify 0.01 as the eef_step in cartesian
+  ## We want the Cartesian path to be interpolated at a resolution of 1 cm
+  ## which is why we will specify 0.01 as the eef_step in Cartesian
   ## translation.  We will specify the jump threshold to 0.0 disabling it.
   (plan3, fraction) = group.compute_cartesian_path(
                                waypoints,   # waypoints to follow
                                0.01,        # eef_step
                                0.0)         # jump_threshold
 
-  print "============ Press Enter to Continue the Tutorial After Rviz Displays Plan4..."
+  print "============ Press Enter to Continue the Tutorial After RViz Displays Plan4..."
   raw_input()
 
   # Uncomment the line below to execute this plan on a real robot.
