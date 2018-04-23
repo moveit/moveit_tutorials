@@ -125,7 +125,9 @@ void computeCollisionContactPoints(InteractiveRobot& robot)
   // the contact points for something other than displaying them you can
   // iterate through **c_res.contacts** which is a std::map of contact points.
   // Look at the implementation of getCollisionMarkersFromContacts() in
-  // `collision_tools.cpp <https://github.com/ros-planning/moveit/blob/kinetic-devel/moveit_core/collision_detection/src/collision_tools.cpp>`_ for how.
+  // `collision_tools.cpp
+  // <https://github.com/ros-planning/moveit/blob/kinetic-devel/moveit_core/collision_detection/src/collision_tools.cpp>`_
+  // for how.
   if (c_res.collision)
   {
     ROS_INFO("COLLIDING contact_point_count=%d", (int)c_res.contact_count);
@@ -139,10 +141,7 @@ void computeCollisionContactPoints(InteractiveRobot& robot)
       visualization_msgs::MarkerArray markers;
 
       /* Get the contact ponts and display them as markers */
-      collision_detection::getCollisionMarkersFromContacts(markers,
-                                                           "panda_link0",
-                                                           c_res.contacts,
-                                                           color,
+      collision_detection::getCollisionMarkersFromContacts(markers, "panda_link0", c_res.contacts, color,
                                                            ros::Duration(),  // remain until deleted
                                                            0.01);            // radius
       publishMarkers(markers);
@@ -170,7 +169,7 @@ int main(int argc, char** argv)
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   // For this tutorial we use an :codedir:`InteractiveRobot <interactivity/src/interactive_robot.cpp>`
   // object as a wrapper that combines a robot_model with the cube and an interactive marker. We also
-   // create a :planning_scene:`PlanningScene` for collision checking. If you haven't already gone through the
+  // create a :planning_scene:`PlanningScene` for collision checking. If you haven't already gone through the
   // `planning scene tutorial <../planning_scene/planning_scene_tutorial.html>`_, you go through that first.
   InteractiveRobot robot;
   /* Create a PlanningScene */

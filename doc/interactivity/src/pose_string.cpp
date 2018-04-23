@@ -45,7 +45,7 @@
 #include <iomanip>
 
 /** return a string describing a pose (position and quaternion) */
-std::string PoseString(const geometry_msgs::Pose &pose)
+std::string PoseString(const geometry_msgs::Pose& pose)
 {
   std::stringstream ss;
   ss << "p(";
@@ -65,7 +65,7 @@ std::string PoseString(const geometry_msgs::Pose &pose)
 /** return a string describing a pose
  * Assumes the pose is a rotation and a translation
  */
-std::string PoseString(const Eigen::Affine3d &pose)
+std::string PoseString(const Eigen::Affine3d& pose)
 {
   geometry_msgs::Pose msg;
   tf::poseEigenToMsg(pose, msg);

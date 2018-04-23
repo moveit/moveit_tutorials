@@ -45,7 +45,7 @@
 
 #include <moveit_visual_tools/moveit_visual_tools.h>
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
   ros::init(argc, argv, "move_group_interface_tutorial");
   ros::NodeHandle node_handle;
@@ -71,8 +71,8 @@ int main(int argc, char **argv)
   moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
 
   // Raw pointers are frequently used to refer to the planning group for improved performance.
-  const robot_state::JointModelGroup *joint_model_group =
-    move_group.getCurrentState()->getJointModelGroup(PLANNING_GROUP);
+  const robot_state::JointModelGroup* joint_model_group =
+      move_group.getCurrentState()->getJointModelGroup(PLANNING_GROUP);
 
   // Visualization
   // ^^^^^^^^^^^^^
@@ -301,7 +301,7 @@ int main(int argc, char **argv)
   primitive.dimensions[1] = 0.1;
   primitive.dimensions[2] = 0.4;
 
-  //Define a pose for the box (specified relative to frame_id)
+  // Define a pose for the box (specified relative to frame_id)
   geometry_msgs::Pose box_pose;
   box_pose.orientation.w = 1.0;
   box_pose.position.x = 0.4;

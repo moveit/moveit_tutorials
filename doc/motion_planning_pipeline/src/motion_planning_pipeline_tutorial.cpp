@@ -55,16 +55,14 @@ int main(int argc, char** argv)
   // BEGIN_TUTORIAL
   // Start
   // ^^^^^
-  // Setting up to start using a planning pipeline is pretty easy.
-  // Before we can load the planner, we need two objects, a RobotModel
-  // and a PlanningScene.
-  // We will start by instantiating a
-  // `RobotModelLoader`_
-  // object, which will look up
-  // the robot description on the ROS parameter server and construct a
-  // :moveit_core:`RobotModel` for us to use.
+  // Setting up to start using a planning pipeline is pretty easy. Before we can load the planner, we need two objects,
+  // a RobotModel and a PlanningScene.
   //
-  // .. _RobotModelLoader: http://docs.ros.org/indigo/api/moveit_ros_planning/html/classrobot__model__loader_1_1RobotModelLoader.html
+  // We will start by instantiating a `RobotModelLoader`_ object, which will look up the robot description on the ROS
+  // parameter server and construct a :moveit_core:`RobotModel` for us to use.
+  //
+  // .. _RobotModelLoader:
+  //     http://docs.ros.org/indigo/api/moveit_ros_planning/html/classrobot__model__loader_1_1RobotModelLoader.html
   robot_model_loader::RobotModelLoader robot_model_loader("robot_description");
   robot_model::RobotModelPtr robot_model = robot_model_loader.getModel();
 
@@ -107,7 +105,8 @@ int main(int argc, char** argv)
   // `kinematic_constraints`_
   // package.
   //
-  // .. _kinematic_constraints: http://docs.ros.org/indigo/api/moveit_core/html/namespacekinematic__constraints.html#a88becba14be9ced36fefc7980271e132
+  // .. _kinematic_constraints:
+  //     http://docs.ros.org/indigo/api/moveit_core/html/namespacekinematic__constraints.html#a88becba14be9ced36fefc7980271e132
   req.group_name = "panda_arm";
   moveit_msgs::Constraints pose_goal =
       kinematic_constraints::constructGoalConstraints("panda_link8", pose, tolerance_pose, tolerance_angle);
@@ -149,7 +148,7 @@ int main(int argc, char** argv)
 
   // Now, setup a joint space goal
   robot_state::RobotState goal_state(robot_model);
-  std::vector<double> joint_values = {-1.0, 0.7, 0.7, -1.5, -0.7, 2.0, 0.0};
+  std::vector<double> joint_values = { -1.0, 0.7, 0.7, -1.5, -0.7, 2.0, 0.0 };
   goal_state.setJointGroupPositions(joint_model_group, joint_values);
   moveit_msgs::Constraints joint_goal = kinematic_constraints::constructGoalConstraints(goal_state, joint_model_group);
 

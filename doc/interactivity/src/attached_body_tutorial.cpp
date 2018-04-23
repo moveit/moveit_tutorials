@@ -126,10 +126,7 @@ void userCallback(InteractiveRobot& robot)
       color.b = 1.0;
       color.a = 0.5;
       visualization_msgs::MarkerArray markers;
-      collision_detection::getCollisionMarkersFromContacts(markers,
-                                                           "panda_link0",
-                                                           c_res.contacts,
-                                                           color,
+      collision_detection::getCollisionMarkersFromContacts(markers, "panda_link0", c_res.contacts, color,
                                                            ros::Duration(),  // remain until deleted
                                                            0.01);            // radius
       publishMarkers(markers);

@@ -50,7 +50,7 @@
 
 #include <moveit_visual_tools/moveit_visual_tools.h>
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
   ros::init(argc, argv, "planning_scene_ros_api_tutorial");
   ros::AsyncSpinner spinner(1);
@@ -118,7 +118,7 @@ int main(int argc, char **argv)
 
   // Since we are attaching the object to the robot hand to simulate picking up the object,
   // we want the collision checker to ignore collisions between the object and the robot hand
-  attached_object.touch_links = std::vector<std::string>{"panda_hand","panda_leftfinger","panda_rightfinger"};
+  attached_object.touch_links = std::vector<std::string>{ "panda_hand", "panda_leftfinger", "panda_rightfinger" };
 
   // Add an object into the environment
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -185,7 +185,6 @@ int main(int argc, char **argv)
 
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
 
-
   // Detach an object from the robot
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   // Detaching an object from the robot requires two operations
@@ -212,7 +211,6 @@ int main(int argc, char **argv)
   planning_scene_diff_publisher.publish(planning_scene);
 
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
-
 
   // Remove the object from the collision world
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
