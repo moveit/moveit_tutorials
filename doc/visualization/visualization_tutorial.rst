@@ -3,6 +3,9 @@ Visualization with the MoveIt! RViz Plugin
 
 MoveIt! comes with a plugin for the ROS Visualizer (RViz). The plugin allows you to setup scenes in which the robot will work, generate plans, visualize the output and interact directly with a visualized robot. We will explore the plugin in this tutorial.
 
+.. image:: rviz_plugin_head.png
+   :width: 700px
+
 Getting Started
 ---------------
 If you haven't already done so, make sure you've completed the steps in `Getting Started <../getting_started/getting_started.html>`_.
@@ -14,23 +17,36 @@ Step 1: Launch the Demo and Configure the Plugin
 
    roslaunch panda_moveit_config demo.launch
 
-* If you are doing this for the first time, you may have to add the Motion Planning Plugin.
+* If you are doing this for the first time, you should see an empty world in RViz and will have to add the Motion Planning Plugin:
 
-  * In the RViz Displays Tab, press *Add*
+  * You should see an empty world in RViz:
+
+  |A|
+
+  * In the RViz Displays Tab, press *Add*:
 
   * From the moveit_ros_visualization folder, choose "MotionPlanning" as the DisplayType. Press "Ok".
 
-.. image:: rviz_plugin_motion_planning_add.png
-   :width: 300px
+  |B|
 
-* In the "Global Options" tab of the "Displays" subwindow, set the **Fixed Frame** field to "/panda_link0"
+  * You should now see the Panda robot in RViz:
 
-.. image:: rviz_motion_planning.png
-   :width: 700px
+  |C|
+
+.. |A| image:: rviz_empty.png
+               :width: 700px
+
+.. |B| image:: rviz_plugin_motion_planning_add.png
+               :width: 300px
+
+.. |C| image:: rviz_start.png
+               :width: 700px
+
+* Once you have the Motion Planning Plugin loaded, we can configure it. In the "Global Options" tab of the "Displays" subwindow, set the **Fixed Frame** field to ``/panda_link0``
 
 * Now, you can start configuring the Plugin for your robot (the Panda in this case). Click on "MotionPlanning" within "Displays".
 
-  * Make sure the **Robot Description** field is set to ``robot_description``
+  * Make sure the **Robot Description** field is set to ``robot_description``.
 
   * Make sure the **Planning Scene Topic** field is set to ``/planning_scene``.
 
@@ -41,6 +57,7 @@ Step 1: Launch the Demo and Configure the Plugin
 .. image:: rviz_plugin_start.png
    :width: 700px
 
+
 Step 2: Play with the Visualized Robots
 ---------------------------------------
 There are four different overlapping visualizations:
@@ -49,40 +66,47 @@ There are four different overlapping visualizations:
 
 #. The planned path for the robot (active by default).
 
-#. Orange: The goal state for motion planning (active by default).
-
 #. Green: The start state for motion planning (disabled by default).
 
-The display states for each of these visualizations can be toggled on and off using checkboxes.
+#. Orange: The goal state for motion planning (active by default).
 
-#. The start state using the **Query Start State** checkbox in the **Planning Request** tab.
-
-#. The goal state using the **Query Goal State** checkbox in the **Planning Request** tab.
+The display states for each of these visualizations can be toggled on and off using checkboxes:
 
 #. The planning scene robot using the **Show Robot Visual** checkbox in the **Scene Robot** tab.
 
 #. The planned path using the **Show Robot Visual** checkbox in the **Planned Path** tab.
 
+#. The start state using the **Query Start State** checkbox in the **Planning Request** tab.
+
+#. The goal state using the **Query Goal State** checkbox in the **Planning Request** tab.
+
 * Play with all these checkboxes to switch on and off different visualizations.
 
 .. image:: rviz_plugin_visualize_robots.png
-   :width: 400px
+   :width: 700px
 
 Step 3: Interact with the Panda
 -------------------------------
 
-* Press **Interact** in the top menu of RViz (Note: some tools may be hidden, press **+** in the top menu to add the **Interact** tool as shown below). You should see a couple of interactive markers appear for the arm of the Panda.
+For the next steps we will want only the scene robot, start state and goal state:
 
-    * One marker (corresponding to the orange colored right arm) will be used to set the "Goal State" for motion planning. Another marker corresponding to a green colored representation of the right arm will be used to set the "Start State" for motion planning.
+#. Check the **Show Robot Visual** checkbox in the **Planned Path** tab
 
-    * You will be able to use these markers (which are attached to the tip link of each arm) to drag the arm around and change its orientation.
+#. Un-check the **Show Robot Visual** checkbox in the **Planned Path** tab
+
+#. Check the **Query Goal State** checkbox in the **Planning Request** tab.
+
+#. Check the **Query Start State** checkbox in the **Planning Request** tab.
+
+There should now be two interactive markers. One marker corresponding to the orange colored arm will be used to set the "Goal State" for motion planning and the other marker corresponding to a green colored arm are used to set the "Start State" for motion planning. If you don't see the interactive markers press **Interact** in the top menu of RViz (Note: some tools may be hidden, press **"+"** in the top menu to add the **Interact** tool as shown below).
 
 .. image:: rviz_plugin_interact.png
    :width: 700px
 
-Moving into Collision
-+++++++++++++++++++++
+You should now be able to use these markers to drag the arm around and change its orientation. Try it!
 
+Moving into collision
++++++++++++++++++++++
 Note what happens when you try to move one of the arms into collision with the other. The two links that are in collision will turn red.
 
 .. image:: rviz_plugin_collision.png
@@ -95,8 +119,7 @@ The "Use Collision-Aware IK" checkbox found within the MotionPlanning plugin all
 
 Moving out of Reachable Workspace
 +++++++++++++++++++++++++++++++++
-
-Note also what happens when you try to move an end-effector out of its reachable workspace.
+Note what happens when you try to move an end-effector out of its reachable workspace.
 
 .. image:: rviz_plugin_invalid.png
    :width: 700px
@@ -123,12 +146,11 @@ Step 4: Use Motion Planning with the Panda
 
 Introspecting Trajectory Waypoints
 ++++++++++++++++++++++++++++++++++
-
 *Available since: Indigo 0.7.10, Kinetic and Lunar 0.9.7*
 
 You can visually introspect trajectory point by point on RViz.
 
-* From "`Panel`" menu, enable "`MotionPlanning - Slider`" that is disabled by default. You'll see a new Slider panel on RViz.
+* From "`Panels`" menu, select "`MotionPlanning - Slider`". You'll see a new Slider panel on RViz.
 
 * Set your goal pose, then run `Plan`.
 
@@ -138,3 +160,28 @@ NOTE: Once you placed your EEF to a new goal, be sure to run `Plan` before runni
 
 .. image:: rviz_plugin_slider.png
    :width: 700px
+
+
+Next Steps
+----------
+
+RViz Visual Tools
++++++++++++++++++
+Many of the tutorials use ``moveit_visual_tools`` to step through a demo. Before continuing on to the next tutorials it is a good idea to enable the **RvizVisualToolsGui**.
+
+From "`Panels`" menu, select "`RvizVisualToolsGui`". You'll see the new panel added to RViz.
+
+.. image:: rviz_pannels.png
+   :width: 700px
+
+Saving Your Configuration
++++++++++++++++++++++++++
+RViz enables you to save your configuration under ``File->Save Config``. You should do this before continuing on to the next tutorials.
+
+Next Tutorials
+++++++++++++++
+* To Create your own ``robot_moveit_config`` package look at the `MoveIt! Setup Assistant tutorial. <../setup_assistant/setup_assistant_tutorial.html>`_
+
+* To use Move Group to control your robot using C++ check out the `Move Group Interface <../move_group_interface/move_group_interface_tutorial.html>`_
+
+* To use Move Group to control your robot using Python check out the `Move Group Python Interface <../move_group_python_interface/move_group_python_interface_tutorial.html>`_
