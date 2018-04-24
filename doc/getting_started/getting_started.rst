@@ -39,7 +39,9 @@ Within your `catkin <http://wiki.ros.org/catkin>`_ workspace, download these tut
 
 You will also need a ``panda_moveit_config`` package to follow along with these tutorials. For now we will install from Debian but later we will learn how to make our own ``robot_moveit_config`` in the `MoveIt! Setup Assistant tutorial. <../setup_assistant/setup_assistant_tutorial.html>`_: ::
 
-  sudo apt install ros-kinetic-panda-moveit-config
+  cd ~/ws_moveit/src
+  git clone https://github.com/PickNikRobotics/panda_moveit_config.git
+
 
 Build your Catkin Workspace
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^

@@ -13,11 +13,11 @@ endif()
 find_package(catkin REQUIRED
   COMPONENTS
     moveit_core
+    moveit_visual_tools
     moveit_ros_planning
     moveit_ros_planning_interface
     pluginlib
     geometric_shapes
-    moveit_visual_tools
 )
 
 find_package(Boost REQUIRED system filesystem date_time thread)
