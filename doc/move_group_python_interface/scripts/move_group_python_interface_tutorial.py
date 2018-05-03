@@ -143,15 +143,10 @@ class MoveGroupPythonIntefaceTutorial(object):
     self.group_names = group_names
 
   def go_to_joint_state(self):
-    ## Copy class variables to local variables to make the web tutorials more clear
-    box_name = self.box_name
-    robot = self.robot
-    scene = self.scene
+    # Copy class variables to local variables to make the web tutorials more clear.
+    # In practice, you should use the class variables directly unless you have a good
+    # reason not to.
     group = self.group
-    display_trajectory_publisher = self.display_trajectory_publisher
-    planning_frame = self.planning_frame
-    eef_link = self.eef_link
-    group_names = self.group_names
 
     ## BEGIN_SUB_TUTORIAL plan_to_joint_state
     ##
@@ -178,20 +173,17 @@ class MoveGroupPythonIntefaceTutorial(object):
 
     ## END_SUB_TUTORIAL
 
-    ## For testing
+    # For testing:
+    # Note that since this section of code will not be included in the tutorials
+    # we use the class variable rather than the copied state variable
     current_joints = self.group.get_current_joint_values()
     return all_close(joint_goal, current_joints, 0.01)
 
   def go_to_pose_goal(self):
-    ## Copy class variables to local variables to make the web tutorials more clear
-    box_name = self.box_name
-    robot = self.robot
-    scene = self.scene
+    # Copy class variables to local variables to make the web tutorials more clear.
+    # In practice, you should use the class variables directly unless you have a good
+    # reason not to.
     group = self.group
-    display_trajectory_publisher = self.display_trajectory_publisher
-    planning_frame = self.planning_frame
-    eef_link = self.eef_link
-    group_names = self.group_names
 
     ## BEGIN_SUB_TUTORIAL plan_to_pose
     ##
@@ -199,7 +191,6 @@ class MoveGroupPythonIntefaceTutorial(object):
     ## ^^^^^^^^^^^^^^^^^^^^^^^
     ## We can plan a motion for this group to a desired pose for the
     ## end-effector:
-    ##
     pose_goal = geometry_msgs.msg.Pose()
     pose_goal.orientation.w = 1.0
     pose_goal.position.x = 0.4
@@ -217,21 +208,18 @@ class MoveGroupPythonIntefaceTutorial(object):
 
     ## END_SUB_TUTORIAL
 
-    ## For testing
-    current_pose = group.get_current_pose().pose
+    # For testing:
+    # Note that since this section of code will not be included in the tutorials
+    # we use the class variable rather than the copied state variable
+    current_pose = self.group.get_current_pose().pose
     return all_close(pose_goal, current_pose, 0.01)
 
 
   def plan_cartesian_path(self, scale=1):
-    ## Copy class variables to local variables to make the web tutorials more clear
-    box_name = self.box_name
-    robot = self.robot
-    scene = self.scene
+    # Copy class variables to local variables to make the web tutorials more clear.
+    # In practice, you should use the class variables directly unless you have a good
+    # reason not to.
     group = self.group
-    display_trajectory_publisher = self.display_trajectory_publisher
-    planning_frame = self.planning_frame
-    eef_link = self.eef_link
-    group_names = self.group_names
 
     ## BEGIN_SUB_TUTORIAL plan_cartesian_path
     ##
@@ -267,15 +255,11 @@ class MoveGroupPythonIntefaceTutorial(object):
     ## END_SUB_TUTORIAL
 
   def display_trajectory(self, plan):
-    ## Copy class variables to local variables to make the web tutorials more clear
-    box_name = self.box_name
+    # Copy class variables to local variables to make the web tutorials more clear.
+    # In practice, you should use the class variables directly unless you have a good
+    # reason not to.
     robot = self.robot
-    scene = self.scene
-    group = self.group
     display_trajectory_publisher = self.display_trajectory_publisher
-    planning_frame = self.planning_frame
-    eef_link = self.eef_link
-    group_names = self.group_names
 
     ## BEGIN_SUB_TUTORIAL display_trajectory
     ##
@@ -297,15 +281,10 @@ class MoveGroupPythonIntefaceTutorial(object):
     ## END_SUB_TUTORIAL
 
   def execute_plan(self, plan):
-    ## Copy class variables to local variables to make the web tutorials more clear
-    box_name = self.box_name
-    robot = self.robot
-    scene = self.scene
+    # Copy class variables to local variables to make the web tutorials more clear.
+    # In practice, you should use the class variables directly unless you have a good
+    # reason not to.
     group = self.group
-    display_trajectory_publisher = self.display_trajectory_publisher
-    planning_frame = self.planning_frame
-    eef_link = self.eef_link
-    group_names = self.group_names
 
     ## BEGIN_SUB_TUTORIAL execute_plan
     ##
@@ -320,15 +299,11 @@ class MoveGroupPythonIntefaceTutorial(object):
     ## END_SUB_TUTORIAL
 
   def wait_for_state_update(self, box_is_known=False, box_is_attached=False, timeout=4):
-    ## Copy class variables to local variables to make the web tutorials more clear
+    # Copy class variables to local variables to make the web tutorials more clear.
+    # In practice, you should use the class variables directly unless you have a good
+    # reason not to.
     box_name = self.box_name
-    robot = self.robot
     scene = self.scene
-    group = self.group
-    display_trajectory_publisher = self.display_trajectory_publisher
-    planning_frame = self.planning_frame
-    eef_link = self.eef_link
-    group_names = self.group_names
 
     ## BEGIN_SUB_TUTORIAL wait_for_scene_update
     ##
@@ -365,15 +340,11 @@ class MoveGroupPythonIntefaceTutorial(object):
     ## END_SUB_TUTORIAL
 
   def add_box(self, timeout=4):
-    ## Copy class variables to local variables to make the web tutorials more clear
+    # Copy class variables to local variables to make the web tutorials more clear.
+    # In practice, you should use the class variables directly unless you have a good
+    # reason not to.
     box_name = self.box_name
-    robot = self.robot
     scene = self.scene
-    group = self.group
-    display_trajectory_publisher = self.display_trajectory_publisher
-    planning_frame = self.planning_frame
-    eef_link = self.eef_link
-    group_names = self.group_names
 
     ## BEGIN_SUB_TUTORIAL add_box
     ##
@@ -387,18 +358,19 @@ class MoveGroupPythonIntefaceTutorial(object):
     scene.add_box(box_name, box_pose, size=(0.1, 0.1, 0.1))
 
     ## END_SUB_TUTORIAL
+    # Copy local variables back to class variables. In practice, you should use the class
+    # variables directly unless you have a good reason not to.
     self.box_name=box_name
     return self.wait_for_state_update(box_is_known=True, timeout=timeout)
 
 
   def attach_box(self, timeout=4):
-    ## Copy class variables to local variables to make the web tutorials more clear
+    # Copy class variables to local variables to make the web tutorials more clear.
+    # In practice, you should use the class variables directly unless you have a good
+    # reason not to.
     box_name = self.box_name
     robot = self.robot
     scene = self.scene
-    group = self.group
-    display_trajectory_publisher = self.display_trajectory_publisher
-    planning_frame = self.planning_frame
     eef_link = self.eef_link
     group_names = self.group_names
 
@@ -418,15 +390,12 @@ class MoveGroupPythonIntefaceTutorial(object):
     return self.wait_for_state_update(box_is_attached=True, box_is_known=False, timeout=timeout)
 
   def detach_box(self, timeout=4):
-    ## Copy class variables to local variables to make the web tutorials more clear
+    # Copy class variables to local variables to make the web tutorials more clear.
+    # In practice, you should use the class variables directly unless you have a good
+    # reason not to.
     box_name = self.box_name
-    robot = self.robot
     scene = self.scene
-    group = self.group
-    display_trajectory_publisher = self.display_trajectory_publisher
-    planning_frame = self.planning_frame
     eef_link = self.eef_link
-    group_names = self.group_names
 
     ## BEGIN_SUB_TUTORIAL detach_object
     ##
@@ -440,15 +409,11 @@ class MoveGroupPythonIntefaceTutorial(object):
     return self.wait_for_state_update(box_is_known=True, box_is_attached=False, timeout=timeout)
 
   def remove_box(self, timeout=4):
-    ## Copy class variables to local variables to make the web tutorials more clear
+    # Copy class variables to local variables to make the web tutorials more clear.
+    # In practice, you should use the class variables directly unless you have a good
+    # reason not to.
     box_name = self.box_name
-    robot = self.robot
     scene = self.scene
-    group = self.group
-    display_trajectory_publisher = self.display_trajectory_publisher
-    planning_frame = self.planning_frame
-    eef_link = self.eef_link
-    group_names = self.group_names
 
     ## BEGIN_SUB_TUTORIAL remove_object
     ##
