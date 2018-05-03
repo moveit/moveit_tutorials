@@ -13,18 +13,7 @@ Getting Started
 ---------------
 If you haven't already done so, make sure you've completed the steps in `Getting Started <../getting_started/getting_started.html>`_.
 
-
-The entire code
----------------
-The entire code can be seen :codedir:`here in the MoveIt! GitHub project<motion_planning_pipeline>`.
-
-.. tutorial-formatter:: ./src/motion_planning_pipeline_tutorial.cpp
-
-The launch file
----------------
-The entire launch file is :codedir:`here <motion_planning_pipeline/launch/motion_planning_pipeline_tutorial.launch>` on GitHub. All the code in this tutorial can be compiled and run from the moveit_tutorials package that you have as part of your MoveIt! setup.
-
-Running the code
+Running the Code
 ----------------
 Make sure you have sourced the setup files: ::
 
@@ -41,3 +30,13 @@ In RViz, we should be able to see three trajectories being replayed eventually:
  1. The robot moves its right arm to the pose goal in front of it,
  2. The robot moves its right arm to the joint goal to the side,
  3. The robot moves its right arm back to the original pose goal in front of it,
+
+The Entire Code
+---------------
+The entire code can be seen :codedir:`here in the MoveIt! GitHub project<motion_planning_pipeline>`.
+
+.. tutorial-formatter:: ./src/motion_planning_pipeline_tutorial.cpp
+
+The Launch File
+---------------
+The entire launch file is :codedir:`here <motion_planning_pipeline/launch/motion_planning_pipeline_tutorial.launch>` on GitHub. All the code in this tutorial can be compiled and run from the moveit_tutorials package that you have as part of your MoveIt! setup.
