@@ -1,35 +1,48 @@
 CHOMP Interface
 ===============
 
-**Note:** *The chomp planner has not been tested extensively yet.*
+.. image:: chomp.png
+   :width: 700px
 
-Run Generic Demo for Fanuc M-10iA
----------------------------------
+Covariant Hamiltonian optimization for motion planning (CHOMP) is a novel gradient-based trajectory optimization procedure that makes many everyday motion planning problems both simple and trainable (Ratliff et al., 2009c). While most high-dimensional motion planners separate trajectory generation into distinct planning and optimization stages, this algorithm capitalizes on covariant gradient and functional gradient approaches to the optimization stage to design a motion planning algorithm based entirely on trajectory optimization. Given an infeasible naive trajectory, CHOMP reacts to the surrounding environment to quickly pull the trajectory out of collision while simultaneously optimizing dynamical quantities such as joint velocities and accelerations. It rapidly converges to a smooth collision-free trajectory that can be executed efficiently on the robot. Integration into latest version of MoveIt! is work in progress. `More info <http://www.nathanratliff.com/thesis-research/chomp>`_
 
-To run the demo you'll need the `moveit_resources <https://github.com/ros-planning/moveit_resources>`_ package.
+Getting Started
+---------------
+If you haven't already done so, make sure you've completed the steps in `Getting Started <../getting_started/getting_started.html>`_.
 
-Once you have this package simply run::
+You should also have gone through the steps in `Visualization with MoveIt! RViz Plugin <../visualization/visualization_tutorial.html>`_
 
- roslaunch moveit_resources demo_chomp.launch
+Prerequisites
+--------------
+ 1. You must have the latest version of MoveIt! installed. On ROS Kinetic you will need to build MoveIt! from source. We will go through the steps for doing this below.
+ 2. To use CHOMP with your robot you must already have a MoveIt! configuration package for your robot already. For example, if you have a Panda robot, it's probably called ``panda_moveit_config``. This is typically built using the `MoveIt! Setup Assistant <../setup_assistant/setup_assistant_tutorial.html>`_.
 
-Assumptions:
-------------
+Installing MoveIt! from Source
+------------------------------
+As you add and remove packages from your workspace you will need to clean your workspace and re-run the command to install new missing dependencies. Clean your workspace to remove references to the system wide installation of MoveIt!: ::
 
- 1. You have the latest version of MoveIt! installed. On ROS kinetic you may need to build it from source.
- 2. You have a MoveIt! configuration package for your robot already. For example, if you have a Kinova Jaco arm, it's probably called "jaco_moveit_config". This is typically built using the MoveIt! Setup Assistant.
- 3. Lets assume that you are using the **Jaco** manipulator. And hence, the MoveIt! config package is *jaco_moveit_config*.
+  cd ~/ws_moveit/src
+  catkin clean
 
+Now follow the instructions on the MoveIt! homepage for `installing MoveIt! Kinetic from source <http://moveit.ros.org/install/source/>`_. Note that you can skip the **Prerequisites** section since you should already have a Catkin workspace.
 
-Using CHOMP with your own robot
--------------------------------
+Re-source the setup files: ::
 
-1. Simply download `chomp_planning_pipeline.launch.xml <https://github.com/ros-planning/moveit_resources/blob/master/fanuc_moveit_config/launch/chomp_planning_pipeline.launch.xml>`_ file into the launch directory of your MoveIt! config package. So into the *jaco_moveit_config/launch* directory.
-2. Adjust the line <rosparam command="load" file="$(find moveit_resources)/fanuc_moveit_config/config/chomp_planning.yaml" /> to <rosparam command="load" file="$(find jaco_moveit_config)/config/chomp_planning.yaml" />
-3. Download `chomp_planning.yaml <https://github.com/ros-planning/moveit_resources/blob/master/fanuc_moveit_config/config/chomp_planning.yaml>`_ file into the config directory of your MoveIt! config package. So into the *jaco_moveit_config/config* directory.
-4. Copy the *demo.launch* file to *demo_chomp.launch*. Note that this file is also in the launch directory of the *jaco_moveit_config* package.
-5. Find the lines where *move_group.launch* is included and change it to: ::
+  source ~/ws_moveit/devel/setup.bash
 
-    <include file="$(find jaco_moveit_config)/launch/move_group.launch">
+Using CHOMP with Your Robot
+---------------------------
+**Note:** if you are following this demo using the ``panda_moveit_config`` from the `PickNikRobotics/panda_moveit_config <https://github.com/PickNikRobotics/panda_moveit_config>`_ repository, these steps are already done for you and you can skip this section.
+
+#. Simply download `chomp_planning_pipeline.launch.xml <https://github.com/PickNikRobotics/panda_moveit_config/blob/master/launch/chomp_planning_pipeline.launch.xml>`_ file into the launch directory of your MoveIt! config package. In our case, we will save this file in the ``panda_moveit_config/launch`` directory.
+#. Adjust the line ``<rosparam command="load" file="$(find panda_moveit_config)/config/chomp_planning.yaml" />`` to ``<rosparam command="load" file="$(find <robot_moveit_config>)/config/chomp_planning.yaml" />`` replacing ``<robot_moveit_config>`` with the name of your MoveIt! configuration package.
+#. Download `chomp_planning.yaml <https://github.com/PickNikRobotics/panda_moveit_config/blob/master/config/chomp_planning.yaml>`_ file into the config directory of your MoveIt! config package. In our case, we will save this file in the ``panda_moveit_config/config`` directory.
+#. Open ``chomp_planning.yaml`` in your favorite editor and change ``animate_endeffector_segment: "panda_rightfinger"`` to the appropriate link for your robot.
+#. Copy the ``demo.launch`` file to ``demo_chomp.launch``. Note that this file is also in the launch directory of your MoveIt! config package. In our case, the ``panda_moveit_config/launch`` directory.
+#. Find the lines where ``move_group.launch`` is included and change it to: ::
+
+    <!-- Replace <robot_moveit_config> with the name of your MoveIt! configuration package -->
+    <include file="$(find <robot_moveit_config>)/launch/move_group.launch">
       <arg name="allow_trajectory_execution" value="true"/>
       <arg name="fake_execution" value="true"/>
       <arg name="info" value="true"/>
@@ -37,8 +50,8 @@ Using CHOMP with your own robot
       <arg name="planner" value="chomp" />
     </include>
 
-You probably only need to change the planner arg to chomp.
+Running the Demo
+----------------
+If you have the ``panda_moveit_config`` from the `PickNikRobotics/panda_moveit_config <https://github.com/PickNikRobotics/panda_moveit_config>`_ repository you should be able to simply run the demo: ::
 
-6. Run the demo::
-
-    roslaunch jaco_moveit_config demo_chomp.launch
+  roslaunch panda_moveit_config demo_chomp.launch
