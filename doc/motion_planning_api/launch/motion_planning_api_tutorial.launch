@@ -17,7 +17,6 @@
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen" />
 
   <include file="$(find panda_moveit_config)/launch/moveit_rviz.launch">
-    <arg name="config" value="true"/>
   </include>
 
   <node name="motion_planning_api_tutorial" pkg="moveit_tutorials" type="motion_planning_api_tutorial" respawn="false" launch-prefix="$(arg launch_prefix)" output="screen">
