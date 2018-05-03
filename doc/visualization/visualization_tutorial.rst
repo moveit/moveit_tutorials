@@ -15,7 +15,7 @@ Step 1: Launch the Demo and Configure the Plugin
 
 * Launch the demo: ::
 
-   roslaunch panda_moveit_config demo.launch
+   roslaunch panda_moveit_config demo.launch rviz_tutorial:=true
 
 * If you are doing this for the first time, you should see an empty world in RViz and will have to add the Motion Planning Plugin:
 
