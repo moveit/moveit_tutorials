@@ -9,17 +9,7 @@ Getting Started
 ---------------
 If you haven't already done so, make sure you've completed the steps in `Getting Started <../getting_started/getting_started.html>`_.
 
-The entire code
----------------
-The entire code can be seen :codedir:`here in the moveit_tutorials GitHub project<motion_planning_api>`.
-
-.. tutorial-formatter:: ./src/motion_planning_api_tutorial.cpp
-
-The launch file
----------------
-The entire launch file is :codedir:`here <motion_planning_api/launch/motion_planning_api_tutorial.launch>` on GitHub. All the code in this tutorial can be compiled and run from the moveit_tutorials package.
-
-Running the code
+Running the Demo
 ----------------
 Make sure you have sourced the setup files::
 
@@ -52,3 +42,13 @@ In RViz, we should be able to see four trajectories being replayed eventually:
                :width: 200px
 .. |C| image:: motion_planning_api_tutorial_robot_move_arm_3rd.png
                :width: 200px
+
+The Entire Code
+---------------
+The entire code can be seen :codedir:`here in the moveit_tutorials GitHub project<motion_planning_api>`.
+
+.. tutorial-formatter:: ./src/motion_planning_api_tutorial.cpp
+
+The Launch File
+---------------
+The entire launch file is :codedir:`here <motion_planning_api/launch/motion_planning_api_tutorial.launch>` on GitHub. All the code in this tutorial can be compiled and run from the moveit_tutorials package.
