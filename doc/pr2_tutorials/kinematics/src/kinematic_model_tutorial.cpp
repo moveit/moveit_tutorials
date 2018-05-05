@@ -126,7 +126,7 @@ int main(int argc, char **argv)
   // PR2 robot. To solve IK, we will need the following:
   //
   //  * The desired pose of the end-effector (by default, this is the last link in the "right_arm" chain):
-  // end_effector_state that we computed in the step above.
+  //    end_effector_state that we computed in the step above.
   //  * The number of attempts to be made at solving IK: 10
   //  * The timeout for each attempt: 0.1 s
   bool found_ik = kinematic_state->setFromIK(joint_model_group, end_effector_state, 10, 0.1);
