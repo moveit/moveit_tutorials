@@ -49,6 +49,7 @@ Using CHOMP with Your Robot
       <arg name="debug" value="$(arg debug)"/>
       <arg name="planner" value="chomp" />
     </include>
+#. Open the ``move_group.launch`` file in your ``<robot_moveit_config>/launch/`` folder and make two changes. First, add ``<arg name="planner" default="ompl" />`` just under the ``<launch>`` tag and second, within the ``<include ns="move_group">`` tag replace ``<arg name="pipeline" value="ompl" />`` with ``<arg name="pipeline" value="$(arg planner)" />``.
 
 Running the Demo
 ----------------
