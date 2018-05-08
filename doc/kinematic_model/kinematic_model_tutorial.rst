@@ -38,9 +38,7 @@ Roslaunch the launch file to run the code directly from moveit_tutorials::
 
 Expected Output
 ---------------
-The expected output will be in the following form. The numbers will not match since we are using random joint values
-
-**Note:** Don't worry if your output has different ROS console format. You can customize your ROS console logger by following `this blog post <http://dav.ee/blog/notes/archives/898>`_: ::
+The expected output will be in the following form. The numbers will not match since we are using random joint values: ::
 
  ros.moveit_tutorials: Model frame: /panda_link0
  ros.moveit_tutorials: Joint panda_joint1: 0.000000
@@ -77,7 +75,7 @@ The expected output will be in the following form. The numbers will not match si
             0     -0.74231    -0.669976    -0.367232    -0.662737     0.415389    -0.715607
             1  4.89669e-12    0.0154256     0.862009     0.021077     0.842067    0.0690048
 
-**Note:** Don't worry if your output has different ROS console format. You can customize your ROS console logger by following `this blog post. <http://dav.ee/blog/notes/archives/898>`_
+**Note:** Don't worry if your output has different ROS console format. You can customize your ROS console logger by following `this blog post <http://dav.ee/blog/notes/archives/898>`_.
 
 The Entire Code
 ---------------
