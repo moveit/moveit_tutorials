@@ -75,7 +75,7 @@ int main(int argc, char** argv)
   //
   // Advertise the required topic
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  // We create a publisher and wait for there to be subscribers
+  // We create a publisher and wait for subscribers
   // Note that this topic may need to be remapped in the launch file
   ros::Publisher planning_scene_diff_publisher = node_handle.advertise<moveit_msgs::PlanningScene>("planning_scene", 1);
   ros::WallDuration sleep_t(0.5);

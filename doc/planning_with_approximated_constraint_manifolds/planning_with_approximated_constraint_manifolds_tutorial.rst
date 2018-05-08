@@ -6,7 +6,7 @@ Constraints can be defined in joint space and Cartesian space where the latter i
 While planning a trajectory each joint state needs to follow all of the set constraints, which is performed by rejection sampling by default.
 This however might lead to very long planning times, especially when the constraints are very restrictive and the rejection rate is correspondingly high.
 
-`Sujan et al <http://ioan.sucan.ro/files/pubs/constraints_iros2012.pdf>`_ present an approach where they compute an approximation of the constraint manifold beforehand and perform trajectory planning in that.
+`Sucan et al <http://ioan.sucan.ro/files/pubs/constraints_iros2012.pdf>`_ present an approach where they compute an approximation of the constraint manifold beforehand and perform trajectory planning in that.
 The OMPL plugin contains the functionality to do that for a given set of constraints and save it in a database.
 In later instances the database can be loaded to use for constrained planning with any OMPL planner which strongly reduces planning time.
 
