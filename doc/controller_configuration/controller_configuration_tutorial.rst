@@ -90,3 +90,12 @@ When you run a `move group node <../move_group_interface/move_group_interface_tu
   </node>
 
 Or you can make a subscriber with the correct topic name and then ensure that the starting robot state for your move group corresponds to a correct joints angle by using the call back of this subscriber.
+
+Trajectory Execution Manager Options
+------------------------------------
+
+There are several options for tuning the behavior and safety checks of the execution pipeline in MoveIt!. In your ``moveit_config`` package edit the ``trajectory_execution.launch.xml`` file to change the following parameters:
+
+ - ``execution_duration_monitoring``: when false, will not throw error is trajectory takes longer than expected to complete at the low-level controller side
+ - ``allowed_goal_duration_margin``: Allow more than the expected execution time before triggering a trajectory cancel (applied after scaling)
+ - ``allowed_start_tolerance``: Allowed joint-value tolerance for validation that trajectory's first point matches current robot state. If set to zero will skip waiting for robot to stop after execution
