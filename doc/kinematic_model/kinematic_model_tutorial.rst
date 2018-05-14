@@ -28,10 +28,6 @@ All the code in this tutorial can be compiled and run from the
 ``moveit_tutorials`` package that you have as part of your MoveIt!
 setup.
 
-Make sure you have sourced the setup files::
-
- source ~/ws_moveit/devel/setup.bash
-
 Roslaunch the launch file to run the code directly from moveit_tutorials::
 
  roslaunch moveit_tutorials kinematic_model_tutorial.launch

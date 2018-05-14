@@ -15,10 +15,6 @@ If you haven't already done so, make sure you've completed the steps in `Getting
 
 Running the Code
 ----------------
-Make sure you have sourced the setup files: ::
-
- source ~/ws_moveit/devel/setup.bash
-
 Roslaunch the launch file to run the code directly from moveit_tutorials: ::
 
  roslaunch moveit_tutorials motion_planning_pipeline_tutorial.launch
