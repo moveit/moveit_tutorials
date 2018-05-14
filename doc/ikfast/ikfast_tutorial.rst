@@ -1,5 +1,9 @@
 IKFast Plugin
 ===============================
+
+.. image:: openrave_panda.png
+   :width: 700px
+
 In this section, we will walk through configuring an IKFast plugin for MoveIt!
 
 What is IKFast?
@@ -140,7 +144,7 @@ To test your newly generated Collada file in OpenRAVE: ::
 You should see your robot.
 
 .. image:: openrave_panda.png
-
+   :width: 700px
 
 Create IKFast Solution CPP File
 -------------------------------

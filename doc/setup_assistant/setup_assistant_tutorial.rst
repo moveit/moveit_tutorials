@@ -1,9 +1,11 @@
 Setup Assistant
 ========================
 
+.. image:: MoveIt_setup_assistant_launch.png
+   :width: 700px
+
 Overview
 ----------------------
-
 The MoveIt! Setup Assistant is a graphical user interface for
 configuring any robot for use with MoveIt!. Its primary function is
 generating a Semantic Robot Description Format (SRDF) file for your
@@ -50,7 +52,7 @@ Step 1: Start
   and present you with this screen:
 
 .. image:: setup_assistant_panda_100.png
-   :width: 800px
+   :width: 700px
 
 Step 2: Generate Self-Collision Matrix
 --------------------------------------

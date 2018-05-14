@@ -1,5 +1,8 @@
 Collision Contact
 =================
+.. image:: collisions.png
+   :width: 700px
+
 This section walks you through C++ code which allows you to see collision contact points between the robot, itself, and the world as you move and interact with the robot’s arm in RViz.
 
 Getting Started
@@ -19,6 +22,7 @@ Roslaunch the launch file to run the code directly from moveit_tutorials: ::
 You should now see the Panda robot with 2 interactive markers which you can drag around.
 
 .. image:: collision_contact_tutorial_screen.png
+   :width: 700px
 
 Classes
 -------

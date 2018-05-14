@@ -1,13 +1,13 @@
 Move Group Python Interface
 ================================================
+.. image:: move_group_python_interface.png
+   :width: 700px
 
 In MoveIt!, the simplest user interface is through the Python-based RobotCommander class. It
 provides functionality for most operations that a user may want to carry out,
 specifically setting joint or pose goals, creating motion plans, moving the
 robot, adding objects into the environment and attaching/detaching objects from
 the robot.
-
-.. image:: move_group_python_interface.png
 
 Watch this quick `YouTube video demo <https://youtu.be/3MA5ebXPLsc>`_ to see the power of the Move Group Python interface!
 
