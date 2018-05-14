@@ -117,8 +117,8 @@ void computeCollisionContactPoints(InteractiveRobot& robot)
   // We check for collisions between robot and itself or the world.
   g_planning_scene->checkCollision(c_req, c_res, *robot.robotState());
 
-  // Displaying Collision Contacts
-  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  // Displaying Collision Contact Points
+  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   // If there are collisions, we get the contact points and display them as markers.
   // **getCollisionMarkersFromContacts()** is a helper function that adds the
   // collision contact points into a MarkerArray message. If you want to use
