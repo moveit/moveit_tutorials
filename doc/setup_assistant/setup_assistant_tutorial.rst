@@ -27,6 +27,12 @@ MoveIt! and ROS
 
    sudo apt-get install ros-kinetic-franka-description
 
+* If you have the ``panda_moveit_config`` package already git-cloned from the *Getting Started* page, be sure to delete that now since this tutorial will teach you how to create it from scratch: ::
+
+   cd ~/ws_moveit/src
+   rm -rf panda_moveit_config
+   catkin clean panda_moveit_config
+
 Step 1: Start
 ---------------
 
