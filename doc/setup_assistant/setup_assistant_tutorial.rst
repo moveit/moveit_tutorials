@@ -1,4 +1,4 @@
-Setup Assistant
+MoveIt! Setup Assistant
 ========================
 
 .. image:: MoveIt_setup_assistant_launch.png

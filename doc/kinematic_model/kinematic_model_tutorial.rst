@@ -1,5 +1,6 @@
-Kinematic Model
-========================
+Robot Model and Robot State
+===========================
+
 .. image:: panda_tf.png
    :width: 700px
    :alt: "That is a sweet robot" you might say.

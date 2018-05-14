@@ -1,9 +1,9 @@
-Collision Contact
-=================
+Visualizing Collisions
+======================
 .. image:: collisions.png
    :width: 700px
 
-This section walks you through C++ code which allows you to see collision contact points between the robot, itself, and the world as you move and interact with the robot’s arm in RViz.
+This section walks you through C++ example code that allows you to visualize collision contact points between the robot, itself, and the world as you move and interact with the robot’s arm in RViz.
 
 Getting Started
 ---------------

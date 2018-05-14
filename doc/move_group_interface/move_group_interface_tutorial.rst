@@ -1,4 +1,4 @@
-Move Group Interface
+Move Group C++ Interface
 ==================================
 .. image:: move_group_interface_tutorial_start_screen.png
    :width: 700px

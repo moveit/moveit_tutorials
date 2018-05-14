@@ -1,5 +1,5 @@
-MoveIt! Commander and Command Line Tool
-=======================================
+MoveIt! Commander Scripting
+===========================
 .. image:: moveit_commander.png
    :width: 700px
 
