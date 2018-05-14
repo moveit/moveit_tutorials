@@ -3,9 +3,9 @@
     <arg name="load_robot_description" value="true"/>
   </include>
 
-  <node name="kinematic_model_tutorial"
+  <node name="robot_model_and_robot_state_tutorial"
         pkg="moveit_tutorials"
-        type="kinematic_model_tutorial"
+        type="robot_model_and_robot_state_tutorial"
         respawn="false" output="screen">
     <rosparam command="load"
               file="$(find panda_moveit_config)/config/kinematics.yaml"/>

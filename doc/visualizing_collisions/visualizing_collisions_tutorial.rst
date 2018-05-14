@@ -13,11 +13,11 @@ Running the Code
 ----------------
 Roslaunch the launch file to run the code directly from moveit_tutorials: ::
 
- roslaunch moveit_tutorials collision_contact_tutorial.launch
+ roslaunch moveit_tutorials visualizing_collisions_tutorial.launch
 
 You should now see the Panda robot with 2 interactive markers which you can drag around.
 
-.. image:: collision_contact_tutorial_screen.png
+.. image:: visualizing_collisions_tutorial_screen.png
    :width: 700px
 
 Classes
@@ -35,10 +35,10 @@ Move the right arm so it is in contact with the yellow cube (you may also move t
 
 Relevant Code
 -------------
-The entire code can be seen :codedir:`here <collision_contact>` in the moveit_tutorials GitHub project. Libraries used can be found :codedir:`here <interactivity>`. A lot of information necessary for understanding how this demo works is left out to keep this tutorial focused on collision contacts. To understand this demo fully, it is highly recommended that you read through the source code.
+The entire code can be seen :codedir:`here <visualizing_collisions>` in the moveit_tutorials GitHub project. Libraries used can be found :codedir:`here <interactivity>`. A lot of information necessary for understanding how this demo works is left out to keep this tutorial focused on collision contacts. To understand this demo fully, it is highly recommended that you read through the source code.
 
-.. tutorial-formatter:: ./src/collision_contact_tutorial.cpp
+.. tutorial-formatter:: ./src/visualizing_collisions_tutorial.cpp
 
 Launch file
 -----------
-The entire launch file is  :codedir:`here <collision_contact>` on GitHub. All the code in this tutorial can be compiled and run from the moveit_tutorials package.
+The entire launch file is  :codedir:`here <visualizing_collisions>` on GitHub. All the code in this tutorial can be compiled and run from the moveit_tutorials package.

@@ -1,6 +1,6 @@
 MoveIt! Commander Scripting
 ===========================
-.. image:: moveit_commander.png
+.. image:: moveit_commander_scripting.png
    :width: 700px
 
 The `moveit_commander <http://wiki.ros.org/moveit_commander>`_ Python package offers wrappers for the functionality provided in MoveIt!. Simple interfaces are available for motion planning, computation of Cartesian paths, and pick and place. The ``moveit_commander`` package also includes a command line interface, ``moveit_commander_cmdline.py``.

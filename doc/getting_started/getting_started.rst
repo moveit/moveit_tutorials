@@ -70,4 +70,4 @@ Add the previous command to your ``.bashrc``: ::
 
 Next Step
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-`Visualize a robot with the interactive motion planning plugin for RViz <../visualization/visualization_tutorial.html>`_
+`Visualize a robot with the interactive motion planning plugin for RViz <../quickstart_in_rviz/quickstart_in_rviz_tutorial.html>`_

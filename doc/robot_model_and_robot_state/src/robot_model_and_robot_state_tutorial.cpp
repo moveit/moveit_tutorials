@@ -43,7 +43,7 @@
 
 int main(int argc, char** argv)
 {
-  ros::init(argc, argv, "kinematic_model_tutorial");
+  ros::init(argc, argv, "robot_model_and_robot_state_tutorial");
   ros::AsyncSpinner spinner(1);
   spinner.start();
 
@@ -123,7 +123,7 @@ int main(int argc, char** argv)
 
   // Inverse Kinematics
   // ^^^^^^^^^^^^^^^^^^
-  // We can now solve inverse kinematics (IK) for the Panda robot. 
+  // We can now solve inverse kinematics (IK) for the Panda robot.
   // To solve IK, we will need the following:
   //
   //  * The desired pose of the end-effector (by default, this is the last link in the "panda_arm" chain):

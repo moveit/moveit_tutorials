@@ -1,9 +1,9 @@
-add_executable(collision_contact_tutorial
-  src/collision_contact_tutorial.cpp
+add_executable(visualizing_collisions_tutorial
+  src/visualizing_collisions_tutorial.cpp
 )
 
 target_link_libraries(
-  collision_contact_tutorial
+  visualizing_collisions_tutorial
   interactive_markers
   interactivity_utils
   ${catkin_LIBRARIES}
@@ -12,7 +12,7 @@ target_link_libraries(
 
 install(
   TARGETS
-  collision_contact_tutorial
+  visualizing_collisions_tutorial
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
 install(DIRECTORY launch DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
