@@ -21,10 +21,6 @@ The entire launch file is :codedir:`here <planning_scene/launch/planning_scene_t
 
 Running the code
 ----------------
-Make sure you have sourced the setup files: ::
-
- source ~/ws_moveit/devel/setup.bash
-
 Roslaunch the launch file to run the code directly from moveit_tutorials: ::
 
  roslaunch moveit_tutorials planning_scene_tutorial.launch
