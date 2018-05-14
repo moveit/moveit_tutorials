@@ -129,7 +129,7 @@ class MoveGroupPythonIntefaceTutorial(object):
     # robot:
     print "============ Printing robot state"
     print robot.get_current_state()
-    print "============"
+    print ""
     ## END_SUB_TUTORIAL
 
     # Misc variables
@@ -332,14 +332,14 @@ class MoveGroupPythonIntefaceTutorial(object):
 
     ## BEGIN_SUB_TUTORIAL wait_for_scene_update
     ##
-    ## Updating the Planning Scene
-    ## ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    ## If this node dies before the message has time to get serviced, the message
+    ## Ensuring Collision Updates Are Receieved
+    ## ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ## If the Python node dies before publishing a collision object update message, the message
     ## could get lost and the box will not appear. To ensure that the updates are
     ## made, we wait until we see the changes reflected in the
     ## ``get_known_object_names()`` and ``get_known_object_names()`` lists.
-    ## For the purpose of this tutorial, we call this function after, adding,
-    ## removing, attaching or detaching an object in the planning scene to wait
+    ## For the purpose of this tutorial, we call this function after adding,
+    ## removing, attaching or detaching an object in the planning scene. We then wait
     ## until the updates have been made or ``timeout`` seconds have passed
     start = rospy.get_time()
     seconds = rospy.get_time()
@@ -386,7 +386,6 @@ class MoveGroupPythonIntefaceTutorial(object):
     box_name = "box"
     scene.add_box(box_name, box_pose, size=(0.1, 0.1, 0.1))
 
-    ## **Note:** If this node dies before the message gets serviced, the box will not appear.
     ## END_SUB_TUTORIAL
     self.box_name=box_name
     return self.wait_for_state_update(box_is_known=True, timeout=timeout)
@@ -508,10 +507,11 @@ def main():
     raw_input()
     tutorial.detach_box()
 
-    print "============ Press `Enter` to removing the box from the planning scene ..."
+    print "============ Press `Enter` to remove the box from the planning scene ..."
     raw_input()
     tutorial.remove_box()
 
+    print "============ Python tutorial demo complete!"
   except rospy.ROSInterruptException:
     return
   except KeyboardInterrupt:
