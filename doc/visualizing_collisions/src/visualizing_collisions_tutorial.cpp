@@ -160,7 +160,7 @@ void computeCollisionContactPoints(InteractiveRobot& robot)
 
 int main(int argc, char** argv)
 {
-  ros::init(argc, argv, "collision_contact_tutorial");
+  ros::init(argc, argv, "visualizing_collisions_tutorial");
   ros::NodeHandle nh;
 
   // BEGIN_TUTORIAL

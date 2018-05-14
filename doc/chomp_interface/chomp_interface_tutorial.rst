@@ -10,7 +10,7 @@ Getting Started
 ---------------
 If you haven't already done so, make sure you've completed the steps in `Getting Started <../getting_started/getting_started.html>`_.
 
-You should also have gone through the steps in `Visualization with MoveIt! RViz Plugin <../visualization/visualization_tutorial.html>`_
+You should also have gone through the steps in `Visualization with MoveIt! RViz Plugin <../quickstart_in_rviz/quickstart_in_rviz_tutorial.html>`_
 
 Prerequisites
 --------------

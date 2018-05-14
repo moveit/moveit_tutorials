@@ -12,7 +12,7 @@ By default MoveIt! sets the velocity and acceleration of a joint trajectory to t
 
 During Runtime
 ^^^^^^^^^^^^^^
-The speed of a parameterized kinematic trajectory can also be modified during runtime as a fraction of the max velocity and acceleration set in the configuration values, as a value between 0-1. To change the speed on a per-motion plan basis, you can set the two scaling factors as described in `MotionPlanRequest.msg <http://docs.ros.org/kinetic/api/moveit_msgs/html/msg/MotionPlanRequest.html>`_. Spinboxes for setting both of those factors are also available in the `MoveIt! MotionPlanning RViz plugin <../visualization/visualization_tutorial.html>`_.
+The speed of a parameterized kinematic trajectory can also be modified during runtime as a fraction of the max velocity and acceleration set in the configuration values, as a value between 0-1. To change the speed on a per-motion plan basis, you can set the two scaling factors as described in `MotionPlanRequest.msg <http://docs.ros.org/kinetic/api/moveit_msgs/html/msg/MotionPlanRequest.html>`_. Spinboxes for setting both of those factors are also available in the `MoveIt! MotionPlanning RViz plugin <../quickstart_in_rviz/quickstart_in_rviz_tutorial.html>`_.
 
 Time Parameterization Algorithms
 --------------------------------

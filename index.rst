@@ -14,7 +14,7 @@ Getting Started with MoveIt! and RViz
    :maxdepth: 1
 
    doc/getting_started/getting_started
-   doc/visualization/visualization_tutorial
+   doc/quickstart_in_rviz/quickstart_in_rviz_tutorial
 
 MoveGroup - ROS Wrappers in C++ and Python
 ------------------------------------------
@@ -25,7 +25,7 @@ The simplest way to get started with MoveIt! is through the ``move_group_interfa
 
    doc/move_group_interface/move_group_interface_tutorial
    doc/move_group_python_interface/move_group_python_interface_tutorial
-   doc/moveit_commander/moveit_commander_tutorial
+   doc/moveit_commander_scripting/moveit_commander_scripting_tutorial
 
 Using MoveIt! Directly Through the C++ API
 ------------------------------------------
@@ -34,12 +34,12 @@ Building more complex applications with MoveIt! often requires developers to dig
 .. toctree::
    :maxdepth: 1
 
-   doc/kinematic_model/kinematic_model_tutorial
+   doc/robot_model_and_robot_state/robot_model_and_robot_state_tutorial
    doc/planning_scene/planning_scene_tutorial
    doc/planning_scene_ros_api/planning_scene_ros_api_tutorial
    doc/motion_planning_api/motion_planning_api_tutorial
    doc/motion_planning_pipeline/motion_planning_pipeline_tutorial
-   doc/collision_contact/collision_contact_tutorial
+   doc/visualizing_collisions/visualizing_collisions_tutorial
    doc/time_parameterization/time_parameterization_tutorial
    doc/planning_with_approximated_constraint_manifolds/planning_with_approximated_constraint_manifolds_tutorial
 

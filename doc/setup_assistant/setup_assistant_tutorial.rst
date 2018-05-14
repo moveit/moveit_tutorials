@@ -283,7 +283,7 @@ The MoveIt! RViz plugin
 
 * Start looking at how you can use the generated configuration files
   to play with MoveIt! using the
-  `MoveIt! RViz Plugin <../visualization/visualization_tutorial.html>`_.
+  `MoveIt! RViz Plugin <../quickstart_in_rviz/quickstart_in_rviz_tutorial.html>`_.
 
 Setup IKFast Inverse Kinematics Solver
 
