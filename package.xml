@@ -30,5 +30,6 @@
   <run_depend>moveit_ros_perception</run_depend>
   <run_depend>interactive_markers</run_depend>
   <run_depend>moveit_visual_tools</run_depend>
+  <run_depend>joy</run_depend>
 
 </package>
