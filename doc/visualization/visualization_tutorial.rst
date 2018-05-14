@@ -1,10 +1,10 @@
 Visualization with the MoveIt! RViz Plugin
 ===============================================
+.. image:: rviz_plugin_head.png
+   :width: 700px
 
 MoveIt! comes with a plugin for the ROS Visualizer (RViz). The plugin allows you to setup scenes in which the robot will work, generate plans, visualize the output and interact directly with a visualized robot. We will explore the plugin in this tutorial.
 
-.. image:: rviz_plugin_head.png
-   :width: 700px
 
 Getting Started
 ---------------

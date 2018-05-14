@@ -1,10 +1,10 @@
 Kinematic Model
 ========================
-In this section, we will walk you through the C++ API for using kinematics in MoveIt!.
-
 .. image:: panda_tf.png
-   :width: 500px
+   :width: 700px
    :alt: "That is a sweet robot" you might say.
+
+In this section, we will walk you through the C++ API for using kinematics in MoveIt!.
 
 The RobotModel and RobotState Classes
 -------------------------------------
