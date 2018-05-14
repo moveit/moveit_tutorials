@@ -1,28 +1,35 @@
 Joystick Control Teleoperation
 ==========================================
 
+.. image:: controller.jpg
+   :width: 700px
+
+Check out this cool demo that uses a `joystick controller and MoveIt! to control a PR2 <https://youtu.be/p_x-HRagLpo>`_
+
 Getting Started
 ---------------
 If you haven't already done so, make sure you've completed the steps in `Getting Started <../getting_started/getting_started.html>`_.
 
-Run
----
+Running the Code
+----------------
+Open two shells and make sure you have re-sourced the setup files in both of them: ::
 
-Startup regular MoveIt! planning node with RViz (for example demo.launch)
+  source ~/ws_moveit/devel/setup.bash
 
-Make sure you have the dependencies installed: ::
+In the first shell start RViz and wait for everything to finish loading: ::
 
-    sudo apt-get install ros-kinetic-joy
+  roslaunch panda_moveit_config demo.launch
 
-In the Motion Planning plugin of RViz, enable "Allow External Comm." checkbox in the "Planning" tab. Enable the 'Query Goal State' robot display in the MoveIt! Motion Planning Plugins' 'Planning Request' section.
+In the Motion Planning plugin of RViz, enable **Allow External Comm.** checkbox in the *Planning* tab. Enable the **Query Goal State** robot display in the MoveIt! Motion Planning Plugins' *Planning Request* section.
 
-Now launch the joystick control launch file specific to your robot. If you are missing this file, first re-run the MoveIt! Setup Assistant using the latest version of the Setup Assistant: ::
+Now launch in the second shell, run the ``joystick_control.launch`` file: ::
 
-    roslaunch ROBOT_moveit_config joystick_control.launch
+    roslaunch panda_moveit_config joystick_control.launch
+
 
 The script defaults to using ``/dev/input/js0`` for your game controller port. To customize, you can also use, for example: ::
 
-    roslaunch ROBOT_moveit_config joystick_control.launch dev:=/dev/input/js1
+    roslaunch panda_moveit_config joystick_control.launch dev:=/dev/input/js1
 
 This script can read four types of joysticks:
 
@@ -50,7 +57,6 @@ execute                 circle               B                     2
 
 Debugging
 ---------
-
 Add "Pose" to RViz Displays and subscribe to ``/joy_pose`` in order to see the output from joystick.
 
 Note that only planning groups that have IK solvers for all their End Effector parent groups will work.

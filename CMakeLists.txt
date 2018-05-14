@@ -14,6 +14,7 @@ find_package(catkin REQUIRED
   COMPONENTS
     moveit_core
     moveit_visual_tools
+    joy
     moveit_ros_planning
     moveit_ros_planning_interface
     pluginlib
@@ -34,6 +35,7 @@ catkin_package(
   CATKIN_DEPENDS
     moveit_core
     moveit_visual_tools
+    joy
     moveit_ros_planning_interface
     interactive_markers
   DEPENDS
