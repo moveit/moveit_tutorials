@@ -44,12 +44,13 @@
 #include <moveit/kinematic_constraints/utils.h>
 #include <moveit_msgs/DisplayTrajectory.h>
 #include <moveit_msgs/PlanningScene.h>
+#include <moveit_visual_tools/moveit_visual_tools.h>
 
 #include <boost/scoped_ptr.hpp>
 
 int main(int argc, char** argv)
 {
-  ros::init(argc, argv, "move_group_tutorial");
+  ros::init(argc, argv, "motion_planning_tutorial");
   ros::AsyncSpinner spinner(1);
   spinner.start();
   ros::NodeHandle node_handle("~");
@@ -68,8 +69,13 @@ int main(int argc, char** argv)
   //
   // .. _RobotModelLoader:
   //     http://docs.ros.org/indigo/api/moveit_ros_planning/html/classrobot__model__loader_1_1RobotModelLoader.html
+  const std::string PLANNING_GROUP = "panda_arm";
   robot_model_loader::RobotModelLoader robot_model_loader("robot_description");
   robot_model::RobotModelPtr robot_model = robot_model_loader.getModel();
+  /* Create a RobotState and JointModelGroup to keep track of the current robot pose and planning group*/
+  robot_state::RobotStatePtr robot_state(new robot_state::RobotState(robot_model));
+  const robot_state::JointModelGroup* joint_model_group = robot_state->getJointModelGroup(PLANNING_GROUP);
+
 
   // Using the :moveit_core:`RobotModel`, we can construct a
   // :planning_scene:`PlanningScene` that maintains the state of
@@ -113,9 +119,32 @@ int main(int argc, char** argv)
                                                          << "Available plugins: " << ss.str());
   }
 
-  /* Sleep a little to allow time to startup rviz, etc. */
-  ros::WallDuration sleep_time(15.0);
-  sleep_time.sleep();
+  // Visualization
+  // ^^^^^^^^^^^^^
+  // The package MoveItVisualTools provides many capabilties for visualizing objects, robots,
+  // and trajectories in RViz as well as debugging tools such as step-by-step introspection of a script
+  namespace rvt = rviz_visual_tools;
+  moveit_visual_tools::MoveItVisualTools visual_tools("panda_link0");
+  visual_tools.deleteAllMarkers();
+
+  /* Remote control is an introspection tool that allows users to step through a high level script
+     via buttons and keyboard shortcuts in RViz */
+  visual_tools.loadRemoteControl();
+
+  /* RViz provides many types of markers, in this demo we will use text, cylinders, and spheres*/
+  Eigen::Affine3d text_pose = Eigen::Affine3d::Identity();
+  text_pose.translation().z() = 1.75;
+  visual_tools.publishText(text_pose, "Motion Planning API Demo", rvt::WHITE, rvt::XLARGE);
+
+  /* Batch publishing is used to reduce the number of messages being sent to RViz for large visualizations */
+  visual_tools.trigger();
+
+  /* Sleep a little to allow time to startup rviz, etc..
+     This ensures that visual_tools.prompt() isn't lost in a sea of logs*/
+  ros::Duration(10).sleep();
+
+  /* We can also use visual_tools to wait for user input */
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to start the demo");
 
   // Pose Goal
   // ^^^^^^^^^
@@ -174,15 +203,14 @@ int main(int argc, char** argv)
   display_trajectory.trajectory.push_back(response.trajectory);
   display_publisher.publish(display_trajectory);
 
-  sleep_time.sleep();
+  /* We can also use visual_tools to wait for user input */
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
 
   // Joint Space Goals
   // ^^^^^^^^^^^^^^^^^
   /* First, set the state in the planning scene to the final state of the last plan */
-  robot_state::RobotState& robot_state = planning_scene->getCurrentStateNonConst();
   planning_scene->setCurrentState(response.trajectory_start);
-  const robot_state::JointModelGroup* joint_model_group = robot_state.getJointModelGroup("panda_arm");
-  robot_state.setJointGroupPositions(joint_model_group, response.trajectory.joint_trajectory.points.back().positions);
+  robot_state->setJointGroupPositions(joint_model_group, response.trajectory.joint_trajectory.points.back().positions);
 
   // Now, setup a joint space goal
   robot_state::RobotState goal_state(robot_model);
@@ -212,9 +240,12 @@ int main(int argc, char** argv)
   /* Now you should see two planned trajectories in series*/
   display_publisher.publish(display_trajectory);
 
+  /* Wait for user input */
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
+
   /* We will add more goals. But first, set the state in the planning
      scene to the final state of the last plan */
-  robot_state.setJointGroupPositions(joint_model_group, response.trajectory.joint_trajectory.points.back().positions);
+  robot_state->setJointGroupPositions(joint_model_group, response.trajectory.joint_trajectory.points.back().positions);
 
   /* Now, we go back to the first goal*/
   req.goal_constraints.clear();
@@ -224,6 +255,10 @@ int main(int argc, char** argv)
   res.getMessage(response);
   display_trajectory.trajectory.push_back(response.trajectory);
   display_publisher.publish(display_trajectory);
+
+  /* Wait for user input */
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
+
 
   // Adding Path Constraints
   // ^^^^^^^^^^^^^^^^^^^^^^^
@@ -237,7 +272,7 @@ int main(int argc, char** argv)
   moveit_msgs::Constraints pose_goal_2 =
       kinematic_constraints::constructGoalConstraints("panda_link8", pose, tolerance_pose, tolerance_angle);
   /* First, set the state in the planning scene to the final state of the last plan */
-  robot_state.setJointGroupPositions(joint_model_group, response.trajectory.joint_trajectory.points.back().positions);
+  robot_state->setJointGroupPositions(joint_model_group, response.trajectory.joint_trajectory.points.back().positions);
   /* Now, let's try to move to this new pose goal*/
   req.goal_constraints.clear();
   req.goal_constraints.push_back(pose_goal_2);
@@ -271,8 +306,8 @@ int main(int argc, char** argv)
   display_publisher.publish(display_trajectory);
 
   // END_TUTORIAL
-  sleep_time.sleep();
-  ROS_INFO("Done");
+  /* Wait for user input */
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to exit the demo");
   planner_instance.reset();
 
   return 0;
