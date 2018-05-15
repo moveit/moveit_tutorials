@@ -136,7 +136,7 @@ int main(int argc, char** argv)
   visual_tools.publishText(text_pose, "Pose Goal", rvt::WHITE, rvt::XLARGE);
   visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group);
   visual_tools.trigger();
-  visual_tools.prompt("next step");
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
 
   // Moving to a pose goal
   // ^^^^^^^^^^^^^^^^^^^^^
@@ -178,7 +178,7 @@ int main(int argc, char** argv)
   visual_tools.publishText(text_pose, "Joint Space Goal", rvt::WHITE, rvt::XLARGE);
   visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group);
   visual_tools.trigger();
-  visual_tools.prompt("next step");
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
 
   // Planning with Path Constraints
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -281,7 +281,7 @@ int main(int argc, char** argv)
   for (std::size_t i = 0; i < waypoints.size(); ++i)
     visual_tools.publishAxisLabeled(waypoints[i], "pt" + std::to_string(i), rvt::SMALL);
   visual_tools.trigger();
-  visual_tools.prompt("next step");
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
 
   // Adding/Removing Objects and Attaching/Detaching Objects
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -323,8 +323,8 @@ int main(int argc, char** argv)
   visual_tools.publishText(text_pose, "Add object", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
 
-  // Sleep to allow MoveGroup to recieve and process the collision object message
-  ros::Duration(1.0).sleep();
+  // Wait for MoveGroup to recieve and process the collision object message
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to once the collision object appears in RViz");
 
   // Now when we plan a trajectory it will avoid the obstacle
   move_group.setStartState(*move_group.getCurrentState());
@@ -353,8 +353,8 @@ int main(int argc, char** argv)
   visual_tools.publishText(text_pose, "Object attached to robot", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
 
-  /* Sleep to allow MoveGroup to recieve and process the attached collision object message */
-  ros::Duration(1.0).sleep();
+  /* Wait for MoveGroup to recieve and process the attached collision object message */
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to once the collision object attaches to the robot");
 
   // Now, let's detach the collision object from the robot.
   ROS_INFO_NAMED("tutorial", "Detach the object from the robot");
@@ -364,8 +364,8 @@ int main(int argc, char** argv)
   visual_tools.publishText(text_pose, "Object dettached from robot", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
 
-  /* Sleep to allow MoveGroup to recieve and process the detach collision object message */
-  ros::Duration(1.0).sleep();
+  /* Wait for MoveGroup to recieve and process the attached collision object message */
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to once the collision object detaches to the robot");
 
   // Now, let's remove the collision object from the world.
   ROS_INFO_NAMED("tutorial", "Remove the object from the world");
@@ -377,8 +377,8 @@ int main(int argc, char** argv)
   visual_tools.publishText(text_pose, "Object removed", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
 
-  /* Sleep to give RViz time to show the object is no longer there.*/
-  ros::Duration(1.0).sleep();
+  /* Wait for MoveGroup to recieve and process the attached collision object message */
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to once the collision object disapears");
 
   // END_TUTORIAL
 
