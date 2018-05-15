@@ -36,7 +36,7 @@ html_static_path = ['_static']
 
 html_context = {
     "display_github": True,
-    "github_user": "PickNikRobotics",
+    "github_user": "ros-planning",
     "github_repo": "moveit_tutorials",
     "github_version": "kinetic-devel",
     "conf_py_path": "",

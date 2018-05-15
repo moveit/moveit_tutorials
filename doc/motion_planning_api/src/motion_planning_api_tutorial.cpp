@@ -76,7 +76,6 @@ int main(int argc, char** argv)
   robot_state::RobotStatePtr robot_state(new robot_state::RobotState(robot_model));
   const robot_state::JointModelGroup* joint_model_group = robot_state->getJointModelGroup(PLANNING_GROUP);
 
-
   // Using the :moveit_core:`RobotModel`, we can construct a
   // :planning_scene:`PlanningScene` that maintains the state of
   // the world (including the robot).
@@ -258,7 +257,6 @@ int main(int argc, char** argv)
 
   /* Wait for user input */
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
-
 
   // Adding Path Constraints
   // ^^^^^^^^^^^^^^^^^^^^^^^

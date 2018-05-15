@@ -32,11 +32,11 @@ Re-source the setup files: ::
 
 Using CHOMP with Your Robot
 ---------------------------
-**Note:** if you are following this demo using the ``panda_moveit_config`` from the `PickNikRobotics/panda_moveit_config <https://github.com/PickNikRobotics/panda_moveit_config>`_ repository, these steps are already done for you and you can skip this section.
+**Note:** if you are following this demo using the ``panda_moveit_config`` from the `ros-planning/panda_moveit_config <https://github.com/ros-planning/panda_moveit_config>`_ repository, these steps are already done for you and you can skip this section.
 
-#. Simply download `chomp_planning_pipeline.launch.xml <https://github.com/PickNikRobotics/panda_moveit_config/blob/master/launch/chomp_planning_pipeline.launch.xml>`_ file into the launch directory of your MoveIt! config package. In our case, we will save this file in the ``panda_moveit_config/launch`` directory.
+#. Simply download `chomp_planning_pipeline.launch.xml <https://github.com/ros-planning/panda_moveit_config/blob/master/launch/chomp_planning_pipeline.launch.xml>`_ file into the launch directory of your MoveIt! config package. In our case, we will save this file in the ``panda_moveit_config/launch`` directory.
 #. Adjust the line ``<rosparam command="load" file="$(find panda_moveit_config)/config/chomp_planning.yaml" />`` to ``<rosparam command="load" file="$(find <robot_moveit_config>)/config/chomp_planning.yaml" />`` replacing ``<robot_moveit_config>`` with the name of your MoveIt! configuration package.
-#. Download `chomp_planning.yaml <https://github.com/PickNikRobotics/panda_moveit_config/blob/master/config/chomp_planning.yaml>`_ file into the config directory of your MoveIt! config package. In our case, we will save this file in the ``panda_moveit_config/config`` directory.
+#. Download `chomp_planning.yaml <https://github.com/ros-planning/panda_moveit_config/blob/master/config/chomp_planning.yaml>`_ file into the config directory of your MoveIt! config package. In our case, we will save this file in the ``panda_moveit_config/config`` directory.
 #. Open ``chomp_planning.yaml`` in your favorite editor and change ``animate_endeffector_segment: "panda_rightfinger"`` to the appropriate link for your robot.
 #. Copy the ``demo.launch`` file to ``demo_chomp.launch``. Note that this file is also in the launch directory of your MoveIt! config package. In our case, the ``panda_moveit_config/launch`` directory.
 #. Find the lines where ``move_group.launch`` is included and change it to: ::
@@ -53,6 +53,6 @@ Using CHOMP with Your Robot
 
 Running the Demo
 ----------------
-If you have the ``panda_moveit_config`` from the `PickNikRobotics/panda_moveit_config <https://github.com/PickNikRobotics/panda_moveit_config>`_ repository you should be able to simply run the demo: ::
+If you have the ``panda_moveit_config`` from the `ros-planning/panda_moveit_config <https://github.com/ros-planning/panda_moveit_config>`_ repository you should be able to simply run the demo: ::
 
   roslaunch panda_moveit_config demo_chomp.launch

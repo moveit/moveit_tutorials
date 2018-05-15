@@ -10,7 +10,7 @@ In this section, we will walk through configuring the 3D sensors on your robot w
 YAML Configuration file (Point Cloud)
 -------------------------------------
 
-We will have to generate a YAML configuration file for configuring the 3D sensors. Please see `this example file <https://github.com/PickNikRobotics/panda_moveit_config/blob/master/config/sensors_kinect_pointcloud.yaml>`_ for processing point clouds, located in the `panda_moveit_config repository for Kinetic <https://github.com/PickNikRobotics/panda_moveit_config>`_: ::
+We will have to generate a YAML configuration file for configuring the 3D sensors. Please see `this example file <https://github.com/ros-planning/panda_moveit_config/blob/master/config/sensors_kinect_pointcloud.yaml>`_ for processing point clouds, located in the `panda_moveit_config repository for Kinetic <https://github.com/ros-planning/panda_moveit_config>`_: ::
 
  sensors:
    - sensor_plugin: occupancy_map_monitor/PointCloudOctomapUpdater
@@ -43,7 +43,7 @@ We will have to generate a YAML configuration file for configuring the 3D sensor
 YAML Configuration file (Depth Map)
 -----------------------------------
 
-We will have to generate a YAML configuration file for configuring the 3D sensors. An `example file for processing depth images <https://github.com/PickNikRobotics/panda_moveit_config/blob/master/config/sensors_kinect_depthmap.yaml>`_ can be found in the `panda_moveit_config repository <https://github.com/PickNikRobotics/panda_moveit_config>`_ as well: ::
+We will have to generate a YAML configuration file for configuring the 3D sensors. An `example file for processing depth images <https://github.com/ros-planning/panda_moveit_config/blob/master/config/sensors_kinect_depthmap.yaml>`_ can be found in the `panda_moveit_config repository <https://github.com/ros-planning/panda_moveit_config>`_ as well: ::
 
  sensors:
    - sensor_plugin: occupancy_map_monitor/DepthImageOctomapUpdater
