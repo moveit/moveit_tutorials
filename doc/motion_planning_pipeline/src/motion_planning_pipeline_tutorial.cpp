@@ -163,7 +163,6 @@ int main(int argc, char** argv)
   /* Wait for user input */
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
 
-
   // Joint Space Goals
   // ^^^^^^^^^^^^^^^^^
   /* First, set the state in the planning scene to the final state of the last plan */
@@ -199,7 +198,6 @@ int main(int argc, char** argv)
 
   /* Wait for user input */
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
-
 
   // Using a Planning Request Adapter
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

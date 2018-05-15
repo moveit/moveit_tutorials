@@ -20,7 +20,7 @@ Test Robots
 
 **Panda**
 
-From the package `panda_moveit_config <https://github.com/PickNikRobotics/panda_moveit_config>`_: ::
+From the package `panda_moveit_config <https://github.com/ros-planning/panda_moveit_config>`_: ::
 
   roslaunch panda_moveit_config demo.launch
 

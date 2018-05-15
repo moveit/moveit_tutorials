@@ -354,7 +354,8 @@ int main(int argc, char** argv)
   visual_tools.trigger();
 
   /* Wait for MoveGroup to recieve and process the attached collision object message */
-  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to once the collision object attaches to the robot");
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to once the collision object attaches to the "
+                      "robot");
 
   // Now, let's detach the collision object from the robot.
   ROS_INFO_NAMED("tutorial", "Detach the object from the robot");
@@ -365,7 +366,8 @@ int main(int argc, char** argv)
   visual_tools.trigger();
 
   /* Wait for MoveGroup to recieve and process the attached collision object message */
-  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to once the collision object detaches to the robot");
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to once the collision object detaches to the "
+                      "robot");
 
   // Now, let's remove the collision object from the world.
   ROS_INFO_NAMED("tutorial", "Remove the object from the world");
