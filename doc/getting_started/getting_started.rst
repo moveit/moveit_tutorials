@@ -37,11 +37,11 @@ Within your `catkin <http://wiki.ros.org/catkin>`_ workspace, download these tut
   cd ~/ws_moveit/src
   git clone https://github.com/ros-planning/moveit_tutorials.git
 
-You will also need a ``panda_moveit_config`` package to follow along with these tutorials:
+You will also need a ``panda_moveit_config`` package to follow along with these tutorials: ::
 
   git clone https://github.com/ros-planning/panda_moveit_config.git
 
-.. note:: For now we will use a pre-generated ``panda_moveit_config`` package but later we will learn how to make our own in the `MoveIt! Setup Assistant tutorial. <../setup_assistant/setup_assistant_tutorial.html>`_:.
+.. note:: For now we will use a pre-generated ``panda_moveit_config`` package but later we will learn how to make our own in the `MoveIt! Setup Assistant tutorial <../setup_assistant/setup_assistant_tutorial.html>`_.
 
 Build your Catkin Workspace
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
