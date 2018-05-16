@@ -98,8 +98,11 @@ class MoveGroupPythonIntefaceTutorial(object):
 
     ## Instantiate a `MoveGroupCommander`_ object.  This object is an interface
     ## to one group of joints.  In this case the group is the joints in the Panda
-    ## arm.  This interface can be used to plan and execute motions on the Panda:
-    group = moveit_commander.MoveGroupCommander("panda_arm")
+    ## arm so we set ``group_name = panda_arm``. If you are using a different robot,
+    ## you should change this value to the name of your robot arm planning group.
+    ## This interface can be used to plan and execute motions on the Panda:
+    group_name = "panda_arm"
+    group = moveit_commander.MoveGroupCommander(group_name)
 
     ## We create a `DisplayTrajectory`_ publisher which is used later to publish
     ## trajectories for RViz to visualize:
@@ -381,8 +384,11 @@ class MoveGroupPythonIntefaceTutorial(object):
     ## Next, we will attach the box to the Panda wrist. Manipulating objects requires the
     ## robot be able to touch them without the planning scene reporting the contact as a
     ## collision. By adding link names to the ``touch_links`` array, we are telling the
-    ## planning scene to ignore collisions between those links and the box.
-    touch_links = robot.get_link_names(group='hand')
+    ## planning scene to ignore collisions between those links and the box. For the Panda
+    ## robot, we set ``grasping_group = 'hand'``. If you are using a different robot,
+    ## you should change this value to the name of your end effector group name.
+    grasping_group = 'hand'
+    touch_links = robot.get_link_names(group=grasping_group)
     scene.attach_box(eef_link, box_name, touch_links=touch_links)
     ## END_SUB_TUTORIAL
 
