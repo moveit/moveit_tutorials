@@ -1,0 +1,5 @@
+<launch>
+  <param name ="/use_sim_time" value="true"/>
+  <node pkg="moveit_tutorials" type="cylinder_segment" name="point_cloud_preprocessor" />
+  <node pkg="rosbag" type="play" name="point_clouds" args="--clock $(find moveit_tutorials)/doc/perception_configuration/bags/2018-05-28-07-49-11.bag" />
+</launch>

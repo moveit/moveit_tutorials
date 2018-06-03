@@ -28,7 +28,7 @@ We will have to generate a YAML configuration file for configuring the 3D sensor
 
  sensors:
    - sensor_plugin: occupancy_map_monitor/PointCloudOctomapUpdater
-     point_cloud_topic: /head_mount_kinect/depth_registered/points
+     point_cloud_topic: /camera/depth_registered/points
      max_range: 5.0
      point_subsample: 1
      padding_offset: 0.1
@@ -61,7 +61,7 @@ We will have to generate a YAML configuration file for configuring the 3D sensor
 
  sensors:
    - sensor_plugin: occupancy_map_monitor/DepthImageOctomapUpdater
-     image_topic: /head_mount_kinect/depth_registered/image_raw
+     image_topic: /camera/depth_registered/image_raw
      queue_size: 5
      near_clipping_plane_distance: 0.3
      far_clipping_plane_distance: 5.0
@@ -125,4 +125,54 @@ If you set the initial and the final location of the robot in a way that there i
 .. image:: obstacle_avoidance.gif
    :width: 700px
 
-You can test this for yourself by setting the start and goal state manually and then planning. To learn how to do that look at `MoveIt! Quickstart in RViz <../quickstart_in_rviz/quickstart_in_rviz_tutorial.html>`_
+Running the interface
+---------------------
+Roslaunch the launch file to run the code directly from moveit_tutorials: ::
+
+ roslaunch moveit_tutorials obstacle_avoidance_demo.launch
+
+you should see something like the image shown at the beginning of this tutorial.
+
+You can test obstacle avoidance for yourself by setting the start and goal state manually and then planning. To learn how to do that look at `MoveIt! Quickstart in RViz <../quickstart_in_rviz/quickstart_in_rviz_tutorial.html>`_
+
+Preprocessing The 3D Data
+=========================
+
+In this section, we will demonstrate an example on preprocessing the 3D data and integrating it with the MoveIt! perception pipeline.
+We will be working with point clouds but it can be implimented simmilarly with depth maps.
+
+In order to use the preprocessed pointcloud/depthmap with MoveIt! all you need to do is modify the ``point_cloud_topic``/``image_topic`` parameter to the topic where the processed pointcloud/depthmap is published.
+
+Getting Started
+---------------
+In addition to the steps given in `Getting Started <../getting_started/getting_started.html>`_, you will also need to install the ``perception_pcl`` package: ::
+
+ sudo apt install ros-kinetic-perception-pcl
+
+Running the Code
+----------------
+Edit the ``point_cloud_topic`` in the yaml configuration file created `here <./perception_configuration_tutorial.html#yaml-configuration-file-point-cloud>`_ ::
+
+ sensors:
+   - sensor_plugin: occupancy_map_monitor/PointCloudOctomapUpdater
+     point_cloud_topic: /processed_points
+     max_range: 5.0
+     point_subsample: 1
+     padding_offset: 0.1
+     padding_scale: 1.0
+     filtered_cloud_topic: filtered_cloud
+
+Roslaunch the launch file to run the code directly from moveit_tutorials: ::
+
+ roslaunch moveit_tutorials preprocessing_3d_data_demo.launch
+
+You should now see something like this:
+
+.. image:: preprocess_3d_demo.png
+   :width: 700px
+
+Relevant Code
+-------------
+The entire code can be seen :codedir:`here <perception_configuration>` in the moveit_tutorials GitHub project. A lot of information related to the actual code used for preprocessing the point cloud is left out to keep this tutorial focused on preprocessed 3D data integration.
+
+.. tutorial-formatter:: ./src/cylinder_segment.cpp
