@@ -1,5 +1,19 @@
-Perception/Configuration
-=================================
+#################################
+Perception Pipeline Tutorial
+#################################
+
+MoveIt! allows for seemless integration of 3D sensors using `Octomap <http://octomap.github.io/>`_.
+Once properly configured, you should see something like this in rviz:
+
+.. image:: perception_configuration_demo.png
+   :width: 700px
+
+Getting Started
+===============
+If you haven't already done so, make sure you've completed the steps in `Getting Started <../getting_started/getting_started.html>`_.
+
+Configuration
+=============
 
 In this section, we will walk through configuring the 3D sensors on your robot with MoveIt!. The primary component in MoveIt! that deals with 3D perception is the Occupancy Map Updater. The updater uses a plugin architecture to process different types of input. The currently available plugins in MoveIt! are:
 
@@ -102,3 +116,13 @@ MoveIt! uses an octree-based framework to represent the world around it. The *Oc
  * *octomap_frame*: specifies the coordinate frame in which this representation will be stored. If you are working with a mobile robot, this frame should be a fixed frame in the world.
  * *octomap_resolution*: specifies the resolution at which this representation is maintained (in meters).
  * *max_range*: specifies the maximum range value to be applied for any sensor input to this node.
+
+Obstacle Avoidance
+==================
+
+If you set the initial and the final location of the robot in a way that there is no straight path between them, then the planner will automatically avoid the octomap and plan around it.
+
+.. image:: obstacle_avoidance.gif
+   :width: 700px
+
+You can test this for yourself by setting the start and goal state manually and then planning. To learn how to do that look at `MoveIt! Quickstart in RViz <../quickstart_in_rviz/quickstart_in_rviz_tutorial.html>`_
