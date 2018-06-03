@@ -54,7 +54,7 @@ Before attempting to integrate a new robot with MoveIt!, check whether your robo
    doc/setup_assistant/setup_assistant_tutorial
    doc/urdf_srdf/urdf_srdf_tutorial
    doc/controller_configuration/controller_configuration_tutorial
-   doc/perception_configuration/perception_configuration_tutorial
+   doc/perception_pipeline/perception_pipeline_tutorial
    doc/ikfast/ikfast_tutorial
    doc/trac_ik/trac_ik_tutorial
 
