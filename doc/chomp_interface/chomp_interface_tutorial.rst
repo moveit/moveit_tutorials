@@ -70,3 +70,57 @@ To run the CHOMP planner with obstacles, do the following in two seperate termin
 
   roslaunch panda_moveit_config demo_chomp.launch
   python collision_scene_test_1.py OR python collision_scene_test_2.py
+
+
+Tweaking some of the parameters for CHOMP
+-----------------------------------------
+Chomp has some optimization parameters associated with it. These can be modified for the given environment/robot you are working with and is normally present in the `chomp_planning.yaml <https://github.com/ros-planning/panda_moveit_config/blob/master/config/chomp_planning.yaml>`_ file in config folder of the robot you are working with. If this file does not exist for your robot, you can create it and set the parameter values as you want. Following are some of the insights to set up these parameter values for some of them:
+
+- *planning_time_limit*: the maximum time the optimizer can take to find a solution before terminating
+
+- *max_iterations*: this is the maximum number of iterations that the planner can take to find a good solution while optimization
+
+- *max_iterations_after_collision_free*: maximum iterations to be performed after a collision free path is found.
+
+- *smoothness_cost_weight*:  The smoothness_cost_weight parameters controls its weight in the final cost that CHOMP is actually optimizing over
+
+- *obstacle_cost_weight*: This controls the weight to be given to obstacles towards the final cost CHOMP optimizes over. e.g., 0.0 would have obstacles to be ignored, 1.0 would be a hard constraint
+
+- *learning_rate*: this is the learning rate used by the optimizer to find the local / global minima while reducing the total cost.
+
+- *add_randomness*: adds some random noise to the costVeclocity
+
+- *smoothness_cost_velocity, smoothness_cost_acceleration, smoothness_cost_jerk*: variables associated with the cost in velocity, acceleration and jerk.
+
+- *hmc_discretization*: TODO
+
+- *ridge_factor*: the noise added to the diagnal of the total `quadratic cost matrix <https://github.com/ros-planning/moveit/blob/kinetic-devel/moveit_planners/chomp/chomp_motion_planner/src/chomp_cost.cpp#L62>_` in the objective function.
+
+- *use_pseudo_inverse*: TODO
+
+- *pseudo_inverse_ridge_factor*: TODO
+
+- *joint_update_limit*: set the update limit for the robot joints
+
+- *collision_clearance*: the minimum distance that needs to be maintained to avoid obstacles.
+
+- *collision_threshold*: the collision threshold cost that needs to be mainted to avoid collisions
+
+- *use_stochastic_descent*: set this to true/false if you want to use stochastic descent while optimizing the cost. In stochastic descent, a random point from the trajectory is used, rather than all the trajectory points. This is faster and guaranteed to converge, but it may take more iterations in the worst case.
+
+
+Some of the unused/commented parameters are
+
+- hmc_stochasticity:
+- hmc_annealing_factor:
+- use_hamiltonian_montecarlo:
+- animate_endeffector:
+- animate_endeffector_segment
+- animate_path:
+- random_jump_amount:
+
+
+
+Difference between plans obtained by CHOMP and OMPL
+---------------------------------------------------
+Optimizing planners optimize a cost function that may sometimes lead to surprising results: moving through a thin obstacle might be lower cost than a long, winding trajectory that avoids all collisions. 
