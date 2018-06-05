@@ -25,7 +25,7 @@ We will have to generate a YAML configuration file for configuring the 3D sensor
 **The general parameters are:**
 
 * *sensor_plugin*: The name of the plugin that we are using.
-* *max_update_rate*: The rate at which the octomap representation will be updated.
+* *max_update_rate*: The octomap representation will be updated at rate less than or equal to this value.
 
 **Parameters specific to the Point cloud updater are:**
 
@@ -62,7 +62,7 @@ We will have to generate a YAML configuration file for configuring the 3D sensor
 **The general parameters are:**
 
 * *sensor_plugin*: The name of the plugin that we are using.
-* *max_update_rate*: The rate at which the octomap representation will be updated.
+* *max_update_rate*: The octomap representation will be updated at rate less than or equal to this value.
 
 **Parameters specific to the Depth Map updater are:**
 
