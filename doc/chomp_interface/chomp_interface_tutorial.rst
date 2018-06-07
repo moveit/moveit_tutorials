@@ -63,19 +63,18 @@ If you have the ``panda_moveit_config`` from the `ros-planning/panda_moveit_conf
 
 Testing CHOMP with Obstacles in the Scene
 -----------------------------------------
-To test CHOMP in an evironment with obstacles, you can run any of the sample python scripts 
- 
- - `collision_scene_test_1.py <./scripts/collision_scene_test_1.py>`_ or 
- - `collision_scene_test_2.py <./scripts/collision_scene_test_2.py>`_).
+To test CHOMP in an evironment with obstacles, you can run any of the sample python scripts:
 
- The first scripts creates a complex scene with four ostacles. The second script creates a simple environment with one obstacle. One can change the position/size of the obstacles to change the scene. 
+- `collision_scene_test_1.py <./scripts/collision_scene_test_1.py>`_ or
 
+- `collision_scene_test_2.py <./scripts/collision_scene_test_2.py>`_.
+
+The first scripts creates a complex scene with four ostacles. The second script creates a simple environment with one obstacle. One can change the position/size of the obstacles to change the scene. 
 
 To run the CHOMP planner with obstacles, do the following in two seperate terminals: ::
 
   roslaunch panda_moveit_config demo_chomp.launch
   python collision_scene_test_1.py OR python collision_scene_test_2.py
-
 
 Tweaking some of the parameters for CHOMP
 -----------------------------------------
@@ -115,14 +114,11 @@ Choosing Parameters for CHOMP requires some sort of intuition based on the envir
 
 Some of the unused/commented parameters are *hmc_stochasticity*, *hmc_annealing_factor*, *hmc_discretization*, *use_hamiltonian_montecarlo*, *animate_endeffector*, *animate_endeffector_segment*, *animate_path*, *random_jump_amount*.
 
-
-
 Difference between plans obtained by CHOMP and OMPL
 ---------------------------------------------------
 Optimizing planners optimize a cost function that may sometimes lead to surprising results: moving through a thin obstacle might be lower cost than a long, winding trajectory that avoids all collisions. In this section we make a distinction between paths obtained from CHOMP and contrast it to those obtained from OMPL.
 
 OMPL is a open source library for sampling based / randomized motion planning algorithms. Sampling based algorithms are probabilistically complete: a solution would be eventually found if one exists, however non-existence of a solution cannot be reported. These algorithms are efficient and usually find a solution quickly. OMPL does not contain any code related to collision checking or visualization as the designers of OMPL did not want to tie it to a any particular colision checker or visualization front end. The library is designed so it can be easily integrated into systems that provide the additional components. MoveIt integrates directly with  OMPL and uses the motion planners from OMP as its default set of planners. The planners in OMPL are abstract; i.e. OMPL has no concept of a robot. Instead, MoveIt! configures OMPL and provides the back-end for OMPL to work with problems in Robotics.
-
 
 CHOMP: While most high-dimensional motion planners separate trajectory generation into distinct planning and optimization stages, CHOMP capitalizes on covariant gradient and functional gradient approaches to the optimization stage to design a motion planning algorithm based entirely on trajectory optimization. Given an infeasible naive trajectory, CHOMP reacts to the surrounding environment to quickly pull the trajectory out of collision while simultaneously optimizing dynamical quantities such as joint velocities and accelerations. It rapidly converges to a smooth collision-free trajectory that can be executed efficiently on the robot. A covaraint update rule ensures that CHOMP quickly converges to a locally optimal trajectory. 
 
