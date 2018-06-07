@@ -150,7 +150,7 @@ In addition to the steps given in `Getting Started <../getting_started/getting_s
 
 Running the Code
 ++++++++++++++++
-Edit the ``point_cloud_topic`` in the yaml configuration file created `here <./perception_pipeline_tutorial.html#yaml-pipeline-file-point-cloud>`_ ::
+Edit the ``point_cloud_topic`` in the yaml configuration file created `here <./perception_pipeline_tutorial.html#yaml-configuration-file-point-cloud>`_ ::
 
  sensors:
    - sensor_plugin: occupancy_map_monitor/PointCloudOctomapUpdater
