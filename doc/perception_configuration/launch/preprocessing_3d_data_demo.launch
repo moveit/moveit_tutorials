@@ -26,7 +26,7 @@
   <node pkg="tf" type="static_transform_publisher" name="to_temp_link" args="0 0.4 -0.6 0 0 0  temp_link panda_link0 100" />
   <node pkg="tf" type="static_transform_publisher" name="to_panda_base" args="0 0 0 0 0.2 1.92 camera_rgb_optical_frame temp_link 100" />
   
-  <node pkg="rosbag" type="play" name="point_clouds" args="--clock $(find moveit_tutorials)/doc/perception_configuration/bags/2018-05-28-07-49-11.bag" />
+  <node pkg="rosbag" type="play" name="point_clouds" args="--clock -k $(find moveit_tutorials)/doc/perception_configuration/bags/2018-05-28-07-49-11.bag" />
 
   <!-- We do not have a robot connected, so publish fake joint states -->
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
