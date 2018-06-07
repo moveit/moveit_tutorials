@@ -17,9 +17,9 @@ void cloud_cb(const sensor_msgs::PointCloud2ConstPtr& input)
   pcl::PassThrough<pcl::PointXYZRGB> pass;
   pass.setInputCloud(cloud);
   pass.setFilterFieldName("z");
+  // min and max values in z axis to keep
   pass.setFilterLimits(0.3, 1.1);
   pass.filter(*cloud_filtered);
-  std::cerr << "PointCloud after filtering has: " << cloud_filtered->points.size() << " data points." << std::endl;
 
   // Estimate point normals
   pcl::search::KdTree<pcl::PointXYZRGB>::Ptr tree(new pcl::search::KdTree<pcl::PointXYZRGB>());
@@ -27,14 +27,18 @@ void cloud_cb(const sensor_msgs::PointCloud2ConstPtr& input)
   pcl::NormalEstimation<pcl::PointXYZRGB, pcl::Normal> ne;
   ne.setSearchMethod(tree);
   ne.setInputCloud(cloud_filtered);
+  // Set the number of k nearest neighbors to use for the feature estimation
   ne.setKSearch(50);
   ne.compute(*cloud_normals);
 
+  // create a SAC segmentor without using normals
   pcl::SACSegmentation<pcl::PointXYZRGB> sega;
   sega.setOptimizeCoefficients(true);
   sega.setModelType(pcl::SACMODEL_PLANE);
   sega.setMethodType(pcl::SAC_RANSAC);
+  // run at max 1000 iterations before giving up
   sega.setMaxIterations(1000);
+  // tolerence for variation from model 
   sega.setDistanceThreshold(0.01);
   sega.setInputCloud(cloud_filtered);
 
@@ -42,7 +46,6 @@ void cloud_cb(const sensor_msgs::PointCloud2ConstPtr& input)
   pcl::ModelCoefficients::Ptr coefficients_plane(new pcl::ModelCoefficients);
   pcl::PointIndices::Ptr inliers_plane(new pcl::PointIndices);
   sega.segment(*inliers_plane, *coefficients_plane);
-  std::cerr << "Plane coefficients: " << *coefficients_plane << std::endl;
 
   // Extract the planar inliers from the input cloud
   pcl::ExtractIndices<pcl::PointXYZRGB> extract;
@@ -67,16 +70,19 @@ void cloud_cb(const sensor_msgs::PointCloud2ConstPtr& input)
   seg.setOptimizeCoefficients(true);
   seg.setModelType(pcl::SACMODEL_CYLINDER);
   seg.setMethodType(pcl::SAC_RANSAC);
+  // Set the normal angular distance weight
   seg.setNormalDistanceWeight(0.1);
+  // run at max 1000 iterations before giving up
   seg.setMaxIterations(10000);
+  // tolerence for variation from model 
   seg.setDistanceThreshold(0.05);
+  // min max values of radius in meters to consider
   seg.setRadiusLimits(0, 1);
   seg.setInputCloud(cloud_filtered);
   seg.setInputNormals(cloud_normals);
 
   // Obtain the cylinder inliers and coefficients
   seg.segment(*inliers_cylinder, *coefficients_cylinder);
-  std::cerr << "Cylinder coefficients: " << *coefficients_cylinder << std::endl;
 
   // Write the cylinder inliers to disk
   extract.setInputCloud(cloud_filtered);
@@ -85,12 +91,9 @@ void cloud_cb(const sensor_msgs::PointCloud2ConstPtr& input)
   pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_cylinder(new pcl::PointCloud<pcl::PointXYZRGB>());
   extract.filter(*cloud_cylinder);
   if (cloud_cylinder->points.empty())
-    std::cerr << "Can't find the cylindrical component." << std::endl;
+    ROS_ERROR_STREAM("Can't find the cylindrical component.");
   else
   {
-    std::cerr << "PointCloud representing the cylindrical component: " << cloud_cylinder->points.size()
-              << " data points." << std::endl;
-
     pcl::PCLPointCloud2 outcloud;
     pcl::toPCLPointCloud2(*cloud_cylinder, outcloud);
     // BEGIN_SUB_TUTORIAL publish_processed_cloud
