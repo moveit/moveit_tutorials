@@ -65,8 +65,8 @@ Testing CHOMP with Obstacles in the Scene
 -----------------------------------------
 To test CHOMP in an evironment with obstacles, you can run any of the sample python scripts 
  
- - `collision_scene_test_1.py <./scripts/collision_scene_test1.py>`_ or 
- - `collision_scene_test_2.py <./scripts/collision_scene_test2.py>`_).
+ - `collision_scene_test_1.py <./scripts/collision_scene_test_1.py>`_ or 
+ - `collision_scene_test_2.py <./scripts/collision_scene_test_2.py>`_).
 
  The first scripts creates a complex scene with four ostacles. The second script creates a simple environment with one obstacle. One can change the position/size of the obstacles to change the scene. 
 
