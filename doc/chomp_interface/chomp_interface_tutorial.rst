@@ -51,9 +51,9 @@ Using CHOMP with Your Robot
     </include>
 #. Open the ``move_group.launch`` file in your ``<robot_moveit_config>/launch/`` folder and make two changes.
 
- 7.1. First, add ``<arg name="planner" default="ompl" />`` just under the ``<launch>`` tag, and,
+ * First, add ``<arg name="planner" default="ompl" />`` just under the ``<launch>`` tag, and,
 
- 7.2. Second, within the ``<include ns="move_group">`` tag replace ``<arg name="pipeline" value="ompl" />`` with ``<arg name="pipeline" value="$(arg planner)" />``.
+ * Second, within the ``<include ns="move_group">`` tag replace ``<arg name="pipeline" value="ompl" />`` with ``<arg name="pipeline" value="$(arg planner)" />``.
 
 Running the Demo
 ----------------
@@ -74,7 +74,7 @@ The first scripts creates a complex scene with four ostacles. The second script 
 To run the CHOMP planner with obstacles, do the following in two seperate terminals: ::
 
   roslaunch panda_moveit_config demo_chomp.launch
-  python collision_scene_test_1.py OR python collision_scene_test_2.py
+  rosrun moveit_tutorials collision_scene_test_1.py OR rosrun moveit_tutorials collision_scene_test_2.py
 
 Tweaking some of the parameters for CHOMP
 -----------------------------------------
@@ -86,9 +86,9 @@ CHOMP has some optimization parameters associated with it. These can be modified
 
 - *max_iterations_after_collision_free*: maximum iterations to be performed after a collision free path is found.
 
-- *smoothness_cost_weight*:  The smoothness_cost_weight parameters controls its weight in the final cost that CHOMP is actually optimizing over
+- *smoothness_cost_weight*:  the smoothness_cost_weight parameters controls its weight in the final cost that CHOMP is actually optimizing over
 
-- *obstacle_cost_weight*: This controls the weight to be given to obstacles towards the final cost CHOMP optimizes over. e.g., 0.0 would have obstacles to be ignored, 1.0 would be a hard constraint
+- *obstacle_cost_weight*: this controls the weight to be given to obstacles towards the final cost CHOMP optimizes over. e.g., 0.0 would have obstacles to be ignored, 1.0 would be a hard constraint
 
 - *learning_rate*: this is the learning rate used by the optimizer to find the local / global minima while reducing the total cost.
 
@@ -110,7 +110,7 @@ CHOMP has some optimization parameters associated with it. These can be modified
 
 - *use_stochastic_descent*: set this to true/false if you want to use stochastic descent while optimizing the cost. In stochastic descent, a random point from the trajectory is used, rather than all the trajectory points. This is faster and guaranteed to converge, but it may take more iterations in the worst case.
 
-Choosing Parameters for CHOMP requires some sort of intuition based on the environment we are working in. One can have the default parameters for CHOMP and this works well in environments without  obstacles. However in cases where the scene is populated with obstacles, we need to vary some parameters to ensure that CHOMP is not stuck in local minima, or quickly finds optimal solutions, prefering trajectories which ovoids obstacles. Some parameters like increasing the *ridge_factor* to say 0.001 makes CHOMP avoids obstacles by not prefering smooth trajectories, so there is a trade-off  between smoothness and CHOMP's ability to avoid obstacles. Choosing the correct number of *max_iterations*, *learning_rate* is important based on the environment we are working in. Not choosing the appropriate CHOMP parameters might lead to CHOMP reporting not finding a collision free path. *collision_clearance*, *collision_threshold* parameters are useful in specifying the minimum distance to be kept from obstacles to avoid collisions.
+Choosing parameters for CHOMP requires some sort of intuition based on the environment we are working in. One can have the default parameters for CHOMP and this works well in environments without  obstacles. However in cases where the scene is populated with obstacles, we need to vary some parameters to ensure that CHOMP is not stuck in local minima, or quickly finds optimal solutions, prefering trajectories which ovoids obstacles. Some parameters like increasing the *ridge_factor* to say 0.001 makes CHOMP avoids obstacles by not prefering smooth trajectories, so there is a trade-off  between smoothness and CHOMP's ability to avoid obstacles. Choosing the correct number of *max_iterations*, *learning_rate* is important based on the environment we are working in. Not choosing the appropriate CHOMP parameters might lead to CHOMP reporting not finding a collision free path. *collision_clearance*, *collision_threshold* parameters are useful in specifying the minimum distance to be kept from obstacles to avoid collisions.
 
 Some of the unused/commented parameters are *hmc_stochasticity*, *hmc_annealing_factor*, *hmc_discretization*, *use_hamiltonian_montecarlo*, *animate_endeffector*, *animate_endeffector_segment*, *animate_path*, *random_jump_amount*.
 

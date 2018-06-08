@@ -1,16 +1,16 @@
+#!/usr/bin/env python
 import rospy
 from moveit_commander import RobotCommander, PlanningSceneInterface
 import geometry_msgs.msg
 import time
 
-
 class CreateScene(object):
+
     def __init__(self):
         self._scene = PlanningSceneInterface()
 
         # clear the scene
         self._scene.remove_world_object()
-
         self.robot = RobotCommander()
 
         # pause to wait for rviz to load
@@ -20,7 +20,6 @@ class CreateScene(object):
         box2_dimensions = [0.25, 0.25, 0.45]
      
         self.add_box_object("box2", box2_dimensions, box2_pose)
-
 
     def add_box_object(self, name, dimensions, pose):
         p = geometry_msgs.msg.PoseStamped()
@@ -36,7 +35,6 @@ class CreateScene(object):
         self._scene.add_box(name, p, (dimensions[0], dimensions[1], dimensions[2]))
 	print "============ Waiting while RVIZ displays the scene with one obstacle..."
         rospy.sleep(1)
-
 
 if __name__ == "__main__":
     rospy.init_node("collision_scene_2")

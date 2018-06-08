@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import rospy
 from moveit_commander import RobotCommander, PlanningSceneInterface
 import geometry_msgs.msg
@@ -5,6 +6,7 @@ import time
 
 
 class CreateScene(object):
+
     def __init__(self):
         self._scene = PlanningSceneInterface()
 
@@ -52,7 +54,6 @@ class CreateScene(object):
         self._scene.add_box(name, p, (dimensions[0], dimensions[1], dimensions[2]))
 	print "============ Waiting while RVIZ displays the scene with four obstacles..."
         rospy.sleep(1)
-
 
 if __name__ == "__main__":
     rospy.init_node("collision_scene_1")
