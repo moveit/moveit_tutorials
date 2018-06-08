@@ -92,8 +92,6 @@ CHOMP has some optimization parameters associated with it. These can be modified
 
 - *learning_rate*: this is the learning rate used by the optimizer to find the local / global minima while reducing the total cost.
 
-- *add_randomness*: adds some random noise to the costVeclocity
-
 - *smoothness_cost_velocity, smoothness_cost_acceleration, smoothness_cost_jerk*: variables associated with the cost in velocity, acceleration and jerk.
 
 - *ridge_factor*: the noise added to the diagnal of the total `quadratic cost matrix <https://github.com/ros-planning/moveit/blob/kinetic-devel/moveit_planners/chomp/chomp_motion_planner/src/chomp_cost.cpp#L62>`_ in the objective function. Addition of small noise (e.g., 0.001) allows CHOMP to avoid obstacles at the cost of smoothness in trajectory.
@@ -112,7 +110,7 @@ CHOMP has some optimization parameters associated with it. These can be modified
 
 Choosing parameters for CHOMP requires some sort of intuition based on the environment we are working in. One can have the default parameters for CHOMP and this works well in environments without  obstacles. However in cases where the scene is populated with obstacles, we need to vary some parameters to ensure that CHOMP is not stuck in local minima, or quickly finds optimal solutions, prefering trajectories which ovoids obstacles. Some parameters like increasing the *ridge_factor* to say 0.001 makes CHOMP avoids obstacles by not prefering smooth trajectories, so there is a trade-off  between smoothness and CHOMP's ability to avoid obstacles. Choosing the correct number of *max_iterations*, *learning_rate* is important based on the environment we are working in. Not choosing the appropriate CHOMP parameters might lead to CHOMP reporting not finding a collision free path. *collision_clearance*, *collision_threshold* parameters are useful in specifying the minimum distance to be kept from obstacles to avoid collisions.
 
-Some of the unused/commented parameters are *hmc_stochasticity*, *hmc_annealing_factor*, *hmc_discretization*, *use_hamiltonian_montecarlo*, *animate_endeffector*, *animate_endeffector_segment*, *animate_path*, *random_jump_amount*.
+Some of the unused/commented parameters are *hmc_stochasticity*, *hmc_annealing_factor*, *hmc_discretization*, *use_hamiltonian_montecarlo*, *animate_endeffector*, *animate_endeffector_segment*, *animate_path*, *random_jump_amount*, *add_randomness*.
 
 Difference between plans obtained by CHOMP and OMPL
 ---------------------------------------------------
