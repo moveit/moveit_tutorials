@@ -14,6 +14,7 @@ class CreateSparseScene(object):
         self.robot = RobotCommander()
 
         # pause to wait for rviz to load
+        print "============ Waiting while RVIZ displays the scene with one obstacle..."
         rospy.sleep(4)
 
         box2_pose = [0.25, 0.25, 0.0, 0, 0, 0, 1]
@@ -33,12 +34,10 @@ class CreateSparseScene(object):
         p.pose.orientation.z = pose[5]
         p.pose.orientation.w = pose[6]
         self._scene.add_box(name, p, (dimensions[0], dimensions[1], dimensions[2]))
-        print "============ Waiting while RVIZ displays the scene with one obstacle..."
-        rospy.sleep(1)
 
 if __name__ == "__main__":
-    rospy.init_node("collision_scene_2")
+    rospy.init_node("collision_sparse_scene")
     while not rospy.search_param('robot_description_semantic') and not rospy.is_shutdown():
         time.sleep(0.5)
-    load_scene = CreateScene()
+    load_scene = CreateSparseScene()
     rospy.spin()

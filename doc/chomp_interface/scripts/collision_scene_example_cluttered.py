@@ -15,7 +15,8 @@ class CreateClutteredScene(object):
 
         self.robot = RobotCommander()
 
-        # pause to wait for rviz to load
+        # pause to wait for rviz to load        
+        print "============ Waiting while RVIZ displays the scene with four obstacles..."
         rospy.sleep(4)
 
         floor_pose = [0, 0, -1.12, 0, 0, 0, 1]
@@ -52,11 +53,9 @@ class CreateClutteredScene(object):
         p.pose.orientation.w = pose[6]
 
         self._scene.add_box(name, p, (dimensions[0], dimensions[1], dimensions[2]))
-        print "============ Waiting while RVIZ displays the scene with four obstacles..."
-        rospy.sleep(1)
-
+        
 if __name__ == "__main__":
-    rospy.init_node("collision_scene_1")
+    rospy.init_node("collision_cluttered_scene")
     while not rospy.search_param('robot_description_semantic') and not rospy.is_shutdown():
         time.sleep(0.5)
     load_scene = CreateClutteredScene()
