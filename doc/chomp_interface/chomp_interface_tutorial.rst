@@ -62,19 +62,26 @@ If you have the ``panda_moveit_config`` from the `ros-planning/panda_moveit_conf
   roslaunch panda_moveit_config demo_chomp.launch
 
 Testing CHOMP with Obstacles in the Scene
------------------------------------------
++++++++++++++++++++++++++++++++++++++++++
 To test CHOMP in an evironment with obstacles, you can run any of the sample python scripts:
 
-- `collision_scene_test_1.py <./scripts/collision_scene_test_1.py>`_ or
+- `collision_scene_cluttered.py <./scripts/collision_scene_example_cluttered.py>`_ or
 
-- `collision_scene_test_2.py <./scripts/collision_scene_test_2.py>`_.
+- `collision_scene_sparse.py <./scripts/collision_scene_example_sparse.py>`_.
 
-The first scripts creates a complex scene with four ostacles. The second script creates a simple environment with one obstacle. One can change the position/size of the obstacles to change the scene. 
+The first scripts creates a cluttered scene with four ostacles. The second script creates a simple scene with one obstacle. One can change the position/size of the obstacles to change the scene. 
 
-To run the CHOMP planner with obstacles, do the following in two seperate terminals: ::
+To run the CHOMP planner with obstacles, open two shells. In the first shell start RViz and wait for everything to finish loading: ::
 
   roslaunch panda_moveit_config demo_chomp.launch
-  rosrun moveit_tutorials collision_scene_test_1.py OR rosrun moveit_tutorials collision_scene_test_2.py
+
+In the second shell, run either of the two commands: ::
+
+  rosrun moveit_tutorials collision_scene_example_cluttered.py
+
+or: ::
+
+  rosrun moveit_tutorials collision_scene_example_sparse.py
 
 Tweaking some of the parameters for CHOMP
 -----------------------------------------
