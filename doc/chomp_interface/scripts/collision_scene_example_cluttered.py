@@ -5,7 +5,7 @@ import geometry_msgs.msg
 import time
 
 
-class CreateClutteredScene(object):
+class CollisionSceneExampleCluttered(object):
 
     def __init__(self):
         self._scene = PlanningSceneInterface()
@@ -55,8 +55,8 @@ class CreateClutteredScene(object):
         self._scene.add_box(name, p, (dimensions[0], dimensions[1], dimensions[2]))
         
 if __name__ == "__main__":
-    rospy.init_node("collision_cluttered_scene")
+    rospy.init_node("collision_scene_example_cluttered")
     while not rospy.search_param('robot_description_semantic') and not rospy.is_shutdown():
         time.sleep(0.5)
-    load_scene = CreateClutteredScene()
+    load_scene = CollisionSceneExampleCluttered()
     rospy.spin()

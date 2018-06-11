@@ -4,7 +4,7 @@ from moveit_commander import RobotCommander, PlanningSceneInterface
 import geometry_msgs.msg
 import time
 
-class CreateSparseScene(object):
+class CollisionSceneExampleSparse(object):
 
     def __init__(self):
         self._scene = PlanningSceneInterface()
@@ -18,7 +18,7 @@ class CreateSparseScene(object):
         rospy.sleep(4)
 
         box2_pose = [0.25, 0.25, 0.0, 0, 0, 0, 1]
-        box2_dimensions = [0.25, 0.25, 0.45]
+        box2_dimensions = [0.25, 0.25, 0.75]
      
         self.add_box_object("box2", box2_dimensions, box2_pose)
 
@@ -36,8 +36,8 @@ class CreateSparseScene(object):
         self._scene.add_box(name, p, (dimensions[0], dimensions[1], dimensions[2]))
 
 if __name__ == "__main__":
-    rospy.init_node("collision_sparse_scene")
+    rospy.init_node("collision_scene_exmaple_sparse")
     while not rospy.search_param('robot_description_semantic') and not rospy.is_shutdown():
         time.sleep(0.5)
-    load_scene = CreateSparseScene()
+    load_scene = CollisionSceneExampleSparse()
     rospy.spin()
