@@ -13,7 +13,7 @@ void addCylinder(std::vector<double>* cylinder_params)
 {
   moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
   // BEGIN_SUB_TUTORIAL add_cylinder
-  // 
+  //
   // Adding Cylinder to Planning Scene
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   // Define a collision object ROS message.
@@ -67,13 +67,15 @@ void extractLocationHeight(pcl::PointCloud<pcl::PointXYZRGB>::Ptr input, std::ve
   double bot[3];
   double top[3];
   // BEGIN_SUB_TUTORIAL extract_location_height
-  // Consider a point inside the point cloud and imagine that point is formed on a XY plane where the perpendicular distance from the plane to the camera is Z. |br|
+  // Consider a point inside the point cloud and imagine that point is formed on a XY plane where the perpendicular
+  // distance from the plane to the camera is Z. |br|
   // The perpendicular drawn from the camera to the plane hits at center of the XY plane. |br|
   // We have the x and y coordinate of the point which is formed on the XY plane. |br|
   // X is the horizontal axis and Y is the vertical axis. |br|
   // C is the center of the plane which is Z meter away from the center of camera and A is any point on the plane. |br|
   // Now we know Z is the perpendicular distance from the point to the camera. |br|
-  // If you need to find the  actual distance d from the point to the camera, you should calculate the hypotenuse- |code_start| hypot(pt.z, pt.x);\ |code_end| |br|
+  // If you need to find the  actual distance d from the point to the camera, you should calculate the hypotenuse-
+  // |code_start| hypot(pt.z, pt.x);\ |code_end| |br|
   // angle the point made horizontally- |code_start| atan2(pt.z,pt.x);\ |code_end| |br|
   // angle the point made Verticlly- |code_start| atan2(pt.z, pt.y);\ |code_end| |br|
   // Loop over the entire pointcloud.
@@ -199,7 +201,8 @@ void cloud_cb(const sensor_msgs::PointCloud2ConstPtr& input)
   // First, convert from sensor_msgs to pcl::PointXYZRGB which is needed for most of the processing.
   pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZRGB>);
   pcl::fromROSMsg(*input, *cloud);
-  // Using passthough filter to get region of interest. A passthrough filter just eliminates the point cloud values which do not lie in the user specified range.
+  // Using passthough filter to get region of interest. A passthrough filter just eliminates the point cloud values
+  // which do not lie in the user specified range.
   passThroughFilter(cloud);
   // Declare normals and call function to compute point normals.
   pcl::PointCloud<pcl::Normal>::Ptr cloud_normals(new pcl::PointCloud<pcl::Normal>);
@@ -208,17 +211,18 @@ void cloud_cb(const sensor_msgs::PointCloud2ConstPtr& input)
   pcl::PointIndices::Ptr inliers_plane(new pcl::PointIndices);
   // Detect and eliminate the plane on which the cylinder is kept to ease the process of finding the cylinder.
   removePlaneSurface(cloud, inliers_plane);
-  // We had calculated the point normals in a previous call to computeNormals, 
-  // now we will be extracting the normals that correspond to the plane on which cylinder lies. 
+  // We had calculated the point normals in a previous call to computeNormals,
+  // now we will be extracting the normals that correspond to the plane on which cylinder lies.
   // It will be used to extract the cylinder.
   extractNormals(cloud_normals, inliers_plane);
-  // ModelCoefficients will hold the parameters using which we can define a cylinder of infinite length. 
-  // It has a public attribute |code_start| values\ |code_end| of type |code_start| std::vector< float >\ |code_end|\ . |br|
+  // ModelCoefficients will hold the parameters using which we can define a cylinder of infinite length.
+  // It has a public attribute |code_start| values\ |code_end| of type |code_start| std::vector< float >\ |code_end|\ .
+  // |br|
   // |code_start| Values[0-2]\ |code_end| hold a point on the center line of the cylinder. |br|
   // |code_start| Values[3-5]\ |code_end| hold direction vector of the z-axis. |br|
   // |code_start| Values[6]\ |code_end| is the radius of the cylinder.
   pcl::ModelCoefficients::Ptr coefficients_cylinder(new pcl::ModelCoefficients);
-  // Extract the cylinder using SACSegmentation. 
+  // Extract the cylinder using SACSegmentation.
   extractCylinder(cloud, coefficients_cylinder, cloud_normals);
   // END_SUB_TUTORIAL
   if (cloud->points.empty())
@@ -232,12 +236,14 @@ void cloud_cb(const sensor_msgs::PointCloud2ConstPtr& input)
     {
       // BEGIN_TUTORIAL
       // CALL_SUB_TUTORIAL callback
-      // 
+      //
       // Storing Relavant Cylinder Values
       // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-      // The information that we have in |code_start| coefficients_cylinder\ |code_end| is not enough to define our cylinder.
+      // The information that we have in |code_start| coefficients_cylinder\ |code_end| is not enough to define our
+      // cylinder.
       // It does not have the actual location of the cylinder nor the actual height. |br|
-      // We define a vector to hold the parameters that are actually needed for defining a collision object completely. |br|
+      // We define a vector to hold the parameters that are actually needed for defining a collision object completely.
+      // |br|
       // There are a total of 7 parameters: |br|
       // 0 - radius of cylinder. |br|
       // 1-3 - direction vector of z-axis. |br|
