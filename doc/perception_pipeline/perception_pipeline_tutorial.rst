@@ -1,7 +1,7 @@
 Perception Pipeline Tutorial
 ============================
 
-MoveIt! allows for seemless integration of 3D sensors using `Octomap <http://octomap.github.io/>`_.
+MoveIt! allows for seamless integration of 3D sensors using `Octomap <http://octomap.github.io/>`_.
 Once properly configured, you should see something like this in rviz:
 
 .. image:: perception_configuration_demo.png
@@ -137,8 +137,8 @@ You can test obstacle avoidance for yourself by setting the goal state manually 
 Detecting and Adding Object as Collision Object
 -----------------------------------------------
 
-In this section, we will demonstrate an example on extracting a cylinder from the pointcloud, computing relavant values and adding as collision object to the planning scene.
-We will be working with point clouds but it can be implimented simmilarly with depth maps.
+In this section, we will demonstrate an example of extracting a cylinder from a pointcloud, computing relevant values and adding it as a collision object to the planning scene. 
+We will be working with point clouds but it can be implemented similarly with depth maps.
 
 After running the code, you should be able to see something like this in rviz:
 
@@ -159,6 +159,18 @@ Roslaunch the launch file to run the code directly from moveit_tutorials: ::
 
 Relevant Code
 +++++++++++++
-The entire code can be seen :codedir:`here <perception_configuration>` in the moveit_tutorials GitHub project. A lot of information related to the actual code used for preprocessing the point cloud is left out to keep this tutorial focused on preprocessed 3D data integration.
+The entire code can be seen :codedir:`here <perception_configuration>` in the moveit_tutorials GitHub project. The details regarding the implementation of each of the perception pipeline function have been omitted in this tutorial as they are well documented `here. <http://wiki.ros.org/pcl/Tutorials>`_
+
+.. |br| raw:: html
+
+   <br />
+
+.. |code_start| raw:: html
+
+   <code>
+
+.. |code_end| raw:: html
+
+   </code>
 
 .. tutorial-formatter:: ./src/cylinder_segment.cpp
