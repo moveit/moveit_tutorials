@@ -246,7 +246,7 @@ Usage
 -----
 The IKFast plugin should function identically to the default KDL IK Solver, but with greatly increased performance. The MoveIt configuration file is automatically edited by the moveit_ikfast script but you can switch between the KDL and IKFast solvers using the *kinematics_solver* parameter in the robot's kinematics.yaml file: ::
 
- rosed "$MYROBOT_NAME"_moveit_config/config/kinematics.yaml
+ rosed "$MYROBOT_NAME"_moveit_config kinematics.yaml
 
 Edit these parts: ::
 

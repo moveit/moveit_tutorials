@@ -32,11 +32,13 @@ We will have to generate a YAML configuration file for configuring the 3D sensor
      point_subsample: 1
      padding_offset: 0.1
      padding_scale: 1.0
+     max_update_rate: 1.0
      filtered_cloud_topic: filtered_cloud
 
 **The general parameters are:**
 
 * *sensor_plugin*: The name of the plugin that we are using.
+* *max_update_rate*: The octomap representation will be updated at rate less than or equal to this value.
 
 **Parameters specific to the Point cloud updater are:**
 
@@ -67,11 +69,13 @@ We will have to generate a YAML configuration file for configuring the 3D sensor
      shadow_threshold: 0.2
      padding_scale: 4.0
      padding_offset: 0.03
+     max_update_rate: 1.0
      filtered_cloud_topic: filtered_cloud
 
 **The general parameters are:**
 
 * *sensor_plugin*: The name of the plugin that we are using.
+* *max_update_rate*: The octomap representation will be updated at rate less than or equal to this value.
 
 **Parameters specific to the Depth Map updater are:**
 
