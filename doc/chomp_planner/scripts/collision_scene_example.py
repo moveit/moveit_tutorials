@@ -3,9 +3,9 @@ import rospy
 from moveit_commander import RobotCommander, PlanningSceneInterface
 import geometry_msgs.msg
 import time
+import sys
 
-
-class CollisionSceneExampleCluttered(object):
+class CollisionSceneExample(object):
 
     def __init__(self):
         self._scene = PlanningSceneInterface()
@@ -17,11 +17,19 @@ class CollisionSceneExampleCluttered(object):
 
         # pause to wait for rviz to load        
         print "============ Waiting while RVIZ displays the scene with four obstacles..."
-        rospy.sleep(4)
+        
+        # TODO: need to replace this sleep by explicitly waiting for the scene to be updated.
+        rospy.sleep(2)
+    
+    def add_one_box(self):     
+        box1_pose = [0.25, 0.25, 0.0, 0, 0, 0, 1]
+        box1_dimensions = [0.25, 0.25, 0.75]        
 
-        floor_pose = [0, 0, -1.12, 0, 0, 0, 1]
-        floor_dimensions = [0, 0, 0.0]
+        self.add_box_object("box1", box1_dimensions, box1_pose) 
+   
+        print "============ Added one obstacle to RViz!!"
 
+    def add_four_boxes(self):      
         box1_pose = [0.20, 0.50, 0.25, 0, 0, 0, 1]
         box1_dimensions = [0.2, 0.2, 0.5]
 
@@ -34,12 +42,13 @@ class CollisionSceneExampleCluttered(object):
         box4_pose = [-0.4, 0.4, 0.5, 0, 0, 0, 1]
         box4_dimensions = [0.25, 0.25, 1.1]
 
-        self.add_box_object("floor", floor_dimensions, floor_pose)
         self.add_box_object("box1", box1_dimensions, box1_pose)
         self.add_box_object("box2", box2_dimensions, box2_pose)
         self.add_box_object("box3", box3_dimensions, box3_pose)
         self.add_box_object("box4", box4_dimensions, box4_pose)
-
+        
+        print "========== Added 4 obstacles to the scene!!"
+    
     def add_box_object(self, name, dimensions, pose):
         p = geometry_msgs.msg.PoseStamped()
         p.header.frame_id = self.robot.get_planning_frame()
@@ -52,11 +61,19 @@ class CollisionSceneExampleCluttered(object):
         p.pose.orientation.z = pose[5]
         p.pose.orientation.w = pose[6]
 
-        self._scene.add_box(name, p, (dimensions[0], dimensions[1], dimensions[2]))
-        
+        self._scene.add_box(name, p, (dimensions[0], dimensions[1], dimensions[2]))        
+    
 if __name__ == "__main__":
     rospy.init_node("collision_scene_example_cluttered")
     while not rospy.search_param('robot_description_semantic') and not rospy.is_shutdown():
         time.sleep(0.5)
-    load_scene = CollisionSceneExampleCluttered()
+    load_scene = CollisionSceneExample()
+
+    if sys.argv[1] == "cluttered": 
+        load_scene.add_four_boxes();
+    elif sys.argv[1] == "sparse":
+        load_scene.add_one_box();
+    else:
+        print "Please specify correct type of scene as cluttered or sparse"
+        exit()
     rospy.spin()

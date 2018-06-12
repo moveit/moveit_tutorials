@@ -61,15 +61,13 @@ If you have the ``panda_moveit_config`` from the `ros-planning/panda_moveit_conf
 
   roslaunch panda_moveit_config demo_chomp.launch
 
-Testing CHOMP with Obstacles in the Scene
+Running CHOMP with Obstacles in the Scene
 +++++++++++++++++++++++++++++++++++++++++
-To test CHOMP in an evironment with obstacles, you can run any of the sample python scripts:
+To run CHOMP in an evironment with obstacles, you can run the sample python script:
 
-- `collision_scene_example_cluttered.py <./scripts/collision_scene_example_cluttered.py>`_ or
+  `collision_scene_example.py <./scripts/collision_scene_example.py>`_
 
-- `collision_scene_example_sparse.py <./scripts/collision_scene_example_sparse.py>`_.
-
-The first scripts creates a cluttered scene with four ostacles. The second script creates a simple scene with one obstacle. One can change the position/size of the obstacles to change the scene. 
+This scripts creates a cluttered scene with four ostacles or a simple scene with one obstacle depending on the argument given to the script. One can also change the position/size of the obstacles to change the scene. 
 
 To run the CHOMP planner with obstacles, open two shells. In the first shell start RViz and wait for everything to finish loading: ::
 
@@ -77,11 +75,13 @@ To run the CHOMP planner with obstacles, open two shells. In the first shell sta
 
 In the second shell, run either of the two commands: ::
 
-  rosrun moveit_tutorials collision_scene_example_cluttered.py
+  rosrun moveit_tutorials collision_scene_example.py cluttered
 
 or: ::
 
-  rosrun moveit_tutorials collision_scene_example_sparse.py
+  rosrun moveit_tutorials collision_scene_example.py sparse
+
+Next, in RViz, select CHOMP in the MotionPlanning pannel under the Context tab. Set the desired start and goal states by moving the end-effector around with the imarker and then click on the Plan button under the Planning tab in the MotionPlanning pannel to start planning. The planner will now attempt to find a feasible solution between the given start and end position.
 
 Tweaking some of the parameters for CHOMP
 -----------------------------------------
