@@ -24,8 +24,8 @@
   <node pkg="tf" type="static_transform_publisher" name="to_temp_link" args="0 0.4 -0.6 0 0 0  temp_link panda_link0 100" />
   <node pkg="tf" type="static_transform_publisher" name="to_panda_base" args="0 0 0 0 0.2 1.92 camera_rgb_optical_frame temp_link 100" />
   
+  <!-- Play the rosbag that contains the pointcloud data -->
   <node pkg="rosbag" type="play" name="point_clouds" args="--clock -k $(find moveit_tutorials)/doc/perception_pipeline/bags/2018-05-28-07-49-11.bag" />
-  <!-- <node pkg="moveit_tutorials" type="add_object" name="adding" /> -->
 
   <!-- We do not have a robot connected, so publish fake joint states -->
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
@@ -50,6 +50,7 @@
     <arg name="debug" value="$(arg debug)"/>
   </include>
 
+  <!-- Run the detection and adding cylinder node -->
   <node pkg="moveit_tutorials" type="cylinder_segment" name="point_cloud_preprocessor" />
   
 </launch>
