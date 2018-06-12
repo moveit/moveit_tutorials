@@ -69,11 +69,14 @@ if __name__ == "__main__":
         time.sleep(0.5)
     load_scene = CollisionSceneExample()
 
+    if (len(sys.argv) != 2):
+        print "Correct usage:: \n\"rosrun moveit_tutorials collision_scene_example.py cluttered\" OR \n\"rosrun moveit_tutorials collision_scene_example.py sparse\""
+        sys.exit()
     if sys.argv[1] == "cluttered": 
         load_scene.add_four_boxes();
     elif sys.argv[1] == "sparse":
         load_scene.add_one_box();
     else:
         print "Please specify correct type of scene as cluttered or sparse"
-        exit()
+        sys.exit()
     rospy.spin()
