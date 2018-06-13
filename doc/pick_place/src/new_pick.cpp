@@ -135,9 +135,9 @@ void place(moveit::planning_interface::MoveGroupInterface& group)
       tf::createQuaternionMsgFromRollPitchYaw(0, 0, 1.5707963267948966);
   // p.orientation.z = -0.383;
   // p.pose.orientation.w = 1;
-  // there is additional 0.165 to the base of the fingers
+  // While placing it is the exact location of the center of the object
   p.pose.position.x = 0;
-  p.pose.position.y = 0.415;
+  p.pose.position.y = 0.5;
   p.pose.position.z = 0.5;
 
   // geometry_msgs::PoseStamped p;
@@ -160,7 +160,7 @@ void place(moveit::planning_interface::MoveGroupInterface& group)
   // g.pre_grasp_approach.desired_distance = i;
 
   g.post_place_retreat.direction.header.frame_id = "panda_link0";
-  g.post_place_retreat.direction.vector.x = -1.0;
+  g.post_place_retreat.direction.vector.y = -1.0;
   g.post_place_retreat.min_distance = 0.1;
   g.post_place_retreat.desired_distance = 0.25;
 
@@ -183,7 +183,7 @@ void place(moveit::planning_interface::MoveGroupInterface& group)
   openGripper(g.post_place_posture);
 
   loc.push_back(g);
-  // group.setSupportSurfaceName("table2");
+  group.setSupportSurfaceName("table2");
 
   // add path constraints
   // moveit_msgs::Constraints constr;
@@ -212,63 +212,54 @@ int main(int argc, char** argv)
   ros::AsyncSpinner spinner(1);
   spinner.start();
 
-  ros::Publisher pub_co = nh.advertise<moveit_msgs::CollisionObject>("collision_object", 10);
-  ros::Publisher pub_co1 = nh.advertise<moveit_msgs::CollisionObject>("collision_object", 10);
-  ros::Publisher pub_aco = nh.advertise<moveit_msgs::AttachedCollisionObject>("attached_collision_object", 10);
-
   ros::WallDuration(1.0).sleep();
   moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
   moveit::planning_interface::MoveGroupInterface group("panda_arm");
   group.setPlanningTime(45.0);
 
-  moveit_msgs::CollisionObject collision_object;
+  std::vector<moveit_msgs::CollisionObject> collision_objects;
+  collision_objects.resize(3);
 
-  // remove table
-  collision_object.id = "table1";
-  collision_object.operation = moveit_msgs::CollisionObject::REMOVE;
-  pub_co1.publish(collision_object);
-
-  // // add table
-  // collision_object.operation = moveit_msgs::CollisionObject::ADD;
-  // collision_object.primitives[0].dimensions[shape_msgs::SolidPrimitive::BOX_X] = 0.1;
-  // collision_object.primitives[0].dimensions[shape_msgs::SolidPrimitive::BOX_Y] = 0.3;
-  // collision_object.primitives[0].dimensions[shape_msgs::SolidPrimitive::BOX_Z] = 0.2;
-  // collision_object.primitive_poses[0].position.x = 1.5;
-  // collision_object.primitive_poses[0].position.y = 0;
-  // collision_object.primitive_poses[0].position.z = 1.2;
-  // pub_co.publish(collision_object);
-
-
+  collision_objects[0].id = "table1";
+  collision_objects[0].header.frame_id = "panda_link0";
 
   shape_msgs::SolidPrimitive primitive;
-  // primitive.type = primitive.CYLINDER;
-  // primitive.dimensions.resize(2);
-  // // height of cylinder
-  // primitive.dimensions[0] = 0.1;
-  // // radius of cylinder
-  // primitive.dimensions[1] = 0.02;
-
   primitive.type = primitive.BOX;
   primitive.dimensions.resize(3);
-  // height of cylinder
   primitive.dimensions[0] = 0.2;
-  // radius of cylinder
-  primitive.dimensions[1] = 0.6;
+  primitive.dimensions[1] = 0.4;
   primitive.dimensions[2] = 0.4;
 
   // Define a pose for the cylinder (specified relative to frame_id)
   geometry_msgs::Pose cylinder_pose;
-  // cylinder_pose.orientation.w = 1;
-  // Set the position of cylinder
   cylinder_pose.position.x = 0.5;
   cylinder_pose.position.y = 0;
   cylinder_pose.position.z = 0.2;
 
-  // Add cylinder as collision object
-  collision_object.primitives.push_back(primitive);
-  collision_object.primitive_poses.push_back(cylinder_pose);
-  collision_object.operation = collision_object.ADD;
-  pub_co1.publish(collision_object);
+  collision_objects[0].primitives.push_back(primitive);
+  collision_objects[0].primitive_poses.push_back(cylinder_pose);
+  collision_objects[0].operation = collision_objects[0].ADD;
+
+  
+
+
+  collision_objects[1].id = "table2";
+  collision_objects[1].header.frame_id = "panda_link0";
+
+  primitive.type = primitive.BOX;
+  primitive.dimensions.resize(3);
+  primitive.dimensions[0] = 0.4;
+  primitive.dimensions[1] = 0.2;
+  primitive.dimensions[2] = 0.4;
+
+  // Define a pose for the cylinder (specified relative to frame_id)
+  cylinder_pose.position.x = 0;
+  cylinder_pose.position.y = 0.5;
+  cylinder_pose.position.z = 0.2;
+
+  collision_objects[1].primitives.push_back(primitive);
+  collision_objects[1].primitive_poses.push_back(cylinder_pose);
+  collision_objects[1].operation = collision_objects[1].ADD;
 
 
 
@@ -276,32 +267,16 @@ int main(int argc, char** argv)
 
 
 
+  collision_objects[2].header.frame_id = "panda_link0";
+  collision_objects[2].id = "cylinder";
 
-  // remove table
-  // collision_object.id = "table2";
   // collision_object.operation = moveit_msgs::CollisionObject::REMOVE;
   // pub_co.publish(collision_object);
 
-  // // add table
-  // collision_object.operation = moveit_msgs::CollisionObject::ADD;
-  // collision_object.primitives[0].dimensions[shape_msgs::SolidPrimitive::BOX_X] = 0.5;
-  // collision_object.primitives[0].dimensions[shape_msgs::SolidPrimitive::BOX_Y] = 1.5;
-  // collision_object.primitives[0].dimensions[shape_msgs::SolidPrimitive::BOX_Z] = 0.35;
-  // collision_object.primitive_poses[0].position.x = 0.7;
-  // collision_object.primitive_poses[0].position.y = -0.2;
-  // collision_object.primitive_poses[0].position.z = 0.175;
-  // pub_co.publish(collision_object);
-
-  collision_object.header.frame_id = "panda_link0";
-  collision_object.id = "cylinder";
-
-  collision_object.operation = moveit_msgs::CollisionObject::REMOVE;
-  pub_co.publish(collision_object);
-
-  moveit_msgs::AttachedCollisionObject aco;
-  // aco.link_name = "panda_link0";
-  aco.object = collision_object;
-  pub_aco.publish(aco);
+  // moveit_msgs::AttachedCollisionObject aco;
+  // // aco.link_name = "panda_link0";
+  // aco.object = collision_object;
+  // pub_aco.publish(aco);
 
   // moveit_msgs::AttachedCollisionObject aco;
   // aco.object = collision_object;
@@ -333,10 +308,13 @@ int main(int argc, char** argv)
   cylinder_pose.position.z = 0.5;
 
   // Add cylinder as collision object
-  collision_object.primitives.push_back(primitive);
-  collision_object.primitive_poses.push_back(cylinder_pose);
-  collision_object.operation = collision_object.ADD;
-  pub_co.publish(collision_object);
+  collision_objects[2].primitives.push_back(primitive);
+  collision_objects[2].primitive_poses.push_back(cylinder_pose);
+  collision_objects[2].operation = collision_objects[2].ADD;
+  // pub_co.publish(collision_object);
+
+  // collision_objects.push_back(collision_object);
+  planning_scene_interface.applyCollisionObjects(collision_objects);
   // std::vector<moveit_msgs::CollisionObject> collision_objects;
   // collision_objects.push_back(collision_object);
   // planning_scene_interface.applyCollisionObjects(collision_objects);
