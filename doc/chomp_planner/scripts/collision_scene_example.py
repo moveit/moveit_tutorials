@@ -16,7 +16,7 @@ class CollisionSceneExample(object):
         self.robot = RobotCommander()
 
         # pause to wait for rviz to load        
-        print "============ Waiting while RVIZ displays the scene with four obstacles..."
+        print "============ Waiting while RVIZ displays the scene with obstacles..."
         
         # TODO: need to replace this sleep by explicitly waiting for the scene to be updated.
         rospy.sleep(2)
