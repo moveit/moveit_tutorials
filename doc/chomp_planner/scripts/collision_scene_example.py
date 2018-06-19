@@ -79,4 +79,3 @@ if __name__ == "__main__":
     else:
         print "Please specify correct type of scene as cluttered or sparse"
         sys.exit()
-    rospy.spin()
