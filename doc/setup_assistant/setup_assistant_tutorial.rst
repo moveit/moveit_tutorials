@@ -275,6 +275,26 @@ files that you will need to start using MoveIt!
 * Congratulations!! - You are now done generating the configuration
   files you need for MoveIt!
 
+
+Gazebo Simulation
+------------------------------------
+
+You can use the generated robot urdf file in the simulation folder to
+spawn the robot in Gazebo.
+
+* Use rosrun to start gazebo empty world: ::
+
+   roslaunch gazebo_ros empty_world.launch paused:=true use_sim_time:=false gui:=true throttled:=false recording:=false debug:=true
+
+* Use rosrun to spawn the robot: ::
+
+   rosrun gazebo_ros spawn_model -file `rospack find `panda_moveit_config/simulation/franka_gazebo.urdf -urdf -x 0 -y 0 -z 1 -model panda
+
+
+.. image:: setup_assistant_panda_gazebo.png
+   :width: 700px
+
+
 What's Next
 ---------------
 
