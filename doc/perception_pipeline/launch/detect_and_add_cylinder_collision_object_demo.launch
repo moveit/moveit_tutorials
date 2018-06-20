@@ -1,56 +1,15 @@
 <launch>
+  <include file="$(find panda_moveit_config)/launch/demo.launch" />
   <param name ="/use_sim_time" value="true"/>
 
-  <!-- By default, we are not in debug mode -->
-  <arg name="debug" default="false" />
-
-  <!--
-  By default, hide joint_state_publisher's GUI
-
-  MoveIt!'s "demo" mode replaces the real robot driver with the joint_state_publisher.
-  The latter one maintains and publishes the current joint configuration of the simulated robot.
-  It also provides a GUI to move the simulated robot around "manually".
-  This corresponds to moving around the real robot without the use of MoveIt.
-  -->
-  <arg name="rviz_tutorial" default="false" />
-  <arg name="use_gui" default="false" />
-
-  <!-- Load the URDF, SRDF and other .yaml configuration files on the param server -->
-  <include file="$(find panda_moveit_config)/launch/planning_context.launch">
-    <arg name="load_robot_description" value="true"/>
-  </include>
+  <!-- Play the rosbag that contains the pointcloud data -->
+  <node pkg="rosbag" type="play" name="point_clouds" args="--clock -k $(find moveit_tutorials)/doc/perception_pipeline/bags/2018-05-28-07-49-11.bag" />
 
   <!-- If needed, broadcast static tf for robot root -->
   <node pkg="tf" type="static_transform_publisher" name="to_temp_link" args="0 0.4 -0.6 0 0 0  temp_link panda_link0 100" />
   <node pkg="tf" type="static_transform_publisher" name="to_panda_base" args="0 0 0 0 0.2 1.92 camera_rgb_optical_frame temp_link 100" />
-  
-  <!-- Play the rosbag that contains the pointcloud data -->
-  <node pkg="rosbag" type="play" name="point_clouds" args="--clock -k $(find moveit_tutorials)/doc/perception_pipeline/bags/2018-05-28-07-49-11.bag" />
-
-  <!-- We do not have a robot connected, so publish fake joint states -->
-  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
-    <param name="/use_gui" value="$(arg use_gui)"/>
-    <rosparam param="/source_list">[/move_group/fake_controller_joint_states]</rosparam>
-  </node>
-
-  <!-- Given the published joint states, publish tf for the robot links -->
-  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen" />
-
-  <!-- Run the main MoveIt executable without trajectory execution (we do not have controllers configured by default) -->
-  <include file="$(find panda_moveit_config)/launch/move_group.launch">
-    <arg name="allow_trajectory_execution" value="true"/>
-    <arg name="fake_execution" value="true"/>
-    <arg name="info" value="true"/>
-    <arg name="debug" value="$(arg debug)"/>
-  </include>
-
-  <!-- Run Rviz -->
-  <include file="$(find panda_moveit_config)/launch/moveit_rviz.launch">
-    <arg name="rviz_tutorial" value="$(arg rviz_tutorial)"/>
-    <arg name="debug" value="$(arg debug)"/>
-  </include>
 
   <!-- Run the detection and adding cylinder node -->
   <node pkg="moveit_tutorials" type="cylinder_segment" name="point_cloud_preprocessor" />
-  
+
 </launch>

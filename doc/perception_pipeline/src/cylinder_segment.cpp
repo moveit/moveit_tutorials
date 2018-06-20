@@ -13,13 +13,13 @@
 // There are 4 fields and a total of 7 parameters used to define this.
 struct add_cylinder_params
 {
-  // Radius of the cylinder.
+  /* Radius of the cylinder. */
   double radius;
-  // Direction vector towards the z-axis of the cyliner.
+  /* Direction vector towards the z-axis of the cyliner. */
   double direction_vec[3];
-  // Center point of the cylinder.
+  /* Center point of the cylinder. */
   double center_pt[3];
-  // Height of the cylinder.
+  /* Height of the cylinder. */
   double height;
   // END_SUB_TUTORIAL
 };
@@ -42,15 +42,16 @@ void addCylinder(add_cylinder_params* cylinder_params)
   shape_msgs::SolidPrimitive primitive;
   primitive.type = primitive.CYLINDER;
   primitive.dimensions.resize(2);
-  // Setting height of cylinder.
+  /* Setting height of cylinder. */
   primitive.dimensions[0] = cylinder_params->height;
-  // Setting radius of cylinder.
+  /* Setting radius of cylinder. */
   primitive.dimensions[1] = cylinder_params->radius;
 
   // Define a pose for the cylinder (specified relative to frame_id).
   geometry_msgs::Pose cylinder_pose;
-  // Computing and setting quaternion from axis angle representation.
-  Eigen::Vector3d cylinder_z_direction(cylinder_params->direction_vec[0], cylinder_params->direction_vec[1], cylinder_params->direction_vec[2]);
+  /* Computing and setting quaternion from axis angle representation. */
+  Eigen::Vector3d cylinder_z_direction(cylinder_params->direction_vec[0], cylinder_params->direction_vec[1],
+                                       cylinder_params->direction_vec[2]);
   Eigen::Vector3d origin_z_direction(0., 0., 1.);
   Eigen::Vector3d axis;
   double angle;
@@ -77,8 +78,9 @@ void addCylinder(add_cylinder_params* cylinder_params)
   // END_SUB_TUTORIAL
 }
 
-/** \brief Given the pointcloud containing just the cylinder, compute its center point and its height and store in cylinder_params.
-    @param cloud - Pointcloud containning just the cylinder. 
+/** \brief Given the pointcloud containing just the cylinder, compute its center point and its height and store in
+   cylinder_params.
+    @param cloud - Pointcloud containning just the cylinder.
     @param cylinder_params - Pointer to the struct add_cylinder_params. */
 void extractLocationHeight(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, add_cylinder_params* cylinder_params)
 {
@@ -102,7 +104,7 @@ void extractLocationHeight(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, add_cyl
   // Loop over the entire pointcloud using BOOST_FOREACH to have a simpler nicer looking implimentation.
   BOOST_FOREACH (const pcl::PointXYZRGB& pt, cloud->points)
   {
-    // Find the coordinates of the highest point
+    /* Find the coordinates of the highest point */
     if (atan2(pt.z, pt.y) < min_angle_y)
     {
       min_angle_y = atan2(pt.z, pt.y);
@@ -110,7 +112,7 @@ void extractLocationHeight(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, add_cyl
       lowest_point[1] = pt.y;
       lowest_point[2] = pt.z;
     }
-    // Find the coordinates of the lowest point
+    /* Find the coordinates of the lowest point */
     else if (atan2(pt.z, pt.y) > max_angle_y)
     {
       max_angle_y = atan2(pt.z, pt.y);
@@ -119,12 +121,14 @@ void extractLocationHeight(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, add_cyl
       highest_point[2] = pt.z;
     }
   }
-  // Store the center point of cylinder
+  /* Store the center point of cylinder */
   cylinder_params->center_pt[0] = (highest_point[0] + lowest_point[0]) / 2;
   cylinder_params->center_pt[1] = (highest_point[1] + lowest_point[1]) / 2;
   cylinder_params->center_pt[2] = (highest_point[2] + lowest_point[2]) / 2;
-  // Store the height of cylinder
-  cylinder_params->height = sqrt(pow((lowest_point[0] - highest_point[0]), 2) + pow((lowest_point[1] - highest_point[1]), 2) + pow((lowest_point[2] - highest_point[2]), 2));
+  /* Store the height of cylinder */
+  cylinder_params->height =
+      sqrt(pow((lowest_point[0] - highest_point[0]), 2) + pow((lowest_point[1] - highest_point[1]), 2) +
+           pow((lowest_point[2] - highest_point[2]), 2));
   // END_SUB_TUTORIAL
 }
 
@@ -141,7 +145,7 @@ void passThroughFilter(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud)
 }
 
 /** \brief Given the pointcloud and pointer cloud_normals compute the point normals and store in cloud_normals.
-    @param cloud - Pointcloud. 
+    @param cloud - Pointcloud.
     @param cloud_normals - The point normals once computer will be stored in this. */
 void computeNormals(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, pcl::PointCloud<pcl::Normal>::Ptr cloud_normals)
 {
@@ -155,7 +159,7 @@ void computeNormals(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, pcl::PointClou
 }
 
 /** \brief Given the point normals and point indices, extract the normals for the indices.
-    @param cloud_normals - Point normals. 
+    @param cloud_normals - Point normals.
     @param inliers_plane - Indices whose normals need to be extracted. */
 void extractNormals(pcl::PointCloud<pcl::Normal>::Ptr cloud_normals, pcl::PointIndices::Ptr inliers_plane)
 {
@@ -167,7 +171,7 @@ void extractNormals(pcl::PointCloud<pcl::Normal>::Ptr cloud_normals, pcl::PointI
 }
 
 /** \brief Given the pointcloud and indices of the plane, remove the plannar region from the pointcloud.
-    @param cloud - Pointcloud. 
+    @param cloud - Pointcloud.
     @param inliers_plane - Indices representing the plane. */
 void removePlaneSurface(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, pcl::PointIndices::Ptr inliers_plane)
 {
@@ -176,26 +180,27 @@ void removePlaneSurface(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, pcl::Point
   segmentor.setOptimizeCoefficients(true);
   segmentor.setModelType(pcl::SACMODEL_PLANE);
   segmentor.setMethodType(pcl::SAC_RANSAC);
-  // run at max 1000 iterations before giving up
+  /* run at max 1000 iterations before giving up */
   segmentor.setMaxIterations(1000);
-  // tolerence for variation from model
+  /* tolerence for variation from model */
   segmentor.setDistanceThreshold(0.01);
   segmentor.setInputCloud(cloud);
-  // Create the segmentation object for the planar model and set all the parameters
+  /* Create the segmentation object for the planar model and set all the parameters */
   pcl::ModelCoefficients::Ptr coefficients_plane(new pcl::ModelCoefficients);
   segmentor.segment(*inliers_plane, *coefficients_plane);
-  // Extract the planar inliers from the input cloud
+  /* Extract the planar inliers from the input cloud */
   pcl::ExtractIndices<pcl::PointXYZRGB> extract_indices;
   extract_indices.setInputCloud(cloud);
   extract_indices.setIndices(inliers_plane);
-  // Remove the planar inliers, extract the rest
+  /* Remove the planar inliers, extract the rest */
   extract_indices.setNegative(true);
   extract_indices.filter(*cloud);
 }
 
-/** \brief Given the pointcloud, pointer to pcl::ModelCoefficients and point normals extract the cylinder from the pointcloud and store the cylinder parameters in coefficients_cylinder.
-    @param cloud - Pointcloud whose plane is removed. 
-    @param coefficients_cylinder - Cylinder parameters used to define an infinite cylinder will be stored here. 
+/** \brief Given the pointcloud, pointer to pcl::ModelCoefficients and point normals extract the cylinder from the
+   pointcloud and store the cylinder parameters in coefficients_cylinder.
+    @param cloud - Pointcloud whose plane is removed.
+    @param coefficients_cylinder - Cylinder parameters used to define an infinite cylinder will be stored here.
     @param cloud_normals - Point normals corresponding to the plane on which cylinder is kept */
 void extractCylinder(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, pcl::ModelCoefficients::Ptr coefficients_cylinder,
                      pcl::PointCloud<pcl::Normal>::Ptr cloud_normals)
@@ -258,7 +263,7 @@ void cloud_cb(const sensor_msgs::PointCloud2ConstPtr& input)
   // |code_start| Values[3-5]\ |code_end| hold direction vector of the z-axis. |br|
   // |code_start| Values[6]\ |code_end| is the radius of the cylinder.
   pcl::ModelCoefficients::Ptr coefficients_cylinder(new pcl::ModelCoefficients);
-  // Extract the cylinder using SACSegmentation.
+  /* Extract the cylinder using SACSegmentation. */
   extractCylinder(cloud, coefficients_cylinder, cloud_normals);
   // END_SUB_TUTORIAL
   if (cloud->points.empty())
@@ -280,11 +285,11 @@ void cloud_cb(const sensor_msgs::PointCloud2ConstPtr& input)
     // We define a struct to hold the parameters that are actually needed for defining a collision object completely.
     // |br|
     // CALL_SUB_TUTORIAL param_struct
-    // Declare a variable of type add_cylinder_params
+    // Declare a variable of type add_cylinder_params and store relevant values from ModelCoefficients.
     add_cylinder_params cylinder_params;
-    // Store the radius of the cylinder.
+    /* Store the radius of the cylinder. */
     cylinder_params.radius = coefficients_cylinder->values[6];
-    // Store direction vector of z-axis of cylinder.
+    /* Store direction vector of z-axis of cylinder. */
     cylinder_params.direction_vec[0] = coefficients_cylinder->values[3];
     cylinder_params.direction_vec[1] = coefficients_cylinder->values[4];
     cylinder_params.direction_vec[2] = coefficients_cylinder->values[5];
