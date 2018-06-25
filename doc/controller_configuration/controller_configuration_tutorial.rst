@@ -49,6 +49,18 @@ The parameters are:
  * *joints*: Names of all the joints that are being addressed by this interface.
  * *parallel*: When this is set, *joints* should be of size 2, and the command will be the sum of the two joints.
 
+Optional Allowed Trajectory Execution Duration Parameters
+---------------------------------------------------------
+
+For each controller it is optionally possible to set the *allowed_execution_duration_scaling* and *allowed_goal_duration_margin* parameters. These are controller-specific overrides of the global values *trajectory_execution/allowed_execution_duration_scaling* and *trajectory_execution/allowed_goal_duration_margin*. As opposed to the global values, the contoller-specific ones cannot be dynamically reconfigured at runtime. The parameters are used to compute the allowed trajectory execution duration by scaling the expected execution duration and adding the margin afterwards. If this duration is exceeded the trajectory will be cancelled. The controller-specific parameters can be set as follows ::
+
+ controller_list:
+  - name: arm_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    allowed_execution_duration_scaling: 1.2
+    allowed_goal_duration_margin: 0.5
+
 Create the Controller launch file
 ---------------------------------
 Now, create the controller launch file (call it ``robot_moveit_controller_manager.launch.xml`` where ``robot`` is the name of your robot as specified when you created your MoveIt! robot config package).
