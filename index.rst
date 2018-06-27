@@ -67,7 +67,7 @@ Configuration
    doc/kinematics_configuration/kinematics_configuration_tutorial
    doc/custom_constraint_samplers/custom_constraint_samplers_tutorial
    doc/ompl_interface/ompl_interface_tutorial
-   doc/chomp_interface/chomp_interface_tutorial
+   doc/chomp_planner/chomp_planner_tutorial
 
 Miscellaneous
 ----------------------------
