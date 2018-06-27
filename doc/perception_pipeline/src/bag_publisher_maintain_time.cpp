@@ -4,20 +4,17 @@
 #include <rosbag/view.h>
 #include <sensor_msgs/PointCloud2.h>
 
-#include <boost/foreach.hpp>
-
 int main(int argc, char **argv)
 {
   ros::init(argc, argv, "bag_publisher_maintain_time");
   ros::NodeHandle n;
 
-  ros::Publisher pc_pub = n.advertise<sensor_msgs::PointCloud2>("/camera/depth_registered/points", 1);
+  ros::Publisher point_cloud_publisher = n.advertise<sensor_msgs::PointCloud2>("/camera/depth_registered/points", 1);
   ros::Rate loop_rate(0.1);
 
   rosbag::Bag bag;
   std::string path = ros::package::getPath("moveit_tutorials");
   path += "/doc/perception_pipeline/bags/perception_tutorial.bag";
-  // path += "/doc/perception_pipeline/bags/2018-05-28-07-49-11.bag";
   bag.open(path, rosbag::bagmode::Read);
 
   std::vector<std::string> topics;
@@ -25,15 +22,15 @@ int main(int argc, char **argv)
 
   rosbag::View view(bag, rosbag::TopicQuery(topics));
 
-  BOOST_FOREACH(rosbag::MessageInstance const m, view)
+  for (auto const msg: view)
   {
-    sensor_msgs::PointCloud2::Ptr p = m.instantiate<sensor_msgs::PointCloud2>();
-    if (p != NULL)
+    sensor_msgs::PointCloud2::Ptr point_cloud_ptr = msg.instantiate<sensor_msgs::PointCloud2>();
+    if (point_cloud_ptr != NULL)
     {
       while (ros::ok())
       {
-        p->header.stamp = ros::Time::now();
-        pc_pub.publish(*p);
+        point_cloud_ptr->header.stamp = ros::Time::now();
+        point_cloud_publisher.publish(*point_cloud_ptr);
         ros::spinOnce();
         loop_rate.sleep();
       }

@@ -101,8 +101,8 @@ void extractLocationHeight(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, add_cyl
   // |code_start| hypot(pt.z, pt.x);\ |code_end| |br|
   // angle the point made horizontally- |code_start| atan2(pt.z,pt.x);\ |code_end| |br|
   // angle the point made Verticlly- |code_start| atan2(pt.z, pt.y);\ |code_end| |br|
-  // Loop over the entire pointcloud using BOOST_FOREACH to have a simpler nicer looking implimentation.
-  BOOST_FOREACH (const pcl::PointXYZRGB& pt, cloud->points)
+  // Loop over the entire pointcloud.
+  for (auto const pt: cloud->points)
   {
     /* Find the coordinates of the highest point */
     if (atan2(pt.z, pt.y) < min_angle_y)
