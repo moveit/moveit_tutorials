@@ -1,12 +1,11 @@
 <launch>
   <include file="$(find panda_moveit_config)/launch/demo.launch" />
-  <param name ="/use_sim_time" value="true"/>
 
   <!-- Play the rosbag that contains the pointcloud data -->
-  <node pkg="rosbag" type="play" name="point_clouds" args="--clock -k $(find moveit_tutorials)/doc/perception_pipeline/bags/2018-05-28-07-49-11.bag" />
+  <node pkg="moveit_tutorials" type="bag_publisher_maintain_time" name="point_clouds" />
 
   <!-- If needed, broadcast static tf for robot root -->
-  <node pkg="tf" type="static_transform_publisher" name="to_temp_link" args="0 0.4 -0.6 0 0 0  temp_link panda_link0 100" />
-  <node pkg="tf" type="static_transform_publisher" name="to_panda_base" args="0 0 0 0 0.2 1.92 camera_rgb_optical_frame temp_link 100" />
+  <node pkg="tf" type="static_transform_publisher" name="to_temp_link" args="0 0.4 -0.6 0 0 0  temp_link panda_link0 10" />
+  <node pkg="tf" type="static_transform_publisher" name="to_panda_base" args="0 0 0 0 0.2 1.92 camera_rgb_optical_frame temp_link 10" />
 
 </launch>

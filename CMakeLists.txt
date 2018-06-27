@@ -20,6 +20,7 @@ find_package(catkin REQUIRED
     geometric_shapes
     pcl_ros
     pcl_conversions
+    rosbag
 )
 
 find_package(Boost REQUIRED system filesystem date_time thread)
