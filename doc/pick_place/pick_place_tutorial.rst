@@ -1,7 +1,7 @@
 Pick and Place Tutorial
 ============================
 
-In MoveIt!, grasping is done using the move group interface. In order to grasp an object we need to create ``moveit_msgs::Grasp`` msg which will allow defining the various poses and postures involved in a grasping operation.
+In MoveIt!, grasping is done using the MoveGroup interface. In order to grasp an object we need to create ``moveit_msgs::Grasp`` msg which will allow defining the various poses and postures involved in a grasping operation.
 Watch this video to see the output of this tutorial:
 
 .. raw:: html
@@ -16,11 +16,11 @@ If you haven't already done so, make sure you've completed the steps in `Getting
 
 Running The Demo
 ----------------
-Open two shells. In the first shell start RViz and wait for everything to finish loading: ::
+Open two terminals. In the first terminal start RViz and wait for everything to finish loading: ::
 
     roslaunch panda_moveit_config demo.launch
 
-In the second shell run the pick and place tutorial: ::
+In the second terminal run the pick and place tutorial: ::
     
     rosrun moveit_tutorials pick_place_tutotrial
 
@@ -28,7 +28,7 @@ You should see something similar to the video at the beginning of this tutorial.
 
 Understanding ``moveit_msgs::Grasp``
 ------------------------------------
-For complete documentation refer to `this. <http://docs.ros.org/kinetic/api/moveit_msgs/html/msg/Grasp.html>`_
+For complete documentation refer to `moveit_msgs/Grasp.msg. <http://docs.ros.org/kinetic/api/moveit_msgs/html/msg/Grasp.html>`_
 
 The relevant fields of the message are:-
 
