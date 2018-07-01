@@ -4,9 +4,7 @@ STOMP Planner
 .. image:: stomp.png
    :width: 700px
 
-Stochastic Trajectory Optimization for Motion Planning (STOMP) is a novel probabilistic optimization framework (Kalakrishnan et al. 2011). STOMP Produces smooth well behaved collision free paths within reasonable times. The approach relies on generating noisy trajectories to explore the space around an initial (possibly infeasible) trajectory which are then combined o produce an updated trajectory with lower cost. A cost function based on a combination of obstacle and smoothness cost is optimized in each iteration. No gradient information is required for the particular optimization algorithm that we use and so general costs for which derivatives may not be available (e.g. costs corresponding to constraints and motor torques) can be included in the cost function. Some of the strengths of STOMP include, it can incorporate additional objective functions such as torque limits, energy and tool constraints. Stomp can handle cost functions which do not need to be differentiable. It uses distance field and spherical approximations to quickly compute distance queries and collision costs. Integration into latest version of MoveIt! is work in progress. `More info <https://personalrobotics.ri.cmu.edu/files/courses/papers/Kalakrishnan11-stomp.pdf>`_
-
-
+Stochastic Trajectory Optimization for Motion Planning (STOMP) is a novel probabilistic optimization framework (Kalakrishnan et al. 2011). STOMP produces smooth well behaved collision free paths within reasonable times. The approach relies on generating noisy trajectories to explore the space around an initial (possibly infeasible) trajectory which are then combined to produce an updated trajectory with lower cost. A cost function based on a combination of obstacle and smoothness cost is optimized in each iteration. No gradient information is required for the particular optimization algorithm that we use and so general costs for which derivatives may not be available (e.g. costs corresponding to constraints and motor torques) can be included in the cost function. Some of the strengths of STOMP include: it can incorporate additional objective functions such as torque limits, energy and tool constraints. STOMP can handle cost functions which do not need to be differentiable. It uses distance field and spherical approximations to quickly compute distance queries and collision costs. Integration into Kinetic and Melodic version of MoveIt! is work in progress. `More info <https://personalrobotics.ri.cmu.edu/files/courses/papers/Kalakrishnan11-stomp.pdf>`_
 
 Getting Started
 ---------------
@@ -37,7 +35,7 @@ Using STOMP with Your Robot
 ---------------------------
 **Note:** if you are following this demo using the ``panda_moveit_config`` from the `ros-planning/panda_moveit_config <https://github.com/ros-planning/panda_moveit_config>`_ repository, these steps are already done for you and you can skip steps 1-3 and you only need to do step 4.
 
-#. Simply download `stomp_planning_pipeline.launch.xml <https://github.com/ros-planning/panda_moveit_config/blob/master/launch/stomp_planning_pipeline.launch.xml>`_ file into the launch directory of your MoveIt! config package. In our case, we will save this file in the ``panda_moveit_config/launch`` directory. Place the file "*stomp_planning_pipeline.launch.xml*" file in the **launch** directory of your **moveit_config** package.  The file should contain the following: ::
+#. Simply download `stomp_planning_pipeline.launch.xml <https://github.com/ros-planning/panda_moveit_config/blob/master/launch/stomp_planning_pipeline.launch.xml>`_ file into the launch directory of your MoveIt! config package. In our case, we will save this file in the ``panda_moveit_config/launch`` directory. Place the file "*stomp_planning_pipeline.launch.xml*" file in the **launch** directory of your **moveit_config** package. **Note:** The latest version of MoveIt! Setup Assistant will generate this launch file for you. The file should contain the following: ::
    
     <launch>
       <!-- Stomp Plugin for MoveIt! -->
@@ -54,52 +52,9 @@ Using STOMP with Your Robot
       <param name="start_state_max_bounds_error" value="$(arg start_state_max_bounds_error)" />
       <rosparam command="load" file="$(find panda_moveit_config)/config/stomp_planning.yaml"/>
     </launch>
-   
-     
-   **>** Take notice of the **stomp_planning.yaml** configuration file, this file must exists in moveit_config package.
 
 #. Adjust the line ``<rosparam command="load" file="$(find panda_moveit_config)/config/stomp_planning.yaml" />`` to ``<rosparam command="load" file="$(find <robot_moveit_config>)/config/stomp_planning.yaml" />`` replacing ``<robot_moveit_config>`` with the name of your MoveIt! configuration package.
-#. Download `stomp_planning.yaml <https://github.com/ros-planning/panda_moveit_config/blob/master/config/stomp_planning.yaml>`_ file into the config directory of your MoveIt! config package. In our case, we will save this file in the ``panda_moveit_config/config`` directory. Create the "*stomp_planning.yaml*" configuration file. This file contains the parameters required by STOMP.  The parameters are specific to each ''planning group'' defined in   the SRDF file.  So if there are three planning groups, then the configuration file defines a specific set of parameters for each  planning group. In our case there is only one planning group, the "panda_arm": ::
-
-    stomp/manipulator_rail:
-      group_name: panda_arm
-      optimization:
-        num_timesteps: 60
-        num_iterations: 40
-        num_iterations_after_valid: 0    
-        num_rollouts: 30
-        max_rollouts: 30 
-        initialization_method: 1 #[1 : LINEAR_INTERPOLATION, 2 : CUBIC_POLYNOMIAL, 3 : MININUM_CONTROL_COST
-        control_cost_weight: 0.0
-      task:
-        noise_generator:
-          - class: stomp_moveit/NormalDistributionSampling
-            stddev: [0.05, 0.8, 1.0, 0.8, 0.4, 0.4, 0.4]
-        cost_functions:
-          - class: stomp_moveit/CollisionCheck
-            collision_penalty: 1.0
-            cost_weight: 1.0
-            kernel_window_percentage: 0.2
-            longest_valid_joint_move: 0.05 
-        noisy_filters:
-          - class: stomp_moveit/JointLimits
-            lock_start: True
-            lock_goal: True
-          - class: stomp_moveit/MultiTrajectoryVisualization
-            line_width: 0.02
-            rgb: [255, 255, 0]
-            marker_array_topic: stomp_trajectories
-            marker_namespace: noisy
-        update_filters:
-          - class: stomp_moveit/PolynomialSmoother
-            poly_order: 6
-          - class: stomp_moveit/TrajectoryVisualization
-            line_width: 0.05
-            rgb: [0, 191, 255]
-            error_rgb: [255, 0, 0]
-            publish_intermediate: True
-            marker_topic: stomp_trajectory
-            marker_namespace: optimized      
+#. Download `stomp_planning.yaml <https://github.com/ros-planning/panda_moveit_config/blob/master/config/stomp_planning.yaml>`_ file into the config directory of your MoveIt! config package. In our case, we will save this file in the ``panda_moveit_config/config`` directory. Create the "*stomp_planning.yaml*" configuration file. This file contains the parameters required by STOMP.  The parameters are specific to each ''planning group'' defined in   the SRDF file.  So if there are three planning groups, then the configuration file defines a specific set of parameters for each  planning group. In our case there is only one planning group, i.e., the "panda_arm".
     
    **>** *Save this file in the* **config** *directory of the moveit_config package*. Also make sure that the dimensionality of the `stddev` array parameter is the same as the number of joints present in the planning group name of your robot.
 
@@ -119,11 +74,9 @@ Using STOMP with Your Robot
     <include ns="move_group" file="$(find myworkcell_moveit_config)/launch/planning_pipeline.launch.xml">
       <arg name="pipeline" value="stomp" />
     </include>
-
         .
         .
         .
-   
 
 Running the Demo
 ----------------
@@ -139,11 +92,11 @@ To run STOMP in an evironment with obstacles, you can run the sample python scri
 
 This scripts creates a cluttered scene with four ostacles or a simple scene with one obstacle depending on the argument given to the script. One can also change the position/size of the obstacles to change the scene. 
 
-To run the STOMP planner with obstacles, open two shells. In the first shell start RViz and wait for everything to finish loading: ::
+To run the STOMP planner with obstacles, open two terminals. In the first terminal start RViz and wait for everything to finish loading: ::
 
   roslaunch panda_moveit_config demo_stomp.launch
 
-In the second shell, run either of the two commands: ::
+In the second terminal, run either of the two commands: ::
 
   rosrun moveit_tutorials collision_scene_example.py cluttered
 
@@ -213,9 +166,3 @@ In this section a distinction is made between paths obtained from STOMP, CHOMP a
 - **Parameter tuning**: CHOMP generally requires additional parameter tuning than STOMP to obtain a successful solution. OMPL does not require a lot of parameter tuning, the default parameters do a good job in most situations.
 
 - **Obstacle Handling**: For scenes containing obstacles, STOMP often is able to successfully avoid obstacles due to its stochastic nature. CHOMP however generates paths which do not prefer smooth trajectories by addition of some noise (*ridge_factor*) in the cost function for the dynamical quantities of the robot (like acceleration, velocity). OMPL also generates collision free smooth paths in the presence of obstacles.
-
-
-Unit Tests for STOMP coming soon
---------------------------------
-
-This section is coming soon!!
