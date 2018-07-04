@@ -158,6 +158,13 @@ Roslaunch the launch file to run the code directly from moveit_tutorials: ::
 
  roslaunch moveit_tutorials detect_and_add_cylinder_collision_object_demo.launch
 
+KNOWN ISSUE - You may see the following error when running the demo ::
+
+  ros.moveit_ros_planning.planning_scene_monitor: Transform error: Lookup would require extrapolation into the future.  Requested time 1527473962.793050157 but the latest data is at time 1527473962.776993978, when looking up transform from frame [panda_link2] to frame [camera_rgb_optical_frame]
+  ros.moveit_ros_perception: Transform cache was not updated. Self-filtering may fail.
+
+We are working on fixing it, it should not break the working of the demo.
+
 Relevant Code
 +++++++++++++
 The entire code can be seen :codedir:`here <perception_configuration>` in the moveit_tutorials GitHub project. The details regarding the implementation of each of the perception pipeline function have been omitted in this tutorial as they are well documented `here. <http://wiki.ros.org/pcl/Tutorials>`_
