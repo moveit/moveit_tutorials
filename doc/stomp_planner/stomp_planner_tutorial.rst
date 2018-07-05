@@ -60,9 +60,6 @@ Using STOMP with Your Robot
 
 #. Modify the **move_group.launch** file. Open the **move_group.launch** in the launch directory and change the ```pipeline``` parameter value to ```stomp``` as shown below: ::
 
-        .
-        .
-        .
     <!-- move_group settings -->
     <arg name="allow_trajectory_execution" default="true"/>
     <arg name="fake_execution" default="false"/>
@@ -74,9 +71,6 @@ Using STOMP with Your Robot
     <include ns="move_group" file="$(find myworkcell_moveit_config)/launch/planning_pipeline.launch.xml">
       <arg name="pipeline" value="stomp" />
     </include>
-        .
-        .
-        .
 
 Running the Demo
 ----------------
@@ -166,3 +160,10 @@ In this section a distinction is made between paths obtained from STOMP, CHOMP a
 - **Parameter tuning**: CHOMP generally requires additional parameter tuning than STOMP to obtain a successful solution. OMPL does not require a lot of parameter tuning, the default parameters do a good job in most situations.
 
 - **Obstacle Handling**: For scenes containing obstacles, STOMP often is able to successfully avoid obstacles due to its stochastic nature. CHOMP however generates paths which do not prefer smooth trajectories by addition of some noise (*ridge_factor*) in the cost function for the dynamical quantities of the robot (like acceleration, velocity). OMPL also generates collision free smooth paths in the presence of obstacles.
+
+Running STOMP Unit Tests
+------------------------
+
+For running the unit tests, you must have the `stomp_core <https://github.com/ros-industrial/industrial_moveit/tree/kinetic-devel/stomp_core>`_ package from `ros-industrial/industrial_moveit <https://github.com/ros-industrial/industrial_moveit>`_ repository. If these tests run successfully, this implies STOMP is successfully built and running on your system. To run the STOMP unit tests, open a terminal and do the following in your catkin workspace: ::
+
+  catkin_make run_tests_stomp_moveit stomp_moveit_utest
