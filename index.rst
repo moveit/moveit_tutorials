@@ -67,6 +67,7 @@ Configuration
    doc/custom_constraint_samplers/custom_constraint_samplers_tutorial
    doc/ompl_interface/ompl_interface_tutorial
    doc/chomp_planner/chomp_planner_tutorial
+   doc/stomp_planner/stomp_planner_tutorial
 
 Miscellaneous
 ----------------------------
