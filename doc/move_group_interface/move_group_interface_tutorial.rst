@@ -32,7 +32,7 @@ See the `YouTube video <https://youtu.be/_5siHkFQPBQ>`_ at the top of this tutor
  1. The robot moves its arm to the pose goal to its front.
  2. The robot moves its arm to the joint goal at its side.
  3. The robot moves its arm back to a new pose goal while maintaining the end-effector level.
- 4. The robot moves its arm along the desired Cartesian path (a triangle up+forward, left, down+back).
+ 4. The robot moves its arm along the desired Cartesian path (a triangle down, right, up+left).
  5. A box object is added into the environment to the right of the arm.
     |B|
 
