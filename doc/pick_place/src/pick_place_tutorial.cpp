@@ -1,39 +1,38 @@
-/********************************************************************* 
-* Software License Agreement (BSD License)  
-* 
-*  Copyright (c) 2012, Willow Garage, Inc.  
-*  All rights reserved. 
-* 
-*  Redistribution and use in source and binary forms, with or without 
-*  modification, are permitted provided that the following conditions 
-*  are met: 
-* 
-*   * Redistributions of source code must retain the above copyright  
-*     notice, this list of conditions and the following disclaimer. 
-*   * Redistributions in binary form must reproduce the above 
-*     copyright notice, this list of conditions and the following 
-*     disclaimer in the documentation and/or other materials provided 
-*     with the distribution.  
-*   * Neither the name of Willow Garage nor the names of its  
-*     contributors may be used to endorse or promote products derived 
-*     from this software without specific prior written permission. 
-* 
-*  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS  
-*  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT  
-*  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS  
-*  FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-*  COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,  
-*  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-*  BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
-*  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
-*  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT 
-*  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN  
-*  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  
-*  POSSIBILITY OF SUCH DAMAGE.  
-*********************************************************************/  
- 
-/* Author: Ioan Sucan, Ridhwan Luthra*/
+/*********************************************************************
+* Software License Agreement (BSD License)
+*
+*  Copyright (c) 2012, Willow Garage, Inc.
+*  All rights reserved.
+*
+*  Redistribution and use in source and binary forms, with or without
+*  modification, are permitted provided that the following conditions
+*  are met:
+*
+*   * Redistributions of source code must retain the above copyright
+*     notice, this list of conditions and the following disclaimer.
+*   * Redistributions in binary form must reproduce the above
+*     copyright notice, this list of conditions and the following
+*     disclaimer in the documentation and/or other materials provided
+*     with the distribution.
+*   * Neither the name of Willow Garage nor the names of its
+*     contributors may be used to endorse or promote products derived
+*     from this software without specific prior written permission.
+*
+*  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+*  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+*  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+*  FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+*  COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+*  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+*  BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+*  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+*  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+*  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+*  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+*  POSSIBILITY OF SUCH DAMAGE.
+*********************************************************************/
 
+/* Author: Ioan Sucan, Ridhwan Luthra*/
 
 // ROS
 #include <ros/ros.h>
@@ -85,12 +84,13 @@ void pick(moveit::planning_interface::MoveGroupInterface& move_group)
   // Setting grasp pose
   // ++++++++++++++++++++++
   grasps[0].grasp_pose.header.frame_id = "panda_link0";
-  grasps[0].grasp_pose.pose.orientation =
-      tf::createQuaternionMsgFromRollPitchYaw(-M_PI / 2, -M_PI / 4, -M_PI / 2);
+  grasps[0].grasp_pose.pose.orientation = tf::createQuaternionMsgFromRollPitchYaw(-M_PI / 2, -M_PI / 4, -M_PI / 2);
   /* This is the pose of panda_link8. */
-  /* From panda_link8 to the palm of the eef the distance is 0.058, the cube starts 0.01 before 5.0 (half of the length */
+  /* From panda_link8 to the palm of the eef the distance is 0.058, the cube starts 0.01 before 5.0 (half of the length
+   */
   /* of the cube). */
-  /* Therfore, the posotion for panda_link8 = 5 - (length of cube/2 - distance b/w panda_link8 and palm of eef - some */
+  /* Therefore, the position for panda_link8 = 5 - (length of cube/2 - distance b/w panda_link8 and palm of eef - some
+   */
   /* extra padding) */
   grasps[0].grasp_pose.pose.position.x = 0.415;
   grasps[0].grasp_pose.pose.position.y = 0;
@@ -136,6 +136,8 @@ void pick(moveit::planning_interface::MoveGroupInterface& move_group)
 void place(moveit::planning_interface::MoveGroupInterface& group)
 {
   // BEGIN_SUB_TUTORIAL place
+  // Note(TODO) - Calling place function may lead to "All supplied place locations failed. Retrying last location in
+  // verbose mode." This is a known issue and we are working on fixing it.
   // Create a vector of placings to be attempted, currently only creating single place location.
   std::vector<moveit_msgs::PlaceLocation> loc;
   loc.resize(1);
@@ -190,11 +192,11 @@ void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& pla
   std::vector<moveit_msgs::CollisionObject> collision_objects;
   collision_objects.resize(3);
 
-  // Add the first table where the cube will orignally be kept.
+  // Add the first table where the cube will originally be kept.
   collision_objects[0].id = "table1";
   collision_objects[0].header.frame_id = "panda_link0";
 
-  /* Define the primitive and its dimentions. */
+  /* Define the primitive and its dimensions. */
   collision_objects[0].primitives.resize(1);
   collision_objects[0].primitives[0].type = collision_objects[0].primitives[0].BOX;
   collision_objects[0].primitives[0].dimensions.resize(3);
@@ -216,7 +218,7 @@ void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& pla
   collision_objects[1].id = "table2";
   collision_objects[1].header.frame_id = "panda_link0";
 
-  /* Define the primitive and its dimentions. */
+  /* Define the primitive and its dimensions. */
   collision_objects[1].primitives.resize(1);
   collision_objects[1].primitives[0].type = collision_objects[1].primitives[0].BOX;
   collision_objects[1].primitives[0].dimensions.resize(3);
@@ -238,7 +240,7 @@ void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& pla
   collision_objects[2].header.frame_id = "panda_link0";
   collision_objects[2].id = "object";
 
-  /* Define the primitive and its dimentions. */
+  /* Define the primitive and its dimensions. */
   collision_objects[2].primitives.resize(1);
   collision_objects[2].primitives[0].type = collision_objects[1].primitives[0].BOX;
   collision_objects[2].primitives[0].dimensions.resize(3);
@@ -272,7 +274,7 @@ int main(int argc, char** argv)
 
   addCollisionObjects(planning_scene_interface);
 
-  // wait a bit for ros things to initialize
+  // wait a bit for ROS things to initialize
   ros::WallDuration(1.0).sleep();
 
   pick(group);
