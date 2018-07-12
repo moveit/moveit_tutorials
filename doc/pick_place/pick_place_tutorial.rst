@@ -43,4 +43,8 @@ The Entire Code
 ---------------
 The entire code can be seen :codedir:`here <pick_place>` in the moveit_tutorials GitHub project.
 
+.. |br| raw:: html
+
+   <br />
+
 .. tutorial-formatter:: ./src/pick_place_tutorial.cpp

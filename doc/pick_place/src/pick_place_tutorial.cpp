@@ -83,15 +83,13 @@ void pick(moveit::planning_interface::MoveGroupInterface& move_group)
 
   // Setting grasp pose
   // ++++++++++++++++++++++
+  // This is the pose of panda_link8. |br|
+  // From panda_link8 to the palm of the eef the distance is 0.058, the cube starts 0.01 before 5.0 (half of the length
+  // of the cube). |br|
+  // Therefore, the position for panda_link8 = 5 - (length of cube/2 - distance b/w panda_link8 and palm of eef - some
+  // extra padding)
   grasps[0].grasp_pose.header.frame_id = "panda_link0";
   grasps[0].grasp_pose.pose.orientation = tf::createQuaternionMsgFromRollPitchYaw(-M_PI / 2, -M_PI / 4, -M_PI / 2);
-  /* This is the pose of panda_link8. */
-  /* From panda_link8 to the palm of the eef the distance is 0.058, the cube starts 0.01 before 5.0 (half of the length
-   */
-  /* of the cube). */
-  /* Therefore, the position for panda_link8 = 5 - (length of cube/2 - distance b/w panda_link8 and palm of eef - some
-   */
-  /* extra padding) */
   grasps[0].grasp_pose.pose.position.x = 0.415;
   grasps[0].grasp_pose.pose.position.y = 0;
   grasps[0].grasp_pose.pose.position.z = 0.5;
@@ -136,49 +134,50 @@ void pick(moveit::planning_interface::MoveGroupInterface& move_group)
 void place(moveit::planning_interface::MoveGroupInterface& group)
 {
   // BEGIN_SUB_TUTORIAL place
-  // Note(TODO) - Calling place function may lead to "All supplied place locations failed. Retrying last location in
-  // verbose mode." This is a known issue and we are working on fixing it.
+  // TODO(@ridhwanluthra) - Calling place function may lead to "All supplied place locations failed. Retrying last
+  // location in
+  // verbose mode." This is a known issue and we are working on fixing it. |br|
   // Create a vector of placings to be attempted, currently only creating single place location.
-  std::vector<moveit_msgs::PlaceLocation> loc;
-  loc.resize(1);
+  std::vector<moveit_msgs::PlaceLocation> place_location;
+  place_location.resize(1);
 
   // Setting place location pose
   // +++++++++++++++++++++++++++
-  loc[0].place_pose.header.frame_id = "panda_link0";
-  loc[0].place_pose.pose.orientation = tf::createQuaternionMsgFromRollPitchYaw(0, 0, M_PI / 2);
+  place_location[0].place_pose.header.frame_id = "panda_link0";
+  place_location[0].place_pose.pose.orientation = tf::createQuaternionMsgFromRollPitchYaw(0, 0, M_PI / 2);
 
   /* While placing it is the exact location of the center of the object. */
-  loc[0].place_pose.pose.position.x = 0;
-  loc[0].place_pose.pose.position.y = 0.5;
-  loc[0].place_pose.pose.position.z = 0.5;
+  place_location[0].place_pose.pose.position.x = 0;
+  place_location[0].place_pose.pose.position.y = 0.5;
+  place_location[0].place_pose.pose.position.z = 0.5;
 
   // Setting pre-place approach
   // ++++++++++++++++++++++++++
   /* Defined with respect to frame_id */
-  loc[0].pre_place_approach.direction.header.frame_id = "panda_link0";
+  place_location[0].pre_place_approach.direction.header.frame_id = "panda_link0";
   /* Direction is set as negative z axis */
-  loc[0].pre_place_approach.direction.vector.z = -1.0;
-  loc[0].pre_place_approach.min_distance = 0.095;
-  loc[0].pre_place_approach.desired_distance = 0.115;
+  place_location[0].pre_place_approach.direction.vector.z = -1.0;
+  place_location[0].pre_place_approach.min_distance = 0.095;
+  place_location[0].pre_place_approach.desired_distance = 0.115;
 
   // Setting post-grasp retreat
   // ++++++++++++++++++++++++++
   /* Defined with respect to frame_id */
-  loc[0].post_place_retreat.direction.header.frame_id = "panda_link0";
+  place_location[0].post_place_retreat.direction.header.frame_id = "panda_link0";
   /* Direction is set as negative y axis */
-  loc[0].post_place_retreat.direction.vector.y = -1.0;
-  loc[0].post_place_retreat.min_distance = 0.1;
-  loc[0].post_place_retreat.desired_distance = 0.25;
+  place_location[0].post_place_retreat.direction.vector.y = -1.0;
+  place_location[0].post_place_retreat.min_distance = 0.1;
+  place_location[0].post_place_retreat.desired_distance = 0.25;
 
   // Setting posture of eef after placing object
   // +++++++++++++++++++++++++++++++++++++++++++
-  /* similar to the pick case */
-  openGripper(loc[0].post_place_posture);
+  /* Similar to the pick case */
+  openGripper(place_location[0].post_place_posture);
 
   // Set support surface as table2.
   group.setSupportSurfaceName("table2");
   // Call place to place the object using the place locations given.
-  group.place("object", loc);
+  group.place("object", place_location);
   // END_SUB_TUTORIAL
 }
 
@@ -274,7 +273,7 @@ int main(int argc, char** argv)
 
   addCollisionObjects(planning_scene_interface);
 
-  // wait a bit for ROS things to initialize
+  // Wait a bit for ROS things to initialize
   ros::WallDuration(1.0).sleep();
 
   pick(group);
