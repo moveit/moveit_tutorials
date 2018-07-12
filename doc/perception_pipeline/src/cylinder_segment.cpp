@@ -1,3 +1,39 @@
+/*********************************************************************
+* Software License Agreement (BSD License)
+*
+*  Copyright (c) 2012, Willow Garage, Inc.
+*  All rights reserved.
+*
+*  Redistribution and use in source and binary forms, with or without
+*  modification, are permitted provided that the following conditions
+*  are met:
+*
+*   * Redistributions of source code must retain the above copyright
+*     notice, this list of conditions and the following disclaimer.
+*   * Redistributions in binary form must reproduce the above
+*     copyright notice, this list of conditions and the following
+*     disclaimer in the documentation and/or other materials provided
+*     with the distribution.
+*   * Neither the name of Willow Garage nor the names of its
+*     contributors may be used to endorse or promote products derived
+*     from this software without specific prior written permission.
+*
+*  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+*  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+*  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+*  FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+*  COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+*  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+*  BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+*  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+*  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+*  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+*  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+*  POSSIBILITY OF SUCH DAMAGE.
+*********************************************************************/
+
+/* Author: Ridhwan Luthra */
+
 #include <ros/ros.h>
 #include <sensor_msgs/PointCloud2.h>
 #include <pcl_conversions/pcl_conversions.h>
@@ -11,22 +47,22 @@
 
 // BEGIN_SUB_TUTORIAL param_struct
 // There are 4 fields and a total of 7 parameters used to define this.
-struct add_cylinder_params
+struct addCylinderParams
 {
   /* Radius of the cylinder. */
   double radius;
-  /* Direction vector towards the z-axis of the cyliner. */
+  /* Direction vector towards the z-axis of the cylinder. */
   double direction_vec[3];
   /* Center point of the cylinder. */
   double center_pt[3];
   /* Height of the cylinder. */
   double height;
-  // END_SUB_TUTORIAL
 };
+// END_SUB_TUTORIAL
 
 /** \brief Given the parameters of the cylinder add the cylinder to the planning scene.
-    @param cylinder_params - Pointer to the struct add_cylinder_params. */
-void addCylinder(add_cylinder_params* cylinder_params)
+    @param cylinder_params - Pointer to the struct addCylinderParams. */
+void addCylinder(addCylinderParams* cylinder_params)
 {
   moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
   // BEGIN_SUB_TUTORIAL add_cylinder
@@ -54,10 +90,9 @@ void addCylinder(add_cylinder_params* cylinder_params)
                                        cylinder_params->direction_vec[2]);
   Eigen::Vector3d origin_z_direction(0., 0., 1.);
   Eigen::Vector3d axis;
-  double angle;
   axis = origin_z_direction.cross(cylinder_z_direction);
   axis.normalize();
-  angle = acos(cylinder_z_direction.dot(origin_z_direction));
+  double angle = acos(cylinder_z_direction.dot(origin_z_direction));
   cylinder_pose.orientation.x = axis.x() * sin(angle / 2);
   cylinder_pose.orientation.y = axis.y() * sin(angle / 2);
   cylinder_pose.orientation.z = axis.z() * sin(angle / 2);
@@ -80,9 +115,9 @@ void addCylinder(add_cylinder_params* cylinder_params)
 
 /** \brief Given the pointcloud containing just the cylinder, compute its center point and its height and store in
    cylinder_params.
-    @param cloud - Pointcloud containning just the cylinder.
-    @param cylinder_params - Pointer to the struct add_cylinder_params. */
-void extractLocationHeight(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, add_cylinder_params* cylinder_params)
+    @param cloud - Pointcloud containing just the cylinder.
+    @param cylinder_params - Pointer to the struct addCylinderParams. */
+void extractLocationHeight(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, addCylinderParams* cylinder_params)
 {
   double max_angle_y = 0.0;
   double min_angle_y = std::numeric_limits<double>::infinity();
@@ -100,9 +135,9 @@ void extractLocationHeight(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, add_cyl
   // If you need to find the  actual distance d from the point to the camera, you should calculate the hypotenuse-
   // |code_start| hypot(pt.z, pt.x);\ |code_end| |br|
   // angle the point made horizontally- |code_start| atan2(pt.z,pt.x);\ |code_end| |br|
-  // angle the point made Verticlly- |code_start| atan2(pt.z, pt.y);\ |code_end| |br|
+  // angle the point made Vertically- |code_start| atan2(pt.z, pt.y);\ |code_end| |br|
   // Loop over the entire pointcloud.
-  for (auto const pt: cloud->points)
+  for (auto const pt : cloud->points)
   {
     /* Find the coordinates of the highest point */
     if (atan2(pt.z, pt.y) < min_angle_y)
@@ -175,14 +210,14 @@ void extractNormals(pcl::PointCloud<pcl::Normal>::Ptr cloud_normals, pcl::PointI
     @param inliers_plane - Indices representing the plane. */
 void removePlaneSurface(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, pcl::PointIndices::Ptr inliers_plane)
 {
-  // create a SAC segmentor without using normals
+  // create a SAC segmenter without using normals
   pcl::SACSegmentation<pcl::PointXYZRGB> segmentor;
   segmentor.setOptimizeCoefficients(true);
   segmentor.setModelType(pcl::SACMODEL_PLANE);
   segmentor.setMethodType(pcl::SAC_RANSAC);
   /* run at max 1000 iterations before giving up */
   segmentor.setMaxIterations(1000);
-  /* tolerence for variation from model */
+  /* tolerance for variation from model */
   segmentor.setDistanceThreshold(0.01);
   segmentor.setInputCloud(cloud);
   /* Create the segmentation object for the planar model and set all the parameters */
@@ -215,7 +250,7 @@ void extractCylinder(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, pcl::ModelCoe
   segmentor.setNormalDistanceWeight(0.1);
   // run at max 1000 iterations before giving up
   segmentor.setMaxIterations(10000);
-  // tolerence for variation from model
+  // tolerance for variation from model
   segmentor.setDistanceThreshold(0.05);
   // min max values of radius in meters to consider
   segmentor.setRadiusLimits(0, 1);
@@ -233,7 +268,7 @@ void extractCylinder(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, pcl::ModelCoe
   extract.filter(*cloud);
 }
 
-void cloud_cb(const sensor_msgs::PointCloud2ConstPtr& input)
+void cloudCB(const sensor_msgs::PointCloud2ConstPtr& input)
 {
   // BEGIN_SUB_TUTORIAL callback
   //
@@ -268,7 +303,7 @@ void cloud_cb(const sensor_msgs::PointCloud2ConstPtr& input)
   // END_SUB_TUTORIAL
   if (cloud->points.empty())
   {
-    ROS_ERROR_STREAM("Can't find the cylindrical component.");
+    ROS_ERROR_STREAM_NAMED("cylinder_segment", "Can't find the cylindrical component.");
     return;
   }
   static bool points_not_found = true;
@@ -277,7 +312,7 @@ void cloud_cb(const sensor_msgs::PointCloud2ConstPtr& input)
     // BEGIN_TUTORIAL
     // CALL_SUB_TUTORIAL callback
     //
-    // Storing Relavant Cylinder Values
+    // Storing Relevant Cylinder Values
     // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     // The information that we have in |code_start| coefficients_cylinder\ |code_end| is not enough to define our
     // cylinder.
@@ -285,8 +320,8 @@ void cloud_cb(const sensor_msgs::PointCloud2ConstPtr& input)
     // We define a struct to hold the parameters that are actually needed for defining a collision object completely.
     // |br|
     // CALL_SUB_TUTORIAL param_struct
-    // Declare a variable of type add_cylinder_params and store relevant values from ModelCoefficients.
-    add_cylinder_params cylinder_params;
+    // Declare a variable of type addCylinderParams and store relevant values from ModelCoefficients.
+    addCylinderParams cylinder_params;
     /* Store the radius of the cylinder. */
     cylinder_params.radius = coefficients_cylinder->values[6];
     /* Store direction vector of z-axis of cylinder. */
@@ -312,8 +347,8 @@ int main(int argc, char** argv)
   // Initialize ROS
   ros::init(argc, argv, "cylinder_segment");
   ros::NodeHandle nh;
-  // Initialize subscriber to the raw point cloud highest_pointic
-  ros::Subscriber sub = nh.subscribe("/camera/depth_registered/points", 1, cloud_cb);
+  // Initialize subscriber to the raw point cloud
+  ros::Subscriber sub = nh.subscribe("/camera/depth_registered/points", 1, cloudCB);
   // Spin
   ros::spin();
 }

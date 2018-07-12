@@ -164,6 +164,7 @@ KNOWN ISSUE - You may see the following error when running the demo ::
   ros.moveit_ros_perception: Transform cache was not updated. Self-filtering may fail.
 
 We are working on fixing it, it should not break the working of the demo.
+You can follow its status in the `issue tracker <https://github.com/ros-planning/moveit_tutorials/issues/192>`_
 
 Relevant Code
 +++++++++++++
