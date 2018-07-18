@@ -17,6 +17,9 @@ Running the Code
 Open two shells. In the first shell start RViz and wait for everything to finish loading: ::
 
   roslaunch panda_moveit_config demo.launch
+  
+**Note**: At this point after the RViz launches fill the **marker_topic** of **MarkerArray** Display as */rviz_visual_tools* by typing, in case it does not exist in the drop-down menu. Otherwise you would not get the expected output, i.e. visualizations such as trajectory line and texts are not shown on top of RViz screen and below launch file will output a ROS warning of:
+*Topic '/rviz_visual_tools' unable to connect to any subscribers within 0.5 sec. It is possible initially published visual messages will be lost.*.
 
 In the second shell, run the launch file: ::
 
