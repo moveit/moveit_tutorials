@@ -160,7 +160,7 @@ Now follow these steps:
 
     roslaunch moveit_ros_benchmarks demo_panda_all_planners_obstacles.launch
 
-To view the results follow the same steps in the `Viewing Results <../benchmarking/benchmarking_tutorial.html#viewing-results>`_ section above. After loading the database into Planner arena, different statistics can be analysed about each of the planners by choosing the required benchmark attribute from the drop down list (see `figure <../../_images/planners_benchmark.png>`_). See image below for analysis of time taken by each of the planners to compute the solution for a sample benchmark.
+To view the results follow the same steps as listed in the `Viewing Results <../benchmarking/benchmarking_tutorial.html#viewing-results>`_ section above. After loading the database into Planner arena, different statistics can be analysed about each of the planners by choosing the required benchmark attribute from the drop down list (see `figure <../../_images/planners_benchmark.png>`_). See image below for analysis of time taken by each of the planners to compute the solution for a sample benchmark.
 
 .. image:: planners_benchmark.png
    :width: 700px
