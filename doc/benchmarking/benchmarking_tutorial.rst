@@ -32,7 +32,7 @@ To run:
 #. Bring down your previous launch file (``ctrl+c``).
 #. Change the location ``output_directory`` to export the benchmarked files::
 
-    rosed moveit_ros_benchmarks demo_panda.launch
+    rosed moveit_ros_benchmarks demo1.yaml
 
 #. Run the benchmarks: ::
 
@@ -154,7 +154,7 @@ Now follow these steps:
 #. Bring down your previous launch file (``ctrl+c``).
 #. Change the location ``output_directory`` to export the benchmarked files::
 
-    rosed moveit_ros_benchmarks demo_panda_all_planners_obstacles.launch
+    rosed moveit_ros_benchmarks demo_obstacles.yaml
 
 #. Run the benchmarks: ::
 
