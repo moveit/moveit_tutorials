@@ -118,15 +118,15 @@ It is possible to customize a benchmark run by deriving a class from ``Benchmark
 
 Note, in the above, a benchmark is a concrete instance of a ``PlanningScene``, start state, goal constraints / ``trajectory_constraints``, and (optionally) ``path_constraints``.  A run is one attempt by a specific planner to solve the benchmark.
 
-Benchmarking of Planners: CHOMP, STOMP and OMPL
------------------------------------------------
+Benchmarking of Different Motion Planners: CHOMP, STOMP and OMPL
+----------------------------------------------------------------
 
 This section contains the instructions for benchmarking different motion planners present in MoveIt: CHOMP, STOMP and OMPL. These planners can be compared with each other for a well defined benchmark (which is for the same environment, start states, queries and goal states). Different metrics for each of the planners can be reported to get quantitative statistics which could aid in proper selection of a particular planner in a defined environment. The statistics reported for each of the planners includes: time taken to compute the path, path length, path time, whether a valid path was found or not, etc.
 
 Benchmarking in a scene without obstacles
 +++++++++++++++++++++++++++++++++++++++++
 
-To benchmark different planners in a simple environment without obstacles, open one terminal and follow the steps in the `Example section <../benchmarking/benchmarking_tutorial.html#example>`_ at the top of this page. In the last two steps instead of editing and launching the ``demo_panda.launch`` file, edit and launch the ``demo_panda_all_planners.launch`` file.
+To benchmark different planners in a simple environment without obstacles, open one terminal and follow the steps in the `Example section <../benchmarking/benchmarking_tutorial.html#example>`_ at the top of this page. In the last two steps instead of editing ``demo1.yaml`` and launching ``demo_panda.launch``, edit ``demo_panda_all_planners.yaml`` and launch ``demo_panda_all_planners.launch``.
 
 Benchmarking in a scene with obstacles
 ++++++++++++++++++++++++++++++++++++++
@@ -160,7 +160,7 @@ Now follow these steps:
 
     roslaunch moveit_ros_benchmarks demo_panda_all_planners_obstacles.launch
 
-To view the results follow the same steps in the `Viewing Results <../benchmarking/benchmarking_tutorial.html#viewing-results>`_ section above. After loading the database into Planner arena, different statistics can be analysed about each of the planners. See image below for analysis of time taken by each of the planners to compute the solution for a sample benchmark.
+To view the results follow the same steps in the `Viewing Results <../benchmarking/benchmarking_tutorial.html#viewing-results>`_ section above. After loading the database into Planner arena, different statistics can be analysed about each of the planners by choosing the required benchmark attribute from the drop down list (see `figure <../../_images/planners_benchmark.png>`_). See image below for analysis of time taken by each of the planners to compute the solution for a sample benchmark.
 
 .. image:: planners_benchmark.png
    :width: 700px
