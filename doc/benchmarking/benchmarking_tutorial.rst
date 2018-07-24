@@ -5,34 +5,38 @@ Benchmarking
 
 .. note:: To use this benchmarking method, you will need to download and install the ROS Warehouse plugin. Currently this is not available from Debians and requires a source install for at least some aspects. For source instructions, see `this page <http://moveit.ros.org/install/source/dependencies/>`_
 
+Getting Started
+---------------
+If you haven't already done so, make sure you've completed the steps in `Getting Started <../getting_started/getting_started.html>`_.
+
 The `benchmarking package <https://github.com/ros-planning/moveit/tree/kinetic-devel/moveit_ros/benchmarks>`_ provides methods to benchmark motion planning algorithms and aggregate/plot statistics using the OMPL Planner Arena.
-The example below demonstrates how the benchmarking can be run for a Fanuc M-10iA.
+The example below demonstrates how the benchmarking can be run for a Panda robot arm.
 
 Example
 -------
 An example is provided in the ``examples`` folder. The launch file requires a MoveIt! configuration package
-for the Fanuc M-10iA available from `here <https://github.com/ros-planning/moveit_resources>`_.
+for the Panda robot arm available from `here <https://github.com/ros-planning/panda_moveit_config>`_.
 
 To run:
 
-#. Launch the Fanuc M-10iA ``demo.launch``: ::
+#. Launch the panda_moveit_config ``demo.launch``: ::
 
-    roslaunch moveit_resources demo.launch db:=true
+    roslaunch panda_moveit_config demo.launch db:=true
 
 #. Within the *Motion Planning* RViz plugin, connect to the database by pressing the *Connect* button in the *Context* tab.
 #. Save a scene on the *Stored Scenes* tab and name it ``Kitchen1`` by double clicking the scene in the list.
-#. Move the start and goal states of the Fanuc M-10iA by using the interactive markers.
+#. Move the start and goal states of the Panda arm by using the interactive markers.
 #. Save an associated query for the ``Kitchen1`` scene and name the query ``Pick1``.
 #. Also save a start state for the robot on the *Stored States* tab and name it ``Start1``.
 #. The config file ``moveit_ros/benchmarks/examples/demo1.yaml`` refers to the scenes, queries and start states used for benchmarking. Modify them appropriately.
 #. Bring down your previous launch file (``ctrl+c``).
 #. Change the location ``output_directory`` to export the benchmarked files::
 
-    rosed moveit_ros_benchmarks demo_fanuc.launch
+    rosed moveit_ros_benchmarks demo1.yaml
 
 #. Run the benchmarks: ::
 
-    roslaunch moveit_ros_benchmarks demo_fanuc.launch
+    roslaunch moveit_ros_benchmarks demo_panda.launch
 
 
 Viewing Results
@@ -113,3 +117,50 @@ It is possible to customize a benchmark run by deriving a class from ``Benchmark
 - ``querySwitchEvent``: invoked before a new benchmark problem begin execution
 
 Note, in the above, a benchmark is a concrete instance of a ``PlanningScene``, start state, goal constraints / ``trajectory_constraints``, and (optionally) ``path_constraints``.  A run is one attempt by a specific planner to solve the benchmark.
+
+Benchmarking of Different Motion Planners: CHOMP, STOMP and OMPL
+----------------------------------------------------------------
+
+This section contains the instructions for benchmarking different motion planners present in MoveIt: CHOMP, STOMP and OMPL. These planners can be compared with each other for a well defined benchmark (which is for the same environment, start states, queries and goal states). Different metrics for each of the planners can be reported to get quantitative statistics which could aid in proper selection of a particular planner in a defined environment. The statistics reported for each of the planners includes: time taken to compute the path, path length, path time, whether a valid path was found or not, etc.
+
+Benchmarking in a scene without obstacles
++++++++++++++++++++++++++++++++++++++++++
+
+To benchmark different planners in a simple environment without obstacles, open one terminal and follow the steps in the `Example section <../benchmarking/benchmarking_tutorial.html#example>`_ at the top of this page. In the last two steps instead of editing ``demo1.yaml`` and launching ``demo_panda.launch``, edit ``demo_panda_all_planners.yaml`` and launch ``demo_panda_all_planners.launch``.
+
+Benchmarking in a scene with obstacles
+++++++++++++++++++++++++++++++++++++++
+
+To benchmark motion planners in a scene filled with obstacles, open two terminals. In the first terminal start RViz and wait for everything to finish loading: ::
+
+  roslaunch panda_moveit_config demo.launch db:=true
+
+In the second terminal, run either of the two commands: ::
+
+  rosrun moveit_tutorials collision_scene_example.py sparse
+
+or: ::
+
+  rosrun moveit_tutorials collision_scene_example.py cluttered
+
+Now follow these steps:
+
+#. Within the *Motion Planning* RViz plugin, connect to the database by pressing the *Connect* button in the *Context* tab.
+#. Save a scene on the *Stored Scenes* tab and name it ``ObstaclesScene`` by double clicking the scene in the list.
+#. Move the start and goal states of the Panda arm by using the interactive markers.
+#. Save an associated query for the ``ObstaclesScene`` scene and name the query ``Pick1``.
+#. Also save a start state for the robot on the *Stored States* tab and name it ``Start1``.
+#. The config file ``moveit_ros/benchmarks/examples/demo_obstacles.yaml`` refers to the scenes, queries and start states used for benchmarking. Modify them appropriately.
+#. Bring down your previous launch file (``ctrl+c``).
+#. Change the location ``output_directory`` to export the benchmarked files::
+
+    rosed moveit_ros_benchmarks demo_obstacles.yaml
+
+#. Run the benchmarks: ::
+
+    roslaunch moveit_ros_benchmarks demo_panda_all_planners_obstacles.launch
+
+To view the results follow the same steps as listed in the `Viewing Results <../benchmarking/benchmarking_tutorial.html#viewing-results>`_ section above. After loading the database into Planner arena, different statistics can be analysed about each of the planners by choosing the required benchmark attribute from the drop down list (see `figure <../../_images/planners_benchmark.png>`_). See image below for analysis of time taken by each of the planners to compute the solution for a sample benchmark.
+
+.. image:: planners_benchmark.png
+   :width: 700px
