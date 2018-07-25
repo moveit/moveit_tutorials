@@ -22,7 +22,7 @@ Open two terminals. In the first terminal start RViz and wait for everything to 
 
 In the second terminal run the pick and place tutorial: ::
     
-    rosrun moveit_tutorials pick_place_tutotrial
+    rosrun moveit_tutorials pick_place_tutorial
 
 You should see something similar to the video at the beginning of this tutorial.
 
