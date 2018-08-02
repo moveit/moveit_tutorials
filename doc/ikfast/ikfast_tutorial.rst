@@ -17,6 +17,7 @@ MoveIt! IKFast
 
 MoveIt! IKFast is a tool that generates a IKFast kinematics plugin for MoveIt using OpenRAVE generated cpp files.
 This tutorial will step you through setting up your robot to utilize the power of IKFast. MoveIt! IKFast is tested on ROS Melodic with Catkin using OpenRAVE 0.8 with a 6DOF and 7DOF robot arm manipulator.
+
 While it works in theory, currently the IKFast plugin generator tool does not work with >7 degree of freedom arms.
 
 Getting Started
@@ -58,7 +59,7 @@ You should *not* have mpmath installed: ::
 
 MoveIt! IKFast Installation
 ---------------------------
-Install the MoveIt! IKFast package either from debs or from source.
+Install the MoveIt! IKFast package either from Debian or from source.
 
 **Binary Install**: ::
 
@@ -66,9 +67,11 @@ Install the MoveIt! IKFast package either from debs or from source.
 
 **Source**
 
-Inside your catkin workspace: ::
+Inside your catkin workspace's ``./src`` directory: ::
 
  git clone https://github.com/ros-planning/moveit.git
+ rosdep install -y --from-paths . --ignore-src --rosdistro kinetic
+ catkin build
 
 OpenRAVE Installation
 ----------------------
@@ -100,12 +103,12 @@ Create Collada File For Use With OpenRAVE
 Parameters
 ^^^^^^^^^^
 
- * *MYROBOT_NAME* - name of robot as in your URDF
- * *PLANNING_GROUP* - name of the planning group you would like to use this solver for, as referenced in your SRDF and kinematics.yaml
- * *MOVEIT_IK_PLUGIN_PKG* - name of the new package you just created
- * *IKFAST_OUTPUT_PATH* - file path to the location of your generated IKFast output.cpp file
+ * **MYROBOT_NAME** - name of robot as in your URDF
+ * **PLANNING_GROUP** - name of the planning group you would like to use this solver for, as referenced in your SRDF and kinematics.yaml
+ * **MOVEIT_IK_PLUGIN_PKG** - name of the new package you just created
+ * **IKFAST_OUTPUT_PATH** - file path to the location of your generated IKFast output.cpp file
 
-To make using this tutorial copy/paste friendly, set a MYROBOT_NAME environment variable with the name of your robot: ::
+To make using this tutorial copy/paste friendly, set a ``MYROBOT_NAME`` environment variable with the name of your robot: ::
 
  export MYROBOT_NAME="panda_arm"
 
@@ -121,11 +124,15 @@ Once you have your robot in URDF format, you can convert it to Collada (.dae) fi
 
  rosrun collada_urdf urdf_to_collada "$MYROBOT_NAME".urdf "$MYROBOT_NAME".dae
 
+**Note:** you may need to install ``collada_urdf``: ::
+
+ sudo apt install ros-kinetic-collada-urdf
+
 Often floating point issues arise in converting a URDF file to Collada file, so a script has been created to round all the numbers down to x decimal places in your .dae file. Its probably best if you skip this step initially and see if IKFast can generate a solution with your default values, but if the generator takes longer than, say, an hour, try the following: ::
 
-    export IKFAST_PRECISION="5"
-    cp "$MYROBOT_NAME".dae "$MYROBOT_NAME".backup.dae  # create a backup of your full precision dae.
-    rosrun moveit_kinematics round_collada_numbers.py "$MYROBOT_NAME".dae "$MYROBOT_NAME".dae "$IKFAST_PRECISION"
+ export IKFAST_PRECISION="5"
+ cp "$MYROBOT_NAME".dae "$MYROBOT_NAME".backup.dae  # create a backup of your full precision dae.
+ rosrun moveit_kinematics round_collada_numbers.py "$MYROBOT_NAME".dae "$MYROBOT_NAME".dae "$IKFAST_PRECISION"
 
 From experience we recommend 5 decimal places, but if the OpenRAVE IKFast generator takes to long to find a solution, lowering the number of decimal places should help.
 
@@ -156,24 +163,24 @@ You need to choose which sort of IK you want. See `this page <http://openrave.or
 
 Choose Planning Group
 ^^^^^^^^^^^^^^^^^^^^^
-If your robot has more than one arm or "planning group" that you want to generate an IKFast solution for, choose one to generate first. The following instructions will assume you have chosen one <planning_group_name> that you will create a plugin for. Once you have verified that the plugin works, repeat the following instructions for any other planning groups you have. For example, you might have 2 planning groups: ::
+If your robot has more than one arm or "planning group" that you want to generate an IKFast solution for, choose one to generate first. The following instructions will assume you have chosen one ``<planning_group_name>`` that you will create a plugin for. Once you have verified that the plugin works, repeat the following instructions for any other planning groups you have. For example, you might have 2 planning groups: ::
 
  <planning_group_name> = "left_arm"
  <planning_group_name> = "right_arm"
 
-To make it easy to use copy/paste for the rest of this tutorial. Set a PLANNING_GROUP environment variable. eg: ::
+To make it easy to use copy/paste for the rest of this tutorial. Set a ``PLANNING_GROUP`` environment variable. eg: ::
 
  export PLANNING_GROUP="panda_arm"
 
 Identify Link Numbers
 ^^^^^^^^^^^^^^^^^^^^^
-You also need the link index numbers for the *base_link* and *end_link* between which the IK will be calculated. You can count the number of links by viewing a list of links in your model: ::
+You also need the link index numbers for the ``base_link`` and ``end_effector_link`` between which the IK will be calculated. You can count the number of links by viewing a list of links in your model: ::
 
  openrave-robot.py "$MYROBOT_NAME".dae --info links
 
-A typical 6-DOF manipulator should have 6 arm links + a dummy base_link as required by ROS specifications.  If no extra links are present in the model, this gives: *baselink=0* and *eelink=6*.  Often, an additional tool_link will be provided to position the grasp/tool frame, giving *eelink=7*.
+A typical 6-DOF manipulator should have 6 arm links + a dummy base_link as required by ROS specifications.  If no extra links are present in the model, this gives: *baselink=0* and *eelink=6*.  Often, an additional ``tool_link`` will be provided to position the grasp/tool frame, giving *eelink=7*.
 
-The manipulator below also has another dummy mounting_link, giving *baselink=1* and *eelink=8*.
+The manipulator below has 7-DOF giving ``baselink=0`` and ``eelink=8``.
 
 =============  ======  ===========
 name           index   parents
@@ -189,19 +196,24 @@ panda_link7    7       panda_link6
 panda_link8    8       panda_link7
 =============  ======  ===========
 
-Set the base link and EEF link to the desired index::
+Set the base link and EEF link to the desired index: ::
 
  export BASE_LINK="0"
  export EEF_LINK="8"
 
-If you have a 7 DOF arm you will need to specify a free joint. Selecting the correct free joint for a 7 DOF robot can have significant impact on performance of your kinematics plugin. We suggest experimenting with different choices for the free joint ::
+You will also want to store the names of those links for later: ::
 
- export FREE_INDEX="1"
+ export BASE_LINK_NAME="panda_link0"
+ export EEF_LINK_NAME="panda_link8"
+
+If you have a 7 DOF arm you will need to specify a free joint. Selecting the correct free joint for a 7 DOF robot can have significant impact on performance of your kinematics plugin. We suggest experimenting with different choices for the free joint. ``FREE_INDEX=4`` works well for the Panda: ::
+
+ export FREE_INDEX="4"
 
 Generate IK Solver
 ^^^^^^^^^^^^^^^^^^
 
-To generate the IK solution between the manipulator's base and tool frames for a 6DOF arm, use the following command format. We recommend you name the output ikfast61\_"$PLANNING_GROUP".cpp: ::
+To generate the IK solution between the manipulator's base and tool frames for a 6DOF arm, use the following command format. We recommend you name the output ``ikfast61_"$PLANNING_GROUP".cpp``: ::
 
  export IKFAST_OUTPUT_PATH=`pwd`/ikfast61_"$PLANNING_GROUP".cpp
 
@@ -216,31 +228,35 @@ For a 7 dof arm, you will need to specify a free link: ::
 The speed and success of this process will depend on the complexity of your robot. A typical 6 DOF manipulator with 3 intersecting axis at the base or wrist will take only a few minutes to generate the IK.
 
 **Known issue**
---freeindex argument is known to have a bug that it cannot handle tree index correctly.
-Say --baselink=2 --eelink=16 and links index from 3 to 9 is not related to current planning group chain. In that case --freeindex will expect index 2 as link 2, but index 3 as link 10 ... and index 9 as link 16.
+There is a known bug that causes the ``--freeindex`` argument to incorrectly handle tree indexes correctly. Say ``--baselink=2``, ``--eelink=16`` and the links indexed from 3 to 9 are not related to the planning group chain. In that case ``--freeindex`` will correctly interpret index 2 as link 2, but incorrectly interpret index 3 as link 10, index 4 as link 11, ... and index 9 as link 16.
 
 You should consult the OpenRAVE mailing list and ROS Answers for information about 5 and 7 DOF manipulators.
 
 Create Plugin
 -------------
 
-Create the package that will contain the IK plugin. We recommend you name the package "$MYROBOT_NAME"_ikfast_"$PLANNING_GROUP"_plugin.: ::
+Create the package that will contain the IK plugin. We recommend you name the package ``"$MYROBOT_NAME"_ikfast_"$PLANNING_GROUP"_plugin``: ::
 
- export MOVEIT_IK_PLUGIN_PKG="$MYROBOT_NAME"_ikfast_"$PLANNING_GROUP"_plugin
  cd ~/catkin_ws/src
+ export MOVEIT_IK_PLUGIN_PKG="$MYROBOT_NAME"_ikfast_"$PLANNING_GROUP"_plugin
  catkin_create_pkg "$MOVEIT_IK_PLUGIN_PKG"
 
 Build your workspace so the new package is detected (can be 'roscd'): ::
 
  catkin build
 
-Create the plugin source code: ::
+Create the plugin source code. Run ``rosrun moveit_kinematics create_ikfast_moveit_plugin.py -h`` to see optional arguements: ::
 
- rosrun moveit_kinematics create_ikfast_moveit_plugin.py "$MYROBOT_NAME" "$PLANNING_GROUP" "$MOVEIT_IK_PLUGIN_PKG" "$IKFAST_OUTPUT_PATH"
+ rosrun moveit_kinematics create_ikfast_moveit_plugin.py "$MYROBOT_NAME" "$PLANNING_GROUP" "$MOVEIT_IK_PLUGIN_PKG" "$BASE_LINK_NAME" "$EEF_LINK_NAME" "$IKFAST_OUTPUT_PATH"
+
+For the Panda we need to use some of the optional parameters: ::
+
+ rosrun moveit_kinematics create_ikfast_moveit_plugin.py --moveit_config_pkg="panda_moveit_config" --robot_name_in_srdf="panda" "$MYROBOT_NAME" "$PLANNING_GROUP" "$MOVEIT_IK_PLUGIN_PKG" "$BASE_LINK_NAME" "$EEF_LINK_NAME" "$IKFAST_OUTPUT_PATH"
+
 
 Or without ROS: ::
 
- python /path/to/create_ikfast_moveit_plugin.py "$MYROBOT_NAME" "$PLANNING_GROUP" "$MOVEIT_IK_PLUGIN_PKG" "$IKFAST_OUTPUT_PATH"
+ python /path/to/create_ikfast_moveit_plugin.py "$MYROBOT_NAME" "$PLANNING_GROUP" "$MOVEIT_IK_PLUGIN_PKG" "$BASE_LINK_NAME" "$EEF_LINK_NAME" "$IKFAST_OUTPUT_PATH"
 
 Usage
 -----
