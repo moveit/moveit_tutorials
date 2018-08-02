@@ -34,21 +34,12 @@ Using CHOMP with Your Robot
 ---------------------------
 **Note:** if you are following this demo using the ``panda_moveit_config`` from the `ros-planning/panda_moveit_config <https://github.com/ros-planning/panda_moveit_config>`_ repository, these steps are already done for you and you can skip this section.
 
-#.Simply download `chomp_planning_pipeline.launch.xml <                                                                \
-    https: //github.com/ros-planning/panda_moveit_config/blob/master/launch/chomp_planning_pipeline.launch.xml>`_ file into the launch directory of your MoveIt! config package. In our case, we will save this file in the ``panda_moveit_config/launch`` directory.
-#.Adjust the line ``<rosparam command = "load" file =                                                                  \
-    "$(find panda_moveit_config)/config/chomp_planning.yaml" />`` to ``<rosparam command = "load" file =               \
-        "$(find <robot_moveit_config>)/config/chomp_planning.yaml" />`` replacing ``<                                  \
-    robot_moveit_config>`` with the name of your MoveIt !configuration package.
-#.Download `chomp_planning.yaml <                                                                                      \
-    https: //github.com/ros-planning/panda_moveit_config/blob/master/config/chomp_planning.yaml>`_ file into the config directory of your MoveIt! config package. In our case, we will save this file in the ``panda_moveit_config/config`` directory.
-#.Open ``chomp_planning                                                                                                \
-    .yaml`` in your favorite editor and                                                                                \
-    change ``animate_endeffector_segment : "panda_rightfinger"`` to the appropriate link for your robot.
-#.Copy the ``demo.launch`` file to ``demo_chomp.launch``                                                               \
-    .Note that this file is also in the launch directory of your MoveIt !config package.In our case,                   \
-    the ``panda_moveit_config / launch`` directory.
-#.Find the lines where ``move_group.launch`` is included and change it to : ::
+#. Simply download `chomp_planning_pipeline.launch.xml <https://github.com/ros-planning/panda_moveit_config/blob/master/launch/chomp_planning_pipeline.launch.xml>`_ file into the launch directory of your MoveIt! config package. In our case, we will save this file in the ``panda_moveit_config/launch`` directory.
+#. Adjust the line ``<rosparam command="load" file="$(find panda_moveit_config)/config/chomp_planning.yaml" />`` to ``<rosparam command="load" file="$(find <robot_moveit_config>)/config/chomp_planning.yaml" />`` replacing ``<robot_moveit_config>`` with the name of your MoveIt! configuration package.
+#. Download `chomp_planning.yaml <https://github.com/ros-planning/panda_moveit_config/blob/master/config/chomp_planning.yaml>`_ file into the config directory of your MoveIt! config package. In our case, we will save this file in the ``panda_moveit_config/config`` directory.
+#. Open ``chomp_planning.yaml`` in your favorite editor and change ``animate_endeffector_segment: "panda_rightfinger"`` to the appropriate link for your robot.
+#. Copy the ``demo.launch`` file to ``demo_chomp.launch``. Note that this file is also in the launch directory of your MoveIt! config package. In our case, the ``panda_moveit_config/launch`` directory.
+#. Find the lines where ``move_group.launch`` is included and change it to: ::
 
     <!-- Replace <robot_moveit_config> with the name of your MoveIt! configuration package -->
     <include file="$(find <robot_moveit_config>)/launch/move_group.launch">
@@ -58,7 +49,7 @@ Using CHOMP with Your Robot
       <arg name="debug" value="$(arg debug)"/>
       <arg name="planner" value="chomp" />
     </include>
-#.Open the ``move_group.launch`` file in your ``<robot_moveit_config> / launch /`` folder and make two changes.
+#. Open the ``move_group.launch`` file in your ``<robot_moveit_config>/launch/`` folder and make two changes.
 
  * First, add ``<arg name="planner" default="ompl" />`` just under the ``<launch>`` tag, and,
 
@@ -143,9 +134,7 @@ Using OMPL as a pre-processor for CHOMP
 Here, it is demonstrated that CHOMP can also be used as a post processing optimization technique for plans obtained by other planners like OMPL. This section has the instructions for performing this behaviour. The intuition behind this is that OMPL acts as the initial planner to produce an initial guess for CHOMP. CHOMP then takes this initial guess and further optimizes the trajectory. This somewhat gaurantees optimized trajectories. 
 To achieve this, follow the steps.
 
-#.Open the ``ompl_planning_pipeline.launch`` file in the ``<robot_moveit_config>                                       \
-    / launch`` folder of your robot.For the panda robot it is `this <                                                  \
-    https: //github.com/ros-planning/panda_moveit_config/blob/master/launch/ompl_planning_pipeline.launch.xml>`_ file. Edit this launch file, find the lines where ``<arg name="planning_adapters">`` is mentioned and change it to: ::
+#. Open the ``ompl_planning_pipeline.launch`` file in the ``<robot_moveit_config>/launch`` folder of your robot. For the panda robot it is `this <https://github.com/ros-planning/panda_moveit_config/blob/master/launch/ompl_planning_pipeline.launch.xml>`_ file. Edit this launch file, find the lines where ``<arg name="planning_adapters">`` is mentioned and change it to: ::
 
     <arg name="planning_adapters" value="default_planner_request_adapters/AddTimeParameterization
                    default_planner_request_adapters/FixWorkspaceBounds
@@ -155,23 +144,18 @@ To achieve this, follow the steps.
 
                    default_planner_request_adapters/CHOMPOptimizerAdapter" />
 
-#.The values of the planning_adapters is the order in which the mentioned adapters are called /                        \
-    invoked.Order here matters.Inside the CHOMP adapter,                                                               \
-    a `call <                                                                                                          \
-    https: //github.com/raghavendersahdev/moveit/blob/CHOMP_planning_request_adapter/moveit_ros/planning/planning_request_adapter_plugins/src/chomp_optimizer_adapter.cpp#L183>`_ to OMPL is made before invoking the CHOMP optimization sover, so CHOMP takes the initial path computed by OMPL as the starting point to further optimize it.
+#. The values of the planning_adapters is the order in which the mentioned adapters are called / invoked. Order here matters. Inside the CHOMP adapter, a `call <https://github.com/raghavendersahdev/moveit/blob/CHOMP_planning_request_adapter/moveit_ros/planning/planning_request_adapter_plugins/src/chomp_optimizer_adapter.cpp#L183>`_ to OMPL is made before invoking the CHOMP optimization sover, so CHOMP takes the initial path computed by OMPL as the starting point to further optimize it. 
 
-#.Find the line where ``<rosparam command = "load" file =                                                              \
-    "$(find panda_moveit_config)/config/ompl_planning.yaml" />`` is mentioned and replace it with : ::
+#. Find the line where ``<rosparam command="load" file="$(find panda_moveit_config)/config/ompl_planning.yaml"/>`` is mentioned and replace it with: ::
 
     <rosparam command="load" file="$(find panda_moveit_config)/config/ompl_planning.yaml"/>
     <rosparam command="load" file="$(find panda_moveit_config)/config/chomp_planning.yaml"/>
 
-#.Doing these additions basically adds a CHOMP Optimization adapter and loads up the corresponding CHOMP planner's parameters, if not included default CHOMP parameter values would be used for the CHOMP Optimization adapter. To do this with your own robot replace ``panda_moveit_config`` to ``robot_moveit_config`` of your robot.
+#. Doing these additions basically adds a CHOMP Optimization adapter and loads up the corresponding CHOMP planner's parameters, if not included default CHOMP parameter values would be used for the CHOMP Optimization adapter. To do this with your own robot replace ``panda_moveit_config`` to ``robot_moveit_config`` of your robot.
 
-#.Also ensure that in the ``move_group.launch`` file of ``<robot_moveit_config> / launch`` folder for your robot,      \
-    the defaut planner is ``ompl``.If not change it to ``ompl``.
+#. Also ensure that in the ``move_group.launch`` file of ``<robot_moveit_config>/launch`` folder for your robot, the defaut planner is ``ompl``. If not change it to ``ompl``.
 
-#.After making these requisite changes to the launch files, open a terminal and execute the following : ::
+#. After making these requisite changes to the launch files, open a terminal and execute the following: ::
 
     roslaunch panda_moveit_config demo_chomp.launch
 
