@@ -127,11 +127,11 @@ OMPL is a open source library for sampling based / randomized motion planning al
 
 CHOMP: While most high-dimensional motion planners separate trajectory generation into distinct planning and optimization stages, CHOMP capitalizes on covariant gradient and functional gradient approaches to the optimization stage to design a motion planning algorithm based entirely on trajectory optimization. Given an infeasible naive trajectory, CHOMP reacts to the surrounding environment to quickly pull the trajectory out of collision while simultaneously optimizing dynamical quantities such as joint velocities and accelerations. It rapidly converges to a smooth collision-free trajectory that can be executed efficiently on the robot. A covaraint update rule ensures that CHOMP quickly converges to a locally optimal trajectory.
 
-For scenes containing obstacles, CHOMP often generates paths which do not prefer smooth trajectories by addition of some noise (*ridge_factor*) in the cost function for the dynamical quantities of the robot (like acceleration, velocity). CHOMP is able to avoid obstacle in most cases but also fails in some if it gets stuck in the local minima and might report a solution not found due to a naive initial guess for the trajectory. OMPL on the other hand generates collision free smooth paths in the presence of obstacles too.
+For scenes containing obstacles, CHOMP often generates paths which do not prefer smooth trajectories by addition of some noise (*ridge_factor*) in the cost function for the dynamical quantities of the robot (like acceleration, velocity). CHOMP is able to avoid obstacle in most cases but it can fail if it gets stuck in the local minima due to a bad initial guess for the trajectory. OMPL can be used to generate collision-free seed trajectories for CHOMP to mitigate this issue.
 
 Using OMPL as a pre-processor for CHOMP
 ---------------------------------------
-Here, it is demonstrated that CHOMP can also be used as a post processing optimization technique for plans obtained by other planners like OMPL. This section has the instructions for performing this behaviour. The intuition behind this is that OMPL acts as the initial planner to produce an initial guess for CHOMP. CHOMP then takes this initial guess and further optimizes the trajectory. This somewhat gaurantees optimized trajectories. 
+Here, it is demonstrated that CHOMP can also be used as a post processing optimization technique for plans obtained by other planning algorithms. The intuition behind this is that some randomized planning algorithm produces an initial guess for CHOMP. CHOMP then takes this initial guess and further optimizes the trajectory. 
 To achieve this, follow the steps.
 
 #. Open the ``ompl_planning_pipeline.launch`` file in the ``<robot_moveit_config>/launch`` folder of your robot. For the panda robot it is `this <https://github.com/ros-planning/panda_moveit_config/blob/master/launch/ompl_planning_pipeline.launch.xml>`_ file. Edit this launch file, find the lines where ``<arg name="planning_adapters">`` is mentioned and change it to: ::
@@ -141,19 +141,17 @@ To achieve this, follow the steps.
                    default_planner_request_adapters/FixStartStateBounds
                    default_planner_request_adapters/FixStartStateCollision
                    default_planner_request_adapters/FixStartStatePathConstraints
-
                    default_planner_request_adapters/CHOMPOptimizerAdapter" />
 
-#. The values of the planning_adapters is the order in which the mentioned adapters are called / invoked. Order here matters. Inside the CHOMP adapter, a `call <https://github.com/raghavendersahdev/moveit/blob/CHOMP_planning_request_adapter/moveit_ros/planning/planning_request_adapter_plugins/src/chomp_optimizer_adapter.cpp#L183>`_ to OMPL is made before invoking the CHOMP optimization sover, so CHOMP takes the initial path computed by OMPL as the starting point to further optimize it. 
+#. The values of the ``planning_adapters`` is the order in which the mentioned adapters are called / invoked. Order here matters. Inside the CHOMP adapter, a `call <https://github.com/ros-planning/moveit/tree/kinetic-devel/moveit_ros/planning/planning_request_adapter_plugins/src/chomp_optimizer_adapter.cpp#L183>`_ to OMPL is made before invoking the CHOMP optimization sover, so CHOMP takes the initial path computed by OMPL as the starting point to further optimize it. 
 
-#. Find the line where ``<rosparam command="load" file="$(find panda_moveit_config)/config/ompl_planning.yaml"/>`` is mentioned and replace it with: ::
+#. Find the line where ``<rosparam command="load" file="$(find panda_moveit_config)/config/ompl_planning.yaml"/>`` is mentioned and after this line, add the following: ::
 
-    <rosparam command="load" file="$(find panda_moveit_config)/config/ompl_planning.yaml"/>
     <rosparam command="load" file="$(find panda_moveit_config)/config/chomp_planning.yaml"/>
 
-#. Doing these additions basically adds a CHOMP Optimization adapter and loads up the corresponding CHOMP planner's parameters, if not included default CHOMP parameter values would be used for the CHOMP Optimization adapter. To do this with your own robot replace ``panda_moveit_config`` to ``robot_moveit_config`` of your robot.
+#. These additions will add a CHOMP Optimization adapter and load the corresponding CHOMP planner's parameters. To do this with your own robot replace ``panda_moveit_config`` to ``<my_robot>_moveit_config`` of your robot.
 
-#. Also ensure that in the ``move_group.launch`` file of ``<robot_moveit_config>/launch`` folder for your robot, the defaut planner is ``ompl``. If not change it to ``ompl``.
+#. In the ``move_group.launch`` file of ``<robot_moveit_config>/launch`` folder for your robot, make sure that the default planner is ``ompl``.
 
 #. After making these requisite changes to the launch files, open a terminal and execute the following: ::
 
