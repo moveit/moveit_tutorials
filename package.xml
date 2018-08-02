@@ -23,8 +23,10 @@
   <build_depend>geometric_shapes</build_depend>
   <build_depend>moveit_visual_tools</build_depend>
 
+  <run_depend>panda_moveit_config</run_depend>
   <run_depend>pluginlib</run_depend>
   <run_depend>moveit_core</run_depend>
+  <run_depend>moveit_commander</run_depend>
   <run_depend>moveit_fake_controller_manager</run_depend>
   <run_depend>moveit_ros_planning_interface</run_depend>
   <run_depend>moveit_ros_perception</run_depend>
