@@ -18,6 +18,9 @@ before_install: # Use this to prepare the system to install prerequisites or dep
   - sudo -E sh -c 'echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -cs` main" > /etc/apt/sources.list.d/ros-latest.list'
   - wget http://packages.ros.org/ros.key -O - | sudo apt-key add -
   - sudo apt-get update -qq
+  - sudo apt-get purge postgr* -y
+  - sudo apt-get autoremove -y
+  # - sudo apt-get upgrade -y -qq --allow-unauthenticated
   - sudo apt-get install -qq -y python-rosdep python-wstool python-catkin-tools
   # Setup rosdep
   - sudo rosdep init
