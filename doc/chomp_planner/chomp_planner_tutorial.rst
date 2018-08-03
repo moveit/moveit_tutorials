@@ -153,6 +153,10 @@ To achieve this, follow the steps.
 
 #. In the ``move_group.launch`` file of ``<robot_moveit_config>/launch`` folder for your robot, make sure that the default planner is ``ompl``.
 
+#. In the ``chomp_planning.yaml`` file of ``<robot_moveit_config>/config`` folder for your robot, add the following line: :: 
+
+    trajectory_initialization_method: "OMPL"
+
 #. After making these requisite changes to the launch files, open a terminal and execute the following: ::
 
     roslaunch panda_moveit_config demo_chomp.launch
