@@ -18,7 +18,8 @@ before_install: # Use this to prepare the system to install prerequisites or dep
   - sudo -E sh -c 'echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -cs` main" > /etc/apt/sources.list.d/ros-latest.list'
   - wget http://packages.ros.org/ros.key -O - | sudo apt-key add -
   - sudo apt-get update -qq
-  # There is an issue with postgres on Travis. By removing postgres, the issue is resolved.
+  # Start: there is an issue with postgres on Travis. By removing postgres, the issue is resolved.
+  # TODO: remove this work-around
   - sudo apt-get purge postgresql* -y -qq
   - sudo apt-get autoremove -y -qq
   - sudo apt-get install synaptic -y -qq
