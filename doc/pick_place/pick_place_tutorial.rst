@@ -7,7 +7,7 @@ Watch this video to see the output of this tutorial:
 .. raw:: html
 
     <div style="position: relative; padding-bottom: 5%; height: 0; overflow: hidden; max-width: 100%; height: auto;">
-        <iframe width="700px" height="400px" src="https://www.youtube.com/embed/cHxkQwSyrgY?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <iframe width="700px" height="400px" src="https://www.youtube.com/embed/QBJPxx_63Bs?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
 
 Getting Started
@@ -21,7 +21,7 @@ Open two terminals. In the first terminal start RViz and wait for everything to 
     roslaunch panda_moveit_config demo.launch
 
 In the second terminal run the pick and place tutorial: ::
-    
+
     rosrun moveit_tutorials pick_place_tutorial
 
 You should see something similar to the video at the beginning of this tutorial.
@@ -32,7 +32,7 @@ For complete documentation refer to `moveit_msgs/Grasp.msg. <http://docs.ros.org
 
 The relevant fields of the message are:-
 
-* ``trajectory_msgs/JointTrajectory pre_grasp_posture`` - This defines the trajectory position of the joints in the end effector group before we go in for the grasp. 
+* ``trajectory_msgs/JointTrajectory pre_grasp_posture`` - This defines the trajectory position of the joints in the end effector group before we go in for the grasp.
 * ``trajectory_msgs/JointTrajectory grasp_posture`` - This defines the trajectory position of the joints in the end effector group for grasping the object.
 * ``geometry_msgs/PoseStamped grasp_pose`` - Pose of the end effector in which it should attempt grasping.
 * ``moveit_msgs/GripperTranslation pre_grasp_approach`` - This is used to define the direction from which to approach the object and the distance to travel.
