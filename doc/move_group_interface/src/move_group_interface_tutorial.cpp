@@ -383,7 +383,9 @@ int main(int argc, char** argv)
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to once the collision object disapears");
 
   // END_TUTORIAL
-
+  delete joint_model_group;
+  joint_model_group = nullptr;
+  
   ros::shutdown();
   return 0;
 }
