@@ -54,7 +54,7 @@ The SRDF or Semantic Robot Description Format complement the URDF and specifies 
 
 Virtual Joints
 ^^^^^^^^^^^^^^
-The URDF contains information only about the physical joints on the robot. Often, additional joints need to be defined to specify the pose of the root link on the robot with respect to a world coordinate system. In such cases, a virtual joint is used to specify this connection. E.g., a mobile robot like the Panda that moves around in the plane is specified using a planar virtual joint that attaches the world coordinate frame to the frame of the robot. A fixed robot (like an industrial manipulator) should be attached to the world using a fixed joint.
+The URDF contains information only about the physical joints on the robot. Often, additional joints need to be defined to specify the pose of the root link on the robot with respect to a world coordinate system. In such cases, a virtual joint is used to specify this connection. E.g., a mobile robot like the PR2 that moves around in the plane is specified using a planar virtual joint that attaches the world coordinate frame to the frame of the robot. A fixed robot (like an industrial manipulator) should be attached to the world using a fixed joint.
 
 Passive Joints
 ^^^^^^^^^^^^^^
@@ -78,11 +78,11 @@ A serial chain is specified using the base link and the tip link. The tip link i
 
 Collection of Sub-Groups
 """"""""""""""""""""""""
-A group can also be a collection of groups. E.g., you can define the panda_arm and panda_arm as two groups and then define a new group called both_arms that includes these two groups.
+A group can also be a collection of groups. E.g., you can define left_arm and right_arm as two groups and then define a new group called both_arms that includes these two groups.
 
 End-Effectors
 ^^^^^^^^^^^^^
-Certain groups in a robot can be given a special designation as an end-effector. An end-effector is typically connected to another group (like an arm) through a fixed joint. Note that when specifying groups that are end-effectors, its important to make sure that there are no common links between the end-effector and the parent group it is connected to.
+Certain groups in a robot can be given a special designation as an end-effector. An end-effector is typically connected to another group (like an arm) through a fixed joint. Note that when specifying groups that are end-effectors, it's important to make sure that there are no common links between the end-effector and the parent group it is connected to.
 
 Self-Collisions
 ^^^^^^^^^^^^^^^
@@ -90,7 +90,7 @@ The Default Self-Collision Matrix Generator (part of Setup Assistant) searches f
 
 Robot Poses
 ^^^^^^^^^^^
-The SRDF can also store fixed configurations of the robot. A typical example of the URDF in this case is in defining a HOME position for a manipulator. The configuration is stored with a string id, which can be used to recover the configuration later.
+The SRDF can also store fixed configurations of the robot. A typical example of the SRDF in this case is in defining a HOME position for a manipulator. The configuration is stored with a string id, which can be used to recover the configuration later.
 
 SRDF Documentation
 ^^^^^^^^^^^^^^^^^^
