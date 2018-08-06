@@ -54,6 +54,7 @@ void openGripper(trajectory_msgs::JointTrajectory& posture)
   posture.points[0].positions.resize(2);
   posture.points[0].positions[0] = 0.04;
   posture.points[0].positions[1] = 0.04;
+  posture.points[0].time_from_start = ros::Duration(0.5);
   // END_SUB_TUTORIAL
 }
 
@@ -70,6 +71,7 @@ void closedGripper(trajectory_msgs::JointTrajectory& posture)
   posture.points[0].positions.resize(2);
   posture.points[0].positions[0] = 0.00;
   posture.points[0].positions[1] = 0.00;
+  posture.points[0].time_from_start = ros::Duration(0.5);
   // END_SUB_TUTORIAL
 }
 
