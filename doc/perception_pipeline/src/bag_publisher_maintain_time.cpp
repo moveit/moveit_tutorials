@@ -1,7 +1,7 @@
 /*********************************************************************
 * Software License Agreement (BSD License)
 *
-*  Copyright (c) 2012, Willow Garage, Inc.
+*  Copyright (c) 2018, Ridhwan Luthra.
 *  All rights reserved.
 *
 *  Redistribution and use in source and binary forms, with or without
@@ -14,7 +14,7 @@
 *     copyright notice, this list of conditions and the following
 *     disclaimer in the documentation and/or other materials provided
 *     with the distribution.
-*   * Neither the name of Willow Garage nor the names of its
+*   * Neither the name of Ridhwan Luthra nor the names of its
 *     contributors may be used to endorse or promote products derived
 *     from this software without specific prior written permission.
 *
@@ -48,17 +48,19 @@ int main(int argc, char** argv)
   ros::Publisher point_cloud_publisher = nh.advertise<sensor_msgs::PointCloud2>("/camera/depth_registered/points", 1);
   ros::Rate loop_rate(0.1);
 
-  rosbag::Bag bag;
+  // Variable holding the rosbag containing point cloud data.
+  rosbag::Bag bagfile;
   std::string path = ros::package::getPath("moveit_tutorials");
   path += "/doc/perception_pipeline/bags/perception_tutorial.bag";
-  bag.open(path, rosbag::bagmode::Read);
+  bagfile.open(path, rosbag::bagmode::Read);
 
   std::vector<std::string> topics;
   topics.push_back("/camera/depth_registered/points");
 
-  rosbag::View view(bag, rosbag::TopicQuery(topics));
+  // Iterator for topics in bag.
+  rosbag::View bagtopics_iter(bagfile, rosbag::TopicQuery(topics));
 
-  for (auto const msg : view)
+  for (auto const msg : bagtopics_iter)
   {
     sensor_msgs::PointCloud2::Ptr point_cloud_ptr = msg.instantiate<sensor_msgs::PointCloud2>();
     if (point_cloud_ptr == NULL)
@@ -75,6 +77,6 @@ int main(int argc, char** argv)
       loop_rate.sleep();
     }
   }
-  bag.close();
+  bagfile.close();
   return 0;
 }
