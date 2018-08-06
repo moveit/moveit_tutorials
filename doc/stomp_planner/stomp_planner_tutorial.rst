@@ -36,7 +36,7 @@ Using STOMP with Your Robot
 **Note:** if you are following this demo using the ``panda_moveit_config`` from the `ros-planning/panda_moveit_config <https://github.com/ros-planning/panda_moveit_config>`_ repository, these steps are already done for you and you can skip steps 1-3 and you only need to do step 4.
 
 #. Simply download `stomp_planning_pipeline.launch.xml <https://github.com/ros-planning/panda_moveit_config/blob/master/launch/stomp_planning_pipeline.launch.xml>`_ file into the launch directory of your MoveIt! config package. In our case, we will save this file in the ``panda_moveit_config/launch`` directory. Place the file "*stomp_planning_pipeline.launch.xml*" file in the **launch** directory of your **moveit_config** package. **Note:** The latest version of MoveIt! Setup Assistant will generate this launch file for you. The file should contain the following: ::
-   
+
     <launch>
       <!-- Stomp Plugin for MoveIt! -->
       <arg name="planning_plugin" value="stomp_moveit/StompPlannerManager" />
@@ -55,7 +55,7 @@ Using STOMP with Your Robot
 
 #. Adjust the line ``<rosparam command="load" file="$(find panda_moveit_config)/config/stomp_planning.yaml" />`` to ``<rosparam command="load" file="$(find <robot_moveit_config>)/config/stomp_planning.yaml" />`` replacing ``<robot_moveit_config>`` with the name of your MoveIt! configuration package.
 #. Download `stomp_planning.yaml <https://github.com/ros-planning/panda_moveit_config/blob/master/config/stomp_planning.yaml>`_ file into the config directory of your MoveIt! config package. In our case, we will save this file in the ``panda_moveit_config/config`` directory. Create the "*stomp_planning.yaml*" configuration file. This file contains the parameters required by STOMP.  The parameters are specific to each ''planning group'' defined in   the SRDF file.  So if there are three planning groups, then the configuration file defines a specific set of parameters for each  planning group. In our case there is only one planning group, i.e., the "panda_arm".
-    
+
    **>** *Save this file in the* **config** *directory of the moveit_config package*. Also make sure that the dimensionality of the `stddev` array parameter is the same as the number of joints present in the planning group name of your robot.
 
 #. Modify the **move_group.launch** file. Open the **move_group.launch** in the launch directory and change the ```pipeline``` parameter value to ```stomp``` as shown below: ::
@@ -84,7 +84,7 @@ To run STOMP in an evironment with obstacles, you can run the sample python scri
 
   :codedir:`collision_scene_example.py<collision_environments/scripts/collision_scene_example.py>`.
 
-This scripts creates a cluttered scene with four ostacles or a simple scene with one obstacle depending on the argument given to the script. One can also change the position/size of the obstacles to change the scene. 
+This scripts creates a cluttered scene with four ostacles or a simple scene with one obstacle depending on the argument given to the script. One can also change the position/size of the obstacles to change the scene.
 
 To run the STOMP planner with obstacles, open two terminals. In the first terminal start RViz and wait for everything to finish loading: ::
 
@@ -120,7 +120,7 @@ STOMP has some parameters associated with it. These can be modified for the give
 
 - *control_cost_weight*: this is the percentage of the trajectory accelerations cost to be applied in the total cost calculation.
 
-**Noise Generator Parameters**: 
+**Noise Generator Parameters**:
 
 - *class*: this can be set to "NormalDistributionSampling" (default) or "GoalGuidedMultivariateGaussian". Depending on what class is used specific parameters need to be set. Have a look at `this link <https://github.com/ros-industrial/industrial_moveit/blob/kinetic-devel/stomp_plugins/example_pages.dox>`_ for setting parameters if using the "GoalGuidedMultivariateGaussian".
 
@@ -138,7 +138,7 @@ STOMP has some parameters associated with it. These can be modified for the give
 
 - *longest_valid_joint_move*: this parameter indicates how far can a joint move in between consecutive trajectory points.
 
-**Update Filter parameters**: 
+**Update Filter parameters**:
 
 - class: this can be set to "PolynomialSmoother" or "ConstrainedCartesianGoal". Specific paramters need to be set depending on the chosen class. For setting parameters for "ConstrainedCartesianGoal", have a look at `this link <https://github.com/ros-industrial/industrial_moveit/blob/kinetic-devel/stomp_plugins/example_pages.dox>`_.
 
