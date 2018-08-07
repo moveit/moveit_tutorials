@@ -127,7 +127,8 @@ public:
     // The perpendicular drawn from the camera to the plane hits at center of the XY plane. |br|
     // We have the x and y coordinate of the point which is formed on the XY plane. |br|
     // X is the horizontal axis and Y is the vertical axis. |br|
-    // C is the center of the plane which is Z meter away from the center of camera and A is any point on the plane. |br|
+    // C is the center of the plane which is Z meter away from the center of camera and A is any point on the plane.
+    // |br|
     // Now we know Z is the perpendicular distance from the point to the camera. |br|
     // If you need to find the  actual distance d from the point to the camera, you should calculate the hypotenuse-
     // |code_start| hypot(point.z, point.x);\ |code_end| |br|
@@ -289,7 +290,8 @@ public:
     // It will be used to extract the cylinder.
     extractNormals(cloud_normals, inliers_plane);
     // ModelCoefficients will hold the parameters using which we can define a cylinder of infinite length.
-    // It has a public attribute |code_start| values\ |code_end| of type |code_start| std::vector< float >\ |code_end|\ .
+    // It has a public attribute |code_start| values\ |code_end| of type |code_start| std::vector< float >\ |code_end|\
+    // .
     // |br|
     // |code_start| Values[0-2]\ |code_end| hold a point on the center line of the cylinder. |br|
     // |code_start| Values[3-5]\ |code_end| hold direction vector of the z-axis. |br|
@@ -335,6 +337,7 @@ public:
       points_not_found = false;
     }
   }
+
 private:
   // BEGIN_SUB_TUTORIAL param_struct
   // There are 4 fields and a total of 7 parameters used to define this.
@@ -354,7 +357,6 @@ private:
   // END_SUB_TUTORIAL
 
   bool points_not_found = true;
-
 };
 
 int main(int argc, char** argv)
