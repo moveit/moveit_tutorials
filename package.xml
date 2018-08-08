@@ -6,10 +6,11 @@
   <license>BSD</license>
 
   <author email="sachinc@willowgarage.com">Sachin Chitta</author>
-  <author email="dave@dav.ee">Dave Coleman</author>
+  <author email="dave@picknik.ai">Dave Coleman</author>
+  <author email="mike@picknik.ai">Mike Lautman</author>
 
-  <maintainer email="dave@dav.ee">Dave Coleman</maintainer>
-  <maintainer email="mferguson@fetchrobotics.com">Michael Ferguson</maintainer>
+  <maintainer email="dave@picknik.ai">Dave Coleman</maintainer>
+  <maintainer email="mike@picknik.ai">Mike Lautman</maintainer>
 
   <buildtool_depend>catkin</buildtool_depend>
 
@@ -29,5 +30,6 @@
   <run_depend>moveit_ros_perception</run_depend>
   <run_depend>interactive_markers</run_depend>
   <run_depend>moveit_visual_tools</run_depend>
+  <run_depend>joy</run_depend>
 
 </package>

@@ -1,3 +1,0 @@
-<launch>
-  <include file="$(find pr2_moveit_config)/launch/demo.launch"/>
-</launch>
