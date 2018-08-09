@@ -67,7 +67,7 @@ To run CHOMP in an evironment with obstacles, you can run the sample python scri
 
   :codedir:`collision_scene_example.py<collision_environments/scripts/collision_scene_example.py>`.
 
-This scripts creates a cluttered scene with four ostacles or a simple scene with one obstacle depending on the argument given to the script. One can also change the position/size of the obstacles to change the scene.
+This scripts creates a cluttered scene with four obstacles or a simple scene with one obstacle depending on the argument given to the script. One can also change the position/size of the obstacles to change the scene.
 
 To run the CHOMP planner with obstacles, open two shells. In the first shell start RViz and wait for everything to finish loading: ::
 

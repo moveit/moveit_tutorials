@@ -18,6 +18,9 @@ find_package(catkin REQUIRED
     moveit_ros_planning_interface
     pluginlib
     geometric_shapes
+    pcl_ros
+    pcl_conversions
+    rosbag
 )
 
 find_package(Boost REQUIRED system filesystem date_time thread)
@@ -61,3 +64,5 @@ add_subdirectory(doc/move_group_python_interface)
 add_subdirectory(doc/state_display)
 add_subdirectory(doc/interactivity)
 add_subdirectory(doc/pick_place)
+add_subdirectory(doc/perception_pipeline)
+
