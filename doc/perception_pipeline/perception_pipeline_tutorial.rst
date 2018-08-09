@@ -168,7 +168,7 @@ You can follow its status in the `issue tracker <https://github.com/ros-planning
 
 Relevant Code
 +++++++++++++
-The entire code can be seen :codedir:`here <perception_configuration>` in the moveit_tutorials GitHub project. The details regarding the implementation of each of the perception pipeline function have been omitted in this tutorial as they are well documented `here. <http://wiki.ros.org/pcl/Tutorials>`_
+The entire code can be seen :codedir:`here <perception_pipeline>` in the moveit_tutorials GitHub project. The details regarding the implementation of each of the perception pipeline function have been omitted in this tutorial as they are well documented `here. <http://wiki.ros.org/pcl/Tutorials>`_
 
 .. |br| raw:: html
 
