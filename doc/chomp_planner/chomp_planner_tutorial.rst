@@ -115,6 +115,12 @@ CHOMP has some optimization parameters associated with it. These can be modified
 
 - *use_stochastic_descent*: set this to true/false if you want to use stochastic descent while optimizing the cost. In stochastic descent, a random point from the trajectory is used, rather than all the trajectory points. This is faster and guaranteed to converge, but it may take more iterations in the worst case.
 
+- *enable failure recovery*: if this is set to true, CHOMP tweaks ceratin parameters in the hope to find a solution when one does not exist with the default paramters specified in the ``chomp_planning.yaml`` file. 
+
+- *max_recovery_attempts*: this is the maximum times that CHOMP is run with a varied set of parameters after the first attempt with the default parameters.
+
+- *trajectory_initializaiton_method*: the type of initialization of the trajectory can be supplied here for CHOMP, this can be ``quintic-spline``, ``linear``, ``cubic`` or ``fillTrajectory``. The first three options refer to the interpolation methods used for trajectory initialization between start and goal states. ``fillTrajectory`` provides an option of initializing the trajectory from path computed from an existing motion planner like OMPL.
+
 Choosing parameters for CHOMP requires some sort of intuition based on the environment we are working in. One can have the default parameters for CHOMP and this works well in environments without obstacles. However in cases where the scene is populated with obstacles, we need to vary some parameters to ensure that CHOMP is not stuck in local minima, or quickly finds optimal solutions, preferring trajectories which avoids obstacles. Some parameters like increasing the *ridge_factor* to say 0.001 makes CHOMP avoids obstacles by not preferring smooth trajectories, so there is a trade-off  between smoothness and CHOMP's ability to avoid obstacles. Choosing the correct number of *max_iterations*, *learning_rate* is important based on the environment we are working in. Not choosing the appropriate CHOMP parameters might lead to CHOMP reporting not finding a collision-free path. *collision_clearance*, *collision_threshold* parameters are useful in specifying the minimum distance to be kept from obstacles to avoid collisions.
 
 Some of the unused/commented parameters are *hmc_stochasticity*, *hmc_annealing_factor*, *hmc_discretization*, *use_hamiltonian_montecarlo*, *animate_endeffector*, *animate_endeffector_segment*, *animate_path*, *random_jump_amount*, *add_randomness*.
@@ -155,7 +161,7 @@ To achieve this, follow the steps:
 
 #. In the ``chomp_planning.yaml`` file of ``<robot_moveit_config>/config`` folder for your robot, add the following line: :: 
 
-    trajectory_initialization_method: "OMPL"
+    trajectory_initialization_method: "fillTrajectory"
 
 #. After making these requisite changes to the launch files, open a terminal and execute the following: ::
 
