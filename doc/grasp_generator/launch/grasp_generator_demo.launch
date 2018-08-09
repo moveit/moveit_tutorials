@@ -1,0 +1,32 @@
+<launch>
+  <arg name="ns" default="moveit_grasps_test" />
+    <!-- Debug -->
+  <arg name="debug" default="false" />
+  <arg unless="$(arg debug)" name="launch_prefix" value="" />
+  <arg     if="$(arg debug)" name="launch_prefix" value="gdb --ex run --args" />
+
+  <!-- Verbose mode -->
+  <arg name="verbose" default="false" />
+  <arg unless="$(arg verbose)" name="command_args" value="" />
+  <arg     if="$(arg verbose)" name="command_args" value="--verbose" />
+
+  <!-- <include file="$(find moveit_grasps)launch/initialize_robot.launch" >
+    <arg name="debug" value="$(arg debug)" />
+    <arg name="ns" value="$(arg ns)" />
+  </include> -->
+
+  <group ns="$(arg ns)">
+    <!-- Which arm to use -->
+    <param name="ee_group_name" value="hand"/>      
+    <rosparam command="load" file="$(find moveit_grasps)/config_robot/panda.yaml"/>
+  </group>
+
+  <!-- Start the test -->
+  <node name="moveit_grasps_test" launch-prefix="$(arg launch_prefix)" pkg="moveit_tutorials"
+  type="grasp_generator_demo" output="screen" args="$(arg command_args)">
+    <rosparam command="load" file="$(find moveit_grasps)/config/grasp_debug_level.yaml"/>
+  </node>
+
+  <!-- <include file="$(find moveit_grasps)launch/rviz.launch" /> -->
+
+</launch>

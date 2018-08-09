@@ -21,6 +21,7 @@ find_package(catkin REQUIRED
     pcl_ros
     pcl_conversions
     rosbag
+    moveit_grasps
 )
 
 find_package(Boost REQUIRED system filesystem date_time thread)
@@ -65,3 +66,4 @@ add_subdirectory(doc/state_display)
 add_subdirectory(doc/interactivity)
 add_subdirectory(doc/pick_place)
 add_subdirectory(doc/perception_pipeline)
+add_subdirectory(doc/grasp_generator)

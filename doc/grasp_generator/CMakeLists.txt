@@ -1,0 +1,2 @@
+add_executable(grasp_generator_demo src/grasp_generator_demo.cpp)
+target_link_libraries(grasp_generator_demo ${catkin_LIBRARIES})
