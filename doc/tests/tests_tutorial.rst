@@ -1,5 +1,6 @@
-Tests In MoveIt!
-========================
+Integration/Unit Tests
+======================
+
 How to test changes to MoveIt! on various robots, including unit and integration tests.
 
 **Note:** *This is a stub tutorial, to be expanded upon in the future*
