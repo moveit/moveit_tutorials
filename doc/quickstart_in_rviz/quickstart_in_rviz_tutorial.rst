@@ -91,7 +91,7 @@ For the next steps we will want only the scene robot, start state and goal state
 
 #. Check the **Show Robot Visual** checkbox in the **Planned Path** tab
 
-#. Un-check the **Show Robot Visual** checkbox in the **Planned Path** tab
+#. Un-check the **Show Robot Visual** checkbox in the **Scene Robot** tab
 
 #. Check the **Query Goal State** checkbox in the **Planning Request** tab.
 
