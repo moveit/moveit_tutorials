@@ -18,13 +18,13 @@
   <group ns="$(arg ns)">
     <!-- Which arm to use -->
     <param name="ee_group_name" value="hand"/>      
-    <rosparam command="load" file="$(find moveit_grasps)/config_robot/panda.yaml"/>
+    <rosparam command="load" file="$(find moveit_grasps)/robot_config/panda.yaml"/>
   </group>
 
   <!-- Start the test -->
   <node name="moveit_grasps_test" launch-prefix="$(arg launch_prefix)" pkg="moveit_tutorials"
   type="grasp_generator_demo" output="screen" args="$(arg command_args)">
-    <rosparam command="load" file="$(find moveit_grasps)/config/grasp_debug_level.yaml"/>
+    <rosparam command="load" file="$(find moveit_grasps)/visualization_config/grasp_debug_level.yaml"/>
   </node>
 
   <!-- <include file="$(find moveit_grasps)launch/rviz.launch" /> -->

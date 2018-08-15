@@ -26,13 +26,9 @@ public:
   {
     // Get arm info from param server
     const std::string parent_name = "grasp_planner_test";  // for namespacing logging messages
-    
-    // TODO(@ridhwanluthra): Take these from the parameter server
-    // rosparam_shortcuts::get(parent_name, nh_, "planning_group_name", planning_group_name_);
-    // rosparam_shortcuts::get(parent_name, nh_, "ee_group_name", ee_group_name_);
 
-    ee_group_name_ = "hand";
-    planning_group_name_ = "panda_arm";
+    rosparam_shortcuts::get(parent_name, nh_, "ee_group_name", ee_group_name_);
+    rosparam_shortcuts::get(parent_name, nh_, ee_group_name_ + "/planning_group", planning_group_name_);
 
     ROS_INFO_STREAM_NAMED(parent_name, "End Effector: " << ee_group_name_);
     ROS_INFO_STREAM_NAMED(parent_name, "Planning Group: " << planning_group_name_);
@@ -102,7 +98,8 @@ public:
     // ---------------------------------------------------------------------------------------------
     // BEGIN_SUB_TUTORIAL grasp_planner
     // Load grasp planner |br|
-    // This impliments the plan_grasps serivce used by the function call |code_start| moveGroupInterface::planGraspAndPick();\ |code_end|
+    // This impliments the plan_grasps serivce used by the function call |code_start|
+    // moveGroupInterface::planGraspAndPick();\ |code_end|
     grasp_planner_.reset(new moveit_grasps::GraspPlanner(nh_));
     // END_SUB_TUTORIAL
 
@@ -129,10 +126,13 @@ public:
 
     // Generate set of grasps for one object
     ROS_INFO_STREAM_NAMED("test", "Generating cuboid grasps");
-    // std::vector<moveit_grasps::GraspCandidatePtr> grasp_candidates;
+    // BEGIN_SUB_TUTORIAL grasp_gen_call
+    // We will now call the grasp generator responsible to populate the possible grasps in grasp_candidate_.
     grasp_generator_->generateGrasps(visual_tools_->convertPose(object_pose), depth, width, height, grasp_data_,
                                      grasp_candidates_);
+    // In order to call the grasp planner we have to first set the candidate grasps like this.
     grasp_planner_->setCandidateGrasps(grasp_candidates_);
+    // END_SUB_TUTORIAL
   }
 
   bool cylinderTest()
@@ -144,15 +144,16 @@ public:
     double radius = 0.015;
     double height = 0.15;
 
-    // visual_tools_->publishCollisionCylinder(object_pose, "test_cylinder", radius, height, rviz_visual_tools::TRANSLUCENT_DARK);
+    // visual_tools_->publishCollisionCylinder(object_pose, "test_cylinder", radius, height,
+    // rviz_visual_tools::TRANSLUCENT_DARK);
     visual_tools_->publishAxis(object_pose, rviz_visual_tools::MEDIUM);
     visual_tools_->trigger();
 
     // Generate set of grasps for one object
     ROS_INFO_STREAM_NAMED("test", "Generating cuboid grasps");
-    std::vector<moveit_grasps::GraspCandidatePtr> grasp_candidates;
     grasp_generator_->generateGrasps(visual_tools_->convertPose(object_pose), radius, height, grasp_data_,
-                                     grasp_candidates);
+                                     grasp_candidates_);
+    grasp_planner_->setCandidateGrasps(grasp_candidates_);
   }
 
   void addTable()
@@ -245,10 +246,29 @@ public:
 
   void planGraspsAndPick(std::string object_name)
   {
+    // BEGIN_SUB_TUTORIAL call_pick
+    // We set support surface, it allows us to say that ignore collisions between the object
+    // and the table as the object is kept on the table and hence will be in collision.
     move_group_->setSupportSurfaceName("table1");
-    move_group_->setPlanningTime(45.0);
+    /* Set some extra time for planning as we have to generate grasps and plan for multiple of them.*/
+    move_group_->setPlanningTime(450.0);
+    // Finally, this will call the plan_grasp service and pick up the object.
     move_group_->planGraspsAndPick(object_name);
+    // END_SUB_TUTORIAL
   }
+
+  // void testing_move()
+  // {
+  //   bool print = true;
+  //   for (auto each: grasp_candidates_)
+  //   {
+  //     grasps_.push_back(each->grasp_);
+  //     if (print)
+  //     {
+  //       std::cout << grasps_.back()->
+  //     }
+  //   }
+  // }
 
   // void visualizeGrasps()
   // {
@@ -280,7 +300,7 @@ private:
   // planning_scene_interface (make sure this works)
   moveit::planning_interface::PlanningSceneInterface planning_scene_interface_;
 
-  // create move group 
+  // create move group
   moveit::planning_interface::MoveGroupInterfacePtr move_group_;
   // move_group_.setPlanningTime(45.0);
 
@@ -289,6 +309,9 @@ private:
 
   // collision objects
   std::vector<moveit_msgs::CollisionObject> collision_objects;
+
+  // grasps
+  std::vector<moveit_msgs::Grasp> grasps_;
 
   // which baxter arm are we using
   std::string ee_group_name_;
@@ -331,7 +354,6 @@ int main(int argc, char* argv[])
 
   ros::waitForShutdown();
   return 0;
-  
 
   // // Seed random
   // // srand(ros::Time::now().toSec());
@@ -359,10 +381,20 @@ int main(int argc, char* argv[])
 // Workflow For Using The Package
 // ------------------------------
 // Step 1 - Loading all the components
+// +++++++++++++++++++++++++++++++++++
 // CALL_SUB_TUTORIAL planning_scene_monitor
 // CALL_SUB_TUTORIAL init_move_group
 // CALL_SUB_TUTORIAL init_visual_tools
 // CALL_SUB_TUTORIAL grasp_data
 // CALL_SUB_TUTORIAL grasp_generator
 // CALL_SUB_TUTORIAL grasp_planner
+// Step 2 - Adding Collision Objects In The Scene
+// ++++++++++++++++++++++++++++++++++++++++++++++
+// This step is explained in detail in the pick and place tutorial.
+// Please refer to that for this step as we are using the exact same environment.
+//
+// Step 3 - Generating Possible Grasps And Call Pick
+// +++++++++++++++++++++++++++++++++++++++++++++++++
+// CALL_SUB_TUTORIAL grasp_gen_call
+// CALL_SUB_TUTORIAL call_pick
 // END_TUTORIAL
