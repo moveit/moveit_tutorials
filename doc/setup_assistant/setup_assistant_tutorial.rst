@@ -142,7 +142,7 @@ Add the arm
 
 * Now, click on the *Add Joints* button. You will see a
   list of joints on the left hand side. You need to choose all the
-  joints that belong to the arm and add them to the hand
+  joints that belong to the arm and add them to the right hand
   side. The joints are arranged in the order that they are stored in
   an internal tree structure. This makes it easy to select a serial
   chain of joints.
