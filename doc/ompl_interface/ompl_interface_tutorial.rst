@@ -28,6 +28,17 @@ Projection Evaluator
 
 The ``projection_evaluator`` can take in a list of joints or links to approximate the coverage of a configuration space. This settings is used by planners such as KPIECE, BKPIECE, LBKPIECE, and PDST. For more information read the corresponding publications.
 
+Enforce Planning in Joint Space
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Depending on the planning problem MoveIt chooses between ``joint space`` and ``cartesian space`` for problem representation.
+Setting the group parameter ``enforce_joint_model_state_space`` enforces the use of ``joint space`` for all plans.
+
+By default planning requests with orientation path constraints are sampled in ``cartesian space`` so that invoking IK serves as a generative sampler.
+
+By enforcing ``joint space`` the planning process will use rejection sampling to find valid requests.
+Please not that this might increase planning time considerably.
+
 Other Settings
 ^^^^^^^^^^^^^^
 
