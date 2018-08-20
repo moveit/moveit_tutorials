@@ -1,5 +1,5 @@
-Controllers Configuration
-===================================
+Low Level Controllers
+=====================
 In this section, we will walk through configuring MoveIt! with the controllers on your robot. We will assume that your robot offers a ``FollowJointTrajectory`` action service for the arms on your robot and (optionally) a ``GripperCommand`` service for your gripper. If your robot does not offer this we recommend the `ROS control <http://wiki.ros.org/ros_control>`_ framework for easily adding this functionality around your hardware communication layer.
 
 YAML Configuration

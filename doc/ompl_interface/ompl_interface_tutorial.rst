@@ -1,5 +1,5 @@
-OMPL Interface
-=======================
+OMPL Planner
+============
 
 The Open Motion Planning Library is a powerful collection of state-of-the-art sampling-based motion planning algorithms and is the default planner in MoveIt!. For more information see `project webpage <http://ompl.kavrakilab.org/>`_.
 

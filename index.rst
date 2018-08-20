@@ -63,8 +63,8 @@ Configuration
 .. toctree::
    :maxdepth: 1
 
-   doc/fake_controller_manager/fake_controller_manager_tutorial
    doc/kinematics_configuration/kinematics_configuration_tutorial
+   doc/fake_controller_manager/fake_controller_manager_tutorial
    doc/custom_constraint_samplers/custom_constraint_samplers_tutorial
    doc/ompl_interface/ompl_interface_tutorial
    doc/chomp_planner/chomp_planner_tutorial
@@ -88,5 +88,3 @@ The tutorials had a major update in 2018 during a code sprint sponsored by Frank
 
 .. image:: ./_static/franka_logo.png
    :width: 300px
-
-

@@ -1,5 +1,5 @@
-IKFast Plugin
-===============================
+IKFast Kinematics Solver
+========================
 
 .. image:: openrave_panda.png
    :width: 700px
