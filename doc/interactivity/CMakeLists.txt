@@ -12,11 +12,11 @@ add_library(${INTERACTIVITY_LIB_NAME}
   # src/imarker.cpp
   # src/pose_string.cpp
 # )
-# target_link_libraries(interactivity_tutorial
-  # ${catkin_LIBRARIES}
-  # ${Boost_LIBRARIES}
-  # interactive_markers
-# )
+target_link_libraries(${INTERACTIVITY_LIB_NAME}
+  ${catkin_LIBRARIES}
+  ${Boost_LIBRARIES}
+  interactive_markers
+)
 #
 # add_executable(attached_body_tutorial
   # src/attached_body_tutorial.cpp
