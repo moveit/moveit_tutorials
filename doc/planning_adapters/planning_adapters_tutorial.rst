@@ -13,7 +13,7 @@ You should also have gone through the steps in `Visualization with MoveIt! RViz 
 Prerequisites
 --------------
  1. You must have the latest version of MoveIt! installed. On ROS Kinetic you will need to build MoveIt! from source. A build from source is required as CHOMP is not part of the official release yet. It is therefore not included in the binary packages. We will go through the steps for doing this below.
- 2. To use CHOMP with your robot you must already have a MoveIt! configuration package for your robot already. For example, if you have a Panda robot, it's probably called ``panda_moveit_config``. This is typically built using the `MoveIt! Setup Assistant <../setup_assistant/setup_assistant_tutorial.html>`_.
+ 2. To use Planning Adapters with your robot you must already have a MoveIt! configuration package for your robot already. For example, if you have a Panda robot, it's probably called ``panda_moveit_config``. This is typically built using the `MoveIt! Setup Assistant <../setup_assistant/setup_assistant_tutorial.html>`_.
 
 Installing MoveIt! from Source
 ------------------------------
@@ -41,10 +41,10 @@ If you have the ``panda_moveit_config`` from the `ros-planning/panda_moveit_conf
 Running OMPL as a pre-processor for CHOMP
 +++++++++++++++++++++++++++++++++++++++++
 
-Here, it is demonstrated that CHOMP can also be used as a post-processing optimization technique for plans obtained by other planning algorithms. The intuition behind this is that some randomized planning algorithm produces an initial guess for CHOMP. CHOMP then takes this initial guess and further optimizes the trajectory. 
+Here, it is demonstrated that CHOMP can be used as a post-processing optimization technique for plans obtained by other planning algorithms. The intuition behind this is that some randomized planning algorithm produces an initial guess for CHOMP. CHOMP then takes this initial guess and further optimizes the trajectory. 
 To achieve this, follow the steps:
 
-#. Open the ``ompl_planning_pipeline.launch`` file in the ``<robot_moveit_config>/launch`` folder of your robot. For the Panda robot it is `this <https://github.com/ros-planning/panda_moveit_config/blob/master/launch/ompl_planning_pipeline.launch.xml>`_ file. Edit this launch file, find the lines where ``<arg name="planning_adapters">`` is mentioned and change it to: ::
+#. Open the ``ompl_planning_pipeline.launch`` file in the ``<robot_moveit_config>/launch`` folder of your robot. For the Panda robot it is this `file <https://github.com/ros-planning/panda_moveit_config/blob/master/launch/ompl_planning_pipeline.launch.xml>`_. Edit this launch file, find the lines where ``<arg name="planning_adapters">`` is mentioned and change it to: ::
 
     <arg name="planning_adapters" value="default_planner_request_adapters/AddTimeParameterization
                    default_planner_request_adapters/FixWorkspaceBounds
@@ -78,26 +78,92 @@ This will launch RViz, select OMPL in the Motion Planning panel under the Contex
 Running OMPL as a pre-processor for STOMP
 +++++++++++++++++++++++++++++++++++++++++
 
-This section illustrates using OMPL as a pre-processor algrithm for STOMP.
+Here, it is demonstrated that STOMP can be used as a post-processing smoothing technique for plans obtained by other planning algorithms. The intuition behind this is that some randomized planning algorithm produces an initial path for STOMP. STOMP then takes this initial path and further smoothens the trajectory. 
+To achieve this, follow the steps:
 
-Running CHOMP as a pre-processor for STOMP or vice versa
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#. Open the ``ompl_planning_pipeline.launch`` file in the ``<robot_moveit_config>/launch`` folder of your robot. For the Panda robot it is this `file <https://github.com/ros-planning/panda_moveit_config/blob/master/launch/ompl_planning_pipeline.launch.xml>`_. Edit this launch file, find the lines where ``<arg name="planning_adapters">`` is mentioned and change it to: ::
 
-CHOMP has some optimization parameters associated with it. These can be modified for the given environment/robot you are working with and is normally present in the `chomp_planning.yaml <https://github.com/ros-planning/panda_moveit_config/blob/master/config/chomp_planning.yaml>`_ file in config folder of the robot you are working with. If this file does not exist for your robot, you can create it and set the parameter values as you want. The following are some of the insights to set up these parameter values for some of them:
+    <arg name="planning_adapters" value="default_planner_request_adapters/AddTimeParameterization
+                   default_planner_request_adapters/FixWorkspaceBounds
+                   default_planner_request_adapters/FixStartStateBounds
+                   default_planner_request_adapters/FixStartStateCollision
+                   default_planner_request_adapters/FixStartStatePathConstraints
+                   default_planner_request_adapters/STOMPSmoothingAdapter" />
+
+#. The values of the ``planning_adapters`` is the order in which the mentioned adapters are called / invoked. Order here matters. Inside the STOMP adapter, a call to OMPL is made before invoking the STOMP smoothing solver, so STOMP takes the initial path computed by OMPL as the starting point to further optimize it. 
+
+#. Find the line where ``<rosparam command="load" file="$(find panda_moveit_config)/config/ompl_planning.yaml"/>`` is mentioned and after this line, add the following: ::
+
+    <rosparam command="load" file="$(find panda_moveit_config)/config/stomp_planning.yaml"/>
+
+#. These additions will add a STOMP Smoothing adapter and load the corresponding STOMP planner's parameters. To do this with your own robot replace ``panda_moveit_config`` to ``<my_robot>_moveit_config`` of your robot.
+
+#. In the ``move_group.launch`` file of ``<robot_moveit_config>/launch`` folder for your robot, make sure that the default planner is ``ompl``.
+
+#. In the ``stomp_planning.yaml`` file of ``<robot_moveit_config>/config`` folder for your robot, add the following line: :: 
+
+    trajectory_initialization_method: "fillTrajectory"
+
+#. After making these requisite changes to the launch files, open a terminal and execute the following: ::
+
+    roslaunch panda_moveit_config demo.launch
+
+This will launch RViz, select OMPL in the Motion Planning panel under the Context tab. Set the desired start and goal states by moving the end-effector around. Finally click on the Plan button to start planning. The planner will now first run OMPL, then run STOMP on OMPL's output to produce an smooth path.
+
+Running CHOMP as a post-processor for STOMP or vice versa
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Now, it is demonstrated that STOMP can be used as a post-processing optimization technique for plans obtained by CHOMP. The intuition behind this is that CHOMP produces an initial path for STOMP. STOMP then takes this initial path and further smoothens this trajectory. 
+To achieve this, follow the steps:
+
+#. Open the ``stomp_planning_pipeline.launch`` file in the ``<robot_moveit_config>/launch`` folder of your robot. For the Panda robot it is `this <https://github.com/ros-planning/panda_moveit_config/blob/master/launch/stomp_planning_pipeline.launch.xml>`_ file. Edit this launch file, find the lines where ``<arg name="planning_adapters">`` is mentioned and change it to: ::
+
+    <arg name="planning_adapters" value="default_planner_request_adapters/AddTimeParameterization
+                   default_planner_request_adapters/FixWorkspaceBounds
+                   default_planner_request_adapters/FixStartStateBounds
+                   default_planner_request_adapters/FixStartStateCollision
+                   default_planner_request_adapters/FixStartStatePathConstraints
+                   default_planner_request_adapters/CHOMPOptimizationAdapter" />
+
+#. The values of the ``planning_adapters`` is the order in which the mentioned adapters are called / invoked. Order here matters. Inside the STOMP adapter, a call to OMPL is made before invoking the STOMP smoothing solver, so STOMP takes the initial path computed by OMPL as the starting point to further optimize it. 
+
+#. Find the line where ``<rosparam command="load" file="$(find panda_moveit_config)/config/ompl_planning.yaml"/>`` is mentioned and after this line, add the following: ::
+
+    <rosparam command="load" file="$(find panda_moveit_config)/config/stomp_planning.yaml"/>
+
+#. These additions will add a STOMP Smoothing adapter and load the corresponding STOMP planner's parameters. To do this with your own robot replace ``panda_moveit_config`` to ``<my_robot>_moveit_config`` of your robot.
+
+#. In the ``move_group.launch`` file of ``<robot_moveit_config>/launch`` folder for your robot, make sure that the default planner is ``ompl``.
+
+#. In the ``stomp_planning.yaml`` file of ``<robot_moveit_config>/config`` folder for your robot, add the following line: :: 
+
+    trajectory_initialization_method: "fillTrajectory"
+
+#. After making these requisite changes to the launch files, open a terminal and execute the following: ::
+
+    roslaunch panda_moveit_config demo.launch
+
+This will launch RViz, select OMPL in the Motion Planning panel under the Context tab. Set the desired start and goal states by moving the end-effector around. Finally click on the Plan button to start planning. The planner will now first run OMPL, then run STOMP on OMPL's output to produce an smooth path.
 
 
 Planning Insights for different motion planners and planners with planning adapters
 -----------------------------------------------------------------------------------
 
-Need to change this section.
-This section has insights as to when to use which planner and how using certain planning request adapters in a certain pipeline can lead to producing robust paths overall. Here we consider using OMPL, STOMP, CHOMP seperately and together to produce robust smooth optimized paths obtained from the planner. Videos for using a certain motion planner over another is available here (ADD LINK to youtube video). 
+Need to UPDATE this section.
+This section has insights as to when to use which planner and how using certain planning request adapters in a certain pipeline can lead to producing robust paths overall. Here we consider using OMPL, STOMP, CHOMP seperately and together to produce robust smooth optimized paths obtained from the planner. For each planner, a basic insight is provided which gives the user an intuition to use a particular planner in a specific situation.
 
-Optimizing planners optimize a cost function that may sometimes lead to surprising results: moving through a thin obstacle might be lower cost than a long, winding trajectory that avoids all collisions. In this section we make a distinction between paths obtained from CHOMP and contrast it to those obtained from OMPL.
+- **CHOMP**: CHOMP is an optimization algorithm which optimizes a given initial trajectory. Based on the environment CHOMP rapidly tries to pull the initial trajectory out of collisions. However an important point to pay attention here is that the parameter ``ridge_factor`` needs to be more than or equal to 0.001 for avoiding obstacles. Doing this CHOMP is able to find paths while avoiding obstacles. It should be noted here even though CHOMP can avoid obstacles successfully but it fails to provide smooth paths often leading to jerky paths in the presence of obstacles. For CHOMP collision avoidance comes at the cost of the trajectory's velocity smoothness.
 
-OMPL is a open source library for sampling based / randomized motion planning algorithms. Sampling based algorithms are probabilistically complete: a solution would be eventually found if one exists, however non-existence of a solution cannot be reported. These algorithms are efficient and usually find a solution quickly. OMPL does not contain any code related to collision checking or visualization as the designers of OMPL did not want to tie it to a any particular collision checker or visualization front end. The library is designed so it can be easily integrated into systems that provide the additional components. MoveIt integrates directly with OMPL and uses the motion planners from OMPL as its default set of planners. The planners in OMPL are abstract; i.e. OMPL has no concept of a robot. Instead, MoveIt! configures OMPL and provides the back-end for OMPL to work with problems in Robotics.
+- **STOMP**: STOMP produces smooth well behaved collision free paths within reasonable times. The approach relies on generating noisy trajectories to explore the space around an initial (possibly infeasible) trajectory which are then combined to produce an updated trajectory with lower cost.  
 
-CHOMP: While most high-dimensional motion planners separate trajectory generation into distinct planning and optimization stages, CHOMP capitalizes on covariant gradient and functional gradient approaches to the optimization stage to design a motion planning algorithm based entirely on trajectory optimization. Given an infeasible naive trajectory, CHOMP reacts to the surrounding environment to quickly pull the trajectory out of collision while simultaneously optimizing dynamical quantities such as joint velocities and accelerations. It rapidly converges to a smooth collision-free trajectory that can be executed efficiently on the robot. A covariant update rule ensures that CHOMP quickly converges to a locally optimal trajectory. 
+- **OMPL** is a open source library for sampling based / randomized motion planning algorithms as discussed in the ompl planning tutorials. Sampling based algorithms are probabilistically complete: a solution would be eventually found if one exists, however non-existence of a solution cannot be reported. These algorithms are efficient and usually find a solution quickly.
 
-For scenes containing obstacles, CHOMP often generates paths which do not prefer smooth trajectories by addition of some noise (*ridge_factor*) in the cost function for the dynamical quantities of the robot (like acceleration, velocity). CHOMP is able to avoid obstacle in most cases but it can fail if it gets stuck in the local minima due to a bad initial guess for the trajectory. OMPL can be used to generate collision-free seed trajectories for CHOMP to mitigate this issue.
+For more information on each of these motion planners, refer to their individual tutorial pages `OMPL <../ompl_interface/ompl_interface_tutorial.html>`_, `CHOMP <../chomp_planner/chomp_planner_tutorial.html>`_ and `STOMP <../stomp_planner/stomp_planner_tutorial.html>`_.
 
+- **OMPL as a pre-processor for CHOMP**: OMPL can used as a base planner to produce an initial motion plan which can act as a initial guess for CHOMP. CHOMP can then produce optimized paths. In most cases, the quality of such a path produced should be better than that produced by OMPL alone or CHOMP alone.
 
+- **OMPL as a pre-processor for STOMP**: As stomp can used as a smoothing algorithm, it can be used to smoothen the plans produced by other motion planners. OMPL first produces a path, STOMP can then generate a smoothened version of that path. Such a path in most cases should be better than a path produced by either just OMPL or STOMP alone.
+
+- **STOMP as a pre-processor for CHOMP**: For this case, a path can be initially produced by STOMP, CHOMP can then take this as an initial guess and produce an optimized version of the smoothened path produced by STOMP.
+
+- **CHOMP as a pre-processor for STOMP**: CHOMP can be used to produce a path and then STOMP can be used to smoothen the path. This helps in getting rid of the jerky motion of the trajectories produced by CHOMP alone in the presence of obstacles.
