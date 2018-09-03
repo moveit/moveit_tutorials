@@ -1,8 +1,7 @@
 Planning Adapter Tutorials
 ==========================
 
-Planning Request Adapters is a concept in MoveIt which can be used to modify the trajectory for a motion planner. Some examples of existing planning adapters in MoveIt include AddTimeParameterization, FixWorkspaceBounds, FixStartBounds, FixStartStateCollision, FixStartStatePathConstraints, CHOMPOptimizerAdapter, etc. ! 
-Planning Adapter for STOMP is currently work in progress.
+Planning Request Adapters is a concept in MoveIt which can be used to modify the trajectory for a motion planner. Some examples of existing planning adapters in MoveIt include AddTimeParameterization, FixWorkspaceBounds, FixStartBounds, FixStartStateCollision, FixStartStatePathConstraints, CHOMPOptimizerAdapter, etc. ! Using the concepts of Planning Adapters, multiple motion planning algorithms can be used in a pipeline to produce robust motion plans. For example, a sample pipeline of motion plans might include an initial plan produced by OMPL which can then be optimized by CHOMP to produce a motion plan which would likely be better than a path produced by OMPL or CHOMP alone.
 
 Getting Started
 ---------------
@@ -78,7 +77,7 @@ This will launch RViz, select OMPL in the Motion Planning panel under the Contex
 Running OMPL as a pre-processor for STOMP
 +++++++++++++++++++++++++++++++++++++++++
 
-Here, it is demonstrated that STOMP can be used as a post-processing smoothing technique for plans obtained by other planning algorithms. The intuition behind this is that some randomized planning algorithm produces an initial path for STOMP. STOMP then takes this initial path and further smoothens the trajectory. 
+Currently the development for this is work in progress. Here, it is demonstrated that STOMP can be used as a post-processing smoothing technique for plans obtained by other planning algorithms. The intuition behind this is that some randomized planning algorithm produces an initial path for STOMP. STOMP then takes this initial path and further smoothens the trajectory. 
 To achieve this, follow the steps:
 
 #. Open the ``ompl_planning_pipeline.launch`` file in the ``<robot_moveit_config>/launch`` folder of your robot. For the Panda robot it is this `file <https://github.com/ros-planning/panda_moveit_config/blob/master/launch/ompl_planning_pipeline.launch.xml>`_. Edit this launch file, find the lines where ``<arg name="planning_adapters">`` is mentioned and change it to: ::
@@ -113,7 +112,7 @@ This will launch RViz, select OMPL in the Motion Planning panel under the Contex
 Running CHOMP as a post-processor for STOMP or vice versa
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-Now, it is demonstrated that STOMP can be used as a post-processing optimization technique for plans obtained by CHOMP. The intuition behind this is that CHOMP produces an initial path for STOMP. STOMP then takes this initial path and further smoothens this trajectory. 
+Currently the development for this is work in progress. Now, it is demonstrated that STOMP can be used as a post-processing optimization technique for plans obtained by CHOMP. The intuition behind this is that CHOMP produces an initial path for STOMP. STOMP then takes this initial path and further smoothens this trajectory. 
 To achieve this, follow the steps:
 
 #. Open the ``stomp_planning_pipeline.launch`` file in the ``<robot_moveit_config>/launch`` folder of your robot. For the Panda robot it is `this <https://github.com/ros-planning/panda_moveit_config/blob/master/launch/stomp_planning_pipeline.launch.xml>`_ file. Edit this launch file, find the lines where ``<arg name="planning_adapters">`` is mentioned and change it to: ::
@@ -149,7 +148,6 @@ This will launch RViz, select OMPL in the Motion Planning panel under the Contex
 Planning Insights for different motion planners and planners with planning adapters
 -----------------------------------------------------------------------------------
 
-Need to UPDATE this section.
 This section has insights as to when to use which planner and how using certain planning request adapters in a certain pipeline can lead to producing robust paths overall. Here we consider using OMPL, STOMP, CHOMP seperately and together to produce robust smooth optimized paths obtained from the planner. For each planner, a basic insight is provided which gives the user an intuition to use a particular planner in a specific situation.
 
 - **CHOMP**: CHOMP is an optimization algorithm which optimizes a given initial trajectory. Based on the environment CHOMP rapidly tries to pull the initial trajectory out of collisions. However an important point to pay attention here is that the parameter ``ridge_factor`` needs to be more than or equal to 0.001 for avoiding obstacles. Doing this CHOMP is able to find paths while avoiding obstacles. It should be noted here even though CHOMP can avoid obstacles successfully but it fails to provide smooth paths often leading to jerky paths in the presence of obstacles. For CHOMP collision avoidance comes at the cost of the trajectory's velocity smoothness.
@@ -162,8 +160,10 @@ For more information on each of these motion planners, refer to their individual
 
 - **OMPL as a pre-processor for CHOMP**: OMPL can used as a base planner to produce an initial motion plan which can act as a initial guess for CHOMP. CHOMP can then produce optimized paths. In most cases, the quality of such a path produced should be better than that produced by OMPL alone or CHOMP alone.
 
-- **OMPL as a pre-processor for STOMP**: As stomp can used as a smoothing algorithm, it can be used to smoothen the plans produced by other motion planners. OMPL first produces a path, STOMP can then generate a smoothened version of that path. Such a path in most cases should be better than a path produced by either just OMPL or STOMP alone.
+- **OMPL as a pre-processor for STOMP**: As stomp can used as a smoothing algorithm, it can be used to smoothen the plans produced by other motion planners. OMPL first produces a path, STOMP can then generate a smoothened version of that path. Such a path in most cases should be better than a path produced by either just OMPL or STOMP alone. 
 
-- **STOMP as a pre-processor for CHOMP**: For this case, a path can be initially produced by STOMP, CHOMP can then take this as an initial guess and produce an optimized version of the smoothened path produced by STOMP.
+- **STOMP as a pre-processor for CHOMP**: For this case, a path can be initially produced by STOMP, CHOMP can then take this as an initial guess and produce an optimized version of the smoothened path produced by STOMP. 
 
 - **CHOMP as a pre-processor for STOMP**: CHOMP can be used to produce a path and then STOMP can be used to smoothen the path. This helps in getting rid of the jerky motion of the trajectories produced by CHOMP alone in the presence of obstacles.
+
+A video demonstrating different planners working under different situations can be seen at this link (ADD YOUTUBE LINK).
