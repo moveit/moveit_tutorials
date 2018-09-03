@@ -1,7 +1,7 @@
 Planning Adapter Tutorials
 ==========================
 
-Planning Request Adapters is a concept in MoveIt which can be used to modify the trajectory for a motion planner. Some examples of existing planning adapters in MoveIt include AddTimeParameterization, FixWorkspaceBounds, FixStartBounds, FixStartStateCollision, FixStartStatePathConstraints, CHOMPOptimizerAdapter, etc. ! Using the concepts of Planning Adapters, multiple motion planning algorithms can be used in a pipeline to produce robust motion plans. For example, a sample pipeline of motion plans might include an initial plan produced by OMPL which can then be optimized by CHOMP to produce a motion plan which would likely be better than a path produced by OMPL or CHOMP alone.
+Planning Request Adapters is a concept in MoveIt which can be used to modify the trajectory (pre-processing and/or post-processing) for a motion planner. Some examples of existing planning adapters in MoveIt include AddTimeParameterization, FixWorkspaceBounds, FixStartBounds, FixStartStateCollision, FixStartStatePathConstraints, CHOMPOptimizerAdapter, etc. ! Using the concepts of Planning Adapters, multiple motion planning algorithms can be used in a pipeline to produce robust motion plans. For example, a sample pipeline of motion plans might include an initial plan produced by OMPL which can then be optimized by CHOMP to produce a motion plan which would likely be better than a path produced by OMPL or CHOMP alone. Similarly, using the concept of Planning Adapters, other motion planners can be mixed and matched depending on the environment the robot is operating in. This section provides a step by step tutorial on using a mix and match of different motion planners and also provides insights on when to use which particular motion planners. 
 
 Getting Started
 ---------------
@@ -11,7 +11,7 @@ You should also have gone through the steps in `Visualization with MoveIt! RViz 
 
 Prerequisites
 --------------
- 1. You must have the latest version of MoveIt! installed. On ROS Kinetic you will need to build MoveIt! from source. A build from source is required as CHOMP is not part of the official release yet. It is therefore not included in the binary packages. We will go through the steps for doing this below.
+ 1. You must have the latest version of MoveIt! installed. On ROS Kinetic you will need to build MoveIt! from source. A build from source is required as CHOMP and STOMP are not a part of the official release yet. It is therefore not included in the binary packages. We will go through the steps for doing this below.
  2. To use Planning Adapters with your robot you must already have a MoveIt! configuration package for your robot already. For example, if you have a Panda robot, it's probably called ``panda_moveit_config``. This is typically built using the `MoveIt! Setup Assistant <../setup_assistant/setup_assistant_tutorial.html>`_.
 
 Installing MoveIt! from Source
@@ -30,12 +30,7 @@ Re-source the setup files: ::
 Using Planning Request Adapter with Your Motion Planner
 -------------------------------------------------------
 
-
-Running the Demo
-----------------
-If you have the ``panda_moveit_config`` from the `ros-planning/panda_moveit_config <https://github.com/ros-planning/panda_moveit_config>`_ repository you should be able to simply run the demo: ::
-
-  roslaunch panda_moveit_config demo_chomp.launch
+In this section we provide different ways the user can mix and match different motion planners. Major focus of this tutorial is made on OMPL, CHOMP and STOMP as these are the only planners currently supported by MoveIt.
 
 Running OMPL as a pre-processor for CHOMP
 +++++++++++++++++++++++++++++++++++++++++
@@ -72,12 +67,12 @@ To achieve this, follow the steps:
 
 This will launch RViz, select OMPL in the Motion Planning panel under the Context tab. Set the desired start and goal states by moving the end-effector around in the same way as was done for CHOMP above. Finally click on the Plan button to start planning. The planner will now first run OMPL, then run CHOMP on OMPL's output to produce an optimized path.
 
-
-
 Running OMPL as a pre-processor for STOMP
 +++++++++++++++++++++++++++++++++++++++++
 
-Currently the development for this is work in progress. Here, it is demonstrated that STOMP can be used as a post-processing smoothing technique for plans obtained by other planning algorithms. The intuition behind this is that some randomized planning algorithm produces an initial path for STOMP. STOMP then takes this initial path and further smoothens the trajectory. 
+NOTE: Currently the development for STOMP Smoothing Adapter is work in progress. 
+
+Here, it is demonstrated that STOMP can be used as a post-processing smoothing technique for plans obtained by other planning algorithms. The intuition behind this is that some randomized planning algorithm produces an initial path for STOMP. STOMP then takes this initial path and further smoothens the trajectory. 
 To achieve this, follow the steps:
 
 #. Open the ``ompl_planning_pipeline.launch`` file in the ``<robot_moveit_config>/launch`` folder of your robot. For the Panda robot it is this `file <https://github.com/ros-planning/panda_moveit_config/blob/master/launch/ompl_planning_pipeline.launch.xml>`_. Edit this launch file, find the lines where ``<arg name="planning_adapters">`` is mentioned and change it to: ::
@@ -99,11 +94,15 @@ To achieve this, follow the steps:
 
 #. In the ``move_group.launch`` file of ``<robot_moveit_config>/launch`` folder for your robot, make sure that the default planner is ``ompl``.
 
-#. In the ``stomp_planning.yaml`` file of ``<robot_moveit_config>/config`` folder for your robot, add the following line: :: 
+#. In the ``stomp_planning.yaml`` file of ``<robot_moveit_config>/config`` folder for your robot, replace the following line: :: 
 
-    trajectory_initialization_method: "fillTrajectory"
+    initialization_method: 1 #[1 : LINEAR_INTERPOLATION, 2 : CUBIC_POLYNOMIAL, 3 : MININUM_CONTROL_COST]
 
-#. After making these requisite changes to the launch files, open a terminal and execute the following: ::
+ with this line: ::
+
+	initialization_method: 4 #[1 : LINEAR_INTERPOLATION, 2 : CUBIC_POLYNOMIAL, 3 : MININUM_CONTROL_COST, 4 : FILL_TRACJECTORY]
+
+7. After making these requisite changes to the launch files, open a terminal and execute the following: ::
 
     roslaunch panda_moveit_config demo.launch
 
@@ -112,7 +111,9 @@ This will launch RViz, select OMPL in the Motion Planning panel under the Contex
 Running CHOMP as a post-processor for STOMP or vice versa
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-Currently the development for this is work in progress. Now, it is demonstrated that STOMP can be used as a post-processing optimization technique for plans obtained by CHOMP. The intuition behind this is that CHOMP produces an initial path for STOMP. STOMP then takes this initial path and further smoothens this trajectory. 
+NOTE: Currently the development for STOMP Smoothing Adapter is work in progress. 
+
+Now, it is demonstrated that STOMP can be used as a post-processing optimization technique for plans obtained by CHOMP. The intuition behind this is that CHOMP produces an initial path for STOMP. STOMP then takes this initial path and further smoothens this trajectory. 
 To achieve this, follow the steps:
 
 #. Open the ``stomp_planning_pipeline.launch`` file in the ``<robot_moveit_config>/launch`` folder of your robot. For the Panda robot it is `this <https://github.com/ros-planning/panda_moveit_config/blob/master/launch/stomp_planning_pipeline.launch.xml>`_ file. Edit this launch file, find the lines where ``<arg name="planning_adapters">`` is mentioned and change it to: ::
@@ -134,11 +135,15 @@ To achieve this, follow the steps:
 
 #. In the ``move_group.launch`` file of ``<robot_moveit_config>/launch`` folder for your robot, make sure that the default planner is ``ompl``.
 
-#. In the ``stomp_planning.yaml`` file of ``<robot_moveit_config>/config`` folder for your robot, add the following line: :: 
+#. In the ``stomp_planning.yaml`` file of ``<robot_moveit_config>/config`` folder for your robot, replace the following line: :: 
 
-    trajectory_initialization_method: "fillTrajectory"
+    initialization_method: 1 #[1 : LINEAR_INTERPOLATION, 2 : CUBIC_POLYNOMIAL, 3 : MININUM_CONTROL_COST]
 
-#. After making these requisite changes to the launch files, open a terminal and execute the following: ::
+ with this line: ::
+
+	initialization_method: 4 #[1 : LINEAR_INTERPOLATION, 2 : CUBIC_POLYNOMIAL, 3 : MININUM_CONTROL_COST, 4 : FILL_TRACJECTORY]
+
+7. After making these requisite changes to the launch files, open a terminal and execute the following: ::
 
     roslaunch panda_moveit_config demo.launch
 
