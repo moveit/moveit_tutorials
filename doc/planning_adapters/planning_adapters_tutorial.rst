@@ -166,4 +166,4 @@ For more information on each of these motion planners, refer to their individual
 
 - **CHOMP as a pre-processor for STOMP**: CHOMP can be used to produce a path and then STOMP can be used to smoothen the path. This helps in getting rid of the jerky motion of the trajectories produced by CHOMP alone in the presence of obstacles.
 
-A video demonstrating different planners working under different situations can be seen at this link (ADD YOUTUBE LINK).
+A video demonstrating different planners working under different situations will be posted here soon once work on STOMP smoothing adapter is finished.
