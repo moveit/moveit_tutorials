@@ -108,12 +108,12 @@ To achieve this, follow the steps:
 
 This will launch RViz, select OMPL in the Motion Planning panel under the Context tab. Set the desired start and goal states by moving the end-effector around. Finally click on the Plan button to start planning. The planner will now first run OMPL, then run STOMP on OMPL's output to produce an smooth path.
 
-Running CHOMP as a post-processor for STOMP or vice versa
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Running CHOMP as a post-processor for STOMP
++++++++++++++++++++++++++++++++++++++++++++
 
 NOTE: Currently the development for STOMP Smoothing Adapter is work in progress. 
 
-Now, it is demonstrated that STOMP can be used as a post-processing optimization technique for plans obtained by CHOMP. The intuition behind this is that CHOMP produces an initial path for STOMP. STOMP then takes this initial path and further smoothens this trajectory. 
+Now, it is demonstrated that CHOMP can be used as a post-processing optimization technique for plans obtained by STOMP. The intuition behind this is that STOMP produces an initial path for CHOMP. CHOMP then takes this initial path and further optimizes this trajectory. 
 To achieve this, follow the steps:
 
 #. Open the ``stomp_planning_pipeline.launch`` file in the ``<robot_moveit_config>/launch`` folder of your robot. For the Panda robot it is `this <https://github.com/ros-planning/panda_moveit_config/blob/master/launch/stomp_planning_pipeline.launch.xml>`_ file. Edit this launch file, find the lines where ``<arg name="planning_adapters">`` is mentioned and change it to: ::
@@ -125,29 +125,30 @@ To achieve this, follow the steps:
                    default_planner_request_adapters/FixStartStatePathConstraints
                    default_planner_request_adapters/CHOMPOptimizationAdapter" />
 
-#. The values of the ``planning_adapters`` is the order in which the mentioned adapters are called / invoked. Order here matters. Inside the STOMP adapter, a call to OMPL is made before invoking the STOMP smoothing solver, so STOMP takes the initial path computed by OMPL as the starting point to further optimize it. 
+#. The values of the ``planning_adapters`` is the order in which the mentioned adapters are called / invoked. Order here matters. Inside the CHOMP adapter, a call to STOMP is made before invoking the CHOMP optimization solver, so CHOMP takes the initial path computed by STOMP as the starting point to further optimize it. 
 
-#. Find the line where ``<rosparam command="load" file="$(find panda_moveit_config)/config/ompl_planning.yaml"/>`` is mentioned and after this line, add the following: ::
+#. Find the line where ``<rosparam command="load" file="$(find panda_moveit_config)/config/stomp_planning.yaml"/>`` is mentioned and after this line, add the following: ::
 
-    <rosparam command="load" file="$(find panda_moveit_config)/config/stomp_planning.yaml"/>
+    <rosparam command="load" file="$(find panda_moveit_config)/config/chomp_planning.yaml"/>
 
-#. These additions will add a STOMP Smoothing adapter and load the corresponding STOMP planner's parameters. To do this with your own robot replace ``panda_moveit_config`` to ``<my_robot>_moveit_config`` of your robot.
+#. These additions will add a CHOMP Optimization adapter and load the corresponding CHOMP planner's parameters. To do this with your own robot replace ``panda_moveit_config`` to ``<my_robot>_moveit_config`` of your robot.
 
-#. In the ``move_group.launch`` file of ``<robot_moveit_config>/launch`` folder for your robot, make sure that the default planner is ``ompl``.
+#. In the ``move_group.launch`` file of ``<robot_moveit_config>/launch`` folder for your robot, make sure that the default planner is ``stomp``.
 
-#. In the ``stomp_planning.yaml`` file of ``<robot_moveit_config>/config`` folder for your robot, replace the following line: :: 
+#. In the ``chomp_planning.yaml`` file of ``<robot_moveit_config>/config`` folder for your robot, add the following line: :: 
 
-    initialization_method: 1 #[1 : LINEAR_INTERPOLATION, 2 : CUBIC_POLYNOMIAL, 3 : MININUM_CONTROL_COST]
+    trajectory_initialization_method: "fillTrajectory"
 
- with this line: ::
-
-	initialization_method: 4 #[1 : LINEAR_INTERPOLATION, 2 : CUBIC_POLYNOMIAL, 3 : MININUM_CONTROL_COST, 4 : FILL_TRACJECTORY]
-
-7. After making these requisite changes to the launch files, open a terminal and execute the following: ::
+#. After making these requisite changes to the launch files, open a terminal and execute the following: ::
 
     roslaunch panda_moveit_config demo.launch
 
-This will launch RViz, select OMPL in the Motion Planning panel under the Context tab. Set the desired start and goal states by moving the end-effector around. Finally click on the Plan button to start planning. The planner will now first run OMPL, then run STOMP on OMPL's output to produce an smooth path.
+This will launch RViz, select STOMP in the Motion Planning panel under the Context tab. Set the desired start and goal states by moving the end-effector around. Finally click on the Plan button to start planning. The planner will now first run STOMP, then run CHOMP on STOMP's output to produce an optimized path.
+
+Running STOMP as a post-processor for CHOMP
++++++++++++++++++++++++++++++++++++++++++++
+
+NOTE: Currently the development for STOMP Smoothing Adapter is work in progress. This section is coming soon!
 
 
 Planning Insights for different motion planners and planners with planning adapters
