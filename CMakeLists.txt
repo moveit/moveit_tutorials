@@ -12,6 +12,7 @@ endif()
 
 find_package(catkin REQUIRED
   COMPONENTS
+    interactive_markers
     moveit_core
     moveit_visual_tools
     moveit_ros_planning
