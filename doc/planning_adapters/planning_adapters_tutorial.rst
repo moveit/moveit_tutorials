@@ -105,7 +105,7 @@ This will launch RViz, select STOMP in the Motion Planning panel under the Conte
 Running OMPL as a pre-processor for STOMP
 +++++++++++++++++++++++++++++++++++++++++
 
-NOTE: Currently the development for STOMP Smoothing Adapter is work in progress. 
+NOTE: The STOMP Smoothing Adapter is a work in progress. 
 
 Here, it is demonstrated that STOMP can be used as a post-processing smoothing technique for plans obtained by other planning algorithms. The intuition behind this is that some randomized planning algorithm produces an initial path for STOMP. STOMP then takes this initial path and further smoothens the trajectory. 
 To achieve this, follow the steps:
@@ -146,7 +146,7 @@ This will launch RViz, select OMPL in the Motion Planning panel under the Contex
 Running STOMP as a post-processor for CHOMP
 +++++++++++++++++++++++++++++++++++++++++++
 
-NOTE: Currently the development for STOMP Smoothing Adapter is work in progress. 
+NOTE: The STOMP Smoothing Adapter is a work in progress. 
 
 Here, it is demonstrated that STOMP can be used as a post-processing smoothing technique for plans obtained by CHOMP. 
 To achieve this, follow the steps:
