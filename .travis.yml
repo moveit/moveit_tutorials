@@ -46,3 +46,21 @@ script:
   - rosdoc_lite -o build .
   # Run HTML tests on generated build output to check for 404 errors, etc
   - htmlproofer ./build --only-4xx --check-html --file-ignore ./build/html/genindex.html,./build/html/search.html,./build/html/index-msg.html --alt-ignore '/.*/' --url-ignore '#'
+
+# after_success and deploy are skipped if build is broken
+after_success:
+  # Tell GitHub Pages not to bypass Jekyll processing
+  - touch build/html/.nojekyll
+
+deploy:
+  # Deploy to gh-pages branch
+  provider: pages
+  # Don't delete built files
+  skip-cleanup: true
+  # Add to Environment Variables section of Travis CI repository settings page
+  github-token: $GITHUB_TOKEN
+  # Only copy build output directory to gh-pages
+  local_dir: build/html
+  on:
+    # Source branch
+    branch: kinetic-devel
