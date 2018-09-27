@@ -1,7 +1,7 @@
 MoveIt! Tutorials
 =================
 
-These tutorials will step you through using MoveIt! with your robot. It is assumed the robot you are working with has already been configured to work with your robot - check the `list of robots running MoveIt! <http://moveit.ros.org/robots/>`_ to see whether MoveIt! is already available for your robot. Otherwise, skip to the `Integration with a New Robot<#integration-with-a-new-robot>`_ tutorials, below. If you just want to quickly try MoveIt!, use the default Panda robot as your quick-start demo.
+These tutorials will step you through using MoveIt! with your robot. It is assumed the robot you are working with has already been configured to work with MoveIt! - check the `list of robots running MoveIt! <http://moveit.ros.org/robots/>`_ to see whether MoveIt! is already available for your robot. Otherwise, skip to the `Integration with a New Robot<#integration-with-a-new-robot>`_ tutorials, below. If you just want to quickly try MoveIt!, use the default Panda robot as your quick-start demo.
 
 .. note:: All tutorials referencing the Panda have only been tested with ROS Kinetic. For earlier versions of ROS (eg. Indigo) See `the ROS Indigo tutorials with the PR2 <http://docs.ros.org/indigo/api/moveit_tutorials/html/doc/ikfast_tutorial.html>`_
 
