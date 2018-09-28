@@ -1,11 +1,11 @@
 MoveIt! Tutorials
 =================
 
-These tutorials will run you through how to use MoveIt! with your robot. It is assumed that you have already configured MoveIt! for your robot - check the `list of robots running MoveIt! <http://moveit.ros.org/robots/>`_ to see whether MoveIt! is already available for your robot. Otherwise, skip to the tutorial on Setting up MoveIt! for your robot. If you just want to test MoveIt!, use the Panda as your quick-start robot.
+These tutorials will step you through using MoveIt! with your robot. It is assumed the robot you are working with has already been configured to work with MoveIt! - check the `list of robots running MoveIt! <http://moveit.ros.org/robots/>`_ to see whether MoveIt! is already available for your robot. Otherwise, skip to the `Integration with a New Robot<#integration-with-a-new-robot>`_ tutorials, below. If you just want to quickly try MoveIt!, use the default Panda robot as your quick-start demo.
 
-.. note:: All tutorials referencing the Panda have only been tested with ROS Kinetic. For earlier versions of ROS (eg. indigo) See `the ROS Indigo tutorials with the PR2 here <http://docs.ros.org/indigo/api/moveit_tutorials/html/doc/ikfast_tutorial.html>`_
+.. note:: All tutorials referencing the Panda have only been tested with ROS Kinetic. For earlier versions of ROS (eg. Indigo) See `the ROS Indigo tutorials with the PR2 <http://docs.ros.org/indigo/api/moveit_tutorials/html/doc/ikfast_tutorial.html>`_
 
-To follow along with these tutorials you will need a **ROBOT_moveit_config** package. This tutorial will use the Panda robot from Franka Emika. To get a working **panda_movit_config** package you can install from source, create your own, or install from Debian. We will walk through each method in the following tutorial:
+To follow along with these tutorials you will need a **ROBOT_moveit_config** package. This tutorial will use the Panda robot from Franka Emika. To get a working **panda_moveit_config** package you can install from source, create your own, or install from Debian. We will walk through each method in the following Getting Started tutorial:
 
 
 Getting Started with MoveIt! and RViz
@@ -18,7 +18,7 @@ Getting Started with MoveIt! and RViz
 
 MoveGroup - ROS Wrappers in C++ and Python
 ------------------------------------------
-The simplest way to get started with MoveIt! is through the ``move_group_interface``. The interface gives you unified access to many of the features MoveIt! provides and is ideal for beginners.
+The simplest way to use MoveIt! through scripting is using the ``move_group_interface``. This interface is ideal for beginners and provides unified access to many of the features of MoveIt!.
 
 .. toctree::
    :maxdepth: 1
