@@ -54,6 +54,7 @@ html_context = {
 
 # Links
 extlinks = {'codedir': ('https://github.com/' + html_context["github_user"] + '/moveit_tutorials/tree/' + html_context["github_version"] + '/doc/%s', ''),
+            'moveit_codedir': ('https://github.com/' + html_context["github_user"] + '/moveit/blob/' + html_context["github_version"] + '/%s', ''),
             'moveit_core': ('http://docs.ros.org/kinetic/api/moveit_core/html/classmoveit_1_1core_1_1%s.html', ''),
             'planning_scene': ('http://docs.ros.org/kinetic/api/moveit_core/html/classplanning__scene_1_1%s.html', ''),
             'planning_scene_interface': ('http://docs.ros.org/kinetic/api/moveit_ros_planning_interface/html/classmoveit_1_1planning__interface_1_1%s.html', ''),

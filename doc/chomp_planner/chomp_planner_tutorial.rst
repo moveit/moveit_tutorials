@@ -19,7 +19,7 @@ Prerequisites
 
 Installing MoveIt! from Source
 ------------------------------
-As you add and remove packages from your workspace you will need to clean your workspace and re-run the command to install new missing dependencies. Clean your workspace to remove references to the system wide installation of MoveIt!: ::
+As you add and remove packages from your workspace you will need to clean your workspace and re-run the command to install new missing dependencies. Clean your workspace to remove references to the system-wide installation of MoveIt!: ::
 
   cd ~/ws_moveit/src
   catkin clean
@@ -67,7 +67,7 @@ To run CHOMP in an evironment with obstacles, you can run the sample python scri
 
   :codedir:`collision_scene_example.py<collision_environments/scripts/collision_scene_example.py>`.
 
-This scripts creates a cluttered scene with four ostacles or a simple scene with one obstacle depending on the argument given to the script. One can also change the position/size of the obstacles to change the scene.
+This script creates a cluttered scene with four obstacles or a simple scene with one obstacle depending on the argument given to the script. One can also change the position/size of the obstacles to change the scene. 
 
 To run the CHOMP planner with obstacles, open two shells. In the first shell start RViz and wait for everything to finish loading: ::
 
@@ -91,7 +91,7 @@ CHOMP has some optimization parameters associated with it. These can be modified
 
 - *max_iterations*: this is the maximum number of iterations that the planner can take to find a good solution while optimization
 
-- *max_iterations_after_collision_free*: maximum iterations to be performed after a collision free path is found.
+- *max_iterations_after_collision_free*: maximum iterations to be performed after a collision-free path is found.
 
 - *smoothness_cost_weight*:  the smoothness_cost_weight parameters controls its weight in the final cost that CHOMP is actually optimizing over
 
@@ -101,7 +101,7 @@ CHOMP has some optimization parameters associated with it. These can be modified
 
 - *smoothness_cost_velocity, smoothness_cost_acceleration, smoothness_cost_jerk*: variables associated with the cost in velocity, acceleration and jerk.
 
-- *ridge_factor*: the noise added to the diagnal of the total `quadratic cost matrix <https://github.com/ros-planning/moveit/blob/kinetic-devel/moveit_planners/chomp/chomp_motion_planner/src/chomp_cost.cpp#L62>`_ in the objective function. Addition of small noise (e.g., 0.001) allows CHOMP to avoid obstacles at the cost of smoothness in trajectory.
+- *ridge_factor*: the noise added to the diagonal of the total :moveit_codedir:`quadratic cost matrix<moveit_planners/chomp/chomp_motion_planner/src/chomp_cost.cpp#L62/>` in the objective function. Addition of small noise (e.g., 0.001) allows CHOMP to avoid obstacles at the cost of smoothness in trajectory.
 
 - *use_pseudo_inverse*: enable pseudo inverse calculations or not.
 
@@ -111,11 +111,17 @@ CHOMP has some optimization parameters associated with it. These can be modified
 
 - *collision_clearance*: the minimum distance that needs to be maintained to avoid obstacles.
 
-- *collision_threshold*: the collision threshold cost that needs to be mainted to avoid collisions
+- *collision_threshold*: the collision threshold cost that needs to be maintained to avoid collisions
 
 - *use_stochastic_descent*: set this to true/false if you want to use stochastic descent while optimizing the cost. In stochastic descent, a random point from the trajectory is used, rather than all the trajectory points. This is faster and guaranteed to converge, but it may take more iterations in the worst case.
 
-Choosing parameters for CHOMP requires some sort of intuition based on the environment we are working in. One can have the default parameters for CHOMP and this works well in environments without  obstacles. However in cases where the scene is populated with obstacles, we need to vary some parameters to ensure that CHOMP is not stuck in local minima, or quickly finds optimal solutions, prefering trajectories which ovoids obstacles. Some parameters like increasing the *ridge_factor* to say 0.001 makes CHOMP avoids obstacles by not prefering smooth trajectories, so there is a trade-off  between smoothness and CHOMP's ability to avoid obstacles. Choosing the correct number of *max_iterations*, *learning_rate* is important based on the environment we are working in. Not choosing the appropriate CHOMP parameters might lead to CHOMP reporting not finding a collision free path. *collision_clearance*, *collision_threshold* parameters are useful in specifying the minimum distance to be kept from obstacles to avoid collisions.
+- *enable failure recovery*: if this is set to true, CHOMP tweaks ceratin parameters in the hope to find a solution when one does not exist with the default paramters specified in the ``chomp_planning.yaml`` file. 
+
+- *max_recovery_attempts*: this is the maximum times that CHOMP is run with a varied set of parameters after the first attempt with the default parameters.
+
+- *trajectory_initializaiton_method*: the type of initialization of the trajectory can be supplied here for CHOMP, this can be ``quintic-spline``, ``linear``, ``cubic`` or ``fillTrajectory``. The first three options refer to the interpolation methods used for trajectory initialization between start and goal states. ``fillTrajectory`` provides an option of initializing the trajectory from path computed from an existing motion planner like OMPL.
+
+Choosing parameters for CHOMP requires some intuition that is informed by the planning environment. For instance, the default parameters for CHOMP work well in environments without obstacles; however, in environments with many obstacles the default parameters will likely cause CHOMP to get stuck in local minima. By tweaking parameters, we can improve the quality of plans generated by CHOMP.
 
 Some of the unused/commented parameters are *hmc_stochasticity*, *hmc_annealing_factor*, *hmc_discretization*, *use_hamiltonian_montecarlo*, *animate_endeffector*, *animate_endeffector_segment*, *animate_path*, *random_jump_amount*, *add_randomness*.
 
@@ -123,8 +129,42 @@ Difference between plans obtained by CHOMP and OMPL
 ---------------------------------------------------
 Optimizing planners optimize a cost function that may sometimes lead to surprising results: moving through a thin obstacle might be lower cost than a long, winding trajectory that avoids all collisions. In this section we make a distinction between paths obtained from CHOMP and contrast it to those obtained from OMPL.
 
-OMPL is a open source library for sampling based / randomized motion planning algorithms. Sampling based algorithms are probabilistically complete: a solution would be eventually found if one exists, however non-existence of a solution cannot be reported. These algorithms are efficient and usually find a solution quickly. OMPL does not contain any code related to collision checking or visualization as the designers of OMPL did not want to tie it to a any particular colision checker or visualization front end. The library is designed so it can be easily integrated into systems that provide the additional components. MoveIt integrates directly with  OMPL and uses the motion planners from OMP as its default set of planners. The planners in OMPL are abstract; i.e. OMPL has no concept of a robot. Instead, MoveIt! configures OMPL and provides the back-end for OMPL to work with problems in Robotics.
+OMPL is a open source library for sampling based / randomized motion planning algorithms. Sampling based algorithms are probabilistically complete: a solution would be eventually found if one exists, however non-existence of a solution cannot be reported. These algorithms are efficient and usually find a solution quickly. OMPL does not contain any code related to collision checking or visualization as the designers of OMPL did not want to tie it to a any particular collision checker or visualization front end. The library is designed so it can be easily integrated into systems that provide the additional components. MoveIt! integrates directly with OMPL and uses the motion planners from OMPL as its default set of planners. The planners in OMPL are abstract; i.e. OMPL has no concept of a robot. Instead, MoveIt! configures OMPL and provides the back-end for OMPL to work with problems in Robotics.
 
-CHOMP: While most high-dimensional motion planners separate trajectory generation into distinct planning and optimization stages, CHOMP capitalizes on covariant gradient and functional gradient approaches to the optimization stage to design a motion planning algorithm based entirely on trajectory optimization. Given an infeasible naive trajectory, CHOMP reacts to the surrounding environment to quickly pull the trajectory out of collision while simultaneously optimizing dynamical quantities such as joint velocities and accelerations. It rapidly converges to a smooth collision-free trajectory that can be executed efficiently on the robot. A covaraint update rule ensures that CHOMP quickly converges to a locally optimal trajectory.
+CHOMP: While most high-dimensional motion planners separate trajectory generation into distinct planning and optimization stages, CHOMP capitalizes on covariant gradient and functional gradient approaches to the optimization stage to design a motion planning algorithm based entirely on trajectory optimization. Given an infeasible naive trajectory, CHOMP reacts to the surrounding environment to quickly pull the trajectory out of collision while simultaneously optimizing dynamical quantities such as joint velocities and accelerations. It rapidly converges to a smooth collision-free trajectory that can be executed efficiently on the robot. A covariant update rule ensures that CHOMP quickly converges to a locally optimal trajectory.
 
-For scenes containing obstacles, CHOMP often generates paths which do not prefer smooth trajectories by addition of some noise (*ridge_factor*) in the cost function for the dynamical quantities of the robot (like acceleration, velocity). CHOMP is able to avoid obstacle in most cases but also fails in some if it gets stuck in the local minima and might report a solution not found due to a naive initial guess for the trajectory. OMPL on the other hand generates collision free smooth paths in the presence of obstacles too.
+For scenes containing obstacles, CHOMP often generates paths which do not prefer smooth trajectories by addition of some noise (*ridge_factor*) in the cost function for the dynamical quantities of the robot (like acceleration, velocity). CHOMP is able to avoid obstacles in most cases but it can fail if it gets stuck in the local minima due to a bad initial guess for the trajectory. OMPL can be used to generate collision-free seed trajectories for CHOMP to mitigate this issue.
+
+Using OMPL as a pre-processor for CHOMP
+---------------------------------------
+Here, it is demonstrated that CHOMP can also be used as a post-processing optimization technique for plans obtained by other planning algorithms. The intuition behind this is that some randomized planning algorithm produces an initial guess for CHOMP. CHOMP then takes this initial guess and further optimizes the trajectory. 
+To achieve this, follow the steps:
+
+#. Open the ``ompl_planning_pipeline.launch`` file in the ``<robot_moveit_config>/launch`` folder of your robot. For the Panda robot it is `this <https://github.com/ros-planning/panda_moveit_config/blob/master/launch/ompl_planning_pipeline.launch.xml>`_ file. Edit this launch file, find the lines where ``<arg name="planning_adapters">`` is mentioned and change it to: ::
+
+    <arg name="planning_adapters" value="default_planner_request_adapters/AddTimeParameterization
+                   default_planner_request_adapters/FixWorkspaceBounds
+                   default_planner_request_adapters/FixStartStateBounds
+                   default_planner_request_adapters/FixStartStateCollision
+                   default_planner_request_adapters/FixStartStatePathConstraints
+                   default_planner_request_adapters/CHOMPOptimizerAdapter" />
+
+#. The order of the ``planning_adapters`` is the order in which the mentioned adapters are called / invoked. Inside the CHOMP adapter, a :moveit_codedir:`call <moveit_ros/planning/planning_request_adapter_plugins/src/chomp_optimizer_adapter.cpp#L174>` to OMPL is made before invoking the CHOMP optimization solver, so CHOMP takes the initial path computed by OMPL as the starting point to further optimize it. 
+
+#. Find the line where ``<rosparam command="load" file="$(find panda_moveit_config)/config/ompl_planning.yaml"/>`` is mentioned and after this line, add the following: ::
+
+    <rosparam command="load" file="$(find panda_moveit_config)/config/chomp_planning.yaml"/>
+
+#. These additions will add a CHOMP Optimization adapter and load the corresponding CHOMP planner's parameters. To do this with your own robot replace ``panda_moveit_config`` to ``<my_robot>_moveit_config`` of your robot.
+
+#. In the ``move_group.launch`` file of ``<robot_moveit_config>/launch`` folder for your robot, make sure that the default planner is ``ompl``.
+
+#. In the ``chomp_planning.yaml`` file of ``<robot_moveit_config>/config`` folder for your robot, add the following line: :: 
+
+    trajectory_initialization_method: "fillTrajectory"
+
+#. After making these requisite changes to the launch files, open a terminal and execute the following: ::
+
+    roslaunch panda_moveit_config demo_chomp.launch
+
+This will launch RViz, select OMPL in the Motion Planning panel under the Context tab. Set the desired start and goal states by moving the end-effector around in the same way as was done for CHOMP above. Finally click on the Plan button to start planning. The planner will now first run OMPL, then run CHOMP on OMPL's output to produce an optimized path.

@@ -69,6 +69,7 @@ Configuration
    doc/ompl_interface/ompl_interface_tutorial
    doc/chomp_planner/chomp_planner_tutorial
    doc/stomp_planner/stomp_planner_tutorial
+   doc/planning_adapters/planning_adapters_tutorial.rst
 
 Miscellaneous
 ----------------------------
