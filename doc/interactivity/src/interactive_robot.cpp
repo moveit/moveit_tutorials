@@ -37,7 +37,7 @@
 // This code goes with the interactivity tutorial
 
 #include "interactivity/interactive_robot.h"
-#include <eigen_conversions/eigen_msg.h>
+#include <tf2_eigen/tf2_eigen.h>
 #include <moveit/robot_state/conversions.h>
 
 // default world object position is just in front and left of Panda robot.
@@ -123,7 +123,7 @@ void InteractiveRobot::movedRobotMarkerCallback(InteractiveRobot* robot,
                                                 const visualization_msgs::InteractiveMarkerFeedbackConstPtr& feedback)
 {
   Eigen::Affine3d pose;
-  tf::poseMsgToEigen(feedback->pose, pose);
+  tf2::fromMsg(feedback->pose, pose);
   robot->setGroupPose(pose);
 }
 
@@ -132,7 +132,7 @@ void InteractiveRobot::movedWorldMarkerCallback(InteractiveRobot* robot,
                                                 const visualization_msgs::InteractiveMarkerFeedbackConstPtr& feedback)
 {
   Eigen::Affine3d pose;
-  tf::poseMsgToEigen(feedback->pose, pose);
+  tf2::fromMsg(feedback->pose, pose);
   robot->setWorldObjectPose(pose);
 }
 
@@ -306,7 +306,7 @@ void InteractiveRobot::publishWorldState()
   marker.color.b = 0.0f;
   marker.color.a = 0.4f;
   marker.lifetime = ros::Duration();
-  tf::poseEigenToMsg(desired_world_object_pose_, marker.pose);
+  marker.pose = tf2::toMsg(desired_world_object_pose_);
   world_state_publisher_.publish(marker);
 }
 

@@ -41,6 +41,9 @@
 #include <moveit/planning_scene_interface/planning_scene_interface.h>
 #include <moveit/move_group_interface/move_group_interface.h>
 
+// TF2
+#include <tf2_geometry_msgs/tf2_geometry_msgs.h>
+
 void openGripper(trajectory_msgs::JointTrajectory& posture)
 {
   // BEGIN_SUB_TUTORIAL open_gripper
@@ -91,7 +94,9 @@ void pick(moveit::planning_interface::MoveGroupInterface& move_group)
   // Therefore, the position for panda_link8 = 5 - (length of cube/2 - distance b/w panda_link8 and palm of eef - some
   // extra padding)
   grasps[0].grasp_pose.header.frame_id = "panda_link0";
-  grasps[0].grasp_pose.pose.orientation = tf::createQuaternionMsgFromRollPitchYaw(-M_PI / 2, -M_PI / 4, -M_PI / 2);
+  tf2::Quaternion orientation;
+  orientation.setRPY(-M_PI / 2, -M_PI / 4, -M_PI / 2);
+  grasps[0].grasp_pose.pose.orientation = tf2::toMsg(orientation);
   grasps[0].grasp_pose.pose.position.x = 0.415;
   grasps[0].grasp_pose.pose.position.y = 0;
   grasps[0].grasp_pose.pose.position.z = 0.5;
@@ -146,7 +151,9 @@ void place(moveit::planning_interface::MoveGroupInterface& group)
   // Setting place location pose
   // +++++++++++++++++++++++++++
   place_location[0].place_pose.header.frame_id = "panda_link0";
-  place_location[0].place_pose.pose.orientation = tf::createQuaternionMsgFromRollPitchYaw(0, 0, M_PI / 2);
+  tf2::Quaternion orientation;
+  orientation.setRPY(0, 0, M_PI / 2);
+  place_location[0].place_pose.pose.orientation = tf2::toMsg(orientation);
 
   /* While placing it is the exact location of the center of the object. */
   place_location[0].place_pose.pose.position.x = 0;

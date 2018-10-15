@@ -38,8 +38,8 @@
 
 #include "interactivity/pose_string.h"
 
-// tf
-#include <eigen_conversions/eigen_msg.h>
+// tf2
+#include <tf2_eigen/tf2_eigen.h>
 
 #include <iostream>
 #include <iomanip>
@@ -67,7 +67,5 @@ std::string PoseString(const geometry_msgs::Pose& pose)
  */
 std::string PoseString(const Eigen::Affine3d& pose)
 {
-  geometry_msgs::Pose msg;
-  tf::poseEigenToMsg(pose, msg);
-  return PoseString(msg);
+  return PoseString(tf2::toMsg(pose));
 }
