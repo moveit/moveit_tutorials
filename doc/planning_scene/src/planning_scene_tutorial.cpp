@@ -41,7 +41,6 @@
 #include <moveit/planning_scene/planning_scene.h>
 
 #include <moveit/kinematic_constraints/utils.h>
-#include <eigen_conversions/eigen_msg.h>
 
 // BEGIN_SUB_TUTORIAL stateFeasibilityTestExample
 //

@@ -38,7 +38,7 @@
 
 #include "interactivity/imarker.h"
 #include "interactivity/pose_string.h"
-#include <eigen_conversions/eigen_msg.h>
+#include <tf2_eigen/tf2_eigen.h>
 
 /* default callback which just prints the current pose */
 void IMarker::printFeedback(const visualization_msgs::InteractiveMarkerFeedbackConstPtr& feedback)
@@ -107,7 +107,7 @@ void IMarker::makeAxisControl()
 /* move to new pose */
 void IMarker::move(const Eigen::Affine3d& pose)
 {
-  tf::poseEigenToMsg(pose, imarker_.pose);
+  imarker_.pose = tf2::toMsg(pose);
   server_->applyChanges();
 }
 
@@ -120,8 +120,8 @@ void IMarker::initialize(interactive_markers::InteractiveMarkerServer& server, c
 {
   server_ = &server;
   imarker_.header.frame_id = frame_id;
-  tf::pointEigenToMsg(position, imarker_.pose.position);
-  tf::quaternionEigenToMsg(orientation, imarker_.pose.orientation);
+  imarker_.pose.position = tf2::toMsg(position);
+  imarker_.pose.orientation = tf2::toMsg(orientation);
   imarker_.scale = 0.3;
 
   imarker_.name = name;

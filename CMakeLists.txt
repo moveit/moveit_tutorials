@@ -22,6 +22,9 @@ find_package(catkin REQUIRED
     pcl_ros
     pcl_conversions
     rosbag
+    tf2_ros
+    tf2_eigen
+    tf2_geometry_msgs
 )
 
 find_package(Boost REQUIRED system filesystem date_time thread)
