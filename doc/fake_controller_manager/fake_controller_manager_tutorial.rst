@@ -37,4 +37,4 @@ In order to load an initial pose, one can have a list of (group, pose) pairs as 
 
    initial:
      - group: arm
-       pose:  home
+       pose:  ready
