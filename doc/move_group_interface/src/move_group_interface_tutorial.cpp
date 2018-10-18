@@ -236,16 +236,19 @@ int main(int argc, char** argv)
   // When done with the path constraint be sure to clear it.
   move_group.clearPathConstraints();
 
+  // Since we set the start state we have to clear it before planning other paths
+  move_group.setStartStateToCurrentState();
+
   // Cartesian Paths
   // ^^^^^^^^^^^^^^^
   // You can plan a Cartesian path directly by specifying a list of waypoints
   // for the end-effector to go through. Note that we are starting
   // from the new start state above.  The initial pose (start state) does not
   // need to be added to the waypoint list but adding it can help with visualizations
-  std::vector<geometry_msgs::Pose> waypoints;
-  waypoints.push_back(start_pose2);
+  geometry_msgs::Pose target_pose3 = move_group.getCurrentPose().pose;
 
-  geometry_msgs::Pose target_pose3 = start_pose2;
+  std::vector<geometry_msgs::Pose> waypoints;
+  waypoints.push_back(target_pose3);
 
   target_pose3.position.z -= 0.2;
   waypoints.push_back(target_pose3);  // down
