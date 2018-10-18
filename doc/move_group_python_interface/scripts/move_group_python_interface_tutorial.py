@@ -493,25 +493,25 @@ if __name__ == '__main__':
 
 ## BEGIN_TUTORIAL
 ## .. _moveit_commander:
-##    http://docs.ros.org/kinetic/api/moveit_commander/html/namespacemoveit__commander.html
+##    http://docs.ros.org/melodic/api/moveit_commander/html/namespacemoveit__commander.html
 ##
 ## .. _MoveGroupCommander:
-##    http://docs.ros.org/kinetic/api/moveit_commander/html/classmoveit__commander_1_1move__group_1_1MoveGroupCommander.html
+##    http://docs.ros.org/melodic/api/moveit_commander/html/classmoveit__commander_1_1move__group_1_1MoveGroupCommander.html
 ##
 ## .. _RobotCommander:
-##    http://docs.ros.org/kinetic/api/moveit_commander/html/classmoveit__commander_1_1robot_1_1RobotCommander.html
+##    http://docs.ros.org/melodic/api/moveit_commander/html/classmoveit__commander_1_1robot_1_1RobotCommander.html
 ##
 ## .. _PlanningSceneInterface:
-##    http://docs.ros.org/kinetic/api/moveit_commander/html/classmoveit__commander_1_1planning__scene__interface_1_1PlanningSceneInterface.html
+##    http://docs.ros.org/melodic/api/moveit_commander/html/classmoveit__commander_1_1planning__scene__interface_1_1PlanningSceneInterface.html
 ##
 ## .. _DisplayTrajectory:
-##    http://docs.ros.org/kinetic/api/moveit_msgs/html/msg/DisplayTrajectory.html
+##    http://docs.ros.org/melodic/api/moveit_msgs/html/msg/DisplayTrajectory.html
 ##
 ## .. _RobotTrajectory:
-##    http://docs.ros.org/kinetic/api/moveit_msgs/html/msg/RobotTrajectory.html
+##    http://docs.ros.org/melodic/api/moveit_msgs/html/msg/RobotTrajectory.html
 ##
 ## .. _rospy:
-##    http://docs.ros.org/kinetic/api/rospy/html/
+##    http://docs.ros.org/melodic/api/rospy/html/
 ## CALL_SUB_TUTORIAL imports
 ## CALL_SUB_TUTORIAL setup
 ## CALL_SUB_TUTORIAL basic_info

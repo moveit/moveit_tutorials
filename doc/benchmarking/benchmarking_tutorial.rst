@@ -9,7 +9,7 @@ Getting Started
 ---------------
 If you haven't already done so, make sure you've completed the steps in `Getting Started <../getting_started/getting_started.html>`_.
 
-The `benchmarking package <https://github.com/ros-planning/moveit/tree/kinetic-devel/moveit_ros/benchmarks>`_ provides methods to benchmark motion planning algorithms and aggregate/plot statistics using the OMPL Planner Arena.
+The `benchmarking package <https://github.com/ros-planning/moveit/tree/melodic-devel/moveit_ros/benchmarks>`_ provides methods to benchmark motion planning algorithms and aggregate/plot statistics using the OMPL Planner Arena.
 The example below demonstrates how the benchmarking can be run for a Panda robot arm.
 
 Example

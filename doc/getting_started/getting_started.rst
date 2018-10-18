@@ -3,7 +3,7 @@ Getting Started
 
 Install ROS and Catkin
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-`Install ROS Kinetic <http://wiki.ros.org/kinetic/Installation/Ubuntu>`_.
+`Install ROS Melodic <http://wiki.ros.org/melodic/Installation/Ubuntu>`_.
 It is easy to miss steps when going through the ROS installation tutorial. If you run into errors in the next few steps, a good place to start is to go back and make sure you have installed ROS correctly.
 
 Once you have ROS installed, make sure you have the most up to date packages: ::
@@ -14,13 +14,13 @@ Once you have ROS installed, make sure you have the most up to date packages: ::
 
 Install `catkin <http://wiki.ros.org/catkin>`_ the ROS build system: ::
 
-  sudo apt-get install ros-kinetic-catkin python-catkin-tools
+  sudo apt-get install ros-melodic-catkin python-catkin-tools
 
 Install MoveIt!
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The simplest way to install MoveIt! is from pre-built binaries (Debian): ::
 
-  sudo apt install ros-kinetic-moveit
+  sudo apt install ros-melodic-moveit
 
 Advanced users might want to `install MoveIt! from source <http://moveit.ros.org/install/source/>`_.
 
@@ -41,6 +41,12 @@ You will also need a ``panda_moveit_config`` package to follow along with these 
 
   git clone https://github.com/ros-planning/panda_moveit_config.git
 
+.. note:: Oct 23, 2018: franka_description is [not fully available for ROS Melodic](https://github.com/frankaemika/franka_ros/issues/34).
+
+Until then please manually clone the franka description package: ::
+
+  git clone https://github.com/frankaemika/franka_ros
+
 .. note:: For now we will use a pre-generated ``panda_moveit_config`` package but later we will learn how to make our own in the `MoveIt! Setup Assistant tutorial <../setup_assistant/setup_assistant_tutorial.html>`_.
 
 Build your Catkin Workspace
@@ -48,12 +54,12 @@ Build your Catkin Workspace
 The following will attempt to install from Debian any package dependencies not already in your workspace: ::
 
   cd ~/ws_moveit/src
-  rosdep install -y --from-paths . --ignore-src --rosdistro kinetic
+  rosdep install -y --from-paths . --ignore-src --rosdistro melodic
 
 The next command will configure your catkin workspace: ::
 
   cd ~/ws_moveit
-  catkin config --extend /opt/ros/kinetic
+  catkin config --extend /opt/ros/melodic
   catkin build
 
 Source the catkin workspace: ::

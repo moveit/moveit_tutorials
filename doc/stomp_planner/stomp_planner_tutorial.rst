@@ -14,7 +14,7 @@ You should also have gone through the steps in `Visualization with MoveIt! RViz 
 
 Prerequisites
 -------------
- 1. You must have the latest version of MoveIt! installed. On ROS Kinetic you will need to build MoveIt! from source. A build from source is required as STOMP is not part of the official release yet. It is therefore not included in the binary packages. We will go through the steps for doing this below.
+ 1. You must have the latest version of MoveIt! installed. On ROS Melodic you will need to build MoveIt! from source. A build from source is required as STOMP is not part of the official release yet. It is therefore not included in the binary packages. We will go through the steps for doing this below.
  2. To use STOMP with your robot you must already have a MoveIt! configuration package for your robot already. For example, if you have a Panda robot, it's probably called ``panda_moveit_config``. This is typically built using the `MoveIt! Setup Assistant <../setup_assistant/setup_assistant_tutorial.html>`_.
  3. You must also have built `ros-industrial/industrial_moveit package <https://github.com/ros-industrial/industrial_moveit>`_ from source. This needs to be built from source since industrial_moveit is not released as a debian yet. You only need to build the `stomp_core <https://github.com/ros-industrial/industrial_moveit/tree/kinetic-devel/stomp_core>`_ package from industrial_moveit as other packages are not required for the functionality of STOMP with moveIt.
 
@@ -25,7 +25,7 @@ As you add and remove packages from your workspace you will need to clean your w
   cd ~/ws_moveit/src
   catkin clean
 
-Now follow the instructions on the MoveIt! homepage for `installing MoveIt! Kinetic from source <http://moveit.ros.org/install/source/>`_. Note that you can skip the **Prerequisites** section since you should already have a Catkin workspace.
+Now follow the instructions on the MoveIt! homepage for `installing MoveIt! Melodic from source <http://moveit.ros.org/install/source/>`_. Note that you can skip the **Prerequisites** section since you should already have a Catkin workspace.
 
 Re-source the setup files: ::
 
@@ -35,7 +35,7 @@ Using STOMP with Your Robot
 ---------------------------
 **Note:** if you are following this demo using the ``panda_moveit_config`` from the `ros-planning/panda_moveit_config <https://github.com/ros-planning/panda_moveit_config>`_ repository, these steps are already done for you and you can skip steps 1-3 and you only need to do step 4.
 
-#. Simply download `stomp_planning_pipeline.launch.xml <https://github.com/ros-planning/panda_moveit_config/blob/master/launch/stomp_planning_pipeline.launch.xml>`_ file into the launch directory of your MoveIt! config package. In our case, we will save this file in the ``panda_moveit_config/launch`` directory. Place the file "*stomp_planning_pipeline.launch.xml*" file in the **launch** directory of your **moveit_config** package. **Note:** The latest version of MoveIt! Setup Assistant will generate this launch file for you. The file should contain the following: ::
+#. Simply download `stomp_planning_pipeline.launch.xml <https://github.com/ros-planning/panda_moveit_config/blob/melodic-devel/launch/stomp_planning_pipeline.launch.xml>`_ file into the launch directory of your MoveIt! config package. In our case, we will save this file in the ``panda_moveit_config/launch`` directory. Place the file "*stomp_planning_pipeline.launch.xml*" file in the **launch** directory of your **moveit_config** package. **Note:** The latest version of MoveIt! Setup Assistant will generate this launch file for you. The file should contain the following: ::
 
     <launch>
       <!-- Stomp Plugin for MoveIt! -->
@@ -54,7 +54,7 @@ Using STOMP with Your Robot
     </launch>
 
 #. Adjust the line ``<rosparam command="load" file="$(find panda_moveit_config)/config/stomp_planning.yaml" />`` to ``<rosparam command="load" file="$(find <robot_moveit_config>)/config/stomp_planning.yaml" />`` replacing ``<robot_moveit_config>`` with the name of your MoveIt! configuration package.
-#. Download `stomp_planning.yaml <https://github.com/ros-planning/panda_moveit_config/blob/master/config/stomp_planning.yaml>`_ file into the config directory of your MoveIt! config package. In our case, we will save this file in the ``panda_moveit_config/config`` directory. Create the "*stomp_planning.yaml*" configuration file. This file contains the parameters required by STOMP.  The parameters are specific to each ''planning group'' defined in   the SRDF file.  So if there are three planning groups, then the configuration file defines a specific set of parameters for each  planning group. In our case there is only one planning group, i.e., the "panda_arm".
+#. Download `stomp_planning.yaml <https://github.com/ros-planning/panda_moveit_config/blob/melodic-devel/config/stomp_planning.yaml>`_ file into the config directory of your MoveIt! config package. In our case, we will save this file in the ``panda_moveit_config/config`` directory. Create the "*stomp_planning.yaml*" configuration file. This file contains the parameters required by STOMP.  The parameters are specific to each ''planning group'' defined in   the SRDF file.  So if there are three planning groups, then the configuration file defines a specific set of parameters for each  planning group. In our case there is only one planning group, i.e., the "panda_arm".
 
    **>** *Save this file in the* **config** *directory of the moveit_config package*. Also make sure that the dimensionality of the `stddev` array parameter is the same as the number of joints present in the planning group name of your robot.
 
@@ -102,7 +102,7 @@ Next, in RViz, select STOMP in the MotionPlanning pannel under the Context tab. 
 
 Tweaking some of the parameters for STOMP
 -----------------------------------------
-STOMP has some parameters associated with it. These can be modified for the given environment/robot you are working with and is normally present in the `stomp_planning.yaml <https://github.com/ros-planning/panda_moveit_config/blob/master/config/stomp_planning.yaml>`_ file in config folder of the robot you are working with. If this file does not exist for your robot, you can create it and set the parameter values as you want. The following are the insights to set up these parameter values for some of them:
+STOMP has some parameters associated with it. These can be modified for the given environment/robot you are working with and is normally present in the `stomp_planning.yaml <https://github.com/ros-planning/panda_moveit_config/blob/melodic-devel/config/stomp_planning.yaml>`_ file in config folder of the robot you are working with. If this file does not exist for your robot, you can create it and set the parameter values as you want. The following are the insights to set up these parameter values for some of them:
 
 **Optimization Parameters**:
 

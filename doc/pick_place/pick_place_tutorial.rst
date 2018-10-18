@@ -28,7 +28,7 @@ You should see something similar to the video at the beginning of this tutorial.
 
 Understanding ``moveit_msgs::Grasp``
 ------------------------------------
-For complete documentation refer to `moveit_msgs/Grasp.msg. <http://docs.ros.org/kinetic/api/moveit_msgs/html/msg/Grasp.html>`_
+For complete documentation refer to `moveit_msgs/Grasp.msg. <http://docs.ros.org/melodic/api/moveit_msgs/html/msg/Grasp.html>`_
 
 The relevant fields of the message are:-
 
