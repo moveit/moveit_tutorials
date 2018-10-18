@@ -242,7 +242,7 @@ joints so we will skip this step.
 Step 8: 3D Perception
 --------------------------
 
-The 3D Perception tab is meant to set the parameters of the YAML configuration file 
+The 3D Perception tab is meant to set the parameters of the YAML configuration file
 for configuring the 3D sensors `sensors_3d.yaml`.
 
 e.g. `point_cloud` parameters:
@@ -303,7 +303,7 @@ ROS Control tab can be used to auto generate simulated controllers to actuate th
 
 * Enter *Controller Name* as **arm_position_controller**
 
-* Choose **position_controllers/JointPositionController** as the controller type 
+* Choose **position_controllers/JointPositionController** as the controller type
 
 * Next you have to choose this controller joints, you can add joints individually or add all the joints in a planning group all together.
 
