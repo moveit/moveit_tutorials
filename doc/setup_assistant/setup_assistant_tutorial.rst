@@ -238,8 +238,89 @@ cannot (kinematically) plan for these joints because they can't be
 directly controlled. The Panda does not have any passive
 joints so we will skip this step.
 
-Step 8: Add Author Information
-------------------------------
+
+Step 8: 3D Perception
+--------------------------
+
+The 3D Perception tab is meant to set the parameters of the YAML configuration file 
+for configuring the 3D sensors `sensors_3d.yaml`.
+
+e.g. `point_cloud` parameters:
+
+.. image:: setup_assistant_panda_3d_perception_point_cloud.png
+   :width: 700px
+
+For more details about those parameters please see perception pipeline tutorial_.
+
+.. _tutorial: http://docs.ros.org/kinetic/api/moveit_tutorials/html/doc/perception_pipeline/perception_pipeline_tutorial.html
+
+In case of `sensors_3d.yaml` was not needed, choose `None`.
+
+.. image:: setup_assistant_panda_3d_perception.png
+   :width: 700px
+
+
+Step 9: Gazebo Simulation
+--------------------------
+
+The Simulation tab can be used to help you simulate your robot with Gazebo by generating a new Gazebo compatible urdf if needed.
+
+.. image:: setup_assistant_panda_simulation_screen.png
+   :width: 700px
+
+You can use the generated robot `urdf` to spawn the robot in Gazebo in the following way.
+
+* Use rosrun to start gazebo empty world: ::
+
+   roslaunch gazebo_ros empty_world.launch paused:=true use_sim_time:=false gui:=true throttled:=false recording:=false debug:=true
+
+* Use rosrun to spawn the robot: ::
+
+   rosrun gazebo_ros spawn_model -file </path_to_new_urdf/file_name.urdf> -urdf -x 0 -y 0 -z 1 -model panda
+
+
+.. image:: setup_assistant_panda_gazebo.png
+   :width: 700px
+
+
+Step 10: ROS Control
+---------------------
+
+ROS Control is a set of packages that include controller interfaces, controller managers, transmissions and hardware_interfaces, for more details please look at `ros_control` documentation_
+
+.. _documentation: http://wiki.ros.org/ros_control
+
+ROS Control tab can be used to auto generate simulated controllers to actuate the joints of your robot. This will allow us to provide the correct ROS interfaces MoveIt!.
+
+* Click on the *ROS Control* pane selector.
+
+.. image:: setup_assistant_panda_ros_control.png
+   :width: 700px
+
+* Click on *Add Controller* and you should see the following screen:
+
+* We will first add Panda arm position controller
+
+* Enter *Controller Name* as **arm_position_controller**
+
+* Choose **position_controllers/JointPositionController** as the controller type 
+
+* Next you have to choose this controller joints, you can add joints individually or add all the joints in a planning group all together.
+
+* Now, click on Add Planning Group Joints.
+
+.. image:: setup_assistant_panda_ros_control_create.png
+   :width: 700px
+
+* Choose panda_arm planning group to add all the joints in that group to the arm controller.
+
+.. image:: setup_assistant_panda_ros_control_add_joints.png
+   :width: 700px
+
+* Click *Save* to save the selected controller.
+
+Step 11: Add Author Information
+--------------------------------
 
 Catkin requires author information for publishing purposes
 
@@ -247,8 +328,8 @@ Catkin requires author information for publishing purposes
 * Enter your name and email address.
 
 
-Step 9: Generate Configuration Files
-------------------------------------
+Step 12: Generate Configuration Files
+--------------------------------------
 
 You are almost there. One last step - generating all the configuration
 files that you will need to start using MoveIt!
@@ -274,6 +355,7 @@ files that you will need to start using MoveIt!
 
 * Congratulations!! - You are now done generating the configuration
   files you need for MoveIt!
+
 
 What's Next
 ---------------
