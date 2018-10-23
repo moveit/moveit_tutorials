@@ -1,6 +1,14 @@
 <launch>
 
-  <node name="move_group_interface_tutorial" pkg="moveit_tutorials" type="move_group_interface_tutorial" respawn="false" output="screen">
+  <!-- By default, we are not in debug mode -->
+  <arg name="debug" default="false" />
+
+  <!-- GDB Debug Option -->
+  <arg unless="$(arg debug)" name="launch_prefix" value="" />
+  <arg     if="$(arg debug)" name="launch_prefix"
+     value="gdb -x $(find panda_moveit_config)/launch/gdb_settings.gdb --ex run --args" />
+
+  <node name="move_group_interface_tutorial" pkg="moveit_tutorials" type="move_group_interface_tutorial" respawn="false" launch-prefix="$(arg launch_prefix)" output="screen">
   </node>
 
 </launch>
