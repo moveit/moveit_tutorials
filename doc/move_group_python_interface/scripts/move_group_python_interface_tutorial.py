@@ -229,8 +229,8 @@ class MoveGroupPythonIntefaceTutorial(object):
     ## Cartesian Paths
     ## ^^^^^^^^^^^^^^^
     ## You can plan a Cartesian path directly by specifying a list of waypoints
-    ## for the end-effector to go through:
-    ## (If executing  interactively in a Python shell, set scale = 1.0).
+    ## for the end-effector to go through. If executing  interactively in a
+    ## Python shell, set scale = 1.0.
     ##
     waypoints = []
 
