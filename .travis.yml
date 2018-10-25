@@ -51,16 +51,3 @@ script:
 after_success:
   # Tell GitHub Pages not to bypass Jekyll processing
   - touch build/html/.nojekyll
-
-deploy:
-  # Deploy to gh-pages branch
-  provider: pages
-  # Don't delete built files
-  skip-cleanup: true
-  # Add to Environment Variables section of Travis CI repository settings page
-  github-token: $GITHUB_TOKEN
-  # Only copy build output directory to gh-pages
-  local_dir: build/html
-  on:
-    # Source branch
-    branch: kinetic-devel

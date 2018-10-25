@@ -6,19 +6,17 @@ This is the primary documentation for the MoveIt! project. We strongly encourage
 
 These tutorials use the [reStructuredText](http://www.sphinx-doc.org/en/stable/rest.html) format commonly used in the Sphinx "Python Documentation Generator". This unfortunately differs from the common Markdown format, but its advantage is that it supports embedding code directly from source files for inline code tutorials.
 
-This repository is currently built automatically by two systems:
+This repository is currently built automatically by two systems. Travis builds the documentation for Melodic and ROS Build Farm builds the documentation for Kinetic and other stable versions:
 - [![Travis Status](https://travis-ci.org/ros-planning/moveit_tutorials.svg?branch=master)](https://travis-ci.org/ros-planning/moveit_tutorials) [Github Pages + Travis](https://ros-planning.github.io/moveit_tutorials/): latest
+- ROS Melodic Build Farm: TODO, unreleased
 - [![ROS Kinetic Build Farm Status](http://build.ros.org/buildStatus/icon?job=Kdoc__moveit_tutorials__ubuntu_xenial_amd64)](http://build.ros.org/job/Kdoc__moveit_tutorials__ubuntu_xenial_amd64/) [ROS Kinetic Build Farm](http://docs.ros.org/kinetic/api/moveit_tutorials/html/)
 - [![ROS Indigo Build Status](http://build.ros.org/buildStatus/icon?job=Idoc__moveit_tutorials__ubuntu_trusty_amd64)](http://build.ros.org/job/Idoc__moveit_tutorials__ubuntu_trusty_amd64/) [ROS Indigo Build Farm](http://docs.ros.org/indigo/api/moveit_tutorials/html/)
 
-
-
-
 ## Versions
 
-- ``indigo-devel`` branch should be considered for the most part "frozen" for historical reasons
-- ``kinetic-devel`` branch is latest
-- ``melodic-devel`` branch is coming soon, see [issue](https://github.com/ros-planning/moveit_tutorials/issues/230)
+- ``indigo-devel`` usage is discouraged
+- ``kinetic-devel`` stable
+- ``melodic-devel`` latest, changes should target this branch
 
 ## Build Locally
 
