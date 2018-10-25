@@ -229,7 +229,8 @@ class MoveGroupPythonIntefaceTutorial(object):
     ## Cartesian Paths
     ## ^^^^^^^^^^^^^^^
     ## You can plan a Cartesian path directly by specifying a list of waypoints
-    ## for the end-effector to go through:
+    ## for the end-effector to go through. If executing  interactively in a
+    ## Python shell, set scale = 1.0.
     ##
     waypoints = []
 
@@ -246,7 +247,9 @@ class MoveGroupPythonIntefaceTutorial(object):
 
     # We want the Cartesian path to be interpolated at a resolution of 1 cm
     # which is why we will specify 0.01 as the eef_step in Cartesian
-    # translation.  We will disable the jump threshold by setting it to 0.0 disabling:
+    # translation.  We will disable the jump threshold by setting it to 0.0,
+    # ignoring the check for infeasible jumps in joint space, which is sufficient
+    # for this tutorial.
     (plan, fraction) = group.compute_cartesian_path(
                                        waypoints,   # waypoints to follow
                                        0.01,        # eef_step
@@ -315,7 +318,7 @@ class MoveGroupPythonIntefaceTutorial(object):
     ## If the Python node dies before publishing a collision object update message, the message
     ## could get lost and the box will not appear. To ensure that the updates are
     ## made, we wait until we see the changes reflected in the
-    ## ``get_known_object_names()`` and ``get_known_object_names()`` lists.
+    ## ``get_attached_objects()`` and ``get_known_object_names()`` lists.
     ## For the purpose of this tutorial, we call this function after adding,
     ## removing, attaching or detaching an object in the planning scene. We then wait
     ## until the updates have been made or ``timeout`` seconds have passed
