@@ -126,7 +126,7 @@ void computeCollisionContactPoints(InteractiveRobot& robot)
   // iterate through **c_res.contacts** which is a std::map of contact points.
   // Look at the implementation of getCollisionMarkersFromContacts() in
   // `collision_tools.cpp
-  // <https://github.com/ros-planning/moveit/blob/kinetic-devel/moveit_core/collision_detection/src/collision_tools.cpp>`_
+  // <https://github.com/ros-planning/moveit/blob/melodic-devel/moveit_core/collision_detection/src/collision_tools.cpp>`_
   // for how.
   if (c_res.collision)
   {

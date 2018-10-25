@@ -145,7 +145,6 @@ Step 4: Use Motion Planning with the Panda
 
 Introspecting Trajectory Waypoints
 ++++++++++++++++++++++++++++++++++
-*Available since: Indigo 0.7.10, Kinetic and Lunar 0.9.7*
 
 You can visually introspect trajectory point by point on RViz.
 
