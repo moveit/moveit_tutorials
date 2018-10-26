@@ -20,7 +20,8 @@ This repository is currently built automatically by two systems. Travis builds t
 
 ## Build Locally
 
-If you want to test the tutorials by generating the html pages locally on your machine, run in the root of the package:
+If you want to test the tutorials by generating the html pages locally on your machine, use the following helper script.
+It has been tested on Ubuntu 16.04. Run in the root of the moveit_tutorials package:
 
     ./build_locally.sh
 
