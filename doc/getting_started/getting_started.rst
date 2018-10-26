@@ -51,7 +51,7 @@ Until then please manually clone the franka description package: ::
 
 Build your Catkin Workspace
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-The following will attempt to install from Debian any package dependencies not already in your workspace: ::
+The following will install from Debian any package dependencies not already in your workspace: ::
 
   cd ~/ws_moveit/src
   rosdep install -y --from-paths . --ignore-src --rosdistro melodic
@@ -59,20 +59,20 @@ The following will attempt to install from Debian any package dependencies not a
 The next command will configure your catkin workspace: ::
 
   cd ~/ws_moveit
-  catkin config --extend /opt/ros/melodic
+  catkin config --extend /opt/ros/${ROS_DISTRO} --cmake-args -DCMAKE_BUILD_TYPE=Release
   catkin build
 
 Source the catkin workspace: ::
 
   source ~/ws_moveit/devel/setup.bash
 
-Add the previous command to your ``.bashrc``: ::
+Optional: add the previous command to your ``.bashrc``: ::
 
    echo 'source ~/ws_moveit/devel/setup.bash' >> ~/.bashrc
 
 .. note:: Sourcing the ``setup.bash`` automatically in your ``~/.bashrc`` is
    not required and often skipped by advanced users who use more than one
-   Catkin workspace at a time, but we recommend it for simplicity
+   catkin workspace at a time, but we recommend it for simplicity.
 
 Next Step
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
