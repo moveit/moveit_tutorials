@@ -23,7 +23,7 @@ In this section, we will walk through configuring the 3D sensors on your robot w
 YAML Configuration file (Point Cloud)
 +++++++++++++++++++++++++++++++++++++
 
-We will have to generate a YAML configuration file for configuring the 3D sensors. Please see `this example file <https://github.com/ros-planning/panda_moveit_config/blob/melodic-devel/config/sensors_kinect_pointcloud.yaml>`_ for processing point clouds, located in the `panda_moveit_config repository for Kinetic <https://github.com/ros-planning/panda_moveit_config>`_.
+We will have to generate a YAML configuration file for configuring the 3D sensors. Please see `this example file <https://github.com/ros-planning/panda_moveit_config/blob/melodic-devel/config/sensors_kinect_pointcloud.yaml>`_ for processing point clouds, located in the `panda_moveit_config repository for Melodic <https://github.com/ros-planning/panda_moveit_config>`_.
 Save this file in the config folder in the robot's moveit_config package with name "sensors_kinect_pointcloud.yaml": ::
 
  sensors:
