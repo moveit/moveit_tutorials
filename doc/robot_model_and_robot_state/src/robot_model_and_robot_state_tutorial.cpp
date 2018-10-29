@@ -66,7 +66,7 @@ int main(int argc, char** argv)
   // :moveit_core:`RobotModel` for us to use.
   //
   // .. _RobotModelLoader:
-  //     http://docs.ros.org/kinetic/api/moveit_ros_planning/html/classrobot__model__loader_1_1RobotModelLoader.html
+  //     http://docs.ros.org/melodic/api/moveit_ros_planning/html/classrobot__model__loader_1_1RobotModelLoader.html
   robot_model_loader::RobotModelLoader robot_model_loader("robot_description");
   robot_model::RobotModelPtr kinematic_model = robot_model_loader.getModel();
   ROS_INFO("Model frame: %s", kinematic_model->getModelFrame().c_str());

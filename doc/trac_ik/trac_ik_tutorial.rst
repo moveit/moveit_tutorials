@@ -12,7 +12,7 @@ Install
 
 As of v1.4.5, **trac_ik** is part of the ROS Indigo/Jade binaries: ::
 
-  sudo apt-get install ros-kinetic-trac-ik-kinematics-plugin
+  sudo apt-get install ros-melodic-trac-ik-kinematics-plugin
 
 Usage
 -----

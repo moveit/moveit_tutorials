@@ -23,9 +23,15 @@ MoveIt! and ROS
   first if you have not already done that.
 
 * If you haven't already done so, make sure you have the `Franka description
-  package <https://github.com/frankaemika/franka_ros>`_ for Kinetic: ::
+  package <https://github.com/frankaemika/franka_ros>`_ for Melodic: ::
 
-   sudo apt-get install ros-kinetic-franka-description
+    sudo apt-get install ros-melodic-franka-description
+
+.. note:: Oct 23, 2018: franka_description is [not fully available for ROS Melodic](https://github.com/frankaemika/franka_ros/issues/34).
+
+Until then please manually clone the franka description package: ::
+
+  git clone https://github.com/frankaemika/franka_ros
 
 * If you have the ``panda_moveit_config`` package already git-cloned from the *Getting Started* page, be sure to delete that now since this tutorial will teach you how to create it from scratch: ::
 
@@ -52,8 +58,8 @@ Step 1: Start
 * Click on the browse button and navigate to the *panda_arm_hand.urdf.xacro* file
   installed when you installed the Franka package above. (This file
   gets installed in
-  /opt/ros/kinetic/share/franka_description/robots/panda_arm_hand.urdf.xacro on Ubuntu
-  with ROS Kinetic.)  Choose that file and then click *Load Files*. The
+  /opt/ros/melodic/share/franka_description/robots/panda_arm_hand.urdf.xacro on Ubuntu
+  with ROS Melodic.)  Choose that file and then click *Load Files*. The
   Setup Assistant will load the files (this might take a few seconds)
   and present you with this screen:
 
@@ -250,9 +256,7 @@ e.g. `point_cloud` parameters:
 .. image:: setup_assistant_panda_3d_perception_point_cloud.png
    :width: 700px
 
-For more details about those parameters please see perception pipeline tutorial_.
-
-.. _tutorial: http://docs.ros.org/kinetic/api/moveit_tutorials/html/doc/perception_pipeline/perception_pipeline_tutorial.html
+For more details about those parameters please see perception pipeline `tutorial <../perception_pipeline/perception_pipeline_tutorial.html>`_
 
 In case of `sensors_3d.yaml` was not needed, choose `None`.
 

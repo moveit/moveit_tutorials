@@ -18,7 +18,7 @@ Creating the Constraint Database
 
 A sample implementation on how to construct an approximation database from a constraint can be found inside ``demo_construct_state_database.cpp``.
 
-The main functionality is implemented in the `ConstraintsLibrary <http://docs.ros.org/kinetic/api/moveit_planners_ompl/html/classompl__interface_1_1ConstraintsLibrary.html>`_ class.
+The main functionality is implemented in the `ConstraintsLibrary <http://docs.ros.org/melodic/api/moveit_planners_ompl/html/classompl__interface_1_1ConstraintsLibrary.html>`_ class.
 
 Constraints are added by calling ``addConstraintApproximation()`` which can be called subsequently to include multiple constraints in the approximation.
 The function requires four parameters:

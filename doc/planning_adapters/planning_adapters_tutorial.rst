@@ -11,7 +11,7 @@ You should also have gone through the steps in `Visualization with MoveIt! RViz 
 
 Prerequisites
 --------------
- 1. You must have the latest version of MoveIt! installed. On ROS Kinetic you will need to build MoveIt! from source. A build from source is required as CHOMP and STOMP are not a part of the official release yet. It is therefore not included in the binary packages. We will go through the steps for doing this below.
+ 1. You must have the latest version of MoveIt! installed. On ROS Melodic you will need to build MoveIt! from source. A build from source is required as CHOMP and STOMP are not a part of the official release yet. It is therefore not included in the binary packages. We will go through the steps for doing this below.
  2. To use Planning Adapters with your robot you must already have a MoveIt! configuration package for your robot already. For example, if you have a Panda robot, it's probably called ``panda_moveit_config``. This is typically built using the `MoveIt! Setup Assistant <../setup_assistant/setup_assistant_tutorial.html>`_.
 
 Installing MoveIt! from Source
@@ -21,7 +21,7 @@ As you add and remove packages from your workspace you will need to clean your w
   cd ~/ws_moveit/src
   catkin clean
 
-Now follow the instructions on the MoveIt! homepage for `installing MoveIt! Kinetic from source <http://moveit.ros.org/install/source/>`_. Note that you can skip the **Prerequisites** section since you should already have a Catkin workspace.
+Now follow the instructions on the MoveIt! homepage for `installing MoveIt! Melodic from source <http://moveit.ros.org/install/source/>`_. Note that you can skip the **Prerequisites** section since you should already have a Catkin workspace.
 
 Re-source the setup files: ::
 
@@ -47,7 +47,7 @@ To achieve this, follow the steps:
                    default_planner_request_adapters/FixStartStatePathConstraints
                    default_planner_request_adapters/CHOMPOptimizerAdapter" />
 
-#. The values of the ``planning_adapters`` is the order in which the mentioned adapters are called / invoked. Order here matters. Inside the CHOMP adapter, a `call <https://github.com/ros-planning/moveit/tree/kinetic-devel/moveit_ros/planning/planning_request_adapter_plugins/src/chomp_optimizer_adapter.cpp#L174>`_ to OMPL is made before invoking the CHOMP optimization solver, so CHOMP takes the initial path computed by OMPL as the starting point to further optimize it.
+#. The values of the ``planning_adapters`` is the order in which the mentioned adapters are called / invoked. Order here matters. Inside the CHOMP adapter, a `call <https://github.com/ros-planning/moveit/tree/melodic-devel/moveit_ros/planning/planning_request_adapter_plugins/src/chomp_optimizer_adapter.cpp#L174>`_ to OMPL is made before invoking the CHOMP optimization solver, so CHOMP takes the initial path computed by OMPL as the starting point to further optimize it. 
 
 #. Find the line where ``<rosparam command="load" file="$(find panda_moveit_config)/config/ompl_planning.yaml"/>`` is mentioned and after this line, add the following: ::
 

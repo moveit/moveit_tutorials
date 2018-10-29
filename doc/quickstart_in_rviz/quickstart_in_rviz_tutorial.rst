@@ -48,6 +48,7 @@ Step 1: Launch the Demo and Configure the Plugin
   * Make sure the **Robot Description** field is set to ``robot_description``.
 
   * Make sure the **Planning Scene Topic** field is set to ``/planning_scene``.
+    Click on topic name to expose topic-name drop-down.
 
   * In **Planning Request**, change the **Planning Group** to ``panda_arm``.
 
@@ -145,7 +146,6 @@ Step 4: Use Motion Planning with the Panda
 
 Introspecting Trajectory Waypoints
 ++++++++++++++++++++++++++++++++++
-*Available since: Indigo 0.7.10, Kinetic and Lunar 0.9.7*
 
 You can visually introspect trajectory point by point on RViz.
 

@@ -14,7 +14,7 @@ You should also have gone through the steps in `Visualization with MoveIt! RViz 
 
 Prerequisites
 -------------
- 1. You must have the latest version of MoveIt! installed. On ROS Kinetic you will need to build MoveIt! from source. A build from source is required as STOMP is not part of the official release yet. It is therefore not included in the binary packages. We will go through the steps for doing this below.
+ 1. You must have the latest version of MoveIt! installed. On ROS Melodic you will need to build MoveIt! from source. A build from source is required as STOMP is not part of the official release yet. It is therefore not included in the binary packages. We will go through the steps for doing this below.
  2. To use STOMP with your robot you must already have a MoveIt! configuration package for your robot already. For example, if you have a Panda robot, it's probably called ``panda_moveit_config``. This is typically built using the `MoveIt! Setup Assistant <../setup_assistant/setup_assistant_tutorial.html>`_.
  3. You must also have built `ros-industrial/industrial_moveit package <https://github.com/ros-industrial/industrial_moveit>`_ from source. This needs to be built from source since industrial_moveit is not released as a debian yet. You only need to build the `stomp_core <https://github.com/ros-industrial/industrial_moveit/tree/kinetic-devel/stomp_core>`_ package from industrial_moveit as other packages are not required for the functionality of STOMP with moveIt.
 
@@ -25,7 +25,7 @@ As you add and remove packages from your workspace you will need to clean your w
   cd ~/ws_moveit/src
   catkin clean
 
-Now follow the instructions on the MoveIt! homepage for `installing MoveIt! Kinetic from source <http://moveit.ros.org/install/source/>`_. Note that you can skip the **Prerequisites** section since you should already have a Catkin workspace.
+Now follow the instructions on the MoveIt! homepage for `installing MoveIt! Melodic from source <http://moveit.ros.org/install/source/>`_. Note that you can skip the **Prerequisites** section since you should already have a Catkin workspace.
 
 Re-source the setup files: ::
 
