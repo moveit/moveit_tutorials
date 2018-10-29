@@ -144,7 +144,7 @@ You can test obstacle avoidance for yourself by setting the goal state manually 
 Detecting and Adding Object as Collision Object
 -----------------------------------------------
 
-In this section, we will demonstrate an example of extracting a cylinder from a pointcloud, computing relevant values and adding it as a collision object to the planning scene. 
+In this section, we will demonstrate an example of extracting a cylinder from a pointcloud, computing relevant values and adding it as a collision object to the planning scene.
 We will be working with point clouds but it can be implemented similarly with depth maps.
 
 After running the code, you should be able to see something like this in rviz:
