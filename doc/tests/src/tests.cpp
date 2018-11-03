@@ -71,7 +71,7 @@ protected:
 
   void SetUp() override
   {
-    robot_model = moveit::core::loadTestingRobotModel("panda_description");
+    robot_model_ = moveit::core::loadTestingRobotModel("panda_description");
   }
 
   /* If you need to cleanup the resources any tests are using, you can do it in TearDown(). */
@@ -79,15 +79,15 @@ protected:
   {
   }
 
-  moveit::core::RobotModelConstPtr robot_model;
+  moveit::core::RobotModelConstPtr robot_model_;
 };
 
 
 // To make a test that uses the data loaded by this fixture, use TEST_F.
 TEST_F(MyTestFixture, InitOK)
 {
-  ASSERT_EQ(robot_model->getURDF()->getName(), "panda");
-  ASSERT_EQ(robot_model->getSRDF()->getName(), "panda");
+  ASSERT_EQ(robot_model_->getURDF()->getName(), "panda");
+  ASSERT_EQ(robot_model_->getSRDF()->getName(), "panda");
 }
 
 // MoveIt also provides a RobotModelBuilder class that helps you build simple robots with the link and joint structure
