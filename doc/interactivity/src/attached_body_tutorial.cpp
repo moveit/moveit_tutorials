@@ -94,7 +94,7 @@ void publishMarkers(visualization_msgs::MarkerArray& markers)
 void userCallback(InteractiveRobot& robot)
 {
   // move the world geometry in the collision world
-  Eigen::Affine3d world_cube_pose;
+  Eigen::Isometry3d world_cube_pose;
   double world_cube_size;
   robot.getWorldGeometry(world_cube_pose, world_cube_size);
   g_planning_scene->getWorldNonConst()->moveShapeInObject("world_cube", g_world_cube_shape, world_cube_pose);
@@ -153,7 +153,7 @@ int main(int argc, char** argv)
   g_planning_scene = new planning_scene::PlanningScene(robot.robotModel());
 
   // Add the world geometry to the PlanningScene's collision detection world
-  Eigen::Affine3d world_cube_pose;
+  Eigen::Isometry3d world_cube_pose;
   double world_cube_size;
   robot.getWorldGeometry(world_cube_pose, world_cube_size);
   g_world_cube_shape.reset(new shapes::Box(world_cube_size, world_cube_size, world_cube_size));
@@ -167,14 +167,14 @@ int main(int argc, char** argv)
   //  const robot_model::LinkModel *link = robot.robotState()->getLinkModel("r_gripper_palm_link");
 
   std::vector<shapes::ShapeConstPtr> shapes;
-  EigenSTL::vector_Affine3d poses;
+  EigenSTL::vector_Isometry3d poses;
 
   shapes::ShapePtr bar_shape;
   bar_shape.reset(new shapes::Cylinder(0.02, 1.0));
   // bar_shape.reset(new shapes::Box(0.02,.02,1));
 
   shapes.push_back(bar_shape);
-  poses.push_back(Eigen::Affine3d(Eigen::Translation3d(0.12, 0, 0)));
+  poses.push_back(Eigen::Isometry3d(Eigen::Translation3d(0.12, 0, 0)));
 
   const robot_model::JointModelGroup* r_gripper_group = robot.robotModel()->getJointModelGroup("right_gripper");
   const std::vector<std::string>& touch_links = r_gripper_group->getLinkModelNames();

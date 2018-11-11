@@ -63,10 +63,10 @@ public:
   const std::string& getGroupName() const;
 
   /** Set the pose of the group we are manipulating */
-  bool setGroupPose(const Eigen::Affine3d& pose);
+  bool setGroupPose(const Eigen::Isometry3d& pose);
 
   /** set pose of the world object */
-  void setWorldObjectPose(const Eigen::Affine3d& pose);
+  void setWorldObjectPose(const Eigen::Isometry3d& pose);
 
   /** set a callback to call when updates occur */
   void setUserCallback(boost::function<void(InteractiveRobot& robot)> callback)
@@ -86,7 +86,7 @@ public:
   }
 
   /** return size and pose of world object cube */
-  void getWorldGeometry(Eigen::Affine3d& pose, double& size);
+  void getWorldGeometry(Eigen::Isometry3d& pose, double& size);
 
   /** exception thrown when a problem occurs */
   class RobotLoadException : std::exception
@@ -137,12 +137,12 @@ private:
 
   /* info about joint group we are manipulating */
   const robot_model::JointModelGroup* group_;
-  Eigen::Affine3d desired_group_end_link_pose_;
+  Eigen::Isometry3d desired_group_end_link_pose_;
 
   /* world info */
-  Eigen::Affine3d desired_world_object_pose_;
+  Eigen::Isometry3d desired_world_object_pose_;
   static const double WORLD_BOX_SIZE_;
-  static const Eigen::Affine3d DEFAULT_WORLD_OBJECT_POSE_;
+  static const Eigen::Isometry3d DEFAULT_WORLD_OBJECT_POSE_;
 
   /* user callback function */
   boost::function<void(InteractiveRobot& robot)> user_callback_;

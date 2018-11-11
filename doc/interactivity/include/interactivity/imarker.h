@@ -73,7 +73,7 @@ public:
   }
 
   /** create an interactive marker with an initial pose */
-  IMarker(interactive_markers::InteractiveMarkerServer& server, const std::string& name, const Eigen::Affine3d& pose,
+  IMarker(interactive_markers::InteractiveMarkerServer& server, const std::string& name, const Eigen::Isometry3d& pose,
           const std::string& frame_id = "/panda_link0",
           boost::function<void(const visualization_msgs::InteractiveMarkerFeedbackConstPtr&)> callback = printFeedback,
           Dof dof = BOTH)
@@ -107,7 +107,7 @@ public:
   }
 
   /** move marker to new pose */
-  void move(const Eigen::Affine3d& pose);
+  void move(const Eigen::Isometry3d& pose);
 
   /** default callback which just prints new position and orientation */
   static void printFeedback(const visualization_msgs::InteractiveMarkerFeedbackConstPtr&);

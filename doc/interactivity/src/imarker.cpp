@@ -105,7 +105,7 @@ void IMarker::makeAxisControl()
 }
 
 /* move to new pose */
-void IMarker::move(const Eigen::Affine3d& pose)
+void IMarker::move(const Eigen::Isometry3d& pose)
 {
   imarker_.pose = tf2::toMsg(pose);
   server_->applyChanges();

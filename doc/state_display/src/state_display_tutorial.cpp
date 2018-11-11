@@ -98,7 +98,7 @@ int main(int argc, char** argv)
   /* Find the default pose for the end effector */
   kinematic_state->setToDefaultValues();
 
-  const Eigen::Affine3d end_effector_default_pose = kinematic_state->getGlobalLinkTransform("r_wrist_roll_link");
+  const Eigen::Isometry3d end_effector_default_pose = kinematic_state->getGlobalLinkTransform("r_wrist_roll_link");
 
   const double PI = boost::math::constants::pi<double>();
   const double RADIUS = 0.1;
@@ -106,7 +106,7 @@ int main(int argc, char** argv)
   for (double angle = 0; angle <= 2 * PI && ros::ok(); angle += 2 * PI / 20)
   {
     /* calculate a position for the end effector */
-    Eigen::Affine3d end_effector_pose =
+    Eigen::Isometry3d end_effector_pose =
         Eigen::Translation3d(RADIUS * cos(angle), RADIUS * sin(angle), 0.0) * end_effector_default_pose;
 
     ROS_INFO_STREAM("End effector position:\n" << end_effector_pose.translation());

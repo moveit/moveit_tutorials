@@ -44,6 +44,6 @@
 #include <string>
 
 std::string PoseString(const geometry_msgs::Pose& pose);
-std::string PoseString(const Eigen::Affine3d& pose);
+std::string PoseString(const Eigen::Isometry3d& pose);
 
 #endif  // MOVEIT_TUTORIALS_INTERACTIVITY_SRC_POSE_STRING_
