@@ -34,6 +34,23 @@ From the package `moveit_resources <https://github.com/ros-planning/moveit_resou
 Unit Tests
 ----------
 
+Writing Unit Tests
+~~~~~~~~~~~~~~~~~~
+
+The entire test file, with includes, can be seen :codedir:`here <tests>` in the moveit_tutorials GitHub project.
+
+MoveIt! uses Google Test as a testing framework.
+
+.. |br| raw:: html
+
+   <br />
+
+.. tutorial-formatter:: ./src/tests.cpp
+
+
+Running Unit Tests
+~~~~~~~~~~~~~~~~~~
+
 To run unit tests locally on the entire MoveIt! catkin workspace using catkin-tools: ::
 
   catkin run_tests -iv
@@ -41,6 +58,10 @@ To run unit tests locally on the entire MoveIt! catkin workspace using catkin-to
 To run a test for just 1 package::
 
   catkin run_tests --no-deps --this -iv
+
+To ignore most of the log/print output of the tests::
+
+  catkin run_tests --no-status --summarize --no-deps --this
 
 Kinematic Tests
 ---------------
