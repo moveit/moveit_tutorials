@@ -41,8 +41,8 @@
 #include <moveit/robot_state/conversions.h>
 
 // default world object position is just in front and left of Panda robot.
-const Eigen::Affine3d InteractiveRobot::DEFAULT_WORLD_OBJECT_POSE_(Eigen::Affine3d(Eigen::Translation3d(0.25, -0.5,
-                                                                                                        0.5)));
+const Eigen::Isometry3d InteractiveRobot::DEFAULT_WORLD_OBJECT_POSE_(Eigen::Isometry3d(Eigen::Translation3d(0.25, -0.5,
+                                                                                                            0.5)));
 
 // size of the world geometry cube
 const double InteractiveRobot::WORLD_BOX_SIZE_ = 0.15;
@@ -122,7 +122,7 @@ InteractiveRobot::~InteractiveRobot()
 void InteractiveRobot::movedRobotMarkerCallback(InteractiveRobot* robot,
                                                 const visualization_msgs::InteractiveMarkerFeedbackConstPtr& feedback)
 {
-  Eigen::Affine3d pose;
+  Eigen::Isometry3d pose;
   tf2::fromMsg(feedback->pose, pose);
   robot->setGroupPose(pose);
 }
@@ -131,7 +131,7 @@ void InteractiveRobot::movedRobotMarkerCallback(InteractiveRobot* robot,
 void InteractiveRobot::movedWorldMarkerCallback(InteractiveRobot* robot,
                                                 const visualization_msgs::InteractiveMarkerFeedbackConstPtr& feedback)
 {
-  Eigen::Affine3d pose;
+  Eigen::Isometry3d pose;
   tf2::fromMsg(feedback->pose, pose);
   robot->setWorldObjectPose(pose);
 }
@@ -267,7 +267,7 @@ const std::string& InteractiveRobot::getGroupName() const
 }
 
 /* remember new desired robot pose and schedule an update */
-bool InteractiveRobot::setGroupPose(const Eigen::Affine3d& pose)
+bool InteractiveRobot::setGroupPose(const Eigen::Isometry3d& pose)
 {
   desired_group_end_link_pose_ = pose;
   scheduleUpdate();
@@ -282,7 +282,7 @@ void InteractiveRobot::publishRobotState()
 }
 
 /* remember new world object position and schedule an update */
-void InteractiveRobot::setWorldObjectPose(const Eigen::Affine3d& pose)
+void InteractiveRobot::setWorldObjectPose(const Eigen::Isometry3d& pose)
 {
   desired_world_object_pose_ = pose;
   scheduleUpdate();
@@ -311,7 +311,7 @@ void InteractiveRobot::publishWorldState()
 }
 
 /* get world object pose and size */
-void InteractiveRobot::getWorldGeometry(Eigen::Affine3d& pose, double& size)
+void InteractiveRobot::getWorldGeometry(Eigen::Isometry3d& pose, double& size)
 {
   pose = desired_world_object_pose_;
   size = WORLD_BOX_SIZE_;

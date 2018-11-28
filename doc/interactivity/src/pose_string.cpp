@@ -65,7 +65,7 @@ std::string PoseString(const geometry_msgs::Pose& pose)
 /** return a string describing a pose
  * Assumes the pose is a rotation and a translation
  */
-std::string PoseString(const Eigen::Affine3d& pose)
+std::string PoseString(const Eigen::Isometry3d& pose)
 {
   return PoseString(tf2::toMsg(pose));
 }

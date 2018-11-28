@@ -115,7 +115,7 @@ int main(int argc, char** argv)
   // "panda_link8" which is the most distal link in the
   // "panda_arm" group of the robot.
   kinematic_state->setToRandomPositions(joint_model_group);
-  const Eigen::Affine3d& end_effector_state = kinematic_state->getGlobalLinkTransform("panda_link8");
+  const Eigen::Isometry3d& end_effector_state = kinematic_state->getGlobalLinkTransform("panda_link8");
 
   /* Print end-effector pose. Remember that this is in the model frame */
   ROS_INFO_STREAM("Translation: \n" << end_effector_state.translation() << "\n");
