@@ -42,10 +42,11 @@ Using STOMP with Your Robot
       <arg name="planning_plugin" value="stomp_moveit/StompPlannerManager" />
 
       <!-- The request adapters (plugins) ORDER MATTERS -->
-      <arg name="planning_adapters" value="default_planner_request_adapters/FixWorkspaceBounds
-                                          default_planner_request_adapters/FixStartStateBounds
-                                          default_planner_request_adapters/FixStartStateCollision
-                                          default_planner_request_adapters/FixStartStatePathConstraints" />
+      <arg name="planning_adapters" value="default_planner_request_adapters/AddTimeParameterization
+                                           default_planner_request_adapters/FixWorkspaceBounds
+                                           default_planner_request_adapters/FixStartStateBounds
+                                           default_planner_request_adapters/FixStartStateCollision
+                                           default_planner_request_adapters/FixStartStatePathConstraints" />
       <arg name="start_state_max_bounds_error" value="0.1" />
       <param name="planning_plugin" value="$(arg planning_plugin)" />
       <param name="request_adapters" value="$(arg planning_adapters)" />
