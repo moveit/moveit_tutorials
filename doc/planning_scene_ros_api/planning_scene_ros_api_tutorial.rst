@@ -19,7 +19,7 @@ Open two shells. In the first shell start RViz and wait for everything to finish
 
 In the second shell, run the launch file for this demo: ::
 
- roslaunch moveit_tutorials planning_scene_ros_api_tutorial.launch
+  roslaunch moveit_tutorials planning_scene_ros_api_tutorial.launch
 
 **Note:** This tutorial uses the **RvizVisualToolsGui** panel to step through the demo. To add this panel to RViz, follow the instructions in the `Visualization Tutorial <../quickstart_in_rviz/quickstart_in_rviz_tutorial.html#rviz-visual-tools>`_.
 
@@ -46,3 +46,9 @@ The entire code can be seen :codedir:`here in the MoveIt! GitHub project<plannin
 The launch file
 ---------------
 The entire launch file is :codedir:`here <planning_scene_ros_api/launch/planning_scene_ros_api_tutorial.launch>` on GitHub. All the code in this tutorial can be compiled and run from the moveit_tutorials package.
+
+Debugging the Planning Scene Monitor
+------------------------------------
+To aid in debugging detached and attached collision objects, a command-line tool will help introspect your system: ::
+
+  rosrun moveit_ros_planning moveit_print_planning_scene_info
