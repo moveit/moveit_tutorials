@@ -15,7 +15,7 @@ add_library(${INTERACTIVITY_LIB_NAME}
 # target_link_libraries(interactivity_tutorial
   # ${catkin_LIBRARIES}
   # ${Boost_LIBRARIES}
-  # interactive_markers
+  # ${interactive_markers_LIBRARIES}
 # )
 #
 # add_executable(attached_body_tutorial

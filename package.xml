@@ -17,6 +17,7 @@
   <build_depend>pluginlib</build_depend>
   <build_depend>eigen</build_depend>
   <build_depend>moveit_core</build_depend>
+  <build_depend>moveit_ros_planning</build_depend>
   <build_depend>moveit_ros_planning_interface</build_depend>
   <build_depend>moveit_ros_perception</build_depend>
   <build_depend>interactive_markers</build_depend>
