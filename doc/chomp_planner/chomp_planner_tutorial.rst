@@ -4,7 +4,7 @@ CHOMP Planner
 .. image:: chomp.png
    :width: 700px
 
-Covariant Hamiltonian optimization for motion planning (CHOMP) is a novel gradient-based trajectory optimization procedure that makes many everyday motion planning problems both simple and trainable (Ratliff et al., 2009c). While most high-dimensional motion planners separate trajectory generation into distinct planning and optimization stages, this algorithm capitalizes on covariant gradient and functional gradient approaches to the optimization stage to design a motion planning algorithm based entirely on trajectory optimization. Given an infeasible naive trajectory, CHOMP reacts to the surrounding environment to quickly pull the trajectory out of collision while simultaneously optimizing dynamical quantities such as joint velocities and accelerations. It rapidly converges to a smooth collision-free trajectory that can be executed efficiently on the robot. Integration into latest version of MoveIt! is `work in progress <https://github.com/ros-planning/moveit/issues/702>`_. `More info <http://www.nathanratliff.com/thesis-research/chomp>`_
+Covariant Hamiltonian optimization for motion planning (CHOMP) is a gradient-based trajectory optimization procedure that makes many everyday motion planning problems both simple and trainable (Ratliff et al., 2009c). While most high-dimensional motion planners separate trajectory generation into distinct planning and optimization stages, this algorithm capitalizes on covariant gradient and functional gradient approaches to the optimization stage to design a motion planning algorithm based entirely on trajectory optimization. Given an infeasible naive trajectory, CHOMP reacts to the surrounding environment to quickly pull the trajectory out of collision while simultaneously optimizing dynamical quantities such as joint velocities and accelerations. It rapidly converges to a smooth collision-free trajectory that can be executed efficiently on the robot. Integration into latest version of MoveIt! is `work in progress <https://github.com/ros-planning/moveit/issues/702>`_. `More info <http://www.nathanratliff.com/thesis-research/chomp>`_
 
 Getting Started
 ---------------
@@ -14,8 +14,8 @@ You should also have gone through the steps in `Visualization with MoveIt! RViz 
 
 Prerequisites
 --------------
- 1. On ROS Melodic you do not need to build MoveIt! from source, but for older versions of MoveIt! you do (see previous tutorial versions).
- 2. To use CHOMP with your robot you must already have a MoveIt! configuration package for your robot already. For example, if you have a Panda robot, it's called ``panda_moveit_config``. This is typically configured using the `MoveIt! Setup Assistant <../setup_assistant/setup_assistant_tutorial.html>`_.
+#. On ROS Melodic you do not need to build MoveIt! from source, but for older versions of MoveIt! you do (see previous tutorial versions).
+#. To use CHOMP with your robot you must already have a MoveIt! configuration package for your robot already. For example, if you have a Panda robot, it's called ``panda_moveit_config``. This is typically configured using the `MoveIt! Setup Assistant <../setup_assistant/setup_assistant_tutorial.html>`_.
 
 Using CHOMP with Your Robot
 ---------------------------
@@ -129,14 +129,15 @@ To achieve this, follow the steps:
 
 #. Open the ``ompl_planning_pipeline.launch`` file in the ``<robot_moveit_config>/launch`` folder of your robot. For the Panda robot it is `this <https://github.com/ros-planning/panda_moveit_config/blob/melodic-devel/launch/ompl_planning_pipeline.launch.xml>`_ file. Edit this launch file, find the lines where ``<arg name="planning_adapters">`` is mentioned and change it to: ::
 
-    <arg name="planning_adapters" value="default_planner_request_adapters/AddTimeParameterization
-                   default_planner_request_adapters/FixWorkspaceBounds
-                   default_planner_request_adapters/FixStartStateBounds
-                   default_planner_request_adapters/FixStartStateCollision
-                   default_planner_request_adapters/FixStartStatePathConstraints
-                   default_planner_request_adapters/CHOMPOptimizerAdapter" />
+    <arg name="planning_adapters"
+         value="default_planner_request_adapters/FixWorkspaceBounds
+                default_planner_request_adapters/FixStartStateBounds
+                default_planner_request_adapters/FixStartStateCollision
+                default_planner_request_adapters/FixStartStatePathConstraints
+                chomp/OptimizerAdapter
+                default_planner_request_adapters/AddTimeParameterization" />
 
-#. The order of the ``planning_adapters`` is the order in which the mentioned adapters are called / invoked. Inside the CHOMP adapter, a :moveit_codedir:`call <moveit_ros/planning/planning_request_adapter_plugins/src/chomp_optimizer_adapter.cpp#L174>` to OMPL is made before invoking the CHOMP optimization solver, so CHOMP takes the initial path computed by OMPL as the starting point to further optimize it.
+#. The order of the ``planning_adapters`` is the order in which the mentioned adapters are called / invoked. Inside the CHOMP adapter, a :moveit_codedir:`call <https://github.com/ros-planning/moveit/tree/melodic-devel/moveit_planners/chomp/chomp_optimizer_adapter/src/chomp_optimizer_adapter.cpp#L169>` to OMPL is made before invoking the CHOMP optimization solver, so CHOMP takes the initial path computed by OMPL as the starting point to further optimize it.
 
 #. Find the line where ``<rosparam command="load" file="$(find panda_moveit_config)/config/ompl_planning.yaml"/>`` is mentioned and after this line, add the following: ::
 
