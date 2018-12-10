@@ -45,10 +45,6 @@ a:hover {
   background-color: #777986;
 }
 
-.wy-breadcrumbs {
-  margin-top: 24px;
-}
-
 .wy-menu {
   margin-top: 24px;
 }
@@ -81,10 +77,14 @@ a:hover {
   color: rgba(255,255,255,0.4);
   text-transform: uppercase;
   display: block;
-  text-align: right;
-  padding-left: 50px;
+  text-align: center;
 }
 
 .wy-menu-vertical a {
   color: #b3b3b3;
+}
+
+.header-override p {
+  padding: 0;
+  float: none;
 }
