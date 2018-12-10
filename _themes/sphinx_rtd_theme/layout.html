@@ -98,18 +98,9 @@
       <div class="wy-side-nav-search">
         {% block sidebartitle %}
 
-        {% if logo and theme_logo_only %}
-          <a href="{{ pathto(master_doc) }}">
-        {% else %}
-          <a href="{{ pathto(master_doc) }}" class="icon icon-home">
-        {% endif %}
-
-          MoveIt! Motion<br/>Planning Framework
-
-        {% if logo %}
-          {# Not strictly valid HTML, but it's the only way to display/scale it properly, without weird scripting or heaps of work #}
-          <img src="{{ pathto('_static/' + logo, 1) }}" class="logo" />
-        {% endif %}
+        <a href="/">
+          <img src="{{ pathto('_static/logo.png', 1) }}"/>
+          <span>Planning Framework</span>
         </a>
 
         {% include "searchbox.html" %}
@@ -141,17 +132,6 @@
 
       {# PAGE CONTENT #}
       <div class="wy-nav-content">
-
-        <div class="header-override">
-          <p>
-            <a href="http://moveit.ros.org">MoveIt! Website</a><br/>
-            <a href="http://moveit.ros.org/blog">Blog</a>
-          </p>
-          <a href="http://moveit.ros.org">
-            <img src="{{ pathto('_static/logo.png', 1) }}"/>
-          </a>
-        </div>
-
         <div class="rst-content">
           {% include "breadcrumbs.html" %}
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">

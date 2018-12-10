@@ -1,5 +1,5 @@
 .icon:before {
-    white-space: pre-wrap !important;
+  white-space: pre-wrap !important;
 }
 .header-override {
   margin-bottom: 20px;
@@ -20,6 +20,71 @@
   text-align: right;
   margin-bottom: -25px;
 }
+
+.wy-body-for-nav .wy-side-nav-search {
+  background-color: #33343f;
+}
+
 .red {
   color: red;
+}
+
+a {
+  color: #505DD8;
+}
+
+a:hover {
+  color: #9B58B6;
+}
+
+.rst-content .note {
+  background-color: #ECECEC;
+}
+
+.rst-content .note .admonition-title {
+  background-color: #777986;
+}
+
+.wy-breadcrumbs {
+  margin-top: 24px;
+}
+
+.wy-menu {
+  margin-top: 24px;
+}
+
+.wy-nav-side {
+  background-color: #2D2E38;
+}
+
+.wy-side-nav-search {
+  background-color: #33343F;
+}
+
+.wy-side-nav-search input[type=text] {
+  border-radius: 4px;
+  width: 200px;
+  border-color: #fff;
+}
+
+.wy-side-nav-search img {
+  margin: 12px auto 5px;
+  width: 180px;
+  height: auto;
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+}
+
+.wy-side-nav-search span {
+  font-size: 12px;
+  color: rgba(255,255,255,0.4);
+  text-transform: uppercase;
+  display: block;
+  text-align: right;
+  padding-left: 50px;
+}
+
+.wy-menu-vertical a {
+  color: #b3b3b3;
 }
