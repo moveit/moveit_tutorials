@@ -1,15 +1,11 @@
 .icon:before {
   white-space: pre-wrap !important;
 }
+
 .header-override {
-  margin-bottom: 20px;
+  margin-bottom: 12px;
 }
-.header-override p {
-  padding: 5px;
-  font-size: 1.2em;
-  text-align: right;
-  float: right;
-}
+
 .header-override img {
   width: 200px;
 }
@@ -85,6 +81,6 @@ a:hover {
 }
 
 .header-override p {
-  padding: 0;
-  float: none;
+  margin-bottom: 0;
+  text-align: right;
 }
