@@ -44,13 +44,38 @@ Other Settings
 
 Depending on the planner you are using, other settings are available for tuning/parameter sweeping. The default values for these settings are auto-generated in the MoveIt! Setup Assistant and are listed in the ``ompl_planning.yaml`` file - you are encouraged to tweak them.
 
+Smoothing Paths
+---------------
+
+Here we discuss various approaches to improve common issues of indirect, non-optimized paths in OMPL. We encourage core developers and researchers to help improve the OMPL and MoveIt! code bases so that this becomes less of a common issue and more of a solved problem :-)
+
+Determinism
+^^^^^^^^^^^
+
+The planners in OMPL are inherently probablistic and will not always return the same solution. Other libraries such as the Search Based Planning Library (SBPL) provide deterministic results in that given the same environment, start, and goal you will always get the same path. SBPL is Astar-based, so you will get optimal results up to your chosen search resolution. However SBPL has plenty of downsides, such as the difficulty of tuning special hueristics.
+
 OMPL Optimization Objectives
-----------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Several planners that are part of the OMPL planning library are capable of optimizing for a specified optimization objective. This tutorial describes that steps that are needed to configure these objectives. The optimal planners that are currently exposed to MoveIt! are:
+Several planners that are part of the OMPL planning library are capable of optimizing for a specified optimization objective. This tutorial describes that steps that are needed to configure these objectives. The asymptotically optimal planners that are currently exposed to MoveIt! are:
 
-* geometric::RRTstar
-* geometric::PRMstar
+* RRT*
+* PRM*
+
+Other optimal planners in OMPL but not exposed in MoveIt! yet:
+
+* LazyPRM*
+* RRT#
+* RRTX
+* Informed RRT*
+* Batch Informed Trees (BIT*)
+* Lower Bound Tree RRT (LBTRRT)
+* Sparse Stable RRT
+* Transition-based RRT (T-RRT)
+* SPARS
+* SPARS2
+* FMT*
+* CForest
 
 And the following optimization objectives are available:
 
@@ -71,3 +96,14 @@ The configuration of these optimization objectives can be done in the *ompl_plan
 
 For more information on the OMPL optimal planners, the reader is referred to the
 `OMPL - Optimal Planning documentation <http://ompl.kavrakilab.org/optimalPlanning.html>`_.
+
+Post-Processing Smoothing
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Note there is a limit to how much smoothing can help reduce indirect routes. Note also that here we discuss geometric(kinematic)-based only smoothing. Velocity/acceleration/jerk smoothing is handled elsewhere, see `Time Parameterization <../time_parameterization/time_parameterization_tutorial.html>`_.
+
+You can adjust the amount of time MoveIt! spends on smoothing by increasing the planning time. Any remaining time after an initial plan is found, but before the ``allowed_planning_time`` is exhausted, will be used for smoothing. MoveIt! also does path hybridization, taking the best parts of N different planning runs and splicing them together. Therefore, ``num_planning_attempts`` affects the quality as well.
+
+Although not currently exposed at the top levels of MoveIt! (TODO), more smoothing can be accomplished by setting the simplification duration to 0 (unlimited) in ``model_based_planning_context.cpp``. This will enable OMPL's ``simplifyMax()`` function.
+
+Besides the internal OMPL smoothers, recent efforts have been made to do post-proccessing with STOMP/CHOMP. See `this blog post <http://moveit.ros.org/moveit!/ros/2018/10/25/gsoc-motion-planning-support.html>`_.
