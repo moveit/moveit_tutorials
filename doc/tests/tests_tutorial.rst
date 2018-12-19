@@ -67,3 +67,23 @@ Kinematic Tests
 ---------------
 
 An additional test suite for the KinematicBase features in MoveIt! is available in the package `moveit_kinematic_tests <https://github.com/ros-planning/moveit_kinematics_tests>`_.
+
+
+Code Coverage
+-------------
+
+Test coverage measures the lines of code that are executed while running the test suite.
+To accumulate statistics and create a html coverage report, build the code without optimization
+and run the special `_coverage` target::
+
+  sudo apt-get install ros-melodic-code-coverage
+  catkin config --cmake-args -DENABLE_COVERAGE_TESTING=ON -DCMAKE_BUILD_TYPE=Debug
+  catkin build
+  catkin build moveit_core -v --no-deps --catkin-make-args moveit_core_coverage
+
+The output will print where the coverage report is located and it looks similar to the following image:
+
+.. image:: code_coverage_example.png
+    :width: 300px
+    :align: center
+    :alt: example code coverage output
