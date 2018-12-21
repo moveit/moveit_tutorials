@@ -311,49 +311,7 @@ class MoveGroupPythonIntefaceTutorial(object):
     ## END_SUB_TUTORIAL
 
 
-  def wait_for_state_update(self, box_is_known=False, box_is_attached=False, timeout=4):
-    # Copy class variables to local variables to make the web tutorials more clear.
-    # In practice, you should use the class variables directly unless you have a good
-    # reason not to.
-    box_name = self.box_name
-    scene = self.scene
-
-    ## BEGIN_SUB_TUTORIAL wait_for_scene_update
-    ##
-    ## Ensuring Collision Updates Are Receieved
-    ## ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    ## If the Python node dies before publishing a collision object update message, the message
-    ## could get lost and the box will not appear. To ensure that the updates are
-    ## made, we wait until we see the changes reflected in the
-    ## ``get_attached_objects()`` and ``get_known_object_names()`` lists.
-    ## For the purpose of this tutorial, we call this function after adding,
-    ## removing, attaching or detaching an object in the planning scene. We then wait
-    ## until the updates have been made or ``timeout`` seconds have passed
-    start = rospy.get_time()
-    seconds = rospy.get_time()
-    while (seconds - start < timeout) and not rospy.is_shutdown():
-      # Test if the box is in attached objects
-      attached_objects = scene.get_attached_objects([box_name])
-      is_attached = len(attached_objects.keys()) > 0
-
-      # Test if the box is in the scene.
-      # Note that attaching the box will remove it from known_objects
-      is_known = box_name in scene.get_known_object_names()
-
-      # Test if we are in the expected state
-      if (box_is_attached == is_attached) and (box_is_known == is_known):
-        return True
-
-      # Sleep so that we give other threads time on the processor
-      rospy.sleep(0.1)
-      seconds = rospy.get_time()
-
-    # If we exited the while loop without returning then we timed out
-    return False
-    ## END_SUB_TUTORIAL
-
-
-  def add_box(self, timeout=4):
+  def add_box(self):
     # Copy class variables to local variables to make the web tutorials more clear.
     # In practice, you should use the class variables directly unless you have a good
     # reason not to.
@@ -376,10 +334,10 @@ class MoveGroupPythonIntefaceTutorial(object):
     # Copy local variables back to class variables. In practice, you should use the class
     # variables directly unless you have a good reason not to.
     self.box_name=box_name
-    return self.wait_for_state_update(box_is_known=True, timeout=timeout)
+    return scene.wait_for_object_exists_unattached(box_name)
 
 
-  def attach_box(self, timeout=4):
+  def attach_box(self):
     # Copy class variables to local variables to make the web tutorials more clear.
     # In practice, you should use the class variables directly unless you have a good
     # reason not to.
@@ -405,10 +363,10 @@ class MoveGroupPythonIntefaceTutorial(object):
     ## END_SUB_TUTORIAL
 
     # We wait for the planning scene to update.
-    return self.wait_for_state_update(box_is_attached=True, box_is_known=False, timeout=timeout)
+    return scene.wait_for_object_attached(box_name)
 
 
-  def detach_box(self, timeout=4):
+  def detach_box(self):
     # Copy class variables to local variables to make the web tutorials more clear.
     # In practice, you should use the class variables directly unless you have a good
     # reason not to.
@@ -425,10 +383,10 @@ class MoveGroupPythonIntefaceTutorial(object):
     ## END_SUB_TUTORIAL
 
     # We wait for the planning scene to update.
-    return self.wait_for_state_update(box_is_known=True, box_is_attached=False, timeout=timeout)
+    return scene.wait_for_object_exists_unattached(box_name)
 
 
-  def remove_box(self, timeout=4):
+  def remove_box(self):
     # Copy class variables to local variables to make the web tutorials more clear.
     # In practice, you should use the class variables directly unless you have a good
     # reason not to.
@@ -446,7 +404,7 @@ class MoveGroupPythonIntefaceTutorial(object):
     ## END_SUB_TUTORIAL
 
     # We wait for the planning scene to update.
-    return self.wait_for_state_update(box_is_attached=False, box_is_known=False, timeout=timeout)
+    return scene.wait_for_object_removed(box_name)
 
 
 def main():
