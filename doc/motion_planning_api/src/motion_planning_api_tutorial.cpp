@@ -73,7 +73,7 @@ int main(int argc, char** argv)
   //     http://docs.ros.org/indigo/api/moveit_ros_planning/html/classrobot__model__loader_1_1RobotModelLoader.html
   const std::string PLANNING_GROUP = "panda_arm";
   robot_model_loader::RobotModelLoaderPtr robot_model_loader(
-    new robot_model_loader::RobotModelLoader("robot_description"));
+      new robot_model_loader::RobotModelLoader("robot_description"));
   robot_model::RobotModelPtr robot_model = robot_model_loader->getModel();
   /* Create a RobotState and JointModelGroup to keep track of the current robot pose and planning group*/
   robot_state::RobotStatePtr robot_state(new robot_state::RobotState(robot_model));
@@ -87,8 +87,7 @@ int main(int argc, char** argv)
   // With the planning scene we create a planing scene monitor that
   // monitors planning scene diffs and applys them to the planning scene
   planning_scene_monitor::PlanningSceneMonitorPtr psm(
-    new planning_scene_monitor::PlanningSceneMonitor(
-      planning_scene, robot_model_loader));
+      new planning_scene_monitor::PlanningSceneMonitor(planning_scene, robot_model_loader));
   psm->startPublishingPlanningScene(planning_scene_monitor::PlanningSceneMonitor::UPDATE_SCENE);
   psm->startStateMonitor();
   psm->startSceneMonitor();
