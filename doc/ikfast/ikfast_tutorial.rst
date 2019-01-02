@@ -194,7 +194,7 @@ Set the base link and EEF link to the desired index::
  export BASE_LINK="0"
  export EEF_LINK="8"
 
-If you have a 7 DOF arm you will need to specify a free joint. Selecting the correct free joint for a 7 DOF robot can be more of an art than a science and have significant impact on peformance of your kinematics plugin. We suggest experimenting with different choices ::
+If you have a 7 DOF arm you will need to specify a free joint. Selecting the correct free joint for a 7 DOF robot can have significant impact on performance of your kinematics plugin. We suggest experimenting with different choices for the free joint ::
 
  export FREE_INDEX="1"
 
