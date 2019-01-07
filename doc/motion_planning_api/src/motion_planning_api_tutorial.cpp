@@ -51,8 +51,8 @@
 
 int main(int argc, char** argv)
 {
-  std::string name_ = "motion_planning_tutorial";
-  ros::init(argc, argv, name_);
+  const std::string node_name = "motion_planning_tutorial";
+  ros::init(argc, argv, node_name);
   ros::AsyncSpinner spinner(1);
   spinner.start();
   ros::NodeHandle node_handle("~");
@@ -94,7 +94,7 @@ int main(int argc, char** argv)
 
   while (!psm->getStateMonitor()->haveCompleteState() && ros::ok())
   {
-    ROS_INFO_STREAM_THROTTLE_NAMED(1, name_, "Waiting for complete state from topic ");
+    ROS_INFO_STREAM_THROTTLE_NAMED(1, node_name, "Waiting for complete state from topic ");
   }
   // We will now construct a loader to load a planner, by name.
   // Note that we are using the ROS pluginlib library here.
