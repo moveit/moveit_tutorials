@@ -58,7 +58,6 @@ TEST(MyFirstTestCase, TestName)
   EXPECT_EQ(x, 54);
 }
 
-
 // A Test Fixture loads the same data repeatedly for multiple tests, so common setup code doesn't have to be duplicated.
 // To make a test fixture, first make a class that derives from ::testing::Test.
 // You can use either the constructor or SetUp to load the information.
@@ -68,7 +67,6 @@ class MyTestFixture : public ::testing::Test
 {
   /* Everything in the class can be protected:. */
 protected:
-
   void SetUp() override
   {
     robot_model_ = moveit::core::loadTestingRobotModel("panda_description");
@@ -81,7 +79,6 @@ protected:
 
   moveit::core::RobotModelConstPtr robot_model_;
 };
-
 
 // To make a test that uses the data loaded by this fixture, use TEST_F.
 TEST_F(MyTestFixture, InitOK)
