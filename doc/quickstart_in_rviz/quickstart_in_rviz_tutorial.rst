@@ -24,21 +24,26 @@ Step 1: Launch the Demo and Configure the Plugin
 
   * In the RViz Displays Tab, press *Add*:
 
+  |B|
+
   * From the moveit_ros_visualization folder, choose "MotionPlanning" as the DisplayType. Press "Ok".
 
-  |B|
+  |C|
 
   * You should now see the Panda robot in RViz:
 
-  |C|
+  |D|
 
 .. |A| image:: rviz_empty.png
                :width: 700px
 
-.. |B| image:: rviz_plugin_motion_planning_add.png
+.. |B| image:: rviz_click_add.png
+               :width: 405px
+
+.. |C| image:: rviz_plugin_motion_planning_add.png
                :width: 300px
 
-.. |C| image:: rviz_start.png
+.. |D| image:: rviz_start.png
                :width: 700px
 
 * Once you have the Motion Planning Plugin loaded, we can configure it. In the "Global Options" tab of the "Displays" subwindow, set the **Fixed Frame** field to ``/panda_link0``
