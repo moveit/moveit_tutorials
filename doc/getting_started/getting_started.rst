@@ -34,20 +34,11 @@ You will need to have a `catkin <http://wiki.ros.org/catkin>`_ workspace setup: 
 
 Download the Example Code
 ^^^^^^^^^^^^^^^^^^^^^^^^^
-Within your `catkin <http://wiki.ros.org/catkin>`_ workspace, download these tutorials: ::
+Within your `catkin <http://wiki.ros.org/catkin>`_ workspace, download the tutorials as well as the ``panda_moveit_config`` package: ::
 
   cd ~/ws_moveit/src
   git clone https://github.com/ros-planning/moveit_tutorials.git -b melodic-devel
-
-You will also need a ``panda_moveit_config`` package to follow along with these tutorials: ::
-
   git clone https://github.com/ros-planning/panda_moveit_config.git -b melodic-devel
-
-  .. note:: Oct 26, 2018: franka_description is `not fully available for ROS Melodic <https://github.com/frankaemika/franka_ros/issues/34>`_.
-
-Until then please manually clone the franka description package: ::
-
-  git clone https://github.com/frankaemika/franka_ros
 
 .. note:: For now we will use a pre-generated ``panda_moveit_config`` package but later we will learn how to make our own in the `MoveIt! Setup Assistant tutorial <../setup_assistant/setup_assistant_tutorial.html>`_.
 
