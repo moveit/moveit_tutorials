@@ -69,8 +69,7 @@ Add the following lines to this file: ::
 
  <launch>
   <!-- Set the param that trajectory_execution_manager needs to find the controller plugin -->
-  <arg name="moveit_controller_manager" default="moveit_simple_controller_manager/MoveItSimpleControllerManager" />
-  <param name="moveit_controller_manager" value="$(arg moveit_controller_manager)"/>
+  <param name="moveit_controller_manager" value="moveit_simple_controller_manager/MoveItSimpleControllerManager"/>
   <!-- load controller_list -->
   <rosparam file="$(find robot_moveit_config)/config/controllers.yaml"/>
  </launch>
