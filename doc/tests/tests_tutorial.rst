@@ -63,11 +63,6 @@ To ignore most of the log/print output of the tests::
 
   catkin run_tests --no-status --summarize --no-deps --this
 
-Kinematic Tests
----------------
-
-An additional test suite for the KinematicBase features in MoveIt! is available in the package `moveit_kinematic_tests <https://github.com/ros-planning/moveit_kinematics_tests>`_.
-
 
 Code Coverage
 -------------
