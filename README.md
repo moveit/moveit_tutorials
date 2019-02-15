@@ -54,7 +54,8 @@ We rely on the community to keep these tutorials up to date and bug free. If you
 
 ### Directory Structure
 
-* Each tutorial should live in it's own subdirectory within the `./doc/ <>` directory.
+* Each tutorial should live in its own subdirectory within the `./doc/ <>` directory.
+* Add your tutorial to `index.rst` in the root directory.
 * Tutorials should use the following directory structure omitting unnecessary files and subdirectories:
 
 ```
