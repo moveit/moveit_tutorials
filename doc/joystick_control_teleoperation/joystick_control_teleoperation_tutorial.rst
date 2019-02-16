@@ -12,6 +12,8 @@ If you haven't already done so, make sure you've completed the steps in `Getting
 
 Running the Code
 ----------------
+This jogging should only be used for simulated robots because some IK solvers can cause a joint jump. To jog a real robot, use the Jacobian-based `Real-Time Arm Jogging <../arm_jogging/arm_jogging_tutorial.html>`_ instead.
+
 Open two shells and make sure you have re-sourced the setup files in both of them: ::
 
   source ~/ws_moveit/devel/setup.bash

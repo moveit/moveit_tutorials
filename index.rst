@@ -78,6 +78,7 @@ Miscellaneous
    :maxdepth: 1
 
    doc/joystick_control_teleoperation/joystick_control_teleoperation_tutorial
+   doc/arm_jogging/arm_jogging_tutorial
    doc/benchmarking/benchmarking_tutorial
    doc/tests/tests_tutorial
 
