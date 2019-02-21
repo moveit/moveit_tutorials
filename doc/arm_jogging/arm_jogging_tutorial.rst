@@ -1,5 +1,5 @@
 Real-Time Arm Jogging
-==========================================
+=====================
 
 This tutorial shows how to send real-time jogging commands to a ROS robot. Some nice features of the jogger are singularity handling and collision checking.
 
