@@ -1,7 +1,7 @@
 Real-Time Arm Jogging
 =====================
 
-This tutorial shows how to send real-time jogging commands to a ROS robot. Some nice features of the jogger are singularity handling and collision checking.
+This tutorial shows how to send real-time jogging commands to a ROS-enabled robot. Some nice features of the jogger are singularity handling and collision checking that prevents operator from breaking the robot.
 
 .. raw:: html
 
@@ -12,9 +12,9 @@ This tutorial shows how to send real-time jogging commands to a ROS robot. Some 
 
 Robot Requirements
 ------------------
-The jogger streams an array of position or velocity commands to the robot controller. This is compatible with ros\_control ``position_controllers/JointGroupPositionControllers`` or ``velocity_controllers/JointGroupVelocityControllers``. Check if these controllers are available for your robot by searching for the controller config file (typically named ``controllers.yaml``).
+The jogger streams an array of position or velocity commands to the robot controller. This is compatible with ros\_control ``position_controllers/JointGroupPositionControllers`` or ``velocity_controllers/JointGroupVelocityControllers``. You can check if these controllers are available for your robot by searching for the controller config file (typically named ``controllers.yaml``).
 
-Jogging may work on other robots that have a different control scheme but there is no guarantee. It has been tested heavily on UR robots using ``ur_modern_driver``. The jogger currently does not limit joint jerk so it is not compatible with most heavy industrial robots.
+Jogging may work on other robots that have a different control scheme but there is no guarantee. It has been tested heavily on UR robots using the [ur_modern_driver](https://github.com/ros-industrial/ur_modern_driver). The jogger currently does not limit joint jerk so may not be compatible with most heavy industrial robots.
 
 The jogger can publish ``trajectory_msgs/JointTrajectory`` or ``std_msgs/Float64MultiArray`` message types. This is configured in a yaml file (see ``config/sia5_simulated_config.yaml`` for an example).
 
@@ -24,7 +24,7 @@ If you haven't already done so, make sure you've completed the steps in `Getting
 
 You can test the jogger with this `Gazebo simulator <https://github.com/UTNuclearRoboticsPublic/motoman_project>`_. Gazebo is necessary because it provides ros\_control controllers. Clone the repo into your catkin workspace. Install dependencies:
 
-``sudo apt install ros-kinetic-contro* ros-kinetic-gazebo-ros-contro* ros-kinetic-joint-state-controller ros-kinetic-position-controllers ros-kinetic-joint-trajectory-controller``
+    sudo apt install ros-kinetic-control* ros-kinetic-gazebo-ros-control* ros-kinetic-joint-state-controller ros-kinetic-position-controllers ros-kinetic-joint-trajectory-controller
 
 Then build the workspace with ``catkin_make``.
 
