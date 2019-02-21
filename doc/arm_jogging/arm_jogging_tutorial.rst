@@ -34,11 +34,11 @@ Launch the Gazebo simulation:
 
 ``roslaunch motoman_moveit sia5_gazebo_nishida_lab_moveit_planning_execution.launch``
 
-Move the arm to a non-singular configuration then launch the jogger:
+Move the arm to a non-singular (non zero joint values) configuration then launch the jogger:
 
 ``roslaunch moveit_experimental jog_arm_server.launch``
 
-You can publish jogging commands with:
+You can publish example jogging commands with:
 
 .. code-block:: bash
 
@@ -57,7 +57,7 @@ Settings
 --------
 User-configurable settings of the jog node are well-documented in ``config/sia5_simulated_config.yaml``.
 
-Configuring Control Devices (Gamepads, joysticks, etc)
+Configuring Control Devices (Gamepads, Joysticks, etc)
 ------------------------------------------------------
 The ``jog_arm/config`` folder contains two examples of converting SpaceNavigator 3D mouse commands to jog commands. ``spacenav_teleop_tools.launch`` loads a config file then publishes commands to the jogger on the ``spacenav/joy topic``. It is easy to create your own config file for a particular joystick or gamepad. We welcome pull requests of config files for new controllers.
 
