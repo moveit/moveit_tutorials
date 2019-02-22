@@ -1,11 +1,14 @@
 MoveIt! Tutorials
 =================
 
-These tutorials will step you through using MoveIt! with your robot. It is assumed the robot you are working with has already been configured to work with MoveIt! - check the `list of robots running MoveIt! <http://moveit.ros.org/robots/>`_ to see whether MoveIt! is already available for your robot. Otherwise, skip to the "Integration with a New Robot" tutorials, below. If you just want to quickly try MoveIt!, use the default Panda robot as your quick-start demo.
+These tutorials will step you through using and learning the MoveIt! Motion Planning Framework.
+
+.. image:: doc/quickstart_in_rviz/rviz_plugin_head.png
+   :width: 700px
+
+In these tutorials, the Franka Emika Panda robot is used as a quick-start demo. Alternatively, you can easily use any robot that has already been configured to work with MoveIt! - check the `list of robots running MoveIt! <http://moveit.ros.org/robots/>`_ to see whether MoveIt! is already available for your robot. Otherwise, you can setup MoveIt! to work with your custom robot in the tutorial section "Integration with a New Robot", below.
 
 .. note:: You are on the latest **ROS Melodic** version of the tutorials, which is less stable. For beginners we recommmend the more stable `ROS Kinetic tutorials <http://docs.ros.org/kinetic/api/moveit_tutorials/html/index.html>`_ (Requires Ubuntu 16.04). For older computers on Ubuntu 14.04 see `ROS Indigo tutorials with the PR2 <http://docs.ros.org/indigo/api/moveit_tutorials/html/doc/ikfast_tutorial.html>`_.
-
-To follow along with these tutorials you will need a **ROBOT_moveit_config** package. This tutorial will use the Panda robot from Franka Emika. To get a working **panda_moveit_config** package you can install from source, create your own, or install from Debian. We will walk through each method in the following Getting Started tutorial:
 
 
 Getting Started with MoveIt! and RViz
