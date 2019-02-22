@@ -32,8 +32,11 @@ You will need to have a `catkin <http://wiki.ros.org/catkin>`_ workspace setup: 
 
   mkdir -p ~/ws_moveit/src
 
-Download the Example Code
-^^^^^^^^^^^^^^^^^^^^^^^^^
+Download Example Code
+^^^^^^^^^^^^^^^^^^^^^
+
+To easily follow along with these tutorials, you will need a **ROBOT_moveit_config** package. The default demo robot is the Panda arm from Franka Emika. To get a working **panda_moveit_config** package, we recommend you install from source.
+
 Within your `catkin <http://wiki.ros.org/catkin>`_ workspace, download the tutorials as well as the ``panda_moveit_config`` package: ::
 
   cd ~/ws_moveit/src
