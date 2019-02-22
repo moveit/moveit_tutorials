@@ -5,10 +5,16 @@ This tutorial shows how to send real-time jogging commands to a ROS-enabled robo
 
 .. raw:: html
 
-        <object width="480" height="385"><param name="movie"
-        value="http://www.youtube.com/v/8sOucNloJeI&hl=en_US&fs=1&rel=0"></param><param
-        name="allowFullScreen" value="true"></param><param
-        name="allowscriptaccess" value="always"></param></object>
+        <object width="480" height="385">
+
+        <param name="movie"
+        value="http://www.youtube.com/v/8sOucNloJeI&hl=en_US&fs=1&rel=0"></param>
+
+        <param name="allowFullScreen" value="true"></param>
+
+        <param name="allowscriptaccess" value="always"></param>
+
+        </object>
 
 Robot Requirements
 ------------------
