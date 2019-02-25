@@ -29,7 +29,7 @@ You can test the jogger with this `Gazebo simulator <https://github.com/UTNuclea
 
     sudo apt install ros-melodic-control* ros-melodic-gazebo-ros-control* ros-melodic-joint-state-controller ros-melodic-position-controllers ros-melodic-joint-trajectory-controller
 
-Then build the workspace with ``catkin build``.
+Then build the workspace with ``catkin build`` and re-source your setup files (e.g. ``source ~/catkin_ws/devel/setup.bash``).
 
 Launch the Gazebo simulation:
 
