@@ -18,9 +18,9 @@ project = u'moveit_tutorials'
 # built documents.
 #
 # The short X.Y version.
-version = 'Kinetic'
+version = 'melodic'
 # The full version, including alpha/beta/rc tags.
-release = 'Kinetic'
+release = 'Melodic'
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'
@@ -38,7 +38,7 @@ html_context = {
     "display_github": True,
     "github_user": "ros-planning",
     "github_repo": "moveit_tutorials",
-    "github_version": "melodic-devel",
+    "github_version": "master",
     "conf_py_path": "",
     "source_suffix": source_suffix,
     "css_files": ['_static/override.css'],
@@ -46,24 +46,23 @@ html_context = {
 #  "logo": "logo.png"
 }
 
-# Experimental
-
-
-
 # Add any paths that contain custom themes here, relative to this directory.
 
 # Links
+ros_distro = 'melodic'
 extlinks = {'codedir': ('https://github.com/' + html_context["github_user"] + '/moveit_tutorials/tree/' + html_context["github_version"] + '/doc/%s', ''),
             'moveit_codedir': ('https://github.com/' + html_context["github_user"] + '/moveit/blob/' + html_context["github_version"] + '/%s', ''),
-            'moveit_core': ('http://docs.ros.org/melodic/api/moveit_core/html/classmoveit_1_1core_1_1%s.html', ''),
-            'planning_scene': ('http://docs.ros.org/melodic/api/moveit_core/html/classplanning__scene_1_1%s.html', ''),
-            'planning_scene_interface': ('http://docs.ros.org/melodic/api/moveit_ros_planning_interface/html/classmoveit_1_1planning__interface_1_1%s.html', ''),
-            'planning_scene_monitor': ('http://docs.ros.org/melodic/api/moveit_ros_planning/html/classplanning__scene__monitor_1_1%s.html', ''),
-            'collision_detection_struct': ('http://docs.ros.org/melodic/api/moveit_core/html/structcollision__detection_1_1%s.html', ''),
-            'collision_detection_class': ('http://docs.ros.org/melodic/api/moveit_core/html/classcollision__detection_1_1%s.html', ''),
-            'kinematic_constraints': ('http://docs.ros.org/melodic/api/moveit_core/html/classkinematic__constraints_1_1%s.html', ''),
-            'moveit_core_files': ('http://docs.ros.org/melodic/api/moveit_core/html/%s.html', ''),
-            'move_group_interface': ('http://docs.ros.org/melodic/api/moveit_ros_planning_interface/html/classmoveit_1_1planning__interface_1_1%s.html', ''),
+            'panda_codedir': ('https://github.com/' + html_context["github_user"] + '/panda_moveit_config/blob/' + ros_distro + '-devel' + '/%s', ''),
+            'rosdocs': ('http://docs.ros.org/' + ros_distro + '/api/%s', ''),
+            'moveit_core': ('http://docs.ros.org/' + ros_distro + '/api/moveit_core/html/classmoveit_1_1core_1_1%s.html', ''),
+            'planning_scene': ('http://docs.ros.org/' + ros_distro + '/api/moveit_core/html/classplanning__scene_1_1%s.html', ''),
+            'planning_scene_interface': ('http://docs.ros.org/' + ros_distro + '/api/moveit_ros_planning_interface/html/classmoveit_1_1planning__interface_1_1%s.html', ''),
+            'planning_scene_monitor': ('http://docs.ros.org/' + ros_distro + '/api/moveit_ros_planning/html/classplanning__scene__monitor_1_1%s.html', ''),
+            'collision_detection_struct': ('http://docs.ros.org/' + ros_distro + '/api/moveit_core/html/structcollision__detection_1_1%s.html', ''),
+            'collision_detection_class': ('http://docs.ros.org/' + ros_distro + '/api/moveit_core/html/classcollision__detection_1_1%s.html', ''),
+            'kinematic_constraints': ('http://docs.ros.org/' + ros_distro + '/api/moveit_core/html/classkinematic__constraints_1_1%s.html', ''),
+            'moveit_core_files': ('http://docs.ros.org/' + ros_distro + '/api/moveit_core/html/%s.html', ''),
+            'move_group_interface': ('http://docs.ros.org/' + ros_distro + '/api/moveit_ros_planning_interface/html/classmoveit_1_1planning__interface_1_1%s.html', ''),
             'moveit_website': ('http://moveit.ros.org/%s/', '')}
 
 # Output file base name for HTML help builder.
