@@ -63,4 +63,4 @@ deploy:
   local_dir: build/html
   on:
     # Source branch
-    branch: melodic-devel
+    branch: master

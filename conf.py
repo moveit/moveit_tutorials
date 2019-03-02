@@ -18,7 +18,7 @@ project = u'moveit_tutorials'
 # built documents.
 #
 # The short X.Y version.
-version = 'melodic'
+version = 'Melodic'
 # The full version, including alpha/beta/rc tags.
 release = 'Melodic'
 
