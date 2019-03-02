@@ -18,9 +18,9 @@ project = u'moveit_tutorials'
 # built documents.
 #
 # The short X.Y version.
-version = 'Kinetic'
+version = 'Melodic'
 # The full version, including alpha/beta/rc tags.
-release = 'Kinetic'
+release = 'Melodic'
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'
@@ -38,7 +38,7 @@ html_context = {
     "display_github": True,
     "github_user": "ros-planning",
     "github_repo": "moveit_tutorials",
-    "github_version": "melodic-devel",
+    "github_version": "master",
     "conf_py_path": "",
     "source_suffix": source_suffix,
     "css_files": ['_static/override.css'],
