@@ -23,7 +23,8 @@ In this section, we will walk through configuring the 3D sensors on your robot w
 YAML Configuration file (Point Cloud)
 +++++++++++++++++++++++++++++++++++++
 
-We will have to generate a YAML configuration file for configuring the 3D sensors. Please see `this example file <https://github.com/ros-planning/panda_moveit_config/blob/melodic-devel/config/sensors_kinect_pointcloud.yaml>`_ for processing point clouds, located in the `panda_moveit_config repository for Melodic <https://github.com/ros-planning/panda_moveit_config>`_.
+We will have to generate a YAML configuration file for configuring the 3D sensors. Please see :panda_codedir:`this example file<config/sensors_kinect_pointcloud.yaml>` for processing point clouds.
+
 Save this file in the config folder in the robot's moveit_config package with name "sensors_kinect_pointcloud.yaml": ::
 
  sensors:
@@ -59,7 +60,7 @@ Save this file in the config folder in the robot's moveit_config package with na
 YAML Configuration file (Depth Map)
 +++++++++++++++++++++++++++++++++++
 
-We will have to generate a YAML configuration file for configuring the 3D sensors. An `example file for processing depth images <https://github.com/ros-planning/panda_moveit_config/blob/melodic-devel/config/sensors_kinect_depthmap.yaml>`_ can be found in the `panda_moveit_config repository <https://github.com/ros-planning/panda_moveit_config>`_ as well.
+We will have to generate a YAML configuration file for configuring the 3D sensors. An :panda_codedir:`example file for processing depth images <config/sensors_kinect_depthmap.yaml>` can be found in the panda_moveit_config repository as well.
 Save this file in the config folder in the robot's moveit_config package with name "sensors_kinect_depthmap.yaml": ::
 
  sensors:
@@ -168,7 +169,9 @@ You can follow its status in the `issue tracker <https://github.com/ros-planning
 
 Relevant Code
 +++++++++++++
-The entire code can be seen :codedir:`here <perception_pipeline>` in the moveit_tutorials GitHub project. The details regarding the implementation of each of the perception pipeline function have been omitted in this tutorial as they are well documented `here. <http://wiki.ros.org/pcl/Tutorials>`_
+The entire code can be seen :codedir:`here<perception_pipeline>` in the moveit_tutorials GitHub project.
+
+The details regarding the implementation of each of the perception pipeline function have been omitted in this tutorial as they are well documented `here <http://wiki.ros.org/pcl/Tutorials>`_.
 
 .. |br| raw:: html
 
