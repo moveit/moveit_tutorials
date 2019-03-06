@@ -23,13 +23,13 @@ Getting Started
 ---------------
 If you haven't already done so, make sure you've completed the steps in `Getting Started <../getting_started/getting_started.html>`_.
 
-You can test the jogger with this `Gazebo simulator <https://github.com/UTNuclearRoboticsPublic/motoman_project>`_. Gazebo is necessary because it provides ros\_control controllers. Clone the repo into your catkin workspace. Install dependencies:
+You can test the jogger with a `Gazebo simulation <https://github.com/UTNuclearRoboticsPublic/motoman_project>`_. Gazebo is necessary because it provides ros\_control controllers. Install dependencies:
 
 .. code-block:: bash
 
     sudo apt install ros-melodic-control* ros-melodic-gazebo-ros-control* ros-melodic-joint-state-controller ros-melodic-position-controllers ros-melodic-joint-trajectory-controller
 
-Then build the workspace with ``catkin build`` and re-source your setup files (e.g. ``source ~/catkin_ws/devel/setup.bash``).
+    Clone the repo into the same catkin workspace from `Getting Started`. Then build the workspace with ``catkin build`` and re-source your setup files (e.g. ``source ~/catkin_ws/devel/setup.bash``).
 
 Launch the Gazebo simulation:
 
@@ -63,6 +63,25 @@ You can publish example jogging commands with:
 Settings
 --------
 User-configurable settings of the jog node are well-documented in ``config/sia5_simulated_config.yaml``.
+
+ROS Signals
+-----------
+An `rqt_graph` of the jogger is shown below (Enlarge by clicking it). Most of these connections can be ignored. The important ones are:
+
+- **spacenav_to_twist** node: Converts incoming commands from the joystick to Cartesian commands or joint angle commands, depending on which buttons are pressed.
+
+- **tf**: This topic carries ROS coordinate frame information. The jogger uses it to transform commands from the joystick's frame of reference to the robot's frame of reference. These frames are selected in ``config/sia5_simulated_config.yaml``.
+
+- **joint_states**: The jogger uses this joint information for calculations.
+
+- **move_group**: The jogger uses the MoveIt! move_group node to help with some calculations and parse things like joint limits.
+
+- **sia5_controller/command**: This is the outgoing command that causes the robot to move.
+
+- **planning_scene**: If collision detection is enabled, the jogger should halt before colliding with obstacles in the planning scene.
+
+.. image:: jogging_rqt_graph.png
+   :width: 700px
 
 Configuring Control Devices (Gamepads, Joysticks, etc)
 ------------------------------------------------------
