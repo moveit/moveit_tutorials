@@ -69,3 +69,13 @@ Configuring Control Devices (Gamepads, Joysticks, etc)
 The ``jog_arm/config`` folder contains two examples of converting `SpaceNavigator <https://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=spacenavigator>`_ 3D mouse commands to jog commands. ``spacenav_teleop_tools.launch`` loads a config file then publishes commands to the jogger on the ``spacenav/joy topic``. It is easy to create your own config file for a particular joystick or gamepad. We welcome pull requests of config files for new controllers.
 
 ``spacenav_cpp.launch`` launches a C++ node that does the same thing but with less latency. We do not plan to accept C++ pull requests for more controller types because there is a lot of overhead involved in supporting them.
+
+
+Integration Testing
+-------------------
+There is a Python integration test in ``test/integration``. Run it by:
+
+.. code-block:: bash
+
+  roscd moveit_experimental
+  catkin run_tests --this
