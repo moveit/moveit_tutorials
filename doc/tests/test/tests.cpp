@@ -105,8 +105,8 @@ TEST(MyFirstTestCase, SimpleYRobot)
 
   /* Let's check that the link c is rigidly connected to link d, as it should be. */
   const moveit::core::LinkTransformMap transforms = robot_model->getLinkModel("c")->getAssociatedFixedTransforms();
-  auto maybe_link_d = map.find(robot_model->getLinkModel("d"));
-  ASSERT_NE(maybe_link_d, map.end());
+  auto maybe_link_d = transforms.find(robot_model->getLinkModel("d"));
+  ASSERT_NE(maybe_link_d, transforms.end());
 }
 
 // END_TUTORIAL
