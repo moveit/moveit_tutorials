@@ -232,7 +232,7 @@ void InteractiveRobot::updateAll()
 {
   publishWorldState();
 
-  if (robot_state_->setFromIK(group_, desired_group_end_link_pose_, 10, 0.1))
+  if (robot_state_->setFromIK(group_, desired_group_end_link_pose_, 0.1))
   {
     publishRobotState();
 
