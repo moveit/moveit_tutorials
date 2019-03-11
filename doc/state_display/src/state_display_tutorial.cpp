@@ -112,7 +112,7 @@ int main(int argc, char** argv)
     ROS_INFO_STREAM("End effector position:\n" << end_effector_pose.translation());
 
     /* use IK to get joint angles satisfyuing the calculated position */
-    bool found_ik = kinematic_state->setFromIK(joint_model_group, end_effector_pose, 10, 0.1);
+    bool found_ik = kinematic_state->setFromIK(joint_model_group, end_effector_pose, 0.1);
     if (!found_ik)
     {
       ROS_INFO_STREAM("Could not solve IK for pose\n" << end_effector_pose.translation());
