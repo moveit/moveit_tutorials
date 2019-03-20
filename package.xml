@@ -48,5 +48,6 @@
   <run_depend>tf2_geometry_msgs</run_depend>
 
   <test_depend>moveit_resources</test_depend>
+  <test_depend>rosunit</test_depend>
 
 </package>

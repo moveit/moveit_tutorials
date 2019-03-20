@@ -35,8 +35,8 @@
 /* Author: Bryce Willey */
 
 // The Testing Framework and Utils
-#include <moveit/robot_model/robot_model.h>
 #include <gtest/gtest.h>
+#include <moveit/robot_model/robot_model.h>
 #include <moveit/utils/robot_model_test_utils.h>
 
 // TF2
@@ -69,7 +69,7 @@ class MyTestFixture : public ::testing::Test
 protected:
   void SetUp() override
   {
-    robot_model_ = moveit::core::loadTestingRobotModel("panda_description");
+    robot_model_ = moveit::core::loadTestingRobotModel("panda");
   }
 
   /* If you need to cleanup the resources any tests are using, you can do it in TearDown(). */
@@ -107,6 +107,12 @@ TEST(MyFirstTestCase, SimpleYRobot)
   const moveit::core::LinkTransformMap transforms = robot_model->getLinkModel("c")->getAssociatedFixedTransforms();
   auto maybe_link_d = transforms.find(robot_model->getLinkModel("d"));
   ASSERT_NE(maybe_link_d, transforms.end());
+}
+
+int main(int argc, char** argv)
+{
+  testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
 }
 
 // END_TUTORIAL
