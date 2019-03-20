@@ -15,7 +15,11 @@ If you haven't already done so, make sure you've completed the steps in `Getting
 
 Running the Code
 ----------------
-Roslaunch the launch file to run the code directly from moveit_tutorials: ::
+Open two shells. In the first shell start RViz and wait for everything to finish loading: ::
+
+  roslaunch panda_moveit_config demo.launch
+
+In the second shell, run the launch file: ::
 
  roslaunch moveit_tutorials motion_planning_pipeline_tutorial.launch
 

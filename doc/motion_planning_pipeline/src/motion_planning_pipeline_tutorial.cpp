@@ -41,6 +41,7 @@
 #include <moveit/robot_model_loader/robot_model_loader.h>
 #include <moveit/planning_pipeline/planning_pipeline.h>
 #include <moveit/planning_interface/planning_interface.h>
+#include <moveit/planning_scene_monitor/planning_scene_monitor.h>
 #include <moveit/kinematic_constraints/utils.h>
 #include <moveit_msgs/DisplayTrajectory.h>
 #include <moveit_msgs/PlanningScene.h>
@@ -64,13 +65,26 @@ int main(int argc, char** argv)
   //
   // .. _RobotModelLoader:
   //     http://docs.ros.org/indigo/api/moveit_ros_planning/html/classrobot__model__loader_1_1RobotModelLoader.html
-  robot_model_loader::RobotModelLoader robot_model_loader("robot_description");
-  robot_model::RobotModelPtr robot_model = robot_model_loader.getModel();
+  robot_model_loader::RobotModelLoaderPtr robot_model_loader(
+      new robot_model_loader::RobotModelLoader("robot_description"));
+  robot_model::RobotModelPtr robot_model = robot_model_loader->getModel();
 
   // Using the :moveit_core:`RobotModel`, we can construct a
   // :planning_scene:`PlanningScene` that maintains the state of
   // the world (including the robot).
   planning_scene::PlanningScenePtr planning_scene(new planning_scene::PlanningScene(robot_model));
+
+  /* Create a RobotState and JointModelGroup to keep track of the current robot pose and planning group*/
+  robot_state::RobotState& robot_state = planning_scene->getCurrentStateNonConst();
+  const robot_model::JointModelGroup* joint_model_group = robot_state.getJointModelGroup("panda_arm");
+
+  // With the planning scene we create a planing scene monitor that
+  // monitors planning scene diffs and applys them to the planning scene
+  planning_scene_monitor::PlanningSceneMonitorPtr psm(
+      new planning_scene_monitor::PlanningSceneMonitor(planning_scene, robot_model_loader));
+  psm->startPublishingPlanningScene(planning_scene_monitor::PlanningSceneMonitor::UPDATE_SCENE);
+  psm->startStateMonitor();
+  psm->startSceneMonitor();
 
   // We can now setup the PlanningPipeline
   // object, which will use the ROS parameter server
@@ -98,10 +112,6 @@ int main(int argc, char** argv)
 
   /* Batch publishing is used to reduce the number of messages being sent to RViz for large visualizations */
   visual_tools.trigger();
-
-  /* Sleep a little to allow time to startup rviz, etc..
-     This ensures that visual_tools.prompt() isn't lost in a sea of logs*/
-  ros::Duration(10).sleep();
 
   /* We can also use visual_tools to wait for user input */
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to start the demo");
@@ -159,6 +169,8 @@ int main(int argc, char** argv)
   display_trajectory.trajectory_start = response.trajectory_start;
   display_trajectory.trajectory.push_back(response.trajectory);
   display_publisher.publish(display_trajectory);
+  visual_tools.publishTrajectoryLine(display_trajectory.trajectory.back(), joint_model_group);
+  visual_tools.trigger();
 
   /* Wait for user input */
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
@@ -166,9 +178,7 @@ int main(int argc, char** argv)
   // Joint Space Goals
   // ^^^^^^^^^^^^^^^^^
   /* First, set the state in the planning scene to the final state of the last plan */
-  robot_state::RobotState& robot_state = planning_scene->getCurrentStateNonConst();
   planning_scene->setCurrentState(response.trajectory_start);
-  const robot_model::JointModelGroup* joint_model_group = robot_state.getJointModelGroup("panda_arm");
   robot_state.setJointGroupPositions(joint_model_group, response.trajectory.joint_trajectory.points.back().positions);
 
   // Now, setup a joint space goal
@@ -195,6 +205,8 @@ int main(int argc, char** argv)
   display_trajectory.trajectory.push_back(response.trajectory);
   // Now you should see two planned trajectories in series
   display_publisher.publish(display_trajectory);
+  visual_tools.publishTrajectoryLine(display_trajectory.trajectory.back(), joint_model_group);
+  visual_tools.trigger();
 
   /* Wait for user input */
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
@@ -233,6 +245,8 @@ int main(int argc, char** argv)
   display_trajectory.trajectory.push_back(response.trajectory);
   /* Now you should see three planned trajectories in series*/
   display_publisher.publish(display_trajectory);
+  visual_tools.publishTrajectoryLine(display_trajectory.trajectory.back(), joint_model_group);
+  visual_tools.trigger();
 
   /* Wait for user input */
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to finish the demo");
