@@ -45,7 +45,7 @@ MoveIt! uses Google Test as a testing framework.
 
    <br />
 
-.. tutorial-formatter:: ./src/tests.cpp
+.. tutorial-formatter:: ./test/tests.cpp
 
 
 Running Unit Tests
