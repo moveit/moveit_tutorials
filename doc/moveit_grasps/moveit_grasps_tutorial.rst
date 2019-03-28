@@ -1,10 +1,10 @@
 MoveIt! Grasps
 =======================
 
-MoveIt! Grasps is a grasp generator for objects such as blocks or cylinders for use with the MoveIt! pick and place pipeline.
-The grasp generation algorithm is based on shapes and kinematics and does not consider friction cones or other dynamics.
+MoveIt! Grasps is a grasp generator for objects such as blocks or cylinders for use with the MoveIt! pick and place pipeline. It also contains its own components for filtering grasps based on reachability and approach/retreat motions.
+The grasp generation algorithm is based on simple cuboid shapes and does not consider friction cones or other grasp dynamics.
 
-Its current implementation takes as input a pose vector (postition and orientation) and generates a large number of potential grasp approaches and directions.
+Its current implementation takes as input a pose of a cuboid, and the cuboid's size, and generates a large number of potential grasp approaches and directions.
 Also included is a grasp filter for removing kinematically infeasible grasps via threaded IK solvers.
 
 .. image:: https://raw.githubusercontent.com/PickNikRobotics/moveit_grasps/kinetic-devel/resources/demo.png
