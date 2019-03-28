@@ -7,27 +7,18 @@ The grasp generation algorithm is based on simple cuboid shapes and does not con
 Its current implementation takes as input a pose of a cuboid, and the cuboid's size, and generates a large number of potential grasp approaches and directions.
 Also included is a grasp filter for removing kinematically infeasible grasps via threaded IK solvers.
 
-.. image:: https://raw.githubusercontent.com/PickNikRobotics/moveit_grasps/kinetic-devel/resources/demo.png
+.. image:: https://raw.githubusercontent.com/ros-planning/moveit_grasps/kinetic-devel/resources/demo.png
    :width: 500pt
    
 Installing MoveIt! Grasps
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-Ubuntu Debian
---------------
-
-   Note: this package has not been released yet
-::
-
-    sudo apt-get install ros-kinetic-moveit-grasps
-
-
 Install From Source
 --------------------
 
-Clone the `moveit_grasps <https://github.com/PickNikRobotics/moveit_grasps>`_ repository into a `catkin workspace <http://wiki.ros.org/catkin/Tutorials/create_a_workspace>`_::
+Clone the `moveit_grasps <https://github.com/ros-planning/moveit_grasps>`_ repository into a `catkin workspace <https://ros-planning.github.io/moveit_tutorials/doc/getting_started/getting_started.html#create-a-catkin-workspace>`_. For this tutorial we use Franka Emika's Panda robot setup from `panda_moveit_config <https://github.com/ros-planning/panda_moveit_config>`_::
 
-    git clone https://github.com/PickNikRobotics/moveit_grasps
+    git clone https://github.com/ros-planning/moveit_grasps
 
 Use the rosdep tool to automatically install its dependencies::
 
@@ -44,10 +35,10 @@ Robot-Agnostic Configuration
 ----------------------------
 
 You will first need a configuration file that described your robot's end effector geometry.
-Currently an example format can be seen in this repository at `config_robot/baxter_grasp_data.yaml <https://github.com/PickNikRobotics/moveit_grasps/blob/kinetic-devel/config_robot/baxter_grasp_data.yaml>`_.
+Currently an example format can be seen in this repository at `config_robot/panda_grasp_data.yaml <https://github.com/ros-planning/moveit_grasps/blob/kinetic-devel/config_robot/panda_grasp_data.yaml>`_.
 See the comments within that file for explanations.
 
-To load that file at launch, you copy the example in the file `launch/grasp_test.launch <https://github.com/PickNikRobotics/moveit_grasps/blob/kinetic-devel/launch/load_panda.launch>`_ where you should see the line::
+To load that file at launch, you copy the example in the file `launch/grasp_test.launch <https://github.com/ros-planning/moveit_grasps/blob/kinetic-devel/launch/load_panda.launch>`_ where you should see the line::
 
     ...
     
@@ -60,7 +51,7 @@ Within that file you will find all of the gripper specific parameters necessary 
 These values can be visualized by launching ``grasp_generator_demo.launch``, ``grasp_poses_visualizer_demo.launch``, and ``grasp_pipeline_demo.launch``.
 The result should look like the following:
 
-.. image:: https://raw.githubusercontent.com/PickNikRobotics/moveit_grasps/kinetic-devel/resources/moveit_grasps_poses.jpeg
+.. image:: https://raw.githubusercontent.com/ros-planning/moveit_grasps/kinetic-devel/resources/moveit_grasps_poses.jpeg
    :width: 500pt
 
 Some Important Parameters:
@@ -125,16 +116,6 @@ Tested Robots
 
 * UR5
 * Jaco2
-* `Baxter <https://github.com/davetcoleman/baxter_cpp>`_
+* Baxter
 * `REEM <http://wiki.ros.org/Robots/REEM>`_
 * Panda
-
-Example Code
-------------
-
-The most current example for using MoveIt! Grasps is the ``grasp_pipeline_demo`` which can be found `here <https://github.com/PickNikRobotics//moveit_grasps/kinetic-devel/src/grasp_pipeline_demo.cpp>`_.
-
-There are other example implementations:
-
-* `baxter_pick_place <https://github.com/davetcoleman/baxter_cpp/tree/kinetic-devel/baxter_pick_place>`_
-* `reem_tabletop_grasping <https://github.com/pal-robotics/reem_tabletop_grasping>`_
