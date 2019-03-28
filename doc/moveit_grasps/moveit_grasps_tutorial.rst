@@ -38,7 +38,7 @@ You will first need a configuration file that described your robot's end effecto
 Currently an example format can be seen in this repository at `config_robot/panda_grasp_data.yaml <https://github.com/ros-planning/moveit_grasps/blob/kinetic-devel/config_robot/panda_grasp_data.yaml>`_.
 See the comments within that file for explanations.
 
-To load that file at launch, you copy the example in the file `launch/grasp_test.launch <https://github.com/ros-planning/moveit_grasps/blob/kinetic-devel/launch/load_panda.launch>`_ where you should see the line::
+To load that file at launch, you copy the example in the file `launch/load_panda.launch <https://github.com/ros-planning/moveit_grasps/blob/kinetic-devel/launch/load_panda.launch>`_ where you should see the line::
 
     ...
     
