@@ -61,7 +61,7 @@ Some Important Parameters:
 
 The ``grasp_pose_to_eef_transform`` represents the transform from the wrist to the end-effector.
 This parameter is provided to allow different URDF end effectors to all work together without recompiling code.
-In MoveIt! the EE always has a parent link, typically the wrist link or palm link.
+In MoveIt the EE always has a parent link, typically the wrist link or palm link.
 That parent link should have its Z-axis pointing towards the object you want to grasp i.e. where your pointer finger is pointing.
 This is the convention laid out in "Robotics" by John Craig in 1955.
 However, a lot of URDFs do not follow this convention, so this transform allows you to fix it.
