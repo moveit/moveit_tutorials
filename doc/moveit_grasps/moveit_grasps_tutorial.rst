@@ -1,16 +1,16 @@
-MoveIt! Grasps
+MoveIt Grasps
 =======================
 
-MoveIt! Grasps is a grasp generator for objects such as blocks or cylinders for use with the MoveIt! pick and place pipeline. It also contains its own components for filtering grasps based on reachability and approach/retreat motions.
+MoveIt Grasps is a grasp generator for objects such as blocks or cylinders for use with the MoveIt pick and place pipeline. It also contains its own components for filtering grasps based on reachability and approach/retreat motions.
 The grasp generation algorithm is based on simple cuboid shapes and does not consider friction cones or other grasp dynamics.
 
 Its current implementation takes as input a pose of a cuboid, and the cuboid's size, and generates a large number of potential grasp approaches and directions.
 Also included is a grasp filter for removing kinematically infeasible grasps via threaded IK solvers.
 
-.. image:: https://raw.githubusercontent.com/ros-planning/moveit_grasps/kinetic-devel/resources/demo.png
+.. image:: moveit_grasps.png
    :width: 500pt
    
-Installing MoveIt! Grasps
+Installing MoveIt Grasps
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
 Install From Source
@@ -46,7 +46,7 @@ To load that file at launch, you copy the example in the file `launch/load_panda
     
     ...
 
-Within that file you will find all of the gripper specific parameters necessary for customizing MoveIt! Grasps with any suction or finger gripper.
+Within that file you will find all of the gripper specific parameters necessary for customizing MoveIt Grasps with any suction or finger gripper.
 
 These values can be visualized by launching ``grasp_generator_demo.launch``, ``grasp_poses_visualizer_demo.launch``, and ``grasp_pipeline_demo.launch``.
 The result should look like the following:
@@ -82,7 +82,7 @@ There are four demo scripts in this package. To view the tests, first start Rviz
 
     roslaunch moveit_grasps rviz.launch
 
-To see the entire MoveIt! Grasps pipeline in action::
+To see the entire MoveIt Grasps pipeline in action::
 
     roslaunch moveit_grasps grasp_pipeline_demo.launch
 
