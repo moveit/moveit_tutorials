@@ -38,9 +38,7 @@
 ##
 ## To use the Python MoveIt! interfaces, we will import the `moveit_commander`_ namespace.
 ## This namespace provides us with a `MoveGroupCommander`_ class, a `PlanningSceneInterface`_ class,
-## and a `RobotCommander`_ class. (More on these below)
-##
-## We also import `rospy`_ and some messages that we will use:
+## and a `RobotCommander`_ class. More on these below. We also import `rospy`_ and some messages that we will use:
 ##
 
 import sys

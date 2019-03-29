@@ -21,9 +21,9 @@ Using CHOMP with Your Robot
 ---------------------------
 **Note:** if you are following this demo using the ``panda_moveit_config`` from the `ros-planning/panda_moveit_config <https://github.com/ros-planning/panda_moveit_config>`_ repository, these steps are already done for you and you can skip this section.
 
-#. Simply download `chomp_planning_pipeline.launch.xml <https://github.com/ros-planning/panda_moveit_config/blob/melodic-devel/launch/chomp_planning_pipeline.launch.xml>`_ file into the launch directory of your MoveIt! config package. In our case, we will save this file in the ``panda_moveit_config/launch`` directory.
+#. Simply download :panda_codedir:`chomp_planning_pipeline.launch.xml<launch/chomp_planning_pipeline.launch.xml>` file into the launch directory of your MoveIt! config package. In our case, we will save this file in the ``panda_moveit_config/launch`` directory.
 #. Adjust the line ``<rosparam command="load" file="$(find panda_moveit_config)/config/chomp_planning.yaml" />`` to ``<rosparam command="load" file="$(find <robot_moveit_config>)/config/chomp_planning.yaml" />`` replacing ``<robot_moveit_config>`` with the name of your MoveIt! configuration package.
-#. Download `chomp_planning.yaml <https://github.com/ros-planning/panda_moveit_config/blob/melodic-devel/config/chomp_planning.yaml>`_ file into the config directory of your MoveIt! config package. In our case, we will save this file in the ``panda_moveit_config/config`` directory.
+#. Download :panda_codedir:`chomp_planning.yaml <config/chomp_planning.yaml>` file into the config directory of your MoveIt! config package. In our case, we will save this file in the ``panda_moveit_config/config`` directory.
 #. Open ``chomp_planning.yaml`` in your favorite editor and change ``animate_endeffector_segment: "panda_rightfinger"`` to the appropriate link for your robot.
 #. Copy the ``demo.launch`` file to ``demo_chomp.launch``. Note that this file is also in the launch directory of your MoveIt! config package. In our case, the ``panda_moveit_config/launch`` directory.
 #. Find the lines where ``move_group.launch`` is included and change it to: ::
@@ -72,7 +72,7 @@ Next, in RViz, select CHOMP in the MotionPlanning pannel under the Context tab. 
 
 Tweaking some of the parameters for CHOMP
 -----------------------------------------
-CHOMP has some optimization parameters associated with it. These can be modified for the given environment/robot you are working with and is normally present in the `chomp_planning.yaml <https://github.com/ros-planning/panda_moveit_config/blob/melodic-devel/config/chomp_planning.yaml>`_ file in config folder of the robot you are working with. If this file does not exist for your robot, you can create it and set the parameter values as you want. The following are some of the insights to set up these parameter values for some of them:
+CHOMP has some optimization parameters associated with it. These can be modified for the given environment/robot you are working with and is normally present in the :panda_codedir:`chomp_planning.yaml <config/chomp_planning.yaml>` file in config folder of the robot you are working with. If this file does not exist for your robot, you can create it and set the parameter values as you want. The following are some of the insights to set up these parameter values for some of them:
 
 - *planning_time_limit*: the maximum time the optimizer can take to find a solution before terminating
 
@@ -127,7 +127,7 @@ Using OMPL as a pre-processor for CHOMP
 Here, it is demonstrated that CHOMP can also be used as a post-processing optimization technique for plans obtained by other planning algorithms. The intuition behind this is that some randomized planning algorithm produces an initial guess for CHOMP. CHOMP then takes this initial guess and further optimizes the trajectory.
 To achieve this, follow the steps:
 
-#. Open the ``ompl_planning_pipeline.launch`` file in the ``<robot_moveit_config>/launch`` folder of your robot. For the Panda robot it is `this <https://github.com/ros-planning/panda_moveit_config/blob/melodic-devel/launch/ompl_planning_pipeline.launch.xml>`_ file. Edit this launch file, find the lines where ``<arg name="planning_adapters">`` is mentioned and change it to: ::
+#. Open the ``ompl_planning_pipeline.launch`` file in the ``<robot_moveit_config>/launch`` folder of your robot. For the Panda robot it is :panda_codedir:`this <launch/ompl_planning_pipeline.launch.xml>` file. Edit this launch file, find the lines where ``<arg name="planning_adapters">`` is mentioned and change it to: ::
 
     <arg name="planning_adapters"
          value="default_planner_request_adapters/FixWorkspaceBounds
