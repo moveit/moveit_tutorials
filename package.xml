@@ -14,6 +14,7 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
+  <build_depend>rosdoc_lite</build_depend>
   <build_depend>pluginlib</build_depend>
   <build_depend>eigen</build_depend>
   <build_depend>moveit_core</build_depend>

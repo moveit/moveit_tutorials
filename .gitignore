@@ -5,3 +5,5 @@ doc/html
 build
 Gemfile
 native_build
+*.swp
+

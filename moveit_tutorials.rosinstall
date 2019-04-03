@@ -1,0 +1,8 @@
+- git:
+    local-name: moveit_tutorials
+    uri: https://github.com/ros-planning/moveit_tutorials.git
+    version: master
+- git:
+    local-name: moveit
+    uri: https://github.com/ros-planning/moveit.git
+    version: master
