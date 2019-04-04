@@ -111,3 +111,10 @@ There are several options for tuning the behavior and safety checks of the execu
  - ``execution_duration_monitoring``: when false, will not throw error is trajectory takes longer than expected to complete at the low-level controller side
  - ``allowed_goal_duration_margin``: Allow more than the expected execution time before triggering a trajectory cancel (applied after scaling)
  - ``allowed_start_tolerance``: Allowed joint-value tolerance for validation that trajectory's first point matches current robot state. If set to zero will skip waiting for robot to stop after execution
+
+Example Controller Manager
+--------------------------
+
+MoveIt controller managers, somewhat a misnomer, are the interfaces to your custom low level controllers. A better way to think of them are *controler interfaces*. For most use cases, the included :moveit_codedir:[MoveItSimpleControllerManager](moveit_plugins/moveit_simple_controller_manager) is sufficient if your robot controllers already provide ROS actions for FollowJointTrajectory. If you use *ros_control*, the included :moveit_codedir:[MoveItRosControlInterface](moveit_plugins/moveit_ros_control_interface) is also ideal.
+
+However, for some applications you might desire a more custom controller manager. An example template for starting your custom controller manager is provided :codedir:[here](controller_configuration/src/moveit_controller_manager_example.cpp).
