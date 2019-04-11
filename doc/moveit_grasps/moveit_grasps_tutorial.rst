@@ -31,25 +31,42 @@ Build the workspace::
 Setup
 ^^^^^^^^^^^^^^^^
 
+MoveIt Grasps is based on the three main components *Grasp Generator*, *Grasp Filter*, and *Grasp Planner*.
+The *Grasp Generator* uses the end effector kinematic and the object shape for sampling grasp poses and optimizing them using geometric scoring functions.
+The *Grasp Filter* validates the feasibility of grasp candidates by searching for IK solutions to verify their reachability.
+The *Grasp Planner* computes Cartesian approach, lift, and retreat trajectories that compose a complete grasp motion.
+
+In order to run the full grasp pipeline the three components need to be applied in sequence.
+An example for generating, filtering and planning grasp motions can be found inside the file `src/grasp_pipeline_demo.cpp  <https://github.com/ros-planning/moveit_grasps/blob/kinetic-devel/src/demo/grasp_pipeline_demo.cpp>`_. The grasp pipeline demo can be run by launching `launch/grasp_pipeline_demo.launch <https://github.com/ros-planning/moveit_grasps/blob/kinetic-devel/launch/grasp_pipeline_demo.launch>`_.
+
 Robot-Agnostic Configuration
 ----------------------------
 
-You will first need a configuration file that described your robot's end effector geometry.
-Currently an example format can be seen in this repository at `config_robot/panda_grasp_data.yaml <https://github.com/ros-planning/moveit_grasps/blob/kinetic-devel/config_robot/panda_grasp_data.yaml>`_.
-See the comments within that file for explanations.
+MoveIt Grasps requires two configuration files to be specified at launch.
+One describes the robot's end effector geometry and the other configures the *Grasp Generator*, *Grasp Filter* and *Grasp Planner*.
+An example end effector configuration for Franka Emika's Panda can be found under `config_robot/panda_grasp_data.yaml <https://github.com/ros-planning/moveit_grasps/blob/kinetic-devel/config_robot/panda_grasp_data.yaml>`_.
+In that file you will find all of the gripper specific parameters necessary for customizing MoveIt Grasps with suction or finger grippers.
+The three grasp components are configured inside `config/moveit_grasps_config.yaml <https://github.com/ros-planning/moveit_grasps/blob/kinetic-devel/config/moveit_grasps_config.yaml>`_.
+See the comments in both files for further explanation of the parameters. 
 
-To load that file at launch, you copy the example in the file `launch/load_panda.launch <https://github.com/ros-planning/moveit_grasps/blob/kinetic-devel/launch/load_panda.launch>`_ where you should see the line::
+To apply your configuration simply load them as rosparams with your grasping node.
+For an example see the segment below from the file `launch/grasp_pipeline_demo.launch <https://github.com/ros-planning/moveit_grasps/blob/kinetic-devel/launch/grasp_pipeline_demo.launch>`_::
 
     ...
-    
-    <rosparam command="load" file="$(find moveit_grasps)/config_robot/panda_grasp_data.yaml"/>
-    
+    <node name="mmmmoveit_grasps_demo" launch-prefix="$(arg launch_prefix)" pkg="moveit_grasps"
+    type="moveit_grasps_pipeline_demo" output="screen" args="$(arg command_args)">
+      <param name="ee_group_name" value="hand"/>
+      <param name="planning_group_name" value="panda_arm"/>
+      <rosparam command="load" file="$(find moveit_grasps)/config_robot/panda_grasp_data.yaml"/>
+      <rosparam command="load" file="$(find moveit_grasps)/config/moveit_grasps_config.yaml"/>
+    </node>
     ...
+    
+ Note that also the robot's planning group and end effector group must be specified under the parameters ``ee_group_name`` and ``planning_group_name``.
 
-Within that file you will find all of the gripper specific parameters necessary for customizing MoveIt Grasps with any suction or finger gripper.
-
-These values can be visualized by launching ``grasp_generator_demo.launch``, ``grasp_poses_visualizer_demo.launch``, and ``grasp_pipeline_demo.launch``.
-The result should look like the following:
+Since the set of parameters is quite extensive there are different demo launch files that you can use to visualize the effects. 
+For this you can apply your configuration to the launch files ``grasp_generator_demo.launch``, ``grasp_poses_visualizer_demo.launch``, or ``grasp_pipeline_demo.launch`` and run them.
+The results should resemble the image below:
 
 .. image:: https://raw.githubusercontent.com/ros-planning/moveit_grasps/kinetic-devel/resources/moveit_grasps_poses.jpeg
    :width: 500pt
