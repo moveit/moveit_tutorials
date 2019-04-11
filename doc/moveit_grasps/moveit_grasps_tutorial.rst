@@ -62,7 +62,8 @@ For an example see the segment below from the file `launch/grasp_pipeline_demo.l
     </node>
     ...
     
- Note that also the robot's planning group and end effector group must be specified under the parameters ``ee_group_name`` and ``planning_group_name``.
+
+Note that also the robot's planning group and end effector group must be specified under the parameters ``ee_group_name`` and ``planning_group_name``.
 
 Since the set of parameters is quite extensive there are different demo launch files that you can use to visualize the effects. 
 For this you can apply your configuration to the launch files ``grasp_generator_demo.launch``, ``grasp_poses_visualizer_demo.launch``, or ``grasp_pipeline_demo.launch`` and run them.
