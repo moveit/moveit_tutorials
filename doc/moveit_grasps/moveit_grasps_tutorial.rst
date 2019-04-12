@@ -1,7 +1,10 @@
 MoveIt Grasps
 =======================
 
-MoveIt Grasps is a grasp generator for objects such as blocks or cylinders and can be used as a replacement for the MoveIt pick and place pipeline. MoveIt Grasps provides functionality for filtering grasps based on reachability and Cartesian planning of approach, lift and retreat motions. The grasp generation algorithm is based on simple cuboid shapes and does not consider friction cones or other grasp dynamics.
+.. image:: moveit_grasps.png
+   :width: 500pt
+
+MoveIt Grasps is a grasp generator for objects such as blocks or cylinders and can be used as a replacement for the MoveIt pick and place pipeline. MoveIt Grasps provides functionality for filtering grasps based on reachability and Cartesian planning of approach, lift and retreat motions.
 
 The grasp generation algorithm is based on simple cuboid shapes and does not consider friction cones or other grasp dynamics.
 
@@ -11,14 +14,11 @@ Getting Started
 ---------------
 If you haven't already done so, make sure you've completed the steps in `Getting Started <../getting_started/getting_started.html>`_.
 
-.. image:: moveit_grasps.png
-   :width: 500pt
-
 Installing MoveIt Grasps
-^^^^^^^^^^^^^^^^^^^^^^^^
+------------------------
 
 Install From Source
---------------------
+^^^^^^^^^^^^^^^^^^^
 
 Clone the `moveit_grasps <https://github.com/ros-planning/moveit_grasps>`_ repository into a `catkin workspace <https://ros-planning.github.io/moveit_tutorials/doc/getting_started/getting_started.html#create-a-catkin-workspace>`_. For this tutorial we use Franka Emika's Panda robot setup from `panda_moveit_config <https://github.com/ros-planning/panda_moveit_config>`_::
 
@@ -34,14 +34,14 @@ Build the workspace::
     catkin build
 
 Install From Debian
---------------------
+^^^^^^^^^^^^^^^^^^^
 
 **Note:** this package has not been released as of 4/11/19::
 
     sudo apt-get install ros-$ROS_DISTRO-moveit-grasps
 
 Setup
-^^^^^^^^^^^^^^^^
+-----
 
 MoveIt Grasps is based on the three main components *Grasp Generator*, *Grasp Filter*, and *Grasp Planner*.
 The *Grasp Generator* uses the end effector kinematic and the object shape for sampling grasp poses and optimizing them using geometric scoring functions.
@@ -53,7 +53,7 @@ In order to run the full grasp pipeline the three components need to be applied 
 An example for generating, filtering and planning grasp motions can be found inside the file `src/grasp_pipeline_demo.cpp  <https://github.com/ros-planning/moveit_grasps/blob/kinetic-devel/src/demo/grasp_pipeline_demo.cpp>`_. The grasp pipeline demo can be run by launching `launch/grasp_pipeline_demo.launch <https://github.com/ros-planning/moveit_grasps/blob/kinetic-devel/launch/grasp_pipeline_demo.launch>`_.
 
 Robot-Agnostic Configuration
-----------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 MoveIt Grasps requires two configuration files to be specified at launch. One describes the robot's end effector geometry and the other configures the *Grasp Generator*, *Grasp Filter* and *Grasp Planner*.
 
@@ -78,13 +78,10 @@ For an example see the segment below from the file `launch/grasp_pipeline_demo.l
 
 Note that also the robot's planning group and end effector group must be specified under the parameters ``ee_group_name`` and ``planning_group_name``.
 
-Since the set of parameters is quite extensive there are different demo launch files that you can use to visualize the effects. You can apply your configuration to the launch files ``grasp_generator_demo.launch``, ``grasp_poses_visualizer_demo.launch``, or ``grasp_pipeline_demo.launch`` and run them. The results should resemble the image below:
+Since the set of parameters is quite extensive there are different demo launch files that you can use to visualize the effects. You can apply your configuration to the launch files ``grasp_generator_demo.launch``, ``grasp_poses_visualizer_demo.launch``, or ``grasp_pipeline_demo.launch`` and run them. More on the MoveIt Grasps demos below.
 
-.. image:: https://raw.githubusercontent.com/ros-planning/moveit_grasps/kinetic-devel/resources/moveit_grasps_poses.jpeg
-   :width: 500pt
-
-Notes on Some Important Parameters:
--------------------------------------
+Notes on Some Important Parameters
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 **grasp_pose_to_eef_transform**
 
@@ -110,36 +107,49 @@ These methods is used to score grasp candidates favoring grasps that are closer 
 This is useful in applications such as bin and shelf picking where you would want to pick the objects from a bin with a grasp that is vertically alligned and you would want to pick obejects from a shelf with a grasp that is horozontally alligned.
 
 Demo Scripts
-^^^^^^^^^^^^
+------------
 
 We have provided demo scripts showcasing MoveIt Grasps, and for visualizing MoveIt Grasps configuration parameters.
 
-.. image:: https://raw.githubusercontent.com/ros-planning/moveit_grasps/kinetic-devel/resources/moveit_grasps_poses.jpeg
-   :width: 500pt
-
-
-There are four demo scripts in this package. To view the tests, first start Rviz with::
+First start Rviz with::
 
     roslaunch moveit_grasps rviz.launch
 
-To see the entire MoveIt Grasps pipeline in action::
+The Entire MoveIt Grasps Pipeline
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+To see the entire MoveIt Grasps pipeline in action run::
 
     roslaunch moveit_grasps grasp_pipeline_demo.launch
 
+.. image:: grasp_pipeline_demo.gif
+   :width: 500pt
+
+
+Visualize Gripper Parameters
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 To visualize gripper specific parameters::
 
     roslaunch moveit_grasps grasp_poses_visualizer_demo.launch
 
-To test just grasp generation for randomly placed blocks::
+The result should look something like this:
 
-    roslaunch moveit_grasps demo_grasp_generator.launch
+.. image:: https://raw.githubusercontent.com/ros-planning/moveit_grasps/kinetic-devel/resources/moveit_grasps_poses.jpeg
+   :width: 500pt
 
-To test the grasp filtering::
+Visualize Grasp Generation
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+To visualize grasp generation for randomly placed blocks::
 
-    roslaunch moveit_grasps demo_filter.launch
+    roslaunch moveit_grasps grasp_generator_demo.launch
+
+.. image:: grasp_generator_demo.png
+   :width: 500pt
 
 Grasp Filter
-------------
+^^^^^^^^^^^^
+To demo the grasp filtering::
+
+    roslaunch moveit_grasps grasp_filter_demo.launch
 
 When filtered, the colors represent the following:
 
