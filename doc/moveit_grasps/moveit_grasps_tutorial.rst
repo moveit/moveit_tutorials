@@ -133,7 +133,7 @@ To visualize gripper specific parameters::
 
 The result should look something like this:
 
-.. image:: https://raw.githubusercontent.com/ros-planning/moveit_grasps/kinetic-devel/resources/moveit_grasps_poses.jpeg
+.. image:: moveit_grasps_poses.jpg
    :width: 500pt
 
 Visualize Grasp Generation
