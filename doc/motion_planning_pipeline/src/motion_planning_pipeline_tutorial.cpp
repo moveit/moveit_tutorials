@@ -77,13 +77,13 @@ int main(int argc, char** argv)
   planning_scene_monitor::PlanningSceneMonitorPtr psm(
       new planning_scene_monitor::PlanningSceneMonitor(robot_model_loader));
 
-  /* statSceneMonitor: This method starts a subscriber which listens for planning scene messages and updates
+  /* listen for planning scene messages on topic /XXX and apply them to the internal planning scene
                        the internal planning scene accordingly */
   psm->startSceneMonitor();
-  /* startWorldGeometryMonitor: This method starts the world geometry update monitor which listens for changes to
+  // listens to changes of world geometry, collision objects, and (optionally) octomaps
                                 world geometry, collision objects and optionally octomaps */
   psm->startWorldGeometryMonitor();
-  /* startStateMonitor: Starts subscribers that listen for changes in joint state, and attached collision objects topics
+  // listen to joint state updates as well as changes in attached collision objects
                         and update the internal planning scene accordingly*/
   psm->startStateMonitor();
 
