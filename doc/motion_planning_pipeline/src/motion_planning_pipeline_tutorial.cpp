@@ -73,7 +73,6 @@ int main(int argc, char** argv)
   // will create a planning scene, monitors planning scene diffs, and apply the diffs to it's
   // internal planning scene. We then call startSceneMonitor, startWorldGeometryMonitor and
   // startStateMonitor to fully initialize the planning scene monitor
-  //
   planning_scene_monitor::PlanningSceneMonitorPtr psm(
       new planning_scene_monitor::PlanningSceneMonitor(robot_model_loader));
 
