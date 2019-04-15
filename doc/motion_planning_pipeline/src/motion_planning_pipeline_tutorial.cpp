@@ -79,10 +79,10 @@ int main(int argc, char** argv)
   /* listen for planning scene messages on topic /XXX and apply them to the internal planning scene
                        the internal planning scene accordingly */
   psm->startSceneMonitor();
-  // listens to changes of world geometry, collision objects, and (optionally) octomaps
+  /* listens to changes of world geometry, collision objects, and (optionally) octomaps
                                 world geometry, collision objects and optionally octomaps */
   psm->startWorldGeometryMonitor();
-  // listen to joint state updates as well as changes in attached collision objects
+  /* listen to joint state updates as well as changes in attached collision objects
                         and update the internal planning scene accordingly*/
   psm->startStateMonitor();
 
@@ -240,7 +240,6 @@ int main(int argc, char** argv)
   // should happen either before planning takes place or after the planning
   // has been done on the resultant path
 
-  /* First, set the state in the planning scene to the final state of the last plan */
   /* First, set the state in the planning scene to the final state of the last plan */
   robot_state = planning_scene_monitor::LockedPlanningSceneRO(psm)->getCurrentStateUpdated(response.trajectory_start);
   robot_state->setJointGroupPositions(joint_model_group, response.trajectory.joint_trajectory.points.back().positions);
