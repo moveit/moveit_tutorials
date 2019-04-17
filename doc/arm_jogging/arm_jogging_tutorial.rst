@@ -13,7 +13,15 @@ This tutorial shows how to send real-time jogging commands to a ROS-enabled robo
 
 Robot Requirements
 ------------------
-The jogger streams an array of position or velocity commands to the robot controller. This is compatible with ros\_control ``position_controllers/JointGroupPositionControllers`` or ``velocity_controllers/JointGroupVelocityControllers``. You can check if these controllers are available for your robot by searching for the controller config file (typically named ``controllers.yaml``).
+The jogger streams an array of position or velocity commands to the robot controller. This is compatible with ros\_control ``position_controllers/JointGroupPositionControllers`` or ``velocity_controllers/JointGroupVelocityControllers``. You can check if these controllers are available for your robot by searching for the controller config file (typically named ``controllers.yaml``). After launching the robot, you can check if any ros_control controllers are available with:
+
+``rosservice call /controller_manager/list_controllers``
+
+And switch to the desired controller with:
+
+``rosservice call /controller_manager/switch_controllers controller_to_start controller_to_stop``
+
+Remember, you can tab-complete to help fill these commands.
 
 Jogging may work on other robots that have a different control scheme but there is no guarantee. It has been tested heavily on UR robots using the [ur_modern_driver](https://github.com/ros-industrial/ur_modern_driver). The jogger currently does not limit joint jerk so may not be compatible with most heavy industrial robots.
 
