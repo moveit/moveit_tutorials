@@ -38,7 +38,7 @@ You can test the jogger with a `Gazebo simulation <https://github.com/UTNuclearR
 
 .. code-block:: bash
 
-    sudo apt install ros-melodic-control* ros-melodic-gazebo-ros-control* ros-melodic-joint-state-controller ros-melodic-position-controllers ros-melodic-joint-trajectory-controller
+    sudo apt install ros-melodic-control* ros-melodic-gazebo-ros-control* ros-melodic-joint-state-controller ros-melodic-position-controllers ros-melodic-joint-trajectory-controller ros-melodic-movei*
 
     Clone the repo into the same catkin workspace from `Getting Started`. Then build the workspace with ``catkin build`` and re-source your setup files (e.g. ``source ~/catkin_ws/devel/setup.bash``).
 
