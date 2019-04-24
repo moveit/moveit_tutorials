@@ -54,7 +54,7 @@ Move the arm to a non-singular (non zero joint values) configuration then launch
 
 .. code-block:: bash
 
-  roslaunch moveit_experimental jog_arm_server.launch
+  roslaunch moveit_experimental spacenav_cpp.launch
 
 You can publish example jogging commands with:
 
