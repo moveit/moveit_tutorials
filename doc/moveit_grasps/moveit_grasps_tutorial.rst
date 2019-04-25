@@ -23,7 +23,7 @@ Install From Source
 Clone the `moveit_grasps <https://github.com/ros-planning/moveit_grasps>`_ repository into a `catkin workspace <https://ros-planning.github.io/moveit_tutorials/doc/getting_started/getting_started.html#create-a-catkin-workspace>`_. For this tutorial we use Franka Emika's Panda robot setup from `panda_moveit_config <https://github.com/ros-planning/panda_moveit_config>`_::
 
     cd ~/ws_moveit/src
-    git clone https://github.com/ros-planning/moveit_grasps.git
+    git clone -b $ROS_DISTRO-devel https://github.com/ros-planning/moveit_grasps.git
 
 Use the rosdep tool to automatically install its dependencies::
 
@@ -50,23 +50,23 @@ The *Grasp Planner* computes Cartesian approach, lift, and retreat trajectories 
 
 In order to run the full grasp pipeline the three components need to be applied in sequence.
 
-An example for generating, filtering and planning grasp motions can be found inside the file `src/grasp_pipeline_demo.cpp  <https://github.com/ros-planning/moveit_grasps/blob/kinetic-devel/src/demo/grasp_pipeline_demo.cpp>`_. The grasp pipeline demo can be run by launching `launch/grasp_pipeline_demo.launch <https://github.com/ros-planning/moveit_grasps/blob/kinetic-devel/launch/grasp_pipeline_demo.launch>`_.
+An example for generating, filtering and planning grasp motions can be found inside the file `src/grasp_pipeline_demo.cpp  <https://github.com/ros-planning/moveit_grasps/blob/melodic-devel/src/demo/grasp_pipeline_demo.cpp>`_. The grasp pipeline demo can be run by launching `launch/grasp_pipeline_demo.launch <https://github.com/ros-planning/moveit_grasps/blob/melodic-devel/launch/grasp_pipeline_demo.launch>`_.
 
 Robot-Agnostic Configuration
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 MoveIt Grasps requires two configuration files to be specified at launch. One describes the robot's end effector geometry and the other configures the *Grasp Generator*, *Grasp Filter* and *Grasp Planner*.
 
-An example end effector configuration for Franka Emika's Panda can be found under `config_robot/panda_grasp_data.yaml <https://github.com/ros-planning/moveit_grasps/blob/kinetic-devel/config_robot/panda_grasp_data.yaml>`_.
+An example end effector configuration for Franka Emika's Panda can be found under `config_robot/panda_grasp_data.yaml <https://github.com/ros-planning/moveit_grasps/blob/melodic-devel/config_robot/panda_grasp_data.yaml>`_.
 
 In that file you will find all of the gripper specific parameters necessary for customizing MoveIt Grasps with suction or finger grippers.
 
-An example configuration file for the *Grasp Generator*, *Grasp Filter* and *Grasp Planner* can be found in `config/moveit_grasps_config.yaml <https://github.com/ros-planning/moveit_grasps/blob/kinetic-devel/config/moveit_grasps_config.yaml>`_.
+An example configuration file for the *Grasp Generator*, *Grasp Filter* and *Grasp Planner* can be found in `config/moveit_grasps_config.yaml <https://github.com/ros-planning/moveit_grasps/blob/melodic-devel/config/moveit_grasps_config.yaml>`_.
 
 See the comments in both files for further explanation of the parameters.
 
 To apply your configuration simply load them as rosparams with your grasping node.
-For an example see the segment below from the file `launch/grasp_pipeline_demo.launch <https://github.com/ros-planning/moveit_grasps/blob/kinetic-devel/launch/grasp_pipeline_demo.launch>`_::
+For an example see the segment below from the file `launch/grasp_pipeline_demo.launch <https://github.com/ros-planning/moveit_grasps/blob/melodic-devel/launch/grasp_pipeline_demo.launch>`_::
 
     <node name="moveit_grasps_demo" launch-prefix="$(arg launch_prefix)" pkg="moveit_grasps"
     type="moveit_grasps_pipeline_demo" output="screen" args="$(arg command_args)">
@@ -109,14 +109,16 @@ This is useful in applications such as bin and shelf picking where you would wan
 Demo Scripts
 ------------
 
-We have provided demo scripts showcasing MoveIt Grasps, and for visualizing MoveIt Grasps configuration parameters.
+We have provided 4 demo scripts showcasing MoveIt Grasps, and for visualizing MoveIt Grasps configuration parameters.
 
-First start Rviz with::
+Before running any of the Demos, you must first start Rviz with::
 
     roslaunch moveit_grasps rviz.launch
 
-The Entire MoveIt Grasps Pipeline
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**NOTE:** The released versions of `panda_moveit_config <https://github.com/ros-planning/panda_moveit_config>`_ may lag behind the source versions. If you have issues with the demos, a good first step would be to download and build `panda_moveit_config <https://github.com/ros-planning/panda_moveit_config>`_ from source.
+
+1) The Entire MoveIt Grasps Pipeline
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 To see the entire MoveIt Grasps pipeline in action run::
 
     roslaunch moveit_grasps grasp_pipeline_demo.launch
@@ -125,8 +127,8 @@ To see the entire MoveIt Grasps pipeline in action run::
    :width: 500pt
 
 
-Visualize Gripper Parameters
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2) Visualize Gripper Parameters
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 To visualize gripper specific parameters::
 
     roslaunch moveit_grasps grasp_poses_visualizer_demo.launch
@@ -136,8 +138,8 @@ The result should look something like this:
 .. image:: moveit_grasps_poses.jpg
    :width: 500pt
 
-Visualize Grasp Generation
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+3) Visualize Grasp Generation
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 To visualize grasp generation for randomly placed blocks::
 
     roslaunch moveit_grasps grasp_generator_demo.launch
@@ -145,8 +147,8 @@ To visualize grasp generation for randomly placed blocks::
 .. image:: grasp_generator_demo.png
    :width: 500pt
 
-Grasp Filter
-^^^^^^^^^^^^
+4) Grasp Filter
+^^^^^^^^^^^^^^^
 To demo the grasp filtering::
 
     roslaunch moveit_grasps grasp_filter_demo.launch
