@@ -12,7 +12,7 @@ compiler: gcc
 before_install: # Use this to prepare the system to install prerequisites or dependencies
   # Define some config vars
   - export ROS_DISTRO=melodic
-  - export ROS_REPO=ros
+  - export DOCKER_IMAGE=moveit/moveit:master-source
 
   - export NOKOGIRI_USE_SYSTEM_LIBRARIES=true
   - export REPOSITORY_NAME=${PWD##*/}
