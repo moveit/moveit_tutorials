@@ -84,10 +84,10 @@ void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& pla
   box.primitives[0].dimensions[1] = 0.1;
   box.primitives[0].dimensions[2] = 0.02;
   box.primitive_poses[0].position.z = 0.0 + z_offset_box;
-  box.subframe_poses.resize(4);
-  box.subframe_names.resize(4);
+  box.subframe_poses.resize(5);
+  box.subframe_names.resize(5);
 
-  box.subframe_names[0] = "bo";
+  box.subframe_names[0] = "bottom";
   box.subframe_poses[0].position.y = -.05;
   box.subframe_poses[0].position.z = 0.0 + z_offset_box;
   tf2::Quaternion orientation;
@@ -113,6 +113,13 @@ void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& pla
   box.subframe_poses[3].position.z = -.01 + z_offset_box;
   orientation.setRPY((90.0 / 180.0 * M_PI), 0, 0);
   box.subframe_poses[3].orientation = tf2::toMsg(orientation);
+
+  box.subframe_names[4] = "side";
+  box.subframe_poses[4].position.x = .0;
+  box.subframe_poses[4].position.y = .0;
+  box.subframe_poses[4].position.z = -.01 + z_offset_box;
+  orientation.setRPY(0, (180.0 / 180.0 * M_PI), 0);
+  box.subframe_poses[4].orientation = tf2::toMsg(orientation);
 
   moveit_msgs::CollisionObject cylinder;
   // Spawning on the fingers causes collisions, and it's not easy to allow the collisions
@@ -163,7 +170,14 @@ int main(int argc, char** argv)
   moveit::planning_interface::MoveGroupInterface group("panda_arm");
   group.setPlanningTime(10.0);
 
+  // Prepare scene (spawn objects and attach cylinder to robot)
   addCollisionObjects(planning_scene_interface);
+  moveit_msgs::AttachedCollisionObject att_coll_object;
+  att_coll_object.object.id = "cylinder";
+  att_coll_object.link_name = "panda_hand";
+  att_coll_object.object.operation = att_coll_object.object.ADD;
+  ROS_INFO_STREAM("Attaching cylinder to robot.");
+  planning_scene_interface.applyAttachedCollisionObject(att_coll_object);
 
   // Wait a bit for ROS things to initialize
   ros::WallDuration(1.0).sleep();
@@ -191,9 +205,10 @@ int main(int argc, char** argv)
              "\n3 to move to start pose "
              "\n4 to move cylinder tip to box bottom \n5 to move cylinder tip to box top"
              "\n6 to move cylinder tip to box corner 1 \n7 to move cylinder tip to box corner 2"
+             "\n8 to move cylinder tip to side of box"
              "\n10 to remove box and cylinder from the scene."
              "\n11 to move to a certain point in space with end effector (for visualizing the subframe pose)"
-             "\n12 to move to a certain point in space with cylinder_tip ");
+             "\n12 to move to a certain point in space with cylinder/tip ");
     std::cin >> c;
     if (c == 0)
     {
@@ -223,7 +238,7 @@ int main(int argc, char** argv)
     else if (c == 4)
     {
       ROS_INFO_STREAM("Moving to bottom of box with cylinder tip");
-      ps_0.header.frame_id = "box_bo";
+      ps_0.header.frame_id = "box/bottom";
       orientation.setRPY(0, (180.0 / 180.0 * M_PI), 0);
       // Use a second rotation to make the transformation easier to follow.
       // orientation2.setRPY(0, 0, -(90.0/180.0 *M_PI));
@@ -233,40 +248,48 @@ int main(int argc, char** argv)
       orientation3 = orientation * orientation2;
       ps_0.pose.orientation = tf2::toMsg(orientation3);
       ps_0.pose.position.z = 0.01;
-      moveToCartPose(ps_0, group, "cylinder_tip");
+      moveToCartPose(ps_0, group, "cylinder/tip");
     }
     else if (c == 5)
     {
       ROS_INFO_STREAM("Moving to top of box with cylinder tip");
-      ps_0.header.frame_id = "box_top";
+      ps_0.header.frame_id = "box/top";
       orientation.setRPY(0, (180.0 / 180.0 * M_PI), 0);
       orientation2.setRPY(-(90.0 / 180.0 * M_PI), 0, 0);
       orientation3 = orientation2 * orientation;
       ps_0.pose.orientation = tf2::toMsg(orientation3);
       ps_0.pose.position.z = 0.01;
-      moveToCartPose(ps_0, group, "cylinder_tip");
+      moveToCartPose(ps_0, group, "cylinder/tip");
     }
     else if (c == 6)
     {
-      ROS_INFO_STREAM("Moving to bottom of box with cylinder tip");
-      ps_0.header.frame_id = "box_corner_1";
+      ps_0.header.frame_id = "box/corner_1";
       orientation.setRPY(0, (180.0 / 180.0 * M_PI), 0);
       orientation2.setRPY(-(90.0 / 180.0 * M_PI), 0, 0);
       orientation3 = orientation * orientation2;
       ps_0.pose.orientation = tf2::toMsg(orientation3);
       ps_0.pose.position.z = 0.01;
-      moveToCartPose(ps_0, group, "cylinder_tip");
+      moveToCartPose(ps_0, group, "cylinder/tip");
     }
     else if (c == 7)
     {
-      ROS_INFO_STREAM("Moving to bottom of box with cylinder tip");
-      ps_0.header.frame_id = "box_corner_2";
+      ps_0.header.frame_id = "box/corner_2";
       orientation.setRPY(0, (180.0 / 180.0 * M_PI), 0);
       orientation2.setRPY(-(90.0 / 180.0 * M_PI), 0, 0);
       orientation3 = orientation * orientation2;
       ps_0.pose.orientation = tf2::toMsg(orientation3);
       ps_0.pose.position.z = 0.01;
-      moveToCartPose(ps_0, group, "cylinder_tip");
+      moveToCartPose(ps_0, group, "cylinder/tip");
+    }
+    else if (c == 8)
+    {
+      ps_0.header.frame_id = "box/side";
+      orientation.setRPY(0, (180.0 / 180.0 * M_PI), 0);
+      orientation2.setRPY(-(90.0 / 180.0 * M_PI), 0, 0);
+      orientation3 = orientation * orientation2;
+      ps_0.pose.orientation = tf2::toMsg(orientation3);
+      ps_0.pose.position.z = 0.01;
+      moveToCartPose(ps_0, group, "cylinder/tip");
     }
     else if (c == 10)
     {
@@ -323,7 +346,7 @@ int main(int argc, char** argv)
     else if (c == 12)
     {
       ROS_INFO_STREAM("Moving to a pose with cylinder tip");
-      moveToCartPose(ps, group, "cylinder_tip");
+      moveToCartPose(ps, group, "cylinder/tip");
     }
     else
     {
@@ -335,3 +358,29 @@ int main(int argc, char** argv)
   ros::waitForShutdown();
   return 0;
 }
+
+// // Initialization
+// geometry_msgs::PoseStamped ps;
+// tf2::Quaternion orientation;
+// moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
+// moveit::planning_interface::MoveGroupInterface group("panda_arm");
+
+// // Current API
+// ps.header.frame_id = "box_hole";
+// quaternion.setRPY(0, (180.0 / 180.0 * M_PI), 0);
+// ps.pose.orientation = tf2::toMsg(quaternion);
+// ps.pose.position.z = 0.1;
+// group.setEndEffectorLink("cylinder/tip");
+// group.setPoseTarget(ps);
+// group.go();
+
+// // API with a transformation of the target subframe
+// quaternion.setRPY(0, (180.0 / 180.0 * M_PI), 0);
+// //ps.header.frame_id = "box_hole"
+// ps.pose.orientation = tf2::toMsg(quaternion);
+// ps.pose.position.z = 0.1;
+// ps = planning_scene_interface.setPoseHeaderToSubframe(ps, object="box", subframe="hole");
+// // Returns a transformed ps such that ps.header.frame_id = "box"
+// group.setEndEffectorLink("cylinder/tip");
+// group.setPoseTarget(ps);
+// group.go();
