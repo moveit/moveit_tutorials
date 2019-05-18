@@ -323,29 +323,3 @@ int main(int argc, char** argv)
   ros::waitForShutdown();
   return 0;
 }
-
-// // Initialization
-// geometry_msgs::PoseStamped ps;
-// tf2::Quaternion orientation;
-// moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
-// moveit::planning_interface::MoveGroupInterface group("panda_arm");
-
-// // Current API
-// ps.header.frame_id = "box_hole";
-// quaternion.setRPY(0, (180.0 / 180.0 * M_PI), 0);
-// ps.pose.orientation = tf2::toMsg(quaternion);
-// ps.pose.position.z = 0.1;
-// group.setEndEffectorLink("cylinder/tip");
-// group.setPoseTarget(ps);
-// group.go();
-
-// // API with a transformation of the target subframe
-// quaternion.setRPY(0, (180.0 / 180.0 * M_PI), 0);
-// //ps.header.frame_id = "box_hole"
-// ps.pose.orientation = tf2::toMsg(quaternion);
-// ps.pose.position.z = 0.1;
-// ps = planning_scene_interface.setPoseHeaderToSubframe(ps, object="box", subframe="hole");
-// // Returns a transformed ps such that ps.header.frame_id = "box"
-// group.setEndEffectorLink("cylinder/tip");
-// group.setPoseTarget(ps);
-// group.go();
