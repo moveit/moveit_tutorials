@@ -47,10 +47,6 @@
 bool moveToCartPose(geometry_msgs::PoseStamped pose, moveit::planning_interface::MoveGroupInterface& group,
                     std::string end_effector_link)
 {
-  moveit::planning_interface::MoveGroupInterface::Plan myplan;
-  moveit::planning_interface::MoveItErrorCode success_plan = moveit_msgs::MoveItErrorCodes::FAILURE,
-                                              motion_done = moveit_msgs::MoveItErrorCodes::FAILURE;
-
   group.clearPoseTargets();
   group.setEndEffectorLink(end_effector_link);
   group.setStartStateToCurrentState();
@@ -58,13 +54,10 @@ bool moveToCartPose(geometry_msgs::PoseStamped pose, moveit::planning_interface:
 
   ROS_INFO_STREAM("Planning motion to pose:");
   ROS_INFO_STREAM(pose.pose.position.x << ", " << pose.pose.position.y << ", " << pose.pose.position.z);
-  success_plan = group.plan(myplan);
-  if (success_plan)
-  {
-    motion_done = group.execute(myplan);
-    if (motion_done)
-      return true;
-  }
+  moveit::planning_interface::MoveGroupInterface::Plan myplan;
+  if (group.plan(myplan) && group.execute(myplan))
+    return true;
+
   ROS_WARN("Failed to perform motion.");
   return false;
 }
@@ -179,9 +172,6 @@ int main(int argc, char** argv)
   ROS_INFO_STREAM("Attaching cylinder to robot.");
   planning_scene_interface.applyAttachedCollisionObject(att_coll_object);
 
-  // Wait a bit for ROS things to initialize
-  ros::WallDuration(1.0).sleep();
-
   //---
   int c;
   tf2::Quaternion orientation, orientation2, orientation3;
@@ -191,11 +181,6 @@ int main(int argc, char** argv)
   ps.pose.position.z = .3;
   orientation.setRPY(0, (-20.0 / 180.0 * M_PI), 0);
   ps.pose.orientation = tf2::toMsg(orientation);
-  ;
-
-  moveit::planning_interface::MoveGroupInterface::Plan myplan;
-  moveit::planning_interface::MoveItErrorCode success_plan = moveit_msgs::MoveItErrorCodes::FAILURE,
-                                              motion_done = moveit_msgs::MoveItErrorCodes::FAILURE;
 
   while (ros::ok())
   {
