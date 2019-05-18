@@ -278,49 +278,29 @@ int main(int argc, char** argv)
     }
     else if (c == 10)
     {
-      ROS_INFO_STREAM("Removing box and cylinder.");
-      moveit_msgs::AttachedCollisionObject att_coll_object;
-      att_coll_object.object.id = "box";
-      att_coll_object.object.operation = att_coll_object.object.REMOVE;
       try
       {
+        ROS_INFO_STREAM("Removing box and cylinder.");
+        moveit_msgs::AttachedCollisionObject att_coll_object;
+        att_coll_object.object.id = "box";
+        att_coll_object.object.operation = att_coll_object.object.REMOVE;
         planning_scene_interface.applyAttachedCollisionObject(att_coll_object);
-      }
-      catch (std::exception exc)
-      {
-        ;
-      }
-      att_coll_object.object.id = "cylinder";
-      att_coll_object.object.operation = att_coll_object.object.REMOVE;
-      try
-      {
-        planning_scene_interface.applyAttachedCollisionObject(att_coll_object);
-      }
-      catch (std::exception exc)
-      {
-        ;
-      }
 
-      moveit_msgs::CollisionObject co;
-      co.id = "box";
-      co.operation = moveit_msgs::CollisionObject::REMOVE;
-      try
-      {
+        att_coll_object.object.id = "cylinder";
+        att_coll_object.object.operation = att_coll_object.object.REMOVE;
+        planning_scene_interface.applyAttachedCollisionObject(att_coll_object);
+
+        moveit_msgs::CollisionObject co;
+        co.id = "box";
+        co.operation = moveit_msgs::CollisionObject::REMOVE;
         planning_scene_interface.applyCollisionObject(co);
+
+        co.id = "cylinder";
+        co.operation = moveit_msgs::CollisionObject::REMOVE;
       }
-      catch (std::exception exc)
+      catch (const std::exception& exc)
       {
-        ;
-      }
-      co.id = "cylinder";
-      co.operation = moveit_msgs::CollisionObject::REMOVE;
-      try
-      {
-        planning_scene_interface.applyCollisionObject(co);
-      }
-      catch (std::exception exc)
-      {
-        ;
+        ROS_WARN_STREAM(exc.what());
       }
     }
     else if (c == 11)
