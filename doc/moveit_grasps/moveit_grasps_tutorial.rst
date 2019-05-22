@@ -85,7 +85,7 @@ Notes on Some Important Parameters
 
 **eef_mount_to_tcp_transform**
 
-The ``eef_mount_to_tcp_transform`` represents the transform from the wrist to the end-effector tool center point.
+The ``tcp_to_eef_mount_transform`` represents the transform from the end-effector tool center point to the wrist.
 This parameter is provided to allow different URDF end effectors to all work together without recompiling code.
 
 In MoveIt the EE always has a parent link, typically the wrist link or palm link.
