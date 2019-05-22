@@ -83,9 +83,9 @@ Since the set of parameters is quite extensive there are different demo launch f
 Notes on Some Important Parameters
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**eef_mount_to_tcp_transform**
+**tcp_to_eef_mount_transform**
 
-The ``tcp_to_eef_mount_transform`` represents the transform from the end-effector tool center point to the wrist.
+The ``tcp_to_eef_mount_transform`` represents the transform from the tool center point used for grasp poses to the mount link of the end effector.
 This parameter is provided to allow different URDF end effectors to all work together without recompiling code.
 
 In MoveIt the EE always has a parent link, typically the wrist link or palm link.
