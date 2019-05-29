@@ -41,6 +41,7 @@
 #include <moveit/robot_model_loader/robot_model_loader.h>
 #include <moveit/planning_interface/planning_interface.h>
 #include <moveit/planning_scene/planning_scene.h>
+#include <moveit/planning_scene_monitor/planning_scene_monitor.h>
 #include <moveit/kinematic_constraints/utils.h>
 #include <moveit_msgs/DisplayTrajectory.h>
 #include <moveit_msgs/PlanningScene.h>
@@ -50,7 +51,8 @@
 
 int main(int argc, char** argv)
 {
-  ros::init(argc, argv, "motion_planning_tutorial");
+  const std::string node_name = "motion_planning_tutorial";
+  ros::init(argc, argv, node_name);
   ros::AsyncSpinner spinner(1);
   spinner.start();
   ros::NodeHandle node_handle("~");
@@ -70,8 +72,9 @@ int main(int argc, char** argv)
   // .. _RobotModelLoader:
   //     http://docs.ros.org/indigo/api/moveit_ros_planning/html/classrobot__model__loader_1_1RobotModelLoader.html
   const std::string PLANNING_GROUP = "panda_arm";
-  robot_model_loader::RobotModelLoader robot_model_loader("robot_description");
-  robot_model::RobotModelPtr robot_model = robot_model_loader.getModel();
+  robot_model_loader::RobotModelLoaderPtr robot_model_loader(
+      new robot_model_loader::RobotModelLoader("robot_description"));
+  robot_model::RobotModelPtr robot_model = robot_model_loader->getModel();
   /* Create a RobotState and JointModelGroup to keep track of the current robot pose and planning group*/
   robot_state::RobotStatePtr robot_state(new robot_state::RobotState(robot_model));
   const robot_state::JointModelGroup* joint_model_group = robot_state->getJointModelGroup(PLANNING_GROUP);
@@ -81,6 +84,18 @@ int main(int argc, char** argv)
   // the world (including the robot).
   planning_scene::PlanningScenePtr planning_scene(new planning_scene::PlanningScene(robot_model));
 
+  // With the planning scene we create a planing scene monitor that
+  // monitors planning scene diffs and applys them to the planning scene
+  planning_scene_monitor::PlanningSceneMonitorPtr psm(
+      new planning_scene_monitor::PlanningSceneMonitor(planning_scene, robot_model_loader));
+  psm->startPublishingPlanningScene(planning_scene_monitor::PlanningSceneMonitor::UPDATE_SCENE);
+  psm->startStateMonitor();
+  psm->startSceneMonitor();
+
+  while (!psm->getStateMonitor()->haveCompleteState() && ros::ok())
+  {
+    ROS_INFO_STREAM_THROTTLE_NAMED(1, node_name, "Waiting for complete state from topic ");
+  }
   // We will now construct a loader to load a planner, by name.
   // Note that we are using the ROS pluginlib library here.
   boost::scoped_ptr<pluginlib::ClassLoader<planning_interface::PlannerManager>> planner_plugin_loader;
@@ -123,8 +138,11 @@ int main(int argc, char** argv)
   // The package MoveItVisualTools provides many capabilties for visualizing objects, robots,
   // and trajectories in RViz as well as debugging tools such as step-by-step introspection of a script
   namespace rvt = rviz_visual_tools;
-  moveit_visual_tools::MoveItVisualTools visual_tools("panda_link0");
-  visual_tools.deleteAllMarkers();
+  moveit_visual_tools::MoveItVisualTools visual_tools("panda_link0", rviz_visual_tools::RVIZ_MARKER_TOPIC, psm);
+  visual_tools.loadRobotStatePub("/display_robot_state");
+  visual_tools.enableBatchPublishing();
+  visual_tools.deleteAllMarkers();  // clear all old markers
+  visual_tools.trigger();
 
   /* Remote control is an introspection tool that allows users to step through a high level script
      via buttons and keyboard shortcuts in RViz */
@@ -138,10 +156,6 @@ int main(int argc, char** argv)
   /* Batch publishing is used to reduce the number of messages being sent to RViz for large visualizations */
   visual_tools.trigger();
 
-  /* Sleep a little to allow time to startup rviz, etc..
-     This ensures that visual_tools.prompt() isn't lost in a sea of logs*/
-  ros::Duration(10).sleep();
-
   /* We can also use visual_tools to wait for user input */
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to start the demo");
 
@@ -149,12 +163,14 @@ int main(int argc, char** argv)
   // ^^^^^^^^^
   // We will now create a motion plan request for the arm of the Panda
   // specifying the desired pose of the end-effector as input.
+  visual_tools.publishRobotState(planning_scene->getCurrentStateNonConst(), rviz_visual_tools::GREEN);
+  visual_tools.trigger();
   planning_interface::MotionPlanRequest req;
   planning_interface::MotionPlanResponse res;
   geometry_msgs::PoseStamped pose;
   pose.header.frame_id = "panda_link0";
   pose.pose.position.x = 0.3;
-  pose.pose.position.y = 0.0;
+  pose.pose.position.y = 0.4;
   pose.pose.position.z = 0.75;
   pose.pose.orientation.w = 1.0;
 
@@ -170,9 +186,10 @@ int main(int argc, char** argv)
   //
   // .. _kinematic_constraints:
   //     http://docs.ros.org/indigo/api/moveit_core/html/namespacekinematic__constraints.html#a88becba14be9ced36fefc7980271e132
-  req.group_name = "panda_arm";
   moveit_msgs::Constraints pose_goal =
       kinematic_constraints::constructGoalConstraints("panda_link8", pose, tolerance_pose, tolerance_angle);
+
+  req.group_name = PLANNING_GROUP;
   req.goal_constraints.push_back(pose_goal);
 
   // We now construct a planning context that encapsulate the scene,
@@ -194,23 +211,30 @@ int main(int argc, char** argv)
   moveit_msgs::DisplayTrajectory display_trajectory;
 
   /* Visualize the trajectory */
-  ROS_INFO("Visualizing the trajectory");
   moveit_msgs::MotionPlanResponse response;
   res.getMessage(response);
 
   display_trajectory.trajectory_start = response.trajectory_start;
   display_trajectory.trajectory.push_back(response.trajectory);
+  visual_tools.publishTrajectoryLine(display_trajectory.trajectory.back(), joint_model_group);
+  visual_tools.trigger();
   display_publisher.publish(display_trajectory);
+
+  /* Set the state in the planning scene to the final state of the last plan */
+  robot_state->setJointGroupPositions(joint_model_group, response.trajectory.joint_trajectory.points.back().positions);
+  planning_scene->setCurrentState(*robot_state.get());
+
+  // Display the goal state
+  visual_tools.publishRobotState(planning_scene->getCurrentStateNonConst(), rviz_visual_tools::GREEN);
+  visual_tools.publishAxisLabeled(pose.pose, "goal_1");
+  visual_tools.publishText(text_pose, "Pose Goal (1)", rvt::WHITE, rvt::XLARGE);
+  visual_tools.trigger();
 
   /* We can also use visual_tools to wait for user input */
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
 
   // Joint Space Goals
   // ^^^^^^^^^^^^^^^^^
-  /* First, set the state in the planning scene to the final state of the last plan */
-  planning_scene->setCurrentState(response.trajectory_start);
-  robot_state->setJointGroupPositions(joint_model_group, response.trajectory.joint_trajectory.points.back().positions);
-
   // Now, setup a joint space goal
   robot_state::RobotState goal_state(robot_model);
   std::vector<double> joint_values = { -1.0, 0.7, 0.7, -1.5, -0.7, 2.0, 0.0 };
@@ -231,29 +255,47 @@ int main(int argc, char** argv)
     return 0;
   }
   /* Visualize the trajectory */
-  ROS_INFO("Visualizing the trajectory");
   res.getMessage(response);
-  display_trajectory.trajectory_start = response.trajectory_start;
   display_trajectory.trajectory.push_back(response.trajectory);
 
   /* Now you should see two planned trajectories in series*/
+  visual_tools.publishTrajectoryLine(display_trajectory.trajectory.back(), joint_model_group);
+  visual_tools.trigger();
   display_publisher.publish(display_trajectory);
-
-  /* Wait for user input */
-  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
 
   /* We will add more goals. But first, set the state in the planning
      scene to the final state of the last plan */
   robot_state->setJointGroupPositions(joint_model_group, response.trajectory.joint_trajectory.points.back().positions);
+  planning_scene->setCurrentState(*robot_state.get());
 
-  /* Now, we go back to the first goal*/
+  // Display the goal state
+  visual_tools.publishRobotState(planning_scene->getCurrentStateNonConst(), rviz_visual_tools::GREEN);
+  visual_tools.publishAxisLabeled(pose.pose, "goal_2");
+  visual_tools.publishText(text_pose, "Joint Space Goal (2)", rvt::WHITE, rvt::XLARGE);
+  visual_tools.trigger();
+
+  /* Wait for user input */
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
+
+  /* Now, we go back to the first goal to prepare for orientation constrained planning */
   req.goal_constraints.clear();
   req.goal_constraints.push_back(pose_goal);
   context = planner_instance->getPlanningContext(planning_scene, req, res.error_code_);
   context->solve(res);
   res.getMessage(response);
+
   display_trajectory.trajectory.push_back(response.trajectory);
+  visual_tools.publishTrajectoryLine(display_trajectory.trajectory.back(), joint_model_group);
+  visual_tools.trigger();
   display_publisher.publish(display_trajectory);
+
+  /* Set the state in the planning scene to the final state of the last plan */
+  robot_state->setJointGroupPositions(joint_model_group, response.trajectory.joint_trajectory.points.back().positions);
+  planning_scene->setCurrentState(*robot_state.get());
+
+  // Display the goal state
+  visual_tools.publishRobotState(planning_scene->getCurrentStateNonConst(), rviz_visual_tools::GREEN);
+  visual_tools.trigger();
 
   /* Wait for user input */
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
@@ -269,8 +311,7 @@ int main(int argc, char** argv)
   pose.pose.orientation.w = 1.0;
   moveit_msgs::Constraints pose_goal_2 =
       kinematic_constraints::constructGoalConstraints("panda_link8", pose, tolerance_pose, tolerance_angle);
-  /* First, set the state in the planning scene to the final state of the last plan */
-  robot_state->setJointGroupPositions(joint_model_group, response.trajectory.joint_trajectory.points.back().positions);
+
   /* Now, let's try to move to this new pose goal*/
   req.goal_constraints.clear();
   req.goal_constraints.push_back(pose_goal_2);
@@ -300,8 +341,19 @@ int main(int argc, char** argv)
   context->solve(res);
   res.getMessage(response);
   display_trajectory.trajectory.push_back(response.trajectory);
-  // Now you should see four planned trajectories in series
+  visual_tools.publishTrajectoryLine(display_trajectory.trajectory.back(), joint_model_group);
+  visual_tools.trigger();
   display_publisher.publish(display_trajectory);
+
+  /* Set the state in the planning scene to the final state of the last plan */
+  robot_state->setJointGroupPositions(joint_model_group, response.trajectory.joint_trajectory.points.back().positions);
+  planning_scene->setCurrentState(*robot_state.get());
+
+  // Display the goal state
+  visual_tools.publishRobotState(planning_scene->getCurrentStateNonConst(), rviz_visual_tools::GREEN);
+  visual_tools.publishAxisLabeled(pose.pose, "goal_3");
+  visual_tools.publishText(text_pose, "Orientation Constrained Motion Plan (3)", rvt::WHITE, rvt::XLARGE);
+  visual_tools.trigger();
 
   // END_TUTORIAL
   /* Wait for user input */

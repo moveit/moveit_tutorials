@@ -13,9 +13,13 @@ If you haven't already done so, make sure you've completed the steps in `Getting
 
 Running the Demo
 ----------------
-Roslaunch the launch file to run the code directly from moveit_tutorials::
+Open two shells. In the first shell start RViz and wait for everything to finish loading: ::
 
- roslaunch moveit_tutorials motion_planning_api_tutorial.launch
+  roslaunch panda_moveit_config demo.launch
+
+In the second shell, run the launch file: ::
+
+  roslaunch moveit_tutorials motion_planning_api_tutorial.launch
 
 **Note:** This tutorial uses the **RvizVisualToolsGui** panel to step through the demo. To add this panel to RViz, follow the instructions in the `Visualization Tutorial <../quickstart_in_rviz/quickstart_in_rviz_tutorial.html#rviz-visual-tools>`_.
 
