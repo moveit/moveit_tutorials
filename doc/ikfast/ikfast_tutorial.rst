@@ -59,7 +59,7 @@ You should *not* have mpmath installed: ::
 
 MoveIt! IKFast Installation
 ---------------------------
-Install the MoveIt! IKFast package either from Debian or from source.
+Install the MoveIt! IKFast package either from Debian packages or from source.
 
 **Binary Install**: ::
 
@@ -142,7 +142,7 @@ You may need to install package **libsoqt4-dev** to have the display working: ::
 
  openrave-robot.py "$MYROBOT_NAME".dae --info links
 
-This is useful if you have a 7-dof arm and you need to fill in a --freeindex parameter, discussed later.
+This is useful if you have a 7-dof arm and you need to fill in a ``--freeindex`` parameter, discussed later.
 
 To test your newly generated Collada file in OpenRAVE: ::
 
@@ -228,7 +228,7 @@ For a 7 dof arm, you will need to specify a free link: ::
 The speed and success of this process will depend on the complexity of your robot. A typical 6 DOF manipulator with 3 intersecting axis at the base or wrist will take only a few minutes to generate the IK.
 
 **Known issue**
-There is a known bug that causes the ``--freeindex`` argument to incorrectly handle tree indexes correctly. Say ``--baselink=2``, ``--eelink=16`` and the links indexed from 3 to 9 are not related to the planning group chain. In that case ``--freeindex`` will correctly interpret index 2 as link 2, but incorrectly interpret index 3 as link 10, index 4 as link 11, ... and index 9 as link 16.
+There is a known bug that causes the ``--freeindex`` argument to handle tree indexes incorrectly. Say ``--baselink=2``, ``--eelink=16`` and the links indexed from 3 to 9 are not related to the planning group chain. In that case ``--freeindex`` will correctly interpret index 2 as link 2, but incorrectly interpret index 3 as link 10, index 4 as link 11, ... and index 9 as link 16.
 
 You should consult the OpenRAVE mailing list and ROS Answers for information about 5 and 7 DOF manipulators.
 
