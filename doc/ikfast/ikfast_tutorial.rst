@@ -63,14 +63,14 @@ Install the MoveIt! IKFast package either from Debian packages or from source.
 
 **Binary Install**: ::
 
- sudo apt-get install ros-melodic-moveit-kinematics
+ sudo apt-get install ros-${ROS_DISTRO}-moveit-kinematics
 
 **Source**
 
 Inside your catkin workspace's ``./src`` directory: ::
 
  git clone https://github.com/ros-planning/moveit.git
- rosdep install -y --from-paths . --ignore-src --rosdistro kinetic
+ rosdep install -y --from-paths . --ignore-src --rosdistro ${ROS_DISTRO}
  catkin build
 
 OpenRAVE Installation
@@ -126,7 +126,7 @@ Once you have your robot in URDF format, you can convert it to Collada (.dae) fi
 
 **Note:** you may need to install ``collada_urdf``: ::
 
- sudo apt install ros-kinetic-collada-urdf
+ sudo apt install ros-${ROS_DISTRO}-collada-urdf
 
 Often floating point issues arise in converting a URDF file to Collada file, so a script has been created to round all the numbers down to x decimal places in your .dae file. Its probably best if you skip this step initially and see if IKFast can generate a solution with your default values, but if the generator takes longer than, say, an hour, try the following: ::
 
