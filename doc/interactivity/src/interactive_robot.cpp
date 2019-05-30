@@ -267,7 +267,7 @@ const std::string& InteractiveRobot::getGroupName() const
 }
 
 /* remember new desired robot pose and schedule an update */
-bool InteractiveRobot::setGroupPose(const Eigen::Isometry3d& pose)
+void InteractiveRobot::setGroupPose(const Eigen::Isometry3d& pose)
 {
   desired_group_end_link_pose_ = pose;
   scheduleUpdate();
