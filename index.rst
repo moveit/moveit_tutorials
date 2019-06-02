@@ -10,7 +10,8 @@ In these tutorials, the Franka Emika Panda robot is used as a quick-start demo. 
 
 .. note:: You are on the **ROS Melodic** version of the tutorials, which is the recommended for beginners but requires Ubuntu 18.04. For the latest, actively developed version of the tutorials see the `master <https://ros-planning.github.io/moveit_tutorials/>`_ version.
 
-For older systems running ROS Kinetic on Ubuntu 16.04 see the `MoveIt Kinetic tutorials <http://docs.ros.org/kinetic/api/moveit_tutorials/html/index.html>`_. For even older systems running ROS Indigo on Ubuntu 14.04 see the `MoveIt Indigo tutorials based on the PR2 <http://docs.ros.org/indigo/api/moveit_tutorials/html/index.html>`_.
+   For older systems running ROS Kinetic on Ubuntu 16.04 see the `MoveIt Kinetic tutorials <http://docs.ros.org/kinetic/api/moveit_tutorials/html/index.html>`_.
+   For even older systems running ROS Indigo on Ubuntu 14.04 see the `MoveIt Indigo tutorials based on the PR2 <http://docs.ros.org/indigo/api/moveit_tutorials/html/index.html>`_.
 
 
 Getting Started with MoveIt! and RViz
