@@ -6,7 +6,7 @@ In this section, we will show how to add a new motion planner to MoveIt as a plu
 
 .. image:: moveitplannerplugin.png
 
-``moveit_planners_emptyplan`` is the the plugin package. To make the plugin class for ``emptyplan``, create a file named ``emptyplan_planner_manager.cpp`` in src folder. In this file, ``EmptyPlanPlannerManager`` overrides the functions of ``PlannerManager`` class from ``planning_interface``. Moreover, ``PlanningContext`` is another class containing solve function where the planner solves the problem and returns the solution. In this tutorial, however, we do not define this function as we only have a template planner. In the end, we need to register ``EmptyPlanPlannerManager`` class as a plugin, this is done by ``CLASS_LOADER_REGISTER_CLASS`` macro from ``class_loader``: ::
+``moveit_planners_emptyplan`` is the the plugin package. To make the plugin class for ``emptyplan``, create a file named ``emptyplan_planner_manager.cpp`` in src folder. In this file, ``EmptyPlanPlannerManager`` overrides the functions of ``PlannerManager`` class from ``planning_interface``. Moreover, ``PlanningContext`` is another class containing solve function where the planner solves the problem and returns the solution. However, in this tutorial we do not define this function as we only have a template planner. In the end, we need to register ``EmptyPlanPlannerManager`` class as a plugin, this is done by ``CLASS_LOADER_REGISTER_CLASS`` macro from ``class_loader``: ::
 
   CLASS_LOADER_REGISTER_CLASS(emptyplan_interface::EmptyPlanPlannerManager, planning_interface::PlannerManager);
 
