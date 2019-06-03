@@ -46,7 +46,7 @@ catkin_package(
 ## Build ##
 ###########
 
-include_directories(${THIS_PACKAGE_INCLUDE_DIRS} ${catkin_INCLUDE_DIRS} ${Boost_INCLUDE_DIR} ${EIGEN3_INCLUDE_DIRS})
+include_directories(${THIS_PACKAGE_INCLUDE_DIRS} ${catkin_INCLUDE_DIRS} ${Boost_INCLUDE_DIR} ${EIGEN3_INCLUDE_DIRS} ${EmptyPlan_INCLUDE_DIRS} )
 
 add_subdirectory(doc/kinematics)
 add_subdirectory(doc/robot_model_and_robot_state)
@@ -66,3 +66,4 @@ add_subdirectory(doc/perception_pipeline)
 add_subdirectory(doc/tests)
 add_subdirectory(doc/controller_configuration)
 add_subdirectory(doc/trajopt_planner)
+add_subdirectory(doc/creating_planner_plugin)
