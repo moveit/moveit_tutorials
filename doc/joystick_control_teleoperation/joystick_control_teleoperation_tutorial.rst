@@ -4,7 +4,7 @@ Joystick Control Teleoperation
 .. image:: controller.jpg
    :width: 700px
 
-Check out this cool demo that uses a `joystick controller and MoveIt! to control a PR2 <https://youtu.be/p_x-HRagLpo>`_
+Check out this cool demo that uses a `joystick controller and MoveIt to control a PR2 <https://youtu.be/p_x-HRagLpo>`_
 
 Getting Started
 ---------------
@@ -20,7 +20,7 @@ In the first shell start RViz and wait for everything to finish loading: ::
 
   roslaunch panda_moveit_config demo.launch
 
-In the Motion Planning plugin of RViz, enable **Allow External Comm.** checkbox in the *Planning* tab. Enable the **Query Goal State** robot display in the MoveIt! Motion Planning Plugins' *Planning Request* section.
+In the Motion Planning plugin of RViz, enable **Allow External Comm.** checkbox in the *Planning* tab. Enable the **Query Goal State** robot display in the MoveIt Motion Planning Plugins' *Planning Request* section.
 
 Now launch in the second shell, run the ``joystick_control.launch`` file: ::
 

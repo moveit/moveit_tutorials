@@ -1,4 +1,4 @@
-MoveIt! Setup Assistant
+MoveIt Setup Assistant
 ========================
 
 .. image:: MoveIt_setup_assistant_launch.png
@@ -6,20 +6,20 @@ MoveIt! Setup Assistant
 
 Overview
 ----------------------
-The MoveIt! Setup Assistant is a graphical user interface for
-configuring any robot for use with MoveIt!. Its primary function is
+The MoveIt Setup Assistant is a graphical user interface for
+configuring any robot for use with MoveIt. Its primary function is
 generating a Semantic Robot Description Format (SRDF) file for your
 robot. Additionally, it generates other necessary configuration files
-for use with the MoveIt! pipeline. To learn more about the SRDF, you
+for use with the MoveIt pipeline. To learn more about the SRDF, you
 can go through the `URDF/SRDF Overview <../urdf_srdf/urdf_srdf_tutorial.html>`_
 page.
 
 Getting Started
 ------------------------
 
-MoveIt! and ROS
+MoveIt and ROS
 
-* Follow the instructions for :moveit_website:`installing MoveIt!<install>`
+* Follow the instructions for :moveit_website:`installing MoveIt<install>`
   first if you have not already done that.
 
 * If you haven't already done so, make sure you have the `Franka description
@@ -27,7 +27,7 @@ MoveIt! and ROS
 
     sudo apt-get install ros-melodic-franka-description
 
-.. note:: Oct 23, 2018: franka_description is [not fully available for ROS Melodic](https://github.com/frankaemika/franka_ros/issues/34).
+.. note:: Oct 23, 2018: franka_description is `not fully available for ROS Melodic <https://github.com/frankaemika/franka_ros/issues/34>`_.
 
 Until then please manually clone the franka description package: ::
 
@@ -42,15 +42,15 @@ Until then please manually clone the franka description package: ::
 Step 1: Start
 ---------------
 
-* To start the MoveIt! Setup Assistant: ::
+* To start the MoveIt Setup Assistant: ::
 
    roslaunch moveit_setup_assistant setup_assistant.launch
 
 * This will bring up the start screen with two choices: *Create New
-  MoveIt! Configuration Package* or *Edit Existing MoveIt!
+  MoveIt Configuration Package* or *Edit Existing MoveIt
   Configuration Package*.
 
-* Click on the *Create New MoveIt! Configuration Package* button to
+* Click on the *Create New MoveIt Configuration Package* button to
   bring up the following screen:
 
 .. image:: setup_assistant_start.png
@@ -294,7 +294,7 @@ ROS Control is a set of packages that include controller interfaces, controller 
 
 .. _documentation: http://wiki.ros.org/ros_control
 
-ROS Control tab can be used to auto generate simulated controllers to actuate the joints of your robot. This will allow us to provide the correct ROS interfaces MoveIt!.
+ROS Control tab can be used to auto generate simulated controllers to actuate the joints of your robot. This will allow us to provide the correct ROS interfaces MoveIt.
 
 * Click on the *ROS Control* pane selector.
 
@@ -336,7 +336,7 @@ Step 12: Generate Configuration Files
 --------------------------------------
 
 You are almost there. One last step - generating all the configuration
-files that you will need to start using MoveIt!
+files that you will need to start using MoveIt
 
 * Click on the *Configuration Files* pane. Choose a location and
   name for the ROS package that will be generated containing your new
@@ -358,18 +358,18 @@ files that you will need to start using MoveIt!
    :width: 700px
 
 * Congratulations!! - You are now done generating the configuration
-  files you need for MoveIt!
+  files you need for MoveIt
 
 
 What's Next
 ---------------
 
 
-The MoveIt! RViz plugin
+The MoveIt RViz plugin
 
 * Start looking at how you can use the generated configuration files
-  to play with MoveIt! using the
-  `MoveIt! RViz Plugin <../quickstart_in_rviz/quickstart_in_rviz_tutorial.html>`_.
+  to play with MoveIt using the
+  `MoveIt RViz Plugin <../quickstart_in_rviz/quickstart_in_rviz_tutorial.html>`_.
 
 Setup IKFast Inverse Kinematics Solver
 

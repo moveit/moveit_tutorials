@@ -1,9 +1,9 @@
-MoveIt! Quickstart in RViz
+MoveIt Quickstart in RViz
 ==========================
 .. image:: rviz_plugin_head.png
    :width: 700px
 
-The quickest way to get started using MoveIt! is through its RViz plugin. Rviz is the primary visualizer in ROS and an incredibly useful tool for debugging robotics. The MoveIt! Rviz plugin allows you to setup virtual environments (scenes), create start and goal states for the robot interactively, test various motion planners, and visualize the output.
+The quickest way to get started using MoveIt is through its RViz plugin. Rviz is the primary visualizer in ROS and an incredibly useful tool for debugging robotics. The MoveIt Rviz plugin allows you to setup virtual environments (scenes), create start and goal states for the robot interactively, test various motion planners, and visualize the output.
 
 Getting Started
 ---------------
@@ -132,7 +132,7 @@ Note what happens when you try to move an end-effector out of its reachable work
 Step 4: Use Motion Planning with the Panda
 -------------------------------------------
 
-* Now, you can start motion planning with the Panda in the MoveIt! RViz Plugin.
+* Now, you can start motion planning with the Panda in the MoveIt RViz Plugin.
 
   * Move the Start State to a desired location.
 
@@ -184,7 +184,7 @@ RViz enables you to save your configuration under ``File->Save Config``. You sho
 
 Next Tutorials
 ++++++++++++++
-* To Create your own ``robot_moveit_config`` package look at the `MoveIt! Setup Assistant tutorial. <../setup_assistant/setup_assistant_tutorial.html>`_
+* To Create your own ``robot_moveit_config`` package look at the `MoveIt Setup Assistant tutorial. <../setup_assistant/setup_assistant_tutorial.html>`_
 
 * To use Move Group to control your robot using C++ check out the `Move Group Interface <../move_group_interface/move_group_interface_tutorial.html>`_
 

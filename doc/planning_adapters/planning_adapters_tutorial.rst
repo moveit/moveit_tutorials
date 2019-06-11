@@ -7,21 +7,21 @@ Getting Started
 ---------------
 If you haven't already done so, make sure you've completed the steps in `Getting Started <../getting_started/getting_started.html>`_.
 
-You should also have gone through the steps in `Visualization with MoveIt! RViz Plugin <../quickstart_in_rviz/quickstart_in_rviz_tutorial.html>`_
+You should also have gone through the steps in `Visualization with MoveIt RViz Plugin <../quickstart_in_rviz/quickstart_in_rviz_tutorial.html>`_
 
 Prerequisites
 --------------
- 1. You must have the latest version of MoveIt! installed. On ROS Melodic you will need to build MoveIt! from source. A build from source is required as CHOMP and STOMP are not a part of the official release yet. It is therefore not included in the binary packages. We will go through the steps for doing this below.
- 2. To use Planning Adapters with your robot you must already have a MoveIt! configuration package for your robot already. For example, if you have a Panda robot, it's probably called ``panda_moveit_config``. This is typically built using the `MoveIt! Setup Assistant <../setup_assistant/setup_assistant_tutorial.html>`_.
+ 1. You must have the latest version of MoveIt installed. On ROS Melodic you will need to build MoveIt from source. A build from source is required as CHOMP and STOMP are not a part of the official release yet. It is therefore not included in the binary packages. We will go through the steps for doing this below.
+ 2. To use Planning Adapters with your robot you must already have a MoveIt configuration package for your robot already. For example, if you have a Panda robot, it's probably called ``panda_moveit_config``. This is typically built using the `MoveIt Setup Assistant <../setup_assistant/setup_assistant_tutorial.html>`_.
 
-Installing MoveIt! from Source
+Installing MoveIt from Source
 ------------------------------
-As you add and remove packages from your workspace you will need to clean your workspace and re-run the command to install new missing dependencies. Clean your workspace to remove references to the system-wide installation of MoveIt!: ::
+As you add and remove packages from your workspace you will need to clean your workspace and re-run the command to install new missing dependencies. Clean your workspace to remove references to the system-wide installation of MoveIt: ::
 
   cd ~/ws_moveit/src
   catkin clean
 
-Now follow the instructions on the MoveIt! homepage for `installing MoveIt! Melodic from source <http://moveit.ros.org/install/source/>`_. Note that you can skip the **Prerequisites** section since you should already have a Catkin workspace.
+Now follow the instructions on the MoveIt homepage for `installing MoveIt Melodic from source <http://moveit.ros.org/install/source/>`_. Note that you can skip the **Prerequisites** section since you should already have a Catkin workspace.
 
 Re-source the setup files: ::
 

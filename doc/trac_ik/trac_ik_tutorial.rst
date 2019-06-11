@@ -5,7 +5,7 @@ TRAC-IK Kinematics Solver
 
   (TRAC-IK) provides an alternative Inverse Kinematics solver to the popular inverse Jacobian methods in KDL. Specifically, KDL's convergence algorithms are based on Newton's method, which does not work well in the presence of joint limits --- common for many robotic platforms. TRAC-IK concurrently runs two IK implementations. One is a simple extension to KDL's Newton-based convergence algorithm that detects and mitigates local minima due to joint limits by random jumps. The second is an SQP (Sequential Quadratic Programming) nonlinear optimization approach which uses quasi-Newton methods that better handle joint limits. By default, the IK search returns immediately when either of these algorithms converges to an answer. Secondary constraints of distance and manipulability are also provided in order to receive back the "best" IK solution.
 
-The package `trac_ik_kinematics_plugin <https://bitbucket.org/traclabs/trac_ik/src/HEAD/trac_ik_kinematics_plugin/>`_ provides a KinematicsBase MoveIt! interface that can replace the default KDL solver. Currently mimic joints are *not* supported.
+The package `trac_ik_kinematics_plugin <https://bitbucket.org/traclabs/trac_ik/src/HEAD/trac_ik_kinematics_plugin/>`_ provides a KinematicsBase MoveIt interface that can replace the default KDL solver. Currently mimic joints are *not* supported.
 
 Install
 -------
@@ -18,7 +18,7 @@ Usage
 -----
 
 - Install **trac_ik_kinematics_plugin** and **trac_ik_lib package** or add to your catkin workspace.
-- Find the MoveIt! `kinematics.yaml <../kinematics_configuration/kinematics_configuration_tutorial.html>`_ file created for your robot.
+- Find the MoveIt `kinematics.yaml <../kinematics_configuration/kinematics_configuration_tutorial.html>`_ file created for your robot.
 - Replace ``kinematics_solver: kdl_kinematics_plugin/KDLKinematicsPlugin`` (or similar) with ``kinematics_solver: trac_ik_kinematics_plugin/TRAC_IKKinematicsPlugin``
 - Set parameters as desired:
 

@@ -11,7 +11,7 @@ If you haven't already done so, make sure you've completed the steps in `Getting
 
 The entire code
 ---------------
-The entire code can be seen :codedir:`here in the MoveIt! GitHub project<planning_scene>`.
+The entire code can be seen :codedir:`here in the MoveIt GitHub project<planning_scene>`.
 
 .. tutorial-formatter:: ./src/planning_scene_tutorial.cpp
 

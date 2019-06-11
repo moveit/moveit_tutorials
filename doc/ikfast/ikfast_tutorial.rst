@@ -4,7 +4,7 @@ IKFast Kinematics Solver
 .. image:: openrave_panda.png
    :width: 700px
 
-In this section, we will walk through configuring an IKFast plugin for MoveIt!
+In this section, we will walk through configuring an IKFast plugin for MoveIt
 
 What is IKFast?
 ---------------
@@ -12,18 +12,18 @@ What is IKFast?
 *From Wikipedia:*
 IKFast, the Robot Kinematics Compiler, is a powerful inverse kinematics solver provided within Rosen Diankov's OpenRAVE motion planning software. Unlike most inverse kinematics solvers, IKFast can analytically solve the kinematics equations of any complex kinematics chain, and generate language-specific files (like C++) for later use. The end result is extremely stable solutions that can run as fast as 5 microseconds on recent processors
 
-MoveIt! IKFast
+MoveIt IKFast
 ---------------
 
-MoveIt! IKFast is a tool that generates a IKFast kinematics plugin for MoveIt using OpenRAVE generated cpp files.
-This tutorial will step you through setting up your robot to utilize the power of IKFast. MoveIt! IKFast is tested on ROS Melodic with Catkin using OpenRAVE 0.8 with a 6DOF and 7DOF robot arm manipulator.
+MoveIt IKFast is a tool that generates a IKFast kinematics plugin for MoveIt using OpenRAVE generated cpp files.
+This tutorial will step you through setting up your robot to utilize the power of IKFast. MoveIt IKFast is tested on ROS Melodic with Catkin using OpenRAVE 0.8 with a 6DOF and 7DOF robot arm manipulator.
 While it works in theory, currently the IKFast plugin generator tool does not work with >7 degree of freedom arms.
 
 Getting Started
 -----------------
 If you haven't already done so, make sure you've completed the steps in `Getting Started <../getting_started/getting_started.html>`_.
 
-You should have MoveIt! configuration package for your robot that was created by using the `Setup Assistant <../setup_assistant/setup_assistant_tutorial.html>`_
+You should have MoveIt configuration package for your robot that was created by using the `Setup Assistant <../setup_assistant/setup_assistant_tutorial.html>`_
 
 Installing OpenRAVE on Ubuntu 16.04 is tricky. Here are 2 blog posts that give slightly different recipes for installing OpenRAVE.
 
@@ -56,9 +56,9 @@ You should *not* have mpmath installed: ::
 
  sudo apt remove python-mpmath
 
-MoveIt! IKFast Installation
+MoveIt IKFast Installation
 ---------------------------
-Install the MoveIt! IKFast package either from debs or from source.
+Install the MoveIt IKFast package either from debs or from source.
 
 **Binary Install**: ::
 
@@ -263,4 +263,4 @@ Use the MoveIt RViz Motion Planning Plugin and use the interactive markers to se
 Updating the Plugin
 -------------------
 
-If any future changes occur with MoveIt! or IKFast, you might need to re-generate this plugin using our scripts. To allow you to easily do this, a bash script is automatically created in the root of your IKFast package, named *update_ikfast_plugin.sh*. This does the same thing you did manually earlier, but uses the IKFast solution header file that is copied into the ROS package.
+If any future changes occur with MoveIt or IKFast, you might need to re-generate this plugin using our scripts. To allow you to easily do this, a bash script is automatically created in the root of your IKFast package, named *update_ikfast_plugin.sh*. This does the same thing you did manually earlier, but uses the IKFast solution header file that is copied into the ROS package.
