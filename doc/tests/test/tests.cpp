@@ -14,7 +14,7 @@
  *     copyright notice, this list of conditions and the following
  *     disclaimer in the documentation and/or other materials provided
  *     with the distribution.
- *   * Neither the name of MoveIt! nor the names of its
+ *   * Neither the name of MoveIt nor the names of its
  *     contributors may be used to endorse or promote products derived
  *     from this software without specific prior written permission.
  *
@@ -61,7 +61,7 @@ TEST(MyFirstTestCase, TestName)
 // A Test Fixture loads the same data repeatedly for multiple tests, so common setup code doesn't have to be duplicated.
 // To make a test fixture, first make a class that derives from ::testing::Test.
 // You can use either the constructor or SetUp to load the information.
-// Let's use MoveIt!'s testing utilities to load a robot model.
+// Let's use MoveIt's testing utilities to load a robot model.
 
 class MyTestFixture : public ::testing::Test
 {
