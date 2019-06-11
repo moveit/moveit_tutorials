@@ -1,7 +1,7 @@
 Motion Planning Pipeline
 ==================================
 
-In MoveIt!, the motion planners are setup to plan paths. However, there are often
+In MoveIt, the motion planners are setup to plan paths. However, there are often
 times when we may want to pre-process the motion planning request or post-process
 the planned path (e.g. for time parameterization). In such cases, we use
 the planning pipeline which chains a motion planner with pre-processing and post-processing
@@ -37,10 +37,10 @@ In RViz, we should be able to see three trajectories being replayed eventually:
 
 The Entire Code
 ---------------
-The entire code can be seen :codedir:`here in the MoveIt! GitHub project<motion_planning_pipeline>`.
+The entire code can be seen :codedir:`here in the MoveIt GitHub project<motion_planning_pipeline>`.
 
 .. tutorial-formatter:: ./src/motion_planning_pipeline_tutorial.cpp
 
 The Launch File
 ---------------
-The entire launch file is :codedir:`here <motion_planning_pipeline/launch/motion_planning_pipeline_tutorial.launch>` on GitHub. All the code in this tutorial can be compiled and run from the moveit_tutorials package that you have as part of your MoveIt! setup.
+The entire launch file is :codedir:`here <motion_planning_pipeline/launch/motion_planning_pipeline_tutorial.launch>` on GitHub. All the code in this tutorial can be compiled and run from the moveit_tutorials package that you have as part of your MoveIt setup.

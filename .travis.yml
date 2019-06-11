@@ -1,4 +1,4 @@
-# Test build the MoveIt! tutorials. Author: Dave Coleman
+# Test build the MoveIt tutorials. Author: Dave Coleman
 sudo: required
 dist: xenial
 language: ruby
