@@ -1,9 +1,9 @@
-MoveIt! Commander Scripting
+MoveIt Commander Scripting
 ===========================
 .. image:: moveit_commander_scripting.png
    :width: 700px
 
-The `moveit_commander <http://wiki.ros.org/moveit_commander>`_ Python package offers wrappers for the functionality provided in MoveIt!. Simple interfaces are available for motion planning, computation of Cartesian paths, and pick and place. The ``moveit_commander`` package also includes a command line interface, ``moveit_commander_cmdline.py``.
+The `moveit_commander <http://wiki.ros.org/moveit_commander>`_ Python package offers wrappers for the functionality provided in MoveIt. Simple interfaces are available for motion planning, computation of Cartesian paths, and pick and place. The ``moveit_commander`` package also includes a command line interface, ``moveit_commander_cmdline.py``.
 
 Getting Started
 ---------------
@@ -19,7 +19,7 @@ Now initiate the ``moveit_commander`` interface in another shell: ::
 
  rosrun moveit_commander moveit_commander_cmdline.py
 
-Using the MoveIt! Commander Command Line Tool
+Using the MoveIt Commander Command Line Tool
 ---------------------------------------------
 The command below will start a command line interface tool that allows you to connect to a running instance of the move_group node. The first command you should type is: ::
 

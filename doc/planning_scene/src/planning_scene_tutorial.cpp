@@ -36,7 +36,7 @@
 
 #include <ros/ros.h>
 
-// MoveIt!
+// MoveIt
 #include <moveit/robot_model_loader/robot_model_loader.h>
 #include <moveit/planning_scene/planning_scene.h>
 
@@ -292,7 +292,7 @@ int main(int argc, char** argv)
   bool state_valid = planning_scene.isStateValid(copied_state, kinematic_constraint_set, "panda_arm");
   ROS_INFO_STREAM("Test 12: Random state is " << (state_valid ? "valid" : "not valid"));
 
-  // Note that all the planners available through MoveIt! and OMPL will
+  // Note that all the planners available through MoveIt and OMPL will
   // currently perform collision checking, constraint checking and
   // feasibility checking using user-defined callbacks.
   // END_TUTORIAL
