@@ -111,24 +111,20 @@ If any future changes occur with MoveIt! or IKFast, you might need to re-generat
 Tweaking the creation process
 -----------------------------
 
-The process of creating the IKFast MoveIt plugin comprises several steps:
+The process of creating the IKFast MoveIt plugin comprises several steps, performed one by one by the creation script:
 
-1. Download (and slightly modify) the docker image provided by `personalrobotics <https://hub.docker.com/r/personalrobotics/ros-openrave>`_
-2. Convert the ROS URDF file to Collada required for OpenRAVE: ::
+1. Downloading the docker image provided by `personalrobotics <https://hub.docker.com/r/personalrobotics/ros-openrave>`_
+2. Converting the ROS URDF file to Collada required for OpenRAVE: ::
 
-     rosrun collada_urdf urdf_to_collada <myrobot_name>.urdf <myrobot_name>.dae
+     rosrun collada_urdf urdf_to_collada $MYROBOT_NAME.urdf $MYROBOT_NAME.dae
 
    Sometimes floating point issues arise in converting a URDF file to Collada, which prevents OpenRAVE to find IK solutions.
    Using a utility script, one can easily round all numbers down to n decimal places in your .dae file.
-   If the generator takes longer than, say an hour, try the following: ::
+   From experience we recommend 5 decimal places, but if the OpenRave ikfast generator takes too long to find a solution (say more than an hour), lowering the accuracy should help. For example: ::
 
-     rosrun moveit_ikfast round_collada_numbers.py <input_dae> <output_dae> <decimal places>
+     rosrun moveit_ikfast round_collada_numbers.py $MYROBOT_NAME.dae $MYROBOT_NAME.rounded.dae 5
 
-   From experience we recommend 5 decimal places, but if the OpenRave ikfast generator takes to long to find a solution, lowering the number of decimal places should help. For example: ::
+3. Running the OpenRAVE IKFast tool to generate C++ solver code
+4. Creating the MoveIt IKFast plugin package wrapping the generated solver
 
-     rosrun moveit_ikfast round_collada_numbers.py <myrobot_name>.dae <myrobot_name>.rounded.dae 5
-
-3. Run OpenRAVE IKFast tool to generate C++ solver code
-4. Create the MoveIt IKFast plugin package wrapping the generated solver
-
-To manually tweak the process, you can start the script ``auto_create_ikfast_moveit_plugin.sh`` from any intermediate step by providing the corresponding output from the previous step as input (``.dae`` or ``.cpp``) instead of the ``.urdf`` file.
+The ``auto_create_ikfast_moveit_plugin.sh`` script evaluates the file extension of the input file to determine which steps to run. To re-run the script from any intermediate step (e.g. after having tweaked the accuracy of the ``.dae`` file), simply provide the corresponding output from the previous step as input (``.dae`` or ``.cpp``) instead of the initial ``.urdf`` file.
