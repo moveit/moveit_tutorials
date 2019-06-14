@@ -8,9 +8,6 @@ These tutorials will step you through using and learning the MoveIt Motion Plann
 
 In these tutorials, the Franka Emika Panda robot is used as a quick-start demo. Alternatively, you can easily use any robot that has already been configured to work with MoveIt - check the `list of robots running MoveIt <http://moveit.ros.org/robots/>`_ to see whether MoveIt is already available for your robot. Otherwise, you can setup MoveIt to work with your custom robot in the tutorial section "Integration with a New Robot", below.
 
-.. note:: You are on the latest **master** version of the tutorials, which is actively developed. For beginners, we recommmend the more stable `ROS Melodic tutorials <http://docs.ros.org/melodic/api/moveit_tutorials/html/index.html>`_ (Requires Ubuntu 18.04). For older computers on Ubuntu 16.04 see `ROS Kinetic tutorials <http://docs.ros.org/kinetic/api/moveit_tutorials/html/>`_.
-
-
 Getting Started with MoveIt and RViz
 -------------------------------------
 .. toctree::
