@@ -1,7 +1,7 @@
 Pick and Place
 ==============
 
-In MoveIt!, grasping is done using the MoveGroup interface. In order to grasp an object we need to create ``moveit_msgs::Grasp`` msg which will allow defining the various poses and postures involved in a grasping operation.
+In MoveIt, grasping is done using the MoveGroup interface. In order to grasp an object we need to create ``moveit_msgs::Grasp`` msg which will allow defining the various poses and postures involved in a grasping operation.
 Watch this video to see the output of this tutorial:
 
 .. raw:: html

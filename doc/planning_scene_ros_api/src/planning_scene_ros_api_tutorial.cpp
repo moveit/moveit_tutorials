@@ -37,7 +37,7 @@
 #include <ros/ros.h>
 #include <geometry_msgs/Pose.h>
 
-// MoveIt!
+// MoveIt
 #include <moveit_msgs/PlanningScene.h>
 #include <moveit_msgs/AttachedCollisionObject.h>
 #include <moveit_msgs/GetStateValidity.h>

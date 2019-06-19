@@ -1,8 +1,6 @@
 Getting Started
 ===============
 
-.. note:: You are on the latest **ROS Melodic** version of the tutorials, which is less stable. For beginners we recommmend the more stable `ROS Kinetic tutorials <http://docs.ros.org/kinetic/api/moveit_tutorials/html/index.html>`_ (Requires Ubuntu 16.04). For older computers on Ubuntu 14.04 see `ROS Indigo tutorials with the PR2 <http://docs.ros.org/indigo/api/moveit_tutorials/html/doc/ikfast_tutorial.html>`_.
-
 Install ROS and Catkin
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 `Install ROS Melodic <http://wiki.ros.org/melodic/Installation/Ubuntu>`_.
@@ -18,13 +16,13 @@ Install `catkin <http://wiki.ros.org/catkin>`_ the ROS build system: ::
 
   sudo apt-get install ros-melodic-catkin python-catkin-tools
 
-Install MoveIt!
+Install MoveIt
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-The simplest way to install MoveIt! is from pre-built binaries (Debian): ::
+The simplest way to install MoveIt is from pre-built binaries (Debian): ::
 
   sudo apt install ros-melodic-moveit
 
-Advanced users might want to `install MoveIt! from source <http://moveit.ros.org/install/source/>`_.
+Advanced users might want to `install MoveIt from source <http://moveit.ros.org/install/source/>`_.
 
 Create A Catkin Workspace
 ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -43,7 +41,7 @@ Within your `catkin <http://wiki.ros.org/catkin>`_ workspace, download the tutor
   git clone https://github.com/ros-planning/moveit_tutorials.git -b master
   git clone https://github.com/ros-planning/panda_moveit_config.git -b melodic-devel
 
-.. note:: For now we will use a pre-generated ``panda_moveit_config`` package but later we will learn how to make our own in the `MoveIt! Setup Assistant tutorial <../setup_assistant/setup_assistant_tutorial.html>`_.
+.. note:: For now we will use a pre-generated ``panda_moveit_config`` package but later we will learn how to make our own in the `MoveIt Setup Assistant tutorial <../setup_assistant/setup_assistant_tutorial.html>`_.
 
 Build your Catkin Workspace
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^

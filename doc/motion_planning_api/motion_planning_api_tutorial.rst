@@ -3,8 +3,8 @@ Motion Planning API
 .. image:: motion_planning_api_tutorial_robot_move_arm_1st.png
    :width: 700px
 
-In MoveIt!, the motion planners are loaded using a plugin infrastructure. This
-allows MoveIt! to load motion planners at runtime. In this example, we will
+In MoveIt, the motion planners are loaded using a plugin infrastructure. This
+allows MoveIt to load motion planners at runtime. In this example, we will
 run through the C++ code required to do this.
 
 Getting Started

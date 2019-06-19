@@ -557,6 +557,7 @@ private:
   // using just the name of the planning group you would like to control and plan for.
   moveit::planning_interface::MoveGroupInterface move_group =
       moveit::planning_interface::MoveGroupInterface(PLANNING_GROUP);
+
   // Raw pointers are frequently used to refer to the planning group for improved performance.
   const robot_state::JointModelGroup* joint_model_group =
       move_group.getCurrentState()->getJointModelGroup(PLANNING_GROUP);
