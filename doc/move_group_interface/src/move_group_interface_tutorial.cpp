@@ -328,8 +328,6 @@ public:
   {
     // BEGIN_SUB_TUTORIAL add_obj
 
-    // .. This is not necessary for creating objects but is useful to return the robot to full
-    // .. speed after the cartesian path. It is placed here for continuity of the tutorial
     // Remember to change the velocity scaling factor back after moving to return to full speed.
     move_group.setMaxVelocityScalingFactor(1);
 
