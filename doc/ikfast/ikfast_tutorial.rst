@@ -28,9 +28,10 @@ Fortunately, personalrobotics provide a `docker image <https://hub.docker.com/r/
 
 So the easiest way to run the IKFast code generator is through this docker image.
 For manual building instructions (tailored towards Ubuntu 16.04), please see the `Kinetic version of this tutorial <http://docs.ros.org/kinetic/api/moveit_tutorials/html/doc/ikfast/ikfast_tutorial.html>`_.
-To follow the recommended, docker-based approach, ensure you have docker installed: ::
+To follow the recommended, docker-based approach, ensure you have docker installed and started: ::
 
- sudo apt-get install docker
+ sudo apt-get install docker.io
+ sudo service docker start
 
 Ensure that you can run docker with your user account: ::
 
