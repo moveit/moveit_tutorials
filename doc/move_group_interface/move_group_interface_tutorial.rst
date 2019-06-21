@@ -55,9 +55,7 @@ The entire launch file is :codedir:`here<move_group_interface/launch/move_group_
 
 
 A Note on Setting Tolerances
----------------
-If you looks through the `move_group documentation<http://docs.ros.org/lunar/api/moveit_ros_planning_interface/html/classmoveit_1_1planning__interface_1_1MoveGroupInterface.html>` you might find a nifty method called `setGoalTolerance()` or related ones that might lead you to think that you are able to configure the **execution** tolerances for your robotic manipulator.
-
-But these tolerances that you set are actually for the **planner** to explore certain paths or goals when planning for trajectories. So this makes it completely separate from the execution tolerances!
+----------------------------
+Note that the `MoveGroupInterface's<http://docs.ros.org/melodic/api/moveit_ros_planning_interface/html/classmoveit_1_1planning__interface_1_1MoveGroupInterface.html>` `setGoalTolerance()` and related methods sets the tolerance for **planning**, not execution.
 
 If you want to configure the execution tolerances, you will have to edit the `controller.yaml` file if using a FollowJointTrajectory controller, or manually add it into the generated trajectory message from the planner.
