@@ -52,3 +52,12 @@ The entire code can be seen :codedir:`here in the MoveIt GitHub project<move_gro
 The Launch File
 ---------------
 The entire launch file is :codedir:`here<move_group_interface/launch/move_group_interface_tutorial.launch>` on GitHub. All the code in this tutorial can be run from the **moveit_tutorials** package that you have as part of your MoveIt setup.
+
+
+A Note on Setting Tolerances
+---------------
+If you looks through the `move_group documentation<http://docs.ros.org/lunar/api/moveit_ros_planning_interface/html/classmoveit_1_1planning__interface_1_1MoveGroupInterface.html>` you might find a nifty method called `setGoalTolerance()` or related ones that might lead you to think that you are able to configure the **execution** tolerances for your robotic manipulator.
+
+But these tolerances that you set are actually for the **planner** to explore certain paths or goals when planning for trajectories. So this makes it completely separate from the execution tolerances!
+
+If you want to configure the execution tolerances, you will have to edit the `controller.yaml` file if using a FollowJointTrajectory controller, or manually add it into the generated trajectory message from the planner.
