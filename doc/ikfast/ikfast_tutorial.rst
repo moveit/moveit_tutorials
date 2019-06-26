@@ -33,11 +33,11 @@ To follow the recommended, docker-based approach, ensure you have docker install
  sudo apt-get install docker.io
  sudo service docker start
 
-Ensure that you can run docker with your user account: ::
+The following command will ensure that you can run docker with your user account (adding $USER to the docker group): ::
 
  sudo usermod -a -G docker $USER
 
-You need to log off/log on in order to actually activate those permission changes.
+You need to log off/log on in order to actually activate this permission change.
 
 Install the MoveIt IKFast package either from Debian packages or from source.
 
@@ -112,7 +112,7 @@ If any future changes occur with MoveIt! or IKFast, you might need to re-generat
 Tweaking the creation process
 -----------------------------
 
-The process of creating the IKFast MoveIt plugin comprises several steps, performed one by one by the creation script:
+The process of creating the IKFast MoveIt plugin comprises several steps, performed one-by-one by the creation script:
 
 1. Downloading the docker image provided by `personalrobotics <https://hub.docker.com/r/personalrobotics/ros-openrave>`_
 2. Converting the ROS URDF file to Collada required for OpenRAVE: ::
