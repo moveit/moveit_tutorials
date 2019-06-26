@@ -98,9 +98,12 @@
       <div class="wy-side-nav-search">
         {% block sidebartitle %}
 
-        <a href="{{ pathto(master_doc) }}">
+        <a href="http://moveit.ros.org">
           <img src="{{ pathto('_static/logo.png', 1) }}"/>
           <span>Planning Framework</span>
+        </a>
+        <a href="{{ pathto(master_doc) }}">
+          <span class="icon icon-home"> MoveIt Tutorials</span>
         </a>
 
         {% include "searchbox.html" %}
