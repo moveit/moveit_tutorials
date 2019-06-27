@@ -27,7 +27,7 @@ After a short moment, the RViz window should appear and look similar to the one 
 
 Expected Output
 ---------------
-See the `YouTube video <https://www.youtube.com/watch?v=BcpNyNua9YM>`_ at the top of this tutorial for expected output. In RViz, we should be able to see the following:
+Watch the video at the top of this tutorial for expected output. In RViz, we should be able to see the following:
  1. The robot plans then moves its arm to the joint goal at its side.
  2. The robot plans then moves its arm to the pose goal to its front.
  3. The robot plans to a new pose goal while maintaining the end-effector level.
