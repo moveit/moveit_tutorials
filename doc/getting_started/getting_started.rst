@@ -1,8 +1,6 @@
 Getting Started
 ===============
 
-.. note:: You are on the older and stable **ROS Kinetic** version of the tutorials. We recommend this for beginners, though it does not install from binary for Ubuntu 18.04. For the latest, see `ROS Melodic tutorials <https://ros-planning.github.io/moveit_tutorials/index.html>`_ (Requires Ubuntu 18.04). For older computers on Ubuntu 14.04 see `ROS Indigo tutorials with the PR2 <http://docs.ros.org/indigo/api/moveit_tutorials/html/doc/ikfast_tutorial.html>`_.
-
 Install ROS and Catkin
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 `Install ROS Kinetic <http://wiki.ros.org/kinetic/Installation/Ubuntu>`_.
