@@ -1,14 +1,20 @@
-# Test build the MoveIt! tutorials. Author: Dave Coleman
+# Test build the MoveIt tutorials. Author: Dave Coleman
 sudo: required
-dist: trusty
-language: generic
+dist: xenial
+language: ruby
+rvm:
+  - 2.4
 python:
   - "2.7"
-compiler:
-  - gcc
+cache: ccache
+compiler: gcc
+
 before_install: # Use this to prepare the system to install prerequisites or dependencies
   # Define some config vars
-  - export CI_SOURCE_PATH=$(pwd)
+  - export ROS_DISTRO=indigo
+  - export DOCKER_IMAGE=moveit/moveit:indigo-source
+
+  - export NOKOGIRI_USE_SYSTEM_LIBRARIES=true
   - export REPOSITORY_NAME=${PWD##*/}
   - echo "Testing branch $TRAVIS_BRANCH of $REPOSITORY_NAME"
   - sudo -E sh -c 'echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -cs` main" > /etc/apt/sources.list.d/ros-latest.list'
@@ -18,24 +24,20 @@ before_install: # Use this to prepare the system to install prerequisites or dep
   # Setup rosdep
   - sudo rosdep init
   - rosdep update
-
-install:
-  - sudo apt-get update
-  # Install newer version of ruby
-  - sudo apt-get -qq install software-properties-common
-  - sudo apt-add-repository -y ppa:brightbox/ruby-ng
-  - sudo apt-get update
-  - sudo apt-get -qq install ruby2.2-dev ruby2.2
   # Install htmlpoofer
-  - sudo gem update
-  - sudo gem install pkg-config
-  - sudo gem install mini_portile2
-  - sudo gem install html-proofer
+  - gem update --system
+  - gem --version
+  - gem install html-proofer
   # Install ROS's version of sphinx
-  - sudo apt-get -qq install ros-indigo-rosdoc-lite
-  - source /opt/ros/indigo/setup.bash
+  - sudo apt-get -qq install ros-kinetic-rosdoc-lite
+  - source /opt/ros/kinetic/setup.bash
+
+before_script:
+  - git clone -q --depth=1 https://github.com/ros-planning/moveit_ci.git .moveit_ci
 
 script:
+  # Build tutorial examples
+  - .moveit_ci/travis.sh
   # Test build with non-ROS wrapped Sphinx command to allow warnings and errors to be caught
   - sphinx-build -W -b html . native_build
   # Test build with ROS-version of Sphinx command so that it is generated same as ros.org
