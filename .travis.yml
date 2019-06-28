@@ -13,7 +13,7 @@ before_install: # Use this to prepare the system to install prerequisites or dep
   # Define some config vars
   - export ROS_DISTRO=indigo
   - export DOCKER_IMAGE=moveit/moveit:indigo-source
-  - export BEFORE_SCRIPT="rosdep update --include-eol-distros"
+  - export BEFORE_SCRIPT="rosdep update --include-eol-distros; set +u"
 
   - export NOKOGIRI_USE_SYSTEM_LIBRARIES=true
   - export REPOSITORY_NAME=${PWD##*/}
