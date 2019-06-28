@@ -1,9 +1,7 @@
 #!/bin/sh
 
-# TODO: Expand this script to work beyond ROS Kinetic
-
-# Install dependencies
-sudo apt install ros-$ROS_DISTRO-rosdoc-lite
+# Install rosdoc_lite if it isn't there yet
+test -x `which rosdoc_lite` || sudo apt install ros-$ROS_DISTRO-rosdoc-lite
 
 # Setup Environment
 rm -rf build
