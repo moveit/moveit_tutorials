@@ -1,11 +1,13 @@
 Move Group C++ Interface
-==================================
-.. image:: move_group_interface_tutorial_start_screen.png
-   :width: 700px
+========================
 
 In MoveIt, the simplest user interface is through the :move_group_interface:`MoveGroupInterface` class. It provides easy to use functionality for most operations that a user may want to carry out, specifically setting joint or pose goals, creating motion plans, moving the robot, adding objects into the environment and attaching/detaching objects from the robot. This interface communicates over ROS topics, services, and actions to the `MoveGroup Node <http://docs.ros.org/indigo/api/moveit_ros_move_group/html/annotated.html>`_.
 
-Watch this quick `YouTube video demo <https://www.youtube.com/watch?v=BcpNyNua9YM>`_ to see the power of the move group interface!
+.. raw:: html
+
+         <div style="position: relative; padding-bottom: 5%; height: 0; overflow: hidden; max-width: 100%; height: auto;">
+         <iframe width="560" height="315" src="https://www.youtube.com/embed/BcpNyNua9YM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+         </div>
 
 Getting Started
 ---------------
@@ -34,16 +36,12 @@ Watch the video at the top of this tutorial for expected output. In RViz, we sho
  4. The robot plans to the same pose goal whithout maintaining end-effector level.
  5. The robot moves its arm along the desired Cartesian path (a triangle down, right, up+left).
  6. A box object is added into the environment to the right of the arm.
-    |B|
-
  7. The robot moves its arm to a new pose goal, avoiding collision with the box.
  8. The object is replaced by a different object on the gripper.
  9. The object is attached to the wrist (its color will change to purple/orange/green).
  10. The robot moves its arm with the attached object.
  11. The object is detached from the wrist (its color will change back to green).
  12. The object is removed from the environment.
-
-.. |B| image:: ./move_group_interface_tutorial_robot_with_box.png
 
 The Entire Code
 ---------------
