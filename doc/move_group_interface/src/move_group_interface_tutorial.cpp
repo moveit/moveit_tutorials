@@ -326,6 +326,9 @@ public:
     //
     // To attach an object.
     move_group_.attachObject(id);
+    ros::spinOnce();
+    ros::Duration(0.5).sleep(); // sleep for half a second
+    ros::spinOnce();
     ros::Duration(0.5).sleep(); // sleep for half a second
     // Planning and moving with an attached object is the same as without.
     //
@@ -585,7 +588,7 @@ int main(int argc, char** argv)
   pose.orientation.z = 0.707;
   pose.position.x = 0.5;
   pose.position.y = -0.2;
-  pose.position.z = 0.5;
+  pose.position.z = 0.6;
   target_poses.push_back(pose);
 
   success = move_group_interface_tutorial.planPoseGoal(target_poses.at(0), plan);
