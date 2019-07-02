@@ -59,7 +59,7 @@ public:
   {
   }
   /**
-  *
+  * This initializes visual_tools_ and sets the text_pose_ to above the robot
   */
   void setupVisualization()
   {
@@ -187,7 +187,9 @@ public:
     move_group_.setJointValueTarget(joint_group_positions);
     // move_group can now plan to this goal
     bool success = (move_group_.plan(plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
-    // END_SUB_TUTORIAL
+    // END_SUB_TUTORIAL'
+
+    ROS_INFO_NAMED("tutorial", "Visualizing plan (joint space goal) %s", success ? "" : "FAILED");
     return success;
   }
 
@@ -195,8 +197,12 @@ public:
   * Populates the plan with a path to the pose goal
   * Returns the success of planning
   **/
-  bool planPoseGoal(geometry_msgs::Pose pose, moveit::planning_interface::MoveGroupInterface::Plan& plan)
+  bool planPoseGoal(geometry_msgs::Pose pose, moveit::planning_interface::MoveGroupInterface::Plan& plan, bool resetStartState=false)
   {
+    // Someitmes it can be useful to plan a path that doesn't start where the current robot is. If that is done it is important
+    // to reset the planning start state back to where the robot is when done. This is also used when an object is attached.
+    if (resetStartState)
+      move_group_.setStartState(*move_group_.getCurrentState());
 
     // BEGIN_SUB_TUTORIAL plan_pose_goal
     // Setting the target for a pose goal is similar to a joint space goal
@@ -206,6 +212,7 @@ public:
     // END_SUB_TUTORIAL
     bool success = (move_group_.plan(plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
 
+    ROS_INFO_NAMED("tutorial", "Visualizing plan (pose space goal) %s", success ? "" : "FAILED");
     return success;
   }
 
@@ -230,9 +237,8 @@ public:
   void removeConstraints()
   {
     // BEGIN_SUB_TUTORIAL remove_constraint
-    // After planning it is important to remove the contraints if you are done with them.
+    // After moving it is often useful to revert back to the default settings.
     move_group_.clearPathConstraints();
-    // It can also be useful to reset the planning time to default when done.
     move_group_.setPlanningTime(5.0);
     // The demo should show two paths to compare constrained plan with an unconstrained plan.
     // END_SUB_TUTORIAL
@@ -267,6 +273,8 @@ public:
     //
     // When finished remember to reset the scalingfactor to return to normal speeds.
     move_group_.setMaxVelocityScalingFactor(1);
+
+    ROS_INFO_NAMED("tutorial", "Visualizing plan (Cartesian path) (%.2f%% acheived)", fraction * 100.0);
     // END_SUB_TUTORIAL
   }
 
@@ -617,8 +625,7 @@ int main(int argc, char** argv)
   // Plan movement
   target_poses.at(0).position.y += 0.2;
   target_poses.at(0).position.z += 0.2;
-  success = move_group_interface_tutorial.planPoseGoal(target_poses.at(0), plan);
-
+  success = move_group_interface_tutorial.planPoseGoal(target_poses.at(0), plan, true);
   move_group_interface_tutorial.publishToRViz("Path with Payload", plan, target_poses);
 
   // Move
