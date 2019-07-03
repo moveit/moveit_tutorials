@@ -273,9 +273,10 @@ public:
     //
     // When finished remember to reset the scalingfactor to return to normal speeds.
     move_group_.setMaxVelocityScalingFactor(1);
+    // END_SUB_TUTORIAL
 
     ROS_INFO_NAMED("tutorial", "Visualizing plan (Cartesian path) (%.2f%% acheived)", fraction * 100.0);
-    // END_SUB_TUTORIAL
+    return fraction;
   }
 
   /**
@@ -330,14 +331,10 @@ public:
     // Attaching and detaching objects
     // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     //
-    // move_group_ provides convenient interfaces for attaching and detaching collision objects.
+    // move_group provides convenient interfaces for attaching and detaching collision objects.
     //
     // To attach an object.
     move_group_.attachObject(id);
-    ros::spinOnce();
-    ros::Duration(0.5).sleep(); // sleep for half a second
-    ros::spinOnce();
-    ros::Duration(0.5).sleep(); // sleep for half a second
     // Planning and moving with an attached object is the same as without.
     //
     // END_SUB_TUTORIAL
@@ -369,7 +366,7 @@ public:
     //
     // We can now use the plan we just created with movegroup to move the robot.
     move_group_.execute(plan);
-    /* move_group_move(); // calls plan and execute at the same time */
+    /* move_group_.move(); // calls plan and execute at the same time */
     // END_SUB_TUTORIAL
   }
 
@@ -626,6 +623,7 @@ int main(int argc, char** argv)
   target_poses.at(0).position.y += 0.2;
   target_poses.at(0).position.z += 0.2;
   success = move_group_interface_tutorial.planPoseGoal(target_poses.at(0), plan, true);
+
   move_group_interface_tutorial.publishToRViz("Path with Payload", plan, target_poses);
 
   // Move
