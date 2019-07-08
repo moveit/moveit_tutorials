@@ -65,7 +65,6 @@ Configuration
    :maxdepth: 1
 
    doc/kinematics_configuration/kinematics_configuration_tutorial
-   doc/fake_controller_manager/fake_controller_manager_tutorial
    doc/custom_constraint_samplers/custom_constraint_samplers_tutorial
    doc/ompl_interface/ompl_interface_tutorial
    doc/chomp_planner/chomp_planner_tutorial
