@@ -64,7 +64,7 @@ int main(int argc, char** argv)
   while (!service_client.exists())
   {
     ROS_INFO("Waiting for service");
-    sleep(1.0);
+    ros::Duration(1.0).sleep();
   }
 
   moveit_msgs::GetPositionIK::Request service_request;
