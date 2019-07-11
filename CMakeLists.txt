@@ -30,7 +30,6 @@ set(THIS_PACKAGE_INCLUDE_DIRS
 
 catkin_package(
   LIBRARIES
-    interactivity_utils
   INCLUDE_DIRS
   CATKIN_DEPENDS
     moveit_core
