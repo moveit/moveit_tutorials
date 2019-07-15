@@ -82,14 +82,15 @@ public:
   /**
   * Publishes the given message above the robot, displays a path, and points
   **/
-  void publishToRViz(std::string msg, const moveit::planning_interface::MoveGroupInterface::Plan* plan=nullptr, const std::vector<geometry_msgs::Pose>* points=nullptr, bool blocking=true)
+  void publishToRViz(std::string msg, const moveit::planning_interface::MoveGroupInterface::Plan* plan=nullptr, const std::vector<geometry_msgs::Pose>* points=nullptr, bool blocking=true, bool clear_prev=true)
   {
     // BEGIN_SUB_TUTORIAL visualization2
 
     // There are many different ways to publish information to RViz. These are some commonly used commands.
     //
     // Remove old paths and text.
-    visual_tools_.deleteAllMarkers();
+    if (clear_prev)
+      visual_tools_.deleteAllMarkers();
     // To publish a text message inside Rviz.
     if (!msg.empty())
       visual_tools_.publishText(text_pose_, msg, rvt::WHITE, rvt::XLARGE);
@@ -129,8 +130,11 @@ public:
 
     // We even can get a list of all the groups in the robot.
     ROS_INFO_NAMED(name_, "Available Planning Groups:");
+    std::stringstream ss;
     std::copy(move_group_.getJointModelGroupNames().begin(), move_group_.getJointModelGroupNames().end(),
-              std::ostream_iterator<std::string>(std::cout, ", "));
+              std::ostream_iterator<std::string>(ss, ", "));
+    std::string joint_model_groups = ss.str();
+    ROS_INFO_NAMED(name_, joint_model_groups.c_str() );
     // END_SUB_TUTORIAL
   }
 
@@ -138,7 +142,7 @@ public:
   * Populates the plan with a path to the given joint space goal
   * Returns the success of planning
   **/
-  bool planJointSpaceGoal( const std::vector<double>& joint_group_positions, moveit::planning_interface::MoveGroupInterface::Plan& plan)
+  bool planJointSpaceGoal(const std::vector<double>& joint_group_positions, moveit::planning_interface::MoveGroupInterface::Plan& plan)
   {
     // Under some circumstances the robot may be unable to move as the plan's start state
     // isn't where the actual robot is. These can be used to update this
@@ -494,11 +498,11 @@ int main(int argc, char** argv)
   move_group_interface_tutorial.addConstraint(test_constraints);
   move_group_interface_tutorial.setPlanningTime(10.0);
   success = move_group_interface_tutorial.planPoseGoal(target_poses.at(0), plan);
-  move_group_interface_tutorial.publishToRViz(publish_message, &plan, &target_poses, false);
+  move_group_interface_tutorial.publishToRViz(publish_message, &plan, &target_poses, false, false);
   move_group_interface_tutorial.removeConstraints();
   move_group_interface_tutorial.setPlanningTime(); // Reset to default
   success = move_group_interface_tutorial.planPoseGoal(target_poses.at(0), plan);
-  move_group_interface_tutorial.publishToRViz(publish_message, &plan);
+  move_group_interface_tutorial.publishToRViz(publish_message, &plan, &target_poses, true, false);
   target_poses.pop_back();
 
   publish_message = "Cartesian Path";
