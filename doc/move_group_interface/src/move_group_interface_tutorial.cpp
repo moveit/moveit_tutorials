@@ -78,72 +78,35 @@ public:
     // Set the location where text is diplayed to above the robot
     text_pose_.translation().z() = 1.25;
   }
-  /**
-  * Publishes the given message above the robot
-  **/
-  void publishToRViz(std::string msg)
-  {
-    visual_tools_.deleteAllMarkers();
-    // To publish a text message inside Rviz
-    visual_tools_.publishText(text_pose_, msg, rvt::WHITE, rvt::XLARGE);
-    // Batch publishing is used to reduce the number of messages being sent to RViz for large visualizations
-    visual_tools_.trigger();
-    // This prompts the user before continuing.
-    visual_tools_.prompt("Press 'next' in the window to continue");
-  }
-
-  /**
-  * Publishes the given message above the robot, and displays a path
-  **/
-  void publishToRViz(std::string msg, const moveit::planning_interface::MoveGroupInterface::Plan& plan)
-  {
-    // Remove old paths and text
-    visual_tools_.deleteAllMarkers();
-    // To publish a text message inside Rviz
-    visual_tools_.publishText(text_pose_, msg, rvt::WHITE, rvt::XLARGE);
-    // To publish a planed path
-    visual_tools_.publishTrajectoryLine(plan.trajectory_, joint_model_group_);
-    // Batch publishing is used to reduce the number of messages being sent to RViz for large visualizations
-    visual_tools_.trigger();
-    // This prompts the user before continuing.
-    visual_tools_.prompt("Press 'next' in the window to continue");
-  }
 
   /**
   * Publishes the given message above the robot, displays a path, and points
   **/
-  void publishToRViz(std::string msg, const moveit::planning_interface::MoveGroupInterface::Plan& plan, std::vector<geometry_msgs::Pose> points)
+  void publishToRViz(std::string msg, const moveit::planning_interface::MoveGroupInterface::Plan* plan=nullptr, const std::vector<geometry_msgs::Pose>* points=nullptr, bool blocking=true)
   {
-    // BEGIN_SUB_TUTORIAL visualization
+    // BEGIN_SUB_TUTORIAL visualization2
 
     // There are many different ways to publish information to RViz. These are some commonly used commands.
     //
     // Remove old paths and text.
     visual_tools_.deleteAllMarkers();
     // To publish a text message inside Rviz.
-    visual_tools_.publishText(text_pose_, msg, rvt::WHITE, rvt::XLARGE);
+    if (!msg.empty())
+      visual_tools_.publishText(text_pose_, msg, rvt::WHITE, rvt::XLARGE);
     // To publish a planed path.
-    visual_tools_.publishTrajectoryLine(plan.trajectory_, joint_model_group_);
+    if (plan)
+      visual_tools_.publishTrajectoryLine(plan->trajectory_, joint_model_group_);
     // To publish points.
-    for( geometry_msgs::Pose point : points )
-      visual_tools_.publishAxisLabeled(point, "pose");
+    if (points)
+      for( geometry_msgs::Pose point : *points )
+        visual_tools_.publishAxisLabeled(point, "pose");
     // Batch publishing is used to reduce the number of messages being sent to RViz for large visualizations.
     // This publishes all the changes just added.
     visual_tools_.trigger();
-    // This prompts the user before continuing.
-    visual_tools_.prompt("Press 'next' in the window to continue");
+    // This prompts the user before continuing. **Note:** It does not need the trigger() command to prompt.
+    if (blocking)
+      visual_tools_.prompt("Press 'next' in the window to continue");
     // END_SUB_TUTORIAL
-  }
-
-  /**
-  * Publishes the given path without removing old content.
-  */
-  void publishPath(const moveit::planning_interface::MoveGroupInterface::Plan& plan)
-  {
-    // To publish the path
-    visual_tools_.publishTrajectoryLine(plan.trajectory_, joint_model_group_);
-    visual_tools_.trigger();
-    visual_tools_.prompt("Press 'next' in the window to continue");
   }
 
   /**
@@ -175,7 +138,7 @@ public:
   * Populates the plan with a path to the given joint space goal
   * Returns the success of planning
   **/
-  bool planJointSpaceGoal( const std::vector<double> joint_group_positions, moveit::planning_interface::MoveGroupInterface::Plan& plan)
+  bool planJointSpaceGoal( const std::vector<double>& joint_group_positions, moveit::planning_interface::MoveGroupInterface::Plan& plan)
   {
     // Under some circumstances the robot may be unable to move as the plan's start state
     // isn't where the actual robot is. These can be used to update this
@@ -197,7 +160,7 @@ public:
   * Populates the plan with a path to the pose goal
   * Returns the success of planning
   **/
-  bool planPoseGoal(geometry_msgs::Pose pose, moveit::planning_interface::MoveGroupInterface::Plan& plan, bool resetStartState=false)
+  bool planPoseGoal(const geometry_msgs::Pose& pose, moveit::planning_interface::MoveGroupInterface::Plan& plan, bool resetStartState=false)
   {
     // Someitmes it can be useful to plan a path that doesn't start where the current robot is. If that is done it is important
     // to reset the planning start state back to where the robot is when done. This is also used when an object is attached.
@@ -219,15 +182,11 @@ public:
   /**
   * Adds the given planning constraints
   **/
-  void addConstraint(moveit_msgs::Constraints test_constraints)
+  void addConstraint(const moveit_msgs::Constraints& test_constraints)
   {
     // BEGIN_SUB_TUTORIAL add_constraint
     // Add it to move_group
     move_group_.setPathConstraints(test_constraints);
-    // Planning with constraints can be slow because every sample must call an inverse kinematics
-    // solver. Lets increase the planning time from the default 5 seconds to be sure the planner
-    // has enough time to succeed.
-    move_group_.setPlanningTime(10.0);
     // END_SUB_TUTORIAL
   }
 
@@ -239,22 +198,33 @@ public:
     // BEGIN_SUB_TUTORIAL remove_constraint
     // After moving it is often useful to revert back to the default settings.
     move_group_.clearPathConstraints();
-    move_group_.setPlanningTime(5.0);
     // The demo should show two paths to compare constrained plan with an unconstrained plan.
     // END_SUB_TUTORIAL
   }
 
   /**
+   *
+   **/
+  void setPlanningTime(double time=5.0)
+  {
+    // BEGIN_SUB_TUTORIAL planning_time
+    // Planning with constraints can be slow because every sample must call an inverse kinematics
+    // solver. Lets increase the planning time from the default 5 seconds to be sure the planner
+    // has enough time to succeed.
+    move_group_.setPlanningTime(time);
+    // END_SUB_TUTORIAL
+  }
+  /**
   * Populates the plan with a cartesian path following the given points in order
   **/
-  double planCartesianPath(std::vector<geometry_msgs::Pose> target_poses, moveit::planning_interface::MoveGroupInterface::Plan& plan)
+  double planCartesianPath(const std::vector<geometry_msgs::Pose>& target_poses, moveit::planning_interface::MoveGroupInterface::Plan& plan)
   {
     // BEGIN_SUB_TUTORIAL cartesian_plan
     //
     // Cartesian motions are frequently needed to be slower for actions such as approach and
     // retreat grasp motions. Here we demonstrate how to reduce the speed of the robot arm via
-    // a scaling factor of the maxiumum speed of each joint. Note this is not the speed of the
-    // end effector point.
+    // a scaling factor of the maxiumum speed of each joint. Note this is the joint velocities
+    // not the end effector velocities.
     move_group_.setMaxVelocityScalingFactor(0.1);
 
     // We want the Cartesian path to be interpolated at a resolution of 1 cm
@@ -285,7 +255,7 @@ public:
   * geometry_msgs::Pose box_pose - The location
   * std::string name - The object ID
   **/
-  void createObject(shape_msgs::SolidPrimitive primitive, geometry_msgs::Pose box_pose, std::string name)
+  void createObject(const shape_msgs::SolidPrimitive& primitive, const geometry_msgs::Pose& box_pose, std::string name)
   {
     // BEGIN_SUB_TUTORIAL add_obj
     // Create a collisionObject.
@@ -358,7 +328,7 @@ public:
   /**
   * Moves the robot according to the given plan
   **/
-  void move(moveit::planning_interface::MoveGroupInterface::Plan plan)
+  void move(const moveit::planning_interface::MoveGroupInterface::Plan& plan)
   {
     // BEGIN_SUB_TUTORIAL movement
     // Moving the robot
@@ -429,7 +399,6 @@ private:
 
 int main(int argc, char** argv)
 {
-  bool success;
   // ROS startup
   ros::init(argc, argv, "move_group_interface_tutorial");
   ros::NodeHandle node_handle;
@@ -441,13 +410,9 @@ int main(int argc, char** argv)
   move_group_interface_tutorial.setupVisualization();
   move_group_interface_tutorial.printBasicInfo();
 
-  // Create the plan we will be using
-  moveit::planning_interface::MoveGroupInterface::Plan plan;
-  // This is a vector of locations for moveing to multiple targets.
-  std::vector<geometry_msgs::Pose> target_poses;
-
   // Plan and move to Joint space goal
-  move_group_interface_tutorial.publishToRViz("Joint Space Goal");
+  std::string publish_message = "Joint Space Goal";
+  move_group_interface_tutorial.publishToRViz(publish_message);
 
   std::vector<double> joint_group_positions = move_group_interface_tutorial.getCurrentJointState();
   // BEGIN_SUB_TUTORIAL modify_joint_space
@@ -456,11 +421,16 @@ int main(int argc, char** argv)
   // END_SUB_TUTORIAL
 
   // Plan
-  success = move_group_interface_tutorial.planJointSpaceGoal(joint_group_positions, plan);
-  move_group_interface_tutorial.publishToRViz("Joint Space Goal", plan);
+
+  publish_message = "Joint Space Goal";
+  // Create the plan we will be using
+  moveit::planning_interface::MoveGroupInterface::Plan plan;
+  bool success = move_group_interface_tutorial.planJointSpaceGoal(joint_group_positions, plan);
+  move_group_interface_tutorial.publishToRViz(publish_message, &plan);
   move_group_interface_tutorial.move(plan);
 
-  move_group_interface_tutorial.publishToRViz("Pose Goal");
+  publish_message = "Pose Goal";
+  move_group_interface_tutorial.publishToRViz(publish_message);
   // BEGIN_SUB_TUTORIAL pose_goal
   // Planning to a Pose goal
   // ^^^^^^^^^^^^^^^^^^^^^^^
@@ -479,10 +449,13 @@ int main(int argc, char** argv)
   pose.position.z = 0.5;
 
   // END_SUB_TUTORIAL
+
+  // This is a vector of locations to publish to RViz and to set multiple sequential move locations
+  std::vector<geometry_msgs::Pose> target_poses;
   target_poses.push_back( pose );
 
   success = move_group_interface_tutorial.planPoseGoal(target_poses.at(0), plan);
-  move_group_interface_tutorial.publishToRViz("Pose Goal", plan, target_poses);
+  move_group_interface_tutorial.publishToRViz(publish_message, &plan, &target_poses);
   move_group_interface_tutorial.move(plan);
 
   target_poses.pop_back();
@@ -492,7 +465,8 @@ int main(int argc, char** argv)
   pose.position.z = 0.38;
   target_poses.push_back( pose );
 
-  move_group_interface_tutorial.publishToRViz("Constrained Path");
+  publish_message = "Constrained Path";
+  move_group_interface_tutorial.publishToRViz(publish_message);
   // BEGIN_SUB_TUTORIAL constrained_path
   //
   // Planning with Path Constraints
@@ -518,13 +492,17 @@ int main(int argc, char** argv)
   // END_SUB_TUTORIAL
 
   move_group_interface_tutorial.addConstraint(test_constraints);
+  move_group_interface_tutorial.setPlanningTime(10.0);
   success = move_group_interface_tutorial.planPoseGoal(target_poses.at(0), plan);
-  move_group_interface_tutorial.publishToRViz("Constrained Path", plan, target_poses);
+  move_group_interface_tutorial.publishToRViz(publish_message, &plan, &target_poses, false);
   move_group_interface_tutorial.removeConstraints();
+  move_group_interface_tutorial.setPlanningTime(); // Reset to default
   success = move_group_interface_tutorial.planPoseGoal(target_poses.at(0), plan);
-  move_group_interface_tutorial.publishPath(plan);
+  move_group_interface_tutorial.publishToRViz(publish_message, &plan);
   target_poses.pop_back();
-  move_group_interface_tutorial.publishToRViz("Cartesian Path");
+
+  publish_message = "Cartesian Path";
+  move_group_interface_tutorial.publishToRViz(publish_message);
   // BEGIN_SUB_TUTORIAL cartesian
   //
   // Cartesian Paths
@@ -559,11 +537,12 @@ int main(int argc, char** argv)
   // END_SUB_TUTORIAL
 
   double percent = move_group_interface_tutorial.planCartesianPath(target_poses, plan);
-  move_group_interface_tutorial.publishToRViz("Cartesian Path", plan, target_poses);
+  move_group_interface_tutorial.publishToRViz(publish_message, &plan, &target_poses);
   move_group_interface_tutorial.move(plan);
   target_poses.clear();
 
-  move_group_interface_tutorial.publishToRViz("Path with Obstacle");
+  publish_message = "Plan with Obstacle";
+  move_group_interface_tutorial.publishToRViz(publish_message);
   // BEGIN_SUB_TUTORIAL create_obj
   //
   // Adding or Removing Objects
@@ -597,11 +576,13 @@ int main(int argc, char** argv)
   target_poses.push_back(pose);
 
   success = move_group_interface_tutorial.planPoseGoal(target_poses.at(0), plan);
-  move_group_interface_tutorial.publishToRViz("Path with Obstacle", plan, target_poses);
+
+  publish_message = "Path with Payload";
+  move_group_interface_tutorial.publishToRViz(publish_message, &plan, &target_poses);
   move_group_interface_tutorial.move(plan);
   move_group_interface_tutorial.removeObjects();
 
-  move_group_interface_tutorial.publishToRViz("Path with Payload");
+  move_group_interface_tutorial.publishToRViz(publish_message);
 
   // Create payload
   primitive.dimensions[0] = 0.1;
@@ -614,22 +595,22 @@ int main(int argc, char** argv)
 
   std::string payload_name = "payload";
   move_group_interface_tutorial.createObject(primitive, box_pose, payload_name);
-  move_group_interface_tutorial.publishToRViz("Path with Payload");
+  move_group_interface_tutorial.publishToRViz(publish_message);
   // Attach payload
   move_group_interface_tutorial.attachObject(payload_name);
-  move_group_interface_tutorial.publishToRViz("Path with Payload");
+  move_group_interface_tutorial.publishToRViz(publish_message);
 
   // Plan movement
   target_poses.at(0).position.y += 0.2;
   target_poses.at(0).position.z += 0.2;
   success = move_group_interface_tutorial.planPoseGoal(target_poses.at(0), plan, true);
 
-  move_group_interface_tutorial.publishToRViz("Path with Payload", plan, target_poses);
+  move_group_interface_tutorial.publishToRViz(publish_message, &plan, &target_poses);
 
   // Move
   move_group_interface_tutorial.move(plan);
   // Detach and remove payload
-  move_group_interface_tutorial.publishToRViz("Path with Payload", plan, target_poses);
+  move_group_interface_tutorial.publishToRViz(publish_message, &plan, &target_poses);
   move_group_interface_tutorial.detachObject(payload_name);
   move_group_interface_tutorial.removeObjects();
 
@@ -651,6 +632,7 @@ int main(int argc, char** argv)
 // CALL_SUB_TUTORIAL plan_pose_goal
 // CALL_SUB_TUTORIAL constrained_path
 // CALL_SUB_TUTORIAL add_constraint
+// CALL_SUB_TUTORIAL planning_time
 // CALL_SUB_TUTORIAL remove_constraint
 // CALL_SUB_TUTORIAL cartesian
 // CALL_SUB_TUTORIAL cartesian_plan
@@ -661,3 +643,26 @@ int main(int argc, char** argv)
 // CALL_SUB_TUTORIAL detach_obj
 //
 // END_TUTORIAL
+
+
+/*
+// BEGIN_SUB_TUTORIAL visualization
+
+    // There are many different ways to publish information to RViz. These are some commonly used commands.
+    //
+    // Remove old paths and text.
+    visual_tools_.deleteAllMarkers();
+    // To publish a text message inside Rviz.
+    visual_tools_.publishText(text_pose_, msg, rvt::WHITE, rvt::XLARGE);
+    // To publish a planed path.
+    visual_tools_.publishTrajectoryLine(plan->trajectory_, joint_model_group_);
+    // To publish points.
+    for( geometry_msgs::Pose point : points )
+      visual_tools_.publishAxisLabeled(point, "pose");
+    // Batch publishing is used to reduce the number of messages being sent to RViz for large visualizations.
+    // This publishes all the changes just added.
+    visual_tools_.trigger();
+    // This prompts the user before continuing. **Note:** It does not need the trigger() command to prompt.
+    visual_tools_.prompt("Press 'next' in the window to continue");
+    // END_SUB_TUTORIAL
+*/
