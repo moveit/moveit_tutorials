@@ -144,7 +144,7 @@ Fake Controller Yaml File
        type: interpolate | via points | last point
        joints:
          - joint_1
-	 - joint_2
+         - joint_2
          - joint_3
          - joint_4
          - joint_5
