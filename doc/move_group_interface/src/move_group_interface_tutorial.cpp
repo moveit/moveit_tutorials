@@ -51,7 +51,6 @@ namespace rvt = rviz_visual_tools;
 class MoveGroupInterfaceTutorial
 {
 public:
-
   /**
   * Basic constucter
   **/
@@ -82,10 +81,10 @@ public:
   /**
   * Publishes the given message above the robot, displays a path, and points
   **/
-  void publishToRViz(std::string msg, const moveit::planning_interface::MoveGroupInterface::Plan* plan=nullptr, const std::vector<geometry_msgs::Pose>* points=nullptr, bool blocking=true, bool clear_prev=true)
+  void publishToRViz(std::string msg, const moveit_msgs::RobotTrajectory trajectory = moveit_msgs::RobotTrajectory(),
+                     const std::vector<geometry_msgs::Pose> points = std::vector<geometry_msgs::Pose>(),
+                     bool blocking = true, bool clear_prev = true)
   {
-    // BEGIN_SUB_TUTORIAL visualization2
-
     // There are many different ways to publish information to RViz. These are some commonly used commands.
     //
     // Remove old paths and text.
@@ -95,11 +94,11 @@ public:
     if (!msg.empty())
       visual_tools_.publishText(text_pose_, msg, rvt::WHITE, rvt::XLARGE);
     // To publish a planed path.
-    if (plan)
-      visual_tools_.publishTrajectoryLine(plan->trajectory_, joint_model_group_);
+    if (trajectory.joint_trajectory.header.frame_id != "")
+      visual_tools_.publishTrajectoryLine(trajectory, joint_model_group_);
     // To publish points.
-    if (points)
-      for( geometry_msgs::Pose point : *points )
+    if (points.size() != 0)
+      for (geometry_msgs::Pose point : points)
         visual_tools_.publishAxisLabeled(point, "pose");
     // Batch publishing is used to reduce the number of messages being sent to RViz for large visualizations.
     // This publishes all the changes just added.
@@ -107,7 +106,6 @@ public:
     // This prompts the user before continuing. **Note:** It does not need the trigger() command to prompt.
     if (blocking)
       visual_tools_.prompt("Press 'next' in the window to continue");
-    // END_SUB_TUTORIAL
   }
 
   /**
@@ -134,7 +132,7 @@ public:
     std::copy(move_group_.getJointModelGroupNames().begin(), move_group_.getJointModelGroupNames().end(),
               std::ostream_iterator<std::string>(ss, ", "));
     std::string joint_model_groups = ss.str();
-    ROS_INFO_NAMED(name_, joint_model_groups.c_str() );
+    ROS_INFO_NAMED(name_, joint_model_groups.c_str());
     // END_SUB_TUTORIAL
   }
 
@@ -142,7 +140,8 @@ public:
   * Populates the plan with a path to the given joint space goal
   * Returns the success of planning
   **/
-  bool planJointSpaceGoal(const std::vector<double>& joint_group_positions, moveit::planning_interface::MoveGroupInterface::Plan& plan)
+  bool planJointSpaceGoal(const std::vector<double>& joint_group_positions,
+                          moveit::planning_interface::MoveGroupInterface::Plan& plan)
   {
     // Under some circumstances the robot may be unable to move as the plan's start state
     // isn't where the actual robot is. These can be used to update this
@@ -164,10 +163,13 @@ public:
   * Populates the plan with a path to the pose goal
   * Returns the success of planning
   **/
-  bool planPoseGoal(const geometry_msgs::Pose& pose, moveit::planning_interface::MoveGroupInterface::Plan& plan, bool resetStartState=false)
+  bool planPoseGoal(const geometry_msgs::Pose& pose, moveit::planning_interface::MoveGroupInterface::Plan& plan,
+                    bool resetStartState = false)
   {
-    // Someitmes it can be useful to plan a path that doesn't start where the current robot is. If that is done it is important
-    // to reset the planning start state back to where the robot is when done. This is also used when an object is attached.
+    // Someitmes it can be useful to plan a path that doesn't start where the current robot is. If that is done it is
+    // important
+    // to reset the planning start state back to where the robot is when done. This is also used when an object is
+    // attached.
     if (resetStartState)
       move_group_.setStartState(*move_group_.getCurrentState());
 
@@ -207,9 +209,9 @@ public:
   }
 
   /**
-   *
+   * This sets the planning time to a number of seconds.
    **/
-  void setPlanningTime(double time=5.0)
+  void setPlanningTime(double time = 5.0)
   {
     // BEGIN_SUB_TUTORIAL planning_time
     // Planning with constraints can be slow because every sample must call an inverse kinematics
@@ -221,7 +223,8 @@ public:
   /**
   * Populates the plan with a cartesian path following the given points in order
   **/
-  double planCartesianPath(const std::vector<geometry_msgs::Pose>& target_poses, moveit::planning_interface::MoveGroupInterface::Plan& plan)
+  double planCartesianPath(const std::vector<geometry_msgs::Pose>& target_poses,
+                           moveit::planning_interface::MoveGroupInterface::Plan& plan)
   {
     // BEGIN_SUB_TUTORIAL cartesian_plan
     //
@@ -323,10 +326,8 @@ public:
     // BEGIN_SUB_TUTORIAL detach_obj
     // To detach an object.
     move_group_.detachObject(id);
-    ros::Duration(0.5).sleep(); // sleep for half a second
     // END_SUB_TUTORIAL
-
-    // RViz
+    ros::Duration(0.5).sleep();  // sleep for half a second
   }
 
   /**
@@ -377,7 +378,7 @@ private:
   inline static const std::string planning_group_ = "panda_arm";
   // The :move_group_interface:`MoveGroupInterface` class can be easily setup
   // using just the name of the planning group you would like to control and plan for.
-  moveit::planning_interface::MoveGroupInterface move_group_=
+  moveit::planning_interface::MoveGroupInterface move_group_ =
       moveit::planning_interface::MoveGroupInterface(planning_group_);
   // Raw pointers are frequently used to refer to the planning group for improved performance.
   const robot_state::JointModelGroup* joint_model_group_ =
@@ -430,7 +431,7 @@ int main(int argc, char** argv)
   // Create the plan we will be using
   moveit::planning_interface::MoveGroupInterface::Plan plan;
   bool success = move_group_interface_tutorial.planJointSpaceGoal(joint_group_positions, plan);
-  move_group_interface_tutorial.publishToRViz(publish_message, &plan);
+  move_group_interface_tutorial.publishToRViz(publish_message, plan.trajectory_);
   move_group_interface_tutorial.move(plan);
 
   publish_message = "Pose Goal";
@@ -456,10 +457,10 @@ int main(int argc, char** argv)
 
   // This is a vector of locations to publish to RViz and to set multiple sequential move locations
   std::vector<geometry_msgs::Pose> target_poses;
-  target_poses.push_back( pose );
+  target_poses.push_back(pose);
 
   success = move_group_interface_tutorial.planPoseGoal(target_poses.at(0), plan);
-  move_group_interface_tutorial.publishToRViz(publish_message, &plan, &target_poses);
+  move_group_interface_tutorial.publishToRViz(publish_message, plan.trajectory_, target_poses);
   move_group_interface_tutorial.move(plan);
 
   target_poses.pop_back();
@@ -467,7 +468,7 @@ int main(int argc, char** argv)
   pose.position.x = -0.38;
   pose.position.y = -0.49;
   pose.position.z = 0.38;
-  target_poses.push_back( pose );
+  target_poses.push_back(pose);
 
   publish_message = "Constrained Path";
   move_group_interface_tutorial.publishToRViz(publish_message);
@@ -498,11 +499,11 @@ int main(int argc, char** argv)
   move_group_interface_tutorial.addConstraint(test_constraints);
   move_group_interface_tutorial.setPlanningTime(10.0);
   success = move_group_interface_tutorial.planPoseGoal(target_poses.at(0), plan);
-  move_group_interface_tutorial.publishToRViz(publish_message, &plan, &target_poses, false, false);
+  move_group_interface_tutorial.publishToRViz(publish_message, plan.trajectory_, target_poses, false, false);
   move_group_interface_tutorial.removeConstraints();
-  move_group_interface_tutorial.setPlanningTime(); // Reset to default
+  move_group_interface_tutorial.setPlanningTime();  // Reset to default
   success = move_group_interface_tutorial.planPoseGoal(target_poses.at(0), plan);
-  move_group_interface_tutorial.publishToRViz(publish_message, &plan, &target_poses, true, false);
+  move_group_interface_tutorial.publishToRViz(publish_message, plan.trajectory_, target_poses, true, false);
   target_poses.pop_back();
 
   publish_message = "Cartesian Path";
@@ -541,7 +542,7 @@ int main(int argc, char** argv)
   // END_SUB_TUTORIAL
 
   double percent = move_group_interface_tutorial.planCartesianPath(target_poses, plan);
-  move_group_interface_tutorial.publishToRViz(publish_message, &plan, &target_poses);
+  move_group_interface_tutorial.publishToRViz(publish_message, plan.trajectory_, target_poses);
   move_group_interface_tutorial.move(plan);
   target_poses.clear();
 
@@ -582,7 +583,7 @@ int main(int argc, char** argv)
   success = move_group_interface_tutorial.planPoseGoal(target_poses.at(0), plan);
 
   publish_message = "Path with Payload";
-  move_group_interface_tutorial.publishToRViz(publish_message, &plan, &target_poses);
+  move_group_interface_tutorial.publishToRViz(publish_message, plan.trajectory_, target_poses);
   move_group_interface_tutorial.move(plan);
   move_group_interface_tutorial.removeObjects();
 
@@ -609,12 +610,12 @@ int main(int argc, char** argv)
   target_poses.at(0).position.z += 0.2;
   success = move_group_interface_tutorial.planPoseGoal(target_poses.at(0), plan, true);
 
-  move_group_interface_tutorial.publishToRViz(publish_message, &plan, &target_poses);
+  move_group_interface_tutorial.publishToRViz(publish_message, plan.trajectory_, target_poses);
 
   // Move
   move_group_interface_tutorial.move(plan);
   // Detach and remove payload
-  move_group_interface_tutorial.publishToRViz(publish_message, &plan, &target_poses);
+  move_group_interface_tutorial.publishToRViz(publish_message, plan.trajectory_, target_poses);
   move_group_interface_tutorial.detachObject(payload_name);
   move_group_interface_tutorial.removeObjects();
 
@@ -647,7 +648,6 @@ int main(int argc, char** argv)
 // CALL_SUB_TUTORIAL detach_obj
 //
 // END_TUTORIAL
-
 
 /*
 // BEGIN_SUB_TUTORIAL visualization
