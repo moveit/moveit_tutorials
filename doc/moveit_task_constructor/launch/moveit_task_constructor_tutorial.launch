@@ -1,0 +1,6 @@
+<launch>
+
+  <node name="moveit_task_constructor_tutorial" pkg="moveit_tutorials" type="moveit_task_constructor_tutorial" respawn="false" output="screen">
+  </node>
+
+</launch>
