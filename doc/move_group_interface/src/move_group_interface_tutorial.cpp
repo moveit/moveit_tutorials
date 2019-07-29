@@ -85,21 +85,18 @@ public:
                      const std::vector<geometry_msgs::Pose> points = std::vector<geometry_msgs::Pose>(),
                      bool blocking = true, bool clear_prev = true)
   {
-    // There are many different ways to publish information to RViz. These are some commonly used commands.
-    //
     // Remove old paths and text.
     if (clear_prev)
       visual_tools_.deleteAllMarkers();
-    // To publish a text message inside Rviz.
+    // publish a text message inside Rviz.
     if (!msg.empty())
       visual_tools_.publishText(text_pose_, msg, rvt::WHITE, rvt::XLARGE);
     // To publish a planed path.
-    if (trajectory.joint_trajectory.header.frame_id != "")
+    if (!trajectory.joint_trajectory.header.frame_id.empty())
       visual_tools_.publishTrajectoryLine(trajectory, joint_model_group_);
     // To publish points.
-    if (points.size() != 0)
-      for (geometry_msgs::Pose point : points)
-        visual_tools_.publishAxisLabeled(point, "pose");
+    for (geometry_msgs::Pose point : points)
+      visual_tools_.publishAxisLabeled(point, "pose");
     // Batch publishing is used to reduce the number of messages being sent to RViz for large visualizations.
     // This publishes all the changes just added.
     visual_tools_.trigger();
@@ -167,9 +164,8 @@ public:
                     bool resetStartState = false)
   {
     // Someitmes it can be useful to plan a path that doesn't start where the current robot is. If that is done it is
-    // important
-    // to reset the planning start state back to where the robot is when done. This is also used when an object is
-    // attached.
+    // important to reset the planning start state back to where the robot is when done. This is also used when an
+    // object is attached.
     if (resetStartState)
       move_group_.setStartState(*move_group_.getCurrentState());
 
