@@ -1,6 +1,8 @@
 Getting Started
 ===============
 
+This tutorial will install MoveIt and create a workspace sandbox to run the tutorials and example robot.
+
 Install ROS and Catkin
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 `Install ROS Melodic <http://wiki.ros.org/melodic/Installation/Ubuntu>`_.
