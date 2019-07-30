@@ -1,7 +1,7 @@
 MoveIt Tutorials
 =================
 
-These tutorials will step you through using and learning the MoveIt Motion Planning Framework.
+These tutorials will quickly get you, and your robot, using the MoveIt Motion Planning Framework.
 
 .. image:: doc/quickstart_in_rviz/rviz_plugin_head.png
    :width: 700px
