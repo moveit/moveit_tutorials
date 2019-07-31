@@ -35,20 +35,14 @@ Install From Debian
 
   sudo apt-get install ros-$ROS_DISTRO-moveit-task-constructor
 
-Setup
-------
-
-In addition to downloading MoveIt Task Constructor you must delete a line from the panda_moveit_config `ompl_planning_pipeline.launch.xml`. This should not break any other of the tutorial examples. ::
-
-  default_planner_request_adapters/ResolveConstraintFrames
-
 Running the Code
 ----------------
-Open two shells. In the first shell start RViz and wait for everything to finish loading: ::
+In a shell start RViz and the demo with the following command: ::
 
   roslaunch moveit_task_constructor_demo demo.launch
 
-The demo should run automatically generating 10 different options as paths through the different stages and finally execute the lowest cost plan.
+In Rviz click the add button and select the Motion Planning Tasks. When the plans are all made RViz will show you those 10 plans.
+If you click on a stage it will show you the plan for that stage.
 
 How MoveIt Task Constructor Works
 ---------------------------------
