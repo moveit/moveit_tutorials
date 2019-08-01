@@ -118,7 +118,7 @@ If your robot is not in this format we recommend you create a ROS `URDF <http://
 
 If your robot is in `xacro <http://wiki.ros.org/xacro/>`_ format you can convert it to urdf using the following command: ::
 
- rosrun xacro xacro --inorder -o "$MYROBOT_NAME".urdf "$MYROBOT_NAME".urdf.xacro
+ rosrun xacro xacro -o "$MYROBOT_NAME".urdf "$MYROBOT_NAME".urdf.xacro
 
 Once you have your robot in URDF format, you can convert it to Collada (.dae) file using the following command: ::
 
