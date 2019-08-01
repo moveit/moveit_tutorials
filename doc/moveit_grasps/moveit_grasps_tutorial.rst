@@ -40,6 +40,63 @@ Install From Debian
 
     sudo apt-get install ros-$ROS_DISTRO-moveit-grasps
 
+Demo Scripts
+------------
+
+We have provided 4 demo scripts showcasing MoveIt Grasps, and for visualizing MoveIt Grasps configuration parameters.
+
+Before running any of the Demos, you must first start Rviz with::
+
+    roslaunch moveit_grasps rviz.launch
+
+**NOTE:** The released versions of `panda_moveit_config <https://github.com/ros-planning/panda_moveit_config>`_ may lag behind the source versions. If you have issues with the demos, a good first step would be to download and build `panda_moveit_config <https://github.com/ros-planning/panda_moveit_config>`_ from source.
+
+1) The Entire MoveIt Grasps Pipeline
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+To see the entire MoveIt Grasps pipeline in action run::
+
+    roslaunch moveit_grasps grasp_pipeline_demo.launch
+
+.. image:: grasp_pipeline_demo.gif
+   :width: 500pt
+
+
+2) Visualize Gripper Parameters
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+To visualize gripper specific parameters::
+
+    roslaunch moveit_grasps grasp_poses_visualizer_demo.launch
+
+The result should look something like this:
+
+.. image:: moveit_grasps_poses.jpg
+   :width: 500pt
+
+3) Visualize Grasp Generation
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+To visualize grasp generation for randomly placed blocks::
+
+    roslaunch moveit_grasps grasp_generator_demo.launch
+
+.. image:: grasp_generator_demo.png
+   :width: 500pt
+
+4) Grasp Filter
+^^^^^^^^^^^^^^^
+To demo the grasp filtering::
+
+    roslaunch moveit_grasps grasp_filter_demo.launch
+
+When filtered, the colors represent the following:
+
+* RED - grasp filtered by ik
+* PINK - grasp filtered by collision
+* MAGENTA - grasp filtered by cutting plane
+* YELLOW - grasp filtered by orientation
+* BLUE - pregrasp filtered by ik
+* CYAN - pregrasp filtered by collision
+* GREEN - valid
+
 Setup
 -----
 
@@ -106,65 +163,8 @@ These methods is used to score grasp candidates favoring grasps that are closer 
 
 This is useful in applications such as bin and shelf picking where you would want to pick the objects from a bin with a grasp that is vertically alligned and you would want to pick obejects from a shelf with a grasp that is horozontally alligned.
 
-Demo Scripts
-------------
-
-We have provided 4 demo scripts showcasing MoveIt Grasps, and for visualizing MoveIt Grasps configuration parameters.
-
-Before running any of the Demos, you must first start Rviz with::
-
-    roslaunch moveit_grasps rviz.launch
-
-**NOTE:** The released versions of `panda_moveit_config <https://github.com/ros-planning/panda_moveit_config>`_ may lag behind the source versions. If you have issues with the demos, a good first step would be to download and build `panda_moveit_config <https://github.com/ros-planning/panda_moveit_config>`_ from source.
-
-1) The Entire MoveIt Grasps Pipeline
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-To see the entire MoveIt Grasps pipeline in action run::
-
-    roslaunch moveit_grasps grasp_pipeline_demo.launch
-
-.. image:: grasp_pipeline_demo.gif
-   :width: 500pt
-
-
-2) Visualize Gripper Parameters
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-To visualize gripper specific parameters::
-
-    roslaunch moveit_grasps grasp_poses_visualizer_demo.launch
-
-The result should look something like this:
-
-.. image:: moveit_grasps_poses.jpg
-   :width: 500pt
-
-3) Visualize Grasp Generation
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-To visualize grasp generation for randomly placed blocks::
-
-    roslaunch moveit_grasps grasp_generator_demo.launch
-
-.. image:: grasp_generator_demo.png
-   :width: 500pt
-
-4) Grasp Filter
-^^^^^^^^^^^^^^^
-To demo the grasp filtering::
-
-    roslaunch moveit_grasps grasp_filter_demo.launch
-
-When filtered, the colors represent the following:
-
-* RED - grasp filtered by ik
-* PINK - grasp filtered by collision
-* MAGENTA - grasp filtered by cutting plane
-* YELLOW - grasp filtered by orientation
-* BLUE - pregrasp filtered by ik
-* CYAN - pregrasp filtered by collision
-* GREEN - valid
-
-Tested Robots
--------------
+Known Tested Robots
+-------------------
 
 * UR5
 * Jaco2
