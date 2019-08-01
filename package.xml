@@ -54,7 +54,7 @@
 
   <export>
     <!-- An example controller manager plugin for MoveIt. This is not functional code. -->
-    <moveit_core plugin="${prefix}/moveit_controller_manager_example_plugin_description.xml"/>
+    <moveit_core plugin="${prefix}/doc/controller_configuration/moveit_controller_manager_example_plugin_description.xml"/>
   </export>
 
 </package>
