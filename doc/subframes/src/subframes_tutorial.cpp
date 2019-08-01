@@ -47,7 +47,7 @@
 // BEGIN_SUB_TUTORIAL plan1
 //
 // Creating the planning request
-// ^^^^^^^^^^^^^^^^^^^^
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 // In this tutorial, we use a small helper function to create our planning requests and move the robot.
 bool moveToCartPose(geometry_msgs::PoseStamped pose, moveit::planning_interface::MoveGroupInterface& group,
                     std::string end_effector_link)
@@ -82,7 +82,7 @@ bool moveToCartPose(geometry_msgs::PoseStamped pose, moveit::planning_interface:
 // BEGIN_SUB_TUTORIAL object1
 //
 // Defining two CollisionObjects with subframes
-// ^^^^^^^^^^^^^^^^^^^^
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 // This helper function creates two objects and publishes them to the PlanningScene: a box and a cylinder.
 // The box spawns in front of the gripper, the cylinder at the tip of the gripper, as if it had been grasped.
 
@@ -198,7 +198,7 @@ int main(int argc, char** argv)
 
   // BEGIN_SUB_TUTORIAL sceneprep
   // Preparing the scene
-  // ^^^^^^^^^^^^^^^^^^^^
+  // ^^^^^^^^^^^^^^^^^^^
   // In the main function, we first spawn the objects in the planning scene, then attach the cylinder to the robot.
   // Attaching the cylinder turns it purple in Rviz.
   spawnCollisionObjects(planning_scene_interface);
@@ -221,7 +221,7 @@ int main(int argc, char** argv)
 
   // BEGIN_SUB_TUTORIAL quaternions1
   // Setting the orientation
-  // ^^^^^^^^^^^^^^^^^^^^
+  // ^^^^^^^^^^^^^^^^^^^^^^^
   // We multiply tf2 quaternions to chain together a few rotations. This is usually simpler and easier
   // to debug than figuring out a series of euler angles in your head.
   tf2::Quaternion flip_around_y;  // This is used to rotate the orientation of the target pose.
@@ -382,7 +382,7 @@ int main(int argc, char** argv)
 // CALL_SUB_TUTORIAL sceneprep
 //
 // Interactively testing the robot
-// ^^^^^^^^^^^^^
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 // We set up a small command line interface so you can interact with the simulation and see how it responds to certain
 // commands. You can use it to experiment with the behavior of the robot when you remove the box and cylinder, respawn
 // and reattach them, or create new planning requests. Try moving the robot into a new position and respawn the box

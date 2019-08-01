@@ -55,7 +55,7 @@ from which you can extract translation and quaternion (see `here <https://eigen.
 The translation and quaternion can then be used to create the Transform and register it in your `TFListener`.
 
 Visualizing subframes
----------------
+---------------------
 There is currently no visualization for subframes, but pull requests for this feature are welcome!
 
 Troubleshooting
