@@ -53,10 +53,10 @@ class MoveGroupInterfaceTutorial
 public:
   /**
   * Basic constucter
-  **/
+  ** /
   MoveGroupInterfaceTutorial()
   {
-  }
+  }*/
   /**
   * This initializes visual_tools_ and sets the text_pose_ to above the robot
   */
@@ -163,7 +163,7 @@ public:
   bool planPoseGoal(const geometry_msgs::Pose& pose, moveit::planning_interface::MoveGroupInterface::Plan& plan,
                     bool resetStartState = false)
   {
-    // Someitmes it can be useful to plan a path that doesn't start where the current robot is. If that is done it is
+    // Sometimes it can be useful to plan a path that doesn't start where the current robot is. If that is done it is
     // important to reset the planning start state back to where the robot is when done. This is also used when an
     // object is attached.
     if (resetStartState)
