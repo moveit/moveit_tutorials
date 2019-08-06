@@ -1,8 +1,8 @@
 MoveIt Task Constructor
 =======================
 
-.. image:: moveit_task_constructor_tutorial_temp.png
-   :width: 400px
+.. image:: mtc_example.png
+   :width: 700px
 
 The Task Constructor framework provides a flexible and transparent way to define and plan actions that consist of multiple interdependent subtasks. It draws on the planning capabilities of MoveIt to solve individual subproblems in black-box planning stages. A common interface, based on MoveIt's PlanningScene is used to pass solution hypotheses between stages. The framework enables the hierarchical organization of basic stages using containers, allowing for sequential as well as parallel compositions. For more details, please refer to the associated `ICRA 2019 publication`_.
 
@@ -14,6 +14,8 @@ If you haven't already done so, make sure you've completed the steps in `Getting
 
 Installing MoveIt Task Constructor
 ----------------------------------
+
+**Note:** Currently you must build MoveIt and MoveIt Messages from source for this tutorial to function.
 
 Install From Source
 ^^^^^^^^^^^^^^^^^^^
@@ -31,6 +33,7 @@ Build the workspace: ::
 
 Install From Debian
 ^^^^^^^^^^^^^^^^^^^
+
 **Note:** This package has not been released as of 7/16/19::
 
   sudo apt-get install ros-$ROS_DISTRO-moveit-task-constructor
@@ -41,8 +44,14 @@ In a shell start RViz and the demo with the following command: ::
 
   roslaunch moveit_task_constructor_demo demo.launch
 
-In Rviz click the add button and select the Motion Planning Tasks. When the plans are all made RViz will show you those 10 plans.
-If you click on a stage it will show you the plan for that stage.
+.. image:: add_mtc_panel.png
+   :width: 700px
+
+In Rviz click the add button and select the Motion Planning Tasks. When the plans are all made RViz will show you those 10 plans in the panel.
+If you click on a stage, or the full plan it will show you the visualization.
+
+.. image:: mtc_show_stages.gif
+   :width: 700px
 
 How MoveIt Task Constructor Works
 ---------------------------------
@@ -84,3 +93,5 @@ The Entire Code
 The entire code can be seen in the moveit_task_constructor_ repository.
 
 .. _moveit_task_constructor: https://github.com/ros-planning/moveit_task_constructor
+
+**Note:** If the added task monitor does not find the /solutions topic replace `""` with `"/moveit_task_constructor_demo/pick_place_task/solution"` in line 82 of `moviet_task_constructor/visualization/motion_planning_tasks/src/task_display.cpp`.
