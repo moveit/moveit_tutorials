@@ -1,0 +1,6 @@
+<library path="libmoveit_lerp_planner_plugin">
+  <class name="lerp_interface/LERPPlanner" type="lerp_interface::LERPPlannerManager" base_class_type="planning_interface::PlannerManager">
+    <description>
+    </description>
+  </class>
+</library>

@@ -57,7 +57,8 @@
     <moveit_core plugin="${prefix}/doc/controller_configuration/moveit_controller_manager_example_plugin_description.xml"/>
 
     <!-- An example of planner plugin for MoveIt -->
-    <moveit_core plugin="${prefix}/doc/creating_planner_plugin/emptyplan_interface_plugin_description.xml"/>
+    <moveit_core plugin="${prefix}/doc/creating_planner_plugin/lerp_interface_plugin_description.xml"/>
+
   </export>
 
 </package>
