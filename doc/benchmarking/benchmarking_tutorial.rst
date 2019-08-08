@@ -1,10 +1,6 @@
 Benchmarking
 =====================
 
-.. note:: This is the new benchmarking method only available in ROS Kinetic, onward.
-
-.. note:: The default method for initializing the planning scene uses the ROS Warehouse plugin. Currently this is not available from Debians and requires a source install for at least some aspects. For source instructions, see `this page <http://moveit.ros.org/install/source/dependencies/>`_
-
 Getting Started
 ---------------
 If you haven't already done so, make sure you've completed the steps in `Getting Started <../getting_started/getting_started.html>`_.
