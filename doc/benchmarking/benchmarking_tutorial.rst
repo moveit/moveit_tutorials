@@ -3,7 +3,7 @@ Benchmarking
 
 .. note:: This is the new benchmarking method only available in ROS Kinetic, onward.
 
-.. note:: To use this benchmarking method, you will need to download and install the ROS Warehouse plugin. Currently this is not available from Debians and requires a source install for at least some aspects. For source instructions, see `this page <http://moveit.ros.org/install/source/dependencies/>`_
+.. note:: The default method for initializing the planning scene uses the ROS Warehouse plugin. Currently this is not available from Debians and requires a source install for at least some aspects. For source instructions, see `this page <http://moveit.ros.org/install/source/dependencies/>`_
 
 Getting Started
 ---------------
@@ -63,24 +63,24 @@ This class reads in parameters and options for the benchmarks to run from the RO
   benchmark_config:
 
     warehouse:
-        host: [hostname/IP address of ROS Warehouse node]                           # Default localhost
-        port: [port number of ROS Warehouse node]                                   # Default 33829
-        scene_name: [Name of the planning scene to use for benchmarks]              # REQUIRED
+        host: [hostname/IP address of ROS Warehouse node]                            # Default localhost
+        port: [port number of ROS Warehouse node]                                    # Default 33829
+        scene_name: [Name of the planning scene to use for benchmarks]               # REQUIRED
 
     parameters:
-        runs: [Number of runs for each planning algorithm on each request]          # Default 10
-        group: [The name of the group to plan]                                      # REQUIRED
-        timeout: [The maximum time for a single run; seconds]                       # Default 10.0
-        output_directory: [The directory to write the output to]                    # Default is current working directory
+        runs: [Number of runs for each planning algorithm on each request]           # Default 10
+        group: [The name of the group to plan]                                       # REQUIRED
+        timeout: [The maximum time for a single run; seconds]                        # Default 10.0
+        output_directory: [The directory to write the output to]                     # Default is current working directory
 
-        start_states: [Regex for the stored start states in the warehouse to try]   # Default ""
-        path_constraints: [Regex for the path constraints to benchmark]             # Default ""
+        start_states: [Regex for the stored start states in the warehouse to try]    # Default ""
+        path_constraints: [Regex for the path constraints to benchmark]              # Default ""
 
          queries: [Regex for the motion plan queries in the warehouse to try]        # Default .*
          goal_constraints: [Regex for the goal constraints to benchmark]             # Default ""
          trajectory_constraints: [Regex for the trajectory constraints to benchmark] # Default ""
 
-        workspace: [Bounds of the workspace the robot plans in.  This is an AABB]   # Optional
+        workspace: [Bounds of the workspace the robot plans in.  This is an AABB]    # Optional
             frame_id: [The frame the workspace parameters are specified in]
             min_corner: [Coordinates of the minimum corner of the AABB]
                 x: [x-value]
@@ -91,14 +91,15 @@ This class reads in parameters and options for the benchmarks to run from the RO
                 y: [y-value]
                 z: [z-value]
 
-    planners:
-        - plugin: [The name of the planning plugin the planners are in]             # REQUIRED
-          planners:                                                                 # REQUIRED
+    planning_pipelines:
+        - name: [Name of the planning pipeline used as relative parameter namespace] # REQUIRED
+          planners:                                                                  # REQUIRED
             - A list of planners
-            - from the plugin above
+            - available in the
+            - planning pipeline
             - to benchmark the
             - queries in.
-        - plugin: ...
+        - name: ...
             - ...
 
 
@@ -107,9 +108,13 @@ Parameters of the BenchmarkExecutor Class
 
 This class creates a set of ``MotionPlanRequests`` that respect the parameters given in the supplied instance of ``BenchmarkOptions`` and then executes the requests on each of the planners specified.  From the ``BenchmarkOptions``, queries, ``goal_constraints``, and ``trajectory_constraints`` are treated as separate queries.  If a set of ``start_states`` is specified, each query, ``goal_constraint``, and ``trajectory_constraint`` is attempted with each start state (existing start states from a query are ignored).  Similarly, the (optional) set of path constraints is combined combinatorially with the start query and start ``goal_constraint`` pairs (existing ``path_constraint`` from a query are ignored).  The workspace, if specified, overrides any existing workspace parameters.
 
-The benchmarking pipeline does not utilize ``MoveGroup``, and ``PlanningRequestAdaptors`` are **not** invoked.
+The benchmarking pipeline does not utilize ``MoveGroup``.
+Instead, the planning pipelines are initialized and run directly including all specified ``PlanningRequestAdaptors``.
+This is especially useful for benchmarking the effects of smoothing adapters.
 
-It is possible to customize a benchmark run by deriving a class from ``BenchmarkExecutor`` and overriding one or more of the virtual functions.  Additionally, a set of functions exists for ease of customization in derived classes:
+It is possible to customize a benchmark run by deriving a class from ``BenchmarkExecutor`` and overriding one or more of the virtual functions.
+For instance, overriding the functions ``initializeBenchmarks()`` or ``loadBenchmarkQueryData()`` allows to specify the benchmark queries directly and to provide a custom planning scene without using ROS warehouse.
+Additionally, a set of functions exists for ease of customization in derived classes:
 
 - ``preRunEvent``: invoked immediately before each call to solve
 - ``postRunEvent``: invoked immediately after each call to solve
