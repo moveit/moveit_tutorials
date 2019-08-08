@@ -24,7 +24,7 @@
   </include>
 
   <!-- Launch main node -->
-  <node name="test_trajopt" pkg="moveit_tutorials" type="test_trajopt" respawn="false" output="screen">
+  <node name="trajopt_example" pkg="moveit_tutorials" type="trajopt_example" respawn="false" output="screen">
     <rosparam command="load" file="$(find panda_moveit_config)/config/trajopt_planning.yaml"/>
   </node>
 

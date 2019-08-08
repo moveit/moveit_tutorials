@@ -29,7 +29,6 @@
    MotionPlanRequest and visualize the result calculated by using trajopt planner.
 */
 
-
 int main(int argc, char** argv)
 {
   const std::string NODE_NAME = "test_trajopt";
