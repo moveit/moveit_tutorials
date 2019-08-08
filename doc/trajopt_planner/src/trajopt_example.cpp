@@ -1,4 +1,5 @@
 #include <ros/ros.h>
+#include <ros/console.h>
 #include <moveit/planning_interface/planning_interface.h>
 
 #include <moveit/move_group_interface/move_group_interface.h>
@@ -23,23 +24,24 @@
 #include <tf2_eigen/tf2_eigen.h>
 #include <tf2_ros/transform_listener.h>
 
+/* Author: Omid Heidari
+   Desc: This file is a test for using trajopt in MoveIt. The goal is to make different types of constraints in
+   MotionPlanRequest and visualize the result calculated by using trajopt planner.
+*/
 
-
-// This file is a test for using trajopt in MoveIt. The goal is to make different types of constraints in
-// MotionPlanRequest and visualize the result calculated by using trajopt planner.
-// Three cases:
 
 int main(int argc, char** argv)
 {
-  const std::string node_name = "trajopot_planning_tutorial";
-  ros::init(argc, argv, node_name);
+  const std::string NODE_NAME = "test_trajopt";
+  ros::init(argc, argv, NODE_NAME);
   ros::AsyncSpinner spinner(1);
   spinner.start();
   ros::NodeHandle node_handle("~");
 
   const std::string PLANNING_GROUP = "panda_arm";
+  const std::string ROBOT_DESCRIPTION = "robot_description";
   robot_model_loader::RobotModelLoaderPtr robot_model_loader(
-      new robot_model_loader::RobotModelLoader("robot_description"));
+      new robot_model_loader::RobotModelLoader(ROBOT_DESCRIPTION));
   robot_model::RobotModelPtr robot_model = robot_model_loader->getModel();
 
   // Create a RobotState and JointModelGroup to keep track of the current robot pose and planning group
@@ -48,20 +50,20 @@ int main(int argc, char** argv)
 
   const robot_state::JointModelGroup* joint_model_group = current_state->getJointModelGroup(PLANNING_GROUP);
   const std::vector<std::string>& joint_names = joint_model_group->getActiveJointModelNames();
-  planning_scene::PlanningScenePtr planning_scene(new planning_scene::PlanningScene(robot_model));
 
   // With the planning scene we create a planing scene monitor
-  planning_scene_monitor::PlanningSceneMonitorPtr psm(
-      new planning_scene_monitor::PlanningSceneMonitor(planning_scene, robot_model_loader));
+  planning_scene_monitor::PlanningSceneMonitorPtr psm(new planning_scene_monitor::PlanningSceneMonitor(ROBOT_DESCRIPTION));
   psm->startPublishingPlanningScene(planning_scene_monitor::PlanningSceneMonitor::UPDATE_SCENE);
   psm->startStateMonitor();
   psm->startSceneMonitor();
 
-  // res req
+  planning_scene::PlanningScenePtr planning_scene = psm->getPlanningScene();
+
+  // Create response and request
   planning_interface::MotionPlanRequest req;
   planning_interface::MotionPlanResponse res;
 
-  // set start state
+  // Set start state
   // ======================================================================================
   // panda_arm joint limits:
   //   -2.8973  2.8973
@@ -81,7 +83,8 @@ int main(int argc, char** argv)
   req.start_state.joint_state.position = start_joint_values;
   req.goal_constraints.clear();
   req.group_name = PLANNING_GROUP;
-  // set the middle and goal state and joints tolerance
+
+  // Set the middle and goal state and joints tolerance
   // ========================================================================================
   robot_state::RobotStatePtr middle_state(new robot_state::RobotState(robot_model));
   std::vector<double> middle_joint_values = { 0.5, 0.4, 0.65, -0.75, 1.05, 1.25, -0.15 };
@@ -91,12 +94,12 @@ int main(int argc, char** argv)
       kinematic_constraints::constructGoalConstraints(*middle_state, joint_model_group);
   req.goal_constraints.push_back(joint_middle);
   req.goal_constraints[0].name = "middle_pos";
-  // set joint tolerance
+  // Set joint tolerance
   std::vector<moveit_msgs::JointConstraint> middle_joint_constraint = req.goal_constraints[0].joint_constraints;
-  for (int x = 0; x < middle_joint_constraint.size(); ++x)
+  for (std::size_t x = 0; x < middle_joint_constraint.size(); ++x)
   {
-    ROS_INFO(" ======================================= joint position at goal: %f",
-             middle_joint_constraint[x].position);
+    ROS_INFO_STREAM_NAMED(NODE_NAME, " ======================================= joint position at goal: " <<
+                           middle_joint_constraint[x].position);
     req.goal_constraints[0].joint_constraints[x].tolerance_above = 0.001;
     req.goal_constraints[0].joint_constraints[x].tolerance_below = 0.001;
   }
@@ -108,11 +111,11 @@ int main(int argc, char** argv)
   moveit_msgs::Constraints joint_goal = kinematic_constraints::constructGoalConstraints(*goal_state, joint_model_group);
   req.goal_constraints.push_back(joint_goal);
   req.goal_constraints[1].name = "goal_pos";
-  // set joint tolerance
+  // Set joint tolerance
   std::vector<moveit_msgs::JointConstraint> goal_joint_constraint = req.goal_constraints[1].joint_constraints;
-  for (int x = 0; x < goal_joint_constraint.size(); ++x)
+  for (std::size_t x = 0; x < goal_joint_constraint.size(); ++x)
   {
-    ROS_INFO(" ======================================= joint position at goal: %f", goal_joint_constraint[x].position);
+    ROS_INFO_STREAM_NAMED(NODE_NAME ," ======================================= joint position at goal: " << goal_joint_constraint[x].position);
     req.goal_constraints[1].joint_constraints[x].tolerance_above = 0.001;
     req.goal_constraints[1].joint_constraints[x].tolerance_below = 0.001;
   }
@@ -121,37 +124,35 @@ int main(int argc, char** argv)
   // ======================================================================================
   while (!psm->getStateMonitor()->haveCompleteState() && ros::ok())
   {
-    ROS_INFO_STREAM_THROTTLE_NAMED(1, node_name, "Waiting for complete state from topic ");
+    ROS_INFO_STREAM_THROTTLE_NAMED(1, NODE_NAME, "Waiting for complete state from topic ");
   }
   // We will now construct a loader to load a planner, by name.
   // Note that we are using the ROS pluginlib library here.
   boost::scoped_ptr<pluginlib::ClassLoader<planning_interface::PlannerManager>> planner_plugin_loader;
   planning_interface::PlannerManagerPtr planner_instance;
 
-  std::string planner_plugin_name;
-
-  planner_plugin_name = "trajopt_interface/TrajOptPlanner";
+  std::string planner_plugin_name = "trajopt_interface/TrajOptPlanner";
   node_handle.setParam("planning_plugin", planner_plugin_name);
 
-  // making sure to catch all exceptions.
+  // Make sure the planner plugin is loaded
   if (!node_handle.getParam("planning_plugin", planner_plugin_name))
-    ROS_FATAL_STREAM("Could not find planner plugin name");
+    ROS_FATAL_STREAM_NAMED(NODE_NAME, "Could not find planner plugin name");
   try
   {
     planner_plugin_loader.reset(new pluginlib::ClassLoader<planning_interface::PlannerManager>(
         "moveit_core", "planning_interface::PlannerManager"));
-    printf("===>>> planner_plugin_name: %s \n", planner_plugin_name.c_str());
+    ROS_INFO_STREAM_NAMED(NODE_NAME, "planner_plugin_name: " << planner_plugin_name);
   }
   catch (pluginlib::PluginlibException& ex)
   {
-    ROS_FATAL_STREAM("Exception while creating planning plugin loader " << ex.what());
+    ROS_FATAL_STREAM_NAMED(NODE_NAME, "Exception while creating planning plugin loader " << ex.what());
   }
   try
   {
     planner_instance.reset(planner_plugin_loader->createUnmanagedInstance(planner_plugin_name));
-    if (!planner_instance->initialize(robot_model, node_handle.getNamespace()))  // namespace ????. I dont use it
-      ROS_FATAL_STREAM("Could not initialize planner instance");
-    ROS_INFO_STREAM("Using planning interface '" << planner_instance->getDescription() << "'");
+    if (!planner_instance->initialize(robot_model, node_handle.getNamespace()))
+      ROS_FATAL_STREAM_NAMED(NODE_NAME, "Could not initialize planner instance");
+    ROS_INFO_STREAM_NAMED(NODE_NAME ,"Using planning interface '" << planner_instance->getDescription() << "'");
   }
   catch (pluginlib::PluginlibException& ex)
   {
@@ -159,7 +160,7 @@ int main(int argc, char** argv)
     std::stringstream ss;
     for (std::size_t i = 0; i < classes.size(); ++i)
       ss << classes[i] << " ";
-    ROS_ERROR_STREAM("Exception while loading planner '" << planner_plugin_name << "': " << ex.what() << std::endl
+    ROS_ERROR_STREAM_NAMED(NODE_NAME, "Exception while loading planner '" << planner_plugin_name << "': " << ex.what() << std::endl
                                                          << "Available plugins: " << ss.str());
   }
 
@@ -187,7 +188,7 @@ int main(int argc, char** argv)
   /* We can also use visual_tools to wait for user input */
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to start the demo");
 
-  // planning context
+  // Creat planning context
   // ========================================================================================
   planning_interface::PlanningContextPtr context =
       planner_instance->getPlanningContext(planning_scene, req, res.error_code_);
@@ -195,7 +196,7 @@ int main(int argc, char** argv)
   context->solve(res);
   if (res.error_code_.val != res.error_code_.SUCCESS)
   {
-    ROS_ERROR("Could not compute plan successfully");
+    ROS_ERROR_NAMED(NODE_NAME, "Could not compute plan successfully");
     return 0;
   }
 
@@ -228,10 +229,10 @@ int main(int argc, char** argv)
   visual_tools.trigger();
   display_publisher.publish(display_trajectory);
 
-  const std::vector<std::string>& str = joint_model_group->getLinkModelNames();
-  ROS_INFO("end effector name %s\n", str.back().c_str());
+  const std::vector<std::string>& link_model_names = joint_model_group->getLinkModelNames();
+  ROS_INFO_NAMED(NODE_NAME, "end effector name %s\n", link_model_names.back().c_str());
 
-  const Eigen::Affine3d& end_effector_transform_current = current_state->getGlobalLinkTransform(str.back());
+  const Eigen::Affine3d& end_effector_transform_current = current_state->getGlobalLinkTransform(link_model_names.back());
   geometry_msgs::PoseStamped pose_msg;
   pose_msg.header.stamp = ros::Time::now();
   pose_msg.header.frame_id = robot_model->getModelFrame();
@@ -240,7 +241,7 @@ int main(int argc, char** argv)
   visual_tools.publishAxisLabeled(pose_msg.pose, "current");
   visual_tools.publishText(text_pose, "current pose", rvt::WHITE, rvt::XLARGE);
 
-  const Eigen::Affine3d& end_effector_transform_start = start_state->getGlobalLinkTransform(str.back());
+  const Eigen::Affine3d& end_effector_transform_start = start_state->getGlobalLinkTransform(link_model_names.back());
   pose_msg.header.stamp = ros::Time::now();
   pose_msg.header.frame_id = robot_model->getModelFrame();
   pose_msg.pose = tf2::toMsg(end_effector_transform_start);
@@ -248,7 +249,7 @@ int main(int argc, char** argv)
   visual_tools.publishAxisLabeled(pose_msg.pose, "start");
   visual_tools.publishText(text_pose, "start pose", rvt::BLUE, rvt::XLARGE);
 
-  const Eigen::Affine3d& end_effector_transform_middle = middle_state->getGlobalLinkTransform(str.back());
+  const Eigen::Affine3d& end_effector_transform_middle = middle_state->getGlobalLinkTransform(link_model_names.back());
   pose_msg.header.stamp = ros::Time::now();
   pose_msg.header.frame_id = robot_model->getModelFrame();
   pose_msg.pose = tf2::toMsg(end_effector_transform_middle);
@@ -256,7 +257,7 @@ int main(int argc, char** argv)
   visual_tools.publishAxisLabeled(pose_msg.pose, "middle");
   visual_tools.publishText(text_pose, "middle pose", rvt::RED, rvt::XLARGE);
 
-  const Eigen::Affine3d& end_effector_transform_goal = goal_state->getGlobalLinkTransform(str.back());
+  const Eigen::Affine3d& end_effector_transform_goal = goal_state->getGlobalLinkTransform(link_model_names.back());
   pose_msg.header.stamp = ros::Time::now();
   pose_msg.header.frame_id = robot_model->getModelFrame();
   pose_msg.pose = tf2::toMsg(end_effector_transform_goal);

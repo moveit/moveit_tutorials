@@ -20,7 +20,7 @@
   <!-- Run Panda launch -->
   <include file="$(find panda_moveit_config)/launch/demo.launch">
     <arg name="debug" value="$(arg debug)"/>
-    <arg name="planner" value="trajopt"/>
+    <arg name="pipeline" value="trajopt"/>
   </include>
 
   <!-- Launch main node -->
