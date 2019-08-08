@@ -109,7 +109,7 @@ Parameters of the BenchmarkExecutor Class
 This class creates a set of ``MotionPlanRequests`` that respect the parameters given in the supplied instance of ``BenchmarkOptions`` and then executes the requests on each of the planners specified.  From the ``BenchmarkOptions``, queries, ``goal_constraints``, and ``trajectory_constraints`` are treated as separate queries.  If a set of ``start_states`` is specified, each query, ``goal_constraint``, and ``trajectory_constraint`` is attempted with each start state (existing start states from a query are ignored).  Similarly, the (optional) set of path constraints is combined combinatorially with the start query and start ``goal_constraint`` pairs (existing ``path_constraint`` from a query are ignored).  The workspace, if specified, overrides any existing workspace parameters.
 
 The benchmarking pipeline does not utilize ``MoveGroup``.
-Instead, the planning pipelines are initialized and run directly including all specified ``PlanningRequestAdaptors``.
+Instead, the planning pipelines are initialized and run directly including all specified ``PlanningRequestAdapters``.
 This is especially useful for benchmarking the effects of smoothing adapters.
 
 It is possible to customize a benchmark run by deriving a class from ``BenchmarkExecutor`` and overriding one or more of the virtual functions.
