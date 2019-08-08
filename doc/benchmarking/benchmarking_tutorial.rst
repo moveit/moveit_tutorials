@@ -113,6 +113,12 @@ This is especially useful for benchmarking the effects of smoothing adapters.
 
 It is possible to customize a benchmark run by deriving a class from ``BenchmarkExecutor`` and overriding one or more of the virtual functions.
 For instance, overriding the functions ``initializeBenchmarks()`` or ``loadBenchmarkQueryData()`` allows to specify the benchmark queries directly and to provide a custom planning scene without using ROS warehouse.
+An example is the custom benchmark ``CombinePredefinedPosesBenchmark`` which expects a list of predefined joint states and then creates queries for all pair-wise combinations.
+See the config file ``demo_panda_predefined_poses.yaml`` for how to configure the poses.
+You can run this example with: ::
+
+  roslaunch moveit_ros_benchmarks demo_panda_predefined_poses.launch
+
 Additionally, a set of functions exists for ease of customization in derived classes:
 
 - ``preRunEvent``: invoked immediately before each call to solve
