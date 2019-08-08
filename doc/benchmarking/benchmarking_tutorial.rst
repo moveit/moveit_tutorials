@@ -75,10 +75,9 @@ This class reads in parameters and options for the benchmarks to run from the RO
 
         start_states: [Regex for the stored start states in the warehouse to try]    # Default ""
         path_constraints: [Regex for the path constraints to benchmark]              # Default ""
-
-         queries: [Regex for the motion plan queries in the warehouse to try]        # Default .*
-         goal_constraints: [Regex for the goal constraints to benchmark]             # Default ""
-         trajectory_constraints: [Regex for the trajectory constraints to benchmark] # Default ""
+        queries: [Regex for the motion plan queries in the warehouse to try]         # Default .*
+        goal_constraints: [Regex for the goal constraints to benchmark]              # Default ""
+        trajectory_constraints: [Regex for the trajectory constraints to benchmark]  # Default ""
 
         workspace: [Bounds of the workspace the robot plans in.  This is an AABB]    # Optional
             frame_id: [The frame the workspace parameters are specified in]
