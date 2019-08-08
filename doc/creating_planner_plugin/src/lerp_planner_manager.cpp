@@ -42,7 +42,7 @@
 #include <moveit/robot_state/conversions.h>
 #include <moveit/collision_detection_fcl/collision_detector_allocator_fcl.h>
 #include <class_loader/class_loader.hpp>
-#include "lerp_planning_context.h"
+#include "lerp_interface/lerp_planning_context.h"
 
 namespace lerp_interface
 {

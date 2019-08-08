@@ -22,10 +22,10 @@
   <arg     if="$(arg valgrind)" name="launch_prefix3" value="valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all" />
 
   <!-- Launch main node -->
-  <node name="$(anon moveit_planners_lerp)" launch-prefix="$(arg launch_prefix) $(arg launch_prefix2) $(arg launch_prefix3)" pkg="moveit_planners_lerp" type="test_lerp" respawn="false" output="screen">
+  <node name="$(anon moveit_tutorials)" launch-prefix="$(arg launch_prefix) $(arg launch_prefix2) $(arg launch_prefix3)" pkg="moveit_tutorials" type="lerp_example" respawn="false" output="screen">
 
     <!-- Robot-specific settings -->
-    <rosparam file="$(find moveit_planners_lerp)/config/setup.yaml" command="load"/>
+    <rosparam file="$(find panda_moveit_config)/config/lerp_planning.yaml" command="load"/>
   </node>
 
 
