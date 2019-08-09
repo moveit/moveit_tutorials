@@ -62,31 +62,32 @@ A task is a specified complex planning problem that consists of a sequence of hi
 
 Stages
 ^^^^^^
-A stage is a low-level implementation of a high-level plannign step. The indevidual stages compute subSolutions that can **generate**,
-**propogate**, or **connect** interfacesStates. They also can combine or edit contained substages.
+A stage is a low-level implementation of a high-level planning step. The individual stages compute subsolutions that can **generate**,
+**propogate**, or **connect** `InterfaceStates`. They also can combine or edit contained substages.
 
 InterfaceState
 ^^^^^^^^^^^^^^
-This is the connector between stages. It is a snapshot of the planning scene, robot state and properties that gives that information from one stage to the other for planning.
+Stages interface each other via the InterfaceState class, which is a snapshot of the planning scene, the robot state, and some named properties.
 
 Stage Types
 ^^^^^^^^^^^
-There are three basic types of stages. In addition to **generator**, **propogator**, or **connector**, there are also **wrapper**, **serial container**, and **parallel container** stages which are ways to simplify one or more stages to one contained stage.
+There are three basic types of stages: In addition to **generator**, **propagator**, and **connector** stages,
+there exist container stages (**wrapper**, **serial**, and **parallel** container), which allow to structure the task pipeline in a hierarchical fashion.
 
 .. image:: mtc_stage_types.png
    :width: 700px
 
-**Generator:** This is a stage that generates information which is passed to the stage above and the stage bellow.
+**Generator:** This is a stage that generates information that is passed to the stages above and below.
 
-**Propogator:** This is a stage that takes information from one or both sides, modifies it and passes it along to the other side.
+**Propogator:** This stage takes information from one or both sides, modifies it, and passes it along to the opposite side.
 
-**Connector:** This stage takes information from both sides and plans a connection from one to the other.
+**Connector:** This stage takes information from both sides and plans a connecting trajectory between the robot states of both sides.
 
-**Wrapper:** This contains a single subordinate stage and modifies the output.
+**Wrapper:** Wraps a single subordinate stage and modifies its output.
 
-**Serial Container:** The stage wraps several sequential stages into one larger more complicated set of actions.
+**Serial Container:** Allows to define a sequence of subordinate task.
 
-**Parallel Container:** This stage runs several stages in parallel before choosing which substage to use the results from.
+**Parallel Container:** Allows to run several stages in parallel before choosing which substage to use the results from.
 
 The Entire Code
 ---------------
