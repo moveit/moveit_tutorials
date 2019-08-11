@@ -37,7 +37,7 @@ Building more complex applications with MoveIt often requires developers to dig 
    doc/robot_model_and_robot_state/robot_model_and_robot_state_tutorial
    doc/planning_scene/planning_scene_tutorial
    doc/planning_scene_ros_api/planning_scene_ros_api_tutorial
-   doc/creating_planner_plugin/emptyplan_planner_tutorial
+   doc/creating_moveit_plugins/plugin_tutorial
    doc/motion_planning_api/motion_planning_api_tutorial
    doc/motion_planning_pipeline/motion_planning_pipeline_tutorial
    doc/visualizing_collisions/visualizing_collisions_tutorial

@@ -39,7 +39,6 @@
 #include <moveit/planning_interface/planning_interface.h>
 #include <moveit/planning_interface/planning_response.h>
 #include <moveit/planning_scene/planning_scene.h>
-#include <moveit/robot_state/conversions.h>
 #include <moveit/collision_detection_fcl/collision_detector_allocator_fcl.h>
 #include <class_loader/class_loader.hpp>
 #include "lerp_interface/lerp_planning_context.h"
@@ -55,10 +54,6 @@ public:
 
   bool initialize(const robot_model::RobotModelConstPtr& model, const std::string& ns) override
   {
-    if (!ns.empty())
-      nh_ = ros::NodeHandle(ns);
-    std::string lerp_ns = ns.empty() ? "lerp" : ns + "/lerp";
-
     for (const std::string& gpName : model->getJointModelGroupNames())
       {
         std::cout << "group name " << gpName << std::endl
@@ -122,9 +117,6 @@ public:
 
     return context;
   }
-
-private:
-  ros::NodeHandle nh_;
 
 protected:
   std::map<std::string, LERPPlanningContextPtr> planning_contexts_;

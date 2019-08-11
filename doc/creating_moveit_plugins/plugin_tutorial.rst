@@ -1,10 +1,15 @@
-Creating Planner Plugin Template
-===============================
+Creating Moveit Plugin
+======================
+`This <http://wiki.ros.org/pluginlib>`_ gives a detailed explanantion of how to add plugins in ROS in general. The two necessary elements are base and plugin classes. The plugin class inherits from the base class and overrides its virtual functions.
+
+
+Motion Planner Plugin
+-----------------------
 In this section, we will show how to add a new motion planner to MoveIt as a plugin. This is going to be a template planner which has the basics to run as a plugin for MoveIt. It does not actually do any sort of planning but it is just a start point for adding new planners.
 
-`This <http://wiki.ros.org/pluginlib>`_ gives a detailed explanantion of how to add plugins in ROS in general. The two necessary elements are base and plugin classes. The plugin class inherits from the base class and overrides its virtual functions. In MoveIt, ``planning_interface`` is defined as the base class from which any new planner plugin should inherit. For demonstration purposes, let's call the new planner ``emptyplan``. Create a folder with this name in the src directory. The following graph shows a brief overall view of the relation between packages and classes for adding a new template planner in MoveIt.
+ In MoveIt, ``planning_interface`` is defined as the base class from which any new planner plugin should inherit. For demonstration purposes, let's call the new planner ``emptyplan``. Create a folder with this name in the src directory. The following graph shows a brief overall view of the relation between packages and classes for adding a new template planner in MoveIt.
 
-.. image:: moveit_planner_plugin.png
+.. image:: lerp_motion_planner/moveit_planner_plugin.png
 
 ``moveit_planners_emptyplan`` is the the plugin package. To make the plugin class for ``emptyplan``, create a file named ``emptyplan_planner_manager.cpp`` in src folder. In this file, ``EmptyPlanPlannerManager`` overrides the functions of ``PlannerManager`` class from ``planning_interface``. Moreover, ``PlanningContext`` is another class containing solve function where the planner solves the problem and returns the solution. However, in this tutorial we do not define this function as we only have a template planner. In the end, we need to register ``EmptyPlanPlannerManager`` class as a plugin, this is done by ``CLASS_LOADER_REGISTER_CLASS`` macro from ``class_loader``: ::
 
@@ -12,9 +17,9 @@ In this section, we will show how to add a new motion planner to MoveIt as a plu
 
 
 Export the plugin
------------------
+^^^^^^^^^^^^^^^^^
 
-First, we need to make the plugin available to the ROS Toolchin. To this end, a plugin description xml file (``emptyplan_interface_plugin_description.xml``) containing the ``library`` tag with the following options should be created: ::
+First, we need to make the plugin available to the ROS Toolchain. To this end, a plugin description xml file (``emptyplan_interface_plugin_description.xml``) containing the ``library`` tag with the following options should be created: ::
 
   <library  path="libmoveit_emptyplan_planner_plugin">
     <class name="emptyplan_interface/EmptyPlanPlanner" type="emptyplan_interface::EmptyPlanPlannerManager" base_class_type="planning_interface::PlannerManager">
@@ -32,7 +37,7 @@ Then, to export the plugin, we use the address of the above xml file and the ``e
 Note that the name of the tag, ``moveit_core``, is the same as that of the package where the base class, ``planning_interface``, lives in.
 
 Check the plugin
------------------
+^^^^^^^^^^^^^^^^
 With the following command, one can verify if the new plugin is created and exported correctly or not: ::
 
   rospack plugins --attrib=plugin moveit_core
