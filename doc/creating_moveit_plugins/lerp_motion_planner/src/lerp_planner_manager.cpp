@@ -108,7 +108,7 @@ public:
 
     // retrieve and configure existing context
     const LERPPlanningContextPtr& context = planning_contexts_.at(req.group_name);
-    std::cout << "===>>> context is made " << std::endl;
+    ROS_INFO_STREAM_NAMED("lerp_planner_manager", "===>>> context is made ");
 
     context->setPlanningScene(ps);
     context->setMotionPlanRequest(req);

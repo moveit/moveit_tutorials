@@ -17,4 +17,4 @@ If you haven't already done so, make sure you've completed the steps in `Getting
 Creating a constraint sampler
 -----------------------------
 
-A plugin example is provided in ...
+A plugin example is provided at `Creating MoveIt Plugins <../creating_moveit_plugins/plugin_tutorial.html>`_.

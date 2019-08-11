@@ -84,7 +84,7 @@ int main(int argc, char** argv)
                                                          << "Available plugins: " << ss.str());
   }
 
-  // ================================ Visualization
+  // ================================ Visualization tools
   namespace rvt = rviz_visual_tools;
   moveit_visual_tools::MoveItVisualTools visual_tools("panda_link0", rviz_visual_tools::RVIZ_MARKER_TOPIC, psm);
   visual_tools.loadRobotStatePub("/display_robot_state");
@@ -111,17 +111,18 @@ int main(int argc, char** argv)
   planning_interface::MotionPlanResponse res;
   req.group_name = PLANNING_GROUP;
 
+  // Get the joint values of the start state and set them in request.start_state
+  std::vector<double> start_joint_values;
+  robot_state->copyJointGroupPositions(joint_model_group, start_joint_values);
+  req.start_state.joint_state.position = start_joint_values;
+
+  // Goal constraint
   robot_state::RobotState goal_state(robot_model);
   std::vector<double> joint_values = { 0.8, 0.7, 1, 1.3, 1.9, 2.2, 3 };
   goal_state.setJointGroupPositions(joint_model_group, joint_values);
   moveit_msgs::Constraints joint_goal = kinematic_constraints::constructGoalConstraints(goal_state, joint_model_group);
   req.goal_constraints.clear();
   req.goal_constraints.push_back(joint_goal);
-
-  // get the joint values of the start state
-  std::vector<double> start_joint_values;
-  robot_state->copyJointGroupPositions(joint_model_group, start_joint_values);
-  req.start_state.joint_state.position = start_joint_values;
 
   // ================================ planning context
   planning_interface::PlanningContextPtr context =
@@ -134,9 +135,9 @@ int main(int argc, char** argv)
     return 0;
   }
 
-  moveit_msgs::MotionPlanResponse message;
-  res.getMessage(message);
-  moveit_msgs::RobotTrajectory solution_traj = message.trajectory;
+  moveit_msgs::MotionPlanResponse response;
+  res.getMessage(response);
+  moveit_msgs::RobotTrajectory solution_traj = response.trajectory;
 
   int number_of_steps = solution_traj.joint_trajectory.points.size();
   printf("numner of timesteps in the solution trajectory: %i" , number_of_steps);
@@ -156,9 +157,6 @@ int main(int argc, char** argv)
   ros::Publisher display_publisher =
   node_handle.advertise<moveit_msgs::DisplayTrajectory>("/move_group/display_planned_path", 1, true);
   moveit_msgs::DisplayTrajectory display_trajectory;
-
-  moveit_msgs::MotionPlanResponse response;
-  res.getMessage(response);
 
   display_trajectory.trajectory_start = response.trajectory_start;
   display_trajectory.trajectory.push_back(response.trajectory);
