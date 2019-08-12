@@ -58,7 +58,7 @@ In this subsection, we explain how to load and use the lerp planner that we have
   const std::vector<std::string>& joint_names = joint_model_group->getVariableNames();
   planning_scene::PlanningScenePtr planning_scene(new planning_scene::PlanningScene(robot_model));
 
-The next step is to load the planner using pluinglib nad set the parameter ``planner_plugin_name`` to the one that we have created: ::
+The next step is to load the planner using pluinglib and set the parameter ``planner_plugin_name`` to the one that we have created: ::
 
     boost::scoped_ptr<pluginlib::ClassLoader<planning_interface::PlannerManager>> planner_plugin_loader;
     planning_interface::PlannerManagerPtr planner_instance;
@@ -84,7 +84,7 @@ So far, we have loaded the planner and created the start and goal state for the 
 
     planning_interface::PlanningContextPtr context = planner_instance->getPlanningContext(planning_scene, req, res.error_code_);
 
-Finally, to run this node, we need to roslaunch lerp_example.launch in launch folder. This launch file launches the ``demo.launch`` of package ``panda_moveit_config`` by passing ``lepr`` as the name of the planner. Then, ``lerp_example`` gets launched and ``lerp_planning.yaml`` is loaded to set the lerp-specfic parameters to ROS Parameter Server.
+Finally, to run this node, we need to roslaunch lerp_example.launch in launch folder. This launch file launches the ``demo.launch`` of package ``panda_moveit_config`` by passing ``lerp`` as the name of the planner. Then, ``lerp_example`` gets launched and ``lerp_planning.yaml`` is loaded to set the lerp-specfic parameters to ROS Parameter Server.
 
 Example Controller Manager
 --------------------------
