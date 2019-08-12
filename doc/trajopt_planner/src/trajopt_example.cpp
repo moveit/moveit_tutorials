@@ -11,13 +11,13 @@
 
 #include <moveit/planning_scene_monitor/planning_scene_monitor.h>
 #include <moveit/kinematic_constraints/utils.h>
-#include <moveit_msgs/DisplayTrajectory.h>
-#include <moveit_msgs/PlanningScene.h>
 #include <moveit_visual_tools/moveit_visual_tools.h>
 #include "moveit/planning_interface/planning_request.h"
-
 #include <moveit/robot_model/robot_model.h>
 #include <moveit/robot_state/robot_state.h>
+
+#include <moveit_msgs/DisplayTrajectory.h>
+#include <moveit_msgs/PlanningScene.h>
 
 #include <geometry_msgs/TransformStamped.h>
 #include <tf2/utils.h>
@@ -31,7 +31,7 @@
 
 int main(int argc, char** argv)
 {
-  const std::string NODE_NAME = "test_trajopt";
+  const std::string NODE_NAME = "trajopt_example";
   ros::init(argc, argv, NODE_NAME);
   ros::AsyncSpinner spinner(1);
   spinner.start();
