@@ -15,7 +15,7 @@ MoveIt IKFast
 MoveIt provides tools to generate an IKFast kinematics plugin for MoveIt using the OpenRAVE generated cpp files.
 This tutorial will step you through setting up your robot to utilize the power of IKFast.
 MoveIt IKFast is tested on ROS Melodic with a 6DOF and 7DOF robot arm manipulator.
-While it works in theory, MoveIt IKFast doesn't support >7 degree of freedom arms.
+While it works in theory, MoveIt IKFast doesn't currently support >7 degree of freedom arms.
 
 Getting Started
 -----------------
@@ -58,10 +58,10 @@ Creating the IKFast MoveIt plugin
 
 To facilitate copy-and-paste, we suggest to define the robot name as an environment variable: ::
 
-  export MYROBOT_NAME="panda"
+  export MYROBOT_NAME="panda_arm"
 
 OpenRAVE uses Collada instead of URDF to describe the robot. In order to automatically convert your robot's URDF to Collada, you need to provide the .urdf file.
-If your .urdf file is generated from `xacro <http://wiki.ros.org/xacro/>`_ files you can generate the urdf using the following command: ::
+If your .urdf file is generated from `xacro <http://wiki.ros.org/xacro/>`_ files, you can generate the URDF using the following command: ::
 
   rosrun xacro xacro -o $MYROBOT_NAME.urdf $MYROBOT_NAME.urdf.xacro
 
@@ -107,7 +107,7 @@ Use the MoveIt RViz Motion Planning Plugin and use the interactive markers to se
 Updating the Plugin
 -------------------
 
-If any future changes occur with MoveIt! or IKFast, you might need to re-generate this plugin using our scripts. To facilitate this, a bash script was automatically created in the root of your IKFast MoveIt package, named *update_ikfast_plugin.sh*. This regenerates the plugin from the OpenRAVE-generated .cpp solver file.
+If any future changes occur with MoveIt or IKFast, you might need to re-generate this plugin using our scripts. To facilitate this, a bash script was automatically created in the root of your IKFast MoveIt package, named *update_ikfast_plugin.sh*. This regenerates the plugin from the OpenRAVE-generated .cpp solver file.
 
 Tweaking the creation process
 -----------------------------
