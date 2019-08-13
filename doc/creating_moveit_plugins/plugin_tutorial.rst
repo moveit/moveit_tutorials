@@ -1,10 +1,10 @@
 Creating Moveit Plugins
-======================
+========================
 `This Page <http://wiki.ros.org/pluginlib>`_ gives a detailed explanantion of how to add plugins in ROS in general. The two necessary elements are base and plugin classes. The plugin class inherits from the base class and overrides its virtual functions. The main library used for this purpose in pluginlib. This tutorials contains three different types of plugins, namely, motion planner, controller manager and constriant sampler plugin.
 
 
 Motion Planner Plugin
------------------------
+----------------------
 In this section, we will show how to add a new motion planner to MoveIt as a plugin. The base class in MoveIt is ``planning_interface`` from  which any new planner plugin should inherit. For domonstration purposes, a linear interpolation planner (lerp) which plans the motion between two states in joint space is created. This planner could be used as a start point for adding any new planner as it contains the neccessary basics. The following graph shows a brief overall view of the relation between classes for adding a new planner in MoveIt.
 
 .. image:: lerp_motion_planner/lerp_planner.png
@@ -19,7 +19,7 @@ Moreover, ``PlannerConfigurationSettings`` could be used to pass the planner-spe
 
 
 Export the plugin
-^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^
 
 First, we need to make the plugin available to the ROS Toolchain. To this end, a plugin description xml file (``emptyplan_interface_plugin_description.xml``) containing the ``library`` tag with the following options should be created: ::
 
@@ -39,7 +39,7 @@ Then, to export the plugin, we use the address of the above xml file and the ``e
 Note that the name of the tag, ``moveit_core``, is the same as that of the package where the base class, ``planning_interface``, lives in.
 
 Check the plugin
-^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^
 With the following command, one can verify if the new plugin is created and exported correctly or not: ::
 
   rospack plugins --attrib=plugin moveit_core
@@ -49,7 +49,7 @@ The result should containt ``moveit_planners_lerp`` with the address of the plug
   moveit_tutorials <ros_workspace>/src/moveit_tutorials/creating_moveit_plugins/lerp_motion_planner/lerp_interface_plugin_description.xml
 
 Plugin usage
-^^^^^^^^^^^^
+^^^^^^^^^^^^^
 
 In this subsection, we explain how to load and use the lerp planner that we have created previously. To this end, a ros node called ``lerp_example.cpp`` is created. The first step is to get the state and  group of joints of the robot that are related to the requested planning group as well as the planning scene by the following lines of code: ::
 
@@ -87,7 +87,7 @@ So far, we have loaded the planner and created the start and goal state for the 
 Finally, to run this node, we need to roslaunch lerp_example.launch in launch folder. This launch file launches the ``demo.launch`` of package ``panda_moveit_config`` by passing ``lerp`` as the name of the planner. Then, ``lerp_example`` gets launched and ``lerp_planning.yaml`` is loaded to set the lerp-specfic parameters to ROS Parameter Server.
 
 Example Controller Manager
---------------------------
+---------------------------
 
 MoveIt controller managers, somewhat a misnomer, are the interfaces to your custom low level controllers. A better way to think of them are *controler interfaces*. For most use cases, the included :moveit_codedir:`MoveItSimpleControllerManager <moveit_plugins/moveit_simple_controller_manager>` is sufficient if your robot controllers already provide ROS actions for FollowJointTrajectory. If you use *ros_control*, the included :moveit_codedir:`MoveItRosControlInterface <moveit_plugins/moveit_ros_control_interface>` is also ideal.
 
@@ -95,7 +95,7 @@ However, for some applications you might desire a more custom controller manager
 
 
 Creating a constraint sampler
------------------------------
+------------------------------
 
 * Create a ``ROBOT_moveit_plugins`` package and within that a sub-folder for your ``ROBOT_constraint_sampler`` plugin. Modify the template provided by ``ROBOT_moveit_plugins/ROBOT_moveit_constraint_sampler_plugin``
 * In your ``ROBOT_moveit_config/launch/move_group.launch`` file, within the ``<node name="move_group">``, add the parameter: ::

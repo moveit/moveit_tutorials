@@ -32,10 +32,10 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *********************************************************************/
 
-/* Author: Omid Heidari */
-
-#ifndef TRAJOPT_INTERFACE_TRAJOPT_INTERFACE_H
-#define TRAJOPT_INTERFACE_TRAJOPT_INTERFACE_H
+/* Author: Omid Heidari
+   Desc: LERP planner which is a linear interpolation algorithm in joint space.
+ */
+#pragma once
 
 #include <ros/ros.h>
 #include <moveit/planning_interface/planning_interface.h>
@@ -60,4 +60,3 @@ protected:
 
 }
 
-#endif
