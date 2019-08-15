@@ -12,10 +12,9 @@ MOVEIT_CLASS_FORWARD(LERPPlanningContext);
 class LERPPlanningContext : public planning_interface::PlanningContext
 {
 public:
-
   LERPPlanningContext(const std::string& name, const std::string& group, const robot_model::RobotModelConstPtr& model);
-  ~LERPPlanningContext() override{
-
+  ~LERPPlanningContext() override
+  {
   }
 
   bool solve(planning_interface::MotionPlanResponse& res) override;
@@ -30,6 +29,6 @@ private:
   LERPInterfacePtr lerp_interface_;
 };
 
-} // namespace lerp_interface
+}  // namespace lerp_interface
 
-#endif // LERP_PLANNING_CONTEXT_H
+#endif  // LERP_PLANNING_CONTEXT_H

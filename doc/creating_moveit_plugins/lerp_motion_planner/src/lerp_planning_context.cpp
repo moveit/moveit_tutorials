@@ -44,14 +44,12 @@
 
 namespace lerp_interface
 {
-
 LERPPlanningContext::LERPPlanningContext(const std::string& context_name, const std::string& group_name,
-                                               const robot_model::RobotModelConstPtr& model)
+                                         const robot_model::RobotModelConstPtr& model)
   : planning_interface::PlanningContext(context_name, group_name), robot_model_(model)
 {
   lerp_interface_ = LERPInterfacePtr(new LERPInterface());
 }
-
 
 bool LERPPlanningContext::solve(planning_interface::MotionPlanDetailedResponse& res)
 {
@@ -83,7 +81,6 @@ bool LERPPlanningContext::solve(planning_interface::MotionPlanDetailedResponse& 
   return true;
 };
 
-
 bool LERPPlanningContext::solve(planning_interface::MotionPlanResponse& res)
 {
   planning_interface::MotionPlanDetailedResponse res_detailed;
@@ -108,4 +105,4 @@ void LERPPlanningContext::clear()
 {
 }
 
-} // namespace lerp_interface
+}  // namespace lerp_interface

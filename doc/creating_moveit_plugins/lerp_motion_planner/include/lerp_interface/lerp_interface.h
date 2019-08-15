@@ -57,6 +57,4 @@ protected:
   std::string name_;
   int num_steps_;
 };
-
 }
-

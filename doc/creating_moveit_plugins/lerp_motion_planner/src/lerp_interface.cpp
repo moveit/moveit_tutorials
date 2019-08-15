@@ -56,8 +56,8 @@ LERPInterface::LERPInterface(const ros::NodeHandle& nh) : nh_(nh), name_("LERPIn
 }
 
 bool LERPInterface::solve(const planning_scene::PlanningSceneConstPtr& planning_scene,
-                             const planning_interface::MotionPlanRequest& req,
-                             moveit_msgs::MotionPlanDetailedResponse& res)
+                          const planning_interface::MotionPlanRequest& req,
+                          moveit_msgs::MotionPlanDetailedResponse& res)
 {
   // Load the planner-specific parameters
   nh_.getParam("num_steps", num_steps_);
@@ -70,7 +70,8 @@ bool LERPInterface::solve(const planning_scene::PlanningSceneConstPtr& planning_
   std::vector<std::string> joint_names = joint_model_group->getVariableNames();
   int dof = joint_names.size();
   std::vector<double> start_joint_values;
-  start_state->copyJointGroupPositions(joint_model_group, start_joint_values); ; //req.start_state.joint_state.position;
+  start_state->copyJointGroupPositions(joint_model_group, start_joint_values);
+  ;  // req.start_state.joint_state.position;
 
   // This planner only supports one goal constriant in the request
   std::vector<moveit_msgs::Constraints> goal_constraints = req.goal_constraints;
@@ -87,28 +88,30 @@ bool LERPInterface::solve(const planning_scene::PlanningSceneConstPtr& planning_
   joint_trajectory.points.resize(num_steps_ + 1);
 
   std::vector<double> dt_vector;
-  for (int joint_index = 0; joint_index < dof; ++joint_index){
-    double dt = ( goal_joint_values[joint_index] - start_joint_values[joint_index] ) / num_steps_;
+  for (int joint_index = 0; joint_index < dof; ++joint_index)
+  {
+    double dt = (goal_joint_values[joint_index] - start_joint_values[joint_index]) / num_steps_;
     dt_vector.push_back(dt);
   }
 
   robot_state::RobotStatePtr robot_state(start_state);
-  for (int step = 0; step <= num_steps_ ; ++step)
+  for (int step = 0; step <= num_steps_; ++step)
+  {
+    std::vector<double> joint_values;
+    for (int k = 0; k < dof; ++k)
     {
-      std::vector<double> joint_values;
-      for (int k = 0; k < dof; ++k){
-        double joint_value = start_joint_values[k] + step * dt_vector[k];
-        joint_values.push_back(joint_value);
-      }
-      robot_state->setJointGroupPositions(joint_model_group, joint_values);
-      robot_state->update();
-
-      if(!planning_scene->isStateValid(*robot_state, req.group_name, false))
-        ROS_FATAL_STREAM_NAMED(name_, "robot is in collision at step: " << step);
-
-      joint_trajectory.joint_names = joint_names;
-      joint_trajectory.points[step].positions = joint_values;
+      double joint_value = start_joint_values[k] + step * dt_vector[k];
+      joint_values.push_back(joint_value);
     }
+    robot_state->setJointGroupPositions(joint_model_group, joint_values);
+    robot_state->update();
+
+    if (!planning_scene->isStateValid(*robot_state, req.group_name, false))
+      ROS_FATAL_STREAM_NAMED(name_, "robot is in collision at step: " << step);
+
+    joint_trajectory.joint_names = joint_names;
+    joint_trajectory.points[step].positions = joint_values;
+  }
 
   // ==================== feed the response
   res.trajectory.resize(1);

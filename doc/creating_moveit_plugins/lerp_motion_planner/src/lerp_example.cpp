@@ -64,7 +64,8 @@ int main(int argc, char** argv)
   ros::NodeHandle node_handle("~");
 
   const std::string PLANNING_GROUP = "panda_arm";
-  robot_model_loader::RobotModelLoaderPtr robot_model_loader(new robot_model_loader::RobotModelLoader("robot_description"));
+  robot_model_loader::RobotModelLoaderPtr robot_model_loader(
+      new robot_model_loader::RobotModelLoader("robot_description"));
   robot_model::RobotModelPtr robot_model = robot_model_loader->getModel();
 
   /* Create a RobotState and JointModelGroup to keep track of the current robot pose and planning group*/
@@ -82,14 +83,14 @@ int main(int argc, char** argv)
   psm->startSceneMonitor();
 
   while (!psm->getStateMonitor()->haveCompleteState() && ros::ok())
-    {
-      ROS_INFO_STREAM_THROTTLE_NAMED(1, NODE_NAME, "Waiting for complete state from topic ");
-    }
+  {
+    ROS_INFO_STREAM_THROTTLE_NAMED(1, NODE_NAME, "Waiting for complete state from topic ");
+  }
 
   // Load a planner
   boost::scoped_ptr<pluginlib::ClassLoader<planning_interface::PlannerManager>> planner_plugin_loader;
   planning_interface::PlannerManagerPtr planner_instance;
-  std::string planner_plugin_name =  "lerp_interface/LERPPlanner";
+  std::string planner_plugin_name = "lerp_interface/LERPPlanner";
   node_handle.setParam("planning_plugin", planner_plugin_name);
 
   // Make sure the planner is loaded
@@ -178,22 +179,23 @@ int main(int argc, char** argv)
   moveit_msgs::RobotTrajectory solution_traj = response.trajectory;
 
   int number_of_steps = solution_traj.joint_trajectory.points.size();
-  printf("numner of timesteps in the solution trajectory: %i" , number_of_steps);
+  printf("numner of timesteps in the solution trajectory: %i", number_of_steps);
 
-  for (int w = 0; w < number_of_steps; ++w){
-      std::vector<double> vec;
-      vec = solution_traj.joint_trajectory.points[w].positions;
-      std::stringstream sst;
-      for (int i = 0; i < vec.size(); ++i)
-        {
-          sst << vec[i] << " ";
-        }
-      ROS_INFO_STREAM_NAMED(NODE_NAME, sst.str());
+  for (int w = 0; w < number_of_steps; ++w)
+  {
+    std::vector<double> vec;
+    vec = solution_traj.joint_trajectory.points[w].positions;
+    std::stringstream sst;
+    for (int i = 0; i < vec.size(); ++i)
+    {
+      sst << vec[i] << " ";
+    }
+    ROS_INFO_STREAM_NAMED(NODE_NAME, sst.str());
   }
 
   // ================================ Visualize the trajectory
   ros::Publisher display_publisher =
-  node_handle.advertise<moveit_msgs::DisplayTrajectory>("/move_group/display_planned_path", 1, true);
+      node_handle.advertise<moveit_msgs::DisplayTrajectory>("/move_group/display_planned_path", 1, true);
   moveit_msgs::DisplayTrajectory display_trajectory;
 
   display_trajectory.trajectory_start = response.trajectory_start;
@@ -204,5 +206,4 @@ int main(int argc, char** argv)
 
   /* We can also use visual_tools to wait for user input */
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
-
 }
