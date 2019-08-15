@@ -50,29 +50,29 @@ How TrajOpt works
 -----------------
 Motion planning problem in TrajOpt is defined by a set of cost (COST) and constraints (CNT) functions that are added to ``TrajOptProblem`` through ``ConstructProblem`` function. This function gets the information regarding to the problem (``ProblemInfo``) which carries different types of information explained below:
 
-* **BasicInfo**: This type holds general information of the optimization aglorithm such as *n_steps* (number of steps from start to goal), *convex_solver* (which convex solver is to be used), *use_time* (with false value, it means that the timestep is unit, x1-x0 is the velocity) and *start_fixed* (with true, it means a constraint for the current joint value is added). These parameters are further investigated in the following section.
-|
-* **InitInfo**: It defines how to initialize the optimization problem by setting a guessed trajectory in a matrix whose number of rows is the same as number of timestpes and whose number of columns is equal to the degrees of freedom. There are three different types for initialization:
+- **BasicInfo**: This type holds general information of the optimization aglorithm such as *n_steps* (number of steps from start to goal), *convex_solver* (which convex solver is to be used), *use_time* (with false value, it means that the timestep is unit, x1-x0 is the velocity) and *start_fixed* (with true, it means a constraint for the current joint value is added). These parameters are further investigated in the following section.
 
-  *STATIONARY*: the initialization matrix has joint values of the current state for all timestpes.
+- **InitInfo**: It defines how to initialize the optimization problem by setting a guessed trajectory in a matrix whose number of rows is the same as number of timestpes and whose number of columns is equal to the degrees of freedom. There are three different types for initialization:
 
-  *JOINT_INTERPOLATED*: the initialization matrix is a trajectory interpolated between the current state and the joint state that the user provides for ``data`` member.
+  - *STATIONARY*: the initialization matrix has joint values of the current state for all timestpes.
 
-  *GIVEN_TRAJ*: the user provides the entire trajectory for ``data`` member.
-|
-* **TermInfo**: This is the base struct for all types of COST and CNT functions that are carried by ``cost_infos`` and ``cnt_infos`` members. COST functions are the objectives that are supposed to be minimized and CNT are the ones that must be satisfied. The current implementation containts ``JointPoseTermInfo``, ``JointVelTermInfo`` (hard-coded) and ``CartPoseTermInfo`` (is partially implemented). Member *term_type* dictates the type of the term we are adding; it could be ``TT_COST`` or ``TT_CNT`` which means a cost term or constraint term respectively. Also ``TT_USE_TIME`` can be selected for this member which allows time parameterization. In this case *use_time* of ``BasicInfo`` should be set to ``true`` as well.  The other parameters of these terms which need to be set are loaded from ``trajopt_planning.yaml`` file. The following list describes these parametrs:
+  - *JOINT_INTERPOLATED*: the initialization matrix is a trajectory interpolated between the current state and the joint state that the user provides for ``data`` member.
 
-  *coeffs*: weight coefficients for joints
+  - *GIVEN_TRAJ*: the user provides the entire trajectory for ``data`` member.
 
-  *targets*: the values of the joints at the constraint
+- **TermInfo**: This is the base struct for all types of COST and CNT functions that are carried by ``cost_infos`` and ``cnt_infos`` members. COST functions are the objectives that are supposed to be minimized and CNT are the ones that must be satisfied. The current implementation containts ``JointPoseTermInfo``, ``JointVelTermInfo`` (hard-coded) and ``CartPoseTermInfo`` (is partially implemented). Member *term_type* dictates the type of the term we are adding; it could be ``TT_COST`` or ``TT_CNT`` which means a cost term or constraint term respectively. Also ``TT_USE_TIME`` can be selected for this member which allows time parameterization. In this case *use_time* of ``BasicInfo`` should be set to ``true`` as well.  The other parameters of these terms which need to be set are loaded from ``trajopt_planning.yaml`` file. The following list describes these parametrs:
 
-  *upper_tols*: the upper limits for joint values at the constraint.
+  - *coeffs*: weight coefficients for joints
 
-  *lower_tols*: the lower limits for joint values at the constraint.
+  - *targets*: the values of the joints at the constraint
 
-  *first_step*: the first step that is the term is applied to.
+  - *upper_tols*: the upper limits for joint values at the constraint.
 
-  *last_step*: the last step that is the term is applied to.
+  - *lower_tols*: the lower limits for joint values at the constraint.
+
+  - *first_step*: the first step that is the term is applied to.
+
+  - *last_step*: the last step that is the term is applied to.
 
 Moreover, the algorithm needs parameters specific to ``BasicTrustRegionSQP`` which are defined in a yaml file under *trajopt_param*.
 
