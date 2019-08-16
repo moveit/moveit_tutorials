@@ -24,7 +24,7 @@ The bold italic parameters are the ones loaded from yaml file. All the constrain
 
 One important part of TrajOpt is how the obstacle avoidance constraint is formulated. In discrete case, the constraint is basically the difference between the signed distance (between robot link with itself or with obstacles) and a safe value and in the continuous case, the signed distance is between convex hull of two waypoints and obstacles.
 
-**Note:** The current implementation of trajopt in MoveIt supports constraints in joint space only.
+**Note:** The current implementation of TrajOpt supports constraints in joint space only.
 
 Getting Started
 ---------------
