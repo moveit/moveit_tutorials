@@ -1,6 +1,6 @@
 TrajOpt Planner
 ===============
-TrajOpt is a sequential convex optimization algorithm for motion planning problem where the non-convex and non-affine equality and non-equality constraints are relaxed, approximately linearized and convexified to create an objective function. This work has been done based on [schulman2013]_ and the `original implementation <https://github.com/ros-industrial-consortium/trajopt_ros>`_. Sequential convex programming, simply refers to using a convex model and repeatedly minimizing it. Consider the following non-convex problem:
+TrajOpt is a sequential convex optimization algorithm for motion planning problems where the non-convex, non-affine equality, and non-equality constraints are relaxed, approximately linearized and convexified to create an objective function. This work has been done based on [schulman2013]_ and the `original implementation <https://github.com/ros-industrial-consortium/trajopt_ros>`_. Sequential convex programming, simply refers to using a convex model and repeatedly minimizing it. Consider the following non-convex problem:
 
 .. image:: non_convex.png
    :width: 220px
