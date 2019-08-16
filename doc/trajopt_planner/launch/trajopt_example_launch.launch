@@ -17,12 +17,6 @@
   <arg unless="$(arg valgrind)" name="launch_prefix3" value="" />
   <arg     if="$(arg valgrind)" name="launch_prefix3" value="valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all" />
 
-  <!-- Run Panda launch -->
-  <include file="$(find panda_moveit_config)/launch/demo.launch">
-    <arg name="debug" value="$(arg debug)"/>
-    <arg name="pipeline" value="trajopt"/>
-  </include>
-
   <!-- Launch main node -->
   <node name="trajopt_example" pkg="moveit_tutorials" type="trajopt_example" respawn="false" output="screen">
     <rosparam command="load" file="$(find panda_moveit_config)/config/trajopt_planning.yaml"/>

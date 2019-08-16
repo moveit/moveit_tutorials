@@ -40,11 +40,13 @@ To use TrajOpt with your robot you must already have a MoveIt configuration pack
 
 Running the Demo
 ----------------
-If you have the ``panda_moveit_config`` from the `ros-planning/panda_moveit_config <https://github.com/ros-planning/panda_moveit_config>`_ repository you should be able to simply run the example: ::
+To run the example, you need to run ``panda_moveit_config`` from the `ros-planning/panda_moveit_config <https://github.com/ros-planning/panda_moveit_config>`_ repository at first by passing ``trajopt`` as the planner: ::
+
+  roslaunch panda_moveit_config demo.launch  pipeline:=trajopt
+
+Then you can run the trajopt example from `ros-planning/moveit_tutorials <https://github.com/ros-planning/moveit_tutorials>`_: ::
 
   roslaunch moveit_tutorials trajopt_example_launch.launch
-
-This will run ``demo.launch`` from ``panda_moveit_config`` with passing ``trajopt`` for ``pipeline`` argument as the planner and runs the ``trajopt_example`` node.
 
 How TrajOpt works
 -----------------
@@ -70,13 +72,13 @@ Motion planning problem in TrajOpt is defined by a set of cost (COST) and constr
 
   - *targets*: the values of the joints at the constraint
 
-  - *upper_tols*: the upper limits for joint values at the constraint.
+  - *upper_tols*: the upper limits for joint values at the constraint
 
-  - *lower_tols*: the lower limits for joint values at the constraint.
+  - *lower_tols*: the lower limits for joint values at the constraint
 
-  - *first_step*: the first step that is the term is applied to.
+  - *first_step*: the first step that is the term is applied to
 
-  - *last_step*: the last step that is the term is applied to.
+  - *last_step*: the last step that is the term is applied to
 
 Moreover, the algorithm needs parameters specific to ``BasicTrustRegionSQP`` which are defined in a yaml file under *trajopt_param*.
 
