@@ -1,7 +1,7 @@
 Arm Jogging in Real-Time
 ========================
 
-This tutorial shows how to send real-time jogging commands to a ROS-enabled robot. Some nice features of the jogger are singularity handling and collision checking that prevents operator from breaking the robot.
+This tutorial shows how to send real-time jogging commands to a ROS-enabled robot. Some nice features of the jogger are singularity handling and collision checking that prevents the operator from breaking the robot.
 
 .. raw:: html
 
@@ -13,6 +13,75 @@ This tutorial shows how to send real-time jogging commands to a ROS-enabled robo
         height="385">
       </embed>
     </object>
+
+Getting Started
+---------------
+This tutorial tests the jogger with a UR5 Gazebo simulation. If you haven't already done so, make sure you've completed the steps in `Getting Started <../getting_started/getting_started.html>`_.
+
+Clone `universal_robot melodic-devel branch <https://github.com/ros-industrial/universal_robot.git>`_ into the same catkin workspace from `Getting Started`:
+
+    cd ~/ws_moveit/src
+
+    git clone -b melodic-devel https://github.com/ros-industrial/universal_robot
+
+Install any new dependencies that may be missing: ::
+
+    rosdep install -y --from-paths . --ignore-src --rosdistro $ROS_DISTRO
+
+Re-build and re-source the workspace. ::
+
+    cd ~/ws_moveit/
+
+    catkin build && \
+
+    source devel/setup.bash
+
+Run `rosdep install` from the `src` folder to install dependencies.
+
+    rosdep install --from-paths . --ignore-src -y
+
+Launch the Gazebo simulation:
+
+    roslaunch ur_gazebo ur5.launch
+
+    roslaunch ur5_moveit_config ur5_moveit_planning_execution.launch sim:=true
+
+    roslaunch ur5_moveit_config moveit_rviz.launch config:=true
+
+In RViz, grab the red/blue/green "interactive marker" and drag the robot to a non-singular position (not all zero joint angles) that is not close to a joint limit. Click "plan and execute" to move the robot to that pose.
+
+Switch to a compatible type of `ros-control` controller. It should be a `JointGroupVelocityController` or a `JointGroupPositionController`, not a trajectory controller like MoveIt usually requires.
+
+```sh
+rosservice call /controller_manager/switch_controller "start_controllers:
+- 'joint_group_position_controller'
+stop_controllers:
+- 'arm_controller'
+strictness: 2"
+```
+
+Launch the jog node. This example uses commands from a `SpaceNavigator <https://www.google.com/search?client=ubuntu&channel=fs&q=amazon+buy+spacenavigator&ie=utf-8&oe=utf-8>`_ joystick-like device:
+
+    roslaunch jog_arm spacenav_cpp.launch
+
+If you do not have a SpaceNav 3D mouse, you can publish example jogging commands from the command line with:
+
+```sh
+rostopic pub -r 100 /jog_arm_server/delta_jog_cmds geometry_msgs/TwistStamped "header: auto
+twist:
+  linear:
+    x: 0.0
+    y: 0.01
+    z: -0.01
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.0"
+```
+
+Settings
+--------
+User-configurable settings of the jog node are well-documented in ``jog_arm/config/ur_simulated_config.yaml``.
 
 Robot Requirements
 ------------------
@@ -29,51 +98,6 @@ And switch to the desired controller with: ::
 Jogging may work on other robots that have a different control scheme but there is no guarantee. It has been tested heavily on UR robots using the [ur_modern_driver](https://github.com/ros-industrial/ur_modern_driver). The jogger currently does not limit joint jerk so may not be compatible with most heavy industrial robots.
 
 The jogger can publish ``trajectory_msgs/JointTrajectory`` or ``std_msgs/Float64MultiArray`` message types. This is configured in a yaml file (see ``config/sia5_simulated_config.yaml`` for an example).
-
-Getting Started
----------------
-If you haven't already done so, make sure you've completed the steps in `Getting Started <../getting_started/getting_started.html>`_.
-
-You can test the jogger with a `Gazebo simulation <https://github.com/UTNuclearRoboticsPublic/motoman_project>`_. Gazebo is necessary because it provides ros\_control controllers. Install dependencies:
-
-.. code-block:: bash
-
-    sudo apt install ros-melodic-control* ros-melodic-gazebo-ros-control* ros-melodic-joint-state-controller ros-melodic-position-controllers ros-melodic-joint-trajectory-controller ros-melodic-movei*
-
-    Clone the repo into the same catkin workspace from `Getting Started`. Then build the workspace with ``catkin build`` and re-source your setup files (e.g. ``source ~/catkin_ws/devel/setup.bash``).
-
-Launch the Gazebo simulation:
-
-.. code-block:: bash
-
-  roslaunch motoman_gazebo sia5_gazebo_nishida_lab.launch
-
-  roslaunch motoman_moveit sia5_gazebo_nishida_lab_moveit_planning_execution.launch
-
-Move the arm to a non-singular (non zero joint values) configuration then launch the jogger:
-
-.. code-block:: bash
-
-  roslaunch moveit_experimental spacenav_cpp.launch
-
-You can publish example jogging commands with:
-
-.. code-block:: bash
-
-	rostopic pub -r 100 /jog_arm_server/delta_jog_cmds geometry_msgs/TwistStamped "header: auto
-	twist:
-	  linear:
-	    x: 0.0
-	    y: -1.0
-	    z: 1.0
-	  angular:
-	    x: 0.0
-	    y: 0.0
-	    z: 0.0"
-
-Settings
---------
-User-configurable settings of the jog node are well-documented in ``config/sia5_simulated_config.yaml``.
 
 ROS Signals
 -----------
@@ -107,5 +131,5 @@ There is a Python integration test in ``test/integration``. Run it by:
 
 .. code-block:: bash
 
-  roscd moveit_experimental
+  roscd jog_arm
   catkin run_tests --this
