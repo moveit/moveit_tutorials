@@ -18,7 +18,7 @@ Getting Started
 ---------------
 This tutorial tests the jogger with a UR5 Gazebo simulation. If you haven't already done so, make sure you've completed the steps in `Getting Started <../getting_started/getting_started.html>`_.
 
-Clone `universal_robot melodic-devel branch <https://github.com/ros-industrial/universal_robot.git>`_ into the same catkin workspace from `Getting Started`:
+Clone `universal_robot melodic-devel branch <https://github.com/ros-industrial/universal_robot.git>`_ into the same catkin workspace from `Getting Started`: ::
 
     cd ~/ws_moveit/src
 
@@ -36,11 +36,11 @@ Re-build and re-source the workspace. ::
 
     source devel/setup.bash
 
-Run `rosdep install` from the `src` folder to install dependencies.
+Run `rosdep install` from the `src` folder to install dependencies. ::
 
     rosdep install --from-paths . --ignore-src -y
 
-Launch the Gazebo simulation:
+Launch the Gazebo simulation: ::
 
     roslaunch ur_gazebo ur5.launch
 
@@ -52,32 +52,30 @@ In RViz, grab the red/blue/green "interactive marker" and drag the robot to a no
 
 Switch to a compatible type of `ros-control` controller. It should be a `JointGroupVelocityController` or a `JointGroupPositionController`, not a trajectory controller like MoveIt usually requires.
 
-```sh
-rosservice call /controller_manager/switch_controller "start_controllers:
-- 'joint_group_position_controller'
-stop_controllers:
-- 'arm_controller'
-strictness: 2"
-```
+.. code-block:: sh
+    rosservice call /controller_manager/switch_controller "start_controllers:
+    - 'joint_group_position_controller'
+    stop_controllers:
+    - 'arm_controller'
+    strictness: 2"
 
-Launch the jog node. This example uses commands from a `SpaceNavigator <https://www.google.com/search?client=ubuntu&channel=fs&q=amazon+buy+spacenavigator&ie=utf-8&oe=utf-8>`_ joystick-like device:
+
+Launch the jog node. This example uses commands from a `SpaceNavigator <https://www.google.com/search?client=ubuntu&channel=fs&q=amazon+buy+spacenavigator&ie=utf-8&oe=utf-8>`_ joystick-like device: ::
 
     roslaunch jog_arm spacenav_cpp.launch
 
-If you do not have a SpaceNav 3D mouse, you can publish example jogging commands from the command line with:
+If you do not have a SpaceNav 3D mouse, you can publish example jogging commands from the command line with: ::
 
-```sh
-rostopic pub -r 100 /jog_arm_server/delta_jog_cmds geometry_msgs/TwistStamped "header: auto
-twist:
-  linear:
-    x: 0.0
-    y: 0.01
-    z: -0.01
-  angular:
-    x: 0.0
-    y: 0.0
-    z: 0.0"
-```
+    rostopic pub -r 100 /jog_arm_server/delta_jog_cmds geometry_msgs/TwistStamped "header: auto
+    twist:
+      linear:
+        x: 0.0
+        y: 0.01
+        z: -0.01
+      angular:
+        x: 0.0
+        y: 0.0
+        z: 0.0"
 
 Settings
 --------
