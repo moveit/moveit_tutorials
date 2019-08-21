@@ -78,7 +78,7 @@ The result should look something like this:
 This tool demonstrates several concepts around how scoring works during grasp generation.
 It bases the chosen grasp using the following approaches:
 
- - *Ideal TCP Grasp Pose*: the generator will bias the chosen grasp based on an input of preferred grasp. This allows you to say, for example, 'I want it to be as close as possible to a grasp that is dead-ceneted on the object'.
+ - *Ideal TCP Grasp Pose*: the generator will bias the chosen grasp based on an input of a preferred grasp. This allows you to say, for example, 'I want the end-effector to be pointed down left when grasping the object'.
  - *Pose-Based Grasp Score Weighting*: Bias certain translation or rotation axes to score higher, by increasing the weight of that specific axis.
  - *Depth-Based Grasp Score Weighting*: Bias a deeper grasp depth (how enveloped the fingers are around the object) over other parameters
  - *Width-Based Grasp Score Weighting*: (For parallel finger grippers only) Bias a wider finger grasp (how much space is available between the object and the finger pads) over other parameters
