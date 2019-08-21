@@ -74,7 +74,17 @@ The result should look something like this:
 
 3) Visualize Grasp Generation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-To visualize grasp generation for randomly placed blocks::
+
+This tool demonstrates several concepts around how scoring works during grasp generation.
+It bases the chosen grasp using the following approaches:
+
+ - *Ideal TCP Grasp Pose*: the generator will bias the chosen grasp based on an input of a preferred grasp. This allows you to say, for example, 'I want the end-effector to be pointed down left when grasping the object'.
+ - *Pose-Based Grasp Score Weighting*: Bias certain translation or rotation axes to score higher, by increasing the weight of that specific axis.
+ - *Depth-Based Grasp Score Weighting*: Bias a deeper grasp depth (how enveloped the fingers are around the object) over other parameters
+ - *Width-Based Grasp Score Weighting*: (For parallel finger grippers only) Bias a wider finger grasp (how much space is available between the object and the finger pads) over other parameters
+ - *Overhang Grasp Score Weighting*: (For suction grippers only) Bias a suction grasp towards full overlap with the object. This scoring metric uses the square of the percent of the suction region that is in contact with the object. By using the square, suction grippers with multiple suction regions (voxels) bias towards solutions with 100% overlap with one voxel rather than 50% of one and 50% of another.   
+
+To visualize::
 
     roslaunch moveit_grasps grasp_generator_demo.launch
 
