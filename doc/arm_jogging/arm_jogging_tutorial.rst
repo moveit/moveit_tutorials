@@ -32,13 +32,9 @@ Re-build and re-source the workspace. ::
 
     cd ~/ws_moveit/
 
-    catkin build && \
+    catkin build
 
     source devel/setup.bash
-
-Run `rosdep install` from the `src` folder to install dependencies. ::
-
-    rosdep install --from-paths . --ignore-src -y
 
 Launch the Gazebo simulation: ::
 
@@ -50,9 +46,8 @@ Launch the Gazebo simulation: ::
 
 In RViz, grab the red/blue/green "interactive marker" and drag the robot to a non-singular position (not all zero joint angles) that is not close to a joint limit. Click "plan and execute" to move the robot to that pose.
 
-Switch to a compatible type of `ros-control` controller. It should be a `JointGroupVelocityController` or a `JointGroupPositionController`, not a trajectory controller like MoveIt usually requires.
+Switch to a compatible type of `ros-control` controller. It should be a `JointGroupVelocityController` or a `JointGroupPositionController`, not a trajectory controller like MoveIt usually requires. ::
 
-.. code-block:: sh
     rosservice call /controller_manager/switch_controller "start_controllers:
     - 'joint_group_position_controller'
     stop_controllers:
