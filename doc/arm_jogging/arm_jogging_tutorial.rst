@@ -111,7 +111,7 @@ An `rqt_graph` of the jogger is shown below (Enlarge by clicking it). Most of th
 
 Configuring Control Devices (Gamepads, Joysticks, etc)
 ------------------------------------------------------
-The ``jog_arm/config`` folder contains two examples of converting `SpaceNavigator <https://www.google.com/search?client=ubuntu&channel=fs&q=amazon+buy+spacenavigator&ie=utf-8&oe=utf-8>`_ 3D mouse commands to jog commands. ``spacenav_teleop_tools.launch`` loads a config file then publishes commands to the jogger on the ``spacenav/joy topic``. It is easy to create your own config file for a particular joystick or gamepad. We welcome pull requests of config files for new controllers.
+The ``jog_arm/config`` folder contains two examples of converting `SpaceNavigator <https://www.3dconnexion.com/spacemouse_compact/en/>`_ 3D mouse commands to jog commands. ``spacenav_teleop_tools.launch`` loads a config file then publishes commands to the jogger on the ``spacenav/joy topic``. It is easy to create your own config file for a particular joystick or gamepad. We welcome pull requests of config files for new controllers.
 
 ``spacenav_cpp.launch`` launches a C++ node that does the same thing but with less latency. We do not plan to accept C++ pull requests for more controller types because there is a lot of overhead involved in supporting them.
 
