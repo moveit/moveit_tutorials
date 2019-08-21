@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- GDB Debug Arguments -->
+  <arg name="debug" default="false" />
+  <arg unless="$(arg debug)" name="launch_prefix" value="" />
+  <arg     if="$(arg debug)" name="launch_prefix"
+           value="gdb -x $(find moveit_planners_trajopt)/launch/gdb_settings.gdb --ex run --args" />
+
+  <!-- Callgrind Arguments -->
+  <arg name="callgrind" default="false" />
+  <arg unless="$(arg callgrind)" name="launch_prefix2" value="" />
+  <arg     if="$(arg callgrind)" name="launch_prefix2" value="valgrind --tool=callgrind --collect-atstart=no" />
+
+  <!-- Valgrind Arguments -->
+  <arg name="valgrind" default="false" />
+  <arg unless="$(arg valgrind)" name="launch_prefix3" value="" />
+  <arg     if="$(arg valgrind)" name="launch_prefix3" value="valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all" />
+
+  <!-- Launch main node -->
+  <node name="trajopt_example" pkg="moveit_tutorials" type="trajopt_example" respawn="false" output="screen">
+    <rosparam command="load" file="$(find panda_moveit_config)/config/trajopt_planning.yaml"/>
+  </node>
+
+</launch>
