@@ -90,21 +90,21 @@ And switch to the desired controller with: ::
 
 Jogging may work on other robots that have a different control scheme but there is no guarantee. It has been tested heavily on UR robots using the [ur_modern_driver](https://github.com/ros-industrial/ur_modern_driver). The jogger currently does not limit joint jerk so may not be compatible with most heavy industrial robots.
 
-The jogger can publish ``trajectory_msgs/JointTrajectory`` or ``std_msgs/Float64MultiArray`` message types. This is configured in a yaml file (see ``config/ur_simulated_config.yaml`` for an example).
+The jogger can publish ``trajectory_msgs/JointTrajectory`` or ``std_msgs/Float64MultiArray`` message types. This is configured in a yaml file (see ``config/ur_simulated_config.yaml`` for an example). Most robots that use ros_control will use the Float64MultiArray type. Some UR robots using older driver versions can require the JointTrajectory message type.
 
 ROS Signals
 -----------
 An `rqt_graph` of the jogger is shown below (Enlarge by clicking it). Most of these connections can be ignored. The important ones are:
 
+- **jog_arm_server** node: Does the core jogging calculations.
+
 - **spacenav_to_twist** node: Converts incoming commands from the joystick to Cartesian commands or joint angle commands, depending on which buttons are pressed.
 
-- **tf**: This topic carries ROS coordinate frame information. The jogger uses it to transform commands from the joystick's frame of reference to the robot's frame of reference. These frames are selected in ``config/ur_simulated_config.yaml``.
+- **tf** topic: Carries ROS coordinate frame information. The jogger uses it to transform commands from the joystick's frame of reference to the robot's frame of reference. These frames are selected in ``config/ur_simulated_config.yaml``.
 
-- **joint_states**: The jogger uses this joint information for calculations.
+- **joint_states** topic: The jogger uses this joint information for calculations.
 
-- **move_group**: The jogger uses the MoveIt! move_group node to help with some calculations and parse things like joint limits.
-
-- **joint_group_position_controller/command**: This is the outgoing command that causes the robot to move.
+- **joint_group_position_controller/command** topic: This is the outgoing command that causes the robot to move.
 
 .. image:: jogging_rqt_graph.png
    :width: 700px
