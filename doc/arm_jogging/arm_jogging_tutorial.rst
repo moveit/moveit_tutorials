@@ -55,7 +55,7 @@ Switch to a compatible type of `ros-control` controller. It should be a `JointGr
     strictness: 2"
 
 
-Launch the jog node. This example uses commands from a `SpaceNavigator <https://www.google.com/search?client=ubuntu&channel=fs&q=amazon+buy+spacenavigator&ie=utf-8&oe=utf-8>`_ joystick-like device: ::
+Launch the jog node. This example uses commands from a `SpaceNavigator <https://www.3dconnexion.com/spacemouse_compact/en/>`_ joystick-like device: ::
 
     roslaunch jog_arm spacenav_cpp.launch
 
