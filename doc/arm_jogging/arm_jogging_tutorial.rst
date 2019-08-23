@@ -100,7 +100,7 @@ An `rqt_graph` of the jogger is shown below (Enlarge by clicking it). Most of th
 
 - **spacenav_to_twist** node: Converts incoming commands from the joystick to Cartesian commands or joint angle commands, depending on which buttons are pressed.
 
-- **tf** topic: Carries ROS coordinate frame information. The jogger uses it to transform commands from the joystick's frame of reference to the robot's frame of reference. These frames are selected in ``config/ur_simulated_config.yaml``. In this case, everything happens in the `world` frame.
+- **tf** topic: Carries ROS coordinate frame information. The jogger uses it to transform commands from the joystick's frame of reference to the robot's base/planning frame. These frames are configured in ``config/ur_simulated_config.yaml``.
 
 - **joint_states** topic: The jogger uses this joint information for calculations.
 
