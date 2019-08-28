@@ -46,6 +46,7 @@
 #include <moveit_msgs/DisplayTrajectory.h>
 #include <moveit_msgs/PlanningScene.h>
 #include <moveit_visual_tools/moveit_visual_tools.h>
+#include <tf2_ros/transform_listener.h>
 
 #include <boost/scoped_ptr.hpp>
 
@@ -84,10 +85,14 @@ int main(int argc, char** argv)
   // the world (including the robot).
   planning_scene::PlanningScenePtr planning_scene(new planning_scene::PlanningScene(robot_model));
 
+  // For the PlanningSceneMonitor, we need to provide a TransformListener
+  auto tf_buffer = std::make_shared<tf2_ros::Buffer>(ros::Duration(10.0));
+  auto tfl = std::make_shared<tf2_ros::TransformListener>(*tf_buffer, node_handle);
+
   // With the planning scene we create a planing scene monitor that
   // monitors planning scene diffs and applys them to the planning scene
   planning_scene_monitor::PlanningSceneMonitorPtr psm(
-      new planning_scene_monitor::PlanningSceneMonitor(planning_scene, robot_model_loader));
+      new planning_scene_monitor::PlanningSceneMonitor(planning_scene, robot_model_loader, tf_buffer));
   psm->startPublishingPlanningScene(planning_scene_monitor::PlanningSceneMonitor::UPDATE_SCENE);
   psm->startStateMonitor();
   psm->startSceneMonitor();
