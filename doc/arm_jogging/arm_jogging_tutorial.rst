@@ -88,7 +88,7 @@ And switch to the desired controller with: ::
 
 **NOTE:** You can tab-complete to help fill these commands.
 
-Jogging may work on other robots that have a different control scheme but there is no guarantee. It has been tested heavily on UR robots using the [ur_modern_driver](https://github.com/ros-industrial/ur_modern_driver). The jogger currently does not limit joint jerk so may not be compatible with most heavy industrial robots.
+Jogging may work on other robots that have a different control scheme but there is no guarantee. It has been tested heavily on UR robots using the `ur_modern_driver <https://github.com/ros-industrial/ur_modern_driver>`_. The jogger currently does not limit joint jerk so may not be compatible with most heavy industrial robots.
 
 The jogger can publish ``trajectory_msgs/JointTrajectory`` or ``std_msgs/Float64MultiArray`` message types. This is configured in a yaml file (see ``config/ur_simulated_config.yaml`` for an example). Most robots that use ros_control will use the Float64MultiArray type. Some UR robots using older driver versions can require the JointTrajectory message type.
 
