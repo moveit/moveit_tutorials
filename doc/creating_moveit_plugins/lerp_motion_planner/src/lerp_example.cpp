@@ -68,7 +68,7 @@ int main(int argc, char** argv)
       new robot_model_loader::RobotModelLoader("robot_description"));
   robot_model::RobotModelPtr robot_model = robot_model_loader->getModel();
 
-  /* Create a RobotState and JointModelGroup to keep track of the current robot pose and planning group*/
+  // Create a RobotState and JointModelGroup to keep track of the current robot pose and planning group
   robot_state::RobotStatePtr robot_state(new robot_state::RobotState(robot_model));
   const robot_state::JointModelGroup* joint_model_group = robot_state->getJointModelGroup(PLANNING_GROUP);
   const std::vector<std::string>& joint_names = joint_model_group->getVariableNames();
