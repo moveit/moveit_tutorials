@@ -142,6 +142,18 @@ The canonical example end effector configuration uses Franka Emika's Panda: `con
 
 In that file you will find all of the gripper specific parameters necessary for customizing MoveIt Grasps with suction or finger grippers.
 
+Illustration diagrams for the parameters inside *ROBOT_grasp_data.yaml* file
+
+1) Finger gripper parameters
+
+.. image:: finger_gripper_explanation.jpg
+   :width: 500pt
+
+2) Suction gripper parameters
+
+.. image:: suction_gripper_explanation.jpg
+   :width: 500pt
+
 **moveit_grasps_config.yaml**
 
 An example configuration file for the *Grasp Generator*, *Grasp Filter* and *Grasp Planner* can be found in `config/moveit_grasps_config.yaml <https://github.com/ros-planning/moveit_grasps/blob/melodic-devel/config/moveit_grasps_config.yaml>`_.
@@ -165,21 +177,6 @@ Since the set of parameters is quite extensive, there are different demo launch 
 
 Additional Configuration Notes
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-**tcp_to_eef_mount_transform**
-
-The ``tcp_to_eef_mount_transform`` represents the transform from the tool center point used for grasp poses to the mount link of the end effector.
-This parameter is provided to allow different URDF end effectors to all work together without recompiling code.
-
-In MoveIt the actuated end effector fingers should always has a parent link, typically the wrist link or palm link.
-This wrist_link should have its palm with a Z-axis pointing towards the object you want to grasp i.e. where your pointer finger is pointing.
-
-This is the convention laid out in "Robotics" by John Craig in 1955.
-However, a lot of URDFs do not follow this convention, so this transform allows you to fix it.
-
-Additionally, the x-axis should be pointing up along the grasped object, i.e. the circular axis of a (beer) bottle if you were holding it.
-
-The y-axis should be point towards one of the fingers.
 
 **Switch from Bin to Shelf Picking**
 
