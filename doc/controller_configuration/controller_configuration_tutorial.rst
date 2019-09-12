@@ -164,7 +164,7 @@ In order to load an initial pose, one can have a list of (group, pose) pairs as 
 Controller Switching and Namespaces
 -----------------------------------
 
-All controller names get prefixed by the namespace of their ros_control node. For this reason controller names should not contain slashes, and can't be named ``/``. For a particular node MoveIt can decide which controllers to have started or stopped. Since only controller names with registered allocator plugins are handled over MoveIt, MoveIt takes care of stopping controllers based on their claimed resources if a to be started contoller needs any of those resources.
+All controller names get prefixed by the namespace of their ros_control node. For this reason controller names should not contain slashes, and can't be named ``/``. For a particular node MoveIt can decide which controllers to have started or stopped. Since only controller names with registered allocator plugins are handled over MoveIt, MoveIt takes care of stopping controllers based on their claimed resources if a to-be-started controller needs any of those resources.
 
 Controllers for Multiple Nodes
 ------------------------------
