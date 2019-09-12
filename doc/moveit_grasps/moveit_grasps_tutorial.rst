@@ -178,6 +178,21 @@ Since the set of parameters is quite extensive, there are different demo launch 
 Additional Configuration Notes
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+**tcp_to_eef_mount_transform**
+
+The ``tcp_to_eef_mount_transform`` represents the transform from the tool center point used for grasp poses to the mount link of the end effector.
+This parameter is provided to allow different URDF end effectors to all work together without recompiling code.
+
+In MoveIt the actuated end effector fingers should always has a parent link, typically the wrist link or palm link.
+This wrist_link should have its palm with a Z-axis pointing towards the object you want to grasp i.e. where your pointer finger is pointing.
+
+This is the convention laid out in "Robotics" by John Craig in 1955.
+However, a lot of URDFs do not follow this convention, so this transform allows you to fix it.
+
+Additionally, the x-axis should be pointing up along the grasped object, i.e. the circular axis of a (beer) bottle if you were holding it.
+
+The y-axis should be point towards one of the fingers.
+
 **Switch from Bin to Shelf Picking**
 
 The ``setIdealGraspPoseRPY()`` and ``setIdealGraspPose()`` methods in GraspGenerator can be used to select an ideal grasp orientation for picking.
