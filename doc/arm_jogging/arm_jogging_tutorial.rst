@@ -57,7 +57,7 @@ Switch to a compatible type of `ros-control` controller. It should be a `JointGr
 
 Launch the jog node. This example uses commands from a `SpaceNavigator <https://www.3dconnexion.com/spacemouse_compact/en/>`_ joystick-like device: ::
 
-    roslaunch jog_arm spacenav_cpp.launch
+    roslaunch moveit_jog_arm spacenav_cpp.launch
 
 If you do not have a SpaceNav 3D mouse, you can publish example jogging commands from the command line with: ::
 
