@@ -62,56 +62,30 @@ bool LERPInterface::solve(const planning_scene::PlanningSceneConstPtr& planning_
   // Load the planner-specific parameters
   nh_.getParam("num_steps", num_steps_);
 
+ 
   ros::WallTime start_time = ros::WallTime::now();
   robot_model::RobotModelConstPtr robot_model = planning_scene->getRobotModel();
   robot_state::RobotStatePtr start_state(new robot_state::RobotState(robot_model));
   *start_state = planning_scene->getCurrentState();
   const robot_state::JointModelGroup* joint_model_group = start_state->getJointModelGroup(req.group_name);
   std::vector<std::string> joint_names = joint_model_group->getVariableNames();
-  int dof = joint_names.size();
+  dof_ = joint_names.size();
   std::vector<double> start_joint_values;
   start_state->copyJointGroupPositions(joint_model_group, start_joint_values);
-  ;  // req.start_state.joint_state.position;
 
   // This planner only supports one goal constriant in the request
   std::vector<moveit_msgs::Constraints> goal_constraints = req.goal_constraints;
   std::vector<moveit_msgs::JointConstraint> goal_joint_constraint = goal_constraints[0].joint_constraints;
 
   std::vector<double> goal_joint_values;
-  for (auto x : goal_joint_constraint)
+  for (auto constraint : goal_joint_constraint)
   {
-    goal_joint_values.push_back(x.position);
+    goal_joint_values.push_back(constraint.position);
   }
 
   // ==================== Interpolation
   trajectory_msgs::JointTrajectory joint_trajectory;
-  joint_trajectory.points.resize(num_steps_ + 1);
-
-  std::vector<double> dt_vector;
-  for (int joint_index = 0; joint_index < dof; ++joint_index)
-  {
-    double dt = (goal_joint_values[joint_index] - start_joint_values[joint_index]) / num_steps_;
-    dt_vector.push_back(dt);
-  }
-
-  robot_state::RobotStatePtr robot_state(start_state);
-  for (int step = 0; step <= num_steps_; ++step)
-  {
-    std::vector<double> joint_values;
-    for (int k = 0; k < dof; ++k)
-    {
-      double joint_value = start_joint_values[k] + step * dt_vector[k];
-      joint_values.push_back(joint_value);
-    }
-    robot_state->setJointGroupPositions(joint_model_group, joint_values);
-    robot_state->update();
-
-    if (!planning_scene->isStateValid(*robot_state, req.group_name, false))
-      ROS_FATAL_STREAM_NAMED(name_, "robot is in collision at step: " << step);
-
-    joint_trajectory.joint_names = joint_names;
-    joint_trajectory.points[step].positions = joint_values;
-  }
+  interpolate(joint_names, start_state, joint_model_group, start_joint_values, goal_joint_values, joint_trajectory);
 
   // ==================== feed the response
   res.trajectory.resize(1);
@@ -129,4 +103,36 @@ bool LERPInterface::solve(const planning_scene::PlanningSceneConstPtr& planning_
   return true;
 }
 
-}  // namespace trajopt_interface
+void LERPInterface::interpolate(const std::vector<std::string> joint_names,
+				robot_state::RobotStatePtr& rob_state,
+				const robot_state::JointModelGroup* joint_model_group,
+				const std::vector<double>& start_joint_vals,
+				const std::vector<double>& goal_joint_vals,
+				trajectory_msgs::JointTrajectory& joint_trajectory)
+{
+  joint_trajectory.points.resize(num_steps_ + 1);
+  
+  std::vector<double> dt_vector;
+  for (int joint_index = 0; joint_index < dof_; ++joint_index)
+  {
+    double dt = (goal_joint_vals[joint_index] - start_joint_vals[joint_index]) / num_steps_;
+    dt_vector.push_back(dt);
+  }
+
+  for (int step = 0; step <= num_steps_; ++step)
+  {
+    std::vector<double> joint_values;
+    for (int k = 0; k < dof_; ++k)
+    {
+      double joint_value = start_joint_vals[k] + step * dt_vector[k];
+      joint_values.push_back(joint_value);
+    }
+    rob_state->setJointGroupPositions(joint_model_group, joint_values);
+    rob_state->update();
+
+    joint_trajectory.joint_names = joint_names;
+    joint_trajectory.points[step].positions = joint_values;
+  }
+}
+  
+}  // namespace lerp_interface

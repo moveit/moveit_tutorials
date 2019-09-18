@@ -94,7 +94,7 @@ MoveIt controller managers, somewhat a misnomer, are the interfaces to your cust
 However, for some applications you might desire a more custom controller manager. An example template for starting your custom controller manager is provided :codedir:`here <controller_configuration/src/moveit_controller_manager_example.cpp>`.
 
 
-Creating a constraint sampler
+Example Constraint Sampler Plugin
 ------------------------------
 
 * Create a ``ROBOT_moveit_plugins`` package and within that a sub-folder for your ``ROBOT_constraint_sampler`` plugin. Modify the template provided by ``ROBOT_moveit_plugins/ROBOT_moveit_constraint_sampler_plugin``

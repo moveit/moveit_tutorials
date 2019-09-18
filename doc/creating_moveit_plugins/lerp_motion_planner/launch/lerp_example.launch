@@ -1,10 +1,5 @@
 <launch>
 
-  <!-- Run Rviz -->
-  <include file="$(find panda_moveit_config)/launch/demo.launch">
-    <arg name="planner" value="lerp"/>
-  </include>
-
   <!-- GDB Debug Arguments -->
   <arg name="debug" default="false" />
   <arg unless="$(arg debug)" name="launch_prefix" value="" />

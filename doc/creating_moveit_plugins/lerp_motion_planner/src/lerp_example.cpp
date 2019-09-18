@@ -45,6 +45,7 @@
 #include <moveit/planning_interface/planning_interface.h>
 #include <moveit/planning_scene/planning_scene.h>
 #include <moveit/planning_scene_monitor/planning_scene_monitor.h>
+#include <moveit/planning_pipeline/planning_pipeline.h>
 #include <moveit/kinematic_constraints/utils.h>
 #include <moveit_msgs/DisplayTrajectory.h>
 #include <moveit_msgs/PlanningScene.h>
@@ -64,65 +65,68 @@ int main(int argc, char** argv)
   ros::NodeHandle node_handle("~");
 
   const std::string PLANNING_GROUP = "panda_arm";
+  const std::string ROBOT_DESCRIPTION = "robot_description";
   robot_model_loader::RobotModelLoaderPtr robot_model_loader(
-      new robot_model_loader::RobotModelLoader("robot_description"));
+      new robot_model_loader::RobotModelLoader(ROBOT_DESCRIPTION));
+
+  // Create a planing scene monitor
+  planning_scene_monitor::PlanningSceneMonitorPtr psm(
+      new planning_scene_monitor::PlanningSceneMonitor(robot_model_loader));
+
+  psm->startSceneMonitor();
+  psm->startWorldGeometryMonitor();
+  psm->startStateMonitor();
+  
   robot_model::RobotModelPtr robot_model = robot_model_loader->getModel();
 
-  // Create a RobotState and JointModelGroup to keep track of the current robot pose and planning group
-  robot_state::RobotStatePtr robot_state(new robot_state::RobotState(robot_model));
+  // Create a RobotState and to keep track of the current robot pose and planning group                                                                 
+  robot_state::RobotStatePtr robot_state(
+      new robot_state::RobotState(planning_scene_monitor::LockedPlanningSceneRO(psm)->getCurrentState()));
+  robot_state->setToDefaultValues();
+  robot_state->update();
+
+  // Create JointModelGroup                                                                                                                             
   const robot_state::JointModelGroup* joint_model_group = robot_state->getJointModelGroup(PLANNING_GROUP);
-  const std::vector<std::string>& joint_names = joint_model_group->getVariableNames();
-  planning_scene::PlanningScenePtr planning_scene(new planning_scene::PlanningScene(robot_model));
-  int dof = joint_names.size();
+  const std::vector<std::string>& joint_names = joint_model_group->getActiveJointModelNames();
+  const std::vector<std::string>& link_model_names = joint_model_group->getLinkModelNames();
+  ROS_INFO_NAMED(NODE_NAME, "end effector name %s\n", link_model_names.back().c_str());
 
-  // Create a planing scene monitor that
-  planning_scene_monitor::PlanningSceneMonitorPtr psm(
-      new planning_scene_monitor::PlanningSceneMonitor(planning_scene, robot_model_loader));
-  psm->startPublishingPlanningScene(planning_scene_monitor::PlanningSceneMonitor::UPDATE_SCENE);
-  psm->startStateMonitor();
-  psm->startSceneMonitor();
-
-  while (!psm->getStateMonitor()->haveCompleteState() && ros::ok())
-  {
-    ROS_INFO_STREAM_THROTTLE_NAMED(1, NODE_NAME, "Waiting for complete state from topic ");
-  }
-
-  // Load a planner
-  boost::scoped_ptr<pluginlib::ClassLoader<planning_interface::PlannerManager>> planner_plugin_loader;
-  planning_interface::PlannerManagerPtr planner_instance;
+  // Set the planner                                                                                                                                  
   std::string planner_plugin_name = "lerp_interface/LERPPlanner";
   node_handle.setParam("planning_plugin", planner_plugin_name);
 
-  // Make sure the planner is loaded
-  if (!node_handle.getParam("planning_plugin", planner_plugin_name))
-    ROS_FATAL_STREAM("Could not find planner plugin name");
-  try
-  {
-    planner_plugin_loader.reset(new pluginlib::ClassLoader<planning_interface::PlannerManager>(
-        "moveit_core", "planning_interface::PlannerManager"));
-    ROS_INFO_STREAM_NAMED(NODE_NAME, " ===>>> planner_plugin_name:" << planner_plugin_name.c_str());
-  }
-  catch (pluginlib::PluginlibException& ex)
-  {
-    ROS_FATAL_STREAM("Exception while creating planning plugin loader " << ex.what());
-  }
-  try
-  {
-    planner_instance.reset(planner_plugin_loader->createUnmanagedInstance(planner_plugin_name));
-    if (!planner_instance->initialize(robot_model, node_handle.getNamespace()))
-      ROS_FATAL_STREAM("Could not initialize planner instance");
-    ROS_INFO_STREAM("Using planning interface '" << planner_instance->getDescription() << "'");
-  }
-  catch (pluginlib::PluginlibException& ex)
-  {
-    const std::vector<std::string>& classes = planner_plugin_loader->getDeclaredClasses();
-    std::stringstream ss;
-    for (std::size_t i = 0; i < classes.size(); ++i)
-      ss << classes[i] << " ";
-    ROS_ERROR_STREAM("Exception while loading planner '" << planner_plugin_name << "': " << ex.what() << std::endl
-                                                         << "Available plugins: " << ss.str());
-  }
+  // Create pipeline                                                                  
+  planning_pipeline::PlanningPipelinePtr planning_pipeline(
+     new planning_pipeline::PlanningPipeline(robot_model, node_handle, "planning_plugin", "request_adapters"));
 
+  // ================================ Set the start and goal joint state
+  planning_interface::MotionPlanRequest req;
+  planning_interface::MotionPlanResponse res;
+  req.group_name = PLANNING_GROUP;
+
+  // Get the joint values of the start state and set them in request.start_state
+  std::vector<double> start_joint_values;
+  robot_state->copyJointGroupPositions(joint_model_group, start_joint_values);
+  req.start_state.joint_state.position = start_joint_values;
+
+  // Goal constraint
+  std::vector<double> goal_joint_values = { 0.8, 0.7, 1, 1.3, 1.9, 2.2, 3 };
+  robot_state->setJointGroupPositions(joint_model_group, goal_joint_values);
+  robot_state->update();
+  moveit_msgs::Constraints joint_goal = kinematic_constraints::constructGoalConstraints(*robot_state, joint_model_group);
+  req.goal_constraints.clear();
+  req.goal_constraints.push_back(joint_goal);
+  req.goal_constraints[0].name = "goal_pos";
+
+  // Set joint tolerance                                                                
+  std::vector<moveit_msgs::JointConstraint> goal_joint_constraint = req.goal_constraints[0].joint_constraints;
+  for (std::size_t x = 0; x < goal_joint_constraint.size(); ++x)
+  {
+    ROS_INFO_STREAM_NAMED(NODE_NAME ," ======================================= joint position at goal: " << goal_joint_constraint[x].position);
+    req.goal_constraints[0].joint_constraints[x].tolerance_above = 0.001;
+    req.goal_constraints[0].joint_constraints[x].tolerance_below = 0.001;
+  }
+  
   // ================================ Visualization tools
   namespace rvt = rviz_visual_tools;
   moveit_visual_tools::MoveItVisualTools visual_tools("panda_link0", rviz_visual_tools::RVIZ_MARKER_TOPIC, psm);
@@ -143,60 +147,50 @@ int main(int argc, char** argv)
   /* We can also use visual_tools to wait for user input */
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to start the demo");
 
-  // ================================ Set the start and goal joint state
-  visual_tools.publishRobotState(planning_scene->getCurrentStateNonConst(), rviz_visual_tools::GREEN);
-  visual_tools.trigger();
-  planning_interface::MotionPlanRequest req;
-  planning_interface::MotionPlanResponse res;
-  req.group_name = PLANNING_GROUP;
-
-  // Get the joint values of the start state and set them in request.start_state
-  std::vector<double> start_joint_values;
-  robot_state->copyJointGroupPositions(joint_model_group, start_joint_values);
-  req.start_state.joint_state.position = start_joint_values;
-
-  // Goal constraint
-  robot_state::RobotState goal_state(robot_model);
-  std::vector<double> joint_values = { 0.8, 0.7, 1, 1.3, 1.9, 2.2, 3 };
-  goal_state.setJointGroupPositions(joint_model_group, joint_values);
-  moveit_msgs::Constraints joint_goal = kinematic_constraints::constructGoalConstraints(goal_state, joint_model_group);
-  req.goal_constraints.clear();
-  req.goal_constraints.push_back(joint_goal);
 
   // ================================ planning context
-  planning_interface::PlanningContextPtr context =
-      planner_instance->getPlanningContext(planning_scene, req, res.error_code_);
-
-  context->solve(res);
+  {
+    planning_scene_monitor::LockedPlanningSceneRO lscene(psm);
+    /* Now, call the pipeline and check whether planning was successful. */
+    planning_pipeline->generatePlan(lscene, req, res);
+  }
+  /* Check that the planning was successful */
   if (res.error_code_.val != res.error_code_.SUCCESS)
   {
-    ROS_ERROR("Could not compute plan successfully");
+    ROS_ERROR_STREAM_NAMED(NODE_NAME, "Could not compute plan successfully");
     return 0;
   }
 
-  moveit_msgs::MotionPlanResponse response;
-  res.getMessage(response);
-  moveit_msgs::RobotTrajectory solution_traj = response.trajectory;
-
-  int number_of_steps = solution_traj.joint_trajectory.points.size();
-  printf("numner of timesteps in the solution trajectory: %i", number_of_steps);
-
-  for (int w = 0; w < number_of_steps; ++w)
-  {
-    std::vector<double> vec;
-    vec = solution_traj.joint_trajectory.points[w].positions;
-    std::stringstream sst;
-    for (int i = 0; i < vec.size(); ++i)
-    {
-      sst << vec[i] << " ";
-    }
-    ROS_INFO_STREAM_NAMED(NODE_NAME, sst.str());
-  }
+  visual_tools.prompt("Press 'next' to visualzie the result");
+  
 
   // ================================ Visualize the trajectory
+  //  visual_tools.publishRobotState(planning_scene->getCurrentStateNonConst(), rviz_visual_tools::GREEN);
+  // visual_tools.trigger();
+  
   ros::Publisher display_publisher =
       node_handle.advertise<moveit_msgs::DisplayTrajectory>("/move_group/display_planned_path", 1, true);
   moveit_msgs::DisplayTrajectory display_trajectory;
+
+  /* Visualize the trajectory */
+  moveit_msgs::MotionPlanResponse response;
+  res.getMessage(response);
+
+  moveit_msgs::RobotTrajectory solution_traj = response.trajectory;
+  int number_of_steps = solution_traj.joint_trajectory.points.size();
+  ROS_DEBUG_NAMED(NODE_NAME, "number of timesteps in the solution trajectory: %i", number_of_steps);
+
+  for (int step_num = 0; step_num < number_of_steps; ++step_num)
+  {
+    std::vector<double> solution_positions;
+    solution_positions = solution_traj.joint_trajectory.points[step_num].positions;
+    std::stringstream sst;
+    for (int i = 0; i < solution_positions.size(); ++i)
+    {
+      sst << solution_positions[i] << " ";
+    }
+    ROS_INFO_STREAM_NAMED(NODE_NAME, sst.str());
+  }
 
   display_trajectory.trajectory_start = response.trajectory_start;
   display_trajectory.trajectory.push_back(response.trajectory);

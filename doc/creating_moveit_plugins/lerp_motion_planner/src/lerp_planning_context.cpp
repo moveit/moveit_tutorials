@@ -72,13 +72,9 @@ bool LERPPlanningContext::solve(planning_interface::MotionPlanDetailedResponse& 
 
     return true;
   }
-  else
-  {
-    res.error_code_ = res_msg.error_code;
-    return false;
-  }
 
-  return true;
+  res.error_code_ = res_msg.error_code;
+  return false;
 };
 
 bool LERPPlanningContext::solve(planning_interface::MotionPlanResponse& res)
@@ -101,8 +97,10 @@ bool LERPPlanningContext::terminate()
 {
   return true;
 }
+  
 void LERPPlanningContext::clear()
 {
+  // This planner has no state, so has nothing to clear
 }
 
 }  // namespace lerp_interface
