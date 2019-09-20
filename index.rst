@@ -45,6 +45,7 @@ Building more complex applications with MoveIt often requires developers to dig 
    doc/pick_place/pick_place_tutorial
    doc/moveit_grasps/moveit_grasps_tutorial
    doc/subframes/subframes_tutorial
+   doc/moveit_cpp/moveitcpp_tutorial
 
 Integration with a New Robot
 ----------------------------

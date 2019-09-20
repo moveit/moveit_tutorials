@@ -3,7 +3,7 @@ MoveIt Cpp Tutorial
 
 TODO(JafarAbdi) An intro to MoveIt Cpp
 
-
+TODO(JafarAbdi) Upload video to Youtube
 Watch this quick `YouTube video demo <https://www.youtube.com>`_ to see a video of the tutorial!
 
 Getting Started
