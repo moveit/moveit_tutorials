@@ -10,20 +10,29 @@ The Task Constructor framework provides a flexible and transparent way to define
 
 Getting Started
 ---------------
+
 If you haven't already done so, make sure you've completed the steps in `Getting Started <../getting_started/getting_started.html>`_.
 
 Installing MoveIt Task Constructor
 ----------------------------------
 
-**Note:** Currently you must build MoveIt and MoveIt Messages from source for this tutorial to function.
+**Note:** Currently, it's required to build `moveit` and `moveit_msgs` from source for this tutorial to function.
 
 Install From Source
 ^^^^^^^^^^^^^^^^^^^
-Clone MoveIt Task Constructor into you catkin workspace: ::
+
+Go into your catkin workspace and initialize wstool if necessary (assuming `~/catkin_ws` as workspace path): ::
+
+  cd ~/catkin_ws/src
+  wstool init
+
+Clone MoveIt Task Constructor and source dependencies: ::
 
   git clone https://github.com/ros-planning/moveit_task_constructor.git
+  wstool merge moveit_task_constructor/moveit_task_constructor.rosinstall
+  wstool update
 
-Use the rosdep tool to automaticall install its dependencies: ::
+Install missing packages with rosdep: ::
 
   rosdep install --from-paths . --ignore-src --rosdistro $ROS_DISTRO
 
@@ -31,29 +40,26 @@ Build the workspace: ::
 
   catkin build
 
-Install From Debian
-^^^^^^^^^^^^^^^^^^^
 
-**Note:** This package has not been released as of 7/16/19::
-
-  sudo apt-get install ros-$ROS_DISTRO-moveit-task-constructor
-
-Running the Code
+Running the Demo
 ----------------
-In a shell start RViz and the demo with the following command: ::
+
+The MoveIt Task Constructor package contains an example pick-and-place application.
+You can try it out by running: ::
 
   roslaunch moveit_task_constructor_demo demo.launch
 
 .. image:: add_mtc_panel.png
    :width: 700px
 
-In Rviz click the add button and select the Motion Planning Tasks. When the plans are all made RViz will show you those 10 plans in the panel.
-If you click on a stage, or the full plan it will show you the visualization.
+On the right side you should see the `Motion Planning Tasks` outlining the stages of the **pick_place_task**.
+When you select the task or a single stage the right colum lists the individual subsolutions.
+You can simply click on a subsolution to visualize a planned trajectory of the selected segment.
 
 .. image:: mtc_show_stages.gif
    :width: 700px
 
-How MoveIt Task Constructor Works
+MoveIt Task Constructor Works
 ---------------------------------
 
 Tasks
