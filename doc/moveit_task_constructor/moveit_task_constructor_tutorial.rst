@@ -59,46 +59,40 @@ You can simply click on a subsolution to visualize a planned trajectory of the s
 .. image:: mtc_show_stages.gif
    :width: 700px
 
-MoveIt Task Constructor Works
----------------------------------
+Basic Concepts
+--------------
 
-Tasks
-^^^^^
-A task is a specified complex planning problem that consists of a sequence of high level steps called stages.
+The fundamental idea of MTC is that complex motion planning problems can be composed into a set of simpler subproblems.
+The top-level planning problem is specified as a **Task** while all subproblems are specified by **Stages**.
 
 Stages
 ^^^^^^
-A stage is a low-level implementation of a high-level planning step. The individual stages compute subsolutions that can **generate**,
-**propogate**, or **connect** `InterfaceStates`. They also can combine or edit contained substages.
 
-InterfaceState
-^^^^^^^^^^^^^^
-Stages interface each other via the InterfaceState class, which is a snapshot of the planning scene, the robot state, and some named properties.
+Primitive **Stages** are low-level implementations of actual problem solvers.
+There are three types of stages: generator, propagator, and connecting stages, named after the direction their results are passed.
 
-Stage Types
-^^^^^^^^^^^
-There are three basic types of stages: In addition to **generator**, **propagator**, and **connector** stages,
-there exist container stages (**wrapper**, **serial**, and **parallel** container), which allow to structure the task pipeline in a hierarchical fashion.
+**Generator** stages compute their resulting state independent of their neighbor stages and pass the result backwards and forwards.
+An example is an IK sampler for geometric poses where approaching and departing motions depend on the solution.
+
+**Propagator** stages use the result of one neighbor stage for solving a problem and then propagate the result on to the neighbor on the opposite site.
+Depending on the implementation propagating stages can pass solutions forward, backward or in both directions separately.
+An example is a stage that computes a Cartesian path based on either a start or a goal state.
+
+**Connecting** stages are solvers that don’t pass any results to their neighbors, but rather attempt to bridge the gap between the resulting states of both neighbor stages.
+A typical example is to compute a free motion plan from one state to another.
+
+Container stages are higher-level solvers where the solution is based on one or multiple subordinate stages.
+For instance, container stages allow combining a set of stages to selecting one desired result or to merge all solutions if the subproblems are independent.
+There are three hierarchy types:
+
+**Wrapper:** Wraps a single subordinate stage and modifies or filters its results.
+
+**Serial Container:** Contains a sequence of subordinate stages and only passes end-to-end results.
+
+**Parallel Container:** Contains a set of subordinate stages and can be used for passing the best of alternative results, running fallback solvers or to merge multiple independent solutions.
 
 .. image:: mtc_stage_types.png
    :width: 700px
 
-**Generator:** This is a stage that generates information that is passed to the stages above and below.
-
-**Propogator:** This stage takes information from one or both sides, modifies it, and passes it along to the opposite side.
-
-**Connector:** This stage takes information from both sides and plans a connecting trajectory between the robot states of both sides.
-
-**Wrapper:** Wraps a single subordinate stage and modifies its output.
-
-**Serial Container:** Allows to define a sequence of subordinate task.
-
-**Parallel Container:** Allows to run several stages in parallel before choosing which substage to use the results from.
-
-The Entire Code
----------------
-The entire code can be seen in the moveit_task_constructor_ repository.
-
-.. _moveit_task_constructor: https://github.com/ros-planning/moveit_task_constructor
-
-**Note:** If the added task monitor does not find the /solutions topic replace `""` with `"/moveit_task_constructor_demo/pick_place_task/solution"` in line 82 of `moviet_task_constructor/visualization/motion_planning_tasks/src/task_display.cpp`.
+Next to motion planning problems, stages can also be used for all kinds of state transitions, as for instance modifying the planning scene.
+Finally, stages support class inheritance which is helpful for specifying a more generic problem (i.e. adding a constraint to a motion plan).
