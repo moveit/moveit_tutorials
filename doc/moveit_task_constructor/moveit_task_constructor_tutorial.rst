@@ -49,9 +49,6 @@ You can try it out by running: ::
 
   roslaunch moveit_task_constructor_demo demo.launch
 
-.. image:: add_mtc_panel.png
-   :width: 700px
-
 On the right side you should see the `Motion Planning Tasks` outlining the stages of the **pick_place_task**.
 When you select the task or a single stage the right colum lists the individual subsolutions.
 You can simply click on a subsolution to visualize a planned trajectory of the selected segment.
