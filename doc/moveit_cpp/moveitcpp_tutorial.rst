@@ -1,10 +1,9 @@
 MoveIt Cpp Tutorial
 ==================================
 
-TODO(JafarAbdi) An intro to MoveIt Cpp
-
-TODO(JafarAbdi) Upload video to Youtube
-Watch this quick `YouTube video demo <https://www.youtube.com>`_ to see a video of the tutorial!
+Introduction
+------------
+MoveItCpp is a new high level interface, a unified C++ API that does not require the use of ROS Actions, Services, and Messages to access the core MoveIt functionality, and an alternative (not a full replacement) for the existing `MoveGroup API <../move_group_interface/move_group_interface_tutorial.html>`_.
 
 Getting Started
 ---------------
