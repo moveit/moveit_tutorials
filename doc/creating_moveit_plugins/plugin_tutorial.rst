@@ -87,7 +87,7 @@ So far, we have loaded the planner and created the start and goal state for the 
 Finally, to run this node, we need to roslaunch lerp_example.launch in launch folder. This launch file launches the ``demo.launch`` of package ``panda_moveit_config`` by passing ``lerp`` as the name of the planner. Then, ``lerp_example`` gets launched and ``lerp_planning.yaml`` is loaded to set the lerp-specfic parameters to ROS Parameter Server.
 
 Example Controller Manager Plugin
----------------------------
+----------------------------------
 
 MoveIt controller managers, somewhat a misnomer, are the interfaces to your custom low level controllers. A better way to think of them are *controler interfaces*. For most use cases, the included :moveit_codedir:`MoveItSimpleControllerManager <moveit_plugins/moveit_simple_controller_manager>` is sufficient if your robot controllers already provide ROS actions for FollowJointTrajectory. If you use *ros_control*, the included :moveit_codedir:`MoveItRosControlInterface <moveit_plugins/moveit_ros_control_interface>` is also ideal.
 
@@ -95,7 +95,7 @@ However, for some applications you might desire a more custom controller manager
 
 
 Example Constraint Sampler Plugin
-------------------------------
+----------------------------------
 
 * Create a ``ROBOT_moveit_plugins`` package and within that a sub-folder for your ``ROBOT_constraint_sampler`` plugin. Modify the template provided by ``ROBOT_moveit_plugins/ROBOT_moveit_constraint_sampler_plugin``
 * In your ``ROBOT_moveit_config/launch/move_group.launch`` file, within the ``<node name="move_group">``, add the parameter: ::
