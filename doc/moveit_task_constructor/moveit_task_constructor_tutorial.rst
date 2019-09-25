@@ -21,9 +21,9 @@ Installing MoveIt Task Constructor
 Install From Source
 ^^^^^^^^^^^^^^^^^^^
 
-Go into your catkin workspace and initialize wstool if necessary (assuming `~/catkin_ws` as workspace path): ::
+Go into your catkin workspace and initialize wstool if necessary (assuming `~/ws_moveit` as workspace path): ::
 
-  cd ~/catkin_ws/src
+  cd ~/ws_moveit/src
   wstool init
 
 Clone MoveIt Task Constructor and source dependencies: ::
@@ -61,35 +61,36 @@ Basic Concepts
 
 The fundamental idea of MTC is that complex motion planning problems can be composed into a set of simpler subproblems.
 The top-level planning problem is specified as a **Task** while all subproblems are specified by **Stages**.
+Stages can be arranged in any arbitrary order and hierarchy only limited by the individual stages types.
+The order in which stages can be arranged is restricted by the direction in which results are passed.
+There are three possible stages relating to the result flow: generator, propagator, and connector stages:
 
-Stages
-^^^^^^
+**Generators** compute their results independent of their neighbor stages and pass it in both directions, backwards and forwards.
+An example is an IK sampler for geometric poses where approaching and departing motions (neighbor stages) depend on the solution.
 
-Primitive **Stages** are low-level implementations of actual problem solvers.
-There are three types of stages: generator, propagator, and connecting stages, named after the direction their results are passed.
-
-**Generator** stages compute their resulting state independent of their neighbor stages and pass the result backwards and forwards.
-An example is an IK sampler for geometric poses where approaching and departing motions depend on the solution.
-
-**Propagator** stages use the result of one neighbor stage for solving a problem and then propagate the result on to the neighbor on the opposite site.
+**Propagators** receive the result of one neighbor stage, solve a subproblem and then propagate their result on to the neighbor on the opposite site.
 Depending on the implementation propagating stages can pass solutions forward, backward or in both directions separately.
 An example is a stage that computes a Cartesian path based on either a start or a goal state.
 
-**Connecting** stages are solvers that don’t pass any results to their neighbors, but rather attempt to bridge the gap between the resulting states of both neighbor stages.
-A typical example is to compute a free motion plan from one state to another.
+**Connectors** are don’t propagate any results, but rather attempt to bridge the gap between the resulting states of both neighbors.
+An example is the computation of a free-motion plan from one given state to another.
 
-Container stages are higher-level solvers where the solution is based on one or multiple subordinate stages.
-For instance, container stages allow combining a set of stages to selecting one desired result or to merge all solutions if the subproblems are independent.
-There are three hierarchy types:
+Additional to the order types, there are different hierarchy types allowing to encapsulate subordinate stages.
+Stages without subordinate stages are called **primitive stages**, higher-level stages are called **container stages**.
+There are three container types:
 
-**Wrapper:** Wraps a single subordinate stage and modifies or filters its results.
+**Wrappers** encapsulate a single subordinate stage and modify or filter the results.
+An example is a filter stage that only accepts solutions of an IK solver that satisfy a certain constraint.
 
-**Serial Container:** Contains a sequence of subordinate stages and only passes end-to-end results.
+**Serial Containers** hold a sequence of subordinate stages and only consider end-to-end solutions as results.
+An example is a picking motion that consists of a sequence of coherent steps.
 
-**Parallel Container:** Contains a set of subordinate stages and can be used for passing the best of alternative results, running fallback solvers or to merge multiple independent solutions.
+**Parallel Containers** combine set of subordinate stages and can be used for passing the best of alternative results, running fallback solvers or for merging multiple independent solutions.
+Examples are running alternative planners for a free-motion plan, picking objects with the right hand or with the left hand as a fallback, or moving the arm and opening the gripper at the same time.
 
 .. image:: mtc_stage_types.png
    :width: 700px
 
-Next to motion planning problems, stages can also be used for all kinds of state transitions, as for instance modifying the planning scene.
-Finally, stages support class inheritance which is helpful for specifying a more generic problem (i.e. adding a constraint to a motion plan).
+Stages not only support solving motion planning problems.
+They can also be used for all kinds of state transitions, as for instance modifying the planning scene.
+Combined with the possibility of using class inheritance it's possible to construct very complex behavior while only relying on a well-structured set of primitive stages.
