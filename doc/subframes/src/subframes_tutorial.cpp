@@ -247,7 +247,7 @@ int main(int argc, char** argv)
     std::cin >> character_input;
     if (character_input == 0)
     {
-      return true;
+      return 0;
     }
     else if (character_input == 1)
     {
