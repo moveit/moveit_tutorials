@@ -44,6 +44,7 @@ Building more complex applications with MoveIt often requires developers to dig 
    doc/planning_with_approximated_constraint_manifolds/planning_with_approximated_constraint_manifolds_tutorial
    doc/pick_place/pick_place_tutorial
    doc/moveit_grasps/moveit_grasps_tutorial
+   doc/moveit_task_constructor/moveit_task_constructor_tutorial
 
 Integration with a New Robot
 ----------------------------
@@ -81,7 +82,6 @@ Miscellaneous
    doc/joystick_control_teleoperation/joystick_control_teleoperation_tutorial
    doc/benchmarking/benchmarking_tutorial
    doc/tests/tests_tutorial
-   doc/moveit_task_constructor/moveit_task_constructor_tutorial
 
 Attribution
 -----------

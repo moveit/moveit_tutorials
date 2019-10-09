@@ -16,8 +16,6 @@ If you haven't already done so, make sure you've completed the steps in `Getting
 Installing MoveIt Task Constructor
 ----------------------------------
 
-**Note:** Currently, it's required to build `moveit` and `moveit_msgs` from source for this tutorial to function.
-
 Install From Source
 ^^^^^^^^^^^^^^^^^^^
 
@@ -40,7 +38,6 @@ Build the workspace: ::
 
   catkin build
 
-
 Running the Demo
 ----------------
 
@@ -49,9 +46,9 @@ You can try it out by running: ::
 
   roslaunch moveit_task_constructor_demo demo.launch
 
-On the right side you should see the `Motion Planning Tasks` outlining the stages of the **pick_place_task**.
-When you select the task or a single stage the right colum lists the individual subsolutions.
-You can simply click on a subsolution to visualize a planned trajectory of the selected segment.
+On the right side you should see the `Motion Planning Tasks` panel outlining the hierarchical stage structure of the example **pick_place_task**.
+When you select a particular stage, the list of successful and failed solutions will be
+shown in the right-most window. Selecting one of those solutions will start its visualization.
 
 .. image:: mtc_show_stages.gif
    :width: 700px
