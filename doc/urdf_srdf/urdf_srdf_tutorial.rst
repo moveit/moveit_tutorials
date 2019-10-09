@@ -3,7 +3,7 @@ URDF and SRDF
 
 URDF
 ----
-MoveIt starts with a URDF (Universal Robot Description Format), the native format for describing robots in ROS. In this tutorial, you will find resources for the URDF, important tips and also a list of MoveIt specific requirements.
+MoveIt starts with a URDF (Unified Robot Description Format), the native format for describing robots in ROS. In this tutorial, you will find resources for the URDF, important tips and also a list of MoveIt specific requirements.
 
 URDF Resources
 ^^^^^^^^^^^^^^

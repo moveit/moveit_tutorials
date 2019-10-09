@@ -1,7 +1,8 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.1.3)
 project(moveit_tutorials)
 
-add_compile_options(-std=c++14)
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 find_package(catkin REQUIRED
   COMPONENTS
@@ -60,6 +61,8 @@ add_subdirectory(doc/move_group_python_interface)
 add_subdirectory(doc/state_display)
 add_subdirectory(doc/interactivity)
 add_subdirectory(doc/pick_place)
+add_subdirectory(doc/subframes)
 add_subdirectory(doc/perception_pipeline)
 add_subdirectory(doc/tests)
 add_subdirectory(doc/controller_configuration)
+add_subdirectory(doc/trajopt_planner)

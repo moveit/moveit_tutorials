@@ -1,7 +1,7 @@
 MoveIt Tutorials
 =================
 
-These tutorials will step you through using and learning the MoveIt Motion Planning Framework.
+These tutorials will quickly get you, and your robot, using the MoveIt Motion Planning Framework.
 
 .. image:: doc/quickstart_in_rviz/rviz_plugin_head.png
    :width: 700px
@@ -45,6 +45,7 @@ Building more complex applications with MoveIt often requires developers to dig 
    doc/pick_place/pick_place_tutorial
    doc/moveit_grasps/moveit_grasps_tutorial
    doc/moveit_task_constructor/moveit_task_constructor_tutorial
+   doc/subframes/subframes_tutorial
 
 Integration with a New Robot
 ----------------------------
@@ -66,11 +67,11 @@ Configuration
    :maxdepth: 1
 
    doc/kinematics_configuration/kinematics_configuration_tutorial
-   doc/fake_controller_manager/fake_controller_manager_tutorial
    doc/custom_constraint_samplers/custom_constraint_samplers_tutorial
    doc/ompl_interface/ompl_interface_tutorial
    doc/chomp_planner/chomp_planner_tutorial
    doc/stomp_planner/stomp_planner_tutorial
+   doc/trajopt_planner/trajopt_planner_tutorial
    doc/planning_adapters/planning_adapters_tutorial.rst
 
 Miscellaneous
@@ -80,6 +81,7 @@ Miscellaneous
    :maxdepth: 1
 
    doc/joystick_control_teleoperation/joystick_control_teleoperation_tutorial
+   doc/arm_jogging/arm_jogging_tutorial
    doc/benchmarking/benchmarking_tutorial
    doc/tests/tests_tutorial
 
