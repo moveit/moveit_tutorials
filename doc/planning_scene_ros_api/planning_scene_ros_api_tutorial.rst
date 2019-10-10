@@ -28,10 +28,10 @@ After a short moment, the RViz window should appear and look similar to the one 
 Expected Output
 ---------------
 In RViz, you should be able to see the following:
- * Object appear in the planning scene
- * Object gets attached to the robot
- * Object gets detached from the robot
- * Object is removed from the planning scene
+ * Object appears in the planning scene.
+ * Object gets attached to the robot.
+ * Object gets detached from the robot.
+ * Object is removed from the planning scene.
 
 .. role:: red
 
