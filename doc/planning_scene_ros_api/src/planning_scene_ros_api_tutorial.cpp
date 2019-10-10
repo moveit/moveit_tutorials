@@ -61,8 +61,8 @@ int main(int argc, char** argv)
   //
   // Visualization
   // ^^^^^^^^^^^^^
-  // The package MoveItVisualTools provides many capabilties for visualizing objects, robots,
-  // and trajectories in RViz as well as debugging tools such as step-by-step introspection of a script
+  // The package MoveItVisualTools provides many capabilities for visualizing objects, robots,
+  // and trajectories in RViz as well as debugging tools such as step-by-step introspection of a script.
   moveit_visual_tools::MoveItVisualTools visual_tools("panda_link0");
   visual_tools.deleteAllMarkers();
 
@@ -75,8 +75,8 @@ int main(int argc, char** argv)
   //
   // Advertise the required topic
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  // We create a publisher and wait for subscribers
-  // Note that this topic may need to be remapped in the launch file
+  // We create a publisher and wait for subscribers.
+  // Note that this topic may need to be remapped in the launch file.
   ros::Publisher planning_scene_diff_publisher = node_handle.advertise<moveit_msgs::PlanningScene>("planning_scene", 1);
   ros::WallDuration sleep_t(0.5);
   while (planning_scene_diff_publisher.getNumSubscribers() < 1)
@@ -89,7 +89,7 @@ int main(int argc, char** argv)
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   // We will use this message to add or
   // subtract the object from the world
-  // and to attach the object to the robot
+  // and to attach the object to the robot.
   moveit_msgs::AttachedCollisionObject attached_object;
   attached_object.link_name = "panda_leftfinger";
   /* The header must contain a valid TF frame*/
@@ -113,11 +113,11 @@ int main(int argc, char** argv)
   attached_object.object.primitive_poses.push_back(pose);
 
   // Note that attaching an object to the robot requires
-  // the corresponding operation to be specified as an ADD operation
+  // the corresponding operation to be specified as an ADD operation.
   attached_object.object.operation = attached_object.object.ADD;
 
   // Since we are attaching the object to the robot hand to simulate picking up the object,
-  // we want the collision checker to ignore collisions between the object and the robot hand
+  // we want the collision checker to ignore collisions between the object and the robot hand.
   attached_object.touch_links = std::vector<std::string>{ "panda_hand", "panda_leftfinger", "panda_rightfinger" };
 
   // Add an object into the environment

@@ -207,7 +207,7 @@ int main(int argc, char** argv)
   // functions that you will use most often in a planner. Note that
   // collision checks with the environment will use the padded version
   // of the robot. Padding helps in keeping the robot further away
-  // from obstacles in the environment.*/
+  // from obstacles in the environment.
   collision_result.clear();
   planning_scene.checkCollision(collision_request, collision_result, copied_state, acm);
   ROS_INFO_STREAM("Test 7: Current state is " << (collision_result.collision ? "in" : "not in") << " self collision");
