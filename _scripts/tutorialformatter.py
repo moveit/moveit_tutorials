@@ -70,6 +70,9 @@
 # 0.1.1: fixed a bug in source file directory lookup: now source paths are
 #        relative to the directory in which the including document lives.
 # 0.1.2: Added SUB_TUTORIAL support.
+
+from __future__ import print_function
+
 __version__ = '0.1.2'
 
 import os
