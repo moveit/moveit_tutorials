@@ -61,7 +61,7 @@ Launch the jog node. This example uses commands from a `SpaceNavigator <https://
 
 If you do not have a SpaceNav 3D mouse, you can publish example jogging commands from the command line with: ::
 
-    rostopic pub -r 100 /jog_arm_server/delta_jog_cmds geometry_msgs/TwistStamped "header: auto
+    rostopic pub -r 100 /jog_server/delta_jog_cmds geometry_msgs/TwistStamped "header: auto
     twist:
       linear:
         x: 0.0
