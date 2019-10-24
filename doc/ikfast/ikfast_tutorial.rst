@@ -126,7 +126,7 @@ The process of creating the IKFast MoveIt plugin comprises several steps, perfor
    Using a utility script, one can easily round all numbers down to n decimal places in your .dae file.
    From experience we recommend 5 decimal places, but if the OpenRave ikfast generator takes too long to find a solution (say more than an hour), lowering the accuracy should help. For example: ::
 
-     rosrun moveit_ikfast round_collada_numbers.py $MYROBOT_NAME.dae $MYROBOT_NAME.rounded.dae 5
+     rosrun moveit_kinematics round_collada_numbers.py $MYROBOT_NAME.dae $MYROBOT_NAME.rounded.dae 5
 
 3. Running the OpenRAVE IKFast tool to generate C++ solver code
 4. Creating the MoveIt IKFast plugin package wrapping the generated solver
