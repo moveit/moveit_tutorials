@@ -18,30 +18,19 @@ Install `catkin <http://wiki.ros.org/catkin>`_ the ROS build system: ::
 
   sudo apt-get install ros-melodic-catkin python-catkin-tools
 
-Create A Catkin Workspace and Download MoveIt Source
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-These tutorials rely on the master branch of MoveIt, which requires a build from source.
+Create A Catkin Workspace and Downloading Source Code
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+These tutorials rely on the master branch of MoveIt, and some other packages which requires a build from source.
 You will need to have a `catkin <http://wiki.ros.org/catkin>`_ workspace setup: ::
 
   mkdir -p ~/ws_moveit/src
   cd ~/ws_moveit/src
 
   wstool init .
-  wstool merge -t . https://raw.githubusercontent.com/ros-planning/moveit/master/moveit.rosinstall
+  wstool merge -t . https://raw.githubusercontent.com/ros-planning/moveit_tutorials/master/moveit_tutorials.rosinstall
   wstool update -t .
 
-Download Example Code
-^^^^^^^^^^^^^^^^^^^^^
-
-To easily follow along with these tutorials, you will need a **ROBOT_moveit_config** package. The default demo robot is the Panda arm from Franka Emika. To get a working **panda_moveit_config** package, we recommend you install from source.
-
-Within your `catkin <http://wiki.ros.org/catkin>`_ workspace, download the tutorials as well as the ``panda_moveit_config`` package: ::
-
-  cd ~/ws_moveit/src
-  git clone https://github.com/ros-planning/moveit_tutorials.git -b master
-  git clone https://github.com/ros-planning/panda_moveit_config.git -b melodic-devel
-
-.. note:: For now we will use a pre-generated ``panda_moveit_config`` package but later we will learn how to make our own in the `MoveIt Setup Assistant tutorial <../setup_assistant/setup_assistant_tutorial.html>`_.
+.. note:: For the tutorials we will use a pre-generated ``panda_moveit_config`` package but later we will learn how to make our own in the `MoveIt Setup Assistant tutorial <../setup_assistant/setup_assistant_tutorial.html>`_.
 
 Build your Catkin Workspace
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
