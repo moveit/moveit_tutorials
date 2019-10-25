@@ -29,8 +29,8 @@ before_install: # Use this to prepare the system to install prerequisites or dep
   - gem --version
   - gem install html-proofer
   # Install ROS's version of sphinx
-  - sudo apt-get -qq install ros-kinetic-rosdoc-lite
-  - source /opt/ros/kinetic/setup.bash
+  - sudo apt-get -qq install ros-melodic-rosdoc-lite
+  - source /opt/ros/melodic/setup.bash
 
 before_script:
   - git clone -q --depth=1 https://github.com/ros-planning/moveit_ci.git .moveit_ci
