@@ -13,6 +13,9 @@
 #include <moveit/robot_model/robot_model.h>
 #include <moveit/robot_state/robot_state.h>
 
+//#include <moveit/robot_state/conversions.h>
+//#include <moveit_msgs/MotionPlanRequest.h>
+
 #include <moveit_msgs/DisplayTrajectory.h>
 #include <moveit_msgs/PlanningScene.h>
 
@@ -23,7 +26,7 @@
 
 /* Author: Omid Heidari
    Desc: This file is a test for using trajopt in MoveIt. The goal is to make different types of constraints in
-   MotionPlanRequest and visualize the result calculated by using trajopt planner.
+   MotionPlanRequest and visualize the result calculated using trajopt planner.
 */
 
 int main(int argc, char** argv)
@@ -49,7 +52,7 @@ int main(int argc, char** argv)
 
   robot_model::RobotModelPtr robot_model = robot_model_loader->getModel();
 
-  // Create a RobotState and to keep track of the current robot pose and planning group
+  // Create a RobotState to keep track of the current robot pose and planning group
   robot_state::RobotStatePtr robot_state(
       new robot_state::RobotState(planning_scene_monitor::LockedPlanningSceneRO(psm)->getCurrentState()));
   robot_state->setToDefaultValues();
@@ -69,7 +72,10 @@ int main(int argc, char** argv)
   planning_pipeline::PlanningPipelinePtr planning_pipeline(
      new planning_pipeline::PlanningPipeline(robot_model, node_handle, "planning_plugin", "request_adapters"));
 
-  // Current state
+  // Current pose
+  std::vector<double> current_joint_values = { 0, 0, 0, -1.5, 0, 0.6, 0.9};
+  robot_state->setJointGroupPositions(joint_model_group, current_joint_values);
+  
   geometry_msgs::Pose pose_msg_current;
   const Eigen::Isometry3d& end_effector_transform_current = robot_state->getGlobalLinkTransform(link_model_names.back());
   pose_msg_current = tf2::toMsg(end_effector_transform_current);
@@ -122,6 +128,49 @@ int main(int argc, char** argv)
   geometry_msgs::Pose pose_msg_goal;
   const Eigen::Isometry3d& end_effector_transform_goal = robot_state->getGlobalLinkTransform(link_model_names.back());
   pose_msg_goal = tf2::toMsg(end_effector_transform_goal);
+
+  // Reference Trajectory. The type should be defined in the yaml file.
+  // ========================================================================================
+  // type: STATIONARY
+  // No need to pass any trajectory. The current joint values will be replicated for all timesteps
+
+  // type: JOINT_INTERPOLATED
+  // The joint values at a specified state. Could be the goal state or one of the goals when having multiple goal states
+  // The first index (points[0]) is used to set the values of the joints at the specified state as follows:
+  // req.reference_trajectories.resize(1);
+  // req.reference_trajectories[0].joint_trajectory.resize(1);
+  // req.reference_trajectories[0].joint_trajectory[0].joint_names = joint_names;
+  // req.reference_trajectories[0].joint_trajectory[0].points.resize(1);
+  // req.reference_trajectories[0].joint_trajectory[0].points[0].positions = goal_joint_values;
+
+  // type: GIVEN_TRAJ
+  // For this example, we give an interpolated trajectory
+  int n_steps = 20; // number of steps
+  int n_dof = 7; // number of degrees of freedom
+
+  std::vector<double> dt_vector;
+  for (int joint_index = 0; joint_index < n_dof; ++joint_index)
+  {
+    double dt = (goal_joint_values[joint_index] - current_joint_values[joint_index]) / n_steps;
+    dt_vector.push_back(dt);
+  }
+
+  req.reference_trajectories.resize(1);
+  req.reference_trajectories[0].joint_trajectory.resize(1);
+  req.reference_trajectories[0].joint_trajectory[0].points.resize(n_steps + 1); // trajectory includes both the start and end points (n_steps + 1)
+  req.reference_trajectories[0].joint_trajectory[0].joint_names = joint_names;
+  req.reference_trajectories[0].joint_trajectory[0].points[0].positions = current_joint_values;
+  for (std::size_t stp_index = 1; stp_index <= n_steps; ++stp_index)
+  {
+    std::vector<double> j_values;
+    for (int dof_index = 0; dof_index < n_dof; ++dof_index)
+    {
+      double j_value = current_joint_values[dof_index] + stp_index * dt_vector[dof_index];
+      j_values.push_back(j_value);
+    }
+    req.reference_trajectories[0].joint_trajectory[0].joint_names = joint_names;
+    req.reference_trajectories[0].joint_trajectory[0].points[stp_index].positions = j_values;
+  }
 
   // Visualization
   // ========================================================================================
