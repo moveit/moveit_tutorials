@@ -1,0 +1,7 @@
+<launch>
+  <include file="$(find moveit_tutorials)/doc/perception_pipeline/launch/obstacle_avoidance_demo.launch" />
+
+  <!-- Run the detection and adding cylinder node -->
+  <node pkg="moveit_tutorials" type="cylinder_segment" name="point_cloud_preprocessor" />
+
+</launch>

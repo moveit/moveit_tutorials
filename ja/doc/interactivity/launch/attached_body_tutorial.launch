@@ -1,0 +1,19 @@
+<launch>
+
+  <!-- load URDF -->
+  <param name="robot_description" command="$(find xacro)/xacro '$(find panda_description)/robots/panda.urdf.xacro'" />
+
+  <!-- load SRDF -->
+  <param name="robot_description_semantic" textfile="$(find panda_moveit_config)/config/panda.srdf" />
+
+  <!-- launch rviz -->
+  <node name="$(anon rviz)" pkg="rviz" type="rviz" respawn="false" output="screen">
+    <rosparam command="load" file="$(find panda_moveit_config)/config/kinematics.yaml"/>
+  </node>
+
+  <!-- launch interactivity_tutorial -->
+  <node name="attached_body_tutorial" pkg="moveit_tutorials" type="attached_body_tutorial" respawn="false" output="screen">
+    <rosparam command="load" file="$(find panda_moveit_config)/config/kinematics.yaml"/>
+  </node>
+
+</launch>

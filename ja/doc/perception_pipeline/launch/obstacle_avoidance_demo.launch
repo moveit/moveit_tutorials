@@ -1,0 +1,11 @@
+<launch>
+  <include file="$(find panda_moveit_config)/launch/demo.launch" />
+
+  <!-- Play the rosbag that contains the pointcloud data -->
+  <node pkg="moveit_tutorials" type="bag_publisher_maintain_time" name="point_clouds" />
+
+  <!-- If needed, broadcast static tf for robot root -->
+  <node pkg="tf2_ros" type="static_transform_publisher" name="to_temp_link" args="0 0.4 -0.6 0 0 0  temp_link panda_link0" />
+  <node pkg="tf2_ros" type="static_transform_publisher" name="to_panda_base" args="0 0 0 0 0.2 1.92 camera_rgb_optical_frame temp_link" />
+
+</launch>

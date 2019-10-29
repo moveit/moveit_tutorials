@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<package>
+  <name>moveit_tutorials</name>
+  <version>0.1.0</version>
+  <description>The moveit_tutorials package</description>
+  <license>BSD</license>
+
+  <author email="sachinc@willowgarage.com">Sachin Chitta</author>
+  <author email="dave@picknik.ai">Dave Coleman</author>
+  <author email="mike@picknik.ai">Mike Lautman</author>
+
+  <maintainer email="dave@picknik.ai">Dave Coleman</maintainer>
+  <maintainer email="mike@picknik.ai">Mike Lautman</maintainer>
+
+  <url type="website">https://ros-planning.github.io/moveit_tutorials</url>
+  <url type="repository">https://github.com/ros-planning/moveit_tutorials</url>
+  <url type="bugtracker">https://github.com/ros-planning/moveit_tutorials/issues</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>pluginlib</build_depend>
+  <build_depend>eigen</build_depend>
+  <build_depend>moveit_core</build_depend>
+  <build_depend>moveit_ros_planning</build_depend>
+  <build_depend>moveit_ros_planning_interface</build_depend>
+  <build_depend>moveit_ros_perception</build_depend>
+  <build_depend>interactive_markers</build_depend>
+  <build_depend>geometric_shapes</build_depend>
+  <build_depend>moveit_visual_tools</build_depend>
+  <build_depend>rviz_visual_tools</build_depend>
+  <build_depend>pcl_ros</build_depend>
+  <build_depend>pcl_conversions</build_depend>
+  <build_depend>rosbag</build_depend>
+  <build_depend>tf2_ros</build_depend>
+  <build_depend>tf2_eigen</build_depend>
+  <build_depend>tf2_geometry_msgs</build_depend>
+
+  <run_depend>panda_moveit_config</run_depend>
+  <run_depend>pluginlib</run_depend>
+  <run_depend>moveit_core</run_depend>
+  <run_depend>moveit_commander</run_depend>
+  <run_depend>moveit_fake_controller_manager</run_depend>
+  <run_depend>moveit_ros_planning_interface</run_depend>
+  <run_depend>moveit_ros_perception</run_depend>
+  <run_depend>interactive_markers</run_depend>
+  <run_depend>moveit_visual_tools</run_depend>
+  <run_depend>rviz_visual_tools</run_depend>
+  <run_depend>joy</run_depend>
+  <run_depend>pcl_ros</run_depend>
+  <run_depend>pcl_conversions</run_depend>
+  <run_depend>rosbag</run_depend>
+  <run_depend>tf2_ros</run_depend>
+  <run_depend>tf2_eigen</run_depend>
+  <run_depend>tf2_geometry_msgs</run_depend>
+
+  <test_depend>moveit_resources</test_depend>
+  <test_depend>rosunit</test_depend>
+
+  <export>
+    <!-- An example controller manager plugin for MoveIt. This is not functional code. -->
+    <moveit_core plugin="${prefix}/doc/controller_configuration/moveit_controller_manager_example_plugin_description.xml"/>
+
+    <!-- An example of planner plugin for MoveIt -->
+    <moveit_core plugin="${prefix}/doc/creating_moveit_plugins/lerp_motion_planner/lerp_interface_plugin_description.xml"/>
+
+  </export>
+
+</package>
