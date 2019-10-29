@@ -46,6 +46,9 @@ html_context = {
 #  "logo": "logo.png"
 }
 
+# Ignore the "ja" directory
+exclude_patterns = ['ja']
+
 # Add any paths that contain custom themes here, relative to this directory.
 
 # Links
