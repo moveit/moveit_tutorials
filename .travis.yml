@@ -45,6 +45,17 @@ script:
   # Run HTML tests on generated build output to check for 404 errors, etc
   - test "$TRAVIS_PULL_REQUEST" == false || URL_SWAP="--url-swap https\://github.com/ros-planning/moveit_tutorials/blob/master/:file\://$PWD/build/html/"
   - htmlproofer ./build --only-4xx --check-html --file-ignore ./build/html/genindex.html,./build/html/search.html --alt-ignore '/.*/' --url-ignore '#' $URL_SWAP
+  ##############################
+  ## For Japanese translation ##
+  ##############################
+  # Test build with non-ROS wrapped Sphinx command to allow warnings and errors to be caught
+  - sphinx-build -W -b html ja ja/native_build
+  # Test build with ROS-version of Sphinx command so that it is generated same as ros.org
+  - rosdoc_lite -o ja/build ja
+  - cp -rf ja/build/html build/html/ja
+  # Run HTML tests on generated build output to check for 404 errors, etc
+  - test "$TRAVIS_PULL_REQUEST" == false || URL_SWAP="--url-swap https\://github.com/ros-planning/moveit_tutorials/blob/master/:file\://$PWD/build/html/"
+  - travis_wait htmlproofer ./build/html/ja --only-4xx --check-html --file-ignore ./build/html/ja/genindex.html,./build/html/ja/search.html --alt-ignore '/.*/' --url-ignore '#' $URL_SWAP
 
 # after_success and deploy are skipped if build is broken
 after_success:
