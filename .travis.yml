@@ -44,7 +44,7 @@ script:
   - rosdoc_lite -o build .
   # Run HTML tests on generated build output to check for 404 errors, etc
   - test "$TRAVIS_PULL_REQUEST" == false || URL_SWAP="--url-swap https\://github.com/ros-planning/moveit_tutorials/blob/master/:file\://$PWD/build/html/"
-  - htmlproofer ./build --only-4xx --check-html --file-ignore ./build/html/genindex.html,./build/html/search.html --alt-ignore '/.*/' --url-ignore '#' $URL_SWAP
+  - travis_wait htmlproofer ./build --only-4xx --check-html --file-ignore ./build/html/genindex.html,./build/html/search.html --alt-ignore '/.*/' --url-ignore '#' $URL_SWAP
   ##############################
   ## For Japanese translation ##
   ##############################
