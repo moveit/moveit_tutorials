@@ -1,61 +1,60 @@
-Move Group C++ Interface
+Move Group C++ インタフェース
 ==================================
 .. image:: move_group_interface_tutorial_start_screen.png
    :width: 700px
 
-In MoveIt, the simplest user interface is through the :move_group_interface:`MoveGroupInterface` class. It provides easy to use functionality for most operations that a user may want to carry out, specifically setting joint or pose goals, creating motion plans, moving the robot, adding objects into the environment and attaching/detaching objects from the robot. This interface communicates over ROS topics, services, and actions to the `MoveGroup Node <http://docs.ros.org/indigo/api/moveit_ros_move_group/html/annotated.html>`_.
+MoveItにおける最も簡単なインタフェースは :move_group_interface:`MoveGroupInterface` クラスです．このクラスから，特定の関節角度や姿勢の設定，モーションプランニングの設定，ロボットの動作，環境への物体の追加とロボットへの取り付け/取り外し等様々な機能を利用することができます．このインタフェースはROSのトピック，サービス，アクションを通して `MoveGroup ノード <http://docs.ros.org/indigo/api/moveit_ros_move_group/html/annotated.html>`_ と通信しています．
 
+`YouTubeデモビデオ <https://youtu.be/_5siHkFQPBQ>`_ をご覧いただければ，Move Group インタフェースの強力な機能を理解していただけるかと思います！
 
-Watch this quick `YouTube video demo <https://youtu.be/_5siHkFQPBQ>`_ to see the power of the move group interface!
-
-Getting Started
+はじめに
 ---------------
-If you haven't already done so, make sure you've completed the steps in `Getting Started <../getting_started/getting_started.html>`_.
+まだ `はじめに <../getting_started/getting_started.html>`_ を終わらせていない方は，先にそちらをご覧ください．
 
-Running the Code
+コードを実行する
 ----------------
-Open two shells. In the first shell start RViz and wait for everything to finish loading: ::
+まずは２つの端末を開いてください．そして１つめの端末で下記コマンドを実行し，RVizが開いてすべてのロードが完了するまで待機してください． ::
 
   roslaunch panda_moveit_config demo.launch
 
-In the second shell, run the launch file: ::
+完了したら，２つめの端末で下記コマンドを実行してください． ::
 
   roslaunch moveit_tutorials move_group_interface_tutorial.launch
 
-**Note:** This tutorial uses the **RvizVisualToolsGui** panel to step through the demo. To add this panel to RViz, follow the instructions in the `Visualization Tutorial <../quickstart_in_rviz/quickstart_in_rviz_tutorial.html#rviz-visual-tools>`_.
+.. note:: 本チュートリアルではすべてのデモで"**RvizVisualToolsGui**"パネルを利用して行います．このパネルを追加するには， `MoveItクイックスタート with RViz <../quickstart_in_rviz/quickstart_in_rviz_tutorial.html#rviz-visual-tools>`_ をご覧ください．
 
-After a short moment, the RViz window should appear and look similar to the one at the top of this page. To progress through each demo step either press the **Next** button in the **RvizVisualToolsGui** panel at the bottom of the screen or select **Key Tool** in the **Tools** panel at the top of the screen and then press **N** on your keyboard while RViz is focused.
+しばらくすると，ページ冒頭のようなウィンドウが表示されます． デモを次のステップへ進める場合には，"**RVizVisualToolsGui**"パネルの"**Next**"ボタンを押下するか，RVizウィンドウが選択されてる状態で"**Tools**"パネルの"**Key Tool**"を選択し，キーボードの"**N**"を押してください．
 
-Expected Output
+動作確認
 ---------------
-See the `YouTube video <https://youtu.be/_5siHkFQPBQ>`_ at the top of this tutorial for expected output. In RViz, we should be able to see the following:
- 1. The robot moves its arm to the pose goal to its front.
- 2. The robot moves its arm to the joint goal at its side.
- 3. The robot moves its arm back to a new pose goal while maintaining the end-effector level.
- 4. The robot moves its arm along the desired Cartesian path (a triangle down, right, up+left).
- 5. A box object is added into the environment to the right of the arm.
+ページの冒頭にも記載した `YouTubeデモビデオ <https://youtu.be/_5siHkFQPBQ>`_ が，うまくいった場合の動作の様子です．"**Next**"を押下する度にRViz上で下記の動作が行われるか確認してください．:
+ 1. ロボットアームが初期姿勢から前に動く動作．（姿勢目標に到達する動作です．）
+ 2. ロボットアームが初期姿勢から横に動く動作．（目標関節角度に到達する動作です．）
+ 3. ロボットアームの初期姿勢が変更され，そこからエンドエフェクタを上向きに保ったまま動く動作．
+ 4. ロボットアームが直線軌道（三角形を描くような軌道）で動く動作．
+ 5. 下図のようにロボットアームの右に緑色のボックスが追加されるような動作．
     |B|
 
- 6. The robot moves its arm to the pose goal, avoiding collision with the box.
- 7. The object is attached to the wrist (its color will change to purple/orange/green).
- 8. The object is detached from the wrist (its color will change back to green).
- 9. The object is removed from the environment.
+ 6. ロボットアームが，追加された箱を避けて初期姿勢から目標姿勢まで動く動作．
+ 7. 追加された箱をロボットの手首に取り付ける動作．（箱の色がオレンジ色に変われば正解です．）
+ 8. 取り付けた箱を取り外す動作．（箱の色が緑色に戻ります．）
+ 9. 箱を環境から削除する動作．
 
 .. |B| image:: ./move_group_interface_tutorial_robot_with_box.png
 
-The Entire Code
+コードの全容
 ---------------
-The entire code can be seen :codedir:`here in the MoveIt GitHub project<move_group_interface/src/move_group_interface_tutorial.cpp>`. Next we step through the code piece by piece to explain its functionality.
+すべてのソースコードは :codedir:`MoveIt GitHub プロジェクト内のこちら<move_group_interface/src/move_group_interface_tutorial.cpp>` から確認することができます．ここから先では，このソースコードの内容を一つずつ確認しながら，その機能を紹介します．
 
 .. tutorial-formatter:: ./src/move_group_interface_tutorial.cpp
 
-The Launch File
+Launchファイル
 ---------------
-The entire launch file is :codedir:`here<move_group_interface/launch/move_group_interface_tutorial.launch>` on GitHub. All the code in this tutorial can be run from the **moveit_tutorials** package that you have as part of your MoveIt setup.
+すべてのLaunchファイルはGitHub上の :codedir:`こちら<move_group_interface/launch/move_group_interface_tutorial.launch>` から確認できます．また，本チュートリアルに記載されているすべてのソースコードは，MoveItのセットアップ時にダウンロードしてきた"**moveit_tutorials**"パッケージに格納されているものを実行しています．
 
 
-A Note on Setting Tolerances
+公差の設定方法について
 ----------------------------
-Note that the `MoveGroupInterface's <http://docs.ros.org/melodic/api/moveit_ros_planning_interface/html/classmoveit_1_1planning__interface_1_1MoveGroupInterface.html>`_ `setGoalTolerance()` and related methods sets the tolerance for **planning**, not execution.
+`MoveGroupInterface <http://docs.ros.org/melodic/api/moveit_ros_planning_interface/html/classmoveit_1_1planning__interface_1_1MoveGroupInterface.html>`_ の `setGoalTolerance()` メソッドとその関連メソッドはプランニングにしか適用されません．実行時の公差の設定ではないので注意してください．
 
-If you want to configure the execution tolerances, you will have to edit the `controller.yaml` file if using a FollowJointTrajectory controller, or manually add it into the generated trajectory message from the planner.
+もし，実行時の公差を設定したい場合で，"FollowJointTrajectory"コントローラを利用している場合は `controller.yaml` ファイルを編集してください．このコントローラを使用していない場合は，MoveItの動作計画から生成された"Trajectory"メッセージを直接編集してください．
