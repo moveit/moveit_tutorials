@@ -81,6 +81,11 @@ from docutils.parsers.rst.directives import flag, unchanged
 from docutils.statemachine import string2lines
 from pygments.lexers import get_lexer_for_filename
 
+# For Encoding 
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
 class TutorialFormatterDirective(rst.Directive):
     has_content = False
     final_argument_whitespace = True
