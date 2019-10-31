@@ -54,69 +54,65 @@ int main(int argc, char** argv)
 
   // BEGIN_TUTORIAL
   //
-  // Setup
-  // ^^^^^
-  //
-  // MoveIt operates on sets of joints called "planning groups" and stores them in an object called
-  // the `JointModelGroup`. Throughout MoveIt the terms "planning group" and "joint model group"
-  // are used interchangably.
+  // セットアップ
+  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  // 
+  // MoveItでは "planning groups" と呼ばれるロボットの関節情報を操作し，その操作の情報は `JointModelGroup` に格納します．
+  // MoveItではこの "planning group" と "joint model group" を交互に使用していきます．
   static const std::string PLANNING_GROUP = "panda_arm";
+  
+  // :move_group_interface:`MoveGroupInterface` クラスは
+  // プランニングに使用したい"planning group"の名前を設定するだけで簡単に使用することができます．
 
-  // The :move_group_interface:`MoveGroupInterface` class can be easily
-  // setup using just the name of the planning group you would like to control and plan for.
   moveit::planning_interface::MoveGroupInterface move_group(PLANNING_GROUP);
 
-  // We will use the :planning_scene_interface:`PlanningSceneInterface`
-  // class to add and remove collision objects in our "virtual world" scene
+  // :planning_scene_interface:`PlanningSceneInterface` クラスによりプランニングを行う仮想環境へ障害物を追加したり，削除したりすることができます．
   moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
 
-  // Raw pointers are frequently used to refer to the planning group for improved performance.
+  // アクセス回数の多くなる"planning group"は，生ポインタを利用することで，実行速度パフォーマンスを向上させます．
   const robot_state::JointModelGroup* joint_model_group =
       move_group.getCurrentState()->getJointModelGroup(PLANNING_GROUP);
 
-  // Visualization
+  // 表示
   // ^^^^^^^^^^^^^
   //
-  // The package MoveItVisualTools provides many capabilities for visualizing objects, robots,
-  // and trajectories in RViz as well as debugging tools such as step-by-step introspection of a script.
+  // "MoveItVisualTools"パッケージの利用により，障害物等の物体，ロボット，そして生成軌道等，多くのRVizへの表示機能を使うができるようになり，動作を一つずつ確認するといったデバッグツールとしての利用も可能になります．
   namespace rvt = rviz_visual_tools;
   moveit_visual_tools::MoveItVisualTools visual_tools("panda_link0");
   visual_tools.deleteAllMarkers();
 
-  // Remote control is an introspection tool that allows users to step through a high level script
-  // via buttons and keyboard shortcuts in RViz
+  // 遠隔操作により，RViz内のキーボードショートカット等を利用した便利なスクリプトを利用可能になります．
   visual_tools.loadRemoteControl();
 
-  // RViz provides many types of markers, in this demo we will use text, cylinders, and spheres
+  // RVizでは多くのマーカを利用可能ですが，本デモではテキスト，円柱，球のマーカを使用します．
   Eigen::Isometry3d text_pose = Eigen::Isometry3d::Identity();
   text_pose.translation().z() = 1.75;
   visual_tools.publishText(text_pose, "MoveGroupInterface Demo", rvt::WHITE, rvt::XLARGE);
 
-  // Batch publishing is used to reduce the number of messages being sent to RViz for large visualizations
+  // 逐次Publishを行うことで，RVizでの表示に使うメッセージの数を減らします．
   visual_tools.trigger();
 
-  // Getting Basic Information
-  // ^^^^^^^^^^^^^^^^^^^^^^^^^
+  // 基本的な情報の取得
+  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   //
-  // We can print the name of the reference frame for this robot.
+  // ロボットの座標系の名前を取得することができます．
   ROS_INFO_NAMED("tutorial", "Planning frame: %s", move_group.getPlanningFrame().c_str());
 
-  // We can also print the name of the end-effector link for this group.
+  // また，対象グループのエンドエフェクタの名前の取得も可能です．
   ROS_INFO_NAMED("tutorial", "End effector link: %s", move_group.getEndEffectorLink().c_str());
 
-  // We can get a list of all the groups in the robot:
+  // ロボットのグループ一覧の取得もできます．
   ROS_INFO_NAMED("tutorial", "Available Planning Groups:");
   std::copy(move_group.getJointModelGroupNames().begin(), move_group.getJointModelGroupNames().end(),
-            std::ostream_iterator<std::string>(std::cout, ", "));
+    std::ostream_iterator<std::string>(std::cout, ", "));
 
-  // Start the demo
+  // デモを開始する
   // ^^^^^^^^^^^^^^^^^^^^^^^^^
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to start the demo");
 
-  // Planning to a Pose goal
-  // ^^^^^^^^^^^^^^^^^^^^^^^
-  // We can plan a motion for this group to a desired pose for the
-  // end-effector.
+  // 目標姿勢までプランニングする
+  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  // 設定したエンドエフェクタの姿勢まで，指定のグループのモーションプランニングを行うことができます．
   geometry_msgs::Pose target_pose1;
   target_pose1.orientation.w = 1.0;
   target_pose1.position.x = 0.28;
@@ -124,18 +120,17 @@ int main(int argc, char** argv)
   target_pose1.position.z = 0.5;
   move_group.setPoseTarget(target_pose1);
 
-  // Now, we call the planner to compute the plan and visualize it.
-  // Note that we are just planning, not asking move_group
-  // to actually move the robot.
+  // これでプランナを呼び出してプランニングを行い，その結果を表示することができます．
+  // ここではプランニングを行っているのみであり，"move_group"に実際にロボットを動かすように指示はしていないことに注意してください．
   moveit::planning_interface::MoveGroupInterface::Plan my_plan;
 
   bool success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
 
   ROS_INFO_NAMED("tutorial", "Visualizing plan 1 (pose goal) %s", success ? "" : "FAILED");
 
-  // Visualizing plans
-  // ^^^^^^^^^^^^^^^^^
-  // We can also visualize the plan as a line with markers in RViz.
+  // プランニング結果の表示
+  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  // RViz上にプランニングの結果を線とマーカで表示することができます．
   ROS_INFO_NAMED("tutorial", "Visualizing plan 1 as trajectory line");
   visual_tools.publishAxisLabeled(target_pose1, "pose1");
   visual_tools.publishText(text_pose, "Pose Goal", rvt::WHITE, rvt::XLARGE);
@@ -143,54 +138,53 @@ int main(int argc, char** argv)
   visual_tools.trigger();
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
 
-  // Moving to a pose goal
-  // ^^^^^^^^^^^^^^^^^^^^^
+  // 実際に目標姿勢まで動かす
+  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   //
-  // Moving to a pose goal is similar to the step above
-  // except we now use the move() function. Note that
-  // the pose goal we had set earlier is still active
-  // and so the robot will try to move to that goal. We will
-  // not use that function in this tutorial since it is
-  // a blocking function and requires a controller to be active
-  // and report success on execution of a trajectory.
+  // 指定した姿勢まで動かすのはこれまでの手順とほとんど同じですが，
+  // ここでは"move()"関数を使用します．
+  // これまでの手順で指定した目標姿勢はまだ有効なので，
+  // ロボットはこれに向かって動こうとします．
+  // 実際にロボットを動かすには，軌道の実行に成功した際に"success"と返すようなコントローラを有効にする必要があります．
+  // ここまでのチュートリアルではそのコントローラの設定は行っていないため，ここでは"move()"関数はコメントアウトしています．
 
-  /* Uncomment below line when working with a real robot */
+  /* 実際にロボットを動かす場合には，下記のコメントアウトを外してください． */
   /* move_group.move(); */
 
-  // Planning to a joint-space goal
-  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  // 関節値指定での目標姿勢へのプランニング
+  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   //
-  // Let's set a joint space goal and move towards it.  This will replace the
-  // pose target we set above.
+  // 関節値で目標姿勢を設定して，動かしてみましょう．
+  // これまで目標姿勢を指定していた部分を書き換えていきます．
   //
-  // To start, we'll create an pointer that references the current robot's state.
-  // RobotState is the object that contains all the current position/velocity/acceleration data.
+  // まず，ロボットの現在の状態を参照するためのポインタを生成します．
+  // "RobotState"から現在の位置/速度/加速度の情報を取得することができます．
   moveit::core::RobotStatePtr current_state = move_group.getCurrentState();
   //
-  // Next get the current set of joint values for the group.
+  // 続いて，指定のグループの関節角度を取得します．
   std::vector<double> joint_group_positions;
   current_state->copyJointGroupPositions(joint_model_group, joint_group_positions);
 
-  // Now, let's modify one of the joints, plan to the new joint space goal and visualize the plan.
-  joint_group_positions[0] = -1.0;  // radians
+  // 関節角度を一つ変更して目標姿勢を変更したら，プランニングを行い，その結果を表示してみましょう．
+  joint_group_positions[0] = -1.0;  // ラジアン指定
   move_group.setJointValueTarget(joint_group_positions);
 
   success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
   ROS_INFO_NAMED("tutorial", "Visualizing plan 2 (joint space goal) %s", success ? "" : "FAILED");
 
-  // Visualize the plan in RViz
+  // RVizで結果を表示する．
   visual_tools.deleteAllMarkers();
   visual_tools.publishText(text_pose, "Joint Space Goal", rvt::WHITE, rvt::XLARGE);
   visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group);
   visual_tools.trigger();
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
 
-  // Planning with Path Constraints
-  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  // 拘束条件付のプランニング
+  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   //
-  // Path constraints can easily be specified for a link on the robot.
-  // Let's specify a path constraint and a pose goal for our group.
-  // First define the path constraint.
+  // 拘束条件設定は，ロボットのリンク名を指定することで簡単に行なえます．
+  // 指定のグループで実際に拘束条件と目標姿勢を設定してみましょう．
+  // まず，拘束条件を設定します．
   moveit_msgs::OrientationConstraint ocm;
   ocm.link_name = "panda_link7";
   ocm.header.frame_id = "panda_link0";
@@ -200,15 +194,14 @@ int main(int argc, char** argv)
   ocm.absolute_z_axis_tolerance = 0.1;
   ocm.weight = 1.0;
 
-  // Now, set it as the path constraint for the group.
+  // 次に，設定した拘束条件をグループに設定します．
   moveit_msgs::Constraints test_constraints;
   test_constraints.orientation_constraints.push_back(ocm);
   move_group.setPathConstraints(test_constraints);
 
-  // We will reuse the old goal that we had and plan to it.
-  // Note that this will only work if the current state already
-  // satisfies the path constraints. So, we need to set the start
-  // state to a new pose.
+  // 目標姿勢はこれまでに使用したものを利用します．
+  // ただし，現在の状態が拘束条件を満たしている必要があるので，
+  // 開始姿勢を変更していることに注意してください．
   robot_state::RobotState start_state(*move_group.getCurrentState());
   geometry_msgs::Pose start_pose2;
   start_pose2.orientation.w = 1.0;
@@ -218,18 +211,18 @@ int main(int argc, char** argv)
   start_state.setFromIK(joint_model_group, start_pose2);
   move_group.setStartState(start_state);
 
-  // Now we will plan to the earlier pose target from the new
-  // start state that we have just created.
+  // 新しく設定した開始姿勢から，
+  // これまでに指定している目標姿勢まで動かしてみましょう．
   move_group.setPoseTarget(target_pose1);
 
-  // Planning with constraints can be slow because every sample must call an inverse kinematics solver.
-  // Lets increase the planning time from the default 5 seconds to be sure the planner has enough time to succeed.
+  // 毎サンプルで逆運動学を解く必要があるため，拘束条件付でのプランニングには時間がかかります．
+  // そこで，プランニングの制限時間を5秒から10秒に伸ばし，プランナが解を出せるように設定を変更しておきましょう．
   move_group.setPlanningTime(10.0);
 
   success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
   ROS_INFO_NAMED("tutorial", "Visualizing plan 3 (constraints) %s", success ? "" : "FAILED");
 
-  // Visualize the plan in RViz
+  // RVizで結果を表示する．
   visual_tools.deleteAllMarkers();
   visual_tools.publishAxisLabeled(start_pose2, "start");
   visual_tools.publishAxisLabeled(target_pose1, "goal");
@@ -238,48 +231,48 @@ int main(int argc, char** argv)
   visual_tools.trigger();
   visual_tools.prompt("next step");
 
-  // When done with the path constraint be sure to clear it.
+  // 拘束条件付のパスプランニングが完了したら，その拘束条件を削除するのを忘れないでください．
   move_group.clearPathConstraints();
 
-  // Cartesian Paths
-  // ^^^^^^^^^^^^^^^
-  // You can plan a Cartesian path directly by specifying a list of waypoints
-  // for the end-effector to go through. Note that we are starting
-  // from the new start state above.  The initial pose (start state) does not
-  // need to be added to the waypoint list but adding it can help with visualizations
+  // 直動動作
+  // ^^^^^^^^^^^^^^^^^^^^^^
+  // エンドエフェクタの通過する軌道をウェイポイントのリストとして指定することで，直動動作のプランニングを行うことができます．
+  // ただし，開始姿勢は拘束条件付プランニングの際に設定したものを使用します．
+  // 開始姿勢はウェイポイントに追加する必要はありませんが，
+  // 結果を確認する際に便利なので追加しています．
   std::vector<geometry_msgs::Pose> waypoints;
   waypoints.push_back(start_pose2);
 
   geometry_msgs::Pose target_pose3 = start_pose2;
 
   target_pose3.position.z -= 0.2;
-  waypoints.push_back(target_pose3);  // down
+  waypoints.push_back(target_pose3);  // 下げる
 
   target_pose3.position.y -= 0.2;
-  waypoints.push_back(target_pose3);  // right
+  waypoints.push_back(target_pose3);  // 右へ
 
   target_pose3.position.z += 0.2;
   target_pose3.position.y += 0.2;
   target_pose3.position.x -= 0.2;
-  waypoints.push_back(target_pose3);  // up and left
+  waypoints.push_back(target_pose3);  // 上げて左へ
 
-  // Cartesian motions are frequently needed to be slower for actions such as approach and retreat
-  // grasp motions. Here we demonstrate how to reduce the speed of the robot arm via a scaling factor
-  // of the maxiumum speed of each joint. Note this is not the speed of the end effector point.
+  // 直動動作は物体把持の際に利用されることがおおく，往々にしてゆっくりとした動作が必要になるかと思います．
+  // そこでここでは，各関節の最大速度を元に速度を落としています．
+  // ただし，この速度というのは，エンドエフェクタの速度ではないことに注意してください．
   move_group.setMaxVelocityScalingFactor(0.1);
 
-  // We want the Cartesian path to be interpolated at a resolution of 1 cm
-  // which is why we will specify 0.01 as the max step in Cartesian
-  // translation.  We will specify the jump threshold as 0.0, effectively disabling it.
-  // Warning - disabling the jump threshold while operating real hardware can cause
-  // large unpredictable motions of redundant joints and could be a safety issue
+  // 直動動作を1cmに区切りたいため，直動動作への変換最大ステップ（ `eef_step` ）を0.01に設定しています．
+  // `jump_threshold` を0.0に設定しているのは，各ステップを飛ばさないように設定するためです．
+  // **警告：ジャンプ閾値を無効にすると，
+  // 冗長関節を持つロボットの場合は予測不可能な動作を起こし，
+  // 危険な動作が起きる可能性があるので十分注意してください．**
   moveit_msgs::RobotTrajectory trajectory;
   const double jump_threshold = 0.0;
   const double eef_step = 0.01;
   double fraction = move_group.computeCartesianPath(waypoints, eef_step, jump_threshold, trajectory);
   ROS_INFO_NAMED("tutorial", "Visualizing plan 4 (Cartesian path) (%.2f%% acheived)", fraction * 100.0);
 
-  // Visualize the plan in RViz
+  // 結果をRVizに表示する．
   visual_tools.deleteAllMarkers();
   visual_tools.publishText(text_pose, "Cartesian Path", rvt::WHITE, rvt::XLARGE);
   visual_tools.publishPath(waypoints, rvt::LIME_GREEN, rvt::SMALL);
@@ -288,17 +281,17 @@ int main(int argc, char** argv)
   visual_tools.trigger();
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
 
-  // Adding/Removing Objects and Attaching/Detaching Objects
-  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  // 衝突物体の追加/削除とロボットへの設置/取り外し
+  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   //
-  // Define a collision object ROS message.
+  // 衝突物体のROSメッセージを定義します．
   moveit_msgs::CollisionObject collision_object;
   collision_object.header.frame_id = move_group.getPlanningFrame();
 
-  // The id of the object is used to identify it.
+  // idを使って物体を識別します．
   collision_object.id = "box1";
 
-  // Define a box to add to the world.
+  // 環境に追加する箱を定義します．
   shape_msgs::SolidPrimitive primitive;
   primitive.type = primitive.BOX;
   primitive.dimensions.resize(3);
@@ -306,7 +299,7 @@ int main(int argc, char** argv)
   primitive.dimensions[1] = 0.1;
   primitive.dimensions[2] = 0.4;
 
-  // Define a pose for the box (specified relative to frame_id)
+  // 箱の姿勢を定義します．（"frame_id"に設定された座標系での値です．）
   geometry_msgs::Pose box_pose;
   box_pose.orientation.w = 1.0;
   box_pose.position.x = 0.4;
@@ -320,18 +313,18 @@ int main(int argc, char** argv)
   std::vector<moveit_msgs::CollisionObject> collision_objects;
   collision_objects.push_back(collision_object);
 
-  // Now, let's add the collision object into the world
+  // 実際に環境に衝突物体を追加してみましょう．
   ROS_INFO_NAMED("tutorial", "Add an object into the world");
   planning_scene_interface.addCollisionObjects(collision_objects);
 
-  // Show text in RViz of status
+  // 状態をテキストでRVizに表示します．
   visual_tools.publishText(text_pose, "Add object", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
 
-  // Wait for MoveGroup to recieve and process the collision object message
+  // "MoveGroup"に設定した物体のメッセージが届き，処理されるのを待ちます．
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to once the collision object appears in RViz");
 
-  // Now when we plan a trajectory it will avoid the obstacle
+  // この状態でパスプランニングを行うと，物体を回避するような軌道が生成されます．
   move_group.setStartState(*move_group.getCurrentState());
   geometry_msgs::Pose another_pose;
   another_pose.orientation.w = 1.0;
@@ -343,48 +336,48 @@ int main(int argc, char** argv)
   success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
   ROS_INFO_NAMED("tutorial", "Visualizing plan 5 (pose goal move around cuboid) %s", success ? "" : "FAILED");
 
-  // Visualize the plan in RViz
+  // RVizで結果を表示する．
   visual_tools.deleteAllMarkers();
   visual_tools.publishText(text_pose, "Obstacle Goal", rvt::WHITE, rvt::XLARGE);
   visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group);
   visual_tools.trigger();
   visual_tools.prompt("next step");
 
-  // Now, let's attach the collision object to the robot.
+  // 次に，ロボットに物体を取り付けてみましょう．
   ROS_INFO_NAMED("tutorial", "Attach the object to the robot");
   move_group.attachObject(collision_object.id);
 
-  // Show text in RViz of status
+  // RVizで状態をテキストとして表示する．
   visual_tools.publishText(text_pose, "Object attached to robot", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
 
-  /* Wait for MoveGroup to recieve and process the attached collision object message */
+/* "MoveGroup"に設定した物体のメッセージが届き，処理されるのを待ちます．*/ 
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to once the collision object attaches to the "
-                      "robot");
+    "robot");
 
-  // Now, let's detach the collision object from the robot.
+  // 続いて，ロボットから物体を取り外してみましょう．
   ROS_INFO_NAMED("tutorial", "Detach the object from the robot");
   move_group.detachObject(collision_object.id);
 
-  // Show text in RViz of status
+  // RVizで状態をテキストとして表示する．
   visual_tools.publishText(text_pose, "Object dettached from robot", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
 
-  /* Wait for MoveGroup to recieve and process the attached collision object message */
+  /* "MoveGroup"に設定した物体のメッセージが届き，処理されるのを待ちます．*/
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to once the collision object detaches to the "
-                      "robot");
+    "robot");
 
-  // Now, let's remove the collision object from the world.
+  // 最後に，物体を環境から削除してみましょう．
   ROS_INFO_NAMED("tutorial", "Remove the object from the world");
   std::vector<std::string> object_ids;
   object_ids.push_back(collision_object.id);
   planning_scene_interface.removeCollisionObjects(object_ids);
 
-  // Show text in RViz of status
+  // RVizで状態をテキストとして表示する．
   visual_tools.publishText(text_pose, "Object removed", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
 
-  /* Wait for MoveGroup to recieve and process the attached collision object message */
+  /* "MoveGroup"に設定した物体のメッセージが届き，処理されるのを待ちます. */
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to once the collision object disapears");
 
   // END_TUTORIAL
