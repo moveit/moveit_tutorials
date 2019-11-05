@@ -4,61 +4,44 @@ IKFast Kinematics Solver
 .. image:: openrave_panda.png
    :width: 700px
 
-In this section, we will walk through configuring an IKFast plugin for MoveIt
+In this section, we will walk through configuring an IKFast plugin for MoveIt.
 
 What is IKFast?
 ---------------
 
-*From Wikipedia:*
-IKFast, the Robot Kinematics Compiler, is a powerful inverse kinematics solver provided within Rosen Diankov's OpenRAVE motion planning software. Unlike most inverse kinematics solvers, IKFast can analytically solve the kinematics equations of any complex kinematics chain, and generate language-specific files (like C++) for later use. The end result is extremely stable solutions that can run as fast as 5 microseconds on recent processors
+IKFast, the Robot Kinematics Compiler, is a powerful inverse kinematics solver provided within Rosen Diankov's `OpenRAVE <http://openrave.org>`_ motion planning software. IKFast automatically analyses any complex kinematic chain for common patterns that allow for an analytic solution and generates C++ code to find them.
+As a consequence, IKFast provides extremely stable solutions that can be found in a few microseconds on recent processors.
 
 MoveIt IKFast
 ---------------
 
-MoveIt IKFast is a tool that generates a IKFast kinematics plugin for MoveIt using OpenRAVE generated cpp files.
-This tutorial will step you through setting up your robot to utilize the power of IKFast. MoveIt IKFast is tested on ROS Melodic with Catkin using OpenRAVE 0.8 with a 6DOF and 7DOF robot arm manipulator.
-
-While it works in theory, currently the IKFast plugin generator tool does not work with >7 degree of freedom arms.
+MoveIt provides tools to generate an IKFast kinematics plugin for MoveIt using the OpenRAVE generated cpp files.
+This tutorial will step you through setting up your robot to utilize the power of IKFast.
+MoveIt IKFast is tested on ROS Melodic with a 6DOF and 7DOF robot arm manipulator.
+While it works in theory, MoveIt IKFast doesn't currently support >7 degree of freedom arms.
 
 Getting Started
 -----------------
 If you haven't already done so, make sure you've completed the steps in `Getting Started <../getting_started/getting_started.html>`_.
 
-You should have MoveIt configuration package for your robot that was created by using the `Setup Assistant <../setup_assistant/setup_assistant_tutorial.html>`_
+You should have a MoveIt configuration package for your robot that was created by using the `Setup Assistant <../setup_assistant/setup_assistant_tutorial.html>`_.
 
-Installing OpenRAVE on Ubuntu 16.04 is tricky. Here are 2 blog posts that give slightly different recipes for installing OpenRAVE.
+OpenRAVE is a planning framework as complex as MoveIt itself and installing it is tricky -- particularly because it is not actively developed anymore.
+Fortunately, personalrobotics provide a `docker image <https://hub.docker.com/r/personalrobotics/ros-openrave>`_ based on Ubuntu 14.04 with OpenRAVE 0.9.0 and ROS Indigo installed, which can be used to generate the solver code once.
 
- * `Stéphane Caron's Installing OpenRAVE on Ubuntu 16.04 <https://scaron.info/teaching/installing-openrave-on-ubuntu-16.04.html>`_
- * `Francisco Suárez-Ruiz's Robotics Workstation Setup in Ubuntu 16.04 <https://fsuarez6.github.io/blog/workstation-setup-xenial>`_
+So the easiest way to run the IKFast code generator is through this docker image.
+For manual building instructions (tailored towards Ubuntu 16.04), please see the `Kinetic version of this tutorial <http://docs.ros.org/kinetic/api/moveit_tutorials/html/doc/ikfast/ikfast_tutorial.html>`_.
+To follow the recommended, docker-based approach, ensure you have docker installed and started: ::
 
-Make sure you have these programs installed: ::
+ sudo apt-get install docker.io
+ sudo service docker start
 
- sudo apt-get install cmake g++ git ipython minizip python-dev python-h5py python-numpy python-scipy qt4-dev-tools
+The following command will ensure that you can run docker with your user account (adding $USER to the docker group): ::
 
-You may also need the following libraries: ::
+ sudo usermod -a -G docker $USER
 
- sudo apt-get install libassimp-dev libavcodec-dev libavformat-dev libavformat-dev libboost-all-dev libboost-date-time-dev libbullet-dev libfaac-dev libglew-dev libgsm1-dev liblapack-dev liblog4cxx-dev libmpfr-dev libode-dev libogg-dev libpcrecpp0v5 libpcre3-dev libqhull-dev libqt4-dev libsoqt-dev-common libsoqt4-dev libswscale-dev libswscale-dev libvorbis-dev libx264-dev libxml2-dev libxvidcore-dev
+You need to log off/log on in order to actually activate this permission change.
 
-To enable the OpenRAVE viewer you may also need to install OpenSceneGraph-3.4 from source: ::
-
- sudo apt-get install libcairo2-dev libjasper-dev libpoppler-glib-dev libsdl2-dev libtiff5-dev libxrandr-dev
- git clone https://github.com/openscenegraph/OpenSceneGraph.git --branch OpenSceneGraph-3.4
- cd OpenSceneGraph
- mkdir build; cd build
- cmake .. -DDESIRED_QT_VERSION=4
- make -j$(nproc)
- sudo make install
-
-For IkFast to work correctly, you *must* have the correct version of sympy installed: ::
-
- pip install --upgrade --user sympy==0.7.1
-
-You should *not* have mpmath installed: ::
-
- sudo apt remove python-mpmath
-
-MoveIt IKFast Installation
----------------------------
 Install the MoveIt IKFast package either from Debian packages or from source.
 
 **Binary Install**: ::
@@ -73,210 +56,79 @@ Inside your catkin workspace's ``./src`` directory: ::
  rosdep install -y --from-paths . --ignore-src --rosdistro ${ROS_DISTRO}
  catkin build
 
-OpenRAVE Installation
-----------------------
+Creating the IKFast MoveIt plugin
+---------------------------------
 
-**Binary Install (only Indigo / Ubuntu 14.04)**: ::
+To facilitate copy-and-paste, we suggest to define the robot name as an environment variable: ::
 
- sudo apt-get install ros-indigo-openrave
+  export MYROBOT_NAME="panda_arm"
 
-Note: you have to set: ::
+OpenRAVE uses Collada instead of URDF to describe the robot. In order to automatically convert your robot's URDF to Collada, you need to provide the .urdf file.
+If your .urdf file is generated from `xacro <http://wiki.ros.org/xacro/>`_ files, you can generate the URDF using the following command: ::
 
- export PYTHONPATH=$PYTHONPATH:`openrave-config --python-dir`
-
-**Source Install**: ::
-
- git clone --branch latest_stable https://github.com/rdiankov/openrave.git
- cd openrave && mkdir build && cd build
- cmake -DODE_USE_MULTITHREAD=ON -DOSG_DIR=/usr/local/lib64/ ..
- make -j$(nproc)
- sudo make install
-
-Working commit numbers 5cfc7444... confirmed for Ubuntu 14.04 and 9c79ea26... confirmed for Ubuntu 16.04, according to Stéphane Caron.
-
-**Please report your results with this on** `this GitHub repository. <https://github.com/ros-planning/moveit_tutorials>`_
-
-
-Create Collada File For Use With OpenRAVE
------------------------------------------
-
-Parameters
-^^^^^^^^^^
-
- * **MYROBOT_NAME** - name of robot as in your URDF
- * **PLANNING_GROUP** - name of the planning group you would like to use this solver for, as referenced in your SRDF and kinematics.yaml
- * **MOVEIT_IK_PLUGIN_PKG** - name of the new package you just created
- * **IKFAST_OUTPUT_PATH** - file path to the location of your generated IKFast output.cpp file
-
-To make using this tutorial copy/paste friendly, set a ``MYROBOT_NAME`` environment variable with the name of your robot: ::
-
- export MYROBOT_NAME="panda_arm"
-
-First you will need robot description file that is in `Collada or OpenRAVE <http://openrave.org/docs/latest_stable/collada_robot_extensions/>`_ robot format.
-
-If your robot is not in this format we recommend you create a ROS `URDF <http://www.ros.org/wiki/urdf/Tutorials/Create%20your%20own%20urdf%20file>`_ file.
-
-If your robot is in `xacro <http://wiki.ros.org/xacro/>`_ format you can convert it to urdf using the following command: ::
-
- rosrun xacro xacro -o "$MYROBOT_NAME".urdf "$MYROBOT_NAME".urdf.xacro
-
-Once you have your robot in URDF format, you can convert it to Collada (.dae) file using the following command: ::
-
- rosrun collada_urdf urdf_to_collada "$MYROBOT_NAME".urdf "$MYROBOT_NAME".dae
-
-**Note:** you may need to install ``collada_urdf``: ::
-
- sudo apt install ros-${ROS_DISTRO}-collada-urdf
-
-Often floating point issues arise in converting a URDF file to Collada file, so a script has been created to round all the numbers down to x decimal places in your .dae file. Its probably best if you skip this step initially and see if IKFast can generate a solution with your default values, but if the generator takes longer than, say, an hour, try the following: ::
-
- export IKFAST_PRECISION="5"
- cp "$MYROBOT_NAME".dae "$MYROBOT_NAME".backup.dae  # create a backup of your full precision dae.
- rosrun moveit_kinematics round_collada_numbers.py "$MYROBOT_NAME".dae "$MYROBOT_NAME".dae "$IKFAST_PRECISION"
-
-From experience we recommend 5 decimal places, but if the OpenRAVE IKFast generator takes to long to find a solution, lowering the number of decimal places should help.
-
-To see the links in your newly generated Collada file
-
-You may need to install package **libsoqt4-dev** to have the display working: ::
-
- openrave-robot.py "$MYROBOT_NAME".dae --info links
-
-This is useful if you have a 7-dof arm and you need to fill in a ``--freeindex`` parameter, discussed later.
-
-To test your newly generated Collada file in OpenRAVE: ::
-
- openrave "$MYROBOT_NAME".dae
-
-You should see your robot.
-
-.. image:: openrave_panda.png
-   :width: 700px
-
-Create IKFast Solution CPP File
--------------------------------
-Once you have a numerically rounded Collada file its time to generate the C++ .h header file that contains the analytical IK solution for your robot.
+  rosrun xacro xacro -o $MYROBOT_NAME.urdf $MYROBOT_NAME.urdf.xacro
 
 Select IK Type
 ^^^^^^^^^^^^^^
-You need to choose which sort of IK you want. See `this page <http://openrave.org/docs/latest_stable/openravepy/ikfast/#ik-types>`_ for more info.  The most common IK type is *transform6d*.
+You need to choose which type of IK you want to solve for. See `this page <http://openrave.org/docs/latest_stable/openravepy/ikfast/#ik-types>`_ for more info.
+The most common IK type is *transform6d*.
 
 Choose Planning Group
 ^^^^^^^^^^^^^^^^^^^^^
-If your robot has more than one arm or "planning group" that you want to generate an IKFast solution for, choose one to generate first. The following instructions will assume you have chosen one ``<planning_group_name>`` that you will create a plugin for. Once you have verified that the plugin works, repeat the following instructions for any other planning groups you have. For example, you might have 2 planning groups: ::
+If your robot has more than one arm or "planning group" that you want to generate an IKFast solver for, you need to repeat the following process for each group.
+The following instructions will assume you have chosen one ``<planning_group_name>``. Furthermore, you need to know the names of the base link and the endeffector link of the chain to solve for.
 
- <planning_group_name> = "left_arm"
- <planning_group_name> = "right_arm"
+Generate IKFast MoveIt plugin
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-To make it easy to use copy/paste for the rest of this tutorial. Set a ``PLANNING_GROUP`` environment variable. eg: ::
+To generate the IKFast MoveIt plugin, issue the following command: ::
 
- export PLANNING_GROUP="panda_arm"
+  rosrun moveit_kinematics auto_create_ikfast_moveit_plugin.sh --iktype Transform6D $MYROBOT_NAME.urdf <planning_group_name> <base_link> <eef_link>
 
-Identify Link Numbers
-^^^^^^^^^^^^^^^^^^^^^
-You also need the link index numbers for the ``base_link`` and ``end_effector_link`` between which the IK will be calculated. You can count the number of links by viewing a list of links in your model: ::
+The speed and success of this process will depend on the complexity of your robot. A typical 6 DOF manipulator with 3 intersecting axes at the base or wrist will take only a few minutes to generate the solver code. For a detailed explanation of the creation procedure and additional tweaks of the process, see `Tweaking the creation process`_.
 
- openrave-robot.py "$MYROBOT_NAME".dae --info links
+The command above creates a new ROS package named ``$MYROBOT_NAME_<planning_group_name>_ikfast_plugin`` within the current folder.
+Thus, you need to rebuild your workspace so the new package is detected: ::
 
-A typical 6-DOF manipulator should have 6 arm links + a dummy base_link as required by ROS specifications.  If no extra links are present in the model, this gives: *baselink=0* and *eelink=6*.  Often, an additional ``tool_link`` will be provided to position the grasp/tool frame, giving *eelink=7*.
-
-The manipulator below has 7-DOF giving ``baselink=0`` and ``eelink=8``.
-
-=============  ======  ===========
-name           index   parents
-=============  ======  ===========
-panda_link0    0
-panda_link1    1       panda_link0
-panda_link2    2       panda_link1
-panda_link3    3       panda_link2
-panda_link4    4       panda_link3
-panda_link5    5       panda_link4
-panda_link6    6       panda_link5
-panda_link7    7       panda_link6
-panda_link8    8       panda_link7
-=============  ======  ===========
-
-Set the base link and EEF link to the desired index: ::
-
- export BASE_LINK="0"
- export EEF_LINK="8"
-
-You will also want to store the names of those links for later: ::
-
- export BASE_LINK_NAME="panda_link0"
- export EEF_LINK_NAME="panda_link8"
-
-If you have a 7 DOF arm you will need to specify a free joint. Selecting the correct free joint for a 7 DOF robot can have significant impact on performance of your kinematics plugin. We suggest experimenting with different choices for the free joint. ``FREE_INDEX=4`` works well for the Panda: ::
-
- export FREE_INDEX="4"
-
-Generate IK Solver
-^^^^^^^^^^^^^^^^^^
-
-To generate the IK solution between the manipulator's base and tool frames for a 6DOF arm, use the following command format. We recommend you name the output ``ikfast61_"$PLANNING_GROUP".cpp``: ::
-
- export IKFAST_OUTPUT_PATH=`pwd`/ikfast61_"$PLANNING_GROUP".cpp
-
-For a 6DOF arm: ::
-
- python `openrave-config --python-dir`/openravepy/_openravepy_/ikfast.py --robot="$MYROBOT_NAME".dae --iktype=transform6d --baselink="$BASE_LINK" --eelink="$EEF_LINK" --savefile="$IKFAST_OUTPUT_PATH"
-
-For a 7 dof arm, you will need to specify a free link: ::
-
- python `openrave-config --python-dir`/openravepy/_openravepy_/ikfast.py --robot="$MYROBOT_NAME".dae --iktype=transform6d --baselink="$BASE_LINK" --eelink="$EEF_LINK" --freeindex="$FREE_INDEX" --savefile="$IKFAST_OUTPUT_PATH"
-
-The speed and success of this process will depend on the complexity of your robot. A typical 6 DOF manipulator with 3 intersecting axis at the base or wrist will take only a few minutes to generate the IK.
-
-**Known issue**
-There is a known bug that causes the ``--freeindex`` argument to handle tree indexes incorrectly. Say ``--baselink=2``, ``--eelink=16`` and the links indexed from 3 to 9 are not related to the planning group chain. In that case ``--freeindex`` will correctly interpret index 2 as link 2, but incorrectly interpret index 3 as link 10, index 4 as link 11, ... and index 9 as link 16.
-
-You should consult the OpenRAVE mailing list and ROS Answers for information about 5 and 7 DOF manipulators.
-
-Create Plugin
--------------
-
-Create the package that will contain the IK plugin. We recommend you name the package ``"$MYROBOT_NAME"_ikfast_"$PLANNING_GROUP"_plugin``: ::
-
- cd ~/catkin_ws/src
- export MOVEIT_IK_PLUGIN_PKG="$MYROBOT_NAME"_ikfast_"$PLANNING_GROUP"_plugin
- catkin_create_pkg "$MOVEIT_IK_PLUGIN_PKG"
-
-Build your workspace so the new package is detected (can be 'roscd'): ::
-
- catkin build
-
-Create the plugin source code. Run ``rosrun moveit_kinematics create_ikfast_moveit_plugin.py -h`` to see optional arguements: ::
-
- rosrun moveit_kinematics create_ikfast_moveit_plugin.py "$MYROBOT_NAME" "$PLANNING_GROUP" "$MOVEIT_IK_PLUGIN_PKG" "$BASE_LINK_NAME" "$EEF_LINK_NAME" "$IKFAST_OUTPUT_PATH"
-
-For the Panda we need to use some of the optional parameters: ::
-
- rosrun moveit_kinematics create_ikfast_moveit_plugin.py --moveit_config_pkg="panda_moveit_config" --robot_name_in_srdf="panda" "$MYROBOT_NAME" "$PLANNING_GROUP" "$MOVEIT_IK_PLUGIN_PKG" "$BASE_LINK_NAME" "$EEF_LINK_NAME" "$IKFAST_OUTPUT_PATH"
-
-
-Or without ROS: ::
-
- python /path/to/create_ikfast_moveit_plugin.py "$MYROBOT_NAME" "$PLANNING_GROUP" "$MOVEIT_IK_PLUGIN_PKG" "$BASE_LINK_NAME" "$EEF_LINK_NAME" "$IKFAST_OUTPUT_PATH"
+  catkin build
 
 Usage
 -----
-The IKFast plugin should function identically to the default KDL IK Solver, but with greatly increased performance. The MoveIt configuration file is automatically edited by the moveit_ikfast script but you can switch between the KDL and IKFast solvers using the *kinematics_solver* parameter in the robot's kinematics.yaml file: ::
+The IKFast plugin can be used as a drop-in replacement for the default KDL IK Solver, but with greatly increased performance. The MoveIt configuration file should be automatically edited by the generator script but in some cases this might fail. In this situation you can switch between the KDL and IKFast solvers using the *kinematics_solver* parameter in the robot's kinematics.yaml file: ::
 
- rosed "$MYROBOT_NAME"_moveit_config kinematics.yaml
+  rosed "$MYROBOT_NAME"_moveit_config kinematics.yaml
 
 Edit these parts: ::
 
  <planning_group>:
-   kinematics_solver: <myrobot_name>_<planning_group>_kinematics/IKFastKinematicsPlugin
- -INSTEAD OF-
-   kinematics_solver: kdl_kinematics_plugin/KDLKinematicsPlugin
+   kinematics_solver: <myrobot_name>_<planning_group>_ikfast_plugin/IKFastKinematicsPlugin
 
 Test the Plugin
 ^^^^^^^^^^^^^^^
-
 Use the MoveIt RViz Motion Planning Plugin and use the interactive markers to see if correct IK Solutions are found.
 
 Updating the Plugin
 -------------------
 
-If any future changes occur with MoveIt or IKFast, you might need to re-generate this plugin using our scripts. To allow you to easily do this, a bash script is automatically created in the root of your IKFast package, named *update_ikfast_plugin.sh*. This does the same thing you did manually earlier, but uses the IKFast solution header file that is copied into the ROS package.
+If any future changes occur with MoveIt or IKFast, you might need to re-generate this plugin using our scripts. To facilitate this, a bash script was automatically created in the root of your IKFast MoveIt package, named *update_ikfast_plugin.sh*. This regenerates the plugin from the OpenRAVE-generated .cpp solver file.
+
+Tweaking the creation process
+-----------------------------
+
+The process of creating the IKFast MoveIt plugin comprises several steps, performed one-by-one by the creation script:
+
+1. Downloading the docker image provided by `personalrobotics <https://hub.docker.com/r/personalrobotics/ros-openrave>`_
+2. Converting the ROS URDF file to Collada required for OpenRAVE: ::
+
+     rosrun collada_urdf urdf_to_collada $MYROBOT_NAME.urdf $MYROBOT_NAME.dae
+
+   Sometimes floating point issues arise in converting a URDF file to Collada, which prevents OpenRAVE to find IK solutions.
+   Using a utility script, one can easily round all numbers down to n decimal places in your .dae file.
+   From experience we recommend 5 decimal places, but if the OpenRave ikfast generator takes too long to find a solution (say more than an hour), lowering the accuracy should help. For example: ::
+
+     rosrun moveit_kinematics round_collada_numbers.py $MYROBOT_NAME.dae $MYROBOT_NAME.rounded.dae 5
+
+3. Running the OpenRAVE IKFast tool to generate C++ solver code
+4. Creating the MoveIt IKFast plugin package wrapping the generated solver
+
+The ``auto_create_ikfast_moveit_plugin.sh`` script evaluates the file extension of the input file to determine which steps to run. To re-run the script from any intermediate step (e.g. after having tweaked the accuracy of the ``.dae`` file), simply provide the corresponding output from the previous step as input (``.dae`` or ``.cpp``) instead of the initial ``.urdf`` file.

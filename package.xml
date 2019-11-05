@@ -12,6 +12,10 @@
   <maintainer email="dave@picknik.ai">Dave Coleman</maintainer>
   <maintainer email="mike@picknik.ai">Mike Lautman</maintainer>
 
+  <url type="website">https://ros-planning.github.io/moveit_tutorials</url>
+  <url type="repository">https://github.com/ros-planning/moveit_tutorials</url>
+  <url type="bugtracker">https://github.com/ros-planning/moveit_tutorials/issues</url>
+
   <buildtool_depend>catkin</buildtool_depend>
 
   <build_depend>pluginlib</build_depend>
@@ -54,7 +58,11 @@
 
   <export>
     <!-- An example controller manager plugin for MoveIt. This is not functional code. -->
-    <moveit_core plugin="${prefix}/moveit_controller_manager_example_plugin_description.xml"/>
+    <moveit_core plugin="${prefix}/doc/controller_configuration/moveit_controller_manager_example_plugin_description.xml"/>
+
+    <!-- An example of planner plugin for MoveIt -->
+    <moveit_core plugin="${prefix}/doc/creating_moveit_plugins/lerp_motion_planner/lerp_interface_plugin_description.xml"/>
+
   </export>
 
 </package>

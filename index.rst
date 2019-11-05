@@ -39,11 +39,14 @@ Building more complex applications with MoveIt often requires developers to dig 
    doc/planning_scene_ros_api/planning_scene_ros_api_tutorial
    doc/motion_planning_api/motion_planning_api_tutorial
    doc/motion_planning_pipeline/motion_planning_pipeline_tutorial
+   doc/creating_moveit_plugins/plugin_tutorial
    doc/visualizing_collisions/visualizing_collisions_tutorial
    doc/time_parameterization/time_parameterization_tutorial
    doc/planning_with_approximated_constraint_manifolds/planning_with_approximated_constraint_manifolds_tutorial
    doc/pick_place/pick_place_tutorial
    doc/moveit_grasps/moveit_grasps_tutorial
+   doc/moveit_task_constructor/moveit_task_constructor_tutorial
+   doc/subframes/subframes_tutorial
 
 Integration with a New Robot
 ----------------------------
@@ -69,6 +72,7 @@ Configuration
    doc/ompl_interface/ompl_interface_tutorial
    doc/chomp_planner/chomp_planner_tutorial
    doc/stomp_planner/stomp_planner_tutorial
+   doc/trajopt_planner/trajopt_planner_tutorial
    doc/planning_adapters/planning_adapters_tutorial.rst
 
 Miscellaneous
@@ -78,6 +82,7 @@ Miscellaneous
    :maxdepth: 1
 
    doc/joystick_control_teleoperation/joystick_control_teleoperation_tutorial
+   doc/arm_jogging/arm_jogging_tutorial
    doc/benchmarking/benchmarking_tutorial
    doc/tests/tests_tutorial
 

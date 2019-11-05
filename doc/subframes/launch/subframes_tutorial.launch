@@ -1,0 +1,6 @@
+<launch>
+
+  <node name="subframes_tutorial" pkg="moveit_tutorials" type="subframes_tutorial" respawn="false" output="screen">
+  </node>
+
+</launch>
