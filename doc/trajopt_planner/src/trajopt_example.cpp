@@ -13,9 +13,6 @@
 #include <moveit/robot_model/robot_model.h>
 #include <moveit/robot_state/robot_state.h>
 
-//#include <moveit/robot_state/conversions.h>
-//#include <moveit_msgs/MotionPlanRequest.h>
-
 #include <moveit_msgs/DisplayTrajectory.h>
 #include <moveit_msgs/PlanningScene.h>
 
@@ -26,7 +23,7 @@
 
 /* Author: Omid Heidari
    Desc: This file is a test for using trajopt in MoveIt. The goal is to make different types of constraints in
-   MotionPlanRequest and visualize the result calculated using trajopt planner.
+   MotionPlanRequest and visualize the result calculated using the trajopt planner.
 */
 
 int main(int argc, char** argv)
@@ -72,7 +69,7 @@ int main(int argc, char** argv)
   planning_pipeline::PlanningPipelinePtr planning_pipeline(
      new planning_pipeline::PlanningPipeline(robot_model, node_handle, "planning_plugin", "request_adapters"));
 
-  // Current pose
+  // Current state
   std::vector<double> current_joint_values = { 0, 0, 0, -1.5, 0, 0.6, 0.9};
   robot_state->setJointGroupPositions(joint_model_group, current_joint_values);
   
@@ -145,31 +142,34 @@ int main(int argc, char** argv)
 
   // type: GIVEN_TRAJ
   // For this example, we give an interpolated trajectory
-  int n_steps = 20; // number of steps
-  int n_dof = 7; // number of degrees of freedom
+  int const N_STEPS = 20; // number of steps
+  int const N_DOF = 7; // number of degrees of freedom
 
+  // Calculate the increment value for each joint 
   std::vector<double> dt_vector;
-  for (int joint_index = 0; joint_index < n_dof; ++joint_index)
+  for (int joint_index = 0; joint_index < N_DOF; ++joint_index)
   {
-    double dt = (goal_joint_values[joint_index] - current_joint_values[joint_index]) / n_steps;
+    double dt = (goal_joint_values[joint_index] - current_joint_values[joint_index]) / N_STEPS;
     dt_vector.push_back(dt);
   }
 
   req.reference_trajectories.resize(1);
   req.reference_trajectories[0].joint_trajectory.resize(1);
-  req.reference_trajectories[0].joint_trajectory[0].points.resize(n_steps + 1); // trajectory includes both the start and end points (n_steps + 1)
+  // trajectory includes both the start and end points (N_STEPS + 1)
+  req.reference_trajectories[0].joint_trajectory[0].points.resize(N_STEPS + 1); 
   req.reference_trajectories[0].joint_trajectory[0].joint_names = joint_names;
   req.reference_trajectories[0].joint_trajectory[0].points[0].positions = current_joint_values;
-  for (std::size_t stp_index = 1; stp_index <= n_steps; ++stp_index)
+  // Use the increment values (dt_vector) to caluclate the joint values at each step
+  for (std::size_t step_index = 1; step_index <= N_STEPS; ++step_index)
   {
-    std::vector<double> j_values;
-    for (int dof_index = 0; dof_index < n_dof; ++dof_index)
+    std::vector<double> joint_values;
+    for (int dof_index = 0; dof_index < N_DOF; ++dof_index)
     {
-      double j_value = current_joint_values[dof_index] + stp_index * dt_vector[dof_index];
-      j_values.push_back(j_value);
+      double joint_value = current_joint_values[dof_index] + step_index * dt_vector[dof_index];
+      joint_values.push_back(joint_value);
     }
     req.reference_trajectories[0].joint_trajectory[0].joint_names = joint_names;
-    req.reference_trajectories[0].joint_trajectory[0].points[stp_index].positions = j_values;
+    req.reference_trajectories[0].joint_trajectory[0].points[step_index].positions = joint_values;
   }
 
   // Visualization
