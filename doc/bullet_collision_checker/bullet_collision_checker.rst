@@ -26,6 +26,8 @@ You should now see the Panda robot and a box both with interactive markers which
 
    Left: FCL collision results. Right: Bullet collision results.
 
+Please note that the current implementation of Bullet as a collision detector is not thread safe as the internal collision managers are mutable members.
+
 Continuous Collision Detection
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

@@ -55,7 +55,8 @@ visualization_msgs::MarkerArray g_collision_points;
 
 const double BOX_SIZE = 0.1;
 
-void help()
+/** \brief Prints information to the console. */
+void printHelp()
 {
   ROS_INFO("#####################################################");
   ROS_INFO("RViz setup for interactive robot");
@@ -149,29 +150,28 @@ int main(int argc, char** argv)
   spinner.start();
 
   moveit_visual_tools::MoveItVisualTools visual_tools("panda_link0");
-  ros::Publisher robot_state_publisher(node_handle.advertise<moveit_msgs::DisplayRobotState>("interactive_robot_state", 1));
+  visual_tools.setMarkerTopic("interactive_robot_markers");
   ros::Publisher robot_state_publisher_2(node_handle.advertise<moveit_msgs::DisplayRobotState>("robot_state_before", 1));
-  ros::Publisher world_state_publisher(node_handle.advertise<visualization_msgs::Marker>("interactive_robot_markers", 100));
 
   {
     // BEGIN_TUTORIAL
     // The code starts with creating an interactive robot and a new planning scene.
-    InteractiveRobot robot;
-    g_planning_scene = new planning_scene::PlanningScene(robot.robotModel());
+    InteractiveRobot interactive_robot;
+    g_planning_scene = new planning_scene::PlanningScene(interactive_robot.robotModel());
 
     // Changing the collision detector to Bullet
     // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     // The active collision detector is set from the planning scene using the specific collision detector allocator for
     // Bullet.
     g_planning_scene->setActiveCollisionDetector(collision_detection::CollisionDetectorAllocatorBullet::create());
-    // For understanding the interactive robot, please refer to the Visualizing Collisions tutorial.
+    // For understanding the interactive interactive_robot, please refer to the Visualizing Collisions tutorial.
     // CALL_SUB_TUTORIAL CCD
     // CALL_SUB_TUTORIAL CCD_2
     // END_TUTORIAL
 
     Eigen::Isometry3d world_cube_pose;
     double world_cube_size;
-    robot.getWorldGeometry(world_cube_pose, world_cube_size);
+    interactive_robot.getWorldGeometry(world_cube_pose, world_cube_size);
     g_world_cube_shape.reset(new shapes::Box(world_cube_size, world_cube_size, world_cube_size));
     g_planning_scene->getWorldNonConst()->addToObject("world_cube", g_world_cube_shape, world_cube_pose);
 
@@ -179,13 +179,13 @@ int main(int argc, char** argv)
     g_marker_array_publisher =
         new ros::Publisher(node_handle.advertise<visualization_msgs::MarkerArray>("interactive_robot_marray", 100));
 
-    robot.setUserCallback(computeCollisionContactPoints);
+    interactive_robot.setUserCallback(computeCollisionContactPoints);
 
-    help();
+    printHelp();
 
     visual_tools.loadRemoteControl();
     visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to start the continuous collision detection demo.");
-    ROS_INFO("Shutting down the interactive robot...");
+    ROS_INFO("Shutting down the interactive interactive_robot...");
 
     // remove all collision markers
     if (g_collision_points.markers.size())
@@ -196,10 +196,7 @@ int main(int argc, char** argv)
       g_marker_array_publisher->publish(g_collision_points);
     }
 
-    visualization_msgs::Marker marker_delete;
-    marker_delete.header.frame_id = "/panda_link0";
-    marker_delete.action = visualization_msgs::Marker::DELETEALL;
-    world_state_publisher.publish(marker_delete);
+    visual_tools.deleteAllMarkers();
 
     delete g_planning_scene;
   }
@@ -211,17 +208,17 @@ int main(int argc, char** argv)
   // For the CCD demonstration, the Panda robot is loaded again and with it a new planning scene created. Bullet is
   // again set as the active collision detector.
   robot_model::RobotModelPtr robot_model = moveit::core::loadTestingRobotModel("panda");
-  planning_scene::PlanningScenePtr planning_scene(new planning_scene::PlanningScene(robot_model));
+  auto planning_scene = std::make_shared<planning_scene::PlanningScene>(robot_model);
   planning_scene->setActiveCollisionDetector(collision_detection::CollisionDetectorAllocatorBullet::create());
 
   // The box is added and the robot brought into its position.
-  Eigen::Isometry3d pos{ Eigen::Isometry3d::Identity() };
-  pos.translation().x() = 0.43;
-  pos.translation().y() = 0;
-  pos.translation().z() = 0.55;
+  Eigen::Isometry3d box_pose{ Eigen::Isometry3d::Identity() };
+  box_pose.translation().x() = 0.43;
+  box_pose.translation().y() = 0;
+  box_pose.translation().z() = 0.55;
 
-  shapes::ShapePtr box(new shapes::Box(BOX_SIZE, BOX_SIZE, BOX_SIZE));
-  planning_scene->getWorldNonConst()->addToObject("box", box, pos);
+  auto box = std::make_shared<shapes::Box>(BOX_SIZE, BOX_SIZE, BOX_SIZE);
+  planning_scene->getWorldNonConst()->addToObject("box", box, box_pose);
 
   robot_state::RobotState state = planning_scene->getCurrentStateNonConst();
   state.setToDefaultValues();
@@ -262,12 +259,13 @@ int main(int argc, char** argv)
   marker.color.b = 0.0f;
   marker.color.a = 0.4f;
   marker.lifetime = ros::Duration();
-  marker.pose = tf2::toMsg(pos);
-  world_state_publisher.publish(marker);
+  marker.pose = tf2::toMsg(box_pose);
+  visual_tools.publishMarker(marker);
 
   moveit_msgs::DisplayRobotState msg;
   robot_state::robotStateToRobotStateMsg(state, msg.state);
-  robot_state_publisher.publish(msg);
+  visual_tools.setRobotStateTopic("interactive_robot_state");
+  visual_tools.publishRobotState(state);
 
   visual_tools.prompt("Press 'next' for second robot state.");
 
@@ -276,8 +274,7 @@ int main(int argc, char** argv)
   state.setJointPositions("panda_joint2", &joint_2);
   state.setJointPositions("panda_joint4", &joint_4);
   state.update();
-  robot_state::robotStateToRobotStateMsg(state, msg.state);
-  robot_state_publisher.publish(msg);
+  visual_tools.publishRobotState(state);
 
   res.clear();
   planning_scene->checkCollision(req, res);
