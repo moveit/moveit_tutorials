@@ -79,10 +79,10 @@ int main(int argc, char** argv)
 
   // Now, we call the PlanningComponents to compute the plan and visualize it.
   // Note that we are just planning
-  auto plan_soln1 = planning_components->plan();
+  auto plan_solution1 = planning_components->plan();
 
   // Check if PlanningComponents succeeded in finding the plan
-  if (plan_soln1)
+  if (plan_solution1)
   {
     // Visualize the start pose in Rviz
     visual_tools.publishAxisLabeled(robot_start_state->getGlobalLinkTransform("panda_link8"), "start_pose");
@@ -91,7 +91,7 @@ int main(int argc, char** argv)
     visual_tools.publishAxisLabeled(target_pose1.pose, "target_pose");
     visual_tools.publishText(text_pose, "Goal Pose", rvt::WHITE, rvt::XLARGE);
     // Visualize the trajectory in Rviz
-    visual_tools.publishTrajectoryLine(plan_soln1.trajectory, joint_model_group_ptr);
+    visual_tools.publishTrajectoryLine(plan_solution1.trajectory, joint_model_group_ptr);
     visual_tools.trigger();
     /* planning_components->execute(); // Execute the plan */
   }
@@ -117,17 +117,17 @@ int main(int argc, char** argv)
   planning_components->setStartState(start_state);
 
   // We will reuse the old goal that we had and plan to it.
-  auto plan_soln2 = planning_components->plan();
-  if (plan_soln2)
+  auto plan_solution2 = planning_components->plan();
+  if (plan_solution2)
   {
     robot_state::RobotState robot_state(robot_model_ptr);
-    moveit::core::robotStateMsgToRobotState(plan_soln2.start_state, robot_state);
+    moveit::core::robotStateMsgToRobotState(plan_solution2.start_state, robot_state);
 
     visual_tools.publishText(text_pose, "Start Pose", rvt::WHITE, rvt::XLARGE);
     visual_tools.publishAxisLabeled(robot_state.getGlobalLinkTransform("panda_link8"), "start_pose");
     visual_tools.publishText(text_pose, "Goal Pose", rvt::WHITE, rvt::XLARGE);
     visual_tools.publishAxisLabeled(target_pose1.pose, "target_pose");
-    visual_tools.publishTrajectoryLine(plan_soln2.trajectory, joint_model_group_ptr);
+    visual_tools.publishTrajectoryLine(plan_solution2.trajectory, joint_model_group_ptr);
     visual_tools.trigger();
 
     /* planning_components->execute(); // Execute the plan */
@@ -154,17 +154,17 @@ int main(int argc, char** argv)
   planning_components->setGoal(target_state);
 
   // We will reuse the old start that we had and plan from it.
-  auto plan_soln3 = planning_components->plan();
-  if (plan_soln3)
+  auto plan_solution3 = planning_components->plan();
+  if (plan_solution3)
   {
     robot_state::RobotState robot_state(robot_model_ptr);
-    moveit::core::robotStateMsgToRobotState(plan_soln3.start_state, robot_state);
+    moveit::core::robotStateMsgToRobotState(plan_solution3.start_state, robot_state);
 
     visual_tools.publishText(text_pose, "Start Pose", rvt::WHITE, rvt::XLARGE);
     visual_tools.publishAxisLabeled(robot_state.getGlobalLinkTransform("panda_link8"), "start_pose");
     visual_tools.publishText(text_pose, "Goal Pose", rvt::WHITE, rvt::XLARGE);
     visual_tools.publishAxisLabeled(target_pose2, "target_pose");
-    visual_tools.publishTrajectoryLine(plan_soln3.trajectory, joint_model_group_ptr);
+    visual_tools.publishTrajectoryLine(plan_solution3.trajectory, joint_model_group_ptr);
     visual_tools.trigger();
 
     /* planning_components->execute(); // Execute the plan */
@@ -189,17 +189,17 @@ int main(int argc, char** argv)
   planning_components->setGoal("ready");
 
   // Again we will reuse the old start that we had and plan from it.
-  auto plan_soln4 = planning_components->plan();
-  if (plan_soln4)
+  auto plan_solution4 = planning_components->plan();
+  if (plan_solution4)
   {
     robot_state::RobotState robot_state(robot_model_ptr);
-    moveit::core::robotStateMsgToRobotState(plan_soln4.start_state, robot_state);
+    moveit::core::robotStateMsgToRobotState(plan_solution4.start_state, robot_state);
 
     visual_tools.publishText(text_pose, "Start Pose", rvt::WHITE, rvt::XLARGE);
     visual_tools.publishAxisLabeled(robot_state.getGlobalLinkTransform("panda_link8"), "start_pose");
     visual_tools.publishText(text_pose, "Goal Pose", rvt::WHITE, rvt::XLARGE);
     visual_tools.publishAxisLabeled(robot_start_state->getGlobalLinkTransform("panda_link8"), "target_pose");
-    visual_tools.publishTrajectoryLine(plan_soln4.trajectory, joint_model_group_ptr);
+    visual_tools.publishTrajectoryLine(plan_solution4.trajectory, joint_model_group_ptr);
     visual_tools.trigger();
 
     /* planning_components->execute(); // Execute the plan */
