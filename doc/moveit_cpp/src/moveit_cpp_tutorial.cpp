@@ -93,6 +93,8 @@ int main(int argc, char** argv)
     // Visualize the trajectory in Rviz
     visual_tools.publishTrajectoryLine(plan_solution1.trajectory, joint_model_group_ptr);
     visual_tools.trigger();
+
+    /* Uncomment if you want to execute the plan */
     /* planning_components->execute(); // Execute the plan */
   }
 
@@ -130,6 +132,7 @@ int main(int argc, char** argv)
     visual_tools.publishTrajectoryLine(plan_solution2.trajectory, joint_model_group_ptr);
     visual_tools.trigger();
 
+    /* Uncomment if you want to execute the plan */
     /* planning_components->execute(); // Execute the plan */
   }
 
@@ -167,6 +170,7 @@ int main(int argc, char** argv)
     visual_tools.publishTrajectoryLine(plan_solution3.trajectory, joint_model_group_ptr);
     visual_tools.trigger();
 
+    /* Uncomment if you want to execute the plan */
     /* planning_components->execute(); // Execute the plan */
   }
 
@@ -202,6 +206,7 @@ int main(int argc, char** argv)
     visual_tools.publishTrajectoryLine(plan_solution4.trajectory, joint_model_group_ptr);
     visual_tools.trigger();
 
+    /* Uncomment if you want to execute the plan */
     /* planning_components->execute(); // Execute the plan */
   }
 
