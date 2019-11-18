@@ -30,7 +30,7 @@ int main(int argc, char** argv)
 
   ROS_INFO_STREAM_NAMED(LOGNAME, "Starting MoveIt Tutorials...");
 
-  auto moveit_cpp_ptr = std::make_shared<moveit::planning_interface::MoveitCpp>(nh);
+  auto moveit_cpp_ptr = std::make_shared<moveit::planning_interface::MoveItCpp>(nh);
 
   auto planning_components =
       std::make_shared<moveit::planning_interface::PlanningComponent>(PLANNING_GROUP, moveit_cpp_ptr);
