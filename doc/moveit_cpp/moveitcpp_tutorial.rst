@@ -1,4 +1,4 @@
-MoveIt Cpp Tutorial
+MoveItCpp Tutorial
 ==================================
 
 Introduction
