@@ -5,7 +5,7 @@
 
     <!-- Planning Pipeline -->
     <include ns="/moveit_cpp_tutorial/ompl" file="$(find panda_moveit_config)/launch/ompl_planning_pipeline.launch.xml"/>
-    
+
      <!-- Trajectory execution  -->
     <include ns="moveit_cpp_tutorial" file="$(find panda_moveit_config)/launch/trajectory_execution.launch.xml">
       <arg name="moveit_controller_manager" value="fake"/>
@@ -28,7 +28,7 @@
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
 
     <!-- Launch RViz -->
-    <node name="$(anon rviz)" pkg="rviz" type="rviz" respawn="false" 
+    <node name="$(anon rviz)" pkg="rviz" type="rviz" respawn="false"
       args="-d $(find moveit_tutorials)/doc/moveit_cpp/launch/moveit_cpp_tutorial.rviz" output="screen">
       <rosparam command="load" file="$(find panda_moveit_config)/config/kinematics.yaml"/>
     </node>
