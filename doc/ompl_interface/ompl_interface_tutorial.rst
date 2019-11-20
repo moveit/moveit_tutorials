@@ -97,6 +97,29 @@ The configuration of these optimization objectives can be done in the *ompl_plan
 For more information on the OMPL optimal planners, the reader is referred to the
 `OMPL - Optimal Planning documentation <http://ompl.kavrakilab.org/optimalPlanning.html>`_.
 
+OMPL Planner Termination Conditions
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The planners in OMPL typically terminate when a given time limit has been exceeded. However, it possible to specify an additional planner termination condition per planner
+configuration in ompl_planning.yaml via the ``termination_condition`` parameter. Possible values are:
+
+* ``Iteration[num]``: Terminate after ``num`` iterations. Here, ``num`` should be replaced with a positive integer.
+* ``CostConvergence[solutionsWindow,epsilon]``: Terminate after the cost (as specified by an optimization objective) has converged. The parameter ``solutionsWindow`` specifies the minimum number of solutions to use in deciding whether a planner has converged. The parameter ``epsilon`` is the threshold to consider for convergence. This should be a positive number close to 0. If the cumulative moving average does not change by a relative fraction of epsilon after a new better solution is found, convergence has been reached.
+* ``ExactSolution``: Terminate as soon as an exact solution is found or a timeout occurs. This modifies the behavior of anytime/optimizing planners to terminate upon discovering the first feasible solution.
+
+In all cases, the planner will terminate when either the user-specified termination condition is satisfied or the time limit specified by ``timeout`` has been reached, whichever occurs first.
+
+For example, to specify that RRTstar should terminate upon convergence, the following settings could be used: ::
+
+	RRTstarkConfigDefault:
+	    type: geometric::RRTstar
+	    termination_condition: CostConvergence[10,.1]
+	    range: 0.0
+	    goal_bias: 0.05
+	    delay_collision_checking: 1
+
+Note that no optimization objective is specified, so the default one, PathLengthOptimizationObjective, will be used.
+
 Post-Processing Smoothing
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
