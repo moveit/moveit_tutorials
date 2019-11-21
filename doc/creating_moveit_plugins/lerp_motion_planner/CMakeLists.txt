@@ -60,4 +60,4 @@ install(
 )
 
 install(FILES lerp_interface_plugin_description.xml
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/doc/creating_moveit_plugins/lerp_motion_planner/)
