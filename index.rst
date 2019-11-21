@@ -39,11 +39,13 @@ Building more complex applications with MoveIt often requires developers to dig 
    doc/planning_scene_ros_api/planning_scene_ros_api_tutorial
    doc/motion_planning_api/motion_planning_api_tutorial
    doc/motion_planning_pipeline/motion_planning_pipeline_tutorial
+   doc/creating_moveit_plugins/plugin_tutorial
    doc/visualizing_collisions/visualizing_collisions_tutorial
    doc/time_parameterization/time_parameterization_tutorial
    doc/planning_with_approximated_constraint_manifolds/planning_with_approximated_constraint_manifolds_tutorial
    doc/pick_place/pick_place_tutorial
    doc/moveit_grasps/moveit_grasps_tutorial
+   doc/moveit_task_constructor/moveit_task_constructor_tutorial
    doc/subframes/subframes_tutorial
    doc/moveit_cpp/moveitcpp_tutorial
 

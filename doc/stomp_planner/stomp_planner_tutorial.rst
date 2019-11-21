@@ -14,18 +14,20 @@ You should also have gone through the steps in `Visualization with MoveIt RViz P
 
 Prerequisites
 -------------
- 1. You must have the latest version of MoveIt installed. On ROS Melodic you will need to build MoveIt from source. A build from source is required as STOMP is not part of the official release yet. It is therefore not included in the binary packages. We will go through the steps for doing this below.
- 2. To use STOMP with your robot you must already have a MoveIt configuration package for your robot already. For example, if you have a Panda robot, it's probably called ``panda_moveit_config``. This is typically built using the `MoveIt Setup Assistant <../setup_assistant/setup_assistant_tutorial.html>`_.
- 3. You must also have built `ros-industrial/industrial_moveit package <https://github.com/ros-industrial/industrial_moveit>`_ from source. This needs to be built from source since industrial_moveit is not released as a debian yet. You only need to build the `stomp_core <https://github.com/ros-industrial/industrial_moveit/tree/kinetic-devel/stomp_core>`_ package from industrial_moveit as other packages are not required for the functionality of STOMP with moveIt.
+ 1. You must have the latest version of MoveIt for your ROS distribution installed. As STOMP is distributed independently you can safely install the packaged version of MoveIt however. STOMP then needs to be build from source, we will go through the steps for doing this below.
+ 2. To use STOMP with your robot you must need to have a MoveIt configuration package for your robot ready. For example, if you have a Panda robot, it's probably called ``panda_moveit_config``. This is typically built using the `MoveIt Setup Assistant <../setup_assistant/setup_assistant_tutorial.html>`_.
+ 3. You must also have built `ros-industrial/stomp_ros package <https://github.com/ros-industrial/stomp_ros>`_ from source. This needs to be built from source since stomp_ros is not released as a debian yet.
 
-Installing MoveIt from Source
+Installing STOMP from Source
 ------------------------------
 As you add and remove packages from your workspace you will need to clean your workspace and re-run the command to install new missing dependencies. Clean your workspace to remove references to the system wide installation of MoveIt: ::
 
   cd ~/ws_moveit/src
-  catkin clean
-
-Now follow the instructions on the MoveIt homepage for `installing MoveIt Melodic from source <http://moveit.ros.org/install/source/>`_. Note that you can skip the **Prerequisites** section since you should already have a Catkin workspace.
+  source /opt/ros/melodic/setup.bash
+  wstool init
+  wstool set stomp https://github.com/ros-industrial/stomp_ros.git --git
+  wstool update
+  catkin build
 
 Re-source the setup files: ::
 
@@ -57,7 +59,7 @@ Using STOMP with Your Robot
 #. Adjust the line ``<rosparam command="load" file="$(find panda_moveit_config)/config/stomp_planning.yaml" />`` to ``<rosparam command="load" file="$(find <robot_moveit_config>)/config/stomp_planning.yaml" />`` replacing ``<robot_moveit_config>`` with the name of your MoveIt configuration package.
 #. Download `stomp_planning.yaml <https://github.com/ros-planning/panda_moveit_config/blob/melodic-devel/config/stomp_planning.yaml>`_ file into the config directory of your MoveIt config package. In our case, we will save this file in the ``panda_moveit_config/config`` directory. Create the "*stomp_planning.yaml*" configuration file. This file contains the parameters required by STOMP.  The parameters are specific to each ''planning group'' defined in   the SRDF file.  So if there are three planning groups, then the configuration file defines a specific set of parameters for each  planning group. In our case there is only one planning group, i.e., the "panda_arm".
 
-   **>** *Save this file in the* **config** *directory of the moveit_config package*. Also make sure that the dimensionality of the `stddev` array parameter is the same as the number of joints present in the planning group name of your robot.
+   **>** *Save this file in the* **config** *directory of the moveit_config package*. Also make sure that the dimensionality of the `stddev` array parameter is the same as the number of joints present in the planning group name of your robot. This example is for a 7 DoF robot. Industrial robots will often have 5-6 DoF. **Check the DoF of your robot!**
 
 #. Modify the **move_group.launch** file. Open the **move_group.launch** in the launch directory and change the ```pipeline``` parameter value to ```stomp``` as shown below: ::
 

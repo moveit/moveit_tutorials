@@ -44,7 +44,7 @@
 
         # BEGIN_SUB_TUTORIAL callbackFunction
         def callback():
-            print "in callback"
+            print("in callback")
         # END_SUB_TUTORIAL
 
         # BEGIN_TUTORIAL
@@ -70,6 +70,9 @@
 # 0.1.1: fixed a bug in source file directory lookup: now source paths are
 #        relative to the directory in which the including document lives.
 # 0.1.2: Added SUB_TUTORIAL support.
+
+from __future__ import print_function
+
 __version__ = '0.1.2'
 
 import os
@@ -118,7 +121,7 @@ class TutorialFormatterDirective(rst.Directive):
                 if sub_name in subs:
                     flattened_lines.extend( subs[sub_name] )
                 else:
-                    print 'tutorialformatter.py error: sub-tutorial %s not found.' % sub_name
+                    print('tutorialformatter.py error: sub-tutorial %s not found.' % sub_name)
             else:
                 flattened_lines.append( line )
         return flattened_lines
@@ -144,7 +147,7 @@ class TutorialFormatterDirective(rst.Directive):
         code_prefix = '\n.. code-block:: ' + language + '\n\n'
         code_suffix = '\n'
 
-        print "tutorial-formatter running on", absfilename
+        print("tutorial-formatter running on " + absfilename)
         file_ = open( absfilename, 'r' )
         text_to_process = ""
         current_block = ""
@@ -187,9 +190,9 @@ class TutorialFormatterDirective(rst.Directive):
             text_to_process += current_block
 
         # Debug writes...
-        # print 'text_to_process ='
-        # print text_to_process
-        # print '= text_to_process'
+        # print('text_to_process =')
+        # print(text_to_process)
+        # print('= text_to_process')
 
         lines = string2lines( text_to_process )
         self.state_machine.insert_input( lines, absfilename )

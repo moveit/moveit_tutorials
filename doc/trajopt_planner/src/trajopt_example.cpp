@@ -23,7 +23,7 @@
 
 /* Author: Omid Heidari
    Desc: This file is a test for using trajopt in MoveIt. The goal is to make different types of constraints in
-   MotionPlanRequest and visualize the result calculated by using trajopt planner.
+   MotionPlanRequest and visualize the result calculated using the trajopt planner.
 */
 
 int main(int argc, char** argv)
@@ -49,7 +49,7 @@ int main(int argc, char** argv)
 
   robot_model::RobotModelPtr robot_model = robot_model_loader->getModel();
 
-  // Create a RobotState and to keep track of the current robot pose and planning group
+  // Create a RobotState to keep track of the current robot pose and planning group
   robot_state::RobotStatePtr robot_state(
       new robot_state::RobotState(planning_scene_monitor::LockedPlanningSceneRO(psm)->getCurrentState()));
   robot_state->setToDefaultValues();
@@ -70,6 +70,9 @@ int main(int argc, char** argv)
      new planning_pipeline::PlanningPipeline(robot_model, node_handle, "planning_plugin", "request_adapters"));
 
   // Current state
+  std::vector<double> current_joint_values = { 0, 0, 0, -1.5, 0, 0.6, 0.9};
+  robot_state->setJointGroupPositions(joint_model_group, current_joint_values);
+  
   geometry_msgs::Pose pose_msg_current;
   const Eigen::Isometry3d& end_effector_transform_current = robot_state->getGlobalLinkTransform(link_model_names.back());
   pose_msg_current = tf2::toMsg(end_effector_transform_current);
@@ -122,6 +125,52 @@ int main(int argc, char** argv)
   geometry_msgs::Pose pose_msg_goal;
   const Eigen::Isometry3d& end_effector_transform_goal = robot_state->getGlobalLinkTransform(link_model_names.back());
   pose_msg_goal = tf2::toMsg(end_effector_transform_goal);
+
+  // Reference Trajectory. The type should be defined in the yaml file.
+  // ========================================================================================
+  // type: STATIONARY
+  // No need to pass any trajectory. The current joint values will be replicated for all timesteps
+
+  // type: JOINT_INTERPOLATED
+  // The joint values at a specified state. Could be the goal state or one of the goals when having multiple goal states
+  // The first index (points[0]) is used to set the values of the joints at the specified state as follows:
+  // req.reference_trajectories.resize(1);
+  // req.reference_trajectories[0].joint_trajectory.resize(1);
+  // req.reference_trajectories[0].joint_trajectory[0].joint_names = joint_names;
+  // req.reference_trajectories[0].joint_trajectory[0].points.resize(1);
+  // req.reference_trajectories[0].joint_trajectory[0].points[0].positions = goal_joint_values;
+
+  // type: GIVEN_TRAJ
+  // For this example, we give an interpolated trajectory
+  int const N_STEPS = 20; // number of steps
+  int const N_DOF = 7; // number of degrees of freedom
+
+  // Calculate the increment value for each joint 
+  std::vector<double> dt_vector;
+  for (int joint_index = 0; joint_index < N_DOF; ++joint_index)
+  {
+    double dt = (goal_joint_values[joint_index] - current_joint_values[joint_index]) / N_STEPS;
+    dt_vector.push_back(dt);
+  }
+
+  req.reference_trajectories.resize(1);
+  req.reference_trajectories[0].joint_trajectory.resize(1);
+  // trajectory includes both the start and end points (N_STEPS + 1)
+  req.reference_trajectories[0].joint_trajectory[0].points.resize(N_STEPS + 1); 
+  req.reference_trajectories[0].joint_trajectory[0].joint_names = joint_names;
+  req.reference_trajectories[0].joint_trajectory[0].points[0].positions = current_joint_values;
+  // Use the increment values (dt_vector) to caluclate the joint values at each step
+  for (std::size_t step_index = 1; step_index <= N_STEPS; ++step_index)
+  {
+    std::vector<double> joint_values;
+    for (int dof_index = 0; dof_index < N_DOF; ++dof_index)
+    {
+      double joint_value = current_joint_values[dof_index] + step_index * dt_vector[dof_index];
+      joint_values.push_back(joint_value);
+    }
+    req.reference_trajectories[0].joint_trajectory[0].joint_names = joint_names;
+    req.reference_trajectories[0].joint_trajectory[0].points[step_index].positions = joint_values;
+  }
 
   // Visualization
   // ========================================================================================

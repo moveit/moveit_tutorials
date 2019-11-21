@@ -26,7 +26,7 @@ If you haven't already done so, make sure you've completed the steps in `Getting
 
 You should have a MoveIt configuration package for your robot that was created by using the `Setup Assistant <../setup_assistant/setup_assistant_tutorial.html>`_.
 
-OpenRAVE is a planning framework as complex as MoveIt itself and installing it is tricky -- particularly because it is not actively developed anymore.
+OpenRAVE is a planning framework as complex as MoveIt itself and installing it is tricky -- particularly because its public documentation is not maintained anymore.
 Fortunately, personalrobotics provide a `docker image <https://hub.docker.com/r/personalrobotics/ros-openrave>`_ based on Ubuntu 14.04 with OpenRAVE 0.9.0 and ROS Indigo installed, which can be used to generate the solver code once.
 
 So the easiest way to run the IKFast code generator is through this docker image.
@@ -126,7 +126,7 @@ The process of creating the IKFast MoveIt plugin comprises several steps, perfor
    Using a utility script, one can easily round all numbers down to n decimal places in your .dae file.
    From experience we recommend 5 decimal places, but if the OpenRave ikfast generator takes too long to find a solution (say more than an hour), lowering the accuracy should help. For example: ::
 
-     rosrun moveit_ikfast round_collada_numbers.py $MYROBOT_NAME.dae $MYROBOT_NAME.rounded.dae 5
+     rosrun moveit_kinematics round_collada_numbers.py $MYROBOT_NAME.dae $MYROBOT_NAME.rounded.dae 5
 
 3. Running the OpenRAVE IKFast tool to generate C++ solver code
 4. Creating the MoveIt IKFast plugin package wrapping the generated solver

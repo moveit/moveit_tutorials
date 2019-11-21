@@ -50,7 +50,7 @@ html_context = {
 
 # Links
 ros_distro = 'melodic'
-extlinks = {'codedir': ('https://github.com/' + html_context["github_user"] + '/moveit_tutorials/tree/' + html_context["github_version"] + '/doc/%s', ''),
+extlinks = {'codedir': ('https://github.com/' + html_context["github_user"] + '/moveit_tutorials/blob/' + html_context["github_version"] + '/doc/%s', ''),
             'moveit_codedir': ('https://github.com/' + html_context["github_user"] + '/moveit/blob/' + html_context["github_version"] + '/%s', ''),
             'panda_codedir': ('https://github.com/' + html_context["github_user"] + '/panda_moveit_config/blob/' + ros_distro + '-devel' + '/%s', ''),
             'rosdocs': ('http://docs.ros.org/' + ros_distro + '/api/%s', ''),

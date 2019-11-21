@@ -18,19 +18,17 @@ Install `catkin <http://wiki.ros.org/catkin>`_ the ROS build system: ::
 
   sudo apt-get install ros-melodic-catkin python-catkin-tools
 
-Install MoveIt
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-The simplest way to install MoveIt is from pre-built binaries (Debian): ::
-
-  sudo apt install ros-melodic-moveit
-
-Advanced users might want to `install MoveIt from source <http://moveit.ros.org/install/source/>`_.
-
-Create A Catkin Workspace
-^^^^^^^^^^^^^^^^^^^^^^^^^
+Create A Catkin Workspace and Download MoveIt Source
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+These tutorials rely on the master branch of MoveIt, which requires a build from source.
 You will need to have a `catkin <http://wiki.ros.org/catkin>`_ workspace setup: ::
 
   mkdir -p ~/ws_moveit/src
+  cd ~/ws_moveit/src
+
+  wstool init .
+  wstool merge -t . https://raw.githubusercontent.com/ros-planning/moveit/master/moveit.rosinstall
+  wstool update -t .
 
 Download Example Code
 ^^^^^^^^^^^^^^^^^^^^^

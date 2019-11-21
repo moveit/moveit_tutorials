@@ -142,6 +142,22 @@ The canonical example end effector configuration uses Franka Emika's Panda: `con
 
 In that file you will find all of the gripper specific parameters necessary for customizing MoveIt Grasps with suction or finger grippers.
 
+Illustration diagrams for the parameters inside *ROBOT_grasp_data.yaml* file
+
+1) Finger gripper parameters
+
+.. image:: finger_gripper_explanation.jpg
+   :width: 500pt
+
+2) Suction gripper parameters
+
+.. image:: suction_gripper_explanation.jpg
+   :width: 500pt
+
+``*`` These variables can be directly configured in the *ROBOT_grasp_data.yaml* file.
+
+``**`` The name of your tool center point link can be configured by setting the *tcp_name* variable in the *ROBOT_grasp_data.yaml* file.
+
 **moveit_grasps_config.yaml**
 
 An example configuration file for the *Grasp Generator*, *Grasp Filter* and *Grasp Planner* can be found in `config/moveit_grasps_config.yaml <https://github.com/ros-planning/moveit_grasps/blob/melodic-devel/config/moveit_grasps_config.yaml>`_.
