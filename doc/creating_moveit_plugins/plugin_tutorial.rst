@@ -1,21 +1,21 @@
-Creating Moveit Plugins
+Creating MoveIt Plugins
 ========================
-`This Page <http://wiki.ros.org/pluginlib>`_ gives a detailed explanantion of how to add plugins in ROS in general. The two necessary elements are base and plugin classes. The plugin class inherits from the base class and overrides its virtual functions. The main library used for this purpose in pluginlib. This tutorials contains three different types of plugins, namely, motion planner, controller manager and constriant sampler plugin.
+`This Page <http://wiki.ros.org/pluginlib>`_ gives a detailed explanation of how to add plugins in ROS in general. The two necessary elements are base and plugin classes. The plugin class inherits from the base class and overrides its virtual functions. The main library used for this purpose is pluginlib. This tutorials contains three different types of plugins, namely, motion planner, controller manager and constraint sampler.
 
 
 Motion Planner Plugin
 ----------------------
-In this section, we will show how to add a new motion planner to MoveIt as a plugin. The base class in MoveIt is ``planning_interface`` from  which any new planner plugin should inherit. For domonstration purposes, a linear interpolation planner (lerp) which plans the motion between two states in joint space is created. This planner could be used as a start point for adding any new planner as it contains the neccessary basics. The following graph shows a brief overall view of the relation between classes for adding a new planner in MoveIt.
+In this section, we will show how to add a new motion planner to MoveIt as a plugin. The base class in MoveIt is ``planning_interface`` from  which any new planner plugin should inherit. For demonstration purposes, a linear interpolation planner (lerp) which plans the motion between two states in joint space is created. This planner could be used as a start point for adding any new planner as it contains the necessary basics. The final source files designed in this tutorial are available :codedir:`here <creating_moveit_plugins/lerp_motion_planner/src>`. The following graph shows a brief overall view of the relation between classes for adding a new planner in MoveIt.
 
 .. image:: lerp_motion_planner/lerp_planner.png
 
-We create the plugin in  ``moveit_tutorials`` package. To make the plugin class for ``lerp``, create a file named ``lerp_planner_manager.cpp`` in src folder. In this file, ``LERPPlanPlannerManager`` overrides the functions of ``PlannerManager`` class from ``planning_interface``. In the end of this file, we need to register ``LERPPlanPlannerManager`` class as a plugin, this is done by ``CLASS_LOADER_REGISTER_CLASS`` macro from ``class_loader``: ::
+First we create the plugin class in the  ``moveit_tutorials`` package. To make the plugin class for ``lerp``, create a file named ``lerp_planner_manager.cpp`` in src folder. In this file, ``LERPPlanPlannerManager`` overrides the functions of ``PlannerManager`` class from ``planning_interface``. In the end of this file, we need to register ``LERPPlanPlannerManager`` class as a plugin, this is done by ``CLASS_LOADER_REGISTER_CLASS`` macro from ``class_loader``: ::
 
   CLASS_LOADER_REGISTER_CLASS(emptyplan_interface::EmptyPlanPlannerManager, planning_interface::PlannerManager);
 
-``LERPPlanningContext`` is the class that overrides the functinos of ``PlanningContext``. This class contains the solve function where the planner solves the problem and returns the solution. As the solve function may need many classes from the planner code base, it is more officient and organized to make another class called ``lerp_interface`` where the actual implementation of the planner solve method takes place. Basically, this class is the entry point to the new motion planner algorithm. The reponse in this solve function is prepared in the type of ``moveit_msgs::MotionPlanDetailedResponse`` which is converted to ``planning_interface::MotionPlanDetailedResponse`` in ``LERPPlanningContext`` class.
+Next we create the ``LERPPlanningContext`` class that overrides the functions of ``PlanningContext``. This class will override the solve function where the planner solves the problem and returns the solution. As the solve function implementation may need many classes from the planner code base, it is more readable to make another class called ``LERPInterface`` where the actual implementation of the planner solve method will take place. Basically, this class is the entry point to the new motion planner algorithm. The response in this solve function is prepared in the type of ``moveit_msgs::MotionPlanDetailedResponse`` which is converted to ``planning_interface::MotionPlanDetailedResponse`` in ``LERPPlanningContext`` class.
 
-Moreover, ``PlannerConfigurationSettings`` could be used to pass the planner-specific paramters. Another way to pass these parametes is using ROS param server which reads from a yaml file. In this tutorial, for out lerp planner, we use a lerp_planning.yaml in ``panda_moveit_config`` package that contains only one paramete, ``num_steps`` which gets loaded in ``lerp_interface`` whenever its solve function is called.
+Moreover, ``PlannerConfigurationSettings`` could be used to pass the planner-specific parameters. Another way to pass these parameters is using ROS param server which reads from a yaml file. In this tutorial, for our lerp planner, we use ``lerp_planning.yaml`` in ``panda_moveit_config`` package that contains only one parameter, ``num_steps`` which gets loaded in ``lerp_interface`` whenever its solve function is called.
 
 
 Export the plugin
@@ -44,7 +44,7 @@ With the following command, one can verify if the new plugin is created and expo
 
   rospack plugins --attrib=plugin moveit_core
 
-The result should containt ``moveit_planners_lerp`` with the address of the plugin description xml file: ::
+The result should contain ``moveit_planners_lerp`` with the address of the plugin description xml file: ::
 
   moveit_tutorials <ros_workspace>/src/moveit_tutorials/creating_moveit_plugins/lerp_motion_planner/lerp_interface_plugin_description.xml
 
@@ -58,14 +58,14 @@ In this subsection, we explain how to load and use the lerp planner that we have
   const std::vector<std::string>& joint_names = joint_model_group->getVariableNames();
   planning_scene::PlanningScenePtr planning_scene(new planning_scene::PlanningScene(robot_model));
 
-The next step is to load the planner using pluinglib and set the parameter ``planner_plugin_name`` to the one that we have created: ::
+The next step is to load the planner using pluginlib and set the parameter ``planner_plugin_name`` to the one that we have created: ::
 
     boost::scoped_ptr<pluginlib::ClassLoader<planning_interface::PlannerManager>> planner_plugin_loader;
     planning_interface::PlannerManagerPtr planner_instance;
     std::string planner_plugin_name =  "lerp_interface/LERPPlanner";
     node_handle.setParam("planning_plugin", planner_plugin_name);
 
-Having the planner loaded, it is time to set the start and goal state for the motion planning problem. The start state is the curent state of the robot which is set to ``req.start_state``. On the other hand, the goal constraint is set by creating a ``moveit_msgs::Constraints`` using the goal state and the joint model group. This constraint is fed to ``req.goal_constraint``. The following code shows how to do these steps: ::
+Having the planner loaded, it is time to set the start and goal state for the motion planning problem. The start state is the current state of the robot which is set to ``req.start_state``. On the other hand, the goal constraint is set by creating a ``moveit_msgs::Constraints`` using the goal state and the joint model group. This constraint is fed to ``req.goal_constraint``. The following code shows how to do these steps: ::
 
   // Get the joint values of the start state and set them in request.start_state
   std::vector<double> start_joint_values;
@@ -80,16 +80,16 @@ Having the planner loaded, it is time to set the start and goal state for the mo
   req.goal_constraints.clear();
   req.goal_constraints.push_back(joint_goal);
 
-So far, we have loaded the planner and created the start and goal state for the motion planning problem but we have not solved the problem yet. Solving the motion plannig problem in the joint state by the given infromation about the start and goal state is done by creating a ``PlanningContext`` instance and call its solve function. Remember that the response passed to this solve function should be of type ``planning_interface::MotionPlanResponse``: ::
+So far, we have loaded the planner and created the start and goal state for the motion planning problem but we have not solved the problem yet. Solving the motion planning problem in the joint state by the given information about the start and goal state is done by creating a ``PlanningContext`` instance and call its solve function. Remember that the response passed to this solve function should be of type ``planning_interface::MotionPlanResponse``: ::
 
     planning_interface::PlanningContextPtr context = planner_instance->getPlanningContext(planning_scene, req, res.error_code_);
 
-Finally, to run this node, we need to roslaunch lerp_example.launch in launch folder. This launch file launches the ``demo.launch`` of package ``panda_moveit_config`` by passing ``lerp`` as the name of the planner. Then, ``lerp_example`` gets launched and ``lerp_planning.yaml`` is loaded to set the lerp-specfic parameters to ROS Parameter Server.
+Finally, to run this node, we need to roslaunch lerp_example.launch in launch folder. This launch file launches the ``demo.launch`` of package ``panda_moveit_config`` by passing ``lerp`` as the name of the planner. Then, ``lerp_example`` gets launched and ``lerp_planning.yaml`` is loaded to set the lerp-specific parameters to ROS Parameter Server.
 
 Example Controller Manager Plugin
 ----------------------------------
 
-MoveIt controller managers, somewhat a misnomer, are the interfaces to your custom low level controllers. A better way to think of them are *controler interfaces*. For most use cases, the included :moveit_codedir:`MoveItSimpleControllerManager <moveit_plugins/moveit_simple_controller_manager>` is sufficient if your robot controllers already provide ROS actions for FollowJointTrajectory. If you use *ros_control*, the included :moveit_codedir:`MoveItRosControlInterface <moveit_plugins/moveit_ros_control_interface>` is also ideal.
+MoveIt controller managers, somewhat a misnomer, are the interfaces to your custom low level controllers. A better way to think of them are *controller interfaces*. For most use cases, the included :moveit_codedir:`MoveItSimpleControllerManager <moveit_plugins/moveit_simple_controller_manager>` is sufficient if your robot controllers already provide ROS actions for FollowJointTrajectory. If you use *ros_control*, the included :moveit_codedir:`MoveItRosControlInterface <moveit_plugins/moveit_ros_control_interface>` is also ideal.
 
 However, for some applications you might desire a more custom controller manager. An example template for starting your custom controller manager is provided :codedir:`here <controller_configuration/src/moveit_controller_manager_example.cpp>`.
 
