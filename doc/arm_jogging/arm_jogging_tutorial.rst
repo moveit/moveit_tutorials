@@ -77,7 +77,7 @@ Settings
 User-configurable settings of the jog node are well-documented in ``jog_arm/config/ur_simulated_config.yaml``.
 
 Changing Control Dimensions
---------
+---------------------------
 The dimensions jogging is allowed in may be changed with the ``change_control_dimensions`` (``moveit_msgs/ChangeControlDimensions``) service. The service consists of the 6 booleans representing the manipulator's degrees of freedom (3 translation and 3 rotation), defined in the input velocity command frame. Setting one of these booleans to ``false`` will result in the user input in that direction being overwritten with a 0, thus disallowing motion in the direction. 
 
 Robot Requirements
