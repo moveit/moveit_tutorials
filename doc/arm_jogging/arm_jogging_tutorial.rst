@@ -76,6 +76,10 @@ Settings
 --------
 User-configurable settings of the jog node are well-documented in ``jog_arm/config/ur_simulated_config.yaml``.
 
+Changing Control Dimensions
+--------
+The dimensions jogging is allowed in may be changed with the ``change_control_dimensions`` (``moveit_msgs/ChangeControlDimensions``) service. The service consists of the 6 booleans representing the manipulator's degrees of freedom (3 translation and 3 rotation), defined in the input velocity command frame. Setting one of these booleans to ``false`` will result in the user input in that direction being overwritten with a 0, thus disallowing motion in the direction. 
+
 Robot Requirements
 ------------------
 The jogger streams an array of position or velocity commands to the robot controller. This is compatible with ros\_control ``position_controllers/JointGroupPositionControllers`` or ``velocity_controllers/JointGroupVelocityControllers``. You can check if these controllers are available for your robot by searching for the controller config file (typically named ``controllers.yaml``). After launching the robot, you can check if any ros_control controllers are available with: ::
@@ -105,6 +109,8 @@ An `rqt_graph` of the jogger is shown below (Enlarge by clicking it). Most of th
 - **joint_states** topic: The jogger uses this joint information for calculations.
 
 - **joint_group_position_controller/command** topic: This is the outgoing command that causes the robot to move.
+
+- **change_control_dimensions** service: This is the service offered to change which dimensions jogging is allowed in
 
 .. image:: jogging_rqt_graph.png
    :width: 700px
