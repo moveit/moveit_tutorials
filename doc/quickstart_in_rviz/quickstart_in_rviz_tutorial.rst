@@ -161,6 +161,19 @@ Step 4: Use Motion Planning with the Panda
 .. image:: rviz_plugin_planned_path.png
    :width: 700px
 
+Choosing Specific Start/Goal States
++++++++++++++++++++++++++++++++++++
+
+The ``Planning`` tab lets you choose start and goal states for a planning request for your robot from these options:
+  - The current state
+  - The previous state
+  - A randomly sampled state
+  - Or a named state of the selected planning group, as defined in the ``.srdf`` file of the robot.
+
+``Previous`` refers to the start state of the previous planning attempt. Thus, selecting ``previous`` as the goal state after execution of a planned motion path allows you to move back to the previous robot pose easily. As, both the ``current`` and the ``previous`` start/goal states are automatically updated after execution, you can easily move back and forth between two states as illustrated in the animation below.
+
+.. image:: rviz_plugin_access_previous_pose.gif
+
 Introspecting Trajectory Waypoints
 ++++++++++++++++++++++++++++++++++
 
@@ -198,7 +211,6 @@ Initially, the default velocity and acceleration are scaled to 10% (`0.1`) of th
 
 .. image:: rviz_plugin_collision_aware_ik_checkbox.png
    :width: 700px
-
 
 Next Steps
 ----------
