@@ -165,6 +165,13 @@ NOTE: Once you placed your EEF to a new goal, be sure to run `Plan` before runni
 .. image:: rviz_plugin_slider.png
    :width: 700px
 
+Use Previous Pose as Start/Goal State
++++++++++++++++++++++++++++++++++++++
+
+Once you have run `Plan` by pushing the **Execute** button or the **Plan and Execute** button,
+you can select previous start position as the Start State or the Goal State by choosing the "`previous`" from the drop down list.
+
+.. image:: rviz_plugin_access_previous_pose.gif
 
 Next Steps
 ----------
