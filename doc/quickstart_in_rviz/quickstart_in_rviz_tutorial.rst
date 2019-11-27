@@ -165,11 +165,11 @@ NOTE: Once you placed your EEF to a new goal, be sure to run `Plan` before runni
 .. image:: rviz_plugin_slider.png
    :width: 700px
 
-Use Previous Pose as Start/Goal State
-+++++++++++++++++++++++++++++++++++++
+Choosing Specific Start/Goal States
++++++++++++++++++++++++++++++++++++
 
-Once you have run `Plan` by pushing the **Execute** button or the **Plan and Execute** button,
-you can select previous start position as the Start State or the Goal State by choosing the "`previous`" from the drop down list.
+The ``Planning`` tab has comboboxes for both, the start and goal state, to choose specific robot states from. These states include the current state, the previous state, a randomly sampled state, as well as all named states of the selected planning group that were defined in the ``.srdf`` file of the robot. 
+The ``previous`` state here refers to the start state of the previous planning attempt. Thus, choosing ``previous`` as the goal state after execution of a planned motion path, allows you to move back to the previous robot pose easily. As, both the ``current`` and the ``previous`` start/goal states are automatically updated after execution, you can easily plan and move back and forth between two states as illustrated in the following video.
 
 .. image:: rviz_plugin_access_previous_pose.gif
 
