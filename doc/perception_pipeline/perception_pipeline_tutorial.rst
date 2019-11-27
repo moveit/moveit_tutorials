@@ -2,7 +2,7 @@ Perception Pipeline Tutorial
 ============================
 
 MoveIt allows for seamless integration of 3D sensors using `Octomap <http://octomap.github.io/>`_.
-Once properly configured, you should see something like this in rviz:
+Once properly configured, you should see something like this in RViz:
 
 .. image:: perception_configuration_demo.png
    :width: 700px
@@ -153,7 +153,7 @@ Detecting and Adding Object as Collision Object
 In this section, we will demonstrate an example of extracting a cylinder from a pointcloud, computing relevant values and adding it as a collision object to the planning scene.
 We will be working with point clouds but it can be implemented similarly with depth maps.
 
-After running the code, you should be able to see something like this in rviz:
+After running the code, you should be able to see something like this in RViz:
 
 .. image:: cylinder_collision_object.png
    :width: 700px
