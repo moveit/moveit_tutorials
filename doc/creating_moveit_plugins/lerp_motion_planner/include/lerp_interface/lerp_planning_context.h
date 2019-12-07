@@ -32,6 +32,8 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *********************************************************************/
 
+/* Author: Omid Heidari */
+
 #ifndef LERP_PLANNING_CONTEXT_H
 #define LERP_PLANNING_CONTEXT_H
 
