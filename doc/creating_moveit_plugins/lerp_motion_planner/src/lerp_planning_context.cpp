@@ -97,7 +97,7 @@ bool LERPPlanningContext::terminate()
 {
   return true;
 }
-  
+
 void LERPPlanningContext::clear()
 {
   // This planner has no state, so has nothing to clear

@@ -62,7 +62,6 @@ bool LERPInterface::solve(const planning_scene::PlanningSceneConstPtr& planning_
   // Load the planner-specific parameters
   nh_.getParam("num_steps", num_steps_);
 
- 
   ros::WallTime start_time = ros::WallTime::now();
   robot_model::RobotModelConstPtr robot_model = planning_scene->getRobotModel();
   robot_state::RobotStatePtr start_state(new robot_state::RobotState(robot_model));
@@ -103,15 +102,13 @@ bool LERPInterface::solve(const planning_scene::PlanningSceneConstPtr& planning_
   return true;
 }
 
-void LERPInterface::interpolate(const std::vector<std::string> joint_names,
-				robot_state::RobotStatePtr& rob_state,
-				const robot_state::JointModelGroup* joint_model_group,
-				const std::vector<double>& start_joint_vals,
-				const std::vector<double>& goal_joint_vals,
-				trajectory_msgs::JointTrajectory& joint_trajectory)
+void LERPInterface::interpolate(const std::vector<std::string> joint_names, robot_state::RobotStatePtr& rob_state,
+                                const robot_state::JointModelGroup* joint_model_group,
+                                const std::vector<double>& start_joint_vals, const std::vector<double>& goal_joint_vals,
+                                trajectory_msgs::JointTrajectory& joint_trajectory)
 {
   joint_trajectory.points.resize(num_steps_ + 1);
-  
+
   std::vector<double> dt_vector;
   for (int joint_index = 0; joint_index < dof_; ++joint_index)
   {
@@ -134,5 +131,5 @@ void LERPInterface::interpolate(const std::vector<std::string> joint_names,
     joint_trajectory.points[step].positions = joint_values;
   }
 }
-  
+
 }  // namespace lerp_interface
