@@ -44,37 +44,37 @@ Other Settings
 
 Depending on the planner you are using, other settings are available for tuning/parameter sweeping. The default values for these settings are auto-generated in the MoveIt Setup Assistant and are listed in the ``ompl_planning.yaml`` file - you are encouraged to tweak them.
 
-Smoothing Paths
----------------
+Trade-offs in speed and optimality
+----------------------------------
 
-Here we discuss various approaches to improve common issues of indirect, non-optimized paths in OMPL. We encourage core developers and researchers to help improve the OMPL and MoveIt code bases so that this becomes less of a common issue and more of a solved problem :-)
+Many planners in OMPL (including the default one) favor speed of finding a solution path over path quality. A feasible path is smoothened and shortened in a post-processing stage to obtain a path that is closer to optimal. However, there is no guarantee that a global optimum is found or that the same solution is found each time since the algorithms in OMPL are probabilistic. Other libraries such as the Search Based Planning Library (SBPL) provide deterministic results in that given the same environment, start, and goal you will always get the same path. SBPL is A*-based, so you will get optimal results up to your chosen search resolution. However, SBPL has downsides as well, such as the difficulty of defining a state space lattice at an appropriate resolution (e.g., how do you define a good discretization of joint angles or end effector poses?) and tuning special heuristics.
 
-Determinism
-^^^^^^^^^^^
-
-The planners in OMPL are inherently probablistic and will not always return the same solution. Other libraries such as the Search Based Planning Library (SBPL) provide deterministic results in that given the same environment, start, and goal you will always get the same path. SBPL is Astar-based, so you will get optimal results up to your chosen search resolution. However SBPL has plenty of downsides, such as the difficulty of tuning special hueristics.
+There are several planners in OMPL that *can* give theoretical optimality guarantees, but often only asymptotically: they converge to an optimal solution, but convergence can be slow. The optimization objective used by these planners is typically the minimization of path length, but other optimization objectives can be used as well.
 
 OMPL Optimization Objectives
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Several planners that are part of the OMPL planning library are capable of optimizing for a specified optimization objective. This tutorial describes that steps that are needed to configure these objectives. The asymptotically optimal planners that are currently exposed to MoveIt are:
+Several planners that are part of the OMPL planning library are capable of optimizing for a specified optimization objective. This tutorial describes that steps that are needed to configure these objectives. The asymptotically (near-)optimal planners that are currently exposed to MoveIt are:
 
 * RRT*
 * PRM*
+* LazyPRM*
+* BFMT
+* FMT
+* Lower Bound Tree RRT (LBTRRT)
+* SPARS
+* SPARS2
+* Transition-based RRT (T-RRT)
+
+OMPL also provides a meta-optimization algorithm called AnytimePathShortening, which repeatedly runs several planners in parallel interleaved with path shortcutting and path hybridization, two techniques that locally optimize a solution path. Although not *proven* optimal, it is often an effective strategy in practice to obtaining near-optimal solution paths.
 
 Other optimal planners in OMPL but not exposed in MoveIt yet:
 
-* LazyPRM*
 * RRT#
 * RRTX
 * Informed RRT*
 * Batch Informed Trees (BIT*)
-* Lower Bound Tree RRT (LBTRRT)
 * Sparse Stable RRT
-* Transition-based RRT (T-RRT)
-* SPARS
-* SPARS2
-* FMT*
 * CForest
 
 And the following optimization objectives are available:
@@ -94,8 +94,7 @@ The configuration of these optimization objectives can be done in the *ompl_plan
 	    goal_bias: 0.05
 	    delay_collision_checking: 1
 
-For more information on the OMPL optimal planners, the reader is referred to the
-`OMPL - Optimal Planning documentation <http://ompl.kavrakilab.org/optimalPlanning.html>`_.
+Other optimization objectives can be defined programmatically. For more information on the OMPL optimal planners, the reader is referred to the `OMPL - Optimal Planning documentation <http://ompl.kavrakilab.org/optimalPlanning.html>`_.
 
 OMPL Planner Termination Conditions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -130,3 +129,35 @@ You can adjust the amount of time MoveIt spends on smoothing by increasing the p
 Although not currently exposed at the top levels of MoveIt (TODO), more smoothing can be accomplished by setting the simplification duration to 0 (unlimited) in ``model_based_planning_context.cpp``. This will enable OMPL's ``simplifyMax()`` function.
 
 Besides the internal OMPL smoothers, recent efforts have been made to do post-proccessing with STOMP/CHOMP. See `this blog post <http://moveit.ros.org/moveit!/ros/2018/10/25/gsoc-motion-planning-support.html>`_.
+
+Persistent Roadmaps
+-------------------
+
+By default the planning algorithms start from scratch for each motion planning request. However, for certain planners that build a roadmap of the environment, it may be beneficial to reuse the roadmap from previous motion planning requests if the planning scene is more or less static. Consider the following planning configurations: ::
+
+	PersistentLazyPRMstar: # use this with a representative environment to create a roadmap
+	    type: geometric::LazyPRMstar
+	    multi_query_planning_enabled: true
+	    store_planner_data: true
+	    load_planner_data: false
+	    planner_data_path: /tmp/roadmap.graph
+	PersistentLazyPRM: # use this to load a previously created roadmap
+	    type: geometric::LazyPRM
+	    multi_query_planning_enabled: true
+	    store_planner_data: false
+	    load_planner_data: true
+	    planner_data_path: /tmp/roadmap.graph
+	SemiPersistentLazyPRMstar: # reuses roadmap during lifetime of node but doesn't save/load roadmap to/from disk
+	    type: geometric::LazyPRMstar
+	    multi_query_planning_enabled: true
+	    store_planner_data: false
+	    load_planner_data: false
+	SemiPersistentLazyPRM: # reuses roadmap during lifetime of node but doesn't save/load roadmap to/from disk
+	    type: geometric::LazyPRM
+	    multi_query_planning_enabled: true
+	    store_planner_data: false
+	    load_planner_data: false
+
+The first planner configuration, `PersistentLazyPRMstar`, will use LazyPRM* to keep growing a roadmap of asymptotically optimal paths between sampled robot configurations with each motion planning request. Upon destruction of the planner instance, it will save the roadmap to disk. The `PersistentLazyPRM` configuration is similar, except it will *load* a roadmap from disk but not *save* it upon destruction. The `SemiPersistent` planner configurations do not load/save roadmaps, but do keep extending a roadmap with each motion planning request (rather than the default behavior of clearing it before planning). The four planners that support the persistent planning features are: PRM, PRM*, LazyPRM, and LazyPRM*. The critical difference between them
+
+*Note that saving and loading roadmaps is only available in OMPL 1.5.0 and newer.*
