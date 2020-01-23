@@ -49,6 +49,11 @@ Before running any of the Demos, you must first start Rviz with::
 
     roslaunch moveit_grasps rviz.launch
 
+The default setup uses a two finger gripper.
+For running Demos using a suction gripper, specify the gripper when launching Rviz::
+
+    roslaunch moveit_grasps rviz.launch gripper:=suction
+
 **NOTE:** The released versions of `panda_moveit_config <https://github.com/ros-planning/panda_moveit_config>`_ may lag behind the source versions. If you have issues with the demos, a good first step would be to download and build `panda_moveit_config <https://github.com/ros-planning/panda_moveit_config>`_ from source.
 
 1) The Entire MoveIt Grasps Pipeline
@@ -106,6 +111,12 @@ When filtered, the colors represent the following:
 * BLUE - pregrasp filtered by ik
 * CYAN - pregrasp filtered by collision
 * GREEN - valid
+
+5) Suction Grasp Pipeline
+^^^^^^^^^^^^^^^^^^^^^^^^^
+To demo the pipeline when using a suction gripper, run::
+
+    roslaunch moveit_grasps suction_grasp_pipeline_demo.launch
 
 Conceptual Overview
 -------------------
