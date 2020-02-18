@@ -40,12 +40,18 @@ Build the workspace: ::
 Running the Demo
 ----------------
 
-The MoveIt Task Constructor package contains an example pick-and-place application.
-You can try it out by running: ::
+The MoveIt Task Constructor package contains several basic examples and a pick-and-place demo.
+For all demos you should launch the basic environment: ::
 
   roslaunch moveit_task_constructor_demo demo.launch
 
-On the right side you should see the `Motion Planning Tasks` panel outlining the hierarchical stage structure of the example **pick_place_task**.
+Subsequently, you can run the individual demos: ::
+
+  rosrun moveit_task_constructor_demo cartesian
+  rosrun moveit_task_constructor_demo modular
+  roslaunch moveit_task_constructor_demo pickplace.launch
+
+On the right side you should see the `Motion Planning Tasks` panel outlining the hierarchical stage structure of the tasks.
 When you select a particular stage, the list of successful and failed solutions will be
 shown in the right-most window. Selecting one of those solutions will start its visualization.
 
