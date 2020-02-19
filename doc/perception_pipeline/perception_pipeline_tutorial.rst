@@ -20,6 +20,8 @@ In this section, we will walk through configuring the 3D sensors on your robot w
 
 * The Depth Image Occupancy Map Updater: which can take as input Depth Images (``sensor_msgs/Image``)
 
+To use the Occupancy Map Updater, it is only necessary to set the appropriate parameters on the ROS parameter server and to call ``startWorldGeometryMonitor`` from your ``PlanningSceneMonitor``.  This latter step is performed automatically when using Move Group functionality like in this tutorial's example, so in that case it is only necessary to set the parameters for the octomap and octomap updater.
+
 YAML Configuration file (Point Cloud)
 +++++++++++++++++++++++++++++++++++++
 
