@@ -32,6 +32,14 @@ before_install: # Use this to prepare the system to install prerequisites or dep
   - sudo apt-get -qq install ros-kinetic-rosdoc-lite
   - source /opt/ros/kinetic/setup.bash
 
+env:
+  global:
+    - ROS_DISTRO=melodic
+    - DOCKER_IMAGE=moveit/moveit:master-source
+  matrix:
+    - TEST="clang-format"
+    - ROS_DISTRO=melodic
+
 before_script:
   - git clone -q --depth=1 https://github.com/ros-planning/moveit_ci.git .moveit_ci
 
