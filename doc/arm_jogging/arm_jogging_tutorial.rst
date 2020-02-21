@@ -7,7 +7,7 @@ This tutorial shows how to send real-time jogging commands to a ROS-enabled robo
 
     <object width="700" height="400">
       <embed
-        src="http://www.youtube.com/v/8sOucNloJeI&hl=en_US&fs=1&rel=0"
+        src="https://www.youtube.com/v/8sOucNloJeI&hl=en_US&fs=1&rel=0"
         type="application/x-shockwave-flash" allowscriptaccess="always"
         allowfullscreen="true" width="700"
         height="385">
