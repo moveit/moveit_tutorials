@@ -76,28 +76,28 @@ int main(int argc, char** argv)
   psm->startSceneMonitor();
   psm->startWorldGeometryMonitor();
   psm->startStateMonitor();
-  
+
   robot_model::RobotModelPtr robot_model = robot_model_loader->getModel();
 
-  // Create a RobotState and to keep track of the current robot pose and planning group                                                                 
+  // Create a RobotState and to keep track of the current robot pose and planning group
   robot_state::RobotStatePtr robot_state(
       new robot_state::RobotState(planning_scene_monitor::LockedPlanningSceneRO(psm)->getCurrentState()));
   robot_state->setToDefaultValues();
   robot_state->update();
 
-  // Create JointModelGroup                                                                                                                             
+  // Create JointModelGroup
   const robot_state::JointModelGroup* joint_model_group = robot_state->getJointModelGroup(PLANNING_GROUP);
   const std::vector<std::string>& joint_names = joint_model_group->getActiveJointModelNames();
   const std::vector<std::string>& link_model_names = joint_model_group->getLinkModelNames();
   ROS_INFO_NAMED(NODE_NAME, "end effector name %s\n", link_model_names.back().c_str());
 
-  // Set the planner                                                                                                                                  
+  // Set the planner
   std::string planner_plugin_name = "lerp_interface/LERPPlanner";
   node_handle.setParam("planning_plugin", planner_plugin_name);
 
-  // Create pipeline                                                                  
+  // Create pipeline
   planning_pipeline::PlanningPipelinePtr planning_pipeline(
-     new planning_pipeline::PlanningPipeline(robot_model, node_handle, "planning_plugin", "request_adapters"));
+      new planning_pipeline::PlanningPipeline(robot_model, node_handle, "planning_plugin", "request_adapters"));
 
   // ================================ Set the start and goal joint state
   planning_interface::MotionPlanRequest req;
@@ -113,20 +113,22 @@ int main(int argc, char** argv)
   std::vector<double> goal_joint_values = { 0.8, 0.7, 1, 1.3, 1.9, 2.2, 3 };
   robot_state->setJointGroupPositions(joint_model_group, goal_joint_values);
   robot_state->update();
-  moveit_msgs::Constraints joint_goal = kinematic_constraints::constructGoalConstraints(*robot_state, joint_model_group);
+  moveit_msgs::Constraints joint_goal =
+      kinematic_constraints::constructGoalConstraints(*robot_state, joint_model_group);
   req.goal_constraints.clear();
   req.goal_constraints.push_back(joint_goal);
   req.goal_constraints[0].name = "goal_pos";
 
-  // Set joint tolerance                                                                
+  // Set joint tolerance
   std::vector<moveit_msgs::JointConstraint> goal_joint_constraint = req.goal_constraints[0].joint_constraints;
   for (std::size_t x = 0; x < goal_joint_constraint.size(); ++x)
   {
-    ROS_INFO_STREAM_NAMED(NODE_NAME ," ======================================= joint position at goal: " << goal_joint_constraint[x].position);
+    ROS_INFO_STREAM_NAMED(NODE_NAME, " ======================================= joint position at goal: "
+                                         << goal_joint_constraint[x].position);
     req.goal_constraints[0].joint_constraints[x].tolerance_above = 0.001;
     req.goal_constraints[0].joint_constraints[x].tolerance_below = 0.001;
   }
-  
+
   // ================================ Visualization tools
   namespace rvt = rviz_visual_tools;
   moveit_visual_tools::MoveItVisualTools visual_tools("panda_link0", rviz_visual_tools::RVIZ_MARKER_TOPIC, psm);
@@ -147,7 +149,6 @@ int main(int argc, char** argv)
   /* We can also use visual_tools to wait for user input */
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to start the demo");
 
-
   // ================================ planning context
   {
     planning_scene_monitor::LockedPlanningSceneRO lscene(psm);
@@ -162,12 +163,11 @@ int main(int argc, char** argv)
   }
 
   visual_tools.prompt("Press 'next' to visualzie the result");
-  
 
   // ================================ Visualize the trajectory
   //  visual_tools.publishRobotState(planning_scene->getCurrentStateNonConst(), rviz_visual_tools::GREEN);
   // visual_tools.trigger();
-  
+
   ros::Publisher display_publisher =
       node_handle.advertise<moveit_msgs::DisplayTrajectory>("/move_group/display_planned_path", 1, true);
   moveit_msgs::DisplayTrajectory display_trajectory;

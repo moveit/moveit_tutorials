@@ -67,16 +67,17 @@ int main(int argc, char** argv)
 
   // Create pipeline
   planning_pipeline::PlanningPipelinePtr planning_pipeline(
-     new planning_pipeline::PlanningPipeline(robot_model, node_handle, "planning_plugin", "request_adapters"));
+      new planning_pipeline::PlanningPipeline(robot_model, node_handle, "planning_plugin", "request_adapters"));
 
   // Current state
-  std::vector<double> current_joint_values = { 0, 0, 0, -1.5, 0, 0.6, 0.9};
+  std::vector<double> current_joint_values = { 0, 0, 0, -1.5, 0, 0.6, 0.9 };
   robot_state->setJointGroupPositions(joint_model_group, current_joint_values);
-  
+
   geometry_msgs::Pose pose_msg_current;
-  const Eigen::Isometry3d& end_effector_transform_current = robot_state->getGlobalLinkTransform(link_model_names.back());
+  const Eigen::Isometry3d& end_effector_transform_current =
+      robot_state->getGlobalLinkTransform(link_model_names.back());
   pose_msg_current = tf2::toMsg(end_effector_transform_current);
-  
+
   // Create response and request
   planning_interface::MotionPlanRequest req;
   planning_interface::MotionPlanResponse res;
@@ -104,20 +105,22 @@ int main(int argc, char** argv)
   geometry_msgs::Pose pose_msg_start;
   const Eigen::Isometry3d& end_effector_transform_start = robot_state->getGlobalLinkTransform(link_model_names.back());
   pose_msg_start = tf2::toMsg(end_effector_transform_start);
-  
-  // Set the goal state 
+
+  // Set the goal state
   // ========================================================================================
   std::vector<double> goal_joint_values = { 0.8, 0.7, 1, -1.3, 1.9, 2.2, -0.1 };
   robot_state->setJointGroupPositions(joint_model_group, goal_joint_values);
   robot_state->update();
-  moveit_msgs::Constraints joint_goal = kinematic_constraints::constructGoalConstraints(*robot_state, joint_model_group);
+  moveit_msgs::Constraints joint_goal =
+      kinematic_constraints::constructGoalConstraints(*robot_state, joint_model_group);
   req.goal_constraints.push_back(joint_goal);
   req.goal_constraints[0].name = "goal_pos";
   // Set joint tolerance
   std::vector<moveit_msgs::JointConstraint> goal_joint_constraint = req.goal_constraints[0].joint_constraints;
   for (std::size_t x = 0; x < goal_joint_constraint.size(); ++x)
   {
-    ROS_INFO_STREAM_NAMED(NODE_NAME ," ======================================= joint position at goal: " << goal_joint_constraint[x].position);
+    ROS_INFO_STREAM_NAMED(NODE_NAME, " ======================================= joint position at goal: "
+                                         << goal_joint_constraint[x].position);
     req.goal_constraints[0].joint_constraints[x].tolerance_above = 0.001;
     req.goal_constraints[0].joint_constraints[x].tolerance_below = 0.001;
   }
@@ -142,10 +145,10 @@ int main(int argc, char** argv)
 
   // type: GIVEN_TRAJ
   // For this example, we give an interpolated trajectory
-  int const N_STEPS = 20; // number of steps
-  int const N_DOF = 7; // number of degrees of freedom
+  int const N_STEPS = 20;  // number of steps
+  int const N_DOF = 7;     // number of degrees of freedom
 
-  // Calculate the increment value for each joint 
+  // Calculate the increment value for each joint
   std::vector<double> dt_vector;
   for (int joint_index = 0; joint_index < N_DOF; ++joint_index)
   {
@@ -156,7 +159,7 @@ int main(int argc, char** argv)
   req.reference_trajectories.resize(1);
   req.reference_trajectories[0].joint_trajectory.resize(1);
   // trajectory includes both the start and end points (N_STEPS + 1)
-  req.reference_trajectories[0].joint_trajectory[0].points.resize(N_STEPS + 1); 
+  req.reference_trajectories[0].joint_trajectory[0].points.resize(N_STEPS + 1);
   req.reference_trajectories[0].joint_trajectory[0].joint_names = joint_names;
   req.reference_trajectories[0].joint_trajectory[0].points[0].positions = current_joint_values;
   // Use the increment values (dt_vector) to caluclate the joint values at each step
@@ -232,9 +235,9 @@ int main(int argc, char** argv)
     {
       joint_values_stream << response.trajectory.joint_trajectory.points[timestep_index].positions[joint_index] << " ";
     }
-    ROS_DEBUG_STREAM_NAMED(NODE_NAME, "step: " << timestep_index << " joints positions: " << joint_values_stream.str() );
+    ROS_DEBUG_STREAM_NAMED(NODE_NAME, "step: " << timestep_index << " joints positions: " << joint_values_stream.str());
   }
-    
+
   display_trajectory.trajectory_start = response.trajectory_start;
   display_trajectory.trajectory.push_back(response.trajectory);
 
