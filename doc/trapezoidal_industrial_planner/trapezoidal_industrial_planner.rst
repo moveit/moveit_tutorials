@@ -1,25 +1,21 @@
 Trapezoidal Industrial Planner
 ==============================
 
-This package provides a trajectory generator to plan standard robot
-motions like PTP, LIN, CIRC in the form of a MoveIt! PlannerManager
+``trapezoidal_industrial_planner`` provides a trajectory generator to plan standard robot
+motions like PTP, LIN, CIRC with the interface of a MoveIt! PlannerManager
 plugin.
-
-ROS API
-=======
 
 User Interface MoveGroup
 ------------------------
 
 This package implements the ``planning_interface::PlannerManager``
 interface of MoveIt!. By loading the corresponding planning pipeline
-(``pilz_command_planner_planning_pipeline.launch.xml`` in
-``prbt_moveit_config`` package), the trajectory generation
+(``trapezoidal_planning_pipeline.launch.xml`` in your
+``*_moveit_config`` package), the trajectory generation
 functionalities can be accessed through the user interface (c++, python
 or rviz) provided by the ``move_group`` node, e.g.
 ``/plan_kinematics_path`` service and ``/move_group`` action. For
-detailed tutorials please refer to `MoveIt!
-Tutorials <http://docs.ros.org/melodic/api/moveit_tutorials/html/index.html>`__.
+detailed usage tutorials please refer to :doc:`/doc/move_group_interface/move_group_interface_tutorial`.
 
 Joint Limits
 ------------
@@ -62,7 +58,7 @@ set on the parameter server like this:
 
 The planners assume the same acceleration ratio for translational and
 rotational trapezoidal shapes. So the rotational acceleration is
-calculated as max\_trans\_acc / max\_trans\_vel \* max\_rot\_vel (and
+calculated as ``max\_trans\_acc / max\_trans\_vel \* max\_rot\_vel`` (and
 for deceleration accordingly).
 
 Planning Interface
@@ -75,12 +71,11 @@ planning. These message types are designed to be comprehensive and
 general. The parameters needed by specific planning algorithm are
 explained below in detail.
 
-For a general introduction how to fill a ``MotionPlanRequest`` see the
-`Move Group Interface
-Tutorial <http://docs.ros.org/melodic/api/moveit_tutorials/html/doc/move_group_interface/move_group_interface_tutorial.html#planning-to-a-pose-goal>`__.
+For a general introduction how to fill a ``MotionPlanRequest`` see
+:ref:`move_group_interface-planning-to-pose-goal`.
 
 The planner is able to handle all the different commands. Just put
-"PTP", "LIN" or "CIRC" as planner\_id in the motion request.
+"PTP", "LIN" or "CIRC" as ``planner\_id`` into the ``MotionPlanRequest``.
 
 The PTP motion command
 ----------------------
@@ -93,28 +88,31 @@ reach the goal is selected as the lead axis. Other axes are decelerated
 so that they share the same acceleration/constant velocity/deceleration
 phases as the lead axis.
 
-|ptp no vel| ### Input parameters in ``moveit_msgs::MotionPlanRequest``
-- ``planner_id``: PTP - ``group_name``: name of the planning group -
-``max_velocity_scaling_factor``: scaling factor of maximal joint
-velocity - ``max_acceleration_scaling_factor``: scaling factor of
-maximal joint acceleration/deceleration -
-``start_state/joint_state/(name, position and velocity``: joint
-name/position/velocity(optional) of the start state. -
-``goal_constraints`` (goal can be given in joint space or Cartesian
-space) - for goal in joint space -
-``goal_constraints/joint_constraints/joint_name``: goal joint name -
-``goal_constraints/joint_constraints/position``: goal joint position -
-for goal in Cartesian space -
-``goal_constraints/position_constraints/header/frame_id``: frame this
-data is associated with -
-``goal_constraints/position_constraints/link_name``: target link name -
-``goal_constraints/position_constraints/constraint_region``: bounding
-volume of the target point -
-``goal_constraints/position_constraints/target_point_offset``: offset
-(in the link frame) for the target point on the target link (optional) -
-max\_velocity\_scaling\_factor: rescale the maximal velocity -
-max\_acceleration\_scaling\_factor: rescale the maximal
-acceleration/deceleration
+.. image:: ptp.png
+   :alt: PTP velocity profile with trapezoidal ramps - the axis with the longest duration
+         determines the maximum velocity
+
+Input parameters in ``moveit_msgs::MotionPlanRequest``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- ``planner_id``: PTP
+- ``group_name``: name of the planning group
+- ``max_velocity_scaling_factor``: scaling factor of maximal joint velocity
+- ``max_acceleration_scaling_factor``: scaling factor of maximal joint acceleration/deceleration
+- ``start_state/joint_state/(name, position and velocity``: joint name/position/velocity(optional) of the start state.
+- ``goal_constraints`` (goal can be given in joint space or Cartesian space)
+- for goal in joint space
+    - ``goal_constraints/joint_constraints/joint_name``: goal joint name
+    - ``goal_constraints/joint_constraints/position``: goal joint position
+- for goal in Cartesian space
+    - ``goal_constraints/position_constraints/header/frame_id``: frame this data is associated with
+    - ``goal_constraints/position_constraints/link_name``: target link name
+    - ``goal_constraints/position_constraints/constraint_region``: bounding volume of the target point
+    - ``goal_constraints/position_constraints/target_point_offset``: offset (in the link frame) for the target point on
+      the target link (optional)
+- ``max_velocity_scaling_factor``: rescale the maximal velocity
+- ``max_acceleration_scaling_factor``: rescale the maximal acceleration/deceleration
+
 
 planning results in ``moveit_msg::MotionPlanResponse``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -256,8 +254,8 @@ Input parameters in ``moveit_msgs::MotionPlanRequest``
    -  ``path_constraints/position_constraints/constraint_region/primitive_poses/point``:
       position of the point
 
--  max\_velocity\_scaling\_factor: rescale the maximal velocity
--  max\_acceleration\_scaling\_factor: rescale the maximal acceleration
+-  ``max\_velocity\_scaling\_factor``: rescale the maximal velocity
+-  ``max\_acceleration\_scaling\_factor``: rescale the maximal acceleration
 
 planning results in ``moveit_msg::MotionPlanResponse``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -285,10 +283,8 @@ By running
 
 the user can interact with the planner through rviz.
 
-.. figure:: doc/figure/rviz_planner.png
+.. figure:: rviz_planner.png
    :alt: rviz figure
-
-   rviz figure
 
 Using the command planner
 -------------------------
@@ -337,10 +333,7 @@ goal. When the tcp comes closer to the goal than the given
 When leaving a sphere around the current goal, the robot returns onto
 the trajectory he would have taken without blending.
 
-For details about the blend algorithm please refer to
-|doc/MotionBlendAlgorithmDescription.pdf|.
-
-.. figure:: doc/figure/blend_radius.png
+.. figure:: blend_radius.png
    :alt: blend figure
 
    blend figure
@@ -378,6 +371,4 @@ The service ``plan_sequence_path`` allows the user to generate a joint
 trajectory for a ``pilz_msgs::MotionSequenceRequest``. The trajectory is
 returned and not executed.
 
-.. |ptp no vel| image:: doc/figure/ptp.png
 .. |here| image:: https://github.com/PilzDE/pilz_robots/blob/melodic-devel/prbt_moveit_config/config/cartesian_limits.yaml
-.. |doc/MotionBlendAlgorithmDescription.pdf| image:: doc/MotionBlendAlgorithmDescription.pdf
