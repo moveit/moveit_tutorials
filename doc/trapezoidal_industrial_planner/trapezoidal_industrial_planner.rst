@@ -2,14 +2,14 @@ Trapezoidal Industrial Planner
 ==============================
 
 ``trapezoidal_industrial_planner`` provides a trajectory generator to plan standard robot
-motions like PTP, LIN, CIRC with the interface of a MoveIt! PlannerManager
+motions like PTP, LIN, CIRC with the interface of a MoveIt PlannerManager
 plugin.
 
 User Interface MoveGroup
 ------------------------
 
 This package implements the ``planning_interface::PlannerManager``
-interface of MoveIt!. By loading the corresponding planning pipeline
+interface of MoveIt. By loading the corresponding planning pipeline
 (``trapezoidal_planning_pipeline.launch.xml`` in your
 ``*_moveit_config`` package), the trajectory generation
 functionalities can be accessed through the user interface (c++, python
@@ -64,7 +64,7 @@ for deceleration accordingly).
 Planning Interface
 ------------------
 
-As defined by the user interface of MoveIt!, this package uses
+As defined by the user interface of MoveIt, this package uses
 ``moveit_msgs::MotionPlanRequest`` and
 ``moveit_msgs::MotionPlanResponse`` as input and output for motion
 planning. These message types are designed to be comprehensive and
@@ -289,9 +289,9 @@ the user can interact with the planner through rviz.
 Using the command planner
 -------------------------
 
-The *trapezoidal::CommandPlanner* is provided as MoveIt! Motion Planning
+The *trapezoidal::CommandPlanner* is provided as MoveIt Motion Planning
 Pipeline and, therefore, can be used with all other manipulators using
-MoveIt!. Loading the plugin requires the param
+MoveIt. Loading the plugin requires the param
 ``/move_group/planner_plugin`` to be set to ``trapezoidal::CommandPlanner``
 before the ``move_group`` node is started.
 
@@ -303,7 +303,8 @@ loaded into ``/robot_description`` the cartesian limits have to be
 defined at ``/robot_description_planning``.
 
 An example showing the cartesian limits which have to be defined can be
-found |here|.
+found in `prbt_moveit_config
+<https://github.com/PilzDE/pilz_robots/blob/melodic-devel/prbt_moveit_config/config/cartesian_limits.yaml>`_.
 
 Sequence of multiple segments
 =============================
@@ -322,7 +323,7 @@ multiple groups (e.g. "Manipulator", "Gripper")
 User interface sequence capability
 ----------------------------------
 
-A specialized MoveIt! capability takes a
+A specialized MoveIt capability takes a
 ``moveit_msgs::MotionSequenceRequest`` as input. The request contains a
 list of subsequent goals as described above and an additional
 ``blend_radius`` parameter. If the given ``blend_radius`` in meter is
@@ -368,5 +369,3 @@ Service interface
 The service ``plan_sequence_path`` allows the user to generate a joint
 trajectory for a ``moveit_msgs::MotionSequenceRequest``. The trajectory is
 returned and not executed.
-
-.. |here| image:: https://github.com/PilzDE/pilz_robots/blob/melodic-devel/prbt_moveit_config/config/cartesian_limits.yaml
