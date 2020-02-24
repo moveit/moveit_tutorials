@@ -289,10 +289,10 @@ the user can interact with the planner through rviz.
 Using the command planner
 -------------------------
 
-The *pilz::CommandPlanner* is provided as MoveIt! Motion Planning
+The *trapezoidal::CommandPlanner* is provided as MoveIt! Motion Planning
 Pipeline and, therefore, can be used with all other manipulators using
 MoveIt!. Loading the plugin requires the param
-``/move_group/planner_plugin`` to be set to ``pilz::CommandPlanner``
+``/move_group/planner_plugin`` to be set to ``trapezoidal::CommandPlanner``
 before the ``move_group`` node is started.
 
 To use the command planner cartesian limits have to be defined. The
@@ -323,7 +323,7 @@ User interface sequence capability
 ----------------------------------
 
 A specialized MoveIt! capability takes a
-``pilz_msgs::MotionSequenceRequest`` as input. The request contains a
+``moveit_msgs::MotionSequenceRequest`` as input. The request contains a
 list of subsequent goals as described above and an additional
 ``blend_radius`` parameter. If the given ``blend_radius`` in meter is
 greater than zero, the corresponding trajectory is merged together with
@@ -335,8 +335,6 @@ the trajectory he would have taken without blending.
 
 .. figure:: blend_radius.png
    :alt: blend figure
-
-   blend figure
 
 Restrictions for ``MotionSequenceRequest``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -351,7 +349,7 @@ Action interface
 ~~~~~~~~~~~~~~~~
 
 In analogy to the ``MoveGroup`` action interface the user can plan and
-execute a ``pilz_msgs::MotionSequenceRequest`` through the action server
+execute a ``moveit_msgs::MotionSequenceRequest`` through the action server
 at ``/sequence_move_group``.
 
 In one point the ``MoveGroupSequenceAction`` differs from the standard
@@ -368,7 +366,7 @@ Service interface
 ~~~~~~~~~~~~~~~~~
 
 The service ``plan_sequence_path`` allows the user to generate a joint
-trajectory for a ``pilz_msgs::MotionSequenceRequest``. The trajectory is
+trajectory for a ``moveit_msgs::MotionSequenceRequest``. The trajectory is
 returned and not executed.
 
 .. |here| image:: https://github.com/PilzDE/pilz_robots/blob/melodic-devel/prbt_moveit_config/config/cartesian_limits.yaml
