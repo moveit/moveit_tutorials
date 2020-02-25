@@ -109,11 +109,10 @@ Input parameters in ``moveit_msgs::MotionPlanRequest``
 - ``max_acceleration_scaling_factor``: rescale the maximal acceleration/deceleration
 
 
-planning results in ``moveit_msg::MotionPlanResponse``
+Planning results in ``moveit_msg::MotionPlanResponse``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
--  ``trajectory_start``: bypass the ``start_state`` in
-   ``moveit_msgs::MotionPlanRequest``
+-  ``trajectory_start``: first robot state of the planned trajectory
 -  ``trajectory/joint_trajectory/joint_names``: a list of the joint
    names of the generated joint trajectory
 -  ``trajectory/joint_trajectory/points/(positions,velocities,accelerations,time_from_start)``:
@@ -177,8 +176,7 @@ Input parameters in ``moveit_msgs::MotionPlanRequest``
 Planning results in ``moveit_msg::MotionPlanResponse``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
--  ``trajectory_start``: bypass the ``start_state`` in
-   ``moveit_msgs::MotionPlanRequest``
+-  ``trajectory_start``: first robot state of the planned trajectory
 -  ``trajectory/joint_trajectory/joint_names``: a list of the joint
    names of the generated joint trajectory
 -  ``trajectory/joint_trajectory/points/(positions,velocities,accelerations,time_from_start)``:
@@ -255,11 +253,10 @@ Input parameters in ``moveit_msgs::MotionPlanRequest``
 -  ``max\_velocity\_scaling\_factor``: rescale the maximal velocity
 -  ``max\_acceleration\_scaling\_factor``: rescale the maximal acceleration
 
-planning results in ``moveit_msg::MotionPlanResponse``
+Planning results in ``moveit_msg::MotionPlanResponse``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
--  ``trajectory_start``: bypass the ``start_state`` in
-   ``moveit_msgs::MotionPlanRequest``
+-  ``trajectory_start``: first robot state of the planned trajectory
 -  ``trajectory/joint_trajectory/joint_names``: a list of the joint
    names of the generated joint trajectory
 -  ``trajectory/joint_trajectory/points/(positions,velocities,accelerations,time_from_start)``:
