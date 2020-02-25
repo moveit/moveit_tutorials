@@ -20,14 +20,13 @@ detailed usage tutorials please refer to :doc:`/doc/move_group_interface/move_gr
 Joint Limits
 ------------
 
-For all commands the planner needs to know the limitations of each robot
-joint. The limits used are calculated from the limits set in the urdf as
-well as the limits set on the parameter server (usually put there by
-loading a \*.yaml file such as
-prbt\_moveit\_config/config/joint\_limits.yaml).
+For all commands the planner uses maximum velocities and accelerations from
+the parameter server. Using the MoveIt setup assistant the file ``joint_limits.yaml``
+is auto-generated with proper defaults and loaded during startup.
 
+The limits on the parameter server override the limits from the URDF robot description.
 Note that while setting position limits and velocity limits is possible
-in both the urdf and the parameter server setting acceleration limits is
+in both the URDF and the parameter server setting acceleration limits is
 only possible via the parameter server. In extension to the common
 ``has_acceleration`` and ``max_acceleration`` parameter we added the
 ability to also set ``has_deceleration`` and
@@ -35,7 +34,7 @@ ability to also set ``has_deceleration`` and
 
 The limits are merged under the premise that the limits from the
 parameter server must be stricter or at least equal to the parameters
-set in the urdf.
+set in the URDF.
 
 Currently the calculated trajectory will respect the limits by using the
 strictest combination of all limits as a common limit for all joints.
@@ -64,24 +63,20 @@ for deceleration accordingly).
 Planning Interface
 ------------------
 
-As defined by the user interface of MoveIt, this package uses
-``moveit_msgs::MotionPlanRequest`` and
-``moveit_msgs::MotionPlanResponse`` as input and output for motion
-planning. These message types are designed to be comprehensive and
-general. The parameters needed by specific planning algorithm are
-explained below in detail.
+This package uses ``moveit_msgs::MotionPlanRequest`` and ``moveit_msgs::MotionPlanResponse``
+as input and output for motion planning. The parameters needed for each planning algorithm
+are explained below.
 
-For a general introduction how to fill a ``MotionPlanRequest`` see
+For a general introduction on how to fill a ``MotionPlanRequest`` see
 :ref:`move_group_interface-planning-to-pose-goal`.
 
-The planner is able to handle all the different commands. Just put
-"PTP", "LIN" or "CIRC" as ``planner\_id`` into the ``MotionPlanRequest``.
+You can specify "PTP", "LIN" or "CIRC" as the ``planner\_id``of the ``MotionPlanRequest``.
 
 The PTP motion command
 ----------------------
 
-This planner generates full synchronized point to point trajectories
-with trapezoidal joint velocity profile. All joints are assumed to have
+This planner generates fully synchronized point-to-point trajectories
+with trapezoidal joint velocity profiles. All joints are assumed to have
 the same maximal joint velocity/acceleration/deceleration limits. If
 not, the strictest limits are adopted. The axis with the longest time to
 reach the goal is selected as the lead axis. Other axes are decelerated
@@ -101,10 +96,10 @@ Input parameters in ``moveit_msgs::MotionPlanRequest``
 - ``max_acceleration_scaling_factor``: scaling factor of maximal joint acceleration/deceleration
 - ``start_state/joint_state/(name, position and velocity``: joint name/position/velocity(optional) of the start state.
 - ``goal_constraints`` (goal can be given in joint space or Cartesian space)
-- for goal in joint space
+- for a goal in joint space
     - ``goal_constraints/joint_constraints/joint_name``: goal joint name
     - ``goal_constraints/joint_constraints/position``: goal joint position
-- for goal in Cartesian space
+- for a goal in Cartesian space
     - ``goal_constraints/position_constraints/header/frame_id``: frame this data is associated with
     - ``goal_constraints/position_constraints/link_name``: target link name
     - ``goal_constraints/position_constraints/constraint_region``: bounding volume of the target point
@@ -140,7 +135,7 @@ The rotational motion is quaternion slerp between start and goal
 orientation. The translational and rotational motion is synchronized in
 time. This planner only accepts start state with zero velocity. Planning
 result is a joint trajectory. The user needs to adapt the Cartesian
-velocity/acceleration scaling factor if motion plan fails due to
+velocity/acceleration scaling factor if the motion plan fails due to
 violation of joint space limits.
 
 Input parameters in ``moveit_msgs::MotionPlanRequest``
@@ -157,14 +152,14 @@ Input parameters in ``moveit_msgs::MotionPlanRequest``
 -  ``goal_constraints`` (goal can be given in joint space or Cartesian
    space)
 
-   -  for goal in joint space
+   -  for a goal in joint space
 
       -  ``goal_constraints/joint_constraints/joint_name``: goal joint
          name
       -  ``goal_constraints/joint_constraints/position``: goal joint
          position
 
-   -  for goal in Cartesian space
+   -  for a goal in Cartesian space
 
       -  ``goal_constraints/position_constraints/header/frame_id``:
          frame this data is associated with
@@ -179,7 +174,7 @@ Input parameters in ``moveit_msgs::MotionPlanRequest``
 -  max\_velocity\_scaling\_factor: rescale the maximal velocity
 -  max\_acceleration\_scaling\_factor: rescale the maximal acceleration
 
-planning results in ``moveit_msg::MotionPlanResponse``
+Planning results in ``moveit_msg::MotionPlanResponse``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -  ``trajectory_start``: bypass the ``start_state`` in
@@ -199,11 +194,14 @@ The CIRC motion command
 
 This planner generates a circular arc trajectory in Cartesian space
 between goal and start poses. There are two options for giving a path
-constraint: - the *center* point of the circle: The planner always
-generates the shorter arc between start and goal and cannot generate a
-half circle, - an *interim* point on the arc: The generated trajectory
-always goes through the interim point. The planner cannot generate a
-full circle.
+constraint:
+
+- the *center* point of the circle: The planner always
+  generates the shorter arc between start and goal and cannot generate a
+  half circle,
+- an *interim* point on the arc: The generated trajectory
+  always goes through the interim point. The planner cannot generate a
+  full circle.
 
 The Cartesian limits, namely translational/rotational
 velocity/acceleration/deceleration need to be set and the planner uses
@@ -229,14 +227,14 @@ Input parameters in ``moveit_msgs::MotionPlanRequest``
 -  ``goal_constraints`` (goal can be given in joint space or Cartesian
    space)
 
-   -  for goal in joint space
+   -  for a goal in joint space
 
       -  ``goal_constraints/joint_constraints/joint_name``: goal joint
          name
       -  ``goal_constraints/joint_constraints/position``: goal joint
          position
 
-   -  for goal in Cartesian space
+   -  for a goal in Cartesian space
 
       -  ``goal_constraints/position_constraints/header/frame_id``:
          frame this data is associated with
@@ -289,7 +287,7 @@ the user can interact with the planner through rviz.
 Using the command planner
 -------------------------
 
-The *trapezoidal::CommandPlanner* is provided as MoveIt Motion Planning
+The *trapezoidal::CommandPlanner* is provided as a MoveIt Motion Planning
 Pipeline and, therefore, can be used with all other manipulators using
 MoveIt. Loading the plugin requires the param
 ``/move_group/planner_plugin`` to be set to ``trapezoidal::CommandPlanner``
@@ -298,7 +296,7 @@ before the ``move_group`` node is started.
 To use the command planner cartesian limits have to be defined. The
 limits are expected to be under the namespace
 ``<robot_description>_planning``. Where ``<robot_description>`` refers
-to the parameter under which the urdf is loaded. E.g. if the urdf was
+to the parameter under which the URDF is loaded. E.g. if the URDF was
 loaded into ``/robot_description`` the cartesian limits have to be
 defined at ``/robot_description_planning``.
 
@@ -328,11 +326,11 @@ A specialized MoveIt capability takes a
 list of subsequent goals as described above and an additional
 ``blend_radius`` parameter. If the given ``blend_radius`` in meter is
 greater than zero, the corresponding trajectory is merged together with
-the following goal in a way, that the robot does not stop at the current
-goal. When the tcp comes closer to the goal than the given
+the following goal such that the robot does not stop at the current
+goal. When the TCP comes closer to the goal than the given
 ``blend_radius``, it is allowed to travel towards the next goal already.
 When leaving a sphere around the current goal, the robot returns onto
-the trajectory he would have taken without blending.
+the trajectory it would have taken without blending.
 
 .. figure:: blend_radius.png
    :alt: blend figure
