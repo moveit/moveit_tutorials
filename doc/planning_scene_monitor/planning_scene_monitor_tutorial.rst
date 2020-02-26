@@ -1,7 +1,7 @@
 Planning Scene Monitor
 ==================================
 
-The :planning_scene_monitor:`PlanningSceneMonitor` is the recommended interface for maintianing an up to date planning scene. The relationship between :moveit_core:`RobotState`, :planning_scene_monitor:`CurrentStateMonitor`, :planning_scene:`PlanningScene`, :planning_scene_monitor:`PlanningSceneMonitor`, and :planning_interface:`PlanningSceneInterface` can be really confusing at first. This tutorial aims to make clear these key concepts.
+The :planning_scene_monitor:`PlanningSceneMonitor` is the recommended interface for maintaining an up to date planning scene. The relationship between :moveit_core:`RobotState`, :planning_scene_monitor:`CurrentStateMonitor`, :planning_scene:`PlanningScene`, :planning_scene_monitor:`PlanningSceneMonitor`, and :planning_interface:`PlanningSceneInterface` can be really confusing at first. This tutorial aims to make clear these key concepts.
 
 RobotState
 ----------
@@ -9,7 +9,7 @@ The :moveit_core:`RobotState` is a snapshot of a robot. It contains information 
 
 CurrentStateMonitor
 -------------------
-The :planning_scene_monitor:`CurrentStateMonitor` can be thought of as a ROS wrapper for the RobotState. It subscribes to a provided topic for :sensor_msgs:`JointState` messages that provide up to date sensor values for single degere of freedom actuatuators such as revolute or prismatic joints and updates it's internal RobotState with those joint values. In addition to the single degree of freedom joints, a robot can have joints with multiple degrees of freedom such as floating and planar joints. To maintian up to date transform information for links and other frames attached with multiple degree of freedom joints, the CSM maintains a TF2 :tf2:`Buffer` that uses a TF2 :tf2:`TransformListener` to set their transforms in it's internal data.
+The :planning_scene_monitor:`CurrentStateMonitor` can be thought of as a ROS wrapper for the RobotState. It subscribes to a provided topic for :sensor_msgs:`JointState` messages that provide up to date sensor values for single degree of freedom actuators such as revolute or prismatic joints and updates it's internal RobotState with those joint values. In addition to the single degree of freedom joints, a robot can have joints with multiple degrees of freedom such as floating and planar joints. To maintain up to date transform information for links and other frames attached with multiple degree of freedom joints, the CSM maintains a TF2 :tf2:`Buffer` that uses a TF2 :tf2:`TransformListener` to set their transforms in it's internal data.
 
 PlanningScene
 -------------
@@ -44,4 +44,4 @@ The PlanningSceneMonitor is initialized with:
 
 PlanningSceneInterface
 ----------------------
-The The :planning_interface:`PlanningSceneInterface` is used for publishing updates to a MoveGroup's :planning_scene_monitor:`PlanningSceneMonitor`. It may not work without MoveGroup or MoveItCpp
+The :planning_interface:`PlanningSceneInterface` is a useful class for publishing updates to a MoveGroup's :planning_scene_monitor:`PlanningSceneMonitor` through a C++ API without creating your own subscribers and service clients. It may not work without MoveGroup or MoveItCpp
