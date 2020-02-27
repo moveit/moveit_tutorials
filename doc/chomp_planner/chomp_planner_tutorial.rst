@@ -153,6 +153,6 @@ To achieve this, follow the steps:
 
 #. After making these requisite changes to the launch files, open a terminal and execute the following: ::
 
-    roslaunch panda_moveit_config demo_chomp.launch
+    roslaunch panda_moveit_config demo.launch
 
-This will launch RViz, select OMPL in the Motion Planning panel under the Context tab. Set the desired start and goal states by moving the end-effector around in the same way as was done for CHOMP above. Finally click on the Plan button to start planning. The planner will now first run OMPL, then run CHOMP on OMPL's output to produce an optimized path.
+This will launch RViz. Set the desired start and goal states by moving the end-effector around in the same way as was done for CHOMP above. Finally click on the Plan button to start planning. The planner will now first run OMPL, then run CHOMP on OMPL's output to produce an optimized path.
