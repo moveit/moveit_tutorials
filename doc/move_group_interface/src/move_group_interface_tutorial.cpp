@@ -288,6 +288,11 @@ int main(int argc, char** argv)
   visual_tools.trigger();
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
 
+  // You can execute a trajectory by wrapping it in a plan like this.
+  moveit::planning_interface::MoveGroupInterface::Plan cartesian_plan;
+  cartesian_plan.trajectory_ = trajectory;
+  group.execute(cartesian_plan);
+
   // Adding/Removing Objects and Attaching/Detaching Objects
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   //
@@ -384,7 +389,7 @@ int main(int argc, char** argv)
   visual_tools.publishText(text_pose, "Object removed", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
 
-  /* Wait for MoveGroup to recieve and process the attached collision object message */
+  /* Wait for MoveGroup to receive and process the attached collision object message */
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to once the collision object disapears");
 
   // END_TUTORIAL
