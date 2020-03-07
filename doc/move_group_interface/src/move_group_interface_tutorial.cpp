@@ -263,10 +263,12 @@ int main(int argc, char** argv)
   target_pose3.position.x -= 0.2;
   waypoints.push_back(target_pose3);  // up and left
 
-  // Cartesian motions are frequently needed to be slower for actions such as approach and retreat
+  // Cartesian motions are frequently required to be slow for actions such as approach and retreat
   // grasp motions. Here we demonstrate how to reduce the speed of the robot arm via a scaling factor
-  // of the maxiumum speed of each joint. Note this is not the speed of the end effector point.
-  move_group.setMaxVelocityScalingFactor(0.1);
+  // of the maximum speed of each joint. Note this is not the speed of the end effector point.
+  // Also note that the default value is 0.1, which can be changed in the joint_limits.yaml file 
+  // of your robot's moveit_config.
+  move_group.setMaxVelocityScalingFactor(0.05);
 
   // We want the Cartesian path to be interpolated at a resolution of 1 cm
   // which is why we will specify 0.01 as the max step in Cartesian

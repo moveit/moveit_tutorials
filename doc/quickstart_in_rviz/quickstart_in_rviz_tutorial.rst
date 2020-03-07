@@ -184,6 +184,18 @@ If the "Use Cartesian Path" checkbox is activated, the plan will be
 .. image:: rviz_plan_cartesian.png
    :width: 700px
 
+
+Executing Trajectories, Adjusting Speed
+++++++++++++++++++++++++++++++++++
+
+Clicking "Plan & Execute" or "Execute" after a successful plan will send the trajectory to the robot - in this tutorial, since you used `demo.launch`, the robot is only simulated.
+
+Initially, the default velocity and acceleration are scaled to 10% (`0.1`) of the robot's maximum. You can change these scaling factors in the Planning tab shown below, or change these default values in the `moveit_config` of your robot (in `joint_limits.yaml`).
+
+.. image:: rviz_plugin_collision_aware_ik_checkbox.png
+   :width: 700px
+
+
 Next Steps
 ----------
 
