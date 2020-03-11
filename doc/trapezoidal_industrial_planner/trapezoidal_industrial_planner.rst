@@ -1,7 +1,7 @@
-Trapezoidal Industrial Planner
+Pilz Industrial Motion Planner
 ==============================
 
-``trapezoidal_industrial_planner`` provides a trajectory generator to plan standard robot
+``pilz_industrial_motion_planner`` provides a trajectory generator to plan standard robot
 motions like PTP, LIN, CIRC with the interface of a MoveIt PlannerManager
 plugin.
 
@@ -10,7 +10,7 @@ User Interface MoveGroup
 
 This package implements the ``planning_interface::PlannerManager``
 interface of MoveIt. By loading the corresponding planning pipeline
-(``trapezoidal_planning_pipeline.launch.xml`` in your
+(``pilz_industrial motion_planner_planning_pipeline.launch.xml`` in your
 ``*_moveit_config`` package), the trajectory generation
 functionalities can be accessed through the user interface (c++, python
 or rviz) provided by the ``move_group`` node, e.g.
@@ -281,13 +281,13 @@ the user can interact with the planner through rviz.
 .. figure:: rviz_planner.png
    :alt: rviz figure
 
-Using the command planner
--------------------------
+Using the planner
+-----------------
 
-The *trapezoidal::CommandPlanner* is provided as a MoveIt Motion Planning
+The *pilz_industrial_motion_planner::CommandPlanner* is provided as a MoveIt Motion Planning
 Pipeline and, therefore, can be used with all other manipulators using
 MoveIt. Loading the plugin requires the param
-``/move_group/planner_plugin`` to be set to ``trapezoidal::CommandPlanner``
+``/move_group/planning_plugin`` to be set to ``pilz_industrial_motion_planner::CommandPlanner``
 before the ``move_group`` node is started.
 
 To use the command planner cartesian limits have to be defined. The
