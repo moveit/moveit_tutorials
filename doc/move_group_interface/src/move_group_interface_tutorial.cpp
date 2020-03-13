@@ -207,7 +207,7 @@ int main(int argc, char** argv)
 
   // We will reuse the old goal that we had and plan to it.
   // Note that this will only work if the current state already
-  // satisfies the path constraints. So, we need to set the start
+  // satisfies the path constraints. So we need to set the start
   // state to a new pose.
   robot_state::RobotState start_state(*move_group.getCurrentState());
   geometry_msgs::Pose start_pose2;
@@ -335,7 +335,7 @@ int main(int argc, char** argv)
   visual_tools.publishText(text_pose, "Add object", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
 
-  // Wait for MoveGroup to recieve and process the collision object message
+  // Wait for MoveGroup to receive and process the collision object message
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to once the collision object appears in RViz");
 
   // Now when we plan a trajectory it will avoid the obstacle
@@ -365,7 +365,7 @@ int main(int argc, char** argv)
   visual_tools.publishText(text_pose, "Object attached to robot", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
 
-  /* Wait for MoveGroup to recieve and process the attached collision object message */
+  /* Wait for MoveGroup to receive and process the attached collision object message */
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to once the collision object attaches to the "
                       "robot");
 
@@ -377,7 +377,7 @@ int main(int argc, char** argv)
   visual_tools.publishText(text_pose, "Object dettached from robot", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
 
-  /* Wait for MoveGroup to recieve and process the attached collision object message */
+  /* Wait for MoveGroup to receive and process the attached collision object message */
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to once the collision object detaches to the "
                       "robot");
 
