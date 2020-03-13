@@ -175,6 +175,11 @@ int main(int argc, char** argv)
   joint_group_positions[0] = -1.0;  // radians
   move_group.setJointValueTarget(joint_group_positions);
 
+  // We lower the allowed maximum velocity to 5% of its maximum. The default value is 10% (0.1).
+  // Change it in the joint_limits.yaml file of your robot's moveit_config or in your code if
+  // if you need your robot to move faster.
+  move_group.setMaxVelocityScalingFactor(0.05);
+
   success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
   ROS_INFO_NAMED("tutorial", "Visualizing plan 2 (joint space goal) %s", success ? "" : "FAILED");
 
@@ -263,13 +268,6 @@ int main(int argc, char** argv)
   target_pose3.position.x -= 0.2;
   waypoints.push_back(target_pose3);  // up and left
 
-  // Cartesian motions are frequently required to be slow for actions such as approach and retreat
-  // grasp motions. Here we demonstrate how to reduce the speed of the robot arm via a scaling factor
-  // of the maximum speed of each joint. Note this is not the speed of the end effector point.
-  // Also note that the default value is 0.1, which can be changed in the joint_limits.yaml file 
-  // of your robot's moveit_config.
-  move_group.setMaxVelocityScalingFactor(0.05);
-
   // We want the Cartesian path to be interpolated at a resolution of 1 cm
   // which is why we will specify 0.01 as the max step in Cartesian
   // translation.  We will specify the jump threshold as 0.0, effectively disabling it.
@@ -290,10 +288,16 @@ int main(int argc, char** argv)
   visual_tools.trigger();
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
 
+  // Cartesian motions should often be slow, e.g. when approaching objects. The speed of cartesian
+  // plans cannot currently be set through the maxVelocityScalingFactor, but requires you to time
+  // the trajectory manually, as described [here](https://groups.google.com/forum/#!topic/moveit-users/MOoFxy2exT4). 
+  // Pull requests are welcome.
+
   // You can execute a trajectory by wrapping it in a plan like this.
   moveit::planning_interface::MoveGroupInterface::Plan cartesian_plan;
   cartesian_plan.trajectory_ = trajectory;
   group.execute(cartesian_plan);
+
 
   // Adding/Removing Objects and Attaching/Detaching Objects
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
