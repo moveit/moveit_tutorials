@@ -296,7 +296,7 @@ int main(int argc, char** argv)
   // You can execute a trajectory by wrapping it in a plan like this.
   moveit::planning_interface::MoveGroupInterface::Plan cartesian_plan;
   cartesian_plan.trajectory_ = trajectory;
-  group.execute(cartesian_plan);
+  move_group.execute(cartesian_plan);
 
 
   // Adding/Removing Objects and Attaching/Detaching Objects
