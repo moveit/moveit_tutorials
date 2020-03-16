@@ -129,6 +129,13 @@ Note what happens when you try to move an end-effector out of its reachable work
 .. image:: rviz_plugin_invalid.png
    :width: 700px
 
+Moving Joints or in Null Space
+++++++++++++++++++++++++++++++
+You can use the **Joints** tab to move single joints and the redundant joints of 7-DOF robots. Try moving the "null space exploration" slider as shown in the animation below.
+
+.. image:: rviz_joints_nullspace.webm
+   :width: 700px
+
 Step 4: Use Motion Planning with the Panda
 -------------------------------------------
 
@@ -152,7 +159,7 @@ Step 4: Use Motion Planning with the Panda
 Introspecting Trajectory Waypoints
 ++++++++++++++++++++++++++++++++++
 
-You can visually introspect trajectory point by point on RViz.
+You can visually introspect trajectories point by point in RViz.
 
 * From "`Panels`" menu, select "`MotionPlanning - Slider`". You'll see a new Slider panel on RViz.
 
@@ -165,6 +172,28 @@ NOTE: Once you placed your EEF to a new goal, be sure to run `Plan` before runni
 .. image:: rviz_plugin_slider.png
    :width: 700px
 
+Plan Cartesian motions
+++++++++++++++++++++++
+
+If the "Use Cartesian Path" checkbox is activated, the robot will attempt to move the end effector linearly in cartesian space.
+
+.. image:: rviz_plan_free.png
+   :width: 700px
+
+.. image:: rviz_plan_cartesian.png
+   :width: 700px
+
+
+Executing Trajectories, Adjusting Speed
++++++++++++++++++++++++++++++++++++++++
+
+Clicking "Plan & Execute" or "Execute" after a successful plan will send the trajectory to the robot - in this tutorial, since you used `demo.launch`, the robot is only simulated.
+
+Initially, the default velocity and acceleration are scaled to 10% (`0.1`) of the robot's maximum. You can change these scaling factors in the Planning tab shown below, or change these default values in the `moveit_config` of your robot (in `joint_limits.yaml`).
+
+.. image:: rviz_plugin_collision_aware_ik_checkbox.png
+   :width: 700px
+
 
 Next Steps
 ----------
@@ -175,7 +204,7 @@ Many of the tutorials use ``moveit_visual_tools`` to step through a demo. Before
 
 From "`Panels`" menu, select "`RvizVisualToolsGui`". You'll see the new panel added to RViz.
 
-.. image:: rviz_pannels.png
+.. image:: rviz_panels.png
    :width: 700px
 
 Saving Your Configuration

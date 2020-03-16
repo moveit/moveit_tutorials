@@ -175,6 +175,13 @@ int main(int argc, char** argv)
   joint_group_positions[0] = -1.0;  // radians
   move_group.setJointValueTarget(joint_group_positions);
 
+  // We lower the allowed maximum velocity and acceleration to 5% of their maximum.
+  // The default values are 10% (0.1).
+  // Set your preferred defaults in the joint_limits.yaml file of your robot's moveit_config
+  // or set explicit factors in your code if you need your robot to move faster.
+  move_group.setMaxVelocityScalingFactor(0.05);
+  move_group.setMaxAccelerationScalingFactor(0.05);
+
   success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
   ROS_INFO_NAMED("tutorial", "Visualizing plan 2 (joint space goal) %s", success ? "" : "FAILED");
 
@@ -207,7 +214,7 @@ int main(int argc, char** argv)
 
   // We will reuse the old goal that we had and plan to it.
   // Note that this will only work if the current state already
-  // satisfies the path constraints. So, we need to set the start
+  // satisfies the path constraints. So we need to set the start
   // state to a new pose.
   robot_state::RobotState start_state(*move_group.getCurrentState());
   geometry_msgs::Pose start_pose2;
@@ -263,11 +270,6 @@ int main(int argc, char** argv)
   target_pose3.position.x -= 0.2;
   waypoints.push_back(target_pose3);  // up and left
 
-  // Cartesian motions are frequently needed to be slower for actions such as approach and retreat
-  // grasp motions. Here we demonstrate how to reduce the speed of the robot arm via a scaling factor
-  // of the maxiumum speed of each joint. Note this is not the speed of the end effector point.
-  move_group.setMaxVelocityScalingFactor(0.1);
-
   // We want the Cartesian path to be interpolated at a resolution of 1 cm
   // which is why we will specify 0.01 as the max step in Cartesian
   // translation.  We will specify the jump threshold as 0.0, effectively disabling it.
@@ -287,6 +289,16 @@ int main(int argc, char** argv)
     visual_tools.publishAxisLabeled(waypoints[i], "pt" + std::to_string(i), rvt::SMALL);
   visual_tools.trigger();
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
+
+  // Cartesian motions should often be slow, e.g. when approaching objects. The speed of cartesian
+  // plans cannot currently be set through the maxVelocityScalingFactor, but requires you to time
+  // the trajectory manually, as described [here](https://groups.google.com/forum/#!topic/moveit-users/MOoFxy2exT4).
+  // Pull requests are welcome.
+
+  // You can execute a trajectory by wrapping it in a plan like this.
+  moveit::planning_interface::MoveGroupInterface::Plan cartesian_plan;
+  cartesian_plan.trajectory_ = trajectory;
+  move_group.execute(cartesian_plan);
 
   // Adding/Removing Objects and Attaching/Detaching Objects
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -328,7 +340,7 @@ int main(int argc, char** argv)
   visual_tools.publishText(text_pose, "Add object", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
 
-  // Wait for MoveGroup to recieve and process the collision object message
+  // Wait for MoveGroup to receive and process the collision object message
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to once the collision object appears in RViz");
 
   // Now when we plan a trajectory it will avoid the obstacle
@@ -358,7 +370,7 @@ int main(int argc, char** argv)
   visual_tools.publishText(text_pose, "Object attached to robot", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
 
-  /* Wait for MoveGroup to recieve and process the attached collision object message */
+  /* Wait for MoveGroup to receive and process the attached collision object message */
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to once the collision object attaches to the "
                       "robot");
 
@@ -370,7 +382,7 @@ int main(int argc, char** argv)
   visual_tools.publishText(text_pose, "Object dettached from robot", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
 
-  /* Wait for MoveGroup to recieve and process the attached collision object message */
+  /* Wait for MoveGroup to receive and process the attached collision object message */
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to once the collision object detaches to the "
                       "robot");
 
@@ -384,7 +396,7 @@ int main(int argc, char** argv)
   visual_tools.publishText(text_pose, "Object removed", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
 
-  /* Wait for MoveGroup to recieve and process the attached collision object message */
+  /* Wait for MoveGroup to receive and process the attached collision object message */
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to once the collision object disapears");
 
   // END_TUTORIAL
