@@ -292,14 +292,13 @@ int main(int argc, char** argv)
 
   // Cartesian motions should often be slow, e.g. when approaching objects. The speed of cartesian
   // plans cannot currently be set through the maxVelocityScalingFactor, but requires you to time
-  // the trajectory manually, as described [here](https://groups.google.com/forum/#!topic/moveit-users/MOoFxy2exT4). 
+  // the trajectory manually, as described [here](https://groups.google.com/forum/#!topic/moveit-users/MOoFxy2exT4).
   // Pull requests are welcome.
 
   // You can execute a trajectory by wrapping it in a plan like this.
   moveit::planning_interface::MoveGroupInterface::Plan cartesian_plan;
   cartesian_plan.trajectory_ = trajectory;
   move_group.execute(cartesian_plan);
-
 
   // Adding/Removing Objects and Attaching/Detaching Objects
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
