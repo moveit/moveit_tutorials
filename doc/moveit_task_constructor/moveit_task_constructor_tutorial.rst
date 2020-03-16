@@ -11,7 +11,7 @@ The Task Constructor framework provides a flexible and transparent way to define
 Getting Started
 ---------------
 
-If you haven't already done so, make sure you've completed the steps in `Getting Started <../getting_started/getting_started.html>`_.
+If you have not already done so, make sure you have completed the steps in `Getting Started <../getting_started/getting_started.html>`_.
 
 Installing MoveIt Task Constructor
 ----------------------------------
@@ -74,7 +74,7 @@ An example is an IK sampler for geometric poses where approaching and departing 
 Depending on the implementation, propagating stages can pass solutions forward, backward or in both directions separately.
 An example is a stage that computes a Cartesian path based on either a start or a goal state.
 
-**Connectors** don’t propagate any results, but rather attempt to bridge the gap between the resulting states of both neighbors.
+**Connectors** do not propagate any results, but rather attempt to bridge the gap between the resulting states of both neighbors.
 An example is the computation of a free-motion plan from one given state to another.
 
 Additional to the order types, there are different hierarchy types allowing to encapsulate subordinate stages.
@@ -96,4 +96,4 @@ Examples are running alternative planners for a free-motion plan, picking object
 
 Stages not only support solving motion planning problems.
 They can also be used for all kinds of state transitions, as for instance modifying the planning scene.
-Combined with the possibility of using class inheritance it's possible to construct very complex behavior while only relying on a well-structured set of primitive stages.
+Combined with the possibility of using class inheritance it is possible to construct very complex behavior while only relying on a well-structured set of primitive stages.
