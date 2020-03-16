@@ -11,7 +11,7 @@ The Task Constructor framework provides a flexible and transparent way to define
 Getting Started
 ---------------
 
-If you haven't already done so, make sure you've completed the steps in `Getting Started <../getting_started/getting_started.html>`_.
+If you have not already done so, make sure you have completed the steps in `Getting Started <../getting_started/getting_started.html>`_.
 
 Installing MoveIt Task Constructor
 ----------------------------------
@@ -67,14 +67,14 @@ Stages can be arranged in any arbitrary order and hierarchy only limited by the 
 The order in which stages can be arranged is restricted by the direction in which results are passed.
 There are three possible stages relating to the result flow: generator, propagator, and connector stages:
 
-**Generators** compute their results independent of their neighbor stages and pass it in both directions, backwards and forwards.
+**Generators** compute their results independently of their neighbor stages and pass them in both directions, backwards and forwards.
 An example is an IK sampler for geometric poses where approaching and departing motions (neighbor stages) depend on the solution.
 
-**Propagators** receive the result of one neighbor stage, solve a subproblem and then propagate their result on to the neighbor on the opposite site.
-Depending on the implementation propagating stages can pass solutions forward, backward or in both directions separately.
+**Propagators** receive the result of one neighbor stage, solve a subproblem and then propagate their result to the neighbor on the opposite site.
+Depending on the implementation, propagating stages can pass solutions forward, backward or in both directions separately.
 An example is a stage that computes a Cartesian path based on either a start or a goal state.
 
-**Connectors** are don’t propagate any results, but rather attempt to bridge the gap between the resulting states of both neighbors.
+**Connectors** do not propagate any results, but rather attempt to bridge the gap between the resulting states of both neighbors.
 An example is the computation of a free-motion plan from one given state to another.
 
 Additional to the order types, there are different hierarchy types allowing to encapsulate subordinate stages.
@@ -82,7 +82,8 @@ Stages without subordinate stages are called **primitive stages**, higher-level 
 There are three container types:
 
 **Wrappers** encapsulate a single subordinate stage and modify or filter the results.
-An example is a filter stage that only accepts solutions of an IK solver that satisfy a certain constraint.
+For example, a filter stage that only accepts solutions of its child stage that satisfy a certain constraint can be realized as a wrapper.
+Another standard use of this type includes the IK wrapper stage, which generates inverse kinematics solutions based on planning scenes annotated with a pose target property.
 
 **Serial Containers** hold a sequence of subordinate stages and only consider end-to-end solutions as results.
 An example is a picking motion that consists of a sequence of coherent steps.
@@ -95,4 +96,4 @@ Examples are running alternative planners for a free-motion plan, picking object
 
 Stages not only support solving motion planning problems.
 They can also be used for all kinds of state transitions, as for instance modifying the planning scene.
-Combined with the possibility of using class inheritance it's possible to construct very complex behavior while only relying on a well-structured set of primitive stages.
+Combined with the possibility of using class inheritance it is possible to construct very complex behavior while only relying on a well-structured set of primitive stages.
