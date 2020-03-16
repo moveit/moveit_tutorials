@@ -130,7 +130,7 @@ Note what happens when you try to move an end-effector out of its reachable work
    :width: 700px
 
 Moving Joints or in Null Space
-++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++
 You can use the **Joints** tab to move single joints and the redundant joints of 7-DOF robots. Try moving the "null space exploration" slider as shown in the animation below.
 
 .. image:: rviz_joints_nullspace.webm
@@ -173,7 +173,7 @@ NOTE: Once you placed your EEF to a new goal, be sure to run `Plan` before runni
    :width: 700px
 
 Plan Cartesian motions
-++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++
 
 If the "Use Cartesian Path" checkbox is activated, the robot will attempt to move the end effector linearly in cartesian space.
 
@@ -185,7 +185,7 @@ If the "Use Cartesian Path" checkbox is activated, the robot will attempt to mov
 
 
 Executing Trajectories, Adjusting Speed
-++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++
 
 Clicking "Plan & Execute" or "Execute" after a successful plan will send the trajectory to the robot - in this tutorial, since you used `demo.launch`, the robot is only simulated.
 
