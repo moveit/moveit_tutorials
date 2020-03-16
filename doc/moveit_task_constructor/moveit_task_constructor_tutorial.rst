@@ -61,7 +61,7 @@ shown in the right-most window. Selecting one of those solutions will start its 
 Basic Concepts
 --------------
 
-The fundamental idea of MTC is that complex motion planning problems can be composed into a set of simpler sub-problems.
+The fundamental idea of MTC is that complex motion planning problems can be composed into a set of simpler subproblems.
 The top-level planning problem is specified as a **Task** while all subproblems are specified by **Stages**.
 Stages can be arranged in any arbitrary order and hierarchy only limited by the individual stages types.
 The order in which stages can be arranged is restricted by the direction in which results are passed.
@@ -82,7 +82,8 @@ Stages without subordinate stages are called **primitive stages**, higher-level 
 There are three container types:
 
 **Wrappers** encapsulate a single subordinate stage and modify or filter the results.
-An example is a filter stage that only accepts solutions of an IK solver that satisfy a certain constraint. Or when you gets a generated grasp pose and you want only one that match the following IK.
+A filter stage that only accepts solutions of its child stage which satisfy a certain constraint can be realized as a wrapper.
+Another standard use of this type includes the IK wrapper stage, which generates inverse kinematics solutions based on planning scenes annotated with a pose target property.
 
 **Serial Containers** hold a sequence of subordinate stages and only consider end-to-end solutions as results.
 An example is a picking motion that consists of a sequence of coherent steps.
