@@ -82,7 +82,7 @@ Stages without subordinate stages are called **primitive stages**, higher-level 
 There are three container types:
 
 **Wrappers** encapsulate a single subordinate stage and modify or filter the results.
-A filter stage that only accepts solutions of its child stage which satisfy a certain constraint can be realized as a wrapper.
+For example, a filter stage that only accepts solutions of its child stage that satisfy a certain constraint can be realized as a wrapper.
 Another standard use of this type includes the IK wrapper stage, which generates inverse kinematics solutions based on planning scenes annotated with a pose target property.
 
 **Serial Containers** hold a sequence of subordinate stages and only consider end-to-end solutions as results.
