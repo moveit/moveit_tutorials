@@ -175,10 +175,12 @@ int main(int argc, char** argv)
   joint_group_positions[0] = -1.0;  // radians
   move_group.setJointValueTarget(joint_group_positions);
 
-  // We lower the allowed maximum velocity to 5% of its maximum. The default value is 10% (0.1).
-  // Change it in the joint_limits.yaml file of your robot's moveit_config or in your code if
-  // if you need your robot to move faster.
+  // We lower the allowed maximum velocity and acceleration to 5% of their maximum.
+  // The default values are 10% (0.1).
+  // Set your preferred defaults in the joint_limits.yaml file of your robot's moveit_config
+  // or set explicit factors in your code if you need your robot to move faster.
   move_group.setMaxVelocityScalingFactor(0.05);
+  move_group.setMaxAccelerationScalingFactor(0.05);
 
   success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
   ROS_INFO_NAMED("tutorial", "Visualizing plan 2 (joint space goal) %s", success ? "" : "FAILED");
