@@ -131,10 +131,13 @@ Note what happens when you try to move an end-effector out of its reachable work
 
 Moving Joints or in Null Space
 ++++++++++++++++++++++++++++++
-You can use the **Joints** tab to move single joints and the redundant joints of 7-DOF robots. Try moving the "null space exploration" slider as shown in the animation below.
+You can use the **Joints** tab to move single joints and the redundant joints of 7-DOF robots. Try moving the "null space exploration" slider as shown in this animation.
 
-.. image:: rviz_joints_nullspace.webm
-   :width: 700px
+.. raw:: html
+
+    <div style="position: relative; padding-bottom: 5%; height: 0; overflow: hidden; max-width: 100%; height: auto;">
+        <iframe width="700px" height="400px" src="../../../../doc/quickstart_in_rviz/rviz_joints_nullspace.webm" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
 
 Step 4: Use Motion Planning with the Panda
 -------------------------------------------
