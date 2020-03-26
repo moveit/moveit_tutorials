@@ -89,7 +89,7 @@ bool moveToCartPose(geometry_msgs::PoseStamped pose, moveit::planning_interface:
 void spawnCollisionObjects(moveit::planning_interface::PlanningSceneInterface& planning_scene_interface)
 {
   double z_offset_box = .25;  // The z-axis points away from the gripper
-  double z_offset_cylinder = .12;
+  double z_offset_cylinder = .1;
 
   // First, we start defining the `CollisionObject <http://docs.ros.org/api/moveit_msgs/html/msg/CollisionObject.html>`_
   // as usual.
