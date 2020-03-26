@@ -32,7 +32,7 @@
 *  POSSIBILITY OF SUCH DAMAGE.
 *********************************************************************/
 
-/* Author: Felix von Drigalski*/
+/* Author: Felix von Drigalski */
 
 // ROS
 #include <ros/ros.h>
@@ -119,35 +119,35 @@ void spawnCollisionObjects(moveit::planning_interface::PlanningSceneInterface& p
   box.subframe_poses[0].position.z = 0.0 + z_offset_box;
 
   tf2::Quaternion orientation;
-  orientation.setRPY((90.0 / 180.0 * M_PI), 0, 0);
+  orientation.setRPY(90.0 / 180.0 * M_PI, 0, 0);
   box.subframe_poses[0].orientation = tf2::toMsg(orientation);
   // END_SUB_TUTORIAL
 
   box.subframe_names[1] = "top";
   box.subframe_poses[1].position.y = .05;
   box.subframe_poses[1].position.z = 0.0 + z_offset_box;
-  orientation.setRPY(-(90.0 / 180.0 * M_PI), 0, 0);
+  orientation.setRPY(-90.0 / 180.0 * M_PI, 0, 0);
   box.subframe_poses[1].orientation = tf2::toMsg(orientation);
 
   box.subframe_names[2] = "corner_1";
   box.subframe_poses[2].position.x = -.025;
   box.subframe_poses[2].position.y = -.05;
   box.subframe_poses[2].position.z = -.01 + z_offset_box;
-  orientation.setRPY((90.0 / 180.0 * M_PI), 0, 0);
+  orientation.setRPY(90.0 / 180.0 * M_PI, 0, 0);
   box.subframe_poses[2].orientation = tf2::toMsg(orientation);
 
   box.subframe_names[3] = "corner_2";
   box.subframe_poses[3].position.x = .025;
   box.subframe_poses[3].position.y = -.05;
   box.subframe_poses[3].position.z = -.01 + z_offset_box;
-  orientation.setRPY((90.0 / 180.0 * M_PI), 0, 0);
+  orientation.setRPY(90.0 / 180.0 * M_PI, 0, 0);
   box.subframe_poses[3].orientation = tf2::toMsg(orientation);
 
   box.subframe_names[4] = "side";
   box.subframe_poses[4].position.x = .0;
   box.subframe_poses[4].position.y = .0;
   box.subframe_poses[4].position.z = -.01 + z_offset_box;
-  orientation.setRPY(0, (180.0 / 180.0 * M_PI), 0);
+  orientation.setRPY(0, 180.0 / 180.0 * M_PI, 0);
   box.subframe_poses[4].orientation = tf2::toMsg(orientation);
 
   // Next, define the cylinder
@@ -163,7 +163,7 @@ void spawnCollisionObjects(moveit::planning_interface::PlanningSceneInterface& p
   cylinder.primitive_poses[0].position.x = 0.0;
   cylinder.primitive_poses[0].position.y = 0.0;
   cylinder.primitive_poses[0].position.z = 0.0 + z_offset_cylinder;
-  orientation.setRPY(0, (90.0 / 180.0 * M_PI), 0);
+  orientation.setRPY(0, 90.0 / 180.0 * M_PI, 0);
   cylinder.primitive_poses[0].orientation = tf2::toMsg(orientation);
 
   cylinder.subframe_poses.resize(1);
@@ -172,15 +172,14 @@ void spawnCollisionObjects(moveit::planning_interface::PlanningSceneInterface& p
   cylinder.subframe_poses[0].position.x = 0.03;
   cylinder.subframe_poses[0].position.y = 0.0;
   cylinder.subframe_poses[0].position.z = 0.0 + z_offset_cylinder;
-  orientation.setRPY(0, (90.0 / 180.0 * M_PI), 0);
+  orientation.setRPY(0, 90.0 / 180.0 * M_PI, 0);
   cylinder.subframe_poses[0].orientation = tf2::toMsg(orientation);
 
   // BEGIN_SUB_TUTORIAL object2
   // Lastly, the objects are published to the PlanningScene. In this tutorial, we publish a box and a cylinder.
   box.operation = moveit_msgs::CollisionObject::ADD;
   cylinder.operation = moveit_msgs::CollisionObject::ADD;
-  std::vector<moveit_msgs::CollisionObject> collision_objects = { box, cylinder };
-  planning_scene_interface.applyCollisionObjects(collision_objects);
+  planning_scene_interface.applyCollisionObjects({ box, cylinder });
 }
 // END_SUB_TUTORIAL
 
