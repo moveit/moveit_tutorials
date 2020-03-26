@@ -190,7 +190,6 @@ int main(int argc, char** argv)
   ros::AsyncSpinner spinner(1);
   spinner.start();
 
-  ros::WallDuration(1.0).sleep();
   moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
   moveit::planning_interface::MoveGroupInterface group("panda_arm");
   group.setPlanningTime(10.0);
