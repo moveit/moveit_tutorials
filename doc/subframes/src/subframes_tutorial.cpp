@@ -209,22 +209,13 @@ int main(int argc, char** argv)
   // END_SUB_TUTORIAL
 
   // Define a pose in the robot base.
-  tf2::Quaternion orientation, orientation_1, target_orientation;
-  geometry_msgs::PoseStamped fixed_pose, temp_pose_stamped;
+  tf2::Quaternion target_orientation;
+  geometry_msgs::PoseStamped fixed_pose, target_pose;
   fixed_pose.header.frame_id = "panda_link0";
   fixed_pose.pose.position.y = -.4;
   fixed_pose.pose.position.z = .3;
-  orientation.setRPY(0, (-20.0 / 180.0 * M_PI), 0);
-  fixed_pose.pose.orientation = tf2::toMsg(orientation);
-
-  // BEGIN_SUB_TUTORIAL quaternions1
-  // Setting the orientation
-  // ^^^^^^^^^^^^^^^^^^^^^^^
-  // We multiply tf2 quaternions to chain together a few rotations. This is usually simpler and easier
-  // to debug than figuring out a series of euler angles in your head.
-  tf2::Quaternion flip_around_y;  // This is used to rotate the orientation of the target pose.
-  flip_around_y.setRPY(0, (180.0 / 180.0 * M_PI), 0);
-  // END_SUB_TUTORIAL
+  target_orientation.setRPY(0, (-20.0 / 180.0 * M_PI), 0);
+  fixed_pose.pose.orientation = tf2::toMsg(target_orientation);
 
   // Set up a small command line interface to make the tutorial interactive.
   int character_input;
@@ -250,16 +241,18 @@ int main(int argc, char** argv)
     else if (character_input == 1)
     {
       ROS_INFO_STREAM("Moving to bottom of box with cylinder tip");
-      temp_pose_stamped.header.frame_id = "box/bottom";
 
-      // BEGIN_SUB_TUTORIAL quaternions2
-      // When constructing the target pose for the robot, we multiply the quaternions to get the
-      // target orientation and convert the result to a ``geometry_msgs/orientation`` message.
-      orientation_1.setRPY(-(90.0 / 180.0 * M_PI), 0, 0);
-      target_orientation = flip_around_y * orientation_1;
-      temp_pose_stamped.pose.orientation = tf2::toMsg(target_orientation);
-      temp_pose_stamped.pose.position.z = 0.01;
-      moveToCartPose(temp_pose_stamped, group, "cylinder/tip");
+      // BEGIN_SUB_TUTORIAL orientation
+      // Setting the orientation
+      // ^^^^^^^^^^^^^^^^^^^^^^^
+      // The target pose is given relative to a box subframe:
+      target_pose.header.frame_id = "box/bottom";
+      // The orientation is determined by RPY angles to align the cylinder and box subframes:
+      target_orientation.setRPY(0, 180.0 / 180.0 * M_PI, 90.0 / 180.0 * M_PI);
+      target_pose.pose.orientation = tf2::toMsg(target_orientation);
+      // To keep some distance to the box, we use a small offset:
+      target_pose.pose.position.z = 0.01;
+      moveToCartPose(target_pose, group, "cylinder/tip");
       // END_SUB_TUTORIAL
     }
     // BEGIN_SUB_TUTORIAL move_example
@@ -267,41 +260,37 @@ int main(int argc, char** argv)
     else if (character_input == 2)
     {
       ROS_INFO_STREAM("Moving to top of box with cylinder tip");
-      temp_pose_stamped.header.frame_id = "box/top";
-      orientation_1.setRPY((90.0 / 180.0 * M_PI), 0, 0);
-      target_orientation = flip_around_y * orientation_1;
-      temp_pose_stamped.pose.orientation = tf2::toMsg(target_orientation);
-      temp_pose_stamped.pose.position.z = 0.01;
-      moveToCartPose(temp_pose_stamped, group, "cylinder/tip");
+      target_pose.header.frame_id = "box/top";
+      target_orientation.setRPY(180.0 / 180.0 * M_PI, 0, 90.0 / 180.0 * M_PI);
+      target_pose.pose.orientation = tf2::toMsg(target_orientation);
+      target_pose.pose.position.z = 0.01;
+      moveToCartPose(target_pose, group, "cylinder/tip");
     }
     // END_SUB_TUTORIAL
     else if (character_input == 3)
     {
-      ROS_INFO_STREAM("Moving to top of box with cylinder tip");
-      temp_pose_stamped.header.frame_id = "box/corner_1";
-      orientation_1.setRPY(-(90.0 / 180.0 * M_PI), 0, 0);
-      target_orientation = flip_around_y * orientation_1;
-      temp_pose_stamped.pose.orientation = tf2::toMsg(target_orientation);
-      temp_pose_stamped.pose.position.z = 0.01;
-      moveToCartPose(temp_pose_stamped, group, "cylinder/tip");
+      ROS_INFO_STREAM("Moving to corner1 of box with cylinder tip");
+      target_pose.header.frame_id = "box/corner_1";
+      target_orientation.setRPY(0, 180.0 / 180.0 * M_PI, 90.0 / 180.0 * M_PI);
+      target_pose.pose.orientation = tf2::toMsg(target_orientation);
+      target_pose.pose.position.z = 0.01;
+      moveToCartPose(target_pose, group, "cylinder/tip");
     }
     else if (character_input == 4)
     {
-      temp_pose_stamped.header.frame_id = "box/corner_2";
-      orientation_1.setRPY(-(90.0 / 180.0 * M_PI), 0, 0);
-      target_orientation = flip_around_y * orientation_1;
-      temp_pose_stamped.pose.orientation = tf2::toMsg(target_orientation);
-      temp_pose_stamped.pose.position.z = 0.01;
-      moveToCartPose(temp_pose_stamped, group, "cylinder/tip");
+      target_pose.header.frame_id = "box/corner_2";
+      target_orientation.setRPY(0, 180.0 / 180.0 * M_PI, 90.0 / 180.0 * M_PI);
+      target_pose.pose.orientation = tf2::toMsg(target_orientation);
+      target_pose.pose.position.z = 0.01;
+      moveToCartPose(target_pose, group, "cylinder/tip");
     }
     else if (character_input == 5)
     {
-      temp_pose_stamped.header.frame_id = "box/side";
-      orientation_1.setRPY(-(90.0 / 180.0 * M_PI), 0, 0);
-      target_orientation = flip_around_y * orientation_1;
-      temp_pose_stamped.pose.orientation = tf2::toMsg(target_orientation);
-      temp_pose_stamped.pose.position.z = 0.01;
-      moveToCartPose(temp_pose_stamped, group, "cylinder/tip");
+      target_pose.header.frame_id = "box/side";
+      target_orientation.setRPY(0, 180.0 / 180.0 * M_PI, 90.0 / 180.0 * M_PI);
+      target_pose.pose.orientation = tf2::toMsg(target_orientation);
+      target_pose.pose.position.z = 0.01;
+      moveToCartPose(target_pose, group, "cylinder/tip");
     }
     else if (character_input == 6)
     {
@@ -339,8 +328,7 @@ int main(int argc, char** argv)
         co1.operation = moveit_msgs::CollisionObject::REMOVE;
         co2.id = "cylinder";
         co2.operation = moveit_msgs::CollisionObject::REMOVE;
-        std::vector<moveit_msgs::CollisionObject> collision_objects = { co1, co2 };
-        planning_scene_interface.applyCollisionObjects(collision_objects);
+        planning_scene_interface.applyCollisionObjects({ co1, co2 });
       }
       catch (const std::exception& exc)
       {
@@ -389,7 +377,6 @@ int main(int argc, char** argv)
 //
 // CALL_SUB_TUTORIAL move_example
 //
-// CALL_SUB_TUTORIAL quaternions1
-// CALL_SUB_TUTORIAL quaternions2
+// CALL_SUB_TUTORIAL orientation
 //
 // END_TUTORIAL
