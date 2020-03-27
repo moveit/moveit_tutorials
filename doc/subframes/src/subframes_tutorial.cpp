@@ -51,8 +51,8 @@
 // Creating the planning request
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 // In this tutorial, we use a small helper function to create our planning requests and move the robot.
-bool moveToCartPose(geometry_msgs::PoseStamped pose, moveit::planning_interface::MoveGroupInterface& group,
-                    std::string end_effector_link)
+bool moveToCartPose(const geometry_msgs::PoseStamped& pose, moveit::planning_interface::MoveGroupInterface& group,
+                    const std::string& end_effector_link)
 {
   // To use subframes of objects that are attached to the robot in planning, you need to set the end effector of your
   // move_group to the subframe of the object. The format has to be ``object_name/subframe_name``, as shown
