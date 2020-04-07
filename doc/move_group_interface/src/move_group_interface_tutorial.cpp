@@ -295,10 +295,8 @@ int main(int argc, char** argv)
   // the trajectory manually, as described [here](https://groups.google.com/forum/#!topic/moveit-users/MOoFxy2exT4).
   // Pull requests are welcome.
 
-  // You can execute a trajectory by wrapping it in a plan like this.
-  moveit::planning_interface::MoveGroupInterface::Plan cartesian_plan;
-  cartesian_plan.trajectory_ = trajectory;
-  move_group.execute(cartesian_plan);
+  // You can execute a trajectory like this.
+  move_group.execute(trajectory);
 
   // Adding/Removing Objects and Attaching/Detaching Objects
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
