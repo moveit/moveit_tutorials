@@ -4,7 +4,7 @@
   <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find franka_description)/robots/panda_arm_hand.urdf.xacro'"/>
 
   <!-- load SRDF -->
-  <param name="robot_description_semantic" textfile="$(find panda_moveit_config)/config/panda.srdf" />
+  <param name="robot_description_semantic" textfile="$(find panda_moveit_config)/config/panda_arm_hand.srdf.xacro" />
 
   <!-- Run RViz with a custom config -->
   <node name="$(anon rviz)" pkg="rviz" type="rviz" respawn="false"
