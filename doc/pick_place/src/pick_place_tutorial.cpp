@@ -202,7 +202,7 @@ void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& pla
 
   // Add the first table where the cube will originally be kept.
   collision_objects[0].id = "table1";
-  collision_objects[0].header.frame_id = "panda_link0";
+  collision_objects[0].origin.header.frame_id = "panda_link0";
 
   /* Define the primitive and its dimensions. */
   collision_objects[0].primitives.resize(1);
@@ -224,7 +224,7 @@ void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& pla
   // BEGIN_SUB_TUTORIAL table2
   // Add the second table where we will be placing the cube.
   collision_objects[1].id = "table2";
-  collision_objects[1].header.frame_id = "panda_link0";
+  collision_objects[1].origin.header.frame_id = "panda_link0";
 
   /* Define the primitive and its dimensions. */
   collision_objects[1].primitives.resize(1);
@@ -245,7 +245,7 @@ void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& pla
 
   // BEGIN_SUB_TUTORIAL object
   // Define the object that we will be manipulating
-  collision_objects[2].header.frame_id = "panda_link0";
+  collision_objects[2].origin.header.frame_id = "panda_link0";
   collision_objects[2].id = "object";
 
   /* Define the primitive and its dimensions. */

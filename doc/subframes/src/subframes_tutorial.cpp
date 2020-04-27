@@ -95,7 +95,7 @@ void spawnCollisionObjects(moveit::planning_interface::PlanningSceneInterface& p
   // as usual.
   moveit_msgs::CollisionObject box;
   box.id = "box";
-  box.header.frame_id = "panda_hand";
+  box.origin.header.frame_id = "panda_hand";
   box.primitives.resize(1);
   box.primitive_poses.resize(1);
   box.primitives[0].type = box.primitives[0].BOX;
@@ -153,7 +153,7 @@ void spawnCollisionObjects(moveit::planning_interface::PlanningSceneInterface& p
   // Next, define the cylinder
   moveit_msgs::CollisionObject cylinder;
   cylinder.id = "cylinder";
-  cylinder.header.frame_id = "panda_hand";
+  cylinder.origin.header.frame_id = "panda_hand";
   cylinder.primitives.resize(1);
   cylinder.primitive_poses.resize(1);
   cylinder.primitives[0].type = box.primitives[0].CYLINDER;

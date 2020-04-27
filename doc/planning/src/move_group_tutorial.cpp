@@ -66,7 +66,7 @@ int main(int argc, char** argv)
   /* Define the object message */
   moveit_msgs::CollisionObject object;
   /* The header must contain a valid TF frame */
-  object.header.frame_id = "r_wrist_roll_link";
+  object.origin.header.frame_id = "r_wrist_roll_link";
   /* The id of the object */
   object.id = "box";
 

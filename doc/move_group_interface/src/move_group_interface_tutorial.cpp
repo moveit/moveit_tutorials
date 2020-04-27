@@ -303,7 +303,7 @@ int main(int argc, char** argv)
   //
   // Define a collision object ROS message.
   moveit_msgs::CollisionObject collision_object;
-  collision_object.header.frame_id = move_group.getPlanningFrame();
+  collision_object.origin.header.frame_id = move_group.getPlanningFrame();
 
   // The id of the object is used to identify it.
   collision_object.id = "box1";

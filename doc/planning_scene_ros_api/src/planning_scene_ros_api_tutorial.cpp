@@ -93,7 +93,8 @@ int main(int argc, char** argv)
   moveit_msgs::AttachedCollisionObject attached_object;
   attached_object.link_name = "panda_leftfinger";
   /* The header must contain a valid TF frame*/
-  attached_object.object.header.frame_id = "panda_leftfinger";
+  attached_object.object.origin.header.frame_id = "panda_leftfinger";
+  attached_object.object.origin.pose.orientation.w = 1.0;
   /* The id of the object */
   attached_object.object.id = "box";
 
@@ -170,7 +171,8 @@ int main(int argc, char** argv)
   /* First, define the REMOVE object message*/
   moveit_msgs::CollisionObject remove_object;
   remove_object.id = "box";
-  remove_object.header.frame_id = "panda_link0";
+  remove_object.origin.header.frame_id = "panda_link0";
+  remove_object.origin.pose.orientation.w = 1.0;
   remove_object.operation = remove_object.REMOVE;
 
   // Note how we make sure that the diff message contains no other
