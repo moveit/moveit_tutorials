@@ -3,7 +3,7 @@ Debugging Tests
 
 How to debug when a test is failing.
 
-**Note:** *This is not meant as an exaustive tutorial on software testing, instead this focueses on methods that will help you debug tests in moveit or similar ros projects.*
+**Note:** *This is not meant as an exhaustive tutorial on software testing, instead this focuses on methods that will help you debug tests in MoveIt or similar ROS projects.*
 
 Getting Started
 ---------------
