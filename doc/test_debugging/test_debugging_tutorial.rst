@@ -14,9 +14,9 @@ CI Failures
 
 Our CI runs in Travis and uses scripts found in the `moveit_ci repo <https://github.com/ros-planning/moveit_ci.git>`.  These tests build and run various tests in various environments.  Often something that works locally won't work in CI in a different environment.  To troubleshoot a failure from CI it is useful to use docker to run in the same environment.
 
-For troubleshooting a specific travis test it is helpful to look at the .travis.yml config file and test output to understand what enviroment variables are being set in your test.
+For troubleshooting a specific travis test it is helpful to look at the .travis.yml config file and test output to understand what environment variables are being set in your test.
 
-Launch Docker Eviroment
+Launch Docker Environment
 -----------------------
 
 To start docker container for kinetic:
@@ -29,7 +29,7 @@ To start docker container for melodic:
   docker pull moveit/moveit:melodic-ci
   docker run -it moveit/moveit:melodic-ci /bin/bash
 
-Setup Enviroment
+Setup Environment
 ----------------
 
 The first thing you should do is update debians and install tools you'll need for debugging.  The update is important because that is what we do in CI.
@@ -84,12 +84,12 @@ Here is the command to build the tests in the workspace:
 Run the Tests
 -------------
 
-To run all the tests we can use the run_tests cmake arg.  Here we should specify a specific package we want to tests as that will speed up this run.
+To run all the tests we can use the run_tests cmake arg.  Here we should specify a specific package we want to test as that will speed up this run.
 
   catkin build --summarize --catkin-make-args run_tests --
 moveit_ros_planning_interface
 
-Run one Test
+Run One Test
 ------------
 
 You can also use rostest to run a specific test.  The text argument sends output to the console instead of an xml output file.  To do this you'll have to source the devel workspace.
@@ -97,3 +97,5 @@ You can also use rostest to run a specific test.  The text argument sends output
   cd ${CATKIN_WS}
   source devel/setup.bash
   rostest moveit_ros_planning_interface move_group_pick_place_test.test --text
+
+
