@@ -12,7 +12,7 @@ If you haven't already done so, make sure you've completed the steps in `Getting
 CI Failures
 -----------
 
-Our CI runs in travis and uses scripts found in the `moveit_ci repo <https://github.com/ros-planning/moveit_ci.git>`.  These test build nad run various tests in various enviroments.  Often something that works locally won't work in CI in a different enviroment.  To troubleshoot a failure from CI it is useful to use docker to run in the same enviroment.
+Our CI runs in Travis and uses scripts found in the `moveit_ci repo <https://github.com/ros-planning/moveit_ci.git>`.  These tests build and run various tests in various environments.  Often something that works locally won't work in CI in a different environment.  To troubleshoot a failure from CI it is useful to use docker to run in the same environment.
 
 For troubleshooting a specific travis test it is helpful to look at the .travis.yml config file and test output to understand what enviroment variables are being set in your test.
 
