@@ -42,7 +42,7 @@ Then you'll want to set enviroment variables important for your test.  In my exa
 
   ROS_DISTRO=kinetic
 
-Lastly, you'll want to create the folder structure for yoru ros enviroment:
+Lastly, you'll want to create the folder structure for your ROS environment:
 
   CATKIN_WS=/root/ros_ws
   mkdir -p ${CATKIN_WS}/src
