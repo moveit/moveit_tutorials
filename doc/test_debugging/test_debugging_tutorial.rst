@@ -38,7 +38,7 @@ The first thing you should do is update debians and install tools you'll need fo
   apt-get dist-upgrade
   apt-get install -y python-catkin-tools ssh git gdb valgrind vim
 
-Then you'll want to set enviroment variables important for your test.  In my example I'm using a kinetic enviroment so I set that here.
+Then you'll want to set environment variables important for your test.  In my example, I'm using a kinetic environment so I set that here.
 
   ROS_DISTRO=kinetic
 
