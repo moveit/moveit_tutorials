@@ -87,6 +87,7 @@ Miscellaneous
    doc/arm_jogging/arm_jogging_tutorial
    doc/benchmarking/benchmarking_tutorial
    doc/tests/tests_tutorial
+   doc/test_debugging/test_debugging_tutorial
 
 Attribution
 -----------
