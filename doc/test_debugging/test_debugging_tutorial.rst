@@ -38,11 +38,7 @@ The first thing you should do is update debians and install tools you'll need fo
   apt-get dist-upgrade
   apt-get install -y python-catkin-tools ssh git gdb valgrind vim
 
-Then you'll want to set environment variables important for your test.  In my example, I'm using a kinetic environment so I set that here.
-
-  ROS_DISTRO=kinetic
-
-Lastly, you'll want to create the folder structure for your ROS environment:
+Next create the folder structure for your ROS environment:
 
   CATKIN_WS=/root/ros_ws
   mkdir -p ${CATKIN_WS}/src
