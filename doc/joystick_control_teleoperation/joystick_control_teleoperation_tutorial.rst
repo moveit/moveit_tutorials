@@ -31,7 +31,7 @@ The script defaults to using ``/dev/input/js0`` for your game controller port. T
 
     roslaunch panda_moveit_config joystick_control.launch dev:=/dev/input/js1
 
-This script can read four types of joysticks:
+This script can handle the following types of joysticks:
 
 1. PS3 Controller via USB
 2. PS3 Controller via Bluetooth (Please use ps3joy package at `http://wiki.ros.org/ps3joy <http://wiki.ros.org/ps3joy>`_)
