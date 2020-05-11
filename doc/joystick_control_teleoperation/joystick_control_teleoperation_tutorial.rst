@@ -44,7 +44,7 @@ Joystick Command Mappings
 -------------------------
 
 =====================   ==================   ===================== ==================
-Command                 PS3/4 Controller       Xbox Controller       Arctic Controller
+Command                 PS3/4 Controller     Xbox Controller       Arctic Controller
 =====================   ==================   ===================== ==================
 +-x/y                   left analog stick    left analog stick     left analog stick
 +-z                     L2/R2                LT/RT                 L2/R2
