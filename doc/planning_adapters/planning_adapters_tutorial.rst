@@ -118,7 +118,7 @@ To achieve this, follow the steps:
                    default_planner_request_adapters/FixStartStateBounds
                    default_planner_request_adapters/FixStartStateCollision
                    default_planner_request_adapters/FixStartStatePathConstraints
-                   default_planner_request_adapters/STOMPSmoothingAdapter" />
+                   stomp_moveit/StompSmoothingAdapter" />
 
 #. The values of the ``planning_adapters`` is the order in which the mentioned adapters are called / invoked. Order here matters. Inside the STOMP adapter, a call to OMPL is made before invoking the STOMP smoothing solver, so STOMP takes the initial path computed by OMPL as the starting point to further optimize it.
 
@@ -154,7 +154,7 @@ To achieve this, follow the steps:
 
 #. Open the ``chomp_planning_pipeline.launch`` file in the ``<robot_moveit_config>/launch`` folder of your robot. For the Panda robot it is `this file <https://github.com/ros-planning/panda_moveit_config/blob/melodic-devel/launch/chomp_planning_pipeline.launch.xml>`_. Edit this launch file, find the lines where ``<arg name="planning_plugins">`` is mentioned and add the following lines below it: ::
 
-    <arg name="planning_adapters" value="default_planner_request_adapters/STOMPSmoothingAdapter" />
+    <arg name="planning_adapters" value="stomp_moveit/StompSmoothingAdapter" />
     <param name="request_adapters" value="$(arg planning_adapters)" />
 
 #. The values of the ``planning_adapters`` is the order in which the mentioned adapters are called / invoked. Order here matters. Inside the STOMP adapter, a call to CHOMP is made before invoking the STOMP smoothing solver, so STOMP takes the initial path computed by CHOMP as the starting point to further smoothen it.
