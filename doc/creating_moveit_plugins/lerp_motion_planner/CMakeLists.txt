@@ -8,7 +8,6 @@ include_directories(
 add_library(${PROJECT_NAME}
   src/lerp_interface.cpp
   src/lerp_planning_context.cpp
-  src/lerp_planner_manager.cpp
 )
 
 target_link_libraries(${PROJECT_NAME}  ${catkin_LIBRARIES}  ${Boost_LIBRARIES})
@@ -16,7 +15,6 @@ set_target_properties(${PROJECT_NAME}  PROPERTIES  VERSION  "${${PROJECT_NAME}_V
 
 add_executable(lerp_example  src/lerp_example.cpp)
 target_link_libraries(lerp_example
-  ${PROJECT_NAME}
   ${catkin_LIBRARIES}
   ${Boost_LIBRARIES}
 )
