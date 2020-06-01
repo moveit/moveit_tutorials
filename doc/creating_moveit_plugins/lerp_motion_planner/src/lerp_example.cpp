@@ -54,8 +54,6 @@
 #include <moveit/robot_model/robot_model.h>
 #include <moveit/robot_state/robot_state.h>
 
-#include <lerp_interface/lerp_planning_context.h>
-
 int main(int argc, char** argv)
 {
   const std::string NODE_NAME = "lerp_example";
