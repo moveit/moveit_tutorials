@@ -84,3 +84,11 @@ a:hover {
   margin-bottom: 0;
   text-align: right;
 }
+
+.caption-text {
+  font-size: 12px;
+  font-style: italic;
+  font-weight: normal;
+  line-height: normal;
+  color: #404040;
+}
