@@ -217,6 +217,7 @@ void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& pla
   collision_objects[0].primitive_poses[0].position.x = 0.5;
   collision_objects[0].primitive_poses[0].position.y = 0;
   collision_objects[0].primitive_poses[0].position.z = 0.2;
+  collision_objects[0].primitive_poses[0].orientation.w = 1.0;
   // END_SUB_TUTORIAL
 
   collision_objects[0].operation = collision_objects[0].ADD;
@@ -239,6 +240,7 @@ void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& pla
   collision_objects[1].primitive_poses[0].position.x = 0;
   collision_objects[1].primitive_poses[0].position.y = 0.5;
   collision_objects[1].primitive_poses[0].position.z = 0.2;
+  collision_objects[1].primitive_poses[0].orientation.w = 1.0;
   // END_SUB_TUTORIAL
 
   collision_objects[1].operation = collision_objects[1].ADD;
@@ -261,6 +263,7 @@ void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& pla
   collision_objects[2].primitive_poses[0].position.x = 0.5;
   collision_objects[2].primitive_poses[0].position.y = 0;
   collision_objects[2].primitive_poses[0].position.z = 0.5;
+  collision_objects[2].primitive_poses[0].orientation.w = 1.0;
   // END_SUB_TUTORIAL
 
   collision_objects[2].operation = collision_objects[2].ADD;
