@@ -93,6 +93,7 @@ It is compactly represented with a list of roll, pitch, yaw and a list of tolera
    
 VisibilityConstraint
 ~~~~~~~~~~~~~~~~~~~~
+
 A ``VisibilityConstraint`` allows to eg. specify a camera should always be able to see the gripper.
 
 How this is achieved is best explained by the `VisibilityConstraint <https://docs.ros.org/melodic/api/moveit_core/html/classkinematic__constraints_1_1VisibilityConstraint.html#details>`_ class documentation.
