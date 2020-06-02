@@ -16,8 +16,95 @@ For more information on how to plan with path constraints in general, take a loo
 Creating the Constraint Database
 --------------------------------
 
-A sample implementation on how to construct an approximation database from a constraint can be found inside ``demo_construct_state_database.cpp``.
+Constructing a Constraints database is done with the `generate_state_database` executable. 
+This loads constraint defintions (in a format explained below) from the ROS parameter server and finally outputs the state database to a given directory. 
 
+Defining constraints
+^^^^^^^^^^^^^^^^^^^^
+The `generate_state_database` executable reads constraints from ROS parameters on `/constraints`, in a more compact format that a complete ROS message. 
+
+JointConstraint
+~~~~~~~~~~~~~~~
+A JointConstraint limits the positions a joint can take. There are three ways to compactly specify this. 
+
+1. position + a single tolerance
+2. position + lower an upper tolerance
+3. upper and lower bound
+
+For example:
+
+ - type: joint
+   joint_name: first_joint
+   position: 0.1
+   tolerance: 0.2
+   weight: 1.0
+ - type: joint
+   joint_name: second_joint
+   position: 0.1
+   tolerances: [0.1, 0.2]
+   weight: 1.0
+ - type: joint
+   joint_name: third_joint
+   bounds: [-0.5, 1.0]
+   weight: 1.0
+
+PositionConstraint
+~~~~~~~~~~~~~~~~~~
+A PositionConstraint constraints the cartesian positions allowed for a (position relative to a) link. 
+``target_offset`` is that relative position wrt. a link, eg. the tip of the end-effector relative to it's mounting point or other origin defintion. 
+This region (boxes only in this compact definition) is compactly defined by specifying the upper and lower bounds along each axis. 
+
+For example:
+
+ - type: position
+   frame_id: base_link
+   link_name: gripper_link
+   target_offset: [0.01, 0.01, 0.01]
+   region:
+     x: [0, 1.0] # [start, end]
+     y: [0, 1.0] # [start, end]
+     z: [0, 1.0] # [start, end]
+   weight: 1.0
+   
+OrientationConstraint
+~~~~~~~~~~~~~~~~~~~~~
+A OrientationConstraint can be used to keep eg. something grasped mostly upright.
+
+It is compactly represented with a list of roll, pitch, yaw and a list of tolerances for each axis, for example:
+
+ - type: orientation
+   frame_id: base_link
+   link_name: gripper_link
+   orientation: [-3.1415269, -1.57079632, 0] #RPY
+   tolerances: [6.28318531, 0.2, 6.28318531]
+   weight: 1.0
+   
+VisibilityConstraint
+~~~~~~~~~~~~~~~~~~~~
+A VisibilityConstraint allows to eg. specify a camera should always be able to see the gripper.
+
+How this is achieved is best explained by the `_VisibilityConstraint
+<https://docs.ros.org/melodic/api/moveit_core/html/classkinematic__constraints_1_1VisibilityConstraint.html#details>` class documentation.
+
+Such a constraint is compactly defined like this:
+
+ - type: visibility
+   target_radius: 0.5
+   target_pose:
+     frame_id: 'base_link'
+     position: [1.2, 3.4, 5.6]
+     orientation: [-3.1415269, -1.57079632, 0] #RPY
+   cone_sides: 4
+   sensor_pose:
+     frame_id: 'gripper_cam_link'
+     position: [1.2, 3.4, 5.6]
+     orientation: [-3.1415269, -1.57079632, 0] #RPY
+   max_view_angle: 1.1
+   max_range_angle: 0.55
+   weight: 1.0
+
+Internals
+^^^^^^^^^
 The main functionality is implemented in the `ConstraintsLibrary <http://docs.ros.org/melodic/api/moveit_planners_ompl/html/classompl__interface_1_1ConstraintsLibrary.html>`_ class.
 
 Constraints are added by calling ``addConstraintApproximation()`` which can be called subsequently to include multiple constraints in the approximation.
