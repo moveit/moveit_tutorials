@@ -126,6 +126,7 @@ The file with the constraint definitions can be passed to the launch file::
 
 Internals
 ^^^^^^^^^
+
 The main functionality is implemented in the `ConstraintsLibrary <http://docs.ros.org/melodic/api/moveit_planners_ompl/html/classompl__interface_1_1ConstraintsLibrary.html>`_ class.
 
 Constraints are added by calling ``addConstraintApproximation()`` which can be called subsequently to include multiple constraints in the approximation.
