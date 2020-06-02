@@ -34,6 +34,7 @@ You can define these in ``rosparam`` to be loaded together in a file, eg. ``X_mo
 
 JointConstraint
 ~~~~~~~~~~~~~~~
+
 A ``JointConstraint`` limits the positions a joint can take. There are three ways to compactly specify this. 
 
 1. position + a single tolerance
