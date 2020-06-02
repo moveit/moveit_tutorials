@@ -79,6 +79,7 @@ For example::
    
 OrientationConstraint
 ~~~~~~~~~~~~~~~~~~~~~
+
 An ``OrientationConstraint`` can be used to keep eg. something grasped mostly upright.
 
 It is compactly represented with a list of roll, pitch, yaw and a list of tolerances for each axis, for example::
