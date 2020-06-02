@@ -17,7 +17,7 @@ Creating the Constraint Database
 --------------------------------
 
 Constructing a Constraints database is done with the ``generate_state_database`` executable. 
-This loads constraint definition (in a format explained below) from the ROS parameter server and finally outputs the state database to a given directory. 
+This loads the constraint definition (in a format explained below) from the ROS parameter server and outputs the state database to a given directory.
 
 Defining constraints
 ^^^^^^^^^^^^^^^^^^^^
