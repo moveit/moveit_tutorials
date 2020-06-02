@@ -62,7 +62,7 @@ PositionConstraint
 ~~~~~~~~~~~~~~~~~~
 
  A ``PositionConstraint`` constraints the Cartesian positions allowed for a (position relative to a) link. 
-``target_offset`` is that relative position wrt. a link, eg. the tip of the end-effector relative to it's mounting point or other origin definition. 
+``target_offset`` is that relative position w.r.t. a link, e.g., the tip of the end-effector relative to its mounting point or other origin definition.
 This region (boxes only in this compact definition) is compactly defined by specifying the upper and lower bounds along each axis. 
 
 For example::
