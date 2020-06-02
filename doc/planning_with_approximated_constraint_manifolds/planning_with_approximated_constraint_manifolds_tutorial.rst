@@ -22,7 +22,7 @@ This loads constraint definition (in a format explained below) from the ROS para
 Defining constraints
 ^^^^^^^^^^^^^^^^^^^^
 The ``generate_state_database`` executable reads constraints from ROS parameters on ``/constraints``, in a more compact format that a complete ROS message. 
-You can define these in ``rosparam`` to be loaded together in a file, eg. ::
+You can define these in ``rosparam`` to be loaded together in a file, eg. ``X_moveit_config/config/constraints.yaml``::
 
  path_constraint:
    name: some_constraints
@@ -114,6 +114,10 @@ Running the database generator
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Assuming MoveIt itself is already launched (via eg. ``roslaunch X_moveit_config demo.launch``), you can use a launch file similar to `generate_state_database.launch <moveit_planners/ompl/ompl_interface/launch/generate_state_database.launch>`_
+
+The file with the constraint definitions can be passed to the launch file::
+
+ roslaunch ompl_interface generate_state_database.launch constraints_file:=$(rospack find X_moveit_config)/config/constraints.yaml planning_group:=arm
 
 Internals
 ^^^^^^^^^
