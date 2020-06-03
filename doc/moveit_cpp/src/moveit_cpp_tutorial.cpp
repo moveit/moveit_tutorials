@@ -106,7 +106,7 @@ int main(int argc, char** argv)
   // ^^^^^^^
   //
   // Here we will set the current state of the plan using
-  // robot_state::RobotState
+  // moveit::core::RobotState
   auto start_state = *(moveit_cpp_ptr->getCurrentState());
   geometry_msgs::Pose start_pose;
   start_pose.orientation.w = 1.0;
@@ -122,7 +122,7 @@ int main(int argc, char** argv)
   auto plan_solution2 = planning_components->plan();
   if (plan_solution2)
   {
-    robot_state::RobotState robot_state(robot_model_ptr);
+    moveit::core::RobotState robot_state(robot_model_ptr);
     moveit::core::robotStateMsgToRobotState(plan_solution2.start_state, robot_state);
 
     visual_tools.publishText(text_pose, "Start Pose", rvt::WHITE, rvt::XLARGE);
@@ -144,7 +144,7 @@ int main(int argc, char** argv)
   // ^^^^^^^
   //
   // We can also set the goal of the plan using
-  // robot_state::RobotState
+  // moveit::core::RobotState
   auto target_state = *robot_start_state;
   geometry_msgs::Pose target_pose2;
   target_pose2.orientation.w = 1.0;
@@ -160,7 +160,7 @@ int main(int argc, char** argv)
   auto plan_solution3 = planning_components->plan();
   if (plan_solution3)
   {
-    robot_state::RobotState robot_state(robot_model_ptr);
+    moveit::core::RobotState robot_state(robot_model_ptr);
     moveit::core::robotStateMsgToRobotState(plan_solution3.start_state, robot_state);
 
     visual_tools.publishText(text_pose, "Start Pose", rvt::WHITE, rvt::XLARGE);
@@ -196,7 +196,7 @@ int main(int argc, char** argv)
   auto plan_solution4 = planning_components->plan();
   if (plan_solution4)
   {
-    robot_state::RobotState robot_state(robot_model_ptr);
+    moveit::core::RobotState robot_state(robot_model_ptr);
     moveit::core::robotStateMsgToRobotState(plan_solution4.start_state, robot_state);
 
     visual_tools.publishText(text_pose, "Start Pose", rvt::WHITE, rvt::XLARGE);

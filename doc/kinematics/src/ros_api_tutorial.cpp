@@ -89,9 +89,9 @@ int main(int argc, char** argv)
 
   /* Filling in a seed state */
   robot_model_loader::RobotModelLoader robot_model_loader("robot_description");
-  robot_model::RobotModelPtr kinematic_model = robot_model_loader.getModel();
-  robot_state::RobotStatePtr kinematic_state(new robot_state::RobotState(kinematic_model));
-  const robot_state::JointModelGroup* joint_model_group = kinematic_model->getJointModelGroup("panda_arm");
+  moveit::core::RobotModelPtr kinematic_model = robot_model_loader.getModel();
+  moveit::core::RobotStatePtr kinematic_state(new moveit::core::RobotState(kinematic_model));
+  const moveit::core::JointModelGroup* joint_model_group = kinematic_model->getJointModelGroup("panda_arm");
 
   /* Get the names of the joints in the panda_arm*/
   service_request.ik_request.robot_state.joint_state.name = joint_model_group->getJointModelNames();
@@ -121,7 +121,7 @@ int main(int argc, char** argv)
   /* Visualize the result*/
   moveit_msgs::DisplayRobotState msg;
   kinematic_state->setVariableValues(service_response.solution.joint_state);
-  robot_state::robotStateToRobotStateMsg(*kinematic_state, msg.state);
+  moveit::core::robotStateToRobotStateMsg(*kinematic_state, msg.state);
   robot_state_publisher.publish(msg);
 
   // Sleep to let the message go through

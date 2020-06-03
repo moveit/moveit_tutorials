@@ -71,7 +71,7 @@ int main(int argc, char** argv)
   moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
 
   // Raw pointers are frequently used to refer to the planning group for improved performance.
-  const robot_state::JointModelGroup* joint_model_group =
+  const moveit::core::JointModelGroup* joint_model_group =
       move_group.getCurrentState()->getJointModelGroup(PLANNING_GROUP);
 
   // Visualization
@@ -216,7 +216,7 @@ int main(int argc, char** argv)
   // Note that this will only work if the current state already
   // satisfies the path constraints. So we need to set the start
   // state to a new pose.
-  robot_state::RobotState start_state(*move_group.getCurrentState());
+  moveit::core::RobotState start_state(*move_group.getCurrentState());
   geometry_msgs::Pose start_pose2;
   start_pose2.orientation.w = 1.0;
   start_pose2.position.x = 0.55;
