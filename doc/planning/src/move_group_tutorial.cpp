@@ -106,13 +106,13 @@ int main(int argc, char** argv)
   /* Load the robot model */
   robot_model_loader::RDFLoader robot_model_loader("robot_description");
   /* Get a shared pointer to the model and construct a state */
-  robot_model::RobotModelPtr kinematic_model = robot_model_loader.getModel();
-  robot_state::RobotState current_state(kinematic_model);
+  moveit::core::RobotModelPtr kinematic_model = robot_model_loader.getModel();
+  moveit::core::RobotState current_state(kinematic_model);
   current_state.getJointStateGroup("panda_arm")->setToRandomValues();
 
   /* Construct a robot state message */
   moveit_msgs::RobotState robot_state;
-  robot_state::robotStateToRobotStateMsg(current_state, robot_state);
+  moveit::core::robotStateToRobotStateMsg(current_state, robot_state);
 
   /* Construct the service request */
   moveit_msgs::GetStateValidity::Request get_state_validity_request;
@@ -142,7 +142,7 @@ int main(int argc, char** argv)
 
     /* Generate a new state and put it into the request */
     current_state.getJointStateGroup("panda_arm")->setToRandomValues();
-    robot_state::robotStateToRobotStateMsg(current_state, robot_state);
+    moveit::core::robotStateToRobotStateMsg(current_state, robot_state);
     get_state_validity_request.robot_state = robot_state;
     sleep_time.sleep();
   }

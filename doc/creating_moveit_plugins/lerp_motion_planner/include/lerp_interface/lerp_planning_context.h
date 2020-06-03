@@ -12,7 +12,7 @@ MOVEIT_CLASS_FORWARD(LERPPlanningContext);
 class LERPPlanningContext : public planning_interface::PlanningContext
 {
 public:
-  LERPPlanningContext(const std::string& name, const std::string& group, const robot_model::RobotModelConstPtr& model);
+  LERPPlanningContext(const std::string& name, const std::string& group, const moveit::core::RobotModelConstPtr& model);
   ~LERPPlanningContext() override
   {
   }
@@ -25,7 +25,7 @@ public:
 
 private:
   moveit::core::RobotModelConstPtr robot_model_;
-  robot_state::RobotStatePtr robot_state_;
+  moveit::core::RobotStatePtr robot_state_;
   LERPInterfacePtr lerp_interface_;
 };
 

@@ -68,7 +68,7 @@ int main(int argc, char** argv)
   // .. _RobotModelLoader:
   //     http://docs.ros.org/melodic/api/moveit_ros_planning/html/classrobot__model__loader_1_1RobotModelLoader.html
   robot_model_loader::RobotModelLoader robot_model_loader("robot_description");
-  robot_model::RobotModelPtr kinematic_model = robot_model_loader.getModel();
+  moveit::core::RobotModelPtr kinematic_model = robot_model_loader.getModel();
   ROS_INFO("Model frame: %s", kinematic_model->getModelFrame().c_str());
 
   // Using the :moveit_core:`RobotModel`, we can construct a
@@ -78,9 +78,9 @@ int main(int argc, char** argv)
   // :moveit_core:`JointModelGroup`, which represents the robot
   // model for a particular group, e.g. the "panda_arm" of the Panda
   // robot.
-  robot_state::RobotStatePtr kinematic_state(new robot_state::RobotState(kinematic_model));
+  moveit::core::RobotStatePtr kinematic_state(new moveit::core::RobotState(kinematic_model));
   kinematic_state->setToDefaultValues();
-  const robot_state::JointModelGroup* joint_model_group = kinematic_model->getJointModelGroup("panda_arm");
+  const moveit::core::JointModelGroup* joint_model_group = kinematic_model->getJointModelGroup("panda_arm");
 
   const std::vector<std::string>& joint_names = joint_model_group->getVariableNames();
 

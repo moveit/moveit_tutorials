@@ -164,7 +164,7 @@ int main(int argc, char** argv)
       new ros::Publisher(nh.advertise<visualization_msgs::MarkerArray>("interactive_robot_marray", 100));
 
   // Attach a bar object to the right gripper
-  //  const robot_model::LinkModel *link = robot.robotState()->getLinkModel("r_gripper_palm_link");
+  //  const moveit::core::LinkModel *link = robot.robotState()->getLinkModel("r_gripper_palm_link");
 
   std::vector<shapes::ShapeConstPtr> shapes;
   EigenSTL::vector_Isometry3d poses;
@@ -176,7 +176,7 @@ int main(int argc, char** argv)
   shapes.push_back(bar_shape);
   poses.push_back(Eigen::Isometry3d(Eigen::Translation3d(0.12, 0, 0)));
 
-  const robot_model::JointModelGroup* r_gripper_group = robot.robotModel()->getJointModelGroup("right_gripper");
+  const moveit::core::JointModelGroup* r_gripper_group = robot.robotModel()->getJointModelGroup("right_gripper");
   const std::vector<std::string>& touch_links = r_gripper_group->getLinkModelNames();
 
   robot.robotState()->attachBody("bar", shapes, poses, touch_links, "robot_link8");

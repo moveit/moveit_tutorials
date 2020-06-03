@@ -79,7 +79,7 @@ InteractiveRobot::InteractiveRobot(const std::string& robot_description, const s
   }
 
   // create a RobotState to keep track of the current robot pose
-  robot_state_.reset(new robot_state::RobotState(robot_model_));
+  robot_state_.reset(new moveit::core::RobotState(robot_model_));
   if (!robot_state_)
   {
     ROS_ERROR("Could not get RobotState from Model");
@@ -244,7 +244,7 @@ void InteractiveRobot::updateAll()
 // change which group is being manipulated
 void InteractiveRobot::setGroup(const std::string& name)
 {
-  const robot_model::JointModelGroup* group = robot_state_->getJointModelGroup(name);
+  const moveit::core::JointModelGroup* group = robot_state_->getJointModelGroup(name);
   if (!group)
   {
     ROS_ERROR_STREAM("No joint group named " << name);
@@ -277,7 +277,7 @@ void InteractiveRobot::setGroupPose(const Eigen::Isometry3d& pose)
 void InteractiveRobot::publishRobotState()
 {
   moveit_msgs::DisplayRobotState msg;
-  robot_state::robotStateToRobotStateMsg(*robot_state_, msg.state);
+  moveit::core::robotStateToRobotStateMsg(*robot_state_, msg.state);
   robot_state_publisher_.publish(msg);
 }
 

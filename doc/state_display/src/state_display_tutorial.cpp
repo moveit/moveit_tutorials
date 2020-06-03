@@ -62,13 +62,13 @@ int main(int argc, char** argv)
   robot_model_loader::RobotModelLoader robot_model_loader("robot_description");
 
   /* Get a shared pointer to the model */
-  robot_model::RobotModelPtr kinematic_model = robot_model_loader.getModel();
+  moveit::core::RobotModelPtr kinematic_model = robot_model_loader.getModel();
 
   /* Create a kinematic state - this represents the configuration for the robot represented by kinematic_model */
-  robot_state::RobotStatePtr kinematic_state(new robot_state::RobotState(kinematic_model));
+  moveit::core::RobotStatePtr kinematic_state(new moveit::core::RobotState(kinematic_model));
 
   /* Get the configuration for the joints in the right arm of the Panda*/
-  const robot_model::JointModelGroup* joint_model_group = kinematic_model->getJointModelGroup("panda_arm");
+  const moveit::core::JointModelGroup* joint_model_group = kinematic_model->getJointModelGroup("panda_arm");
 
   /* PUBLISH RANDOM ARM POSITIONS */
   ros::NodeHandle nh;
@@ -83,7 +83,7 @@ int main(int argc, char** argv)
 
     /* get a robot state message describing the pose in kinematic_state */
     moveit_msgs::DisplayRobotState msg;
-    robot_state::robotStateToRobotStateMsg(*kinematic_state, msg.state);
+    moveit::core::robotStateToRobotStateMsg(*kinematic_state, msg.state);
 
     /* send the message to the RobotState display */
     robot_state_publisher.publish(msg);
@@ -121,7 +121,7 @@ int main(int argc, char** argv)
 
     /* get a robot state message describing the pose in kinematic_state */
     moveit_msgs::DisplayRobotState msg;
-    robot_state::robotStateToRobotStateMsg(*kinematic_state, msg.state);
+    moveit::core::robotStateToRobotStateMsg(*kinematic_state, msg.state);
 
     /* send the message to the RobotState display */
     robot_state_publisher.publish(msg);

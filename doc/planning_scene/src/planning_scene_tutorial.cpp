@@ -49,7 +49,7 @@
 // setStateFeasibilityPredicate function. Here's a simple example of a
 // user-defined callback that checks whether the "panda_joint1" of
 // the Panda robot is at a positive or negative angle:
-bool stateFeasibilityTestExample(const robot_state::RobotState& kinematic_state, bool verbose)
+bool stateFeasibilityTestExample(const moveit::core::RobotState& kinematic_state, bool verbose)
 {
   const double* joint_values = kinematic_state.getJointPositions("panda_joint1");
   return (joint_values[0] > 0.0);
@@ -78,7 +78,7 @@ int main(int argc, char** argv)
   // but this method of instantiation is only intended for illustration.
 
   robot_model_loader::RobotModelLoader robot_model_loader("robot_description");
-  robot_model::RobotModelPtr kinematic_model = robot_model_loader.getModel();
+  moveit::core::RobotModelPtr kinematic_model = robot_model_loader.getModel();
   planning_scene::PlanningScene planning_scene(kinematic_model);
 
   // Collision Checking
@@ -114,7 +114,7 @@ int main(int argc, char** argv)
   // the collision_result before making a new collision checking
   // request.
 
-  robot_state::RobotState& current_state = planning_scene.getCurrentStateNonConst();
+  moveit::core::RobotState& current_state = planning_scene.getCurrentStateNonConst();
   current_state.setToRandomPositions();
   collision_result.clear();
   planning_scene.checkSelfCollision(collision_request, collision_result);
@@ -144,7 +144,7 @@ int main(int argc, char** argv)
   // check for directly.
 
   std::vector<double> joint_values = { 0.0, 0.0, 0.0, -2.9, 0.0, 1.4, 0.0 };
-  const robot_model::JointModelGroup* joint_model_group = current_state.getJointModelGroup("panda_arm");
+  const moveit::core::JointModelGroup* joint_model_group = current_state.getJointModelGroup("panda_arm");
   current_state.setJointGroupPositions(joint_model_group, joint_values);
   ROS_INFO_STREAM("Test 4: Current state is "
                   << (current_state.satisfiesBounds(joint_model_group) ? "valid" : "not valid"));
@@ -186,7 +186,7 @@ int main(int argc, char** argv)
   // to the collision checking function.
 
   collision_detection::AllowedCollisionMatrix acm = planning_scene.getAllowedCollisionMatrix();
-  robot_state::RobotState copied_state = planning_scene.getCurrentState();
+  moveit::core::RobotState copied_state = planning_scene.getCurrentState();
 
   collision_detection::CollisionResult::ContactMap::const_iterator it2;
   for (it2 = collision_result.contacts.begin(); it2 != collision_result.contacts.end(); ++it2)

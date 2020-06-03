@@ -75,12 +75,12 @@ public:
   }
 
   /** access RobotModel */
-  robot_model::RobotModelPtr& robotModel()
+  moveit::core::RobotModelPtr& robotModel()
   {
     return robot_model_;
   }
   /** access RobotState */
-  robot_state::RobotStatePtr& robotState()
+  moveit::core::RobotStatePtr& robotState()
   {
     return robot_state_;
   }
@@ -132,11 +132,11 @@ private:
 
   /* robot info */
   robot_model_loader::RobotModelLoader rm_loader_;
-  robot_model::RobotModelPtr robot_model_;
-  robot_state::RobotStatePtr robot_state_;
+  moveit::core::RobotModelPtr robot_model_;
+  moveit::core::RobotStatePtr robot_state_;
 
   /* info about joint group we are manipulating */
-  const robot_model::JointModelGroup* group_;
+  const moveit::core::JointModelGroup* group_;
   Eigen::Isometry3d desired_group_end_link_pose_;
 
   /* world info */
