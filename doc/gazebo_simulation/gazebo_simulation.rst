@@ -11,9 +11,10 @@ After MoveIt Setup Assistant
 This tutorial assumes that the robot is set up with `MoveIt Setup Assistant <../setup_assistant/setup_assistant_tutorial.html>`_,
 so it is crucial to follow that document first. To the best of our knowledge, official FRANKA EMIKA Panda repository doesn't particularly consider Gazebo simulation
 such that the necessary components to properly simulate the robot in Gazebo are missing with respect to :code:`urdf` and :code:`xacro` files. This is a rare incident, since most other robots
-have those components out of the box. Fortunately, there is already a good solution offered in `the blog post <https://erdalpekel.de/?p=55>`_ to this problem. For the sake of completion though,
-the procedure outlined in there will be repeated (with improvements) in here as well for preparing the robot for Gazebo simulation. 
-**Note that these steps assume that you have cloned franka_ros repository from the source**:
+have those components out of the box. *If you have a custom robot, which already works well in Gazebo, you can skip the steps until Step-6.* Fortunately, there is already a good solution offered in `the blog post <https://erdalpekel.de/?p=55>`_ to this problem. For the sake of completion though,
+the procedure outlined in there will be repeated (with improvements) in here as well for preparing the robot for Gazebo simulation.
+
+**Note that these steps assume that you have cloned the** `franka_ros repository <https://github.com/frankaemika/franka_ros>`_ **from the source**:
 
 1. Fix the robot to the world coordinate system
 2. Add damping to the joint specifications
@@ -26,20 +27,22 @@ the procedure outlined in there will be repeated (with improvements) in here as 
 
 1. Fix the robot to the world coordinate system
 -----------------------------------------------
-Open the :code:`franka_description/robots/panda_arm_hand_urdf.xacro` file and change the line 5 with:
+Open the :code:`franka_description/robots/panda_arm_hand.urdf.xacro` file and change the line 5 with:
 
 .. code-block:: xml
 
     <xacro:panda_arm xyz="0 0 0" rpy="0 0 0" connected_to="world"/>
 
 It alone doesn't fix the problem, since now we need to provide a link with name :code:`world`. Open the 
-:code:`franka_description/robots/panda_arm.xacro` file and add:
+:code:`franka_description/robots/panda_arm_hand.urdf.xacro` file again and add:
 
 .. code-block:: xml
 
     <link name="world" />
 
-between lines 3 and 4.
+at line 10 just before the macro calls. Additionally, we should rename the fixed joint to :code:`virtual_joint` to properly match
+the SRDF specification created in previous tutorial. Open :code:`franka_description/robots/panda_arm.xacro` file and replace 
+:code:`${arm_id}_joint_${connected_to}` with :code:`virtual_joint` at line 5.
 
 2. Add damping to the joint specifications
 ------------------------------------------
@@ -92,15 +95,15 @@ As previously mentioned, these values come from the referred blog post. It is ex
 4. Add friction and colorize the links
 --------------------------------------
 In order to have a nice illustration of the robot in Gazebo simulation we need to colorize the links. 
-Moreover friction forces are added in order to have realistic dynamics. You can ignore them at all or change their values to experiment.
+Moreover friction forces are added in order to have realistic dynamics. You can ignore them at all or change their values to experiment with.
 Since the focus is MoveIt in this tutorial, we will just use the values from the provided solution.
 
 This step is a bit tedious to do manually, so the ultimate :code:`xacro` file is provided entirely in below:
 
 .. code-block:: xml
 
-    <!-- panda.gazebo.xacro -->
     <?xml version='1.0' encoding='utf-8'?>
+    <!-- panda.gazebo.xacro -->
     <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
         <xacro:macro name="panda_gazebo" params="arm_id">
             <xacro:macro name="arm_gazebo" params="link">
@@ -132,6 +135,9 @@ This step is a bit tedious to do manually, so the ultimate :code:`xacro` file is
         </xacro:macro>
     </robot>
 
+The filename is specified as an inline comment, but let's be pedantic. It should be named as :code:`panda.gazebo.xacro` and placed next
+to the other xacro files.
+
 Then add the following block to the end of :code:`franka_description/robots/panda_arm_hand_urdf.xacro` file:
 
 .. code-block:: xml
@@ -146,20 +152,14 @@ This is necessary for the robot to move in Gazebo. ROS Control is a highly capab
 to control theoretically any type of robot. :code:`gazebo_ros_control` enables the ROS control to be used in Gazebo. 
 See `its document <http://gazebosim.org/tutorials/?tut=ros_control>`_ for full details.
 
-Add the following to the newly created :code:`panda.gazebo.xacro` file:
+
+Along with the transmissions and actuators, which are the crucial components for joints to be able to move in Gazebo, 
+the plugin specification will be handled in a new file, :code:`panda.control.xacro`. As before, I will provide the full content now:
 
 .. code-block:: xml
 
-    <gazebo>
-        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so"/>
-    </gazebo>
-
-For transmissions and actuators we are going to create a new file, :code:`panda.control.xacro`. As before, I will provide the full content now:
-
-.. code-block:: xml
-
-    <!-- panda.control.xacro -->
     <?xml version="1.0"?>
+    <!-- panda.control.xacro -->
     <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
         <xacro:macro name="panda_control" params="arm_id">
             <xacro:macro name="arm_control" params="transmission joint motor">
@@ -183,9 +183,13 @@ For transmissions and actuators we are going to create a new file, :code:`panda.
             <xacro:arm_control transmission="${arm_id}_tran_7" joint="${arm_id}_joint7" motor="${arm_id}_motor_7"/>
             <xacro:arm_control transmission="${arm_id}_leftfinger" joint="${arm_id}_finger_joint1" motor="${arm_id}_finger_joint1"/>
             <xacro:arm_control transmission="${arm_id}_rightfinger" joint="${arm_id}_finger_joint2" motor="${arm_id}_finger_joint2"/>
+            <gazebo>
+                <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so"/>
+            </gazebo>
         </xacro:macro>
     </robot>
 
+Again, this file should be placed next to other xacro files in :code:`franka_description` package.
 Similarly add the following line to the end of :code:`franka_description/robots/panda_arm_hand_urdf.xacro` file:
 
 .. code-block:: xml
@@ -264,10 +268,10 @@ Just copy the following snippet and overwrite :code:`panda_moveit_config/config/
 
     controller_list:
         - name: panda_arm_controller
-            action_ns: follow_joint_trajectory
-            type: FollowJointTrajectory
-            default: true
-            joints:
+          action_ns: follow_joint_trajectory
+          type: FollowJointTrajectory
+          default: true
+          joints:
             - panda_joint1
             - panda_joint2
             - panda_joint3
@@ -276,16 +280,16 @@ Just copy the following snippet and overwrite :code:`panda_moveit_config/config/
             - panda_joint6
             - panda_joint7
         - name: panda_hand_controller
-            action_ns: follow_joint_trajectory
-            type: FollowJointTrajectory
-            default: true
-            joints:
+          action_ns: follow_joint_trajectory
+          type: FollowJointTrajectory
+          default: true
+          joints:
             - panda_finger_joint1
             - panda_finger_joint2
 
 
-7. Adjust auto-generated ros_controllers.launch
------------------------------------------------
+7. Adjust auto-generated :code:`ros_controllers.launch` in the :code:`panda_moveit_config` package.
+---------------------------------------------------------------------------------------------------
 
 Fill the :code:`args` in line 9 with:
 
@@ -318,5 +322,34 @@ In terminal-2:
 
 If you happen to find all these steps too tedious (you cannot be blamed for that), just clone `the franka_ros fork <https://github.com/tahsinkose/franka_ros>`_, that is created 
 particularly for this tutorial with the final versions of the files mentioned in the previous steps.
-The changes made thus far in auto-generated :code:`panda_moveit_config` package is `in this repository <https://github.com/tahsinkose/panda_moveit_gazebo_config>`_. 
+The changes made thus far in auto-generated :code:`panda_moveit_config` package are `in this repository <https://github.com/tahsinkose/panda_moveit_gazebo_config>`_. 
 At the end, both repositories will have the updated and directly usable versions.
+
+-------------------------------
+
+Now it is time to integrate MoveIt to this work. Open :code:`panda_moveit_config/launch/demo_gazebo.launch` file 
+and replace line 61 with:
+
+.. code-block:: xml
+
+    <arg name="rviz_config" value="$(find panda_moveit_config)/launch/moveit.rviz"/>
+
+This will allow us to use juicy Motion Planning display of MoveIt in Rviz. There is a final minor issue in `demo_gazebo.launch` file. Remove
+line 31 from that file, which contains unused :code:`urdf_path` argument. After that, launch:
+
+.. code-block:: xml
+
+    roslaunch panda_moveit_config demo_gazebo.launch
+
+.. figure:: moveit-gazebo.gif
+   :width: 700px
+
+   Panda arm controlled via MoveIt in Gazebo simulation.
+
+
+We have successfully integrated MoveIt and Gazebo ultimately. MoveIt Setup Assistant already does
+many work under the hood, but it still misses some parts to provide a proper Gazebo integration. After following
+this tutorial you should be able to reproduce this locally for any robot. In case you don't want to be
+bothered with all the details, `franka_ros <https://github.com/tahsinkose/franka_ros/tree/simulation>`_ and 
+`panda_moveit_config <https://github.com/tahsinkose/panda_moveit_config/tree/melodic-devel>`_
+forks provide a ready-made work.
