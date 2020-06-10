@@ -71,6 +71,7 @@ Configuration
 
    doc/kinematics_configuration/kinematics_configuration_tutorial
    doc/custom_constraint_samplers/custom_constraint_samplers_tutorial
+   doc/planning_constraints/planning_constraints.rst
    doc/ompl_interface/ompl_interface_tutorial
    doc/chomp_planner/chomp_planner_tutorial
    doc/stomp_planner/stomp_planner_tutorial
