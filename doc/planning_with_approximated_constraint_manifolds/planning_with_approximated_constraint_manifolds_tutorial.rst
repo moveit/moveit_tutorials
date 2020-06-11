@@ -33,7 +33,7 @@ You can define these in ``rosparam`` to be loaded together in a file, eg. ``X_mo
      # etc, as described below
 
 JointConstraint
-~~~~~~~~~~~~~~~
+"""""""""""""""
 
 A ``JointConstraint`` limits the positions a joint can take. There are three ways to compactly specify this. 
 
@@ -59,7 +59,7 @@ For example::
    weight: 1.0
 
 PositionConstraint
-~~~~~~~~~~~~~~~~~~
+""""""""""""""""""
 
 A ``PositionConstraint`` constraints the Cartesian positions allowed for a (position relative to a) link. 
 ``target_offset`` is that relative position w.r.t. a link, e.g., the tip of the end-effector relative to its mounting point or other origin definition.
@@ -78,7 +78,8 @@ For example::
    weight: 1.0
    
 OrientationConstraint
-~~~~~~~~~~~~~~~~~~~~~
+"""""""""""""""""""""
+
 
 An ``OrientationConstraint`` can be used to keep eg. something upright (or mostly upright with respect to some tolerance).
 
@@ -92,7 +93,7 @@ It is compactly represented with a list of roll, pitch, yaw and a list of tolera
    weight: 1.0
    
 VisibilityConstraint
-~~~~~~~~~~~~~~~~~~~~
+""""""""""""""""""""
 
 A ``VisibilityConstraint`` allows to eg. specify a camera should always be able to see the gripper.
 
