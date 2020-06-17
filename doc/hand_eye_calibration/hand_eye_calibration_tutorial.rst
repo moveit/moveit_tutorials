@@ -35,11 +35,15 @@ Launch RViz and Load Calibration Plugin
 ---------------------------------------
 Launch the appropriate MoveIt demo for your robot. For instance, ``roslaunch panda_moveit_config demo.launch``.
 In the RViz "Panels" menu, choose "Add New Panel":
+
 .. image:: choose_add_new_panel.png
+
 Then, select the "HandEyeCalibration" panel:
+
 .. image:: add_handeye_panel.png
 
 This will add a mostly-blank panel.
+
 .. image:: empty_handeye_panel.png
 
 Create and Print a Target
@@ -62,6 +66,7 @@ the following parameters:
 - **ArUco dictionary**: DICT_5X5_250
 
 Then press the "Create Target" button to create the target image:
+
 .. image:: aruco_target_handeye_panel.png
 
 Save the target image using the "Save Target" button, and print out the image. Feel free to experiment with the target
