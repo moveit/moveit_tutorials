@@ -1,6 +1,6 @@
 Hand-Eye Calibration
 ====================
-The `MoveIt Calibration <www.github.com/ros-planning/moveit_calibration>` package provides plugins and a graphical
+The `MoveIt Calibration <www.github.com/ros-planning/moveit_calibration>`_ package provides plugins and a graphical
 interface for conducting a hand-eye camera calibration. Calibrations can be performed for cameras rigidly mounted in the
 robot base frame (eye-to-hand) and for cameras mounted to the end effector (eye-in-hand). This tutorial presents the
 eye-in-hand case.
@@ -9,7 +9,8 @@ eye-in-hand case.
 
 Getting Started
 ---------------
-Unlike many of the other MoveIt tutorials, to actually complete this tutorial you will need a robotic arm and a camera.
+While it is possible to go through most of this tutorial using just a simulation, to actually complete a calibration you
+will need a robotic arm and a camera.
 
 If you haven't already done so, make sure you've completed the steps in `Getting Started
 <../getting_started/getting_started.html>`_. Also, set your arm up to work with MoveIt (as described in the `Setup
@@ -38,7 +39,7 @@ In the RViz "Panels" menu, choose "Add New Panel":
 
 .. image:: choose_new_panel.png
 
-Then, select the "HandEyeCalibration" panel:
+Then, select the "HandEyeCalibration" panel type:
 
 .. image:: add_handeye_panel.png
 
@@ -54,7 +55,7 @@ can be estimated. When conducting a hand-eye calibration, we do not need to know
 as the target is stationary in the robot's base frame, the hand-eye calibration can be estimated from a sequence of 5 or
 more poses.
 
-In the Target Params section of the Target tab, select the Target Type drop-down and click "HandEyeTarget/Aruco".
+In the "Target Params" section of the "Target" tab, select the "Target Type" drop-down and click "HandEyeTarget/Aruco".
 (Although this option is already selected, the parameters for an ArUco target are not loaded until you click it.) Enter
 the following parameters:
 
@@ -75,13 +76,13 @@ will need to input the same parameters for the target to be recognized.
 
 The target must be flat to be reliably localized by the camera. Laying it on a flat surface is sufficient, or it can be
 mounted to a board. Measure the marker width (the outside dimension of one of the black squares), as well as the
-separation distance between markers. Enter these values, in meters, in the appropriate boxes in the Target Params
-section. Also, select the appropriate topics in the Image Topic and CameraInfo Topic drop-down menus.
+separation distance between markers. Enter these values, in meters, in the appropriate boxes in the "Target Params"
+section. Also, select the appropriate topics in the "Image Topic" and "CameraInfo Topic" drop-down menus.
 
 Finally, place the target near the robot, where it can be easily seen by the camera.
 
-Context
--------
+Geometric Context
+-----------------
 The second tab, labeled "Context", contains the geometric information necessary to conduct the calibration. Set the
 "Sensor configuration" to "Eye-in-hand", then select the appropriate frames. The "Sensor frame" is the camera optical
 frame (using the right-down-forward standard, as specified in `REP 103 <https://www.ros.org/reps/rep-0103.html>`_), the
@@ -100,21 +101,22 @@ calculated, these fields will be updated with the new calibration.
 
 Collect Dataset
 ---------------
-Next, we will capture a dataset. The robot kinematics provide the end-effector's pose in the robot base frame, and the
-calibration target's pose in the camera frame can be estimated, as mentioned above. If the target's pose in the robot
-base frame were known accurately, only a single observation of the camera-target transform would be necessary to recover
-the camera's pose in the end-effector frame. A better option, however, is to combine the information from several poses
-to eliminate the target pose in the base frame from the equation, as described in `this paper by Kostas Daniilidis
-<https://scholar.google.com/scholar?cluster=11338617350721919587>`_.
+Next, we will capture a calibration dataset. The robot kinematics provide the end-effector's pose in the robot base
+frame, and the calibration target's pose in the camera frame can be estimated, as mentioned above. If the target's pose
+in the robot base frame were known accurately, only a single observation of the camera-target transform would be
+necessary to recover the camera's pose in the end-effector frame. The direct camera-to-end-effector transform is
+equivalent to the composite camera-to-target-to-base-link-to-end-effector transform. A better option, however, is to
+combine the information from several poses to eliminate the target pose in the base frame from the equation, as
+described in `this paper by Kostas Daniilidis <https://scholar.google.com/scholar?cluster=11338617350721919587>`_.
 
 Our dataset, then, comprises several pairs of poses: the end-effector's pose in the robot base frame paired with the
 calibration target's pose in the camera frame. Once five such pose pairs have been collected, the calibration can be
 calculated.
 
-The "Calibrate" tab provides the tools to collect the dataset and calculate and export the calibration. It is also
-helpful to add an image panel to the RViz display to see the target detection in the camera view, which is published on
-"/handeye_calibration/target_detection", and to add the TF display and show the target frame, camera optical frame, and
-end-effector frame.
+The "Calibrate" tab provides the tools to collect the dataset and calculate and export the calibration. At this point,
+it is also helpful to add an image panel to the RViz display to see the target detection in the camera view, which is
+published on ``/handeye_calibration/target_detection``, and to add the TF display and show the target frame, camera
+optical frame, and end-effector frame.
 
 .. image:: calibrate_tab.png
 
@@ -128,14 +130,16 @@ are ready to take your first calibration sample. Click the "Take sample" button 
 a new sample will be added to the "Pose samples" list on the left side of the panel. If you expand a sample, you will
 see it contains two transforms, base-to-end-effector, and camera-to-target.
 
-Next, you can move the arm to a new pose using the MotionPlanning panel, or you can let the hand-eye calibration plugin
-plan a new pose by clicking the "Plan" button in the "Auto Calibration" section. After planning, click "Execute", and
-the robot will move to the new pose and automatically capture a new sample. If you are planning poses manually, be sure
-to include some rotation between each pair of poses, and apply some rotation around all three axes.
+Next, you can move the arm to a new pose using the "MotionPlanning" panel, and click "Take Sample" again. Alternatively,
+you can let the hand-eye calibration plugin plan a new pose by clicking the "Plan" button in the "Auto Calibration"
+section. After planning, click "Execute", and the robot will move to the new pose and automatically capture a new
+sample. If you are planning poses manually, be sure to include some rotation between each pair of poses, and don't
+always rotate around the same axis--at least two rotation axes are needed to unique solve for the calibration (see the
+Daniilidis paper, linked above, for the explanation why).
 
 Calculate a Calibration
 -----------------------
 Once you have collected five samples, a calibration will be performed automatically, and updated each time a new sample
-is added. The position and orientation will be displayed on the "Context" tab, as mentioned above, and the TF display
+is added. The position and orientation will be displayed on the "Context" tab, as mentioned above, and the published TF
 will be updated as well. Click "Save camera pose" to export the calibration result. This will create a launch file with
 a static transform publisher containing the calibrated camera transform.
