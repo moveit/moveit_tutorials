@@ -48,12 +48,11 @@ In RViz, grab the red/blue/green "interactive marker" and drag the robot to a no
 
 Switch to a compatible type of `ros-control` controller. It should be a `JointGroupVelocityController` or a `JointGroupPositionController`, not a trajectory controller like MoveIt usually requires. ::
 
-    rosservice call /controller_manager/switch_controller "start_controllers:
-    - 'joint_group_position_controller'
-    stop_controllers:
-    - 'arm_controller'
-    strictness: 2"
-
+    rosservice call /controller_manager/switch_controller "start_controllers: ['joint_group_position_controller']
+    stop_controllers: ['joint_group_position_controller']
+    strictness: 0
+    start_asap: false
+    timeout: 0.0"
 
 Launch the servo node. This example uses commands from a `SpaceNavigator <https://www.3dconnexion.com/spacemouse_compact/en/>`_ joystick-like device: ::
 
@@ -105,10 +104,6 @@ An `rqt_graph` of the servo node is shown below (Enlarge by clicking it). Most o
 - **servo_server** node: Does the core calculations.
 
 - **spacenav_to_twist** node: Converts incoming commands from the joystick to Cartesian commands or joint angle commands, depending on which buttons are pressed.
-
-- **tf** topic: Carries ROS coordinate frame information. The servo node uses it to transform commands from the joystick's frame of reference to the robot's base/planning frame. These frames are configured in ``config/ur_simulated_config.yaml``.
-
-- **joint_states** topic: The servo node uses this joint information for calculations.
 
 - **joint_group_position_controller/command** topic: This is the outgoing command that causes the robot to move.
 
