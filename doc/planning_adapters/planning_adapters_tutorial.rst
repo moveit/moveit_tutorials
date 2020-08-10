@@ -81,7 +81,7 @@ To achieve this, follow the steps:
                    default_planner_request_adapters/FixStartStateBounds
                    default_planner_request_adapters/FixStartStateCollision
                    default_planner_request_adapters/FixStartStatePathConstraints
-                   default_planner_request_adapters/CHOMPOptimizationAdapter" />
+                   chomp/OptimizerAdapter" />
 
 #. The values of the ``planning_adapters`` is the order in which the mentioned adapters are called / invoked. Order here matters. Inside the CHOMP adapter, a call to STOMP is made before invoking the CHOMP optimization solver, so CHOMP takes the initial path computed by STOMP as the starting point to further optimize it.
 
