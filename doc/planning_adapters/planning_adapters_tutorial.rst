@@ -41,12 +41,12 @@ To achieve this, follow the steps:
 #. Open the ``ompl_planning_pipeline.launch`` file in the ``<robot_moveit_config>/launch`` folder of your robot. For the Panda robot it is this `file <https://github.com/ros-planning/panda_moveit_config/blob/melodic-devel/launch/ompl_planning_pipeline.launch.xml>`_. Edit this launch file, find the lines where ``<arg name="planning_adapters">`` is mentioned and change it to: ::
 
     <arg name="planning_adapters"
-         value="default_planner_request_adapters/FixWorkspaceBounds
+         value="default_planner_request_adapters/AddTimeParameterization
+		default_planner_request_adapters/FixWorkspaceBounds
                 default_planner_request_adapters/FixStartStateBounds
                 default_planner_request_adapters/FixStartStateCollision
                 default_planner_request_adapters/FixStartStatePathConstraints
-                chomp/OptimizerAdapter
-                default_planner_request_adapters/AddTimeParameterization" />
+                chomp/OptimizerAdapter" />
 
 #. The values of the ``planning_adapters`` is the order in which the mentioned adapters are called / invoked. Order here matters. Inside the CHOMP adapter, a :moveit_codedir:`call <moveit_planners/chomp/chomp_optimizer_adapter/src/chomp_optimizer_adapter.cpp#L169>` to OMPL is made before invoking the CHOMP optimization solver, so CHOMP takes the initial path computed by OMPL as the starting point to further optimize it. 
 

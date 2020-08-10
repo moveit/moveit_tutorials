@@ -117,12 +117,12 @@ To achieve this, follow the steps:
       <!-- load OMPL planning pipeline, but add the CHOMP planning adapter. -->
       <include file="$(find panda_moveit_config)/launch/ompl_planning_pipeline.launch.xml">
         <arg name="planning_adapters" value="
+           default_planner_request_adapters/AddTimeParameterization
            default_planner_request_adapters/FixWorkspaceBounds
            default_planner_request_adapters/FixStartStateBounds
            default_planner_request_adapters/FixStartStateCollision
            default_planner_request_adapters/FixStartStatePathConstraints
-           chomp/OptimizerAdapter
-           default_planner_request_adapters/AddTimeParameterization"
+           chomp/OptimizerAdapter"
            />
       </include>
       <!-- load chomp config -->
