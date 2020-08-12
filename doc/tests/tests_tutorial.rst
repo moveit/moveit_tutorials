@@ -29,7 +29,7 @@ From the package `panda_moveit_config <https://github.com/ros-planning/panda_mov
 
 From the package `moveit_resources <https://github.com/ros-planning/moveit_resources>`_: ::
 
-  roslaunch moveit_resources demo.launch
+  roslaunch moveit_resources_fanuc_moveit_config demo.launch
 
 Unit Tests
 ----------
