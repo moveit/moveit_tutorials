@@ -5,19 +5,19 @@ interface for conducting a hand-eye camera calibration. Calibrations can be perf
 robot base frame (eye-to-hand) and for cameras mounted to the end effector (eye-in-hand). This tutorial presents the
 eye-in-hand case.
 
-.. image:: hand_eye_calibration_demo.png
+.. image:: hand_eye_calibration_demo.jpg
 
 Getting Started
 ---------------
 While it is possible to go through most of this tutorial using just a simulation, to actually complete a calibration you
 will need a robotic arm and a camera.
 
-If you haven't already done so, make sure you've completed the steps in `Getting Started
+If you haven't already done so, be sure to complete the steps in `Getting Started
 <../getting_started/getting_started.html>`_. Also, set your arm up to work with MoveIt (as described in the `Setup
 Assistant Tutorial <../setup_assistant/setup_assistant.html>`_).
 
-This tutorial also requires a camera.  Be sure your camera node is publishing a ``sensor_msgs/CameraInfo`` topic with good
-intrinsic calibration parameters and an accurate coordinate frame. (Conduct an intrinsic camera calibration by using the
+This tutorial also requires a camera, publishing images and a ``sensor_msgs/CameraInfo`` topic with good intrinsic
+calibration parameters and an accurate coordinate frame. (Conduct an intrinsic camera calibration by using the
 `camera_calibration <http://wiki.ros.org/camera_calibration>`_ package, if necessary.)
 
 Clone and Build the MoveIt Calibration Repo
@@ -43,9 +43,7 @@ Then, select the "HandEyeCalibration" panel type:
 
 .. image:: add_handeye_panel.png
 
-This will add a mostly-blank panel.
-
-.. image:: empty_handeye_panel.png
+The panel will be added with the "Target" tab active.
 
 Create and Print a Target
 -------------------------
@@ -55,9 +53,7 @@ can be estimated. When conducting a hand-eye calibration, we do not need to know
 as the target is stationary in the robot's base frame, the hand-eye calibration can be estimated from a sequence of 5 or
 more poses.
 
-In the "Target Params" section of the "Target" tab, select the "Target Type" drop-down and click "HandEyeTarget/Aruco".
-(Although this option is already selected, the parameters for an ArUco target are not loaded until you click it.) Enter
-the following parameters:
+In the "Target Params" section of the "Target" tab, we will use the default target parameters:
 
 - **markers, X**: 3
 - **markers, Y**: 4
@@ -66,7 +62,7 @@ the following parameters:
 - **marker border (bits)**: 1
 - **ArUco dictionary**: DICT_5X5_250
 
-Then press the "Create Target" button to create the target image:
+Press the "Create Target" button to create the target image:
 
 .. image:: aruco_target_handeye_panel.png
 
@@ -115,14 +111,13 @@ calculated.
 
 The "Calibrate" tab provides the tools to collect the dataset and calculate and export the calibration. At this point,
 it is also helpful to add an image panel to the RViz display to see the target detection in the camera view, which is
-published on ``/handeye_calibration/target_detection``, and to add the TF display and show the target frame, camera
-optical frame, and end-effector frame.
+published on ``/handeye_calibration/target_detection``.
 
 .. image:: calibrate_tab.png
 
 On the "Calibrate" tab, you can select which calibration solver to use in the "AX=XB Solver" drop-down. The Daniilidis
 solver (from the paper referenced, above) is the default and is a good choice in most situations. The "Planning Group"
-is the joint group used for auto calibration, so should be set to the appropriate group for the arm (in the
+is the joint group that will be recorded, so should be set to the appropriate group for the arm (in the
 ``panda_moveit_config`` package, the ``panda_arm`` group should be used).
 
 When the target is visible in the arm camera, and the axis is rendered on the target in the target detection image, you
@@ -130,16 +125,18 @@ are ready to take your first calibration sample. Click the "Take sample" button 
 a new sample will be added to the "Pose samples" list on the left side of the panel. If you expand a sample, you will
 see it contains two transforms, base-to-end-effector, and camera-to-target.
 
-Next, you can move the arm to a new pose using the "MotionPlanning" panel, and click "Take Sample" again. Alternatively,
-you can let the hand-eye calibration plugin plan a new pose by clicking the "Plan" button in the "Auto Calibration"
-section. After planning, click "Execute", and the robot will move to the new pose and automatically capture a new
-sample. If you are planning poses manually, be sure to include some rotation between each pair of poses, and don't
-always rotate around the same axis--at least two rotation axes are needed to unique solve for the calibration (see the
-Daniilidis paper, linked above, for the explanation why).
+Next, you can move the arm to a new pose using the "MotionPlanning" panel, and click "Take sample" again. Be sure to
+include some rotation between each pair of poses, and don't always rotate around the same axis--at least two rotation
+axes are needed to uniquely solve for the calibration (see the Daniilidis paper, linked above, for the explanation why).
+
+As you take manual samples, the robot joint states are recorded, so that the same poses can be used again to
+recalibrate in the future. The number of recorded states is shown to the right of the progress bar at the bottom of the
+panel, and the states can be saved to a file using the "Save joint states" button in the "Settings" section.
 
 Calculate a Calibration
 -----------------------
 Once you have collected five samples, a calibration will be performed automatically, and updated each time a new sample
-is added. The position and orientation will be displayed on the "Context" tab, as mentioned above, and the published TF
-will be updated as well. Click "Save camera pose" to export the calibration result. This will create a launch file with
-a static transform publisher containing the calibrated camera transform.
+is added. The calibration will improve significantly with a few more samples, and will typically plateau after about 12
+or 15 samples. The position and orientation will be displayed on the "Context" tab, as mentioned above, and the
+published TF will be updated as well. Click "Save camera pose" to export the calibration result. This will create a
+launch file with a static transform publisher containing the calibrated camera transform.
