@@ -5,7 +5,7 @@ interface for conducting a hand-eye camera calibration. Calibrations can be perf
 robot base frame (eye-to-hand) and for cameras mounted to the end effector (eye-in-hand). This tutorial presents the
 eye-in-hand case.
 
-.. image:: hand_eye_calibration_demo.jpg
+.. image:: images/hand_eye_calibration_demo.jpg
 
 Getting Started
 ---------------
@@ -37,11 +37,11 @@ Launch RViz and Load Calibration Plugin
 Launch the appropriate MoveIt demo for your robot. For instance, ``roslaunch panda_moveit_config demo.launch``.
 In the RViz "Panels" menu, choose "Add New Panel":
 
-.. image:: choose_new_panel.png
+.. image:: images/choose_new_panel.png
 
 Then, select the "HandEyeCalibration" panel type:
 
-.. image:: add_handeye_panel.png
+.. image:: images/add_handeye_panel.png
 
 The panel will be added with the "Target" tab active.
 
@@ -64,7 +64,7 @@ In the "Target Params" section of the "Target" tab, we will use the default targ
 
 Press the "Create Target" button to create the target image:
 
-.. image:: aruco_target_handeye_panel.png
+.. image:: images/aruco_target_handeye_panel.png
 
 Save the target image using the "Save Target" button, and print out the image. Feel free to experiment with the target
 parameters to see how they affect the target, but be sure to remember the parameters used for the target you print--you
@@ -87,7 +87,7 @@ remaining frames are the robot links rigidly attached to the camera (the "End-ef
 target (the "Robot base frame"; although the target might not be literally "rigidly attached", it doesn't move in this
 frame).
 
-.. image:: context_tab.png
+.. image:: images/context_tab.png
 
 The FOV section controls the rendering of the camera's field of view in RViz. To see the FOV, add a "MarkerArray"
 display, and set it to listen to the "/rviz_visual_tools" topic. (It may not appear immediately.)
@@ -113,7 +113,7 @@ The "Calibrate" tab provides the tools to collect the dataset and calculate and 
 it is also helpful to add an image panel to the RViz display to see the target detection in the camera view, which is
 published on ``/handeye_calibration/target_detection``.
 
-.. image:: calibrate_tab.png
+.. image:: images/calibrate_tab.png
 
 On the "Calibrate" tab, you can select which calibration solver to use in the "AX=XB Solver" drop-down. The Daniilidis
 solver (from the paper referenced, above) is the default and is a good choice in most situations. The "Planning Group"

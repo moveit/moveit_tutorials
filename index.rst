@@ -88,6 +88,7 @@ Miscellaneous
    doc/realtime_servo/realtime_servo_tutorial
    doc/benchmarking/benchmarking_tutorial
    doc/tests/tests_tutorial
+   doc/hand_eye_calibration/hand_eye_calibration_tutorial
 
 Attribution
 -----------
