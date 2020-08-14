@@ -1,6 +1,6 @@
 Hand-Eye Calibration
 ====================
-The `MoveIt Calibration <www.github.com/ros-planning/moveit_calibration>`_ package provides plugins and a graphical
+The `MoveIt Calibration <http://www.github.com/ros-planning/moveit_calibration>`_ package provides plugins and a graphical
 interface for conducting a hand-eye camera calibration. Calibrations can be performed for cameras rigidly mounted in the
 robot base frame (eye-to-hand) and for cameras mounted to the end effector (eye-in-hand). This tutorial presents the
 eye-in-hand case.
@@ -14,7 +14,7 @@ will need a robotic arm and a camera.
 
 If you haven't already done so, be sure to complete the steps in `Getting Started
 <../getting_started/getting_started.html>`_. Also, set your arm up to work with MoveIt (as described in the `Setup
-Assistant Tutorial <../setup_assistant/setup_assistant.html>`_).
+Assistant Tutorial <../setup_assistant/setup_assistant_tutorial.html>`_).
 
 This tutorial also requires a camera, publishing images and a ``sensor_msgs/CameraInfo`` topic with good intrinsic
 calibration parameters and an accurate coordinate frame. (Conduct an intrinsic camera calibration by using the
