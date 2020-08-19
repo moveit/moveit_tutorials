@@ -20,6 +20,7 @@ A related functionality to representing and evaluating constraints is :code:`con
 
    An example of a Visibility Constraint, whereby the motion of the arm is planned to avoid obscuring the workpiece from the cameras.
 
-This is just a stub
--------------------
-This has been copied from an old .dox file in the code repo. We need someone to convert this into a full tutorial.
+See Also
+--------
+- `How to plan with path constraints in general <../move_group_interface/move_group_interface_tutorial.html#planning-with-path-constraints>`_.
+- `Planning with Approximated Constraint Manifolds <../planning_with_approximated_constraint_manifolds/planning_with_approximated_constraint_manifolds_tutorial>`_.
