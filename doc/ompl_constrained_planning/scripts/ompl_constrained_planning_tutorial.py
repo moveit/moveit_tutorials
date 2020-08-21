@@ -312,6 +312,24 @@ class ConstrainedPlanningTutorial(object):
         marker.action = visualization_msgs.msg.Marker.DELETEALL
         self.marker_publisher.publish(marker)
 
+    def add_obstacle(self):
+        box_pose = geometry_msgs.msg.PoseStamped()
+        box_pose.header.frame_id = self.ref_link
+        box_pose.pose.orientation.w = 1.0
+        box_pose.pose.position.x = 0.5
+        box_pose.pose.position.y = 0.0
+        box_pose.pose.position.z = 0.5
+        self.obstacle_name = "obstacle"
+        self.scene.add_box(self.obstacle_name, box_pose, size=(0.2, 0.4, 0.1))
+
+        # Give the planning scene some time to update
+        rospy.sleep(0.5)
+
+    def remove_obstacle(self):
+        self.scene.remove_world_object(self.obstacle_name)
+        # Give the planning scene some time to update
+        rospy.sleep(0.5)
+
 
 def run_tutorial():
     ## BEGIN_SUB_TUTORIAL main
