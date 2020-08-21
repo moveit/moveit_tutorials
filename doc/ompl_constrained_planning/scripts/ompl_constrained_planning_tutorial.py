@@ -58,13 +58,18 @@ COLOR_TRANSLUCENT = std_msgs.msg.ColorRGBA(0.0, 0.0, 0.0, 0.5)
 
 ## BEGIN_SUB_TUTORIAL setup
 ##
-## Setup a RobotCommander and a MoveGroupCommander, see "move_group_python_interface_tutorial" for more details.
-## Everything is wrappen a a class so we can easily reuse the different components.
+## Setup a RobotCommander and a MoveGroupCommander, see `move group Python interface`_ tutorial for more details.
+## Everything is wrappen in a class to make it easily reusable.
 ##
 class ConstrainedPlanningTutorial(object):
+    """ Wrapper class for the tutorial. """
+
     def __init__(self, group_name="panda_arm"):
+        """ Start the ROS node and create object to handle the robot and the planning scene. """
+
         moveit_commander.roscpp_initialize(sys.argv)
         rospy.init_node("ompl_constrained_planning_example", anonymous=True)
+
         self.robot = moveit_commander.RobotCommander()
         self.move_group = moveit_commander.MoveGroupCommander(group_name)
         self.scene = moveit_commander.PlanningSceneInterface()
@@ -73,7 +78,7 @@ class ConstrainedPlanningTutorial(object):
         self.marker_publisher = rospy.Publisher(
             "/visualization_marker", visualization_msgs.msg.Marker, queue_size=20,
         )
-        rospy.sleep(0.5)  # publisher needs some time to context Rviz
+        rospy.sleep(0.5)  # publisher needs some time to connect Rviz
         self.remove_all_markers()
         self.marker_id_counter = 0  # give each marker a unique idea
 
@@ -85,11 +90,10 @@ class ConstrainedPlanningTutorial(object):
     ## END_SUB_TUTORIAL
 
     ## BEGIN_SUB_TUTORIAL start_state
-    ## Instead of using the current robot state as start state, we use a fixed state for the panda robot defined in its `srdf` config file.
+    ## Instead of using the current robot state as start state, we use a fixed state for the panda robot defined in the srdf config file.
     ## The :code:`get_named_target_values` returns a dictionary with joint names and values for the "ready" position.
-    def create_start_state(self):
-        """ Create a RobotState message from a named joint target for this robot. """
-        ready = self.move_group.get_named_target_values("ready")
+    def create_start_state(self, named_target="ready"):
+        ready = self.move_group.get_named_target_values(named_target)
 
         # Now create a robot state from these joint positions
         joint_state = sensor_msgs.msg.JointState()
@@ -123,7 +127,7 @@ class ConstrainedPlanningTutorial(object):
 
         return pose
 
-    ## For planning problem with the tilted plane, we need to create a pose goal that lies in this plane.
+    ## For the second planning problem with the tilted plane, we need to create a pose goal that lies in this plane.
     ## The plane is tilted by 45 degrees, so moveing and equal amount in the y and z direction should be ok.
     def create_pose_goal_in_plane(self):
         self.move_group.clear_pose_targets()
@@ -142,7 +146,7 @@ class ConstrainedPlanningTutorial(object):
     ## END_SUB_TUTORIAL
 
     ## BEGIN_SUB_TUTORIAL pos_con
-    ## First we create simple box constraints for the :code:`panda_link8`.
+    ## First we create simple box constraints on the current end-effector link (:code:`self.ee_link = "panda_link8"`).
     def create_simple_box_constraints(self):
         pcm = moveit_msgs.msg.PositionConstraint()
         pcm.header.frame_id = self.ref_link
@@ -169,7 +173,8 @@ class ConstrainedPlanningTutorial(object):
 
     ## If you make a box really thin along one dimension, you get something plane like.
     ## We create a plane perpendicular to the y-axis and tilt it by 45 degrees in the function below.
-    ## When solving the problem, you can tell the planner to consider this really thin box an equality constraint.
+    ## When solving the problem, you can tell the planner to model this really thin box as an equality constraint.
+    ## The magic number :code:`0.0005` is explained later.
     def create_plane_constraints(self):
         pcm = moveit_msgs.msg.PositionConstraint()
         pcm.header.frame_id = self.ref_link
@@ -200,7 +205,7 @@ class ConstrainedPlanningTutorial(object):
 
         return pcm
 
-    ## Building on the previous constraint, we can also make it a line, by also reducing the dimension of th box in the x-direction.
+    ## Building on the previous constraint, we can make it a line, by also reducing the dimension of the box in the x-direction.
     def create_line_constraints(self):
         pcm = moveit_msgs.msg.PositionConstraint()
         pcm.header.frame_id = self.ref_link
@@ -232,7 +237,7 @@ class ConstrainedPlanningTutorial(object):
     ## END_SUB_TUTORIAL
 
     ## BEGIN_SUB_TUTORIAL solve
-    ## We add a simple solve function that we can use to quickly try solving a problem for different path constraints.
+    ## We add a simple solve function that we can use to quickly solve a problem different problem variations.
     def solve(self, start_state, pose_goal, path_constraints):
         self.move_group.set_start_state(start_state)
         self.move_group.set_pose_target(pose_goal)
@@ -311,9 +316,11 @@ class ConstrainedPlanningTutorial(object):
 def run_tutorial():
     ## BEGIN_SUB_TUTORIAL main
     ##
-    ## Now we can use the different pieces we just defined to solve some planning problems!
-    # First create an instance and get a start_state and pose_goal
+    ## Now we can use the different pieces we just defined to solve some planning problems.
+    # First create an instance of the Tutorial class
     tutorial = ConstrainedPlanningTutorial()
+
+    ## Create the first planning problem
     start_state = tutorial.create_start_state()
     pose_goal = tutorial.create_pose_goal()
 
@@ -324,26 +331,28 @@ def run_tutorial():
     path_constraints = moveit_msgs.msg.Constraints()
     path_constraints.position_constraints.append(pcm)
 
-    # Call our simple solve function and look at Rviz to see the result.
+    ## Call our simple solve function and look at Rviz to see the result.
     tutorial.solve(start_state, pose_goal, path_constraints)
 
-    # Now wait for the user(you) to press enter before doing trying the position constraints.
+    # Now wait for the user (you) to press enter before doing trying the position constraints.
     print("============ Press enter to continue with the second planning problem.")
     input()
+    # remove all markers in Rviz before starting the next tutorial
     tutorial.remove_all_markers()
 
-    ## In the second problem we plan with the :code:`panda_link8` constrained to a plane.
+    ## In the second problem we plan with the end-effector constrained to a plane.
     ## Remember we created a special pose goal that lies in the constraint plane.
-    ## Any goal or start state should also satisfy the path constraints.
+    ## We did that because any goal or start state should also satisfy the path constraints.
+    ##
     ## Solving the problem using equality constraints is a bit more complicated. (Or should I say, hacky?)
-    ## In addition we tell the planner explicitly that we want to use equality constraints for the small dimensions.
-    ## This is done in an admittedly hacky way, by setting the name of the constraint to :code:`"use_equality_constraints"`.
+    ## We need to tell the planner explicitly that we want to use equality constraints for the small dimensions.
+    ## This is achieved by setting the name of the constraint to :code:`"use_equality_constraints"`.
     ## In addition, any dimension of the box below a treshold of :code:`0.001` will be considered an equality constraint.
-    ## However, if we make it to small, the box will be thinner that the tolerance used by OMPL to evaluate constraints (:code`1e-4` by default).
-    ## Therefore, most states will appear invalid to MoveIt, where the actual dimension of the box was used to check the constraints.
-    ## That's where the magic number :code:`0.0005` came from, when we created the constraints.
+    ## However, if we make it too small, the box will be thinner that the tolerance used by OMPL to evaluate constraints (:code:`1e-4` by default).
+    ## MoveIt will use the stricter tolerance (the box width) to check the constraints, and many states will appear invalid.
+    ## That's where the magic number :code:`0.0005` comes from, it is between :code:`0.00001` and :code:`0.001`.
     pose_goal = tutorial.create_pose_goal_in_plane()
-    pcm = tutorial.create_plane_constraints()
+    pcm = tutorial.create_plane_constraints()  # this function uses the 'magic' number
 
     path_constraints = moveit_msgs.msg.Constraints()
     path_constraints.position_constraints.append(pcm)
@@ -368,6 +377,7 @@ def run_tutorial():
 
     tutorial.solve(start_state, pose_goal, path_constraints)
 
+    print("Done!")
     ## END_SUB_TUTORIAL
 
 
