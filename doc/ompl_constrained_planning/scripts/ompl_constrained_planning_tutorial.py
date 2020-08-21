@@ -381,8 +381,16 @@ def run_tutorial():
     ## END_SUB_TUTORIAL
 
 
+def main():
+    """ Catch interupt when the user presses `ctrl-c`. """
+    try:
+        run_tutorial()
+    except KeyboardInterrupt:
+        return
+
+
 if __name__ == "__main__":
-    run_tutorial()
+    main()
 
 ## BEGIN_TUTORIAL
 ##
