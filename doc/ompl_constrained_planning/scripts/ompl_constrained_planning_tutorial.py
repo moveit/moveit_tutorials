@@ -47,7 +47,7 @@ import visualization_msgs.msg
 import std_msgs.msg
 
 from math import pi
-from tf.transformations import quaternion_from_euler
+from tf.transformations import quaternion_from_euler, quaternion_multiply
 from six.moves import input  # Python 3 compatible alternative for raw_input
 
 # define some colours for convenience
@@ -330,6 +330,85 @@ class ConstrainedPlanningTutorial(object):
         # Give the planning scene some time to update
         rospy.sleep(0.5)
 
+    def create_pose_goal_under_obstacle(self):
+        self.move_group.clear_pose_targets()
+        pose = self.move_group.get_current_pose()
+
+        self.display_sphere(pose.pose, color=COLOR_RED)
+
+        pose.pose.position.x += 0.2
+        pose.pose.position.y += 0.0
+        pose.pose.position.z -= 0.3
+
+        # rotate the pose around the x axis?
+        quat_ee = [
+            pose.pose.orientation.x,
+            pose.pose.orientation.y,
+            pose.pose.orientation.z,
+            pose.pose.orientation.w,
+        ]
+        quat_rotate = quaternion_from_euler(-pi / 2, 0, 0)
+        quat_new = quaternion_multiply(quat_rotate, quat_ee)
+
+        pose.pose.orientation.x = quat_new[0]
+        pose.pose.orientation.y = quat_new[1]
+        pose.pose.orientation.z = quat_new[2]
+        pose.pose.orientation.w = quat_new[3]
+
+        self.display_sphere(pose.pose)
+
+        return pose
+
+    def create_vertical_plane_constraints(self):
+        pcm = moveit_msgs.msg.PositionConstraint()
+        pcm.header.frame_id = self.ref_link
+        pcm.link_name = self.ee_link
+
+        cbox = shape_msgs.msg.SolidPrimitive()
+        cbox.type = shape_msgs.msg.SolidPrimitive.BOX
+        cbox.dimensions = [1.0, 0.0005, 1.0]
+        pcm.constraint_region.primitives.append(cbox)
+
+        current_pose = self.move_group.get_current_pose()
+
+        cbox_pose = geometry_msgs.msg.Pose()
+        cbox_pose.position.x = current_pose.pose.position.x
+        cbox_pose.position.y = current_pose.pose.position.y
+        cbox_pose.position.z = current_pose.pose.position.z
+
+        cbox_pose.orientation.w = 1.0
+        pcm.constraint_region.primitive_poses.append(cbox_pose)
+
+        # display the constraints in rviz
+        self.display_box(cbox_pose, cbox.dimensions)
+
+        return pcm
+
+
+def run_another_example():
+    """ Run another example that is not part of the tutorial. """
+    tutorial = ConstrainedPlanningTutorial()
+    tutorial.remove_all_markers()
+
+    tutorial.add_obstacle()
+
+    start_state = tutorial.create_start_state()
+    pose_goal = tutorial.create_pose_goal_under_obstacle()
+    pcm = tutorial.create_vertical_plane_constraints()
+
+    # We need two wrap the constraints in a generic `Constraints` message.
+    path_constraints = moveit_msgs.msg.Constraints()
+    path_constraints.position_constraints.append(pcm)
+    path_constraints.name = "use_equality_constraints"
+
+    tutorial.solve(start_state, pose_goal, path_constraints)
+
+    print("============ Press enter to continue with the second planning problem.")
+    input()
+    tutorial.remove_all_markers()
+    tutorial.remove_obstacle()
+    print("Done!")
+
 
 def run_tutorial():
     ## BEGIN_SUB_TUTORIAL main
@@ -382,7 +461,6 @@ def run_tutorial():
     print("============ Press enter to continue with the second planning problem.")
     input()
     tutorial.remove_all_markers()
-
     ## Finally we can also plan along the line.
     pose_goal = tutorial.create_pose_goal()
 
@@ -403,6 +481,7 @@ def main():
     """ Catch interupt when the user presses `ctrl-c`. """
     try:
         run_tutorial()
+        # run_another_example()
     except KeyboardInterrupt:
         return
 
