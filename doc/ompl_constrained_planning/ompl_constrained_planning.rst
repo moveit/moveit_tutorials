@@ -3,13 +3,13 @@ OMPL Constrained Planning
 .. image:: ompl_constrained_planning_header.png
    :width: 600px
 
-This tutorial shows you how to use OMPL's `Constrained planning capabilities`_ from MoveIt. Three planning problems are solved with different types of path constraints. It will be easier to follow if you have read through the tutorial on the `move group Python interface`_.
+This tutorial shows you how to use OMPL's `Constrained planning capabilities`_ from MoveIt. To illustrate the capabilities of this planner, three planning problems are solved with different types of path constraints. It will be easier to follow if you have read through the tutorial on the `move group Python interface`_.
 
 For a short walkthrough of running the tutorial, you can watch `this video`_.
 
 When can I use this planner?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-The interface currently only supports position constraints on a robot link, where the constrained regions is represented using a box_. The planning approach provides an alternative for the `enforce_joint_model_state_space`_ option. It is expected to be most valuable for constraints regions that have a small (or zero) volume in Cartesian space, where the rejection sampling does not always works. For example, keeping the end-effector on a plane or along a line.
+The interface currently only supports position constraints on any link of the robot, where the constrained regions is represented using a box_. The planning approach provides an alternative for the `enforce_joint_model_state_space`_ option. It is expected to be most valuable for constraints regions that have a small (or zero) volume in Cartesian space, where the rejection sampling does not always works. For example, keeping the end-effector on a plane or along a line.
 
 Configure OMPL
 ^^^^^^^^^^^^^^^^
@@ -33,7 +33,7 @@ Note that, as we are changing configuration files, you should also clone the rep
 Run the tutorial
 ^^^^^^^^^^^^^^^^
 
-After you changed the configuration as explained in the previous section, launch the move group node for the panda robot: ::
+After you change the configuration as explained in the previous section, launch the move group node for the panda robot: ::
 
    roslaunch panda_moveit_config demo.launch
 
@@ -46,7 +46,7 @@ Open a new terminal window to run the tutorial node: ::
 
    rosrun moveit_tutorials ompl_constrained_planning_tutorial.py
 
-A red and green sphere should appear in Rviz to show the start and goal states. In addition, a grey box should appear that represents the position constraint on the link :code:`panda_link8`. If planning succeeds, you should see a preview of the trajectory that was planned.
+A red and green sphere should appear in Rviz to show the start and goal states respectively. In addition, a grey box should appear that represents the position constraint on the link :code:`panda_link8`. If planning succeeds, you should see a preview of the trajectory that was planned.
 
 .. image:: case_1.gif
    :width: 300px

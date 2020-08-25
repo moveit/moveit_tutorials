@@ -128,7 +128,7 @@ class ConstrainedPlanningTutorial(object):
         return pose
 
     ## For the second planning problem with the tilted plane, we need to create a pose goal that lies in this plane.
-    ## The plane is tilted by 45 degrees, so moveing and equal amount in the y and z direction should be ok.
+    ## The plane is tilted by 45 degrees, so moving an equal amount in the y and z direction should be ok.
     def create_pose_goal_in_plane(self):
         self.move_group.clear_pose_targets()
         pose = self.move_group.get_current_pose()
