@@ -236,24 +236,6 @@ class ConstrainedPlanningTutorial(object):
 
     ## END_SUB_TUTORIAL
 
-    ## BEGIN_SUB_TUTORIAL solve
-    ## We add a simple solve function that we can use to quickly solve a problem different problem variations.
-    def solve(self, start_state, pose_goal, path_constraints):
-        self.move_group.set_start_state(start_state)
-        self.move_group.set_pose_target(pose_goal)
-
-        # Don't forget the path constraints! That's the whole point of this tutorial.
-        self.move_group.set_path_constraints(path_constraints)
-
-        # And let the planner find a solution.
-        # The move_group node should autmatically visualize the solution in Rviz if a path is found.
-        self.move_group.plan()
-
-        # Clear the path constraints for our next experiment
-        self.move_group.clear_path_constraints()
-
-    ## END_SUB_TUTORIAL
-
     def display_box(self, pose, dimensions):
         """ Utility function to visualize position constraints. """
         assert len(dimensions) == 3
@@ -417,19 +399,33 @@ def run_tutorial():
     # First create an instance of the Tutorial class
     tutorial = ConstrainedPlanningTutorial()
 
+    # Copy move group variable for readability
+    move_group = tutorial.move_group
+
     ## Create the first planning problem
     start_state = tutorial.create_start_state()
     pose_goal = tutorial.create_pose_goal()
 
-    # Now let's try the simple box constraints first!
+    # Let's try the simple box constraints first!
     pcm = tutorial.create_simple_box_constraints()
 
     # We need two wrap the constraints in a generic `Constraints` message.
     path_constraints = moveit_msgs.msg.Constraints()
     path_constraints.position_constraints.append(pcm)
 
-    ## Call our simple solve function and look at Rviz to see the result.
-    tutorial.solve(start_state, pose_goal, path_constraints)
+    # Now we have everything we need to configure and solve a planning problem
+    move_group.set_start_state(start_state)
+    move_group.set_pose_target(pose_goal)
+
+    # Don't forget the path constraints! That's the whole point of this tutorial.
+    move_group.set_path_constraints(path_constraints)
+
+    # And let the planner find a solution.
+    # The move_group node should automatically visualize the solution in Rviz if a path is found.
+    move_group.plan()
+
+    # Clear the path constraints for our next experiment
+    move_group.clear_path_constraints()
 
     # Now wait for the user (you) to press enter before doing trying the position constraints.
     print("============ Press enter to continue with the second planning problem.")
@@ -456,7 +452,12 @@ def run_tutorial():
 
     path_constraints.name = "use_equality_constraints"
 
-    tutorial.solve(start_state, pose_goal, path_constraints)
+    # And again, configure and solve the planning problem.
+    move_group.set_start_state(start_state)
+    move_group.set_pose_target(pose_goal)
+    move_group.set_path_constraints(path_constraints)
+    move_group.plan()
+    move_group.clear_path_constraints()
 
     print("============ Press enter to continue with the second planning problem.")
     input()
@@ -471,7 +472,11 @@ def run_tutorial():
 
     path_constraints.name = "use_equality_constraints"
 
-    tutorial.solve(start_state, pose_goal, path_constraints)
+    move_group.set_start_state(start_state)
+    move_group.set_pose_target(pose_goal)
+    move_group.set_path_constraints(path_constraints)
+    move_group.plan()
+    move_group.clear_path_constraints()
 
     print("Done!")
     ## END_SUB_TUTORIAL
@@ -503,10 +508,6 @@ if __name__ == "__main__":
 ## Create position constraints
 ## ***************************
 ## CALL_SUB_TUTORIAL pos_con
-##
-## Create a simple solve function
-## ******************************
-## CALL_SUB_TUTORIAL solve
 ##
 ## Finally, solve a planning problem!
 ## **********************************
