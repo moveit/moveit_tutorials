@@ -47,6 +47,7 @@ Building more complex applications with MoveIt often requires developers to dig 
    doc/pick_place/pick_place_tutorial
    doc/moveit_grasps/moveit_grasps_tutorial
    doc/moveit_task_constructor/moveit_task_constructor_tutorial
+   doc/moveit_deep_grasps/moveit_deep_grasps_tutorial
    doc/subframes/subframes_tutorial
    doc/moveit_cpp/moveitcpp_tutorial
 
