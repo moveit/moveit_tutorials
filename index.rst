@@ -62,6 +62,7 @@ Before attempting to integrate a new robot with MoveIt, check whether your robot
    doc/urdf_srdf/urdf_srdf_tutorial
    doc/controller_configuration/controller_configuration_tutorial
    doc/perception_pipeline/perception_pipeline_tutorial
+   doc/hand_eye_calibration/hand_eye_calibration_tutorial
    doc/ikfast/ikfast_tutorial
    doc/trac_ik/trac_ik_tutorial
 
@@ -88,7 +89,6 @@ Miscellaneous
    doc/realtime_servo/realtime_servo_tutorial
    doc/benchmarking/benchmarking_tutorial
    doc/tests/tests_tutorial
-   doc/hand_eye_calibration/hand_eye_calibration_tutorial
 
 Attribution
 -----------
