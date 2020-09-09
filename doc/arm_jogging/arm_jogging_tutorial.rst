@@ -55,13 +55,13 @@ Switch to a compatible type of `ros-control` controller. It should be a `JointGr
     strictness: 2"
 
 
-Launch the jog node. This example uses commands from a `SpaceNavigator <https://www.3dconnexion.com/spacemouse_compact/en/>`_ joystick-like device: ::
+Launch the servo node. This example uses commands from a `SpaceNavigator <https://www.3dconnexion.com/spacemouse_compact/en/>`_ joystick-like device: ::
 
-    roslaunch moveit_jog_arm spacenav_cpp.launch
+    roslaunch moveit_servo spacenav_cpp.launch
 
 If you do not have a SpaceNav 3D mouse, you can publish example jogging commands from the command line with: ::
 
-    rostopic pub -r 100 -s /jog_server/delta_jog_cmds geometry_msgs/TwistStamped "header: auto
+    rostopic pub -r 100 -s /servo_server/delta_twist_cmds geometry_msgs/TwistStamped "header: auto
     twist:
       linear:
         x: 0.0
@@ -76,7 +76,7 @@ The `-r 100` sends new commands at a 100 Hz rate. The combination of `-s` and `a
 
 Settings
 --------
-User-configurable settings of the jog node are well-documented in ``jog_arm/config/ur_simulated_config.yaml``.
+User-configurable settings of the servo node are well-documented in ``moveit_servo/config/ur_simulated_config.yaml``.
 
 Changing Control Dimensions
 ---------------------------
@@ -102,7 +102,7 @@ ROS Signals
 -----------
 An `rqt_graph` of the jogger is shown below (Enlarge by clicking it). Most of these connections can be ignored. The important ones are:
 
-- **jog_arm_server** node: Does the core jogging calculations.
+- **servo_server** node: Does the core jogging calculations.
 
 - **spacenav_to_twist** node: Converts incoming commands from the joystick to Cartesian commands or joint angle commands, depending on which buttons are pressed.
 
@@ -119,16 +119,16 @@ An `rqt_graph` of the jogger is shown below (Enlarge by clicking it). Most of th
 
 Configuring Control Devices (Gamepads, Joysticks, etc)
 ------------------------------------------------------
-The ``jog_arm/config`` folder contains two examples of converting `SpaceNavigator <https://www.3dconnexion.com/spacemouse_compact/en/>`_ 3D mouse commands to jog commands. ``spacenav_teleop_tools.launch`` loads a config file then publishes commands to the jogger on the ``spacenav/joy topic``. It is easy to create your own config file for a particular joystick or gamepad. We welcome pull requests of config files for new controllers.
+The ``moveit_servo/config`` folder contains two examples of converting `SpaceNavigator <https://www.3dconnexion.com/spacemouse_compact/en/>`_ 3D mouse commands to jog commands. ``spacenav_teleop_tools.launch`` loads a config file then publishes commands to the jogger on the ``spacenav/joy topic``. It is easy to create your own config file for a particular joystick or gamepad. We welcome pull requests of config files for new controllers.
 
 ``spacenav_cpp.launch`` launches a C++ node that does the same thing but with less latency. We do not plan to accept C++ pull requests for more controller types because there is a lot of overhead involved in supporting them.
 
 
-Integration Testing
+Running Tests
 -------------------
-There is a Python integration test in ``test/integration``. Run it by:
+Run tests from the moveit_servo folder:
 
 .. code-block:: bash
 
-  roscd jog_arm
-  catkin run_tests --this
+  roscd moveit_servo
+  catkin run_tests --no-deps --this
