@@ -184,7 +184,8 @@ int main(int argc, char** argv)
     printHelp();
 
     visual_tools.loadRemoteControl();
-    visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to start the continuous collision detection demo.");
+    visual_tools.prompt(
+        "Press 'next' in the RvizVisualToolsGui window to start the continuous collision detection demo.");
     ROS_INFO("Shutting down the interactive interactive_robot...");
 
     // remove all collision markers
@@ -301,9 +302,9 @@ int main(int argc, char** argv)
   color.b = 1.0;
   color.a = 0.5;
   /* Get the contact ponts and display them as markers */
-  collision_detection::getCollisionMarkersFromContacts(markers, "panda_link0", res.contacts, color, ros::Duration(), 0.01);
+  collision_detection::getCollisionMarkersFromContacts(markers, "panda_link0", res.contacts, color, ros::Duration(),
+                                                       0.01);
   publishMarkers(markers);
-
 
   visual_tools.prompt("Press 'next' to end tutorial.");
   delete g_marker_array_publisher;

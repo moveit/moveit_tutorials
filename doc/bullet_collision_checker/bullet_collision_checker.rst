@@ -4,7 +4,7 @@ Using Bullet for Collision Checking
 .. image:: images/bullet_collision_visualized.png
    :width: 600px
 
-In addition to the Flexible Collision Library (FCL), `Bullet Collision Detection <https://pybullet.org/Bullet/BulletFull/index.html/>`_ is available as a collision checker. The tutorial builds on top of the `Visualizing Collisions <../visualizing_collisions/visualizing_collisions_tutorial.html>`_ tutorial to show collisions.
+In addition to the Flexible Collision Library (FCL), `Bullet Collision Detection <https://pybullet.org/wordpress/>`_ is available as a collision checker. The tutorial builds on top of the `Visualizing Collisions <../visualizing_collisions/visualizing_collisions_tutorial.html>`_ tutorial to show collisions.
 
 Furthermore, Continuous Collision Detection (CCD) is available and demonstrated with Bullet.
 
