@@ -150,13 +150,14 @@ int main(int argc, char** argv)
   spinner.start();
 
   moveit_visual_tools::MoveItVisualTools visual_tools("panda_link0");
-  visual_tools.setMarkerTopic("interactive_robot_markers");
   ros::Publisher robot_state_publisher_2(node_handle.advertise<moveit_msgs::DisplayRobotState>("robot_state_before", 1));
+  ros::Publisher marker_publisher(node_handle.advertise<visualization_msgs::Marker>("interactive_robot_markers", 1));
+  visual_tools.setRobotStateTopic("interactive_robot_state");
 
   {
     // BEGIN_TUTORIAL
     // The code starts with creating an interactive robot and a new planning scene.
-    InteractiveRobot interactive_robot;
+    InteractiveRobot interactive_robot("robot_description", "bullet_collision_tutorial/interactive_robot_state");
     g_planning_scene = new planning_scene::PlanningScene(interactive_robot.robotModel());
 
     // Changing the collision detector to Bullet
@@ -245,6 +246,13 @@ int main(int argc, char** argv)
   // This code is repeated for the second robot configuration.
   // END_SUB_TUTORIAL
 
+  visualization_msgs::Marker marker_delete;
+  marker_delete.header.stamp = ros::Time::now();
+  marker_delete.ns = "world_box";
+  marker_delete.id = 0;
+  marker_delete.action = visualization_msgs::Marker::DELETE;
+  marker_publisher.publish(marker_delete);
+
   visualization_msgs::Marker marker;
   marker.header.frame_id = "/panda_link0";
   marker.header.stamp = ros::Time::now();
@@ -261,11 +269,10 @@ int main(int argc, char** argv)
   marker.color.a = 0.4f;
   marker.lifetime = ros::Duration();
   marker.pose = tf2::toMsg(box_pose);
-  visual_tools.publishMarker(marker);
+  marker_publisher.publish(marker);
 
   moveit_msgs::DisplayRobotState msg;
   robot_state::robotStateToRobotStateMsg(state, msg.state);
-  visual_tools.setRobotStateTopic("interactive_robot_state");
   visual_tools.publishRobotState(state);
 
   visual_tools.prompt("Press 'next' for second robot state.");
