@@ -82,7 +82,8 @@ Geometric Context
 The second tab, labeled "Context", contains the geometric information necessary to conduct the calibration.
 
 1. Set the "Sensor configuration" to "Eye-in-hand".
-2. The "Sensor frame" is the camera optical frame (using the right-down-forward standard, as specified in `REP 103 <https://www.ros.org/reps/rep-0103.html>`_).
+2. The "Sensor frame" is the camera optical frame (using the right-down-forward standard, as specified in `REP 103
+   <https://www.ros.org/reps/rep-0103.html>`_).
 3. The "Object frame" is the frame defined by the calibration target, which is called "handeye_target" by default.
 4. The "End-effector frame" is the robot link rigidly attached to the camera.
 5. The "Robot base frame" is the frame in which the calibration target is stationary.
@@ -92,18 +93,19 @@ The second tab, labeled "Context", contains the geometric information necessary 
 The FOV section controls the rendering of the camera's field of view in RViz. To see the FOV, add a "MarkerArray"
 display, and set it to listen to the "/rviz_visual_tools" topic. (It may not appear immediately.)
 
-Finally, it is not necessary to set an initial guess for the camera pose, but it is worth noting that once a calibration has been
-calculated, these fields will be updated with the new calibration.
+Finally, it is not necessary to set an initial guess for the camera pose, but it is worth noting that once a calibration
+has been calculated, these fields will be updated with the new calibration.
 
 Collect Dataset
 ---------------
-Next, we will capture a calibration dataset. The robot kinematics provide the end-effector's pose in the robot base
-frame, and the calibration target's pose in the camera frame can be estimated, as mentioned above. If the target's pose
-in the robot base frame were known accurately, only a single observation of the camera-target transform would be
-necessary to recover the camera's pose in the end-effector frame. The direct camera-to-end-effector transform is
-equivalent to the composite camera-to-target-to-base-link-to-end-effector transform. A better option, however, is to
-combine the information from several poses to eliminate the target pose in the base frame from the equation, as
-described in `this paper by Kostas Daniilidis <https://scholar.google.com/scholar?cluster=11338617350721919587>`_.
+Next, we will capture a calibration dataset. We need to capture several samples to ensure a good calibration. The robot
+kinematics provide the end-effector's pose in the robot base frame, and the calibration target's pose in the camera
+frame can be estimated, as mentioned above. If the target's pose in the robot base frame were known accurately, only a
+single observation of the camera-target transform would be necessary to recover the camera's pose in the end-effector
+frame. The direct camera-to-end-effector transform is equivalent to the composite
+camera-to-target-to-base-link-to-end-effector transform. A better option, however, is to combine the information from
+several poses to eliminate the target pose in the base frame from the equation, as described in `this paper by Kostas
+Daniilidis <https://scholar.google.com/scholar?cluster=11338617350721919587>`_.
 
 Each sample in our calibration dataset, then, comprises a pair of poses: the end-effector's pose in the robot base frame
 paired with the calibration target's pose in the camera frame. Once five such samples have been collected, the
