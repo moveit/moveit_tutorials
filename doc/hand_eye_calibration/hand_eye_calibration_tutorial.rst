@@ -79,13 +79,13 @@ Finally, place the target near the robot, where it can be easily seen by the cam
 
 Geometric Context
 -----------------
-The second tab, labeled "Context", contains the geometric information necessary to conduct the calibration. Set the
-"Sensor configuration" to "Eye-in-hand", then select the appropriate frames. The "Sensor frame" is the camera optical
-frame (using the right-down-forward standard, as specified in `REP 103 <https://www.ros.org/reps/rep-0103.html>`_), the
-"Object frame" is the frame defined by the calibration target, which is called "handeye_target" by default, and the
-remaining frames are the robot links rigidly attached to the camera (the "End-effector frame") and the calibration
-target (the "Robot base frame"; although the target might not be literally "rigidly attached", it doesn't move in this
-frame).
+The second tab, labeled "Context", contains the geometric information necessary to conduct the calibration.
+
+1. Set the "Sensor configuration" to "Eye-in-hand".
+2. The "Sensor frame" is the camera optical frame (using the right-down-forward standard, as specified in `REP 103 <https://www.ros.org/reps/rep-0103.html>`_).
+3. The "Object frame" is the frame defined by the calibration target, which is called "handeye_target" by default.
+4. The "End-effector frame" is the robot link rigidly attached to the camera.
+5. The "Robot base frame" is the frame in which the calibration target is stationary.
 
 .. image:: images/context_tab.png
 
@@ -105,9 +105,9 @@ equivalent to the composite camera-to-target-to-base-link-to-end-effector transf
 combine the information from several poses to eliminate the target pose in the base frame from the equation, as
 described in `this paper by Kostas Daniilidis <https://scholar.google.com/scholar?cluster=11338617350721919587>`_.
 
-Our dataset, then, comprises several pairs of poses: the end-effector's pose in the robot base frame paired with the
-calibration target's pose in the camera frame. Once five such pose pairs have been collected, the calibration can be
-calculated.
+Each sample in our calibration dataset, then, comprises a pair of poses: the end-effector's pose in the robot base frame
+paired with the calibration target's pose in the camera frame. Once five such samples have been collected, the
+calibration can be calculated.
 
 The "Calibrate" tab provides the tools to collect the dataset and calculate and export the calibration. At this point,
 it is also helpful to add an image panel to the RViz display to see the target detection in the camera view, which is
@@ -121,13 +121,14 @@ is the joint group that will be recorded, so should be set to the appropriate gr
 ``panda_moveit_config`` package, the ``panda_arm`` group should be used).
 
 When the target is visible in the arm camera, and the axis is rendered on the target in the target detection image, you
-are ready to take your first calibration sample. Click the "Take sample" button in the "Manual calibration" section, and
-a new sample will be added to the "Pose samples" list on the left side of the panel. If you expand a sample, you will
-see it contains two transforms, base-to-end-effector, and camera-to-target.
+are ready to take your first calibration sample (pose pair). Click the "Take sample" button in the "Manual calibration"
+section, and a new sample will be added to the "Pose samples" list on the left side of the panel. If you expand a
+sample, you will see it contains two transforms, base-to-end-effector, and camera-to-target.
 
-Next, you can move the arm to a new pose using the "MotionPlanning" panel, and click "Take sample" again. Be sure to
-include some rotation between each pair of poses, and don't always rotate around the same axis--at least two rotation
-axes are needed to uniquely solve for the calibration (see the Daniilidis paper, linked above, for the explanation why).
+Next, you can move the arm to a new pose using the "MotionPlanning" panel, or use your robot's teaching pendant or free
+drive mode, if it has one, and click "Take sample" again. Be sure to include some rotation between each pair of poses,
+and don't always rotate around the same axis--at least two rotation axes are needed to uniquely solve for the
+calibration (see the Daniilidis paper, linked above, for the explanation why).
 
 As you take manual samples, the robot joint states are recorded, so that the same poses can be used again to
 recalibrate in the future. The number of recorded states is shown to the right of the progress bar at the bottom of the
