@@ -48,9 +48,9 @@
 #include <tf2_eigen/tf2_eigen.h>
 #include <moveit/utils/robot_model_test_utils.h>
 
-planning_scene::PlanningScene* g_planning_scene = 0;
+auto g_planning_scene = std::unique_ptr<planning_scene::PlanningScene>();
 shapes::ShapePtr g_world_cube_shape;
-ros::Publisher* g_marker_array_publisher = 0;
+auto g_marker_array_publisher = std::unique_ptr<ros::Publisher>();
 visualization_msgs::MarkerArray g_collision_points;
 
 const double BOX_SIZE = 0.1;
@@ -158,7 +158,7 @@ int main(int argc, char** argv)
     // BEGIN_TUTORIAL
     // The code starts with creating an interactive robot and a new planning scene.
     InteractiveRobot interactive_robot("robot_description", "bullet_collision_tutorial/interactive_robot_state");
-    g_planning_scene = new planning_scene::PlanningScene(interactive_robot.robotModel());
+    g_planning_scene = std::make_unique<planning_scene::PlanningScene>(interactive_robot.robotModel());
 
     // Changing the collision detector to Bullet
     // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -173,12 +173,12 @@ int main(int argc, char** argv)
     Eigen::Isometry3d world_cube_pose;
     double world_cube_size;
     interactive_robot.getWorldGeometry(world_cube_pose, world_cube_size);
-    g_world_cube_shape.reset(new shapes::Box(world_cube_size, world_cube_size, world_cube_size));
+    g_world_cube_shape = std::make_shared<shapes::Box>(world_cube_size, world_cube_size, world_cube_size);
     g_planning_scene->getWorldNonConst()->addToObject("world_cube", g_world_cube_shape, world_cube_pose);
 
     // Create a marker array publisher for publishing contact points
-    g_marker_array_publisher =
-        new ros::Publisher(node_handle.advertise<visualization_msgs::MarkerArray>("interactive_robot_marray", 100));
+    g_marker_array_publisher = std::make_unique<ros::Publisher>(
+        node_handle.advertise<visualization_msgs::MarkerArray>("interactive_robot_marray", 100));
 
     interactive_robot.setUserCallback(computeCollisionContactPoints);
 
@@ -199,8 +199,6 @@ int main(int argc, char** argv)
     }
 
     visual_tools.deleteAllMarkers();
-
-    delete g_planning_scene;
   }
 
   // BEGIN_SUB_TUTORIAL CCD
@@ -314,7 +312,6 @@ int main(int argc, char** argv)
   publishMarkers(markers);
 
   visual_tools.prompt("Press 'next' to end tutorial.");
-  delete g_marker_array_publisher;
   ros::shutdown();
   return 0;
 }
