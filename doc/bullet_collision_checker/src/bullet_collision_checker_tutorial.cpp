@@ -49,8 +49,8 @@
 #include <moveit/utils/robot_model_test_utils.h>
 
 auto g_planning_scene = std::unique_ptr<planning_scene::PlanningScene>();
-shapes::ShapePtr g_world_cube_shape;
 auto g_marker_array_publisher = std::unique_ptr<ros::Publisher>();
+shapes::ShapePtr g_world_cube_shape;
 visualization_msgs::MarkerArray g_collision_points;
 
 const double BOX_SIZE = 0.1;
