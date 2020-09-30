@@ -176,6 +176,8 @@ Add the gripper
 
   * Enter *Group Name* as **hand**
 
+  * Let *Kinematic Solver* stay at its default value; **None**.
+
   * Let *Kin. Search Resolution* and *Kin. Search Timeout* stay at their default values.
 
   * Click on the *Add Links* button.
