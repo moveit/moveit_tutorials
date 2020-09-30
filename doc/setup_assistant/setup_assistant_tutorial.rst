@@ -27,12 +27,6 @@ MoveIt and ROS
 
     sudo apt-get install ros-melodic-franka-description
 
-.. note:: Oct 23, 2018: franka_description is [not fully available for ROS Melodic](https://github.com/frankaemika/franka_ros/issues/34).
-
-Until then please manually clone the franka description package: ::
-
-  git clone https://github.com/frankaemika/franka_ros
-
 * If you have the ``panda_moveit_config`` package already git-cloned from the *Getting Started* page, be sure to delete that now since this tutorial will teach you how to create it from scratch: ::
 
    cd ~/ws_moveit/src
