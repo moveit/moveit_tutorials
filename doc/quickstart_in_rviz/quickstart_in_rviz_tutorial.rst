@@ -52,7 +52,7 @@ Step 1: Launch the Demo and Configure the Plugin
 
   * Make sure the **Robot Description** field is set to ``robot_description``.
 
-  * Make sure the **Planning Scene Topic** field is set to ``/planning_scene``.
+  * Make sure the **Planning Scene Topic** field is set to ``move_group/monitored_planning_scene``.
     Click on topic name to expose topic-name drop-down.
 
   * In **Planning Request**, change the **Planning Group** to ``panda_arm``.
@@ -67,7 +67,7 @@ Step 2: Play with the Visualized Robots
 ---------------------------------------
 There are four different overlapping visualizations:
 
-#. The robot's configuration in the ``/planning scene`` planning environment (active by default).
+#. The robot's configuration in the ``move_group/monitored_planning_scene`` planning environment (active by default).
 
 #. The planned path for the robot (active by default).
 
