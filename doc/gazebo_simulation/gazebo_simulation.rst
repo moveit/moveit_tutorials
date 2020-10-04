@@ -299,6 +299,20 @@ Fill the :code:`args` in line 9 with:
 
 -------------------------------
 
+8. Change the way :code:`robot_description` is loaded to Parameter Server.
+--------------------------------------------------------------------------
+Open auto-generated :code:`gazebo.launch` in the :code:`panda_moveit_config` package. Find the line starting
+with :code:`<param name="robot_description" textfile="$(arg urdf_path)" />` and replace it with:
+
+.. code-block:: xml
+
+    <param name="robot_description" command="$(find xacro)/xacro '$(find franka_description)/robots/panda_arm_hand.urdf.xacro'"/>
+
+
+With this adjustment we are using :code:`xacro` executable that compiles :code:`xacro` files into URDF files.
+
+-------------------------------
+
 At last purely Gazebo way of using the panda robot is ready! In order to be able to control the robot via a simpler
 GUI, install `rqt_joint_trajectory_controller <http://wiki.ros.org/rqt_joint_trajectory_controller>`_.
 
