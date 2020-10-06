@@ -11,11 +11,13 @@ compiler: gcc
 
 env:
   global:
-    - ROS_DISTRO=melodic
-    - DOCKER_IMAGE=moveit/moveit:master-source
+    - ROS_DISTRO=noetic
+    - CXXFLAGS="-Wall -Wextra -Wwrite-strings -Wunreachable-code -Wpointer-arith -Wredundant-decls"
+    - WARNINGS_OK=false
   matrix:
-    - TEST="clang-format"
-    - ROS_DISTRO=melodic
+    - TEST="clang-format catkin_lint"
+    - TEST="clang-tidy-fix"
+    - DOCKER_IMAGE=moveit/moveit:master-source
 
 before_install: # Use this to prepare the system to install prerequisites or dependencies
   # Define some config vars
