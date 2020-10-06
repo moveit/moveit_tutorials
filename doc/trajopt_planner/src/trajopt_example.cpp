@@ -227,7 +227,7 @@ int main(int argc, char** argv)
   moveit_msgs::MotionPlanResponse response;
   res.getMessage(response);
 
-  for (int timestep_index = 0; timestep_index < response.trajectory.joint_trajectory.points.size(); ++timestep_index)
+  for (size_t timestep_index = 0; timestep_index < response.trajectory.joint_trajectory.points.size(); ++timestep_index)
   {
     std::stringstream joint_values_stream;
     for (double position : response.trajectory.joint_trajectory.points[timestep_index].positions)

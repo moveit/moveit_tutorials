@@ -114,11 +114,11 @@ public:
       @param cylinder_params - Pointer to the struct AddCylinderParams. */
   void extractLocationHeight(const pcl::PointCloud<pcl::PointXYZRGB>::Ptr& cloud)
   {
-    double max_angle_y = 0.0;
+    double max_angle_y = -std::numeric_limits<double>::infinity();
     double min_angle_y = std::numeric_limits<double>::infinity();
 
-    double lowest_point[3];
-    double highest_point[3];
+    double lowest_point[3] = { 0.0, 0.0, 0.0 };
+    double highest_point[3] = { 0.0, 0.0, 0.0 };
     // BEGIN_SUB_TUTORIAL extract_location_height
     // Consider a point inside the point cloud and imagine that point is formed on a XY plane where the perpendicular
     // distance from the plane to the camera is Z. |br|
@@ -135,18 +135,19 @@ public:
     // Loop over the entire pointcloud.
     for (auto const point : cloud->points)
     {
+      const double angle = atan2(point.z, point.y);
       /* Find the coordinates of the highest point */
-      if (atan2(point.z, point.y) < min_angle_y)
+      if (angle < min_angle_y)
       {
-        min_angle_y = atan2(point.z, point.y);
+        min_angle_y = angle;
         lowest_point[0] = point.x;
         lowest_point[1] = point.y;
         lowest_point[2] = point.z;
       }
       /* Find the coordinates of the lowest point */
-      else if (atan2(point.z, point.y) > max_angle_y)
+      else if (angle > max_angle_y)
       {
-        max_angle_y = atan2(point.z, point.y);
+        max_angle_y = angle;
         highest_point[0] = point.x;
         highest_point[1] = point.y;
         highest_point[2] = point.z;
@@ -292,8 +293,7 @@ public:
     // It will be used to extract the cylinder.
     extractNormals(cloud_normals, inliers_plane);
     // ModelCoefficients will hold the parameters using which we can define a cylinder of infinite length.
-    // It has a public attribute |code_start| values\ |code_end| of type |code_start| std::vector< float >\ |code_end|\
-    // .
+    // It has a public attribute |code_start| values\ |code_end| of type |code_start| std::vector<float>\ |code_end|\ .
     // |br|
     // |code_start| Values[0-2]\ |code_end| hold a point on the center line of the cylinder. |br|
     // |code_start| Values[3-5]\ |code_end| hold direction vector of the z-axis. |br|

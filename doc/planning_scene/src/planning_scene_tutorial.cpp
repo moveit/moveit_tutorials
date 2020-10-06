@@ -49,7 +49,7 @@
 // setStateFeasibilityPredicate function. Here's a simple example of a
 // user-defined callback that checks whether the "panda_joint1" of
 // the Panda robot is at a positive or negative angle:
-bool stateFeasibilityTestExample(const moveit::core::RobotState& kinematic_state, bool verbose)
+bool stateFeasibilityTestExample(const moveit::core::RobotState& kinematic_state, bool /*verbose*/)
 {
   const double* joint_values = kinematic_state.getJointPositions("panda_joint1");
   return (joint_values[0] > 0.0);
@@ -61,7 +61,7 @@ int main(int argc, char** argv)
   ros::init(argc, argv, "panda_arm_kinematics");
   ros::AsyncSpinner spinner(1);
   spinner.start();
-  std::size_t count = 0;
+
   // BEGIN_TUTORIAL
   //
   // Setup

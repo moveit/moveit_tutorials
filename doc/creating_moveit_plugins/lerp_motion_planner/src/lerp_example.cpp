@@ -85,7 +85,6 @@ int main(int argc, char** argv)
 
   // Create JointModelGroup
   const moveit::core::JointModelGroup* joint_model_group = robot_state->getJointModelGroup(PLANNING_GROUP);
-  const std::vector<std::string>& joint_names = joint_model_group->getActiveJointModelNames();
   const std::vector<std::string>& link_model_names = joint_model_group->getLinkModelNames();
   ROS_INFO_NAMED(NODE_NAME, "end effector name %s\n", link_model_names.back().c_str());
 
