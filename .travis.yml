@@ -11,6 +11,7 @@ env:
   global:
     - SCRIPT=.moveit_ci/travis.sh
     - ROS_DISTRO=noetic
+    - ROS_REPO=ros-testing
     - CXXFLAGS="-Wall -Wextra -Wwrite-strings -Wunreachable-code -Wpointer-arith -Wredundant-decls"
     - WARNINGS_OK=false
     - UPSTREAM_WORKSPACE="https://github.com/ros-planning/moveit_visual_tools
@@ -19,7 +20,7 @@ env:
     - SCRIPT=htmlproofer.sh
     - TEST="clang-format catkin_lint"
     - TEST="clang-tidy-fix"
-    - DOCKER_IMAGE=moveit/moveit:master-source
+    - DOCKER_IMAGE=moveit/moveit:master-source  ROS_REPO=
 
 before_script:
   - git clone -q --depth=1 https://github.com/ros-planning/moveit_ci.git .moveit_ci
