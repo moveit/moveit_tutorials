@@ -14,6 +14,8 @@ env:
     - ROS_DISTRO=noetic
     - CXXFLAGS="-Wall -Wextra -Wwrite-strings -Wunreachable-code -Wpointer-arith -Wredundant-decls"
     - WARNINGS_OK=false
+    - UPSTREAM_WORKSPACE="https://github.com/ros-planning/moveit_visual_tools
+                          https://github.com/ros-planning/panda_moveit_config"
   matrix:
     - TEST="clang-format catkin_lint"
     - TEST="clang-tidy-fix"
