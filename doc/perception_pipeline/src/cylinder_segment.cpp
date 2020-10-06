@@ -112,7 +112,7 @@ public:
      cylinder_params.
       @param cloud - Pointcloud containing just the cylinder.
       @param cylinder_params - Pointer to the struct AddCylinderParams. */
-  void extractLocationHeight(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud)
+  void extractLocationHeight(const pcl::PointCloud<pcl::PointXYZRGB>::Ptr& cloud)
   {
     double max_angle_y = 0.0;
     double min_angle_y = std::numeric_limits<double>::infinity();
@@ -165,7 +165,7 @@ public:
 
   /** \brief Given a pointcloud extract the ROI defined by the user.
       @param cloud - Pointcloud whose ROI needs to be extracted. */
-  void passThroughFilter(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud)
+  void passThroughFilter(const pcl::PointCloud<pcl::PointXYZRGB>::Ptr& cloud)
   {
     pcl::PassThrough<pcl::PointXYZRGB> pass;
     pass.setInputCloud(cloud);
@@ -178,7 +178,8 @@ public:
   /** \brief Given the pointcloud and pointer cloud_normals compute the point normals and store in cloud_normals.
       @param cloud - Pointcloud.
       @param cloud_normals - The point normals once computer will be stored in this. */
-  void computeNormals(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, pcl::PointCloud<pcl::Normal>::Ptr cloud_normals)
+  void computeNormals(const pcl::PointCloud<pcl::PointXYZRGB>::Ptr& cloud,
+                      const pcl::PointCloud<pcl::Normal>::Ptr& cloud_normals)
   {
     pcl::search::KdTree<pcl::PointXYZRGB>::Ptr tree(new pcl::search::KdTree<pcl::PointXYZRGB>());
     pcl::NormalEstimation<pcl::PointXYZRGB, pcl::Normal> ne;
@@ -192,7 +193,8 @@ public:
   /** \brief Given the point normals and point indices, extract the normals for the indices.
       @param cloud_normals - Point normals.
       @param inliers_plane - Indices whose normals need to be extracted. */
-  void extractNormals(pcl::PointCloud<pcl::Normal>::Ptr cloud_normals, pcl::PointIndices::Ptr inliers_plane)
+  void extractNormals(const pcl::PointCloud<pcl::Normal>::Ptr& cloud_normals,
+                      const pcl::PointIndices::Ptr& inliers_plane)
   {
     pcl::ExtractIndices<pcl::Normal> extract_normals;
     extract_normals.setNegative(true);
@@ -204,7 +206,8 @@ public:
   /** \brief Given the pointcloud and indices of the plane, remove the plannar region from the pointcloud.
       @param cloud - Pointcloud.
       @param inliers_plane - Indices representing the plane. */
-  void removePlaneSurface(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, pcl::PointIndices::Ptr inliers_plane)
+  void removePlaneSurface(const pcl::PointCloud<pcl::PointXYZRGB>::Ptr& cloud,
+                          const pcl::PointIndices::Ptr& inliers_plane)
   {
     // create a SAC segmenter without using normals
     pcl::SACSegmentation<pcl::PointXYZRGB> segmentor;
@@ -233,8 +236,9 @@ public:
       @param cloud - Pointcloud whose plane is removed.
       @param coefficients_cylinder - Cylinder parameters used to define an infinite cylinder will be stored here.
       @param cloud_normals - Point normals corresponding to the plane on which cylinder is kept */
-  void extractCylinder(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, pcl::ModelCoefficients::Ptr coefficients_cylinder,
-                       pcl::PointCloud<pcl::Normal>::Ptr cloud_normals)
+  void extractCylinder(const pcl::PointCloud<pcl::PointXYZRGB>::Ptr& cloud,
+                       const pcl::ModelCoefficients::Ptr& coefficients_cylinder,
+                       const pcl::PointCloud<pcl::Normal>::Ptr& cloud_normals)
   {
     // Create the segmentation object for cylinder segmentation and set all the parameters
     pcl::SACSegmentationFromNormals<pcl::PointXYZRGB, pcl::Normal> segmentor;

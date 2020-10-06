@@ -78,7 +78,7 @@ int main(int argc, char** argv)
   // but this method of instantiation is only intended for illustration.
 
   robot_model_loader::RobotModelLoader robot_model_loader("robot_description");
-  moveit::core::RobotModelPtr kinematic_model = robot_model_loader.getModel();
+  const moveit::core::RobotModelPtr& kinematic_model = robot_model_loader.getModel();
   planning_scene::PlanningScene planning_scene(kinematic_model);
 
   // Collision Checking

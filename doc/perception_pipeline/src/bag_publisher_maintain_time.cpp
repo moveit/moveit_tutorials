@@ -63,7 +63,7 @@ int main(int argc, char** argv)
   for (auto const msg : bagtopics_iter)
   {
     sensor_msgs::PointCloud2::Ptr point_cloud_ptr = msg.instantiate<sensor_msgs::PointCloud2>();
-    if (point_cloud_ptr == NULL)
+    if (point_cloud_ptr == nullptr)
     {
       std::cout << "error" << std::endl;
       break;

@@ -41,6 +41,7 @@
 
 #include <interactive_markers/interactive_marker_server.h>
 #include <Eigen/Geometry>
+#include <utility>
 
 /* Interactive marker.
  *
@@ -69,7 +70,8 @@ public:
           Dof dof = BOTH)
     : imarker_()
   {
-    initialize(server, name, Eigen::Vector3d(0, 0, 0), Eigen::Quaterniond(1, 0, 0, 0), frame_id, callback, dof);
+    initialize(server, name, Eigen::Vector3d(0, 0, 0), Eigen::Quaterniond(1, 0, 0, 0), frame_id, std::move(callback),
+               dof);
   }
 
   /** create an interactive marker with an initial pose */
@@ -82,7 +84,7 @@ public:
     Eigen::Quaterniond q(pose.linear());
     Eigen::Vector3d p = pose.translation();
 
-    initialize(server, name, p, q, frame_id, callback, dof);
+    initialize(server, name, p, q, frame_id, std::move(callback), dof);
   }
 
   /** create an interactive marker with an initial pose */
@@ -93,7 +95,7 @@ public:
           Dof dof = BOTH)
     : imarker_()
   {
-    initialize(server, name, position, orientation, frame_id, callback, dof);
+    initialize(server, name, position, orientation, frame_id, std::move(callback), dof);
   }
 
   /** create an interactive marker with an initial position */
@@ -103,14 +105,14 @@ public:
           Dof dof = BOTH)
     : imarker_()
   {
-    initialize(server, name, position, Eigen::Quaterniond(1, 0, 0, 0), frame_id, callback, dof);
+    initialize(server, name, position, Eigen::Quaterniond(1, 0, 0, 0), frame_id, std::move(callback), dof);
   }
 
   /** move marker to new pose */
   void move(const Eigen::Isometry3d& pose);
 
   /** default callback which just prints new position and orientation */
-  static void printFeedback(const visualization_msgs::InteractiveMarkerFeedbackConstPtr&);
+  static void printFeedback(const visualization_msgs::InteractiveMarkerFeedbackConstPtr& /*feedback*/);
 
 private:
   /* called by constructors */

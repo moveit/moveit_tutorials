@@ -230,10 +230,9 @@ int main(int argc, char** argv)
   for (int timestep_index = 0; timestep_index < response.trajectory.joint_trajectory.points.size(); ++timestep_index)
   {
     std::stringstream joint_values_stream;
-    for (int joint_index = 0;
-         joint_index < response.trajectory.joint_trajectory.points[timestep_index].positions.size(); ++joint_index)
+    for (double position : response.trajectory.joint_trajectory.points[timestep_index].positions)
     {
-      joint_values_stream << response.trajectory.joint_trajectory.points[timestep_index].positions[joint_index] << " ";
+      joint_values_stream << position << " ";
     }
     ROS_DEBUG_STREAM_NAMED(NODE_NAME, "step: " << timestep_index << " joints positions: " << joint_values_stream.str());
   }
