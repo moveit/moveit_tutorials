@@ -42,7 +42,7 @@ To achieve this, follow the steps:
 
     <arg name="planning_adapters"
          value="default_planner_request_adapters/AddTimeParameterization
-        default_planner_request_adapters/FixWorkspaceBounds
+                default_planner_request_adapters/FixWorkspaceBounds
                 default_planner_request_adapters/FixStartStateBounds
                 default_planner_request_adapters/FixStartStateCollision
                 default_planner_request_adapters/FixStartStatePathConstraints
