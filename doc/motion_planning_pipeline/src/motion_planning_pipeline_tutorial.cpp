@@ -63,7 +63,7 @@ int main(int argc, char** argv)
   // parameter server and construct a :moveit_core:`RobotModel` for us to use.
   //
   // .. _RobotModelLoader:
-  //     http://docs.ros.org/indigo/api/moveit_ros_planning/html/classrobot__model__loader_1_1RobotModelLoader.html
+  //     http://docs.ros.org/melodic/api/moveit_ros_planning/html/classrobot__model__loader_1_1RobotModelLoader.html
   robot_model_loader::RobotModelLoader robot_model_loader("robot_description");
   robot_model::RobotModelPtr robot_model = robot_model_loader.getModel();
 
@@ -130,7 +130,7 @@ int main(int argc, char** argv)
   // package.
   //
   // .. _kinematic_constraints:
-  //     http://docs.ros.org/indigo/api/moveit_core/html/namespacekinematic__constraints.html#a88becba14be9ced36fefc7980271e132
+  //     http://docs.ros.org/melodic/api/moveit_core/html/namespacekinematic__constraints.html#a88becba14be9ced36fefc7980271e132
   req.group_name = "panda_arm";
   moveit_msgs::Constraints pose_goal =
       kinematic_constraints::constructGoalConstraints("panda_link8", pose, tolerance_pose, tolerance_angle);
