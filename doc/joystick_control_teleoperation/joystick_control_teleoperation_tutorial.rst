@@ -36,7 +36,7 @@ This script can handle the following types of joysticks:
 1. PS3 Controller via USB
 2. PS3 Controller via Bluetooth (Please use ps3joy package at `http://wiki.ros.org/ps3joy <http://wiki.ros.org/ps3joy>`_)
 3. PS4 Controller via USB
-4. PS4 Controller via Bluetooth (Please use ds4_driver package at `http://wiki.ros.org/ds4_driver <http://wiki.ros.org/ds4_driver>`_) 
+4. PS4 Controller via Bluetooth (Please use ds4_driver package at `http://wiki.ros.org/ds4_driver <http://wiki.ros.org/ds4_driver>`_)
 5. XBox360 Controller via USB
 6. Arctic USB Wireless `Gamepad <https://www.arctic.ac/eu_en/usb-wireless-gamepad.html>`_
 

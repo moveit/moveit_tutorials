@@ -87,12 +87,12 @@ And the following optimization objectives are available:
 
 The configuration of these optimization objectives can be done in the *ompl_planning.yaml*. A parameter with the name **optimization_objective** is added as a configuration parameter. The value of the parameter is set to be the name of the selected optimization objective. For example, to configure RRTstar to use the *MaximizeMinClearanceObjective*, the planner entry in the ompl_planning.yaml will look like: ::
 
-	RRTstarkConfigDefault:
-	    type: geometric::RRTstar
-	    optimization_objective: MaximizeMinClearanceObjective
-	    range: 0.0
-	    goal_bias: 0.05
-	    delay_collision_checking: 1
+    RRTstarkConfigDefault:
+        type: geometric::RRTstar
+        optimization_objective: MaximizeMinClearanceObjective
+        range: 0.0
+        goal_bias: 0.05
+        delay_collision_checking: 1
 
 Other optimization objectives can be defined programmatically. For more information on the OMPL optimal planners, the reader is referred to the `OMPL - Optimal Planning documentation <http://ompl.kavrakilab.org/optimalPlanning.html>`_.
 
@@ -110,12 +110,12 @@ In all cases, the planner will terminate when either the user-specified terminat
 
 For example, to specify that RRTstar should terminate upon convergence, the following settings could be used: ::
 
-	RRTstarkConfigDefault:
-	    type: geometric::RRTstar
-	    termination_condition: CostConvergence[10,.1]
-	    range: 0.0
-	    goal_bias: 0.05
-	    delay_collision_checking: 1
+    RRTstarkConfigDefault:
+        type: geometric::RRTstar
+        termination_condition: CostConvergence[10,.1]
+        range: 0.0
+        goal_bias: 0.05
+        delay_collision_checking: 1
 
 Note that no optimization objective is specified, so the default one, PathLengthOptimizationObjective, will be used.
 
@@ -135,28 +135,28 @@ Persistent Roadmaps
 
 By default the planning algorithms start from scratch for each motion planning request. However, for certain planners that build a roadmap of the environment, it may be beneficial to reuse the roadmap from previous motion planning requests if the planning scene is more or less static. Consider the following planning configurations: ::
 
-	PersistentLazyPRMstar: # use this with a representative environment to create a roadmap
-	    type: geometric::LazyPRMstar
-	    multi_query_planning_enabled: true
-	    store_planner_data: true
-	    load_planner_data: false
-	    planner_data_path: /tmp/roadmap.graph
-	PersistentLazyPRM: # use this to load a previously created roadmap
-	    type: geometric::LazyPRM
-	    multi_query_planning_enabled: true
-	    store_planner_data: false
-	    load_planner_data: true
-	    planner_data_path: /tmp/roadmap.graph
-	SemiPersistentLazyPRMstar: # reuses roadmap during lifetime of node but doesn't save/load roadmap to/from disk
-	    type: geometric::LazyPRMstar
-	    multi_query_planning_enabled: true
-	    store_planner_data: false
-	    load_planner_data: false
-	SemiPersistentLazyPRM: # reuses roadmap during lifetime of node but doesn't save/load roadmap to/from disk
-	    type: geometric::LazyPRM
-	    multi_query_planning_enabled: true
-	    store_planner_data: false
-	    load_planner_data: false
+    PersistentLazyPRMstar: # use this with a representative environment to create a roadmap
+        type: geometric::LazyPRMstar
+        multi_query_planning_enabled: true
+        store_planner_data: true
+        load_planner_data: false
+        planner_data_path: /tmp/roadmap.graph
+    PersistentLazyPRM: # use this to load a previously created roadmap
+        type: geometric::LazyPRM
+        multi_query_planning_enabled: true
+        store_planner_data: false
+        load_planner_data: true
+        planner_data_path: /tmp/roadmap.graph
+    SemiPersistentLazyPRMstar: # reuses roadmap during lifetime of node but doesn't save/load roadmap to/from disk
+        type: geometric::LazyPRMstar
+        multi_query_planning_enabled: true
+        store_planner_data: false
+        load_planner_data: false
+    SemiPersistentLazyPRM: # reuses roadmap during lifetime of node but doesn't save/load roadmap to/from disk
+        type: geometric::LazyPRM
+        multi_query_planning_enabled: true
+        store_planner_data: false
+        load_planner_data: false
 
 The first planner configuration, `PersistentLazyPRMstar`, will use LazyPRM* to keep growing a roadmap of asymptotically optimal paths between sampled robot configurations with each motion planning request. Upon destruction of the planner instance, it will save the roadmap to disk. The `PersistentLazyPRM` configuration is similar, except it will *load* a roadmap from disk but not *save* it upon destruction. The `SemiPersistent` planner configurations do not load/save roadmaps, but do keep extending a roadmap with each motion planning request (rather than the default behavior of clearing it before planning). The four planners that support the persistent planning features are: PRM, PRM*, LazyPRM, and LazyPRM*. The critical difference between them is that the lazy variants will re-validate the validity of nodes and edges as needed when searching the roadmap for a valid path. The non-lazy variants will not check if the roadmap is still valid for the current environment. In other words, use the non-lazy variants for static environments, the lazy variants for environments with small changes, and a non-persistent planner if the environment can change significantly.
 
