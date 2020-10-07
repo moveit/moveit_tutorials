@@ -44,6 +44,9 @@
 #include <moveit/robot_model/robot_model.h>
 #include <moveit/robot_state/robot_state.h>
 #include <moveit_msgs/DisplayRobotState.h>
+
+#include <utility>
+
 #include "imarker.h"
 
 /** Keeps track of the state of the robot and the world.
@@ -71,7 +74,7 @@ public:
   /** set a callback to call when updates occur */
   void setUserCallback(boost::function<void(InteractiveRobot& robot)> callback)
   {
-    user_callback_ = callback;
+    user_callback_ = std::move(callback);
   }
 
   /** access RobotModel */

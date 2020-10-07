@@ -77,7 +77,9 @@ bool LERPInterface::solve(const planning_scene::PlanningSceneConstPtr& planning_
   std::vector<moveit_msgs::JointConstraint> goal_joint_constraint = goal_constraints[0].joint_constraints;
 
   std::vector<double> goal_joint_values;
-  for (auto constraint : goal_joint_constraint)
+  goal_joint_values.reserve(goal_joint_constraint.size());
+
+  for (const auto& constraint : goal_joint_constraint)
   {
     goal_joint_values.push_back(constraint.position);
   }
@@ -102,7 +104,7 @@ bool LERPInterface::solve(const planning_scene::PlanningSceneConstPtr& planning_
   return true;
 }
 
-void LERPInterface::interpolate(const std::vector<std::string> joint_names, moveit::core::RobotStatePtr& rob_state,
+void LERPInterface::interpolate(const std::vector<std::string>& joint_names, moveit::core::RobotStatePtr& rob_state,
                                 const moveit::core::JointModelGroup* joint_model_group,
                                 const std::vector<double>& start_joint_vals, const std::vector<double>& goal_joint_vals,
                                 trajectory_msgs::JointTrajectory& joint_trajectory)

@@ -47,9 +47,9 @@
 #include <moveit/collision_detection_fcl/collision_env_fcl.h>
 #include <moveit/collision_detection/collision_tools.h>
 
-planning_scene::PlanningScene* g_planning_scene = 0;
+planning_scene::PlanningScene* g_planning_scene = nullptr;
 shapes::ShapePtr g_world_cube_shape;
-ros::Publisher* g_marker_array_publisher = 0;
+ros::Publisher* g_marker_array_publisher = nullptr;
 visualization_msgs::MarkerArray g_collision_points;
 
 void help()
@@ -74,10 +74,10 @@ void help()
 void publishMarkers(visualization_msgs::MarkerArray& markers)
 {
   // delete old markers
-  if (g_collision_points.markers.size())
+  if (!g_collision_points.markers.empty())
   {
-    for (int i = 0; i < g_collision_points.markers.size(); i++)
-      g_collision_points.markers[i].action = visualization_msgs::Marker::DELETE;
+    for (auto& marker : g_collision_points.markers)
+      marker.action = visualization_msgs::Marker::DELETE;
 
     g_marker_array_publisher->publish(g_collision_points);
   }
@@ -86,7 +86,7 @@ void publishMarkers(visualization_msgs::MarkerArray& markers)
   std::swap(g_collision_points.markers, markers.markers);
 
   // draw new markers (if there are any)
-  if (g_collision_points.markers.size())
+  if (!g_collision_points.markers.empty())
     g_marker_array_publisher->publish(g_collision_points);
 }
 

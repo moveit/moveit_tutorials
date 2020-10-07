@@ -52,23 +52,18 @@ const ros::Duration InteractiveRobot::min_delay_(0.01);
 
 InteractiveRobot::InteractiveRobot(const std::string& robot_description, const std::string& robot_topic,
                                    const std::string& marker_topic, const std::string& imarker_topic)
-  :  // this node handle is used to create the publishers
-  nh_()
-  ,
+  : user_data_(nullptr)
+  , nh_()  // this node handle is used to create the publishers
   // create publishers for markers and robot state
-  robot_state_publisher_(nh_.advertise<moveit_msgs::DisplayRobotState>(robot_topic, 1))
+  , robot_state_publisher_(nh_.advertise<moveit_msgs::DisplayRobotState>(robot_topic, 1))
   , world_state_publisher_(nh_.advertise<visualization_msgs::Marker>(marker_topic, 100))
-  ,
   // create an interactive marker server for displaying interactive markers
-  interactive_marker_server_(imarker_topic)
-  , imarker_robot_(0)
-  , imarker_world_(0)
-  ,
+  , interactive_marker_server_(imarker_topic)
+  , imarker_robot_(nullptr)
+  , imarker_world_(nullptr)
   // load the robot description
-  rm_loader_(robot_description)
-  , group_(0)
-  , user_data_(0)
-  , user_callback_(0)
+  , rm_loader_(robot_description)
+  , group_(nullptr)
 {
   // get the RobotModel loaded from urdf and srdf files
   robot_model_ = rm_loader_.getModel();
@@ -209,7 +204,7 @@ void InteractiveRobot::scheduleUpdate()
 }
 
 /* callback called when it is time to publish */
-void InteractiveRobot::updateCallback(const ros::TimerEvent& e)
+void InteractiveRobot::updateCallback(const ros::TimerEvent& /*event*/)
 {
   ros::Time tbegin = ros::Time::now();
   publish_timer_.stop();
