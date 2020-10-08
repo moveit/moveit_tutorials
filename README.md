@@ -27,6 +27,7 @@ It has been tested on Ubuntu 16.04 with ROS Kinetic pre-installed. Run in the ro
 
     export ROS_DISTRO=kinetic # 16.04
     export ROS_DISTRO=melodic # 18.04
+    export ROS_DISTRO=noetic  # 20.04
 
     source /opt/ros/$ROS_DISTRO/setup.bash
     ./build_locally.sh
