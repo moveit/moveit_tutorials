@@ -5,7 +5,7 @@ This tutorial will install MoveIt and create a workspace sandbox to run the tuto
 
 Install ROS and Catkin
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-`Install ROS Melodic <http://wiki.ros.org/melodic/Installation/Ubuntu>`_.
+`Install ROS Noetic <http://wiki.ros.org/noetic/Installation/Ubuntu>`_.
 It is easy to miss steps when going through the ROS installation tutorial. If you run into errors in the next few steps, a good place to start is to go back and make sure you have installed ROS correctly.
 
 Once you have ROS installed, make sure you have the most up to date packages: ::
@@ -48,7 +48,7 @@ Build your Catkin Workspace
 The following will install from Debian any package dependencies not already in your workspace: ::
 
   cd ~/ws_moveit/src
-  rosdep install -y --from-paths . --ignore-src --rosdistro melodic
+  rosdep install -y --from-paths . --ignore-src --rosdistro noetic
 
 The next command will configure your catkin workspace: ::
 

@@ -18,9 +18,9 @@ project = u'moveit_tutorials'
 # built documents.
 #
 # The short X.Y version.
-version = 'Melodic'
+version = 'Noetic'
 # The full version, including alpha/beta/rc tags.
-release = 'Melodic'
+release = 'Noetic'
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'
@@ -49,7 +49,7 @@ html_context = {
 # Add any paths that contain custom themes here, relative to this directory.
 
 # Links
-ros_distro = 'melodic'
+ros_distro = 'noetic'
 extlinks = {'codedir': ('https://github.com/' + html_context["github_user"] + '/moveit_tutorials/blob/' + html_context["github_version"] + '/doc/%s', ''),
             'moveit_codedir': ('https://github.com/' + html_context["github_user"] + '/moveit/blob/' + html_context["github_version"] + '/%s', ''),
             'panda_codedir': ('https://github.com/' + html_context["github_user"] + '/panda_moveit_config/blob/' + ros_distro + '-devel' + '/%s', ''),

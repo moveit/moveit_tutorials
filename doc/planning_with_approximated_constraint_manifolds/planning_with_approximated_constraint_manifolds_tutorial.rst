@@ -97,7 +97,7 @@ VisibilityConstraint
 
 A ``VisibilityConstraint`` allows to eg. specify a camera should always be able to see the gripper.
 
-How this is achieved is best explained by the `VisibilityConstraint <https://docs.ros.org/melodic/api/moveit_core/html/classkinematic__constraints_1_1VisibilityConstraint.html#details>`_ class documentation.
+How this is achieved is best explained by the `VisibilityConstraint <https://docs.ros.org/noetic/api/moveit_core/html/classkinematic__constraints_1_1VisibilityConstraint.html#details>`_ class documentation.
 
 Such a constraint is compactly defined like this::
 
@@ -128,7 +128,7 @@ The file with the constraint definitions can be passed to the launch file::
 Internals
 ^^^^^^^^^
 
-The main functionality is implemented in the `ConstraintsLibrary <http://docs.ros.org/melodic/api/moveit_planners_ompl/html/classompl__interface_1_1ConstraintsLibrary.html>`_ class.
+The main functionality is implemented in the `ConstraintsLibrary <http://docs.ros.org/noetic/api/moveit_planners_ompl/html/classompl__interface_1_1ConstraintsLibrary.html>`_ class.
 
 Constraints are added by calling ``addConstraintApproximation()`` which can be called subsequently to include multiple constraints in the approximation.
 The function requires four parameters:

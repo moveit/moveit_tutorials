@@ -71,7 +71,7 @@ Test coverage measures the lines of code that are executed while running the tes
 To accumulate statistics and create a html coverage report, build the code without optimization
 and run the special `_coverage` target::
 
-  sudo apt-get install ros-melodic-code-coverage
+  sudo apt-get install ros-noetic-code-coverage
   catkin config --cmake-args -DENABLE_COVERAGE_TESTING=ON -DCMAKE_BUILD_TYPE=Debug
   catkin build
   catkin build moveit_core -v --no-deps --catkin-make-args moveit_core_coverage
