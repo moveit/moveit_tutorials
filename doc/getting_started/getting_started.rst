@@ -11,8 +11,8 @@ It is easy to miss steps when going through the ROS installation tutorial. If yo
 Once you have ROS installed, make sure you have the most up to date packages: ::
 
   rosdep update
-  sudo apt-get update
-  sudo apt-get dist-upgrade
+  sudo apt update
+  sudo apt dist-upgrade
 
 Install `catkin <http://wiki.ros.org/catkin>`_ the ROS build system: ::
 

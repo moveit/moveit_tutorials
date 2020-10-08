@@ -25,7 +25,7 @@ MoveIt and ROS
 * If you haven't already done so, make sure you have the `Franka description
   package <https://github.com/frankaemika/franka_ros>`_ for Noetic: ::
 
-    sudo apt-get install ros-noetic-franka-description
+    sudo apt install ros-noetic-franka-description
 
 * If you have the ``panda_moveit_config`` package already git-cloned from the *Getting Started* page, be sure to delete that now since this tutorial will teach you how to create it from scratch: ::
 
