@@ -52,7 +52,7 @@ html_context = {
 ros_distro = 'noetic'
 extlinks = {'codedir': ('https://github.com/' + html_context["github_user"] + '/moveit_tutorials/blob/' + html_context["github_version"] + '/doc/%s', ''),
             'moveit_codedir': ('https://github.com/' + html_context["github_user"] + '/moveit/blob/' + html_context["github_version"] + '/%s', ''),
-            'panda_codedir': ('https://github.com/' + html_context["github_user"] + '/panda_moveit_config/blob/' + ros_distro + '-devel' + '/%s', ''),
+            'panda_codedir': ('https://github.com/' + html_context["github_user"] + '/panda_moveit_config/blob/' + 'melodic-devel' + '/%s', ''),  # TODO(dlu): use ros_distro when noetic-devel branch is available
             'rosdocs': ('http://docs.ros.org/' + ros_distro + '/api/%s', ''),
             'moveit_core': ('http://docs.ros.org/' + ros_distro + '/api/moveit_core/html/classmoveit_1_1core_1_1%s.html', ''),
             'planning_scene': ('http://docs.ros.org/' + ros_distro + '/api/moveit_core/html/classplanning__scene_1_1%s.html', ''),
