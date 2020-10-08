@@ -292,14 +292,14 @@ int main(int argc, char** argv)
 
   // Cartesian motions should often be slow, e.g. when approaching objects. The speed of cartesian
   // plans cannot currently be set through the maxVelocityScalingFactor, but requires you to time
-  // the trajectory manually, as described [here](https://groups.google.com/forum/#!topic/moveit-users/MOoFxy2exT4).
+  // the trajectory manually, as described `here <https://groups.google.com/forum/#!topic/moveit-users/MOoFxy2exT4>`_.
   // Pull requests are welcome.
-
+  //
   // You can execute a trajectory like this.
   move_group.execute(trajectory);
 
-  // Adding/Removing Objects and Attaching/Detaching Objects
-  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  // Adding Objects to Avoid
+  // ^^^^^^^^^^^^^^^^^^^^^^^
   //
   // Define a collision object ROS message.
   moveit_msgs::CollisionObject collision_object;
@@ -360,38 +360,75 @@ int main(int argc, char** argv)
   visual_tools.trigger();
   visual_tools.prompt("next step");
 
-  // Now, let's attach the collision object to the robot.
-  ROS_INFO_NAMED("tutorial", "Attach the object to the robot");
-  move_group.attachObject(collision_object.id);
+  // Attaching Objects
+  // ^^^^^^^^^^^^^^^^^
+  //
+  // Now, let's attach a different type of collision object to the robot, for the purposes of "manipulating" it.
+  moveit_msgs::CollisionObject attachment_object;
+  attachment_object.id = "box2";
 
-  // Show text in RViz of status
+  shape_msgs::SolidPrimitive another_primitive;
+  another_primitive.type = primitive.BOX;
+  another_primitive.dimensions.resize(3);
+  another_primitive.dimensions[0] = 0.1;
+  another_primitive.dimensions[1] = 0.1;
+  another_primitive.dimensions[2] = 0.1;
+
+  // We define the frame/pose for this box so that it appears in the gripper
+  attachment_object.header.frame_id = move_group.getEndEffectorLink();
+  geometry_msgs::Pose grab_pose;
+  grab_pose.orientation.w = 1.0;
+  grab_pose.position.z = 0.07;
+
+  // Now we go through the process to add it to the world
+  attachment_object.primitives.push_back(another_primitive);
+  attachment_object.primitive_poses.push_back(grab_pose);
+  attachment_object.operation = attachment_object.ADD;
+
+  std::vector<moveit_msgs::CollisionObject> attachment_objects;
+  attachment_objects.push_back(attachment_object);
+  planning_scene_interface.addCollisionObjects(attachment_objects);
+
+  // However, now we also "attach" the object to the robot. It uses the frame_id to determine where to attach
+  ROS_INFO_NAMED("tutorial", "Attach the object to the robot");
+  move_group.attachObject(attachment_object.id);
+
   visual_tools.publishText(text_pose, "Object attached to robot", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
 
   /* Wait for MoveGroup to receive and process the attached collision object message */
-  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to once the collision object attaches to the "
-                      "robot");
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to once the new object attaches to the robot");
 
-  // Now, let's detach the collision object from the robot.
+  // Replan, but now with the object in hand.
+  success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+  ROS_INFO_NAMED("tutorial", "Visualizing plan 6 (move around cuboid with cuboid) %s", success ? "" : "FAILED");
+  visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group);
+  visual_tools.trigger();
+  visual_tools.prompt("next step");
+
+  // Detatching and Removing Objects
+  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  //
+  // Now, let's detach the box from the robot's gripper.
   ROS_INFO_NAMED("tutorial", "Detach the object from the robot");
-  move_group.detachObject(collision_object.id);
+  move_group.detachObject(attachment_object.id);
 
   // Show text in RViz of status
-  visual_tools.publishText(text_pose, "Object dettached from robot", rvt::WHITE, rvt::XLARGE);
+  visual_tools.publishText(text_pose, "Object detached from robot", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
 
   /* Wait for MoveGroup to receive and process the attached collision object message */
-  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to once the collision object detaches to the "
-                      "robot");
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to once the new object detaches from the robot");
 
-  // Now, let's remove the collision object from the world.
-  ROS_INFO_NAMED("tutorial", "Remove the object from the world");
+  // Now, let's remove the objects from the world.
+  ROS_INFO_NAMED("tutorial", "Remove the objects from the world");
   std::vector<std::string> object_ids;
   object_ids.push_back(collision_object.id);
+  object_ids.push_back(attachment_object.id);
   planning_scene_interface.removeCollisionObjects(object_ids);
 
   // Show text in RViz of status
-  visual_tools.publishText(text_pose, "Object removed", rvt::WHITE, rvt::XLARGE);
+  visual_tools.publishText(text_pose, "Objects removed", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
 
   /* Wait for MoveGroup to receive and process the attached collision object message */
