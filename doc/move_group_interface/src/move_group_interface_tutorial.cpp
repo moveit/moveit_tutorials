@@ -298,7 +298,7 @@ int main(int argc, char** argv)
   // You can execute a trajectory like this.
   move_group.execute(trajectory);
 
-  // Adding Objects to Avoid
+  // Adding objects to the environment
   // ^^^^^^^^^^^^^^^^^^^^^^^
   //
   // Define a collision object ROS message.
@@ -360,10 +360,10 @@ int main(int argc, char** argv)
   visual_tools.trigger();
   visual_tools.prompt("next step");
 
-  // Attaching Objects
+  // Attaching objects to the robot
   // ^^^^^^^^^^^^^^^^^
   //
-  // Now, let's attach a different type of collision object to the robot, for the purposes of "manipulating" it.
+  // You can attach objects to the robot, so that it moves with the robot geometry. This simulates picking up the object for the purpose of manipulating it. The motion planning will avoid collisions between the two objects as well.
   moveit_msgs::CollisionObject attachment_object;
   attachment_object.id = "box2";
 
@@ -380,7 +380,7 @@ int main(int argc, char** argv)
   grab_pose.orientation.w = 1.0;
   grab_pose.position.z = 0.07;
 
-  // Now we go through the process to add it to the world
+  // First, we add the object to the world
   attachment_object.primitives.push_back(another_primitive);
   attachment_object.primitive_poses.push_back(grab_pose);
   attachment_object.operation = attachment_object.ADD;
@@ -389,7 +389,7 @@ int main(int argc, char** argv)
   attachment_objects.push_back(attachment_object);
   planning_scene_interface.addCollisionObjects(attachment_objects);
 
-  // However, now we also "attach" the object to the robot. It uses the frame_id to determine where to attach
+  // Then, we "attach" the object to the robot. It uses the frame_id to determine which robot link it is attached to.
   ROS_INFO_NAMED("tutorial", "Attach the object to the robot");
   move_group.attachObject(attachment_object.id);
 
@@ -397,7 +397,7 @@ int main(int argc, char** argv)
   visual_tools.trigger();
 
   /* Wait for MoveGroup to receive and process the attached collision object message */
-  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to once the new object attaches to the robot");
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window once the new object is attached to the robot");
 
   // Replan, but now with the object in hand.
   success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
@@ -406,7 +406,7 @@ int main(int argc, char** argv)
   visual_tools.trigger();
   visual_tools.prompt("next step");
 
-  // Detatching and Removing Objects
+  // Detaching and Removing Objects
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   //
   // Now, let's detach the box from the robot's gripper.
@@ -418,7 +418,7 @@ int main(int argc, char** argv)
   visual_tools.trigger();
 
   /* Wait for MoveGroup to receive and process the attached collision object message */
-  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to once the new object detaches from the robot");
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window once the new object is detached from the robot");
 
   // Now, let's remove the objects from the world.
   ROS_INFO_NAMED("tutorial", "Remove the objects from the world");
