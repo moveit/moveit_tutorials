@@ -91,23 +91,24 @@ int main(int argc, char** argv)
   // subtract the object from the world
   // and to attach the object to the robot.
   moveit_msgs::AttachedCollisionObject attached_object;
-  attached_object.link_name = "panda_leftfinger";
+  attached_object.link_name = "panda_hand";
   /* The header must contain a valid TF frame*/
-  attached_object.object.header.frame_id = "panda_leftfinger";
+  attached_object.object.header.frame_id = "panda_hand";
   /* The id of the object */
   attached_object.object.id = "box";
 
   /* A default pose */
   geometry_msgs::Pose pose;
+  pose.position.z = 0.11;
   pose.orientation.w = 1.0;
 
   /* Define a box to be attached */
   shape_msgs::SolidPrimitive primitive;
   primitive.type = primitive.BOX;
   primitive.dimensions.resize(3);
-  primitive.dimensions[0] = 0.1;
-  primitive.dimensions[1] = 0.1;
-  primitive.dimensions[2] = 0.1;
+  primitive.dimensions[0] = 0.075;
+  primitive.dimensions[1] = 0.075;
+  primitive.dimensions[2] = 0.075;
 
   attached_object.object.primitives.push_back(primitive);
   attached_object.object.primitive_poses.push_back(pose);
@@ -170,7 +171,7 @@ int main(int argc, char** argv)
   /* First, define the REMOVE object message*/
   moveit_msgs::CollisionObject remove_object;
   remove_object.id = "box";
-  remove_object.header.frame_id = "panda_link0";
+  remove_object.header.frame_id = "panda_hand";
   remove_object.operation = remove_object.REMOVE;
 
   // Note how we make sure that the diff message contains no other
@@ -181,6 +182,7 @@ int main(int argc, char** argv)
   planning_scene.world.collision_objects.clear();
   planning_scene.world.collision_objects.push_back(remove_object);
   planning_scene.robot_state.attached_collision_objects.push_back(attached_object);
+  planning_scene.robot_state.is_diff = true;
   planning_scene_diff_publisher.publish(planning_scene);
 
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
@@ -194,7 +196,7 @@ int main(int argc, char** argv)
   /* First, define the DETACH object message*/
   moveit_msgs::AttachedCollisionObject detach_object;
   detach_object.object.id = "box";
-  detach_object.link_name = "panda_link8";
+  detach_object.link_name = "panda_hand";
   detach_object.object.operation = attached_object.object.REMOVE;
 
   // Note how we make sure that the diff message contains no other
