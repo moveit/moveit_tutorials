@@ -89,7 +89,7 @@ int main(int argc, char** argv)
 
   // RViz provides many types of markers, in this demo we will use text, cylinders, and spheres
   Eigen::Isometry3d text_pose = Eigen::Isometry3d::Identity();
-  text_pose.translation().z() = 1.75;
+  text_pose.translation().z() = 1.0;
   visual_tools.publishText(text_pose, "MoveGroupInterface Demo", rvt::WHITE, rvt::XLARGE);
 
   // Batch publishing is used to reduce the number of messages being sent to RViz for large visualizations
@@ -301,7 +301,7 @@ int main(int argc, char** argv)
   // Adding objects to the environment
   // ^^^^^^^^^^^^^^^^^^^^^^^
   //
-  // Define a collision object ROS message.
+  // Define a collision object ROS message for the robot to avoid.
   moveit_msgs::CollisionObject collision_object;
   collision_object.header.frame_id = move_group.getPlanningFrame();
 
@@ -312,9 +312,9 @@ int main(int argc, char** argv)
   shape_msgs::SolidPrimitive primitive;
   primitive.type = primitive.BOX;
   primitive.dimensions.resize(3);
-  primitive.dimensions[0] = 0.4;
-  primitive.dimensions[1] = 0.1;
-  primitive.dimensions[2] = 0.4;
+  primitive.dimensions[primitive.BOX_X] = 0.4;
+  primitive.dimensions[primitive.BOX_Y] = 0.1;
+  primitive.dimensions[primitive.BOX_Z] = 0.4;
 
   // Define a pose for the box (specified relative to frame_id)
   geometry_msgs::Pose box_pose;
@@ -331,6 +331,7 @@ int main(int argc, char** argv)
   collision_objects.push_back(collision_object);
 
   // Now, let's add the collision object into the world
+  // (using a vector that could contain additional objects)
   ROS_INFO_NAMED("tutorial", "Add an object into the world");
   planning_scene_interface.addCollisionObjects(collision_objects);
 
@@ -364,34 +365,31 @@ int main(int argc, char** argv)
   // ^^^^^^^^^^^^^^^^^
   //
   // You can attach objects to the robot, so that it moves with the robot geometry. This simulates picking up the object for the purpose of manipulating it. The motion planning will avoid collisions between the two objects as well.
-  moveit_msgs::CollisionObject attachment_object;
-  attachment_object.id = "box2";
+  moveit_msgs::CollisionObject object_to_attach;
+  object_to_attach.id = "cylinder1";
 
-  shape_msgs::SolidPrimitive another_primitive;
-  another_primitive.type = primitive.BOX;
-  another_primitive.dimensions.resize(3);
-  another_primitive.dimensions[0] = 0.1;
-  another_primitive.dimensions[1] = 0.1;
-  another_primitive.dimensions[2] = 0.1;
+  shape_msgs::SolidPrimitive cylinder_primitive;
+  cylinder_primitive.type = primitive.CYLINDER;
+  cylinder_primitive.dimensions.resize(2);
+  cylinder_primitive.dimensions[primitive.CYLINDER_HEIGHT] = 0.20;
+  cylinder_primitive.dimensions[primitive.CYLINDER_RADIUS] = 0.04;
 
-  // We define the frame/pose for this box so that it appears in the gripper
-  attachment_object.header.frame_id = move_group.getEndEffectorLink();
+  // We define the frame/pose for this cylinder so that it appears in the gripper
+  object_to_attach.header.frame_id = move_group.getEndEffectorLink();
   geometry_msgs::Pose grab_pose;
   grab_pose.orientation.w = 1.0;
-  grab_pose.position.z = 0.07;
+  grab_pose.position.z = 0.2;
 
-  // First, we add the object to the world
-  attachment_object.primitives.push_back(another_primitive);
-  attachment_object.primitive_poses.push_back(grab_pose);
-  attachment_object.operation = attachment_object.ADD;
-
-  std::vector<moveit_msgs::CollisionObject> attachment_objects;
-  attachment_objects.push_back(attachment_object);
-  planning_scene_interface.addCollisionObjects(attachment_objects);
+  // First, we add the object to the world (without using a vector)
+  object_to_attach.primitives.push_back(cylinder_primitive);
+  object_to_attach.primitive_poses.push_back(grab_pose);
+  object_to_attach.operation = object_to_attach.ADD;
+  planning_scene_interface.applyCollisionObject(object_to_attach);
 
   // Then, we "attach" the object to the robot. It uses the frame_id to determine which robot link it is attached to.
+  // You could also use applyAttachedCollisionObject to attach an object to the robot directly.
   ROS_INFO_NAMED("tutorial", "Attach the object to the robot");
-  move_group.attachObject(attachment_object.id);
+  move_group.attachObject(object_to_attach.id);
 
   visual_tools.publishText(text_pose, "Object attached to robot", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
@@ -411,9 +409,10 @@ int main(int argc, char** argv)
   //
   // Now, let's detach the box from the robot's gripper.
   ROS_INFO_NAMED("tutorial", "Detach the object from the robot");
-  move_group.detachObject(attachment_object.id);
+  move_group.detachObject(object_to_attach.id);
 
   // Show text in RViz of status
+  visual_tools.deleteAllMarkers();
   visual_tools.publishText(text_pose, "Object detached from robot", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
 
@@ -424,7 +423,7 @@ int main(int argc, char** argv)
   ROS_INFO_NAMED("tutorial", "Remove the objects from the world");
   std::vector<std::string> object_ids;
   object_ids.push_back(collision_object.id);
-  object_ids.push_back(attachment_object.id);
+  object_ids.push_back(object_to_attach.id);
   planning_scene_interface.removeCollisionObjects(object_ids);
 
   // Show text in RViz of status
