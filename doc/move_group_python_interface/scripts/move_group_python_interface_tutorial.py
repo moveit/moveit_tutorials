@@ -366,13 +366,13 @@ class MoveGroupPythonIntefaceTutorial(object):
     ##
     ## Adding Objects to the Planning Scene
     ## ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    ## First, we will create a box in the planning scene at the location of the left finger:
+    ## First, we will create a box in the planning scene between the fingers:
     box_pose = geometry_msgs.msg.PoseStamped()
-    box_pose.header.frame_id = "panda_leftfinger"
+    box_pose.header.frame_id = "panda_hand"
     box_pose.pose.orientation.w = 1.0
-    box_pose.pose.position.z = 0.07 # slightly above the end effector
+    box_pose.pose.position.z = 0.11 # above the panda_hand frame
     box_name = "box"
-    scene.add_box(box_name, box_pose, size=(0.1, 0.1, 0.1))
+    scene.add_box(box_name, box_pose, size=(0.075, 0.075, 0.075))
 
     ## END_SUB_TUTORIAL
     # Copy local variables back to class variables. In practice, you should use the class
