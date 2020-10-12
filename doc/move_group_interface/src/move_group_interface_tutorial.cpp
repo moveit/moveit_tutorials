@@ -299,7 +299,7 @@ int main(int argc, char** argv)
   move_group.execute(trajectory);
 
   // Adding objects to the environment
-  // ^^^^^^^^^^^^^^^^^^^^^^^
+  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   //
   // Define a collision object ROS message for the robot to avoid.
   moveit_msgs::CollisionObject collision_object;
@@ -362,9 +362,11 @@ int main(int argc, char** argv)
   visual_tools.prompt("next step");
 
   // Attaching objects to the robot
-  // ^^^^^^^^^^^^^^^^^
+  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   //
-  // You can attach objects to the robot, so that it moves with the robot geometry. This simulates picking up the object for the purpose of manipulating it. The motion planning will avoid collisions between the two objects as well.
+  // You can attach objects to the robot, so that it moves with the robot geometry.
+  // This simulates picking up the object for the purpose of manipulating it.
+  // The motion planning will avoid collisions between the two objects as well.
   moveit_msgs::CollisionObject object_to_attach;
   object_to_attach.id = "cylinder1";
 
@@ -404,8 +406,13 @@ int main(int argc, char** argv)
   visual_tools.trigger();
   visual_tools.prompt("next step");
 
+  // The result may look something like this:
+  //
+  // .. image:: ./move_group_interface_tutorial_attached_object.gif
+  //    :alt: animation showing the arm moving differently once the object is attached
+  //
   // Detaching and Removing Objects
-  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   //
   // Now, let's detach the box from the robot's gripper.
   ROS_INFO_NAMED("tutorial", "Detach the object from the robot");
