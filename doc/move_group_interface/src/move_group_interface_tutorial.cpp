@@ -301,7 +301,25 @@ int main(int argc, char** argv)
   // Adding objects to the environment
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   //
-  // Define a collision object ROS message for the robot to avoid.
+  // First let's plan to another simple goal with no objects in the way.
+  move_group.setStartState(*move_group.getCurrentState());
+  geometry_msgs::Pose another_pose;
+  another_pose.orientation.x = 1.0;
+  another_pose.position.x = 0.7;
+  another_pose.position.y = 0.0;
+  another_pose.position.z = 0.59;
+  move_group.setPoseTarget(another_pose);
+
+  success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+  ROS_INFO_NAMED("tutorial", "Visualizing plan 5 (with no obstacles) %s", success ? "" : "FAILED");
+
+  visual_tools.deleteAllMarkers();
+  visual_tools.publishText(text_pose, "Clear Goal", rvt::WHITE, rvt::XLARGE);
+  visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group);
+  visual_tools.trigger();
+  visual_tools.prompt("next step");
+
+  // Now let's define a collision object ROS message for the robot to avoid.
   moveit_msgs::CollisionObject collision_object;
   collision_object.header.frame_id = move_group.getPlanningFrame();
 
@@ -312,16 +330,16 @@ int main(int argc, char** argv)
   shape_msgs::SolidPrimitive primitive;
   primitive.type = primitive.BOX;
   primitive.dimensions.resize(3);
-  primitive.dimensions[primitive.BOX_X] = 0.4;
-  primitive.dimensions[primitive.BOX_Y] = 0.1;
-  primitive.dimensions[primitive.BOX_Z] = 0.4;
+  primitive.dimensions[primitive.BOX_X] = 0.1;
+  primitive.dimensions[primitive.BOX_Y] = 1.5;
+  primitive.dimensions[primitive.BOX_Z] = 0.5;
 
   // Define a pose for the box (specified relative to frame_id)
   geometry_msgs::Pose box_pose;
   box_pose.orientation.w = 1.0;
-  box_pose.position.x = 0.4;
-  box_pose.position.y = -0.2;
-  box_pose.position.z = 1.0;
+  box_pose.position.x = 0.5;
+  box_pose.position.y = 0.0;
+  box_pose.position.z = 0.25;
 
   collision_object.primitives.push_back(primitive);
   collision_object.primitive_poses.push_back(box_pose);
@@ -335,27 +353,14 @@ int main(int argc, char** argv)
   ROS_INFO_NAMED("tutorial", "Add an object into the world");
   planning_scene_interface.addCollisionObjects(collision_objects);
 
-  // Show text in RViz of status
+  // Show text in RViz of status and wait for MoveGroup to receive and process the collision object message
   visual_tools.publishText(text_pose, "Add object", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
-
-  // Wait for MoveGroup to receive and process the collision object message
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to once the collision object appears in RViz");
 
   // Now when we plan a trajectory it will avoid the obstacle
-  move_group.setStartState(*move_group.getCurrentState());
-  geometry_msgs::Pose another_pose;
-  another_pose.orientation.w = 1.0;
-  another_pose.position.x = 0.4;
-  another_pose.position.y = -0.4;
-  another_pose.position.z = 0.9;
-  move_group.setPoseTarget(another_pose);
-
   success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
-  ROS_INFO_NAMED("tutorial", "Visualizing plan 5 (pose goal move around cuboid) %s", success ? "" : "FAILED");
-
-  // Visualize the plan in RViz
-  visual_tools.deleteAllMarkers();
+  ROS_INFO_NAMED("tutorial", "Visualizing plan 6 (pose goal move around cuboid) %s", success ? "" : "FAILED");
   visual_tools.publishText(text_pose, "Obstacle Goal", rvt::WHITE, rvt::XLARGE);
   visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group);
   visual_tools.trigger();
@@ -401,7 +406,7 @@ int main(int argc, char** argv)
 
   // Replan, but now with the object in hand.
   success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
-  ROS_INFO_NAMED("tutorial", "Visualizing plan 6 (move around cuboid with cylinder) %s", success ? "" : "FAILED");
+  ROS_INFO_NAMED("tutorial", "Visualizing plan 7 (move around cuboid with cylinder) %s", success ? "" : "FAILED");
   visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group);
   visual_tools.trigger();
   visual_tools.prompt("next step");
