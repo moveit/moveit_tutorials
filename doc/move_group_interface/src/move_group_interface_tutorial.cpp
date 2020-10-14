@@ -401,7 +401,7 @@ int main(int argc, char** argv)
 
   // Replan, but now with the object in hand.
   success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
-  ROS_INFO_NAMED("tutorial", "Visualizing plan 6 (move around cuboid with cuboid) %s", success ? "" : "FAILED");
+  ROS_INFO_NAMED("tutorial", "Visualizing plan 6 (move around cuboid with cylinder) %s", success ? "" : "FAILED");
   visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group);
   visual_tools.trigger();
   visual_tools.prompt("next step");
