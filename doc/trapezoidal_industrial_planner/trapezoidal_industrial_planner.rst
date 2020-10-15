@@ -30,7 +30,7 @@ in both the URDF and the parameter server setting acceleration limits is
 only possible via the parameter server. In extension to the common
 ``has_acceleration`` and ``max_acceleration`` parameter we added the
 ability to also set ``has_deceleration`` and
-``max_deceleration``\ (<0!).
+``max_deceleration``\ (<0.0).
 
 The limits are merged under the premise that the limits from the
 parameter server must be stricter or at least equal to the parameters
@@ -105,8 +105,6 @@ Input parameters in ``moveit_msgs::MotionPlanRequest``
     - ``goal_constraints/position_constraints/constraint_region``: bounding volume of the target point
     - ``goal_constraints/position_constraints/target_point_offset``: offset (in the link frame) for the target point on
       the target link (optional)
-- ``max_velocity_scaling_factor``: rescale the maximal velocity
-- ``max_acceleration_scaling_factor``: rescale the maximal acceleration/deceleration
 
 
 Planning results in ``moveit_msg::MotionPlanResponse``
@@ -169,9 +167,6 @@ Input parameters in ``moveit_msgs::MotionPlanRequest``
       -  ``goal_constraints/position_constraints/target_point_offset``:
          offset (in the link frame) for the target point on the target
          link (optional)
-
--  max\_velocity\_scaling\_factor: rescale the maximal velocity
--  max\_acceleration\_scaling\_factor: rescale the maximal acceleration
 
 Planning results in ``moveit_msg::MotionPlanResponse``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -250,8 +245,6 @@ Input parameters in ``moveit_msgs::MotionPlanRequest``
    -  ``path_constraints/position_constraints/constraint_region/primitive_poses/point``:
       position of the point
 
--  ``max\_velocity\_scaling\_factor``: rescale the maximal velocity
--  ``max\_acceleration\_scaling\_factor``: rescale the maximal acceleration
 
 Planning results in ``moveit_msg::MotionPlanResponse``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -299,7 +292,7 @@ defined at ``/robot_description_planning``.
 
 An example showing the cartesian limits which have to be defined can be
 found in `prbt_moveit_config
-<https://github.com/PilzDE/pilz_robots/blob/melodic-devel/prbt_moveit_config/config/cartesian_limits.yaml>`_.
+<https://github.com/ros-planning/moveit_resources/blob/master/prbt_moveit_config/config/cartesian_limits.yaml>`_.
 
 Sequence of multiple segments
 =============================
@@ -332,6 +325,9 @@ the trajectory it would have taken without blending.
 .. figure:: blend_radius.png
    :alt: blend figure
 
+Implementation details are available `as pdf
+<https://github.com/ros-planning/moveit/blob/master/moveit_planners/pilz_industrial_motion_planner/doc/MotionBlendAlgorithmDescription.pdf>`_.
+
 Restrictions for ``MotionSequenceRequest``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -355,7 +351,8 @@ constraints of an individual ``moveit_msgs::MotionPlanRequest`` are
 already satisfied but the ``MoveGroupSequenceAction`` capability doesn't
 implement such a check to allow moving on a circular or comparable path.
 
-See the ``pilz_robot_programming`` package for an example python script
+See the ``pilz_robot_programming`` package for an `example python script
+<https://github.com/PilzDE/pilz_industrial_motion/blob/melodic-devel/pilz_robot_programming/examples/demo_program.py>`_
 that shows how to use the capability.
 
 Service interface
