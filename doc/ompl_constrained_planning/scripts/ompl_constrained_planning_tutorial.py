@@ -367,31 +367,6 @@ class ConstrainedPlanningTutorial(object):
         return pcm
 
 
-def run_another_example():
-    """ Run another example that is not part of the tutorial. """
-    tutorial = ConstrainedPlanningTutorial()
-    tutorial.remove_all_markers()
-
-    tutorial.add_obstacle()
-
-    start_state = tutorial.create_start_state()
-    pose_goal = tutorial.create_pose_goal_under_obstacle()
-    pcm = tutorial.create_vertical_plane_constraints()
-
-    # We need two wrap the constraints in a generic `Constraints` message.
-    path_constraints = moveit_msgs.msg.Constraints()
-    path_constraints.position_constraints.append(pcm)
-    path_constraints.name = "use_equality_constraints"
-
-    tutorial.solve(start_state, pose_goal, path_constraints)
-
-    print("============ Press enter to continue with the second planning problem.")
-    input()
-    tutorial.remove_all_markers()
-    tutorial.remove_obstacle()
-    print("Done!")
-
-
 def run_tutorial():
     ## BEGIN_SUB_TUTORIAL main
     ##
@@ -486,7 +461,6 @@ def main():
     """ Catch interupt when the user presses `ctrl-c`. """
     try:
         run_tutorial()
-        # run_another_example()
     except KeyboardInterrupt:
         return
 
