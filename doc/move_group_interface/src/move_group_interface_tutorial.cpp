@@ -319,6 +319,11 @@ int main(int argc, char** argv)
   visual_tools.trigger();
   visual_tools.prompt("next step");
 
+  // The result may look like this:
+  //
+  // .. image:: ./move_group_interface_tutorial_clear_path.gif
+  //    :alt: animation showing the arm moving relatively straight toward the goal
+  //
   // Now let's define a collision object ROS message for the robot to avoid.
   moveit_msgs::CollisionObject collision_object;
   collision_object.header.frame_id = move_group.getPlanningFrame();
@@ -366,14 +371,17 @@ int main(int argc, char** argv)
   visual_tools.trigger();
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window once the plan is complete");
 
+  // The result may look like this:
+  //
+  // .. image:: ./move_group_interface_tutorial_avoid_path.gif
+  //    :alt: animation showing the arm moving avoiding the new obstacle
+  //
   // Attaching objects to the robot
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   //
   // You can attach objects to the robot, so that it moves with the robot geometry.
   // This simulates picking up the object for the purpose of manipulating it.
-  // The motion planning should avoid collisions between the two objects as well, but
-  // is not functioning at the time of this tutorial being updated.
-  // See https://github.com/ros-planning/moveit/issues/2379
+  // The motion planning should avoid collisions between the two objects as well.
   moveit_msgs::CollisionObject object_to_attach;
   object_to_attach.id = "cylinder1";
 
@@ -398,7 +406,7 @@ int main(int argc, char** argv)
   // Then, we "attach" the object to the robot. It uses the frame_id to determine which robot link it is attached to.
   // You could also use applyAttachedCollisionObject to attach an object to the robot directly.
   ROS_INFO_NAMED("tutorial", "Attach the object to the robot");
-  move_group.attachObject(object_to_attach.id);
+  move_group.attachObject(object_to_attach.id, "panda_hand");
 
   visual_tools.publishText(text_pose, "Object attached to robot", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
@@ -407,6 +415,7 @@ int main(int argc, char** argv)
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window once the new object is attached to the robot");
 
   // Replan, but now with the object in hand.
+  move_group.setStartStateToCurrentState();
   success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
   ROS_INFO_NAMED("tutorial", "Visualizing plan 7 (move around cuboid with cylinder) %s", success ? "" : "FAILED");
   visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group);
