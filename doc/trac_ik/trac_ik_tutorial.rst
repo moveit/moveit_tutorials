@@ -10,9 +10,11 @@ The package `trac_ik_kinematics_plugin <https://bitbucket.org/traclabs/trac_ik/s
 Install
 -------
 
-As of v1.4.5, **trac_ik** is part of the ROS Indigo/Jade binaries: ::
+As of v1.5.1, **trac_ik** is part of the ROS Kinetic/Melodic binaries: ::
 
   sudo apt-get install ros-melodic-trac-ik-kinematics-plugin
+
+Noetic Tracked (tracced?) here: https://bitbucket.org/traclabs/trac_ik/issues/67/ros-noetic-support
 
 Usage
 -----

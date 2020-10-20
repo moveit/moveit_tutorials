@@ -13,7 +13,7 @@ The :moveit_core:`RobotModel` and :moveit_core:`RobotState` classes are the core
 
 The :moveit_core:`RobotModel` class contains the relationships between all links and joints including their joint limit properties as loaded from the URDF. The RobotModel also separates the robot's links and joints into planning groups defined in the SRDF. A separate tutorial on the URDF and SRDF can be found here: `URDF and SRDF Tutorial <../urdf_srdf/urdf_srdf_tutorial.html>`_
 
-The :moveit_core:`RobotState` contains information about the robot at a snapshot in time, storing vectors of joint positions and optionally velocities and accelerations that can be used to obtain kinematic information about the robot that depends on it's current state such as the Jacobian of an end effector.
+The :moveit_core:`RobotState` contains information about the robot at a snapshot in time, storing vectors of joint positions and optionally velocities and accelerations. This information can be used to obtain kinematic information about the robot that depends on it's current state, such as the Jacobian of an end effector.
 
 RobotState also contains helper functions for setting the arm location based on the end effector location (Cartesian pose) and for computing Cartesian trajectories.
 
