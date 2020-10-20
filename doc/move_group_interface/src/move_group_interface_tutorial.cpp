@@ -364,14 +364,16 @@ int main(int argc, char** argv)
   visual_tools.publishText(text_pose, "Obstacle Goal", rvt::WHITE, rvt::XLARGE);
   visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group);
   visual_tools.trigger();
-  visual_tools.prompt("next step");
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window once the plan is complete");
 
   // Attaching objects to the robot
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   //
   // You can attach objects to the robot, so that it moves with the robot geometry.
   // This simulates picking up the object for the purpose of manipulating it.
-  // The motion planning will avoid collisions between the two objects as well.
+  // The motion planning should avoid collisions between the two objects as well, but
+  // is not functioning at the time of this tutorial being updated.
+  // See https://github.com/ros-planning/moveit/issues/2379
   moveit_msgs::CollisionObject object_to_attach;
   object_to_attach.id = "cylinder1";
 
@@ -409,7 +411,7 @@ int main(int argc, char** argv)
   ROS_INFO_NAMED("tutorial", "Visualizing plan 7 (move around cuboid with cylinder) %s", success ? "" : "FAILED");
   visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group);
   visual_tools.trigger();
-  visual_tools.prompt("next step");
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window once the plan is complete");
 
   // The result may look something like this:
   //
@@ -419,7 +421,7 @@ int main(int argc, char** argv)
   // Detaching and Removing Objects
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   //
-  // Now, let's detach the box from the robot's gripper.
+  // Now, let's detach the cylinder from the robot's gripper.
   ROS_INFO_NAMED("tutorial", "Detach the object from the robot");
   move_group.detachObject(object_to_attach.id);
 
