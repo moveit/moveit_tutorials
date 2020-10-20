@@ -16,7 +16,7 @@ Once you have ROS installed, make sure you have the most up to date packages: ::
 
 Install `catkin <http://wiki.ros.org/catkin>`_ the ROS build system: ::
 
-  sudo apt-get install ros-melodic-catkin python-catkin-tools
+  sudo apt-get install ros-noetic-catkin python3-catkin-tools
 
 Create A Catkin Workspace and Download MoveIt Source
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -55,6 +55,12 @@ The next command will configure your catkin workspace: ::
   cd ~/ws_moveit
   catkin config --extend /opt/ros/${ROS_DISTRO} --cmake-args -DCMAKE_BUILD_TYPE=Release
   catkin build
+
+.. note:: With the update to noetic and python 3 several dependencies may be missing with the build. Here are some common errors and the commands to fix them:
+  
+  - Missing python 3 dependency\: ``python3-osrf-pycommon`` 
+  - Could not find "controller_manager_msgs"\: ``sudo apt-get install ros-noetic-ros-control ros-noetic-ros-controllers``
+  - Could not find "rosparam_shortcuts"\: ``sudo apt install ros-noetic-rosparam-shortcuts``
 
 Source the catkin workspace: ::
 
