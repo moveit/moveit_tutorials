@@ -3,6 +3,7 @@
 // MoveitCpp
 #include <moveit/moveit_cpp/moveit_cpp.h>
 #include <moveit/moveit_cpp/planning_component.h>
+#include <moveit/robot_state/conversions.h>
 
 #include <geometry_msgs/PointStamped.h>
 
@@ -30,11 +31,11 @@ int main(int argc, char** argv)
 
   ROS_INFO_STREAM_NAMED(LOGNAME, "Starting MoveIt Tutorials...");
 
-  auto moveit_cpp_ptr = std::make_shared<moveit::planning_interface::MoveItCpp>(nh);
+  auto moveit_cpp_ptr = std::make_shared<moveit_cpp::MoveItCpp>(nh);
   moveit_cpp_ptr->getPlanningSceneMonitor()->providePlanningSceneService();
 
   auto planning_components =
-      std::make_shared<moveit::planning_interface::PlanningComponent>(PLANNING_GROUP, moveit_cpp_ptr);
+      std::make_shared<moveit_cpp::PlanningComponent>(PLANNING_GROUP, moveit_cpp_ptr);
   auto robot_model_ptr = moveit_cpp_ptr->getRobotModel();
   auto robot_start_state = planning_components->getStartState();
   auto joint_model_group_ptr = robot_model_ptr->getJointModelGroup(PLANNING_GROUP);
