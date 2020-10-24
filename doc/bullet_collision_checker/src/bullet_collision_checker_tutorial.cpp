@@ -80,7 +80,7 @@ void publishMarkers(visualization_msgs::MarkerArray& markers)
   // delete old markers
   if (g_collision_points.markers.size())
   {
-    for (int i = 0; i < g_collision_points.markers.size(); i++)
+    for (unsigned int i = 0; i < g_collision_points.markers.size(); i++)
       g_collision_points.markers[i].action = visualization_msgs::Marker::DELETE;
 
     g_marker_array_publisher->publish(g_collision_points);
@@ -192,7 +192,7 @@ int main(int argc, char** argv)
     // remove all collision markers
     if (g_collision_points.markers.size())
     {
-      for (int i = 0; i < g_collision_points.markers.size(); i++)
+      for (unsigned int i = 0; i < g_collision_points.markers.size(); i++)
         g_collision_points.markers[i].action = visualization_msgs::Marker::DELETE;
 
       g_marker_array_publisher->publish(g_collision_points);
