@@ -78,9 +78,9 @@ void printHelp()
 void publishMarkers(visualization_msgs::MarkerArray& markers)
 {
   // delete old markers
-  if (g_collision_points.markers.size())
+  if (!g_collision_points.markers.empty())
   {
-    for (unsigned int i = 0; i < g_collision_points.markers.size(); i++)
+    for (auto& marker : g_collision_points.markers)
       g_collision_points.markers[i].action = visualization_msgs::Marker::DELETE;
 
     g_marker_array_publisher->publish(g_collision_points);
@@ -90,7 +90,7 @@ void publishMarkers(visualization_msgs::MarkerArray& markers)
   std::swap(g_collision_points.markers, markers.markers);
 
   // draw new markers (if there are any)
-  if (g_collision_points.markers.size())
+  if (!g_collision_points.markers.empty())
     g_marker_array_publisher->publish(g_collision_points);
 }
 
@@ -190,9 +190,9 @@ int main(int argc, char** argv)
     ROS_INFO("Shutting down the interactive interactive_robot...");
 
     // remove all collision markers
-    if (g_collision_points.markers.size())
+    if (!g_collision_points.markers.empty())
     {
-      for (unsigned int i = 0; i < g_collision_points.markers.size(); i++)
+      for (auto& : g_collision_points.markers)
         g_collision_points.markers[i].action = visualization_msgs::Marker::DELETE;
 
       g_marker_array_publisher->publish(g_collision_points);
