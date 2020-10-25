@@ -81,7 +81,7 @@ void publishMarkers(visualization_msgs::MarkerArray& markers)
   if (!g_collision_points.markers.empty())
   {
     for (auto& marker : g_collision_points.markers)
-      g_collision_points.markers[i].action = visualization_msgs::Marker::DELETE;
+      marker.action = visualization_msgs::Marker::DELETE;
 
     g_marker_array_publisher->publish(g_collision_points);
   }
@@ -192,8 +192,8 @@ int main(int argc, char** argv)
     // remove all collision markers
     if (!g_collision_points.markers.empty())
     {
-      for (auto& : g_collision_points.markers)
-        g_collision_points.markers[i].action = visualization_msgs::Marker::DELETE;
+      for (auto& marker : g_collision_points.markers)
+        marker.action = visualization_msgs::Marker::DELETE;
 
       g_marker_array_publisher->publish(g_collision_points);
     }
