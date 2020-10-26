@@ -14,7 +14,7 @@ As of v1.5.1, **trac_ik** is part of the ROS Kinetic/Melodic binaries: ::
 
   sudo apt-get install ros-melodic-trac-ik-kinematics-plugin
 
-Noetic Tracked (tracced?) here: https://bitbucket.org/traclabs/trac_ik/issues/67/ros-noetic-support
+Binaries for Noetic are not yet available. You can track the progress `with this ticket <https://bitbucket.org/traclabs/trac_ik/issues/67/ros-noetic-support>`_.
 
 Usage
 -----

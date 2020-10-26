@@ -23,12 +23,13 @@ This repository is currently built automatically by two systems. Travis builds t
 ## Build Locally
 
 If you want to test the tutorials by generating the html pages locally on your machine, you will first need to install the `rosdoc_lite` package, and then you can use the ``build_locally`` script.
-It has been tested on Ubuntu 16.04 with ROS Kinetic pre-installed. Run in the root of the moveit_tutorials package:
+Run in the root of the moveit_tutorials package:
 
     export ROS_DISTRO=kinetic # 16.04
     export ROS_DISTRO=melodic # 18.04
     export ROS_DISTRO=noetic  # 20.04
 
+    sudo apt install ros-$ROS_DISTRO-rosdoc-lite
     source /opt/ros/$ROS_DISTRO/setup.bash
     ./build_locally.sh
 
