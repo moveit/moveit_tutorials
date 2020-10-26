@@ -34,8 +34,7 @@ int main(int argc, char** argv)
   auto moveit_cpp_ptr = std::make_shared<moveit_cpp::MoveItCpp>(nh);
   moveit_cpp_ptr->getPlanningSceneMonitor()->providePlanningSceneService();
 
-  auto planning_components =
-      std::make_shared<moveit_cpp::PlanningComponent>(PLANNING_GROUP, moveit_cpp_ptr);
+  auto planning_components = std::make_shared<moveit_cpp::PlanningComponent>(PLANNING_GROUP, moveit_cpp_ptr);
   auto robot_model_ptr = moveit_cpp_ptr->getRobotModel();
   auto robot_start_state = planning_components->getStartState();
   auto joint_model_group_ptr = robot_model_ptr->getJointModelGroup(PLANNING_GROUP);
