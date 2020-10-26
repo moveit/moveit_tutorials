@@ -5,7 +5,7 @@ The :planning_scene_monitor:`PlanningSceneMonitor` is the recommended interface 
 
 RobotState
 ----------
-The :moveit_core:`RobotState` is a snapshot of a robot. It uses information from the :moveit_core:`RobotModel` and a set of joint values to examine the geometry of the robot.
+The :moveit_core:`RobotState` is a snapshot of a robot. It contains the :moveit_core:`RobotModel` and a set of joint values.
 
 CurrentStateMonitor
 -------------------
