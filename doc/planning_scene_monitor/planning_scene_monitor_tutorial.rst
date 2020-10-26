@@ -9,7 +9,7 @@ The :moveit_core:`RobotState` is a snapshot of a robot. It uses information from
 
 CurrentStateMonitor
 -------------------
-The :planning_scene_monitor:`CurrentStateMonitor` (CSM) can be thought of as a ROS wrapper for the RobotState. It subscribes to a provided topic for :sensor_msgs:`JointState` messages that provide up to date sensor values for single degree of freedom actuators such as revolute or prismatic joints and updates it's internal RobotState with those joint values. In addition to the single degree of freedom joints, a robot can have joints with multiple degrees of freedom such as floating and planar joints. To maintain up to date transform information for links and other frames attached with multiple degree of freedom joints, the CSM maintains a TF2 :tf2:`Buffer` that uses a TF2 :tf2:`TransformListener` to set their transforms in it's internal data.
+The :planning_scene_monitor:`CurrentStateMonitor` (CSM) can be thought of as a ROS wrapper for the RobotState. It subscribes to a provided topic for :sensor_msgs:`JointState` messages that provide up to date sensor values for single degree of freedom actuators such as revolute or prismatic joints and updates it's internal RobotState with those joint values. In addition to the single degree of freedom joints, a robot can have joints with multiple degrees of freedom such as floating and planar joints. To maintain up-to-date transform information for links and other frames attached with multiple-degree-of-freedom joints, the CSM stores a TF2 :tf2:`Buffer` that uses a TF2 :tf2:`TransformListener` to set their transforms in its internal data.
 
 PlanningScene
 -------------
