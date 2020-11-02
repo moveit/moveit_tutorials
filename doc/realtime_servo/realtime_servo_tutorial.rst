@@ -49,7 +49,7 @@ In RViz, grab the red/blue/green "interactive marker" and drag the robot to a no
 Switch to a compatible type of `ros-control` controller. It should be a `JointGroupVelocityController` or a `JointGroupPositionController`, not a trajectory controller like MoveIt usually requires. ::
 
     rosservice call /controller_manager/switch_controller "start_controllers: ['joint_group_position_controller']
-    stop_controllers: ['joint_group_position_controller']
+    stop_controllers: ['arm_controller']
     strictness: 0
     start_asap: false
     timeout: 0.0"
