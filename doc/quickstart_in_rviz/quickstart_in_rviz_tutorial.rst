@@ -134,10 +134,12 @@ Moving Joints or in Null Space
 ++++++++++++++++++++++++++++++
 You can use the **Joints** tab to move single joints and the redundant joints of 7-DOF robots. Try moving the "null space exploration" slider as shown in the animation below.
 
-.. video:: ../../_static/rviz_joints_nullspace.webm
-   :width: 700px
-   :autoplay:
-   :nocontrols:
+.. raw:: html
+
+    <video width="700px" nocontrols="true" autoplay="true">
+    <source src="../../_static/rviz_joints_nullspace.webm" type="video/webm">
+    Illustration
+    </video>
 
 Step 4: Use Motion Planning with the Panda
 -------------------------------------------

@@ -3,7 +3,6 @@ import sys, os
 sys.path += [ os.path.abspath( '_scripts' )]
 
 extensions = [ 'sphinx.ext.extlinks',
-               'video',
                'tutorialformatter' ]
 
 # The master toctree document.
