@@ -136,7 +136,7 @@ You can use the **Joints** tab to move single joints and the redundant joints of
 
 .. raw:: html
 
-    <video width="700px" nocontrols="true" autoplay="true">
+    <video width="700px" nocontrols="true" autoplay="true" loop="true">
     <source src="../../_static/rviz_joints_nullspace.webm" type="video/webm">
     Illustration
     </video>
