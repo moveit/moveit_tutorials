@@ -10,7 +10,7 @@ User Interface MoveGroup
 
 This package implements the ``planning_interface::PlannerManager``
 interface of MoveIt. By loading the corresponding planning pipeline
-(``pilz_industrial motion_planner_planning_pipeline.launch.xml`` in your
+(``pilz_industrial_motion_planner_planning_pipeline.launch.xml`` in your
 ``*_moveit_config`` package), the trajectory generation
 functionalities can be accessed through the user interface (c++, python
 or rviz) provided by the ``move_group`` node, e.g.
