@@ -1,6 +1,6 @@
 # Test build the MoveIt tutorials. Author: Dave Coleman
 sudo: required
-dist: xenial
+dist: bionic
 language: ruby
 rvm:
   - 2.4

@@ -17,8 +17,8 @@ gem update --system
 gem --version
 gem install html-proofer
 # Install ROS's version of sphinx
-sudo apt-get -qq install ros-kinetic-rosdoc-lite
-source /opt/ros/kinetic/setup.bash
+sudo apt-get -qq install ros-melodic-rosdoc-lite
+source /opt/ros/melodic/setup.bash
 
 # Test build with non-ROS wrapped Sphinx command to allow warnings and errors to be caught
 sphinx-build -W -b html . native_build
