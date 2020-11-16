@@ -1,31 +1,23 @@
+include_directories(include)
 include_directories(
-  include
-  ${catkin_INCLUDE_DIRS}
   SYSTEM
+  ${catkin_INCLUDE_DIRS}
   ${Boost_INCLUDE_DIRS}
 )
 
-add_library(${PROJECT_NAME}
-  src/lerp_interface.cpp
-  src/lerp_planning_context.cpp
-  src/lerp_planner_manager.cpp
-)
-
-target_link_libraries(${PROJECT_NAME}  ${catkin_LIBRARIES}  ${Boost_LIBRARIES})
-set_target_properties(${PROJECT_NAME}  PROPERTIES  VERSION  "${${PROJECT_NAME}_VERSION}")
-
 add_executable(lerp_example  src/lerp_example.cpp)
 target_link_libraries(lerp_example
-  ${PROJECT_NAME}
   ${catkin_LIBRARIES}
   ${Boost_LIBRARIES}
 )
 
 # Lerp planning plugin
-add_library(moveit_lerp_planner_plugin src/lerp_planner_manager.cpp)
+add_library(moveit_lerp_planner_plugin
+  src/lerp_planner_manager.cpp
+  src/lerp_interface.cpp
+  src/lerp_planning_context.cpp)
 set_target_properties(moveit_lerp_planner_plugin PROPERTIES VERSION "${${PROJECT_NAME}_VERSION}")
-
-target_link_libraries(moveit_lerp_planner_plugin ${PROJECT_NAME}  ${catkin_LIBRARIES})
+target_link_libraries(moveit_lerp_planner_plugin ${catkin_LIBRARIES} ${Boost_LIBRARIES})
 
 #############
 ## Install ##
@@ -58,6 +50,6 @@ install(
   DESTINATION
     ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
-
+#catkin_lint ignore uninstalled_plugin
 install(FILES lerp_interface_plugin_description.xml
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/doc/creating_moveit_plugins/lerp_motion_planner/)

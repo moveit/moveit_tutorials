@@ -1,56 +1,58 @@
 /*********************************************************************
-* Software License Agreement (BSD License)
-*
-*  Copyright (c) 2019, Felix von Drigalski
-*  All rights reserved.
-*
-*  Redistribution and use in source and binary forms, with or without
-*  modification, are permitted provided that the following conditions
-*  are met:
-*
-*   * Redistributions of source code must retain the above copyright
-*     notice, this list of conditions and the following disclaimer.
-*   * Redistributions in binary form must reproduce the above
-*     copyright notice, this list of conditions and the following
-*     disclaimer in the documentation and/or other materials provided
-*     with the distribution.
-*   * Neither the name of OMRON SINIC X nor the names of its
-*     contributors may be used to endorse or promote products derived
-*     from this software without specific prior written permission.
-*
-*  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-*  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
-*  FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
-*  COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-*  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
-*  BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-*  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-*  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
-*  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
-*  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-*  POSSIBILITY OF SUCH DAMAGE.
-*********************************************************************/
+ * Software License Agreement (BSD License)
+ *
+ *  Copyright (c) 2019, Felix von Drigalski
+ *  All rights reserved.
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *
+ *   * Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ *   * Redistributions in binary form must reproduce the above
+ *     copyright notice, this list of conditions and the following
+ *     disclaimer in the documentation and/or other materials provided
+ *     with the distribution.
+ *   * Neither the name of OMRON SINIC X nor the names of its
+ *     contributors may be used to endorse or promote products derived
+ *     from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ *  FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ *  COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ *  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ *  BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ *  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ *  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ *  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ *  POSSIBILITY OF SUCH DAMAGE.
+ *********************************************************************/
 
-/* Author: Felix von Drigalski*/
+/* Author: Felix von Drigalski */
 
 // ROS
 #include <ros/ros.h>
 
 // MoveIt
 #include <moveit/planning_scene_interface/planning_scene_interface.h>
+#include <moveit/planning_scene_monitor/planning_scene_monitor.h>
 #include <moveit/move_group_interface/move_group_interface.h>
 
 // TF2
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
+#include <tf2_eigen/tf2_eigen.h>
 
 // BEGIN_SUB_TUTORIAL plan1
 //
 // Creating the planning request
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 // In this tutorial, we use a small helper function to create our planning requests and move the robot.
-bool moveToCartPose(geometry_msgs::PoseStamped pose, moveit::planning_interface::MoveGroupInterface& group,
-                    std::string end_effector_link)
+bool moveToCartPose(const geometry_msgs::PoseStamped& pose, moveit::planning_interface::MoveGroupInterface& group,
+                    const std::string& end_effector_link)
 {
   // To use subframes of objects that are attached to the robot in planning, you need to set the end effector of your
   // move_group to the subframe of the object. The format has to be ``object_name/subframe_name``, as shown
@@ -89,7 +91,7 @@ bool moveToCartPose(geometry_msgs::PoseStamped pose, moveit::planning_interface:
 void spawnCollisionObjects(moveit::planning_interface::PlanningSceneInterface& planning_scene_interface)
 {
   double z_offset_box = .25;  // The z-axis points away from the gripper
-  double z_offset_cylinder = .12;
+  double z_offset_cylinder = .1;
 
   // First, we start defining the `CollisionObject <http://docs.ros.org/api/moveit_msgs/html/msg/CollisionObject.html>`_
   // as usual.
@@ -119,35 +121,35 @@ void spawnCollisionObjects(moveit::planning_interface::PlanningSceneInterface& p
   box.subframe_poses[0].position.z = 0.0 + z_offset_box;
 
   tf2::Quaternion orientation;
-  orientation.setRPY((90.0 / 180.0 * M_PI), 0, 0);
+  orientation.setRPY(90.0 / 180.0 * M_PI, 0, 0);
   box.subframe_poses[0].orientation = tf2::toMsg(orientation);
   // END_SUB_TUTORIAL
 
   box.subframe_names[1] = "top";
   box.subframe_poses[1].position.y = .05;
   box.subframe_poses[1].position.z = 0.0 + z_offset_box;
-  orientation.setRPY(-(90.0 / 180.0 * M_PI), 0, 0);
+  orientation.setRPY(-90.0 / 180.0 * M_PI, 0, 0);
   box.subframe_poses[1].orientation = tf2::toMsg(orientation);
 
   box.subframe_names[2] = "corner_1";
   box.subframe_poses[2].position.x = -.025;
   box.subframe_poses[2].position.y = -.05;
   box.subframe_poses[2].position.z = -.01 + z_offset_box;
-  orientation.setRPY((90.0 / 180.0 * M_PI), 0, 0);
+  orientation.setRPY(90.0 / 180.0 * M_PI, 0, 0);
   box.subframe_poses[2].orientation = tf2::toMsg(orientation);
 
   box.subframe_names[3] = "corner_2";
   box.subframe_poses[3].position.x = .025;
   box.subframe_poses[3].position.y = -.05;
   box.subframe_poses[3].position.z = -.01 + z_offset_box;
-  orientation.setRPY((90.0 / 180.0 * M_PI), 0, 0);
+  orientation.setRPY(90.0 / 180.0 * M_PI, 0, 0);
   box.subframe_poses[3].orientation = tf2::toMsg(orientation);
 
   box.subframe_names[4] = "side";
   box.subframe_poses[4].position.x = .0;
   box.subframe_poses[4].position.y = .0;
   box.subframe_poses[4].position.z = -.01 + z_offset_box;
-  orientation.setRPY(0, (180.0 / 180.0 * M_PI), 0);
+  orientation.setRPY(0, 180.0 / 180.0 * M_PI, 0);
   box.subframe_poses[4].orientation = tf2::toMsg(orientation);
 
   // Next, define the cylinder
@@ -163,7 +165,7 @@ void spawnCollisionObjects(moveit::planning_interface::PlanningSceneInterface& p
   cylinder.primitive_poses[0].position.x = 0.0;
   cylinder.primitive_poses[0].position.y = 0.0;
   cylinder.primitive_poses[0].position.z = 0.0 + z_offset_cylinder;
-  orientation.setRPY(0, (90.0 / 180.0 * M_PI), 0);
+  orientation.setRPY(0, 90.0 / 180.0 * M_PI, 0);
   cylinder.primitive_poses[0].orientation = tf2::toMsg(orientation);
 
   cylinder.subframe_poses.resize(1);
@@ -172,17 +174,57 @@ void spawnCollisionObjects(moveit::planning_interface::PlanningSceneInterface& p
   cylinder.subframe_poses[0].position.x = 0.03;
   cylinder.subframe_poses[0].position.y = 0.0;
   cylinder.subframe_poses[0].position.z = 0.0 + z_offset_cylinder;
-  orientation.setRPY(0, (90.0 / 180.0 * M_PI), 0);
+  orientation.setRPY(0, 90.0 / 180.0 * M_PI, 0);
   cylinder.subframe_poses[0].orientation = tf2::toMsg(orientation);
 
   // BEGIN_SUB_TUTORIAL object2
   // Lastly, the objects are published to the PlanningScene. In this tutorial, we publish a box and a cylinder.
   box.operation = moveit_msgs::CollisionObject::ADD;
   cylinder.operation = moveit_msgs::CollisionObject::ADD;
-  std::vector<moveit_msgs::CollisionObject> collision_objects = { box, cylinder };
-  planning_scene_interface.applyCollisionObjects(collision_objects);
+  planning_scene_interface.applyCollisionObjects({ box, cylinder });
 }
 // END_SUB_TUTORIAL
+
+void createArrowMarker(visualization_msgs::Marker& marker, const geometry_msgs::Pose& pose, const Eigen::Vector3d& dir,
+                       int id, double scale = 0.1)
+{
+  marker.action = visualization_msgs::Marker::ADD;
+  marker.type = visualization_msgs::Marker::CYLINDER;
+  marker.id = id;
+  marker.scale.x = 0.1 * scale;
+  marker.scale.y = 0.1 * scale;
+  marker.scale.z = scale;
+
+  Eigen::Isometry3d pose_eigen;
+  tf2::fromMsg(pose, pose_eigen);
+  marker.pose = tf2::toMsg(pose_eigen * Eigen::Translation3d(dir * (0.5 * scale)) *
+                           Eigen::Quaterniond::FromTwoVectors(Eigen::Vector3d::UnitZ(), dir));
+
+  marker.color.r = 0.0;
+  marker.color.g = 0.0;
+  marker.color.b = 0.0;
+  marker.color.a = 1.0;
+}
+
+void createFrameMarkers(visualization_msgs::MarkerArray& markers, const geometry_msgs::PoseStamped& target,
+                        const std::string& ns, bool locked = false)
+{
+  int id = markers.markers.size();
+  visualization_msgs::Marker m;
+  m.header.frame_id = target.header.frame_id;
+  m.ns = ns;
+  m.frame_locked = locked;
+
+  createArrowMarker(m, target.pose, Eigen::Vector3d::UnitX(), ++id);
+  m.color.r = 1.0;
+  markers.markers.push_back(m);
+  createArrowMarker(m, target.pose, Eigen::Vector3d::UnitY(), ++id);
+  m.color.g = 1.0;
+  markers.markers.push_back(m);
+  createArrowMarker(m, target.pose, Eigen::Vector3d::UnitZ(), ++id);
+  m.color.b = 1.0;
+  markers.markers.push_back(m);
+}
 
 int main(int argc, char** argv)
 {
@@ -191,7 +233,6 @@ int main(int argc, char** argv)
   ros::AsyncSpinner spinner(1);
   spinner.start();
 
-  ros::WallDuration(1.0).sleep();
   moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
   moveit::planning_interface::MoveGroupInterface group("panda_arm");
   group.setPlanningTime(10.0);
@@ -210,23 +251,39 @@ int main(int argc, char** argv)
   planning_scene_interface.applyAttachedCollisionObject(att_coll_object);
   // END_SUB_TUTORIAL
 
+  // Fetch the current planning scene state once
+  auto planning_scene_monitor = std::make_shared<planning_scene_monitor::PlanningSceneMonitor>("robot_description");
+  planning_scene_monitor->requestPlanningSceneState();
+  planning_scene_monitor::LockedPlanningSceneRO planning_scene(planning_scene_monitor);
+
+  // Visualize frames as rviz markers
+  ros::Publisher marker_publisher = nh.advertise<visualization_msgs::MarkerArray>("visualization_marker_array", 10);
+  auto showFrames = [&](geometry_msgs::PoseStamped target, const std::string& eef) {
+    visualization_msgs::MarkerArray markers;
+    // convert target pose into planning frame
+    Eigen::Isometry3d tf;
+    tf2::fromMsg(target.pose, tf);
+    target.pose = tf2::toMsg(planning_scene->getFrameTransform(target.header.frame_id) * tf);
+    target.header.frame_id = planning_scene->getPlanningFrame();
+    createFrameMarkers(markers, target, "target");
+
+    // convert eef in pose relative to panda_hand
+    target.header.frame_id = "panda_hand";
+    target.pose = tf2::toMsg(planning_scene->getFrameTransform(target.header.frame_id).inverse() *
+                             planning_scene->getFrameTransform(eef));
+    createFrameMarkers(markers, target, "eef", true);
+
+    marker_publisher.publish(markers);
+  };
+
   // Define a pose in the robot base.
-  tf2::Quaternion orientation, orientation_1, target_orientation;
-  geometry_msgs::PoseStamped fixed_pose, temp_pose_stamped;
+  tf2::Quaternion target_orientation;
+  geometry_msgs::PoseStamped fixed_pose, target_pose;
   fixed_pose.header.frame_id = "panda_link0";
   fixed_pose.pose.position.y = -.4;
   fixed_pose.pose.position.z = .3;
-  orientation.setRPY(0, (-20.0 / 180.0 * M_PI), 0);
-  fixed_pose.pose.orientation = tf2::toMsg(orientation);
-
-  // BEGIN_SUB_TUTORIAL quaternions1
-  // Setting the orientation
-  // ^^^^^^^^^^^^^^^^^^^^^^^
-  // We multiply tf2 quaternions to chain together a few rotations. This is usually simpler and easier
-  // to debug than figuring out a series of euler angles in your head.
-  tf2::Quaternion flip_around_y;  // This is used to rotate the orientation of the target pose.
-  flip_around_y.setRPY(0, (180.0 / 180.0 * M_PI), 0);
-  // END_SUB_TUTORIAL
+  target_orientation.setRPY(0, (-20.0 / 180.0 * M_PI), 0);
+  fixed_pose.pose.orientation = tf2::toMsg(target_orientation);
 
   // Set up a small command line interface to make the tutorial interactive.
   int character_input;
@@ -252,16 +309,19 @@ int main(int argc, char** argv)
     else if (character_input == 1)
     {
       ROS_INFO_STREAM("Moving to bottom of box with cylinder tip");
-      temp_pose_stamped.header.frame_id = "box/bottom";
 
-      // BEGIN_SUB_TUTORIAL quaternions2
-      // When constructing the target pose for the robot, we multiply the quaternions to get the
-      // target orientation and convert the result to a ``geometry_msgs/orientation`` message.
-      orientation_1.setRPY(-(90.0 / 180.0 * M_PI), 0, 0);
-      target_orientation = flip_around_y * orientation_1;
-      temp_pose_stamped.pose.orientation = tf2::toMsg(target_orientation);
-      temp_pose_stamped.pose.position.z = 0.01;
-      moveToCartPose(temp_pose_stamped, group, "cylinder/tip");
+      // BEGIN_SUB_TUTORIAL orientation
+      // Setting the orientation
+      // ^^^^^^^^^^^^^^^^^^^^^^^
+      // The target pose is given relative to a box subframe:
+      target_pose.header.frame_id = "box/bottom";
+      // The orientation is determined by RPY angles to align the cylinder and box subframes:
+      target_orientation.setRPY(0, 180.0 / 180.0 * M_PI, 90.0 / 180.0 * M_PI);
+      target_pose.pose.orientation = tf2::toMsg(target_orientation);
+      // To keep some distance to the box, we use a small offset:
+      target_pose.pose.position.z = 0.01;
+      showFrames(target_pose, "cylinder/tip");
+      moveToCartPose(target_pose, group, "cylinder/tip");
       // END_SUB_TUTORIAL
     }
     // BEGIN_SUB_TUTORIAL move_example
@@ -269,41 +329,41 @@ int main(int argc, char** argv)
     else if (character_input == 2)
     {
       ROS_INFO_STREAM("Moving to top of box with cylinder tip");
-      temp_pose_stamped.header.frame_id = "box/top";
-      orientation_1.setRPY((90.0 / 180.0 * M_PI), 0, 0);
-      target_orientation = flip_around_y * orientation_1;
-      temp_pose_stamped.pose.orientation = tf2::toMsg(target_orientation);
-      temp_pose_stamped.pose.position.z = 0.01;
-      moveToCartPose(temp_pose_stamped, group, "cylinder/tip");
+      target_pose.header.frame_id = "box/top";
+      target_orientation.setRPY(180.0 / 180.0 * M_PI, 0, 90.0 / 180.0 * M_PI);
+      target_pose.pose.orientation = tf2::toMsg(target_orientation);
+      target_pose.pose.position.z = 0.01;
+      showFrames(target_pose, "cylinder/tip");
+      moveToCartPose(target_pose, group, "cylinder/tip");
     }
     // END_SUB_TUTORIAL
     else if (character_input == 3)
     {
-      ROS_INFO_STREAM("Moving to top of box with cylinder tip");
-      temp_pose_stamped.header.frame_id = "box/corner_1";
-      orientation_1.setRPY(-(90.0 / 180.0 * M_PI), 0, 0);
-      target_orientation = flip_around_y * orientation_1;
-      temp_pose_stamped.pose.orientation = tf2::toMsg(target_orientation);
-      temp_pose_stamped.pose.position.z = 0.01;
-      moveToCartPose(temp_pose_stamped, group, "cylinder/tip");
+      ROS_INFO_STREAM("Moving to corner1 of box with cylinder tip");
+      target_pose.header.frame_id = "box/corner_1";
+      target_orientation.setRPY(0, 180.0 / 180.0 * M_PI, 90.0 / 180.0 * M_PI);
+      target_pose.pose.orientation = tf2::toMsg(target_orientation);
+      target_pose.pose.position.z = 0.01;
+      showFrames(target_pose, "cylinder/tip");
+      moveToCartPose(target_pose, group, "cylinder/tip");
     }
     else if (character_input == 4)
     {
-      temp_pose_stamped.header.frame_id = "box/corner_2";
-      orientation_1.setRPY(-(90.0 / 180.0 * M_PI), 0, 0);
-      target_orientation = flip_around_y * orientation_1;
-      temp_pose_stamped.pose.orientation = tf2::toMsg(target_orientation);
-      temp_pose_stamped.pose.position.z = 0.01;
-      moveToCartPose(temp_pose_stamped, group, "cylinder/tip");
+      target_pose.header.frame_id = "box/corner_2";
+      target_orientation.setRPY(0, 180.0 / 180.0 * M_PI, 90.0 / 180.0 * M_PI);
+      target_pose.pose.orientation = tf2::toMsg(target_orientation);
+      target_pose.pose.position.z = 0.01;
+      showFrames(target_pose, "cylinder/tip");
+      moveToCartPose(target_pose, group, "cylinder/tip");
     }
     else if (character_input == 5)
     {
-      temp_pose_stamped.header.frame_id = "box/side";
-      orientation_1.setRPY(-(90.0 / 180.0 * M_PI), 0, 0);
-      target_orientation = flip_around_y * orientation_1;
-      temp_pose_stamped.pose.orientation = tf2::toMsg(target_orientation);
-      temp_pose_stamped.pose.position.z = 0.01;
-      moveToCartPose(temp_pose_stamped, group, "cylinder/tip");
+      target_pose.header.frame_id = "box/side";
+      target_orientation.setRPY(0, 180.0 / 180.0 * M_PI, 90.0 / 180.0 * M_PI);
+      target_pose.pose.orientation = tf2::toMsg(target_orientation);
+      target_pose.pose.position.z = 0.01;
+      showFrames(target_pose, "cylinder/tip");
+      moveToCartPose(target_pose, group, "cylinder/tip");
     }
     else if (character_input == 6)
     {
@@ -315,11 +375,13 @@ int main(int argc, char** argv)
     else if (character_input == 7)
     {
       ROS_INFO_STREAM("Moving to a pose with robot wrist");
+      showFrames(fixed_pose, "panda_hand");
       moveToCartPose(fixed_pose, group, "panda_hand");
     }
     else if (character_input == 8)
     {
       ROS_INFO_STREAM("Moving to a pose with cylinder tip");
+      showFrames(fixed_pose, "cylinder/tip");
       moveToCartPose(fixed_pose, group, "cylinder/tip");
     }
     else if (character_input == 10)
@@ -341,8 +403,7 @@ int main(int argc, char** argv)
         co1.operation = moveit_msgs::CollisionObject::REMOVE;
         co2.id = "cylinder";
         co2.operation = moveit_msgs::CollisionObject::REMOVE;
-        std::vector<moveit_msgs::CollisionObject> collision_objects = { co1, co2 };
-        planning_scene_interface.applyCollisionObjects(collision_objects);
+        planning_scene_interface.applyCollisionObjects({ co1, co2 });
       }
       catch (const std::exception& exc)
       {
@@ -391,7 +452,6 @@ int main(int argc, char** argv)
 //
 // CALL_SUB_TUTORIAL move_example
 //
-// CALL_SUB_TUTORIAL quaternions1
-// CALL_SUB_TUTORIAL quaternions2
+// CALL_SUB_TUTORIAL orientation
 //
 // END_TUTORIAL

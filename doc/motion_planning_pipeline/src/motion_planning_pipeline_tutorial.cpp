@@ -65,7 +65,7 @@ int main(int argc, char** argv)
   // parameter server and construct a :moveit_core:`RobotModel` for us to use.
   //
   // .. _RobotModelLoader:
-  //     http://docs.ros.org/melodic/api/moveit_ros_planning/html/classrobot__model__loader_1_1RobotModelLoader.html
+  //     http://docs.ros.org/noetic/api/moveit_ros_planning/html/classrobot__model__loader_1_1RobotModelLoader.html
   robot_model_loader::RobotModelLoaderPtr robot_model_loader(
       new robot_model_loader::RobotModelLoader("robot_description"));
 
@@ -87,17 +87,17 @@ int main(int argc, char** argv)
   psm->startStateMonitor();
 
   /* We can also use the RobotModelLoader to get a robot model which contains the robot's kinematic information */
-  robot_model::RobotModelPtr robot_model = robot_model_loader->getModel();
+  moveit::core::RobotModelPtr robot_model = robot_model_loader->getModel();
 
   /* We can get the most up to date robot state from the PlanningSceneMonitor by locking the internal planning scene
      for reading. This lock ensures that the underlying scene isn't updated while we are reading it's state.
      RobotState's are useful for computing the forward and inverse kinematics of the robot among many other uses */
-  robot_state::RobotStatePtr robot_state(
-      new robot_state::RobotState(planning_scene_monitor::LockedPlanningSceneRO(psm)->getCurrentState()));
+  moveit::core::RobotStatePtr robot_state(
+      new moveit::core::RobotState(planning_scene_monitor::LockedPlanningSceneRO(psm)->getCurrentState()));
 
   /* Create a JointModelGroup to keep track of the current robot pose and planning group. The Joint Model
      group is useful for dealing with one set of joints at a time such as a left arm or a end effector */
-  const robot_model::JointModelGroup* joint_model_group = robot_state->getJointModelGroup("panda_arm");
+  const moveit::core::JointModelGroup* joint_model_group = robot_state->getJointModelGroup("panda_arm");
 
   // We can now setup the PlanningPipeline object, which will use the ROS parameter server
   // to determine the set of request adapters and the planning plugin to use
@@ -151,7 +151,7 @@ int main(int argc, char** argv)
   // package.
   //
   // .. _kinematic_constraints:
-  //     http://docs.ros.org/indigo/api/moveit_core/html/namespacekinematic__constraints.html#a88becba14be9ced36fefc7980271e132
+  //     http://docs.ros.org/noetic/api/moveit_core/html/namespacekinematic__constraints.html#a88becba14be9ced36fefc7980271e132
   req.group_name = "panda_arm";
   moveit_msgs::Constraints pose_goal =
       kinematic_constraints::constructGoalConstraints("panda_link8", pose, tolerance_pose, tolerance_angle);
@@ -197,10 +197,10 @@ int main(int argc, char** argv)
   /* First, set the state in the planning scene to the final state of the last plan */
   robot_state = planning_scene_monitor::LockedPlanningSceneRO(psm)->getCurrentStateUpdated(response.trajectory_start);
   robot_state->setJointGroupPositions(joint_model_group, response.trajectory.joint_trajectory.points.back().positions);
-  robot_state::robotStateToRobotStateMsg(*robot_state, req.start_state);
+  moveit::core::robotStateToRobotStateMsg(*robot_state, req.start_state);
 
   // Now, setup a joint space goal
-  robot_state::RobotState goal_state(*robot_state);
+  moveit::core::RobotState goal_state(*robot_state);
   std::vector<double> joint_values = { -1.0, 0.7, 0.7, -1.5, -0.7, 2.0, 0.0 };
   goal_state.setJointGroupPositions(joint_model_group, joint_values);
   moveit_msgs::Constraints joint_goal = kinematic_constraints::constructGoalConstraints(goal_state, joint_model_group);
@@ -243,11 +243,11 @@ int main(int argc, char** argv)
   /* First, set the state in the planning scene to the final state of the last plan */
   robot_state = planning_scene_monitor::LockedPlanningSceneRO(psm)->getCurrentStateUpdated(response.trajectory_start);
   robot_state->setJointGroupPositions(joint_model_group, response.trajectory.joint_trajectory.points.back().positions);
-  robot_state::robotStateToRobotStateMsg(*robot_state, req.start_state);
+  moveit::core::robotStateToRobotStateMsg(*robot_state, req.start_state);
 
   // Now, set one of the joints slightly outside its upper limit
-  const robot_model::JointModel* joint_model = joint_model_group->getJointModel("panda_joint3");
-  const robot_model::JointModel::Bounds& joint_bounds = joint_model->getVariableBounds();
+  const moveit::core::JointModel* joint_model = joint_model_group->getJointModel("panda_joint3");
+  const moveit::core::JointModel::Bounds& joint_bounds = joint_model->getVariableBounds();
   std::vector<double> tmp_values(1, 0.0);
   tmp_values[0] = joint_bounds[0].min_position_ - 0.01;
   robot_state->setJointPositions(joint_model, tmp_values);

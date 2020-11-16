@@ -25,28 +25,12 @@ Using CHOMP with Your Robot
 #. Adjust the line ``<rosparam command="load" file="$(find panda_moveit_config)/config/chomp_planning.yaml" />`` to ``<rosparam command="load" file="$(find <robot_moveit_config>)/config/chomp_planning.yaml" />`` replacing ``<robot_moveit_config>`` with the name of your MoveIt configuration package.
 #. Download :panda_codedir:`chomp_planning.yaml <config/chomp_planning.yaml>` file into the config directory of your MoveIt config package. In our case, we will save this file in the ``panda_moveit_config/config`` directory.
 #. Open ``chomp_planning.yaml`` in your favorite editor and change ``animate_endeffector_segment: "panda_rightfinger"`` to the appropriate link for your robot.
-#. Copy the ``demo.launch`` file to ``demo_chomp.launch``. Note that this file is also in the launch directory of your MoveIt config package. In our case, the ``panda_moveit_config/launch`` directory.
-#. Find the lines where ``move_group.launch`` is included and change it to: ::
-
-    <!-- Replace <robot_moveit_config> with the name of your MoveIt configuration package -->
-    <include file="$(find <robot_moveit_config>)/launch/move_group.launch">
-      <arg name="allow_trajectory_execution" value="true"/>
-      <arg name="fake_execution" value="true"/>
-      <arg name="info" value="true"/>
-      <arg name="debug" value="$(arg debug)"/>
-      <arg name="planner" value="chomp" />
-    </include>
-#. Open the ``move_group.launch`` file in your ``<robot_moveit_config>/launch/`` folder and make two changes.
-
- * First, add ``<arg name="planner" default="ompl" />`` just under the ``<launch>`` tag, and,
-
- * Second, within the ``<include ns="move_group">`` tag replace ``<arg name="pipeline" value="ompl" />`` with ``<arg name="pipeline" value="$(arg planner)" />``.
 
 Running the Demo
 ----------------
 If you have the ``panda_moveit_config`` from the `ros-planning/panda_moveit_config <https://github.com/ros-planning/panda_moveit_config>`_ repository you should be able to simply run the demo: ::
 
-  roslaunch panda_moveit_config demo_chomp.launch
+  roslaunch panda_moveit_config demo.launch pipeline:=chomp
 
 Running CHOMP with Obstacles in the Scene
 +++++++++++++++++++++++++++++++++++++++++
@@ -58,7 +42,7 @@ This script creates a cluttered scene with four obstacles or a simple scene with
 
 To run the CHOMP planner with obstacles, open two shells. In the first shell start RViz and wait for everything to finish loading: ::
 
-  roslaunch panda_moveit_config demo_chomp.launch
+  roslaunch panda_moveit_config demo.launch pipeline:=chomp
 
 In the second shell, run either of the two commands: ::
 
@@ -122,37 +106,36 @@ CHOMP: While most high-dimensional motion planners separate trajectory generatio
 
 For scenes containing obstacles, CHOMP often generates paths which do not prefer smooth trajectories by addition of some noise (*ridge_factor*) in the cost function for the dynamical quantities of the robot (like acceleration, velocity). CHOMP is able to avoid obstacles in most cases but it can fail if it gets stuck in the local minima due to a bad initial guess for the trajectory. OMPL can be used to generate collision-free seed trajectories for CHOMP to mitigate this issue.
 
-Using OMPL as a pre-processor for CHOMP
----------------------------------------
+Using CHOMP as a post-processor for OMPL
+----------------------------------------
 Here, it is demonstrated that CHOMP can also be used as a post-processing optimization technique for plans obtained by other planning algorithms. The intuition behind this is that some randomized planning algorithm produces an initial guess for CHOMP. CHOMP then takes this initial guess and further optimizes the trajectory.
 To achieve this, follow the steps:
 
-#. Open the ``ompl_planning_pipeline.launch`` file in the ``<robot_moveit_config>/launch`` folder of your robot. For the Panda robot it is :panda_codedir:`this <launch/ompl_planning_pipeline.launch.xml>` file. Edit this launch file, find the lines where ``<arg name="planning_adapters">`` is mentioned and change it to: ::
+#. Create a new launch file ``ompl-chomp_planning_pipeline.launch`` in the ``<robot_moveit_config>/launch`` folder of your robot with the following contents: ::
 
-    <arg name="planning_adapters"
-         value="default_planner_request_adapters/FixWorkspaceBounds
-                default_planner_request_adapters/FixStartStateBounds
-                default_planner_request_adapters/FixStartStateCollision
-                default_planner_request_adapters/FixStartStatePathConstraints
-                chomp/OptimizerAdapter
-                default_planner_request_adapters/AddTimeParameterization" />
+    <launch>
+      <!-- load OMPL planning pipeline, but add the CHOMP planning adapter. -->
+      <include file="$(find panda_moveit_config)/launch/ompl_planning_pipeline.launch.xml">
+        <arg name="planning_adapters" value="
+           default_planner_request_adapters/AddTimeParameterization
+           default_planner_request_adapters/FixWorkspaceBounds
+           default_planner_request_adapters/FixStartStateBounds
+           default_planner_request_adapters/FixStartStateCollision
+           default_planner_request_adapters/FixStartStatePathConstraints
+           chomp/OptimizerAdapter"
+           />
+      </include>
+      <!-- load chomp config -->
+      <rosparam command="load" file="$(find panda_moveit_config)/config/chomp_planning.yaml"/>
+      <!-- override trajectory_initialization_method -->
+      <param name="trajectory_initialization_method" value="fillTrajectory"/>
+    </launch>
 
-#. The order of the ``planning_adapters`` is the order in which the mentioned adapters are called / invoked. Inside the CHOMP adapter, a :moveit_codedir:`call <moveit_planners/chomp/chomp_optimizer_adapter/src/chomp_optimizer_adapter.cpp#L169>` to OMPL is made before invoking the CHOMP optimization solver, so CHOMP takes the initial path computed by OMPL as the starting point to further optimize it.
+#. This launch file defines the new planning pipeline ``ompl-chomp``, deriving from the ``ompl`` pipeline,
+   but adding the CHOMP post-processor as a planning adapter. Also, the ``trajectory_initialization_method`` is overriden to use the OMPL-generated trajectory.
 
-#. Find the line where ``<rosparam command="load" file="$(find panda_moveit_config)/config/ompl_planning.yaml"/>`` is mentioned and after this line, add the following: ::
+#. Now you can launch the newly configure planning pipeline as follows: ::
 
-    <rosparam command="load" file="$(find panda_moveit_config)/config/chomp_planning.yaml"/>
-
-#. These additions will add a CHOMP Optimization adapter and load the corresponding CHOMP planner's parameters. To do this with your own robot replace ``panda_moveit_config`` to ``<my_robot>_moveit_config`` of your robot.
-
-#. In the ``move_group.launch`` file of ``<robot_moveit_config>/launch`` folder for your robot, make sure that the default planner is ``ompl``.
-
-#. In the ``chomp_planning.yaml`` file of ``<robot_moveit_config>/config`` folder for your robot, add the following line: ::
-
-    trajectory_initialization_method: "fillTrajectory"
-
-#. After making these requisite changes to the launch files, open a terminal and execute the following: ::
-
-    roslaunch panda_moveit_config demo_chomp.launch
+    roslaunch panda_moveit_config demo.launch pipeline:=ompl-chomp
 
 This will launch RViz, select OMPL in the Motion Planning panel under the Context tab. Set the desired start and goal states by moving the end-effector around in the same way as was done for CHOMP above. Finally click on the Plan button to start planning. The planner will now first run OMPL, then run CHOMP on OMPL's output to produce an optimized path.

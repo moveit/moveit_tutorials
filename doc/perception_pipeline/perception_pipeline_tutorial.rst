@@ -140,7 +140,10 @@ Roslaunch the launch file to run the code directly from moveit_tutorials: ::
 
  roslaunch moveit_tutorials obstacle_avoidance_demo.launch
 
-you should see something like the image shown at the beginning of this tutorial.
+You should see something like the image shown at the beginning of this tutorial.
+If not, you may have run into a `known OpenGL rendering issue <http://wiki.ros.org/rviz/Troubleshooting>`_. To work around the issue, you can force CPU-based rendering with this command:
+
+ export LIBGL_ALWAYS_SOFTWARE=1
 
 You can test obstacle avoidance for yourself by setting the goal state manually and then planning and executing. To learn how to do that look at `MoveIt Quickstart in RViz <../quickstart_in_rviz/quickstart_in_rviz_tutorial.html>`_
 

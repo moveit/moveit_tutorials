@@ -53,8 +53,8 @@ Plugin usage
 
 In this subsection, we explain how to load and use the lerp planner that we have created previously. To this end, a ros node called ``lerp_example.cpp`` is created. The first step is to get the state and  group of joints of the robot that are related to the requested planning group as well as the planning scene by the following lines of code: ::
 
-  robot_state::RobotStatePtr robot_state(new robot_state::RobotState(robot_model));
-  const robot_state::JointModelGroup* joint_model_group = robot_state->getJointModelGroup(PLANNING_GROUP);
+  moveit::core::RobotStatePtr robot_state(new moveit::core::RobotState(robot_model));
+  const moveit::core::JointModelGroup* joint_model_group = robot_state->getJointModelGroup(PLANNING_GROUP);
   const std::vector<std::string>& joint_names = joint_model_group->getVariableNames();
   planning_scene::PlanningScenePtr planning_scene(new planning_scene::PlanningScene(robot_model));
 
@@ -73,7 +73,7 @@ Having the planner loaded, it is time to set the start and goal state for the mo
   req.start_state.joint_state.position = start_joint_values;
 
   // Goal constraint
-  robot_state::RobotState goal_state(robot_model);
+  moveit::core::RobotState goal_state(robot_model);
   std::vector<double> joint_values = { 0.8, 0.7, 1, 1.3, 1.9, 2.2, 3 };
   goal_state.setJointGroupPositions(joint_model_group, joint_values);
   moveit_msgs::Constraints joint_goal = kinematic_constraints::constructGoalConstraints(goal_state, joint_model_group);

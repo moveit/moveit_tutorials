@@ -6,8 +6,8 @@ target_link_libraries(bag_publisher_maintain_time ${catkin_LIBRARIES} ${Boost_LI
 
 install(
 TARGETS
-	bag_publisher_maintain_time
-	cylinder_segment
+    bag_publisher_maintain_time
+    cylinder_segment
 DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
 install(DIRECTORY launch DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})

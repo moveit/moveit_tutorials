@@ -31,18 +31,20 @@ The script defaults to using ``/dev/input/js0`` for your game controller port. T
 
     roslaunch panda_moveit_config joystick_control.launch dev:=/dev/input/js1
 
-This script can read four types of joysticks:
+This script can handle the following types of joysticks:
 
-1. XBox360 Controller via USB
-2. PS3 Controller via USB
-3. PS3 Controller via Bluetooth (Please use ps3joy package at `http://wiki.ros.org/ps3joy <http://wiki.ros.org/ps3joy>`_)
-4. Arctic USB Wireless `Gamepad <https://www.arctic.ac/eu_en/usb-wireless-gamepad.html>`_
+1. PS3 Controller via USB
+2. PS3 Controller via Bluetooth (Please use ps3joy package at `http://wiki.ros.org/ps3joy <http://wiki.ros.org/ps3joy>`_)
+3. PS4 Controller via USB
+4. PS4 Controller via Bluetooth (Please use ds4_driver package at `http://wiki.ros.org/ds4_driver <http://wiki.ros.org/ds4_driver>`_)
+5. XBox360 Controller via USB
+6. Arctic USB Wireless `Gamepad <https://www.arctic.ac/eu_en/usb-wireless-gamepad.html>`_
 
 Joystick Command Mappings
 -------------------------
 
 =====================   ==================   ===================== ==================
-Command                 PS3 Controller       Xbox Controller       Arctic Controller
+Command                 PS3/4 Controller     Xbox Controller       Arctic Controller
 =====================   ==================   ===================== ==================
 +-x/y                   left analog stick    left analog stick     left analog stick
 +-z                     L2/R2                LT/RT                 L2/R2

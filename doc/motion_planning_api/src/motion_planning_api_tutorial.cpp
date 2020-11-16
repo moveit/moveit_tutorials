@@ -69,13 +69,13 @@ int main(int argc, char** argv)
   // to use.
   //
   // .. _RobotModelLoader:
-  //     http://docs.ros.org/indigo/api/moveit_ros_planning/html/classrobot__model__loader_1_1RobotModelLoader.html
+  //     http://docs.ros.org/noetic/api/moveit_ros_planning/html/classrobot__model__loader_1_1RobotModelLoader.html
   const std::string PLANNING_GROUP = "panda_arm";
   robot_model_loader::RobotModelLoader robot_model_loader("robot_description");
-  robot_model::RobotModelPtr robot_model = robot_model_loader.getModel();
+  const moveit::core::RobotModelPtr& robot_model = robot_model_loader.getModel();
   /* Create a RobotState and JointModelGroup to keep track of the current robot pose and planning group*/
-  robot_state::RobotStatePtr robot_state(new robot_state::RobotState(robot_model));
-  const robot_state::JointModelGroup* joint_model_group = robot_state->getJointModelGroup(PLANNING_GROUP);
+  moveit::core::RobotStatePtr robot_state(new moveit::core::RobotState(robot_model));
+  const moveit::core::JointModelGroup* joint_model_group = robot_state->getJointModelGroup(PLANNING_GROUP);
 
   // Using the :moveit_core:`RobotModel`, we can construct a :planning_scene:`PlanningScene`
   // that maintains the state of the world (including the robot).
@@ -115,8 +115,8 @@ int main(int argc, char** argv)
   {
     const std::vector<std::string>& classes = planner_plugin_loader->getDeclaredClasses();
     std::stringstream ss;
-    for (std::size_t i = 0; i < classes.size(); ++i)
-      ss << classes[i] << " ";
+    for (const auto& cls : classes)
+      ss << cls << " ";
     ROS_ERROR_STREAM("Exception while loading planner '" << planner_plugin_name << "': " << ex.what() << std::endl
                                                          << "Available plugins: " << ss.str());
   }
@@ -173,7 +173,7 @@ int main(int argc, char** argv)
   // package.
   //
   // .. _kinematic_constraints:
-  //     http://docs.ros.org/indigo/api/moveit_core/html/namespacekinematic__constraints.html#a88becba14be9ced36fefc7980271e132
+  //     http://docs.ros.org/noetic/api/moveit_core/html/namespacekinematic__constraints.html#a88becba14be9ced36fefc7980271e132
   moveit_msgs::Constraints pose_goal =
       kinematic_constraints::constructGoalConstraints("panda_link8", pose, tolerance_pose, tolerance_angle);
 
@@ -224,7 +224,7 @@ int main(int argc, char** argv)
   // Joint Space Goals
   // ^^^^^^^^^^^^^^^^^
   // Now, setup a joint space goal
-  robot_state::RobotState goal_state(robot_model);
+  moveit::core::RobotState goal_state(robot_model);
   std::vector<double> joint_values = { -1.0, 0.7, 0.7, -1.5, -0.7, 2.0, 0.0 };
   goal_state.setJointGroupPositions(joint_model_group, joint_values);
   moveit_msgs::Constraints joint_goal = kinematic_constraints::constructGoalConstraints(goal_state, joint_model_group);

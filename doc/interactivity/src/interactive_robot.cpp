@@ -41,8 +41,8 @@
 #include <moveit/robot_state/conversions.h>
 
 // default world object position is just in front and left of Panda robot.
-const Eigen::Isometry3d InteractiveRobot::DEFAULT_WORLD_OBJECT_POSE_(Eigen::Isometry3d(Eigen::Translation3d(0.25, -0.5,
-                                                                                                            0.5)));
+const Eigen::Isometry3d
+    InteractiveRobot::DEFAULT_WORLD_OBJECT_POSE_(Eigen::Isometry3d(Eigen::Translation3d(0.25, -0.5, 0.5)));
 
 // size of the world geometry cube
 const double InteractiveRobot::WORLD_BOX_SIZE_ = 0.15;
@@ -52,23 +52,18 @@ const ros::Duration InteractiveRobot::min_delay_(0.01);
 
 InteractiveRobot::InteractiveRobot(const std::string& robot_description, const std::string& robot_topic,
                                    const std::string& marker_topic, const std::string& imarker_topic)
-  :  // this node handle is used to create the publishers
-  nh_()
-  ,
+  : user_data_(nullptr)
+  , nh_()  // this node handle is used to create the publishers
   // create publishers for markers and robot state
-  robot_state_publisher_(nh_.advertise<moveit_msgs::DisplayRobotState>(robot_topic, 1))
+  , robot_state_publisher_(nh_.advertise<moveit_msgs::DisplayRobotState>(robot_topic, 1))
   , world_state_publisher_(nh_.advertise<visualization_msgs::Marker>(marker_topic, 100))
-  ,
   // create an interactive marker server for displaying interactive markers
-  interactive_marker_server_(imarker_topic)
-  , imarker_robot_(0)
-  , imarker_world_(0)
-  ,
+  , interactive_marker_server_(imarker_topic)
+  , imarker_robot_(nullptr)
+  , imarker_world_(nullptr)
   // load the robot description
-  rm_loader_(robot_description)
-  , group_(0)
-  , user_data_(0)
-  , user_callback_(0)
+  , rm_loader_(robot_description)
+  , group_(nullptr)
 {
   // get the RobotModel loaded from urdf and srdf files
   robot_model_ = rm_loader_.getModel();
@@ -79,7 +74,7 @@ InteractiveRobot::InteractiveRobot(const std::string& robot_description, const s
   }
 
   // create a RobotState to keep track of the current robot pose
-  robot_state_.reset(new robot_state::RobotState(robot_model_));
+  robot_state_.reset(new moveit::core::RobotState(robot_model_));
   if (!robot_state_)
   {
     ROS_ERROR("Could not get RobotState from Model");
@@ -209,7 +204,7 @@ void InteractiveRobot::scheduleUpdate()
 }
 
 /* callback called when it is time to publish */
-void InteractiveRobot::updateCallback(const ros::TimerEvent& e)
+void InteractiveRobot::updateCallback(const ros::TimerEvent& /*event*/)
 {
   ros::Time tbegin = ros::Time::now();
   publish_timer_.stop();
@@ -244,7 +239,7 @@ void InteractiveRobot::updateAll()
 // change which group is being manipulated
 void InteractiveRobot::setGroup(const std::string& name)
 {
-  const robot_model::JointModelGroup* group = robot_state_->getJointModelGroup(name);
+  const moveit::core::JointModelGroup* group = robot_state_->getJointModelGroup(name);
   if (!group)
   {
     ROS_ERROR_STREAM("No joint group named " << name);
@@ -277,7 +272,7 @@ void InteractiveRobot::setGroupPose(const Eigen::Isometry3d& pose)
 void InteractiveRobot::publishRobotState()
 {
   moveit_msgs::DisplayRobotState msg;
-  robot_state::robotStateToRobotStateMsg(*robot_state_, msg.state);
+  moveit::core::robotStateToRobotStateMsg(*robot_state_, msg.state);
   robot_state_publisher_.publish(msg);
 }
 

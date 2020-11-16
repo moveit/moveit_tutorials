@@ -54,8 +54,6 @@
 #include <moveit/robot_model/robot_model.h>
 #include <moveit/robot_state/robot_state.h>
 
-#include <lerp_interface/lerp_planning_context.h>
-
 int main(int argc, char** argv)
 {
   const std::string NODE_NAME = "lerp_example";
@@ -77,17 +75,16 @@ int main(int argc, char** argv)
   psm->startWorldGeometryMonitor();
   psm->startStateMonitor();
 
-  robot_model::RobotModelPtr robot_model = robot_model_loader->getModel();
+  moveit::core::RobotModelPtr robot_model = robot_model_loader->getModel();
 
   // Create a RobotState and to keep track of the current robot pose and planning group
-  robot_state::RobotStatePtr robot_state(
-      new robot_state::RobotState(planning_scene_monitor::LockedPlanningSceneRO(psm)->getCurrentState()));
+  moveit::core::RobotStatePtr robot_state(
+      new moveit::core::RobotState(planning_scene_monitor::LockedPlanningSceneRO(psm)->getCurrentState()));
   robot_state->setToDefaultValues();
   robot_state->update();
 
   // Create JointModelGroup
-  const robot_state::JointModelGroup* joint_model_group = robot_state->getJointModelGroup(PLANNING_GROUP);
-  const std::vector<std::string>& joint_names = joint_model_group->getActiveJointModelNames();
+  const moveit::core::JointModelGroup* joint_model_group = robot_state->getJointModelGroup(PLANNING_GROUP);
   const std::vector<std::string>& link_model_names = joint_model_group->getLinkModelNames();
   ROS_INFO_NAMED(NODE_NAME, "end effector name %s\n", link_model_names.back().c_str());
 
@@ -185,9 +182,9 @@ int main(int argc, char** argv)
     std::vector<double> solution_positions;
     solution_positions = solution_traj.joint_trajectory.points[step_num].positions;
     std::stringstream sst;
-    for (int i = 0; i < solution_positions.size(); ++i)
+    for (double solution_position : solution_positions)
     {
-      sst << solution_positions[i] << " ";
+      sst << solution_position << " ";
     }
     ROS_INFO_STREAM_NAMED(NODE_NAME, sst.str());
   }

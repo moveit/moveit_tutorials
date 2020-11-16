@@ -49,6 +49,7 @@ The parameters are:
  * *type*: The type of action being used (here GripperCommand).
  * *default*: The default controller is the primary controller chosen by MoveIt for communicating with a particular set of joints.
  * *joints*: Names of all the joints that are being addressed by this interface.
+ * *command_joint*: The single joint, controlling the actual state of the gripper. This is the only value that is sent to the controller. Has to be one of the joints above. If not specified, the first entry in *joints* will be used instead.
  * *parallel*: When this is set, *joints* should be of size 2, and the command will be the sum of the two joints.
 
 Optional Allowed Trajectory Execution Duration Parameters

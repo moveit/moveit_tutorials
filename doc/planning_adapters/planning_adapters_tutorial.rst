@@ -41,14 +41,14 @@ To achieve this, follow the steps:
 #. Open the ``ompl_planning_pipeline.launch`` file in the ``<robot_moveit_config>/launch`` folder of your robot. For the Panda robot it is this `file <https://github.com/ros-planning/panda_moveit_config/blob/melodic-devel/launch/ompl_planning_pipeline.launch.xml>`_. Edit this launch file, find the lines where ``<arg name="planning_adapters">`` is mentioned and change it to: ::
 
     <arg name="planning_adapters"
-         value="default_planner_request_adapters/FixWorkspaceBounds
+         value="default_planner_request_adapters/AddTimeParameterization
+                default_planner_request_adapters/FixWorkspaceBounds
                 default_planner_request_adapters/FixStartStateBounds
                 default_planner_request_adapters/FixStartStateCollision
                 default_planner_request_adapters/FixStartStatePathConstraints
-                chomp/OptimizerAdapter
-                default_planner_request_adapters/AddTimeParameterization" />
+                chomp/OptimizerAdapter" />
 
-#. The values of the ``planning_adapters`` is the order in which the mentioned adapters are called / invoked. Order here matters. Inside the CHOMP adapter, a :moveit_codedir:`call <moveit_planners/chomp/chomp_optimizer_adapter/src/chomp_optimizer_adapter.cpp#L169>` to OMPL is made before invoking the CHOMP optimization solver, so CHOMP takes the initial path computed by OMPL as the starting point to further optimize it. 
+#. The values of the ``planning_adapters`` is the order in which the mentioned adapters are called / invoked. Order here matters. Inside the CHOMP adapter, a :moveit_codedir:`call <moveit_planners/chomp/chomp_optimizer_adapter/src/chomp_optimizer_adapter.cpp#L169>` to OMPL is made before invoking the CHOMP optimization solver, so CHOMP takes the initial path computed by OMPL as the starting point to further optimize it.
 
 #. Find the line where ``<rosparam command="load" file="$(find panda_moveit_config)/config/ompl_planning.yaml"/>`` is mentioned and after this line, add the following: ::
 
@@ -64,7 +64,7 @@ To achieve this, follow the steps:
 
 #. After making these requisite changes to the launch files, open a terminal and execute the following: ::
 
-    roslaunch panda_moveit_config demo_chomp.launch
+    roslaunch panda_moveit_config demo.launch pipeline:=chomp
 
 This will launch RViz, select OMPL in the Motion Planning panel under the Context tab. Set the desired start and goal states by moving the end-effector around in the same way as was done for CHOMP above. Finally click on the Plan button to start planning. The planner will now first run OMPL, then run CHOMP on OMPL's output to produce an optimized path.
 
@@ -81,7 +81,7 @@ To achieve this, follow the steps:
                    default_planner_request_adapters/FixStartStateBounds
                    default_planner_request_adapters/FixStartStateCollision
                    default_planner_request_adapters/FixStartStatePathConstraints
-                   default_planner_request_adapters/CHOMPOptimizationAdapter" />
+                   chomp/OptimizerAdapter" />
 
 #. The values of the ``planning_adapters`` is the order in which the mentioned adapters are called / invoked. Order here matters. Inside the CHOMP adapter, a call to STOMP is made before invoking the CHOMP optimization solver, so CHOMP takes the initial path computed by STOMP as the starting point to further optimize it.
 
@@ -118,7 +118,7 @@ To achieve this, follow the steps:
                    default_planner_request_adapters/FixStartStateBounds
                    default_planner_request_adapters/FixStartStateCollision
                    default_planner_request_adapters/FixStartStatePathConstraints
-                   default_planner_request_adapters/STOMPSmoothingAdapter" />
+                   stomp_moveit/StompSmoothingAdapter" />
 
 #. The values of the ``planning_adapters`` is the order in which the mentioned adapters are called / invoked. Order here matters. Inside the STOMP adapter, a call to OMPL is made before invoking the STOMP smoothing solver, so STOMP takes the initial path computed by OMPL as the starting point to further optimize it.
 
@@ -136,7 +136,7 @@ To achieve this, follow the steps:
 
  with this line: ::
 
-	initialization_method: 4 #[1 : LINEAR_INTERPOLATION, 2 : CUBIC_POLYNOMIAL, 3 : MININUM_CONTROL_COST, 4 : FILL_TRACJECTORY]
+    initialization_method: 4 #[1 : LINEAR_INTERPOLATION, 2 : CUBIC_POLYNOMIAL, 3 : MININUM_CONTROL_COST, 4 : FILL_TRACJECTORY]
 
 7. After making these requisite changes to the launch files, open a terminal and execute the following: ::
 
@@ -154,7 +154,7 @@ To achieve this, follow the steps:
 
 #. Open the ``chomp_planning_pipeline.launch`` file in the ``<robot_moveit_config>/launch`` folder of your robot. For the Panda robot it is `this file <https://github.com/ros-planning/panda_moveit_config/blob/melodic-devel/launch/chomp_planning_pipeline.launch.xml>`_. Edit this launch file, find the lines where ``<arg name="planning_plugins">`` is mentioned and add the following lines below it: ::
 
-    <arg name="planning_adapters" value="default_planner_request_adapters/STOMPSmoothingAdapter" />
+    <arg name="planning_adapters" value="stomp_moveit/StompSmoothingAdapter" />
     <param name="request_adapters" value="$(arg planning_adapters)" />
 
 #. The values of the ``planning_adapters`` is the order in which the mentioned adapters are called / invoked. Order here matters. Inside the STOMP adapter, a call to CHOMP is made before invoking the STOMP smoothing solver, so STOMP takes the initial path computed by CHOMP as the starting point to further smoothen it.
@@ -173,7 +173,7 @@ To achieve this, follow the steps:
 
  with this line: ::
 
-	initialization_method: 4 #[1 : LINEAR_INTERPOLATION, 2 : CUBIC_POLYNOMIAL, 3 : MININUM_CONTROL_COST, 4 : FILL_TRACJECTORY]
+    initialization_method: 4 #[1 : LINEAR_INTERPOLATION, 2 : CUBIC_POLYNOMIAL, 3 : MININUM_CONTROL_COST, 4 : FILL_TRACJECTORY]
 
 7. After making these requisite changes to the launch files, open a terminal and execute the following: ::
 
