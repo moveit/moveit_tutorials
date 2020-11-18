@@ -77,6 +77,7 @@ Configuration
    doc/chomp_planner/chomp_planner_tutorial
    doc/stomp_planner/stomp_planner_tutorial
    doc/trajopt_planner/trajopt_planner_tutorial
+   doc/pilz_industrial_motion_planner/pilz_industrial_motion_planner
    doc/planning_adapters/planning_adapters_tutorial.rst
 
 Miscellaneous
