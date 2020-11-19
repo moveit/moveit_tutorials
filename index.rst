@@ -50,6 +50,7 @@ Building more complex applications with MoveIt often requires developers to dig 
    doc/moveit_deep_grasps/moveit_deep_grasps_tutorial
    doc/subframes/subframes_tutorial
    doc/moveit_cpp/moveitcpp_tutorial
+   doc/bullet_collision_checker/bullet_collision_checker
 
 Integration with a New Robot
 ----------------------------
