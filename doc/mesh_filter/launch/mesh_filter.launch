@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
 
-  <include file="$(find picknik_ur5_moveit_config)/launch/test_gazebo.launch"/>
+  <include file="$(find moveit_tutorials)/doc/mesh_filter/launch/test_gazebo.launch"/>
 
   <node name="relay_depth" pkg="topic_tools" type="relay" args="/camera/depth/image_raw /depth"/>
   <node name="relay_camera_info" pkg="topic_tools" type="relay" args="/camera/color/camera_info /camera_info"/>

@@ -6,7 +6,7 @@
 
   <!-- common stuff -->
   <xacro:include filename="$(find ur_description)/urdf/common.gazebo.xacro" />
-  <include filename="$(find mesh_filter)/urdf/ur5_sensor.gazebo" />
+  <include filename="$(find moveit_tutorials)/doc/mesh_filter/urdf/ur5_sensor.gazebo" />
 
   <!-- ur5 -->
   <xacro:include filename="$(find ur_description)/urdf/ur5.urdf.xacro" />
