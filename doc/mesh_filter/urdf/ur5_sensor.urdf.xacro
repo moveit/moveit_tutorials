@@ -12,37 +12,8 @@
   <xacro:include filename="$(find ur_description)/urdf/ur5.urdf.xacro" />
 
   <xacro:ur5_robot prefix="" joint_limited="false"
-    transmission_hw_interface="$(arg transmission_hw_interface)"/>
-
-  <link name="kinect">
-    <visual>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="package://moveit_tutorials/doc/mesh_filter/meshes/kinect.dae"/>
-      </geometry>
-    </visual>
-    <inertial>
-      <mass value="0.001"/>
-      <origin xyz="0 0 0"/>
-      <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001"/>
-    </inertial>
-    <collision>
-      <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
-      <geometry>
-        <box size="0.07271 0.27794 0.073"/>
-      </geometry>
-    </collision>
-  </link>
-
-  <joint type="fixed" name="kinect_joint">
-    <origin xyz="0.15 -1 0.1" rpy="-1.57 0 0"/>
-    <child link="kinect"/>
-    <parent link="table"/>
-    <axis xyz="0 0 0" rpy="0 0 0"/>
-    <limit effort="10000" velocity="1000"/>
-    <dynamics damping="1.0" friction="1.0"/>
-  </joint>
-
+    transmission_hw_interface="$(arg transmission_hw_interface)"/> 
+ 
   <link name="world" />
 
   <link name="table">
@@ -74,10 +45,100 @@
     <child link="table"/>
   </joint>
 
-  <joint name="table_arm_joint" type="fixed">
+  <joint name="table_joint" type="fixed">
     <parent link="table"/>
     <child link="base_link"/>
   </joint>
+
+  <joint type="fixed" name="table_camera_joint">
+    <origin xyz="0.15 -1 0.1" rpy="0 0 1.57"/>
+    <child link="camera_rgb_frame"/>
+    <parent link="table"/>
+    <axis xyz="0 0 0" rpy="0 0 0"/>
+    <limit effort="10000" velocity="1000"/>
+    <dynamics damping="1.0" friction="1.0"/>
+  </joint>
+
+  <link name="camera_rgb_frame">
+    <inertial>
+      <mass value="0.001"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001"/>
+    </inertial>
+  </link>
+
+  <joint name="camera_rgb_optical_joint" type="fixed">
+    <origin rpy="-1.57079632679 0 -1.57079632679" xyz="0 0 0"/>
+    <parent link="camera_rgb_frame"/>
+    <child link="camera_rgb_optical_frame"/>
+  </joint>
+
+  <link name="camera_rgb_optical_frame">
+    <inertial>
+      <mass value="0.001"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001"/>
+    </inertial>
+  </link>
+
+  <joint name="camera_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="-0.031 -0.0 -0.016"/>
+    <parent link="camera_rgb_frame"/>
+    <child link="camera_link"/>
+  </joint>
+
+  <link name="camera_link">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://moveit_tutorials/doc/mesh_filter/meshes/kinect.dae"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+      <geometry>
+        <box size="0.07271 0.27794 0.073"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.001"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001"/>
+    </inertial>
+  </link>
+
+  <!-- The fixed joints & links below are usually published by static_transformers launched by the OpenNi launch
+     files. However, for Gazebo simulation we need them, so we add them here.
+     (Hence, don't publish them additionally!) -->
+
+  <joint name="camera_depth_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0.0 0"/>
+    <parent link="camera_rgb_frame"/>
+    <child link="camera_depth_frame"/>
+  </joint>
+  
+  <link name="camera_depth_frame">
+    <inertial>
+      <mass value="0.001"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001"/>
+    </inertial>
+  </link>
+
+  <joint name="camera_depth_optical_joint" type="fixed">
+    <origin rpy="-1.57079632679 0 -1.57079632679" xyz="0 0 0"/>
+    <parent link="camera_depth_frame"/>
+    <child link="camera_depth_optical_frame"/>
+  </joint>
+  
+  <link name="camera_depth_optical_frame">
+    <inertial>
+      <mass value="0.001"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001"/>
+    </inertial>
+  </link>
+
 
 
 </robot>

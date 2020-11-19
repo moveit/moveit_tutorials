@@ -72,17 +72,33 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        camera_depth_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        camera_depth_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        camera_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        camera_rgb_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        camera_rgb_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         ee_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
         forearm_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        kinect:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -106,6 +122,10 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        world:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         wrist_1_link:
           Alpha: 1
           Show Axes: false
@@ -196,58 +216,19 @@ Visualization Manager:
       Use rainbow: true
       Value: false
     - Class: rviz/TF
-      Enabled: true
+      Enabled: false
       Frame Timeout: 15
       Frames:
         All Enabled: true
-        base:
-          Value: true
-        base_link:
-          Value: true
-        ee_link:
-          Value: true
-        forearm_link:
-          Value: true
-        kinect:
-          Value: true
-        shoulder_link:
-          Value: true
-        table:
-          Value: true
-        tool0:
-          Value: true
-        upper_arm_link:
-          Value: true
-        wrist_1_link:
-          Value: true
-        wrist_2_link:
-          Value: true
-        wrist_3_link:
-          Value: true
       Marker Scale: 1
       Name: TF
       Show Arrows: true
       Show Axes: true
       Show Names: true
       Tree:
-        table:
-          base_link:
-            base:
-              {}
-            shoulder_link:
-              upper_arm_link:
-                forearm_link:
-                  wrist_1_link:
-                    wrist_2_link:
-                      wrist_3_link:
-                        ee_link:
-                          {}
-                        tool0:
-                          {}
-          kinect:
-            {}
+        {}
       Update Interval: 0
-      Value: true
+      Value: false
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -276,7 +257,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 2.8928275108337402
+      Distance: 6.395120620727539
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
