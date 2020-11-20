@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <robot>
-  <gazebo reference="camera_depth_frame">
+<gazebo reference="camera_depth_frame">
   <sensor name="kinect_camera" type="depth">
     <update_rate>20</update_rate>
     <camera>

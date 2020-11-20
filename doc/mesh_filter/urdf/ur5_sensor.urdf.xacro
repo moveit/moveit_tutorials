@@ -45,11 +45,13 @@
     <child link="table"/>
   </joint>
 
+  <!-- Attach UR5 to table -->
   <joint name="table_joint" type="fixed">
     <parent link="table"/>
     <child link="base_link"/>
   </joint>
 
+  <!-- Attach Kinect to table -->
   <joint type="fixed" name="table_camera_joint">
     <origin xyz="0.15 -1 0.1" rpy="0 0 1.57"/>
     <child link="camera_rgb_frame"/>
