@@ -92,9 +92,9 @@
   <link name="camera_link">
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
-      <!-- <geometry>
+      <geometry>
         <mesh filename="package://moveit_tutorials/doc/mesh_filter/meshes/kinect.dae"/>
-      </geometry> -->
+      </geometry>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
