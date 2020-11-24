@@ -1,7 +1,12 @@
 Mesh Filter with UR5 and Kinect
 ===============================
 
-The mesh filter takes in a point cloud, tf of robot and a URDF and publishes a modified point cloud with the point cloud subtracted that overlaps with the current robot state.
+MoveIt's mesh filter functionality removes your robot's geometry from its point cloud! If your robot's arm is in your depth sensor's view, the points associated with the arm are subtracted from the point cloud. 
+
+This is accomplished by giving the original point cloud, the robot's transforms (tf) and the robot's URDF as inputs.
+The filter then published a modified point cloud which does not contain the points that overlaps with the current robot state.
+
+.. image:: MeshFilter.gif
 
 Getting Started 
 ---------------
@@ -22,8 +27,6 @@ Roslaunch the launch file to run the code directly from moveit_tutorials: ::
  roslaunch moveit_tutorials mesh_filter.launch
 
 The above command opens a UR5 arm with Kinect sensor on Gazebo and Rviz
-
-.. image:: MeshFilter.gif
 
 Topic /filtered/depth produces the modified point cloud with points subtracted that overlaps with the robot state.
 
