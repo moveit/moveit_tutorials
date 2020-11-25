@@ -53,6 +53,12 @@ The following will install from Debian any package dependencies not already in y
 
   cd ~/ws_moveit/src
   rosdep install -y --from-paths . --ignore-src --rosdistro noetic
+  
+**Note October 2020** Until the next ROS release sync, you will need to install ros-noetic-fcl manually from the ros-testing repositories: ::
+
+        sudo sh -c 'echo "deb http://packages.ros.org/ros-testing/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+        sudo apt update
+        sudo apt install ros-noetic-fcl
 
 The next command will configure your catkin workspace: ::
 
