@@ -110,7 +110,7 @@ void computeCollisionContactPoints(InteractiveRobot& robot)
   c_req.max_contacts_per_pair = 5;
   c_req.verbose = false;
 
-  g_planning_scene->checkCollision(c_req, c_res, *robot.robotState());
+  g_planning_scene->checkSelfCollision(c_req, c_res, *robot.robotState());
 
   if (c_res.collision)
   {
@@ -239,7 +239,7 @@ int main(int argc, char** argv)
   collision_detection::CollisionResult res;
   collision_detection::CollisionRequest req;
   req.contacts = true;
-  planning_scene->checkCollision(req, res);
+  planning_scene->checkSelfCollision(req, res);
   ROS_INFO_STREAM_NAMED("bullet_tutorial", (res.collision ? "In collision." : "Not in collision."));
   // This code is repeated for the second robot configuration.
   // END_SUB_TUTORIAL
@@ -283,7 +283,7 @@ int main(int argc, char** argv)
   visual_tools.publishRobotState(state);
 
   res.clear();
-  planning_scene->checkCollision(req, res);
+  planning_scene->checkSelfCollision(req, res);
   ROS_INFO_STREAM_NAMED("bullet_tutorial", (res.collision ? "In collision." : "Not in collision."));
 
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to perform a CCD check.");
