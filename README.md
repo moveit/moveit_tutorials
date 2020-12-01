@@ -62,6 +62,7 @@ We rely on the community to keep these tutorials up to date and bug free. If you
 * Each tutorial should be focused on teaching the user one feature or interface within MoveIt.
 * Tutorials should flow from show to tell with videos and demos at the beginning followed by explanations.
 * New tutorials should match the formatting, style and flow of existing tutorials whenever possible.
+* If you want to include something with animation, do not embed a gif. Either link to an external (YouTube) video or attach a more optimized file format like webm, and then embed it using the [`raw` HTML code](https://docutils.sourceforge.io/docs/ref/rst/directives.html#raw-data-pass-through).
 
 ### Directory Structure
 
