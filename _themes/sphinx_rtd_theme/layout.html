@@ -104,6 +104,7 @@
         
         <div class="version">
           <div class="version-dropdown">
+            <lable for="version-list">Version:</lable>
           <select class="version-list" id="version-list" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
               <option value=''>{{ version }}</option>
               <option value="http://docs.ros.org/en/melodic/api/moveit_tutorials/html/index.html">Melodic</option>
