@@ -214,6 +214,23 @@ int main(int argc, char** argv)
   test_constraints.orientation_constraints.push_back(ocm);
   move_group.setPathConstraints(test_constraints);
 
+  // Enforce Planning in Joint Space
+  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  //
+  // Depending on the planning problem MoveIt chooses between 
+  // ``joint space`` and ``cartesian space`` for problem representation. 
+  // Setting the group parameter ``enforce_joint_model_state_space:true`` in
+  // the ompl_planning.yaml file enforces the use of ``joint space`` for all plans.
+  //
+  // By default planning requests with orientation path constraints 
+  // are sampled in ``cartesian space`` so that invoking IK serves as a 
+  // generative sampler.
+  //
+  // By enforcing ``joint space`` the planning process will use rejection 
+  // sampling to find valid requests. Please not that this might 
+  // increase planning time considerably.
+
+
   // We will reuse the old goal that we had and plan to it.
   // Note that this will only work if the current state already
   // satisfies the path constraints. So we need to set the start
