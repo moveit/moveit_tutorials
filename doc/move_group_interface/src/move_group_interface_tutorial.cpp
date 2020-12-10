@@ -227,10 +227,9 @@ int main(int argc, char** argv)
   // generative sampler.
   //
   // By enforcing ``joint space`` the planning process will use rejection 
-  // sampling to find valid requests. Please not that this might 
+  // sampling to find valid requests. Please note that this might 
   // increase planning time considerably.
-
-
+  //
   // We will reuse the old goal that we had and plan to it.
   // Note that this will only work if the current state already
   // satisfies the path constraints. So we need to set the start
