@@ -62,7 +62,6 @@ We rely on the community to keep these tutorials up to date and bug free. If you
 * Each tutorial should be focused on teaching the user one feature or interface within MoveIt.
 * Tutorials should flow from show to tell with videos and demos at the beginning followed by explanations.
 * New tutorials should match the formatting, style and flow of existing tutorials whenever possible.
-* If you want to include something with animation, do not embed a gif. Either link to an external (YouTube) video or attach a more optimized file format like webm, and then embed it using the [`raw` HTML code](https://docutils.sourceforge.io/docs/ref/rst/directives.html#raw-data-pass-through).
 
 ### Directory Structure
 
@@ -96,3 +95,44 @@ moveit_tutorials/doc/
         ├── <tutorial_name>_tutorial_test.py            # Python tests for tutorial
         └── <tutorial_name>_tutorial_test.cpp           # C++ tests for tutorial
 ```
+
+### Including Images and Videos
+#### Images
+The standard way to include an image in reStructuredText is
+```
+.. image:: filename.png
+   :width: 700px
+```
+
+This assumes that `filename.png` is in the same folder as the source `.rst` file. Images linked in this way will automatically be copied to the appropriate folder in the build.
+
+[External Documentation](https://sublime-and-sphinx-guide.readthedocs.io/en/latest/images.html)
+
+Do **not** include animated gifs as the file format leads to very large files. Use a video format like `webm` and see the section on local video below.
+
+#### YouTube and other External Video
+You can embed video with raw html, like in this example from the Pick and Place Tutorial.
+```
+.. raw:: html
+
+    <div style="position: relative; padding-bottom: 5%; height: 0; overflow: hidden; max-width: 100%; height: auto;">
+        <iframe width="700px" height="400px" src="https://www.youtube.com/embed/QBJPxx_63Bs?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
+```
+This includes [Youtube's suggested embed html](https://support.google.com/youtube/answer/171780?hl=en).
+
+#### Local Video
+To embed a video that is included in this repository, you also will use raw html, like this example from the Quickstart in RViz tutorial.
+
+```
+.. raw:: html
+
+    <video width="700px" nocontrols="true" autoplay="true" loop="true">
+        <source src="../../_static/rviz_joints_nullspace.webm" type="video/webm">
+        The joints moving while the end effector stays still
+    </video>
+```
+
+Note that the video file is in the `_static` folder instead of the same folder.
+
+[External Documentation on &lt;video&gt; tag](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video)
