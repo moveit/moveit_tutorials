@@ -217,17 +217,17 @@ int main(int argc, char** argv)
   // Enforce Planning in Joint Space
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   //
-  // Depending on the planning problem MoveIt chooses between 
-  // ``joint space`` and ``cartesian space`` for problem representation. 
+  // Depending on the planning problem MoveIt chooses between
+  // ``joint space`` and ``cartesian space`` for problem representation.
   // Setting the group parameter ``enforce_joint_model_state_space:true`` in
   // the ompl_planning.yaml file enforces the use of ``joint space`` for all plans.
   //
-  // By default planning requests with orientation path constraints 
-  // are sampled in ``cartesian space`` so that invoking IK serves as a 
+  // By default planning requests with orientation path constraints
+  // are sampled in ``cartesian space`` so that invoking IK serves as a
   // generative sampler.
   //
-  // By enforcing ``joint space`` the planning process will use rejection 
-  // sampling to find valid requests. Please note that this might 
+  // By enforcing ``joint space`` the planning process will use rejection
+  // sampling to find valid requests. Please note that this might
   // increase planning time considerably.
   //
   // We will reuse the old goal that we had and plan to it.
