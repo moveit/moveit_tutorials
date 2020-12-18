@@ -55,7 +55,7 @@
 class InteractiveRobot
 {
 public:
-  InteractiveRobot(const std::string& robot_description = "robot_description",
+  InteractiveRobot(const std::string& start_pose, const std::string& robot_description = "robot_description",
                    const std::string& robot_topic = "interactive_robot_state",
                    const std::string& marker_topic = "interactive_robot_markers",
                    const std::string& imarker_topic = "interactive_robot_imarkers");

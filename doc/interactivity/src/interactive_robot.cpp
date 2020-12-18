@@ -50,8 +50,9 @@ const double InteractiveRobot::WORLD_BOX_SIZE_ = 0.15;
 // minimum delay between calls to callback function
 const ros::Duration InteractiveRobot::min_delay_(0.01);
 
-InteractiveRobot::InteractiveRobot(const std::string& robot_description, const std::string& robot_topic,
-                                   const std::string& marker_topic, const std::string& imarker_topic)
+InteractiveRobot::InteractiveRobot(const std::string& start_pose, const std::string& robot_description,
+                                   const std::string& robot_topic, const std::string& marker_topic,
+                                   const std::string& imarker_topic)
   : user_data_(nullptr)
   , nh_()  // this node handle is used to create the publishers
   // create publishers for markers and robot state
@@ -80,10 +81,10 @@ InteractiveRobot::InteractiveRobot(const std::string& robot_description, const s
     ROS_ERROR("Could not get RobotState from Model");
     throw RobotLoadException();
   }
-  robot_state_->setToDefaultValues();
 
   // Prepare to move the "panda_arm" group
   group_ = robot_state_->getJointModelGroup("panda_arm");
+  robot_state_->setToDefaultValues(group_, start_pose);
   std::string end_link = group_->getLinkModelNames().back();
   desired_group_end_link_pose_ = robot_state_->getGlobalLinkTransform(end_link);
 

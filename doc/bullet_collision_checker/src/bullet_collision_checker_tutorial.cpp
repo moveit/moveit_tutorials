@@ -157,7 +157,8 @@ int main(int argc, char** argv)
   {
     // BEGIN_TUTORIAL
     // The code starts with creating an interactive robot and a new planning scene.
-    InteractiveRobot interactive_robot("robot_description", "bullet_collision_tutorial/interactive_robot_state");
+    InteractiveRobot interactive_robot("ready", "robot_description",
+                                       "bullet_collision_tutorial/interactive_robot_state");
     g_planning_scene = std::make_unique<planning_scene::PlanningScene>(interactive_robot.robotModel());
 
     // Changing the collision detector to Bullet

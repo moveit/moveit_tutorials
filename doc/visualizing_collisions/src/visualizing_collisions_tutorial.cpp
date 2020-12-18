@@ -170,7 +170,7 @@ int main(int argc, char** argv)
   // object as a wrapper that combines a robot_model with the cube and an interactive marker. We also
   // create a :planning_scene:`PlanningScene` for collision checking. If you haven't already gone through the
   // `planning scene tutorial <../planning_scene/planning_scene_tutorial.html>`_, you go through that first.
-  InteractiveRobot robot;
+  InteractiveRobot robot("ready");
   /* Create a PlanningScene */
   g_planning_scene = new planning_scene::PlanningScene(robot.robotModel());
 
