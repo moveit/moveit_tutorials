@@ -111,6 +111,9 @@ void computeCollisionContactPoints(InteractiveRobot& robot)
   c_req.verbose = false;
 
   g_planning_scene->checkSelfCollision(c_req, c_res, *robot.robotState());
+  ROS_INFO_STREAM("Objects in collision (printing first collision pair of "
+                                        << c_res.contacts.size() << "): " << c_res.contacts.begin()->first.first << ", "
+                                        << c_res.contacts.begin()->first.second);
 
   if (c_res.collision)
   {
@@ -241,6 +244,9 @@ int main(int argc, char** argv)
   req.contacts = true;
   planning_scene->checkSelfCollision(req, res);
   ROS_INFO_STREAM_NAMED("bullet_tutorial", (res.collision ? "In collision." : "Not in collision."));
+  ROS_INFO_STREAM("Objects in collision (printing first collision pair of "
+                                        << res.contacts.size() << "): " << res.contacts.begin()->first.first << ", "
+                                        << res.contacts.begin()->first.second);
   // This code is repeated for the second robot configuration.
   // END_SUB_TUTORIAL
 
@@ -285,6 +291,9 @@ int main(int argc, char** argv)
   res.clear();
   planning_scene->checkSelfCollision(req, res);
   ROS_INFO_STREAM_NAMED("bullet_tutorial", (res.collision ? "In collision." : "Not in collision."));
+  ROS_INFO_STREAM("Objects in collision (printing first collision pair of "
+                                        << res.contacts.size() << "): " << res.contacts.begin()->first.first << ", "
+                                        << res.contacts.begin()->first.second);
 
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to perform a CCD check.");
 
@@ -298,6 +307,10 @@ int main(int argc, char** argv)
   res.clear();
   planning_scene->getCollisionEnv()->checkRobotCollision(req, res, state, state_before);
   ROS_INFO_STREAM_NAMED("bullet_tutorial", (res.collision ? "In collision." : "Not in collision."));
+  ROS_INFO_STREAM("Objects in collision (printing first collision pair of "
+                                        << res.contacts.size() << "): " << res.contacts.begin()->first.first << ", "
+                                        << res.contacts.begin()->first.second);
+
   // Note that the terminal output displays "In collision.".
   // END_SUB_TUTORIAL
   visualization_msgs::MarkerArray markers;
