@@ -94,6 +94,28 @@ void publishMarkers(visualization_msgs::MarkerArray& markers)
     g_marker_array_publisher->publish(g_collision_points);
 }
 
+void publishCollisionMarkers(collision_detection::CollisionResult& c_res)
+{
+  if (c_res.collision)
+  {
+    if (c_res.contact_count > 0)
+    {
+      std_msgs::ColorRGBA color;
+      color.r = 1.0;
+      color.g = 0.0;
+      color.b = 1.0;
+      color.a = 0.5;
+      visualization_msgs::MarkerArray markers;
+
+      /* Get the contact ponts and display them as markers */
+      collision_detection::getCollisionMarkersFromContacts(markers, "panda_link0", c_res.contacts, color,
+                                                           ros::Duration(),  // remain until deleted
+                                                           0.01);            // radius
+      publishMarkers(markers);
+    }
+  }
+}
+
 void computeCollisionContactPoints(InteractiveRobot& robot)
 {
   // move the world geometry in the collision world
@@ -118,21 +140,7 @@ void computeCollisionContactPoints(InteractiveRobot& robot)
   if (c_res.collision)
   {
     ROS_INFO("COLLIDING contact_point_count=%d", (int)c_res.contact_count);
-    if (c_res.contact_count > 0)
-    {
-      std_msgs::ColorRGBA color;
-      color.r = 1.0;
-      color.g = 0.0;
-      color.b = 1.0;
-      color.a = 0.5;
-      visualization_msgs::MarkerArray markers;
-
-      /* Get the contact ponts and display them as markers */
-      collision_detection::getCollisionMarkersFromContacts(markers, "panda_link0", c_res.contacts, color,
-                                                           ros::Duration(),  // remain until deleted
-                                                           0.01);            // radius
-      publishMarkers(markers);
-    }
+    publishCollisionMarkers(c_res);
   }
   else
   {
@@ -247,6 +255,7 @@ int main(int argc, char** argv)
   ROS_INFO_STREAM("Objects in collision (printing first collision pair of "
                                         << res.contacts.size() << "): " << res.contacts.begin()->first.first << ", "
                                         << res.contacts.begin()->first.second);
+  publishCollisionMarkers(res);
   // This code is repeated for the second robot configuration.
   // END_SUB_TUTORIAL
 
@@ -294,6 +303,7 @@ int main(int argc, char** argv)
   ROS_INFO_STREAM("Objects in collision (printing first collision pair of "
                                         << res.contacts.size() << "): " << res.contacts.begin()->first.first << ", "
                                         << res.contacts.begin()->first.second);
+  publishCollisionMarkers(res);
 
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to perform a CCD check.");
 
@@ -310,6 +320,7 @@ int main(int argc, char** argv)
   ROS_INFO_STREAM("Objects in collision (printing first collision pair of "
                                         << res.contacts.size() << "): " << res.contacts.begin()->first.first << ", "
                                         << res.contacts.begin()->first.second);
+  publishCollisionMarkers(res);
 
   // Note that the terminal output displays "In collision.".
   // END_SUB_TUTORIAL
