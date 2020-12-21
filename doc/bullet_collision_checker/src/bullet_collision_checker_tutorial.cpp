@@ -250,7 +250,7 @@ int main(int argc, char** argv)
   collision_detection::CollisionResult res;
   collision_detection::CollisionRequest req;
   req.contacts = true;
-  planning_scene->checkSelfCollision(req, res);
+  planning_scene->getCollisionEnv()->checkSelfCollision(req, res, state);
   ROS_INFO_STREAM_NAMED("bullet_tutorial", (res.collision ? "In collision." : "Not in collision."));
   ROS_INFO_STREAM("Objects in collision (printing first collision pair of "
                                         << res.contacts.size() << "): " << res.contacts.begin()->first.first << ", "
@@ -298,7 +298,7 @@ int main(int argc, char** argv)
   visual_tools.publishRobotState(state);
 
   res.clear();
-  planning_scene->checkSelfCollision(req, res);
+  planning_scene->getCollisionEnv()->checkSelfCollision(req, res, state);
   ROS_INFO_STREAM_NAMED("bullet_tutorial", (res.collision ? "In collision." : "Not in collision."));
   ROS_INFO_STREAM("Objects in collision (printing first collision pair of "
                                         << res.contacts.size() << "): " << res.contacts.begin()->first.first << ", "
