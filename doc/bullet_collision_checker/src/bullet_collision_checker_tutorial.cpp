@@ -220,7 +220,7 @@ int main(int argc, char** argv)
   auto box = std::make_shared<shapes::Box>(BOX_SIZE, BOX_SIZE, BOX_SIZE);
   planning_scene->getWorldNonConst()->addToObject("box", box, box_pose);
 
-  robot_state::RobotState state = planning_scene->getCurrentStateNonConst();
+  robot_state::RobotState& state = planning_scene->getCurrentStateNonConst();
   state.setToDefaultValues();
 
   double joint2 = -0.785;
