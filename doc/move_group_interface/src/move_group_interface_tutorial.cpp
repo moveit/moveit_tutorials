@@ -156,9 +156,10 @@ int main(int argc, char** argv)
   // a blocking function and requires a controller to be active
   // and report success on execution of a trajectory.
 
-  /* Uncomment below line when working with a real robot */
-  /* move_group.move(); */
-
+  /* Uncomment ONE of the two below lines when working with a real robot */
+  // move_group.execute(my_plan);  //<-- executes the plan you just made (will be the same as the above visualized trajectory)
+  // move_group.move(); 	    //<-- replans and executes (will likely be differently than the above visualized trajectory)
+  
   // Planning to a joint-space goal
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   //
