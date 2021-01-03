@@ -137,8 +137,8 @@ You can use the **Joints** tab to move single joints and the redundant joints of
 .. raw:: html
 
     <video width="700px" nocontrols="true" autoplay="true" loop="true">
-    <source src="../../_static/rviz_joints_nullspace.webm" type="video/webm">
-    The joints moving while the end effector stays still
+        <source src="../../_static/rviz_joints_nullspace.webm" type="video/webm">
+        The joints moving while the end effector stays still
     </video>
 
 Step 4: Use Motion Planning with the Panda

@@ -1,37 +1,23 @@
-{% if READTHEDOCS %}
+
 {# Add rst-badge after rst-versions for small badge style. #}
   <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
-      <span class="fa fa-book"> Read the Docs</span>
-      v: {{ current_version }}
+      <span class="fa fa-book"> MoveIt</span>
+      v: {{ version }}
       <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
       <dl>
-        <dt>Versions</dt>
-        {% for slug, url in versions %}
-          <dd><a href="{{ url }}">{{ slug }}</a></dd>
-        {% endfor %}
-      </dl>
+        <dt>Current Versions</dt>
+        <dd><a href="https://ros-planning.github.io/moveit_tutorials/">Noetic</a></dd>
+        <dd><a href="http://docs.ros.org/en/melodic/api/moveit_tutorials/html/index.html">Melodic</a></dd>
+              </dl>
       <dl>
-        <dt>Downloads</dt>
-        {% for type, url in downloads %}
-          <dd><a href="{{ url }}">{{ type }}</a></dd>
-        {% endfor %}
+        <dt>Old Versions</dt>
+        <dd><a href="http://docs.ros.org/en/kinetic/api/moveit_tutorials/html/index.html">Kinetic</a></dd>
+        <dd><a href="http://docs.ros.org/en/indigo/api/moveit_tutorials/html/index.html">Indigo</a></dd>
       </dl>
-      <dl>
-        <dt>On Read the Docs</dt>
-          <dd>
-            <a href="//{{ PRODUCTION_DOMAIN }}/projects/{{ slug }}/?fromdocs={{ slug }}">Project Home</a>
-          </dd>
-          <dd>
-            <a href="//{{ PRODUCTION_DOMAIN }}/builds/{{ slug }}/?fromdocs={{ slug }}">Builds</a>
-          </dd>
-      </dl>
-      <hr/>
-      Free document hosting provided by <a href="http://www.readthedocs.org">Read the Docs</a>.
-
     </div>
   </div>
-{% endif %}
+
 
