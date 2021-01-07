@@ -99,6 +99,13 @@ int main(int argc, char** argv)
     /* planning_components->execute(); // Execute the plan */
   }
 
+  // Plan #1 visualization:
+  //
+  // .. image:: images/moveitcpp_plan1.png
+  //    :width: 250pt
+  //    :align: center
+  //
+
   // Start the next plan
   visual_tools.deleteAllMarkers();
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
@@ -136,6 +143,13 @@ int main(int argc, char** argv)
     /* Uncomment if you want to execute the plan */
     /* planning_components->execute(); // Execute the plan */
   }
+
+  // Plan #2 visualization:
+  //
+  // .. image:: images/moveitcpp_plan2.png
+  //    :width: 250pt
+  //    :align: center
+  //
 
   // Start the next plan
   visual_tools.deleteAllMarkers();
@@ -175,6 +189,13 @@ int main(int argc, char** argv)
     /* planning_components->execute(); // Execute the plan */
   }
 
+  // Plan #3 visualization:
+  //
+  // .. image:: images/moveitcpp_plan3.png
+  //    :width: 250pt
+  //    :align: center
+  //
+
   // Start the next plan
   visual_tools.deleteAllMarkers();
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
@@ -210,6 +231,13 @@ int main(int argc, char** argv)
     /* Uncomment if you want to execute the plan */
     /* planning_components->execute(); // Execute the plan */
   }
+
+  // Plan #4 visualization:
+  //
+  // .. image:: images/moveitcpp_plan4.png
+  //    :width: 250pt
+  //    :align: center
+  //
 
   // END_TUTORIAL
   visual_tools.deleteAllMarkers();
