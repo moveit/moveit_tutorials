@@ -65,7 +65,6 @@ def all_close(goal, actual, tolerance):
   @param: tolerance  A float
   @returns: bool
   """
-  all_equal = True
   if type(goal) is list:
     for index in range(len(goal)):
       if abs(actual[index] - goal[index]) > tolerance:
