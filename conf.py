@@ -38,7 +38,7 @@ html_context = {
     "display_github": True,
     "github_user": "ros-planning",
     "github_repo": "moveit_tutorials",
-    "github_version": "master",
+    "github_version": "noetic-devel",
     "conf_py_path": "",
     "source_suffix": source_suffix,
     "css_files": ['_static/override.css'],
