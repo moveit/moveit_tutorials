@@ -10,7 +10,7 @@ python:
 env:
   global:
     - SCRIPT=.moveit_ci/travis.sh
-    - ROS_DISTRO=noetic
+    - ROS_DISTRO=foxy
     - ROS_REPO=ros-testing
     - CXXFLAGS="-Wall -Wextra -Wwrite-strings -Wunreachable-code -Wpointer-arith -Wredundant-decls"
     - WARNINGS_OK=false
@@ -38,5 +38,5 @@ deploy:
   # Only copy build output directory to gh-pages
   local_dir: build/html
   on:
-    branch: master
+    branch: main
     condition: $SCRIPT = htmlproofer.sh
