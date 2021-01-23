@@ -33,15 +33,15 @@ Open the :code:`franka_description/robots/panda_arm_hand.urdf.xacro` file and ch
 
     <xacro:panda_arm xyz="0 0 0" rpy="0 0 0" connected_to="world"/>
 
-It alone doesn't fix the problem, since now we need to provide a link with name :code:`world`. Open the 
-:code:`franka_description/robots/panda_arm_hand.urdf.xacro` file again and add:
+It alone doesn't fix the problem, since now we need to provide a link with name :code:`world`. Add the following line to
+:code:`franka_description/robots/panda_arm_hand.urdf.xacro`:
 
 .. code-block:: xml
 
     <link name="world" />
 
 at line 10 just before the macro calls. Additionally, we should rename the fixed joint to :code:`virtual_joint` to properly match
-the SRDF specification created in previous tutorial. Open :code:`franka_description/robots/panda_arm.xacro` file and replace 
+the SRDF specification created in previous tutorial. Open :code:`franka_description/robots/panda_arm.xacro` file and replace
 :code:`${arm_id}_joint_${connected_to}` with :code:`virtual_joint` at line 5.
 
 2. Add damping to the joint specifications
@@ -334,14 +334,14 @@ In terminal-2:
 
    Panda arm control in Gazebo simulation.
 
-If you happen to find all these steps too tedious (you cannot be blamed for that), just clone `the franka_ros fork <https://github.com/tahsinkose/franka_ros>`_, that is created 
+If you happen to find all these steps too tedious (you cannot be blamed for that), just clone `the franka_ros fork <https://github.com/tahsinkose/franka_ros>`_, that is created
 particularly for this tutorial with the final versions of the files mentioned in the previous steps.
-The changes made thus far in auto-generated :code:`panda_moveit_config` package are `in this repository <https://github.com/tahsinkose/panda_moveit_gazebo_config>`_. 
+The changes made thus far in auto-generated :code:`panda_moveit_config` package are `in this repository <https://github.com/tahsinkose/panda_moveit_config>`_.
 At the end, both repositories will have the updated and directly usable versions.
 
 -------------------------------
 
-Now it is time to integrate MoveIt to this work. Open :code:`panda_moveit_config/launch/demo_gazebo.launch` file 
+Now it is time to integrate MoveIt to this work. Open :code:`panda_moveit_config/launch/demo_gazebo.launch` file
 and replace line 61 with:
 
 .. code-block:: xml
@@ -364,6 +364,5 @@ line 31 from that file, which contains unused :code:`urdf_path` argument. After 
 We have successfully integrated MoveIt and Gazebo ultimately. MoveIt Setup Assistant already does
 many work under the hood, but it still misses some parts to provide a proper Gazebo integration. After following
 this tutorial you should be able to reproduce this locally for any robot. In case you don't want to be
-bothered with all the details, `franka_ros <https://github.com/tahsinkose/franka_ros/tree/simulation>`_ and 
-`panda_moveit_config <https://github.com/tahsinkose/panda_moveit_config/tree/melodic-devel>`_
+bothered with all the details, `franka_ros <https://github.com/tahsinkose/franka_ros>`_ and `panda_moveit_config <https://github.com/tahsinkose/panda_moveit_config>`_
 forks provide a ready-made work.
