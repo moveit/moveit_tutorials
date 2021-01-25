@@ -52,7 +52,7 @@ Here we discuss various approaches to improve common issues of indirect, non-opt
 Determinism
 ^^^^^^^^^^^
 
-The planners in OMPL are inherently probablistic and will not always return the same solution. Other libraries such as the Search Based Planning Library (SBPL) provide deterministic results in that given the same environment, start, and goal you will always get the same path. SBPL is Astar-based, so you will get optimal results up to your chosen search resolution. However SBPL has plenty of downsides, such as the difficulty of tuning special hueristics.
+The planners in OMPL are inherently probablistic and will not always return the same solution. Other libraries such as the Search Based Planning Library (SBPL) provide deterministic results in that given the same environment, start, and goal you will always get the same path. SBPL is Astar-based, so you will get optimal results up to your chosen search resolution. However SBPL has plenty of downsides, such as the difficulty of tuning special heuristics.
 
 OMPL Optimization Objectives
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
