@@ -1,3 +1,8 @@
+:moveit1:
+
+..
+   Once updated for MoveIt 2, remove all lines above title (including this comment and :moveit1: tag)
+  
 Creating MoveIt Plugins
 ========================
 `This Page <http://wiki.ros.org/pluginlib>`_ gives a detailed explanation of how to add plugins in ROS in general. The two necessary elements are base and plugin classes. The plugin class inherits from the base class and overrides its virtual functions. The main library used for this purpose is pluginlib. This tutorials contains three different types of plugins, namely, motion planner, controller manager and constraint sampler.

@@ -1,3 +1,8 @@
+:moveit1:
+
+..
+   Once updated for MoveIt 2, remove all lines above title (including this comment and :moveit1: tag)
+  
 Move Group C++ Interface
 ==================================
 .. image:: move_group_interface_tutorial_start_screen.png

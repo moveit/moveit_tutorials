@@ -1,3 +1,8 @@
+:moveit1:
+
+..
+   Once updated for MoveIt 2, remove all lines above title (including this comment and :moveit1: tag)
+  
 Low Level Controllers
 =====================
 MoveIt has access to many different controllers through a plugin interface inside the `MoveItControllerHandler <https://github.com/ros-planning/moveit/tree/master/moveit_plugins/moveit_ros_control_interface>`_ class. The MoveItControllerManager class is one of the options that is used to interact with a single ros_control node. MoveItControllerManager reads what controller(s) to use from a controllers.yaml file.

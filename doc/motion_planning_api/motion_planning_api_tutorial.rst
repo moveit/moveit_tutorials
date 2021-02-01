@@ -1,3 +1,8 @@
+:moveit1:
+
+..
+   Once updated for MoveIt 2, remove all lines above title (including this comment and :moveit1: tag)
+  
 Motion Planning API
 ==================================
 .. image:: motion_planning_api_tutorial_robot_move_arm_1st.png

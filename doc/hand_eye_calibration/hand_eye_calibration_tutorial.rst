@@ -1,3 +1,8 @@
+:moveit1:
+
+..
+   Once updated for MoveIt 2, remove all lines above title (including this comment and :moveit1: tag)
+  
 Hand-Eye Calibration
 ====================
 The `MoveIt Calibration <http://www.github.com/ros-planning/moveit_calibration>`_ package provides plugins and a graphical

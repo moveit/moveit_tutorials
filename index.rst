@@ -1,5 +1,5 @@
-MoveIt Tutorials
-=================
+MoveIt 2 Tutorials
+===================
 
 These tutorials will quickly get you, and your robot, using the MoveIt Motion Planning Framework.
 
