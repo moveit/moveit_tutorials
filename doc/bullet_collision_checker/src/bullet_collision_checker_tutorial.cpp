@@ -211,7 +211,7 @@ int main(int argc, char** argv)
   // again set as the active collision detector.
   robot_model::RobotModelPtr robot_model = moveit::core::loadTestingRobotModel("panda");
   auto planning_scene = std::make_shared<planning_scene::PlanningScene>(robot_model);
-  planning_scene->setActiveCollisionDetector(collision_detection::CollisionDetectorAllocatorBullet::create(), true /* exclusive */);
+  planning_scene->setActiveCollisionDetector(collision_detection::CollisionDetectorAllocatorBullet::create(), /* exclusive = */ true);
 
   // The box is added and the robot brought into its position.
   Eigen::Isometry3d box_pose{ Eigen::Isometry3d::Identity() };
