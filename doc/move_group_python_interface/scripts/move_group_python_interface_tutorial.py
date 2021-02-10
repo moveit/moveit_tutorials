@@ -79,7 +79,7 @@ def all_close(goal, actual, tolerance):
   elif type(goal) is geometry_msgs.msg.Pose:
     x0, y0, z0, qx0, qy0, qz0, qw0 = pose_to_list(actual)
     x1, y1, z1, qx1, qy1, qz1, qw1 = pose_to_list(goal)
-    # Euclidian distance
+    # Euclidean distance
     d = dist((x1, y1, z1), (x0, y0, z0))
     # phi = angle between orientations
     cos_phi_half = fabs(qx0*qx1 + qy0*qy1 + qz0*qz1 + qw0*qw1)
@@ -88,10 +88,10 @@ def all_close(goal, actual, tolerance):
   return True
 
 
-class MoveGroupPythonIntefaceTutorial(object):
-  """MoveGroupPythonIntefaceTutorial"""
+class MoveGroupPythonInterfaceTutorial(object):
+  """MoveGroupPythonInterfaceTutorial"""
   def __init__(self):
-    super(MoveGroupPythonIntefaceTutorial, self).__init__()
+    super(MoveGroupPythonInterfaceTutorial, self).__init__()
 
     ## BEGIN_SUB_TUTORIAL setup
     ##
@@ -468,7 +468,7 @@ def main():
     print("Press Ctrl-D to exit at any time")
     print("")
     input("============ Press `Enter` to begin the tutorial by setting up the moveit_commander ...")
-    tutorial = MoveGroupPythonIntefaceTutorial()
+    tutorial = MoveGroupPythonInterfaceTutorial()
 
     input("============ Press `Enter` to execute a movement using a joint state goal ...")
     tutorial.go_to_joint_state()
