@@ -59,7 +59,9 @@ from moveit_commander.conversions import pose_to_list
 
 def all_close(goal, actual, tolerance):
   """
-  Convenience method for testing if a list of values are within a tolerance of their counterparts in another list
+  Convenience method for testing if the values in two lists are within a tolerance of each other.
+  For Pose and PoseStamped inputs, the angle between the two quaternions is compared (the angle 
+  between the identical orientations q and -q is calculated correctly).
   @param: goal       A list of floats, a Pose or a PoseStamped
   @param: actual     A list of floats, a Pose or a PoseStamped
   @param: tolerance  A float
