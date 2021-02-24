@@ -23,22 +23,7 @@ The simplest way to install MoveIt is from pre-built binaries (Debian): ::
   sudo apt install ros-melodic-moveit
 
 Advanced users might want to `install MoveIt from source <http://moveit.ros.org/install/source/>`_.
-If you clone your own moveit fork into the workspace, disable the moveit repository in the .rosinstall file.
-You could clone your forked moveit repositories into the workspace using wstool as described in `install MoveIt from source <http://moveit.ros.org/install/source/>`_ by editing the contents of the .rosinstall file.
-Let's say you wanted to clone your forked 'moveit' repo, you could do it by the following changes in the .rosinstall file of your forked repository: ::
-
-    local-name: moveit
-    uri: https://github.com/ros-planning/moveit.git
-
-to: ::
-
-    local-name: moveit
-    uri: https://github.com/your-github-username/moveit.git
-
-and finally use your forked repository name in the wstool merge command as given in the tutorial: ::
-
-    wstool merge -t src https://raw.githubusercontent.com/your-github-username/moveit/master/moveit.rosinstall
-
+If you want to build your own MoveIt fork, replace the repository uri in the .rosinstall file with your own.
 
 Create A Catkin Workspace
 ^^^^^^^^^^^^^^^^^^^^^^^^^
