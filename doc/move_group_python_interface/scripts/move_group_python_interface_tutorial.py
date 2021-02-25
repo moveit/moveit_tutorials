@@ -51,7 +51,7 @@ import rospy
 import moveit_commander
 import moveit_msgs.msg
 import geometry_msgs.msg
-from math import pi
+from math import pi, dist, fabs, cos
 from std_msgs.msg import String
 from moveit_commander.conversions import pose_to_list
 ## END_SUB_TUTORIAL
@@ -59,7 +59,9 @@ from moveit_commander.conversions import pose_to_list
 
 def all_close(goal, actual, tolerance):
   """
-  Convenience method for testing if a list of values are within a tolerance of their counterparts in another list
+  Convenience method for testing if the values in two lists are within a tolerance of each other.
+  For Pose and PoseStamped inputs, the angle between the two quaternions is compared (the angle 
+  between the identical orientations q and -q is calculated correctly).
   @param: goal       A list of floats, a Pose or a PoseStamped
   @param: actual     A list of floats, a Pose or a PoseStamped
   @param: tolerance  A float
@@ -74,15 +76,21 @@ def all_close(goal, actual, tolerance):
     return all_close(goal.pose, actual.pose, tolerance)
 
   elif type(goal) is geometry_msgs.msg.Pose:
-    return all_close(pose_to_list(goal), pose_to_list(actual), tolerance)
+    x0, y0, z0, qx0, qy0, qz0, qw0 = pose_to_list(actual)
+    x1, y1, z1, qx1, qy1, qz1, qw1 = pose_to_list(goal)
+    # Euclidean distance
+    d = dist((x1, y1, z1), (x0, y0, z0))
+    # phi = angle between orientations
+    cos_phi_half = fabs(qx0*qx1 + qy0*qy1 + qz0*qz1 + qw0*qw1)
+    return d <= tolerance and cos_phi_half >= cos(tolerance / 2.0)
 
   return True
 
 
-class MoveGroupPythonIntefaceTutorial(object):
-  """MoveGroupPythonIntefaceTutorial"""
+class MoveGroupPythonInterfaceTutorial(object):
+  """MoveGroupPythonInterfaceTutorial"""
   def __init__(self):
-    super(MoveGroupPythonIntefaceTutorial, self).__init__()
+    super(MoveGroupPythonInterfaceTutorial, self).__init__()
 
     ## BEGIN_SUB_TUTORIAL setup
     ##
@@ -459,7 +467,7 @@ def main():
     print("Press Ctrl-D to exit at any time")
     print("")
     input("============ Press `Enter` to begin the tutorial by setting up the moveit_commander ...")
-    tutorial = MoveGroupPythonIntefaceTutorial()
+    tutorial = MoveGroupPythonInterfaceTutorial()
 
     input("============ Press `Enter` to execute a movement using a joint state goal ...")
     tutorial.go_to_joint_state()
