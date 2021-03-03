@@ -155,7 +155,7 @@ void place(moveit::planning_interface::MoveGroupInterface& group)
   // +++++++++++++++++++++++++++
   place_location[0].place_pose.header.frame_id = "panda_link0";
   tf2::Quaternion orientation;
-  orientation.setRPY(0, 0, tau / 4);
+  orientation.setRPY(0, 0, tau / 4);  // A quarter turn about the z-axis
   place_location[0].place_pose.pose.orientation = tf2::toMsg(orientation);
 
   /* For place location, we set the value to the exact location of the center of the object. */

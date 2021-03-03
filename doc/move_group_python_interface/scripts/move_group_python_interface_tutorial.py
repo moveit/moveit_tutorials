@@ -183,7 +183,7 @@ class MoveGroupPythonInterfaceTutorial(object):
     joint_goal[2] = 0
     joint_goal[3] = -tau/4
     joint_goal[4] = 0
-    joint_goal[5] = tau/6
+    joint_goal[5] = tau/6  # 1/6 of a turn
     joint_goal[6] = 0
 
     # The go command can be called with joint values, poses, or without any

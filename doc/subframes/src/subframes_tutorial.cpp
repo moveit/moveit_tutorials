@@ -124,7 +124,7 @@ void spawnCollisionObjects(moveit::planning_interface::PlanningSceneInterface& p
   box.subframe_poses[0].position.z = 0.0 + z_offset_box;
 
   tf2::Quaternion orientation;
-  orientation.setRPY(tau / 4, 0, 0);
+  orientation.setRPY(tau / 4, 0, 0);  // A quarter turn about the x-axis
   box.subframe_poses[0].orientation = tf2::toMsg(orientation);
   // END_SUB_TUTORIAL
 
