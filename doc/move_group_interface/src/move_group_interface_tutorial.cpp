@@ -181,7 +181,7 @@ int main(int argc, char** argv)
   current_state->copyJointGroupPositions(joint_model_group, joint_group_positions);
 
   // Now, let's modify one of the joints, plan to the new joint space goal and visualize the plan.
-  joint_group_positions[0] = -tau/6;  // -1/6 turn in radians
+  joint_group_positions[0] = -tau / 6;  // -1/6 turn in radians
   move_group.setJointValueTarget(joint_group_positions);
 
   // We lower the allowed maximum velocity and acceleration to 5% of their maximum.
