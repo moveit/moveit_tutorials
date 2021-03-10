@@ -62,7 +62,7 @@ Passive joints are unactuated joints on a robot, e.g. passive casters on a diffe
 
 Groups
 ^^^^^^
-a 'Group' (sometimes called 'JointGroup' or 'Planning Group') is a central concept in MoveIt MoveIt always acts on a particular group. MoveIt will only consider moving the joints in the group that it is planning for -- other joints are left stationary. (A motion plan where all joints in the robot may move can be achieved by creating a group containing all joints.) A group is simply a collection of joints and links. Each group can be specified in one of several different ways:
+A 'Group' (sometimes called 'JointGroup' or 'Planning Group') is a central concept in MoveIt. MoveIt always acts on a particular group. MoveIt will only consider moving the joints in the group that it is planning for -- other joints are left stationary. (A motion plan where all joints in the robot may move can be achieved by creating a group containing all joints.) A group is simply a collection of joints and links. Each group can be specified in one of several different ways:
 
 Collection of Joints
 """"""""""""""""""""
