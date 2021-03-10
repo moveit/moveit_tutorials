@@ -1,10 +1,14 @@
 MoveIt Task Constructor
 =======================
 
-.. image:: mtc_example.png
+.. image:: images/mtc_example.png
    :width: 700px
 
-The Task Constructor framework provides a flexible and transparent way to define and plan actions that consist of multiple interdependent subtasks. It draws on the planning capabilities of MoveIt to solve individual subproblems in black-box planning stages. A common interface, based on MoveIt's PlanningScene is used to pass solution hypotheses between stages. The framework enables the hierarchical organization of basic stages using containers, allowing for sequential as well as parallel compositions. For more details, please refer to the associated `ICRA 2019 publication`_.
+The Task Constructor framework provides a flexible and transparent way to define and plan actions that consist of multiple interdependent subtasks.
+It draws on the planning capabilities of MoveIt to solve individual subproblems in black-box planning stages.
+A common interface, based on MoveIt's PlanningScene is used to pass solution hypotheses between stages.
+The framework enables the hierarchical organization of basic stages using containers, allowing for sequential as well as parallel compositions.
+For more details, please refer to the associated `ICRA 2019 publication`_.
 
 .. _ICRA 2019 publication: https://pub.uni-bielefeld.de/download/2918864/2933599/paper.pdf
 
@@ -50,7 +54,7 @@ On the right side you should see the `Motion Planning Tasks` panel outlining the
 When you select a particular stage, the list of successful and failed solutions will be
 shown in the right-most window. Selecting one of those solutions will start its visualization.
 
-.. image:: mtc_show_stages.gif
+.. image:: images/mtc_show_stages.gif
    :width: 700px
 
 Basic Concepts
@@ -86,7 +90,7 @@ An example is a picking motion that consists of a sequence of coherent steps.
 **Parallel Containers** combine set of subordinate stages and can be used for passing the best of alternative results, running fallback solvers or for merging multiple independent solutions.
 Examples are running alternative planners for a free-motion plan, picking objects with the right hand or with the left hand as a fallback, or moving the arm and opening the gripper at the same time.
 
-.. image:: mtc_stage_types.png
+.. image:: images/mtc_stage_types.png
    :width: 700px
 
 Stages not only support solving motion planning problems.
