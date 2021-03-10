@@ -4,7 +4,7 @@ Mesh Filter with UR5 and Kinect
 MoveIt's mesh filter functionality removes your robot's geometry from its point cloud! If your robot's arm is in your depth sensor's view, the points associated with the arm are subtracted from the point cloud. 
 
 This is accomplished by giving the original point cloud, the robot's transforms (tf) and the robot's URDF as inputs.
-The filter then published a modified point cloud which does not contain the points that overlaps with the current robot state.
+The filter then publishes a modified point cloud which does not contain the points that overlaps with the current robot state.
 
 .. image:: MeshFilter.gif
 
@@ -14,9 +14,9 @@ Getting Started
 * Follow the instructions for :moveit_website:`installing MoveIt<install>`
   first if you have not already done that. 
 
-* Clone the `Universal Robot package <https://github.com/ros-industrial/universal_robot>`_ to your workspace for Melodic.
+* Clone the `Universal Robot package <https://github.com/ros-industrial/universal_robot>`_ to your workspace for Melodic. Remember to rebuild your workspace after cloning.
 
-* Install `Gazebo <http://gazebosim.org/tutorials?tut=install_ubuntu&cat=install>`_
+* Install `Gazebo <http://gazebosim.org/tutorials?tut=install_ubuntu&cat=install>`_. You need to install ros-${ROS_DISTRO}-gazebo-plugins too.
 
 
 Running the Demo
