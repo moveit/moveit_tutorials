@@ -37,7 +37,7 @@
 #include <pluginlib/class_loader.h>
 #include <ros/ros.h>
 
-// MoveIt!
+// MoveIt
 #include <moveit/robot_model_loader/robot_model_loader.h>
 #include <moveit/planning_pipeline/planning_pipeline.h>
 #include <moveit/planning_interface/planning_interface.h>

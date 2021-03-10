@@ -8,7 +8,7 @@ Overview
 Some planning problems require more complex or custom constraint
 samplers for more difficult planning problems. This document explains
 how to create a custom motion planning constraint sampler for use
-with MoveIt!.
+with MoveIt.
 
 Getting Started
 ---------------

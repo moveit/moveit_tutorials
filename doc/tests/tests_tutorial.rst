@@ -1,7 +1,7 @@
 Integration/Unit Tests
 ======================
 
-How to test changes to MoveIt! on various robots, including unit and integration tests.
+How to test changes to MoveIt on various robots, including unit and integration tests.
 
 **Note:** *This is a stub tutorial, to be expanded upon in the future*
 
@@ -12,7 +12,7 @@ If you haven't already done so, make sure you've completed the steps in `Getting
 Integration Test
 ----------------
 
-A Python-based integration test is available for testing higher-level move_group functionality in MoveIt! - to run: ::
+A Python-based integration test is available for testing higher-level move_group functionality in MoveIt - to run: ::
 
  rostest moveit_ros_planning_interface python_move_group.test
 
@@ -34,7 +34,7 @@ From the package `moveit_resources <https://github.com/ros-planning/moveit_resou
 Unit Tests
 ----------
 
-To run unit tests locally on the entire MoveIt! catkin workspace using catkin-tools: ::
+To run unit tests locally on the entire MoveIt catkin workspace using catkin-tools: ::
 
   catkin run_tests -iv
 
@@ -45,4 +45,4 @@ To run a test for just 1 package::
 Kinematic Tests
 ---------------
 
-An additional test suite for the KinematicBase features in MoveIt! is available in the package `moveit_kinematic_tests <https://github.com/ros-planning/moveit_kinematics_tests>`_.
+An additional test suite for the KinematicBase features in MoveIt is available in the package `moveit_kinematic_tests <https://github.com/ros-planning/moveit_kinematics_tests>`_.

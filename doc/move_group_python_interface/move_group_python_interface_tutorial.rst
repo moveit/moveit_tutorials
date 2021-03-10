@@ -3,7 +3,7 @@ Move Group Python Interface
 .. image:: move_group_python_interface.png
    :width: 700px
 
-One of the simplest MoveIt! user interfaces is through the Python-based Move Group Interface. These wrappers
+One of the simplest MoveIt user interfaces is through the Python-based Move Group Interface. These wrappers
 provide functionality for most operations that the average user will likely need,
 specifically setting joint or pose goals, creating motion plans, moving the
 robot, adding objects into the environment and attaching/detaching objects from
@@ -52,4 +52,4 @@ The Launch File
 ---------------
 The entire launch file is :codedir:`here<move_group_python_interface/launch/move_group_python_interface_tutorial.launch>`
 on GitHub. All the code in this tutorial can be run from the
-``moveit_tutorials`` package that you have as part of your MoveIt! setup.
+``moveit_tutorials`` package that you have as part of your MoveIt setup.
