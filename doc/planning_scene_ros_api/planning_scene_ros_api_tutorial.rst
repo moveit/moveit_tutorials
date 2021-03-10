@@ -39,7 +39,7 @@ In RViz, you should be able to see the following:
 
 The entire code
 ---------------
-The entire code can be seen :codedir:`here in the MoveIt! GitHub project<planning_scene_ros_api>`.
+The entire code can be seen :codedir:`here in the MoveIt GitHub project<planning_scene_ros_api>`.
 
 .. tutorial-formatter:: ./src/planning_scene_ros_api_tutorial.cpp
 

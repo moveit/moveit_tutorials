@@ -57,8 +57,8 @@ int main(int argc, char** argv)
   // Setup
   // ^^^^^
   //
-  // MoveIt! operates on sets of joints called "planning groups" and stores them in an object called
-  // the `JointModelGroup`. Throughout MoveIt! the terms "planning group" and "joint model group"
+  // MoveIt operates on sets of joints called "planning groups" and stores them in an object called
+  // the `JointModelGroup`. Throughout MoveIt the terms "planning group" and "joint model group"
   // are used interchangably.
   static const std::string PLANNING_GROUP = "panda_arm";
 

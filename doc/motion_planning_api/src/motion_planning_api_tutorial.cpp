@@ -37,7 +37,7 @@
 #include <pluginlib/class_loader.h>
 #include <ros/ros.h>
 
-// MoveIt!
+// MoveIt
 #include <moveit/robot_model_loader/robot_model_loader.h>
 #include <moveit/planning_interface/planning_interface.h>
 #include <moveit/planning_scene/planning_scene.h>
@@ -60,7 +60,7 @@ int main(int argc, char** argv)
   // Start
   // ^^^^^
   // Setting up to start using a planner is pretty easy. Planners are
-  // setup as plugins in MoveIt! and you can use the ROS pluginlib
+  // setup as plugins in MoveIt and you can use the ROS pluginlib
   // interface to load any planner that you want to use. Before we
   // can load the planner, we need two objects, a RobotModel and a
   // PlanningScene. We will start by instantiating a `RobotModelLoader`_

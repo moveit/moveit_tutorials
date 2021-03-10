@@ -16,13 +16,13 @@ Install `catkin <http://wiki.ros.org/catkin>`_ the ROS build system: ::
 
   sudo apt-get install ros-kinetic-catkin python-catkin-tools
 
-Install MoveIt!
+Install MoveIt
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-The simplest way to install MoveIt! is from pre-built binaries (Debian): ::
+The simplest way to install MoveIt is from pre-built binaries (Debian): ::
 
   sudo apt install ros-kinetic-moveit
 
-Advanced users might want to `install MoveIt! from source <http://moveit.ros.org/install/source/>`_.
+Advanced users might want to `install MoveIt from source <http://moveit.ros.org/install/source/>`_.
 
 Create A Catkin Workspace
 ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -41,7 +41,7 @@ You will also need a ``panda_moveit_config`` package to follow along with these 
 
   git clone -b kinetic-devel https://github.com/ros-planning/panda_moveit_config.git
 
-.. note:: For now we will use a pre-generated ``panda_moveit_config`` package but later we will learn how to make our own in the `MoveIt! Setup Assistant tutorial <../setup_assistant/setup_assistant_tutorial.html>`_.
+.. note:: For now we will use a pre-generated ``panda_moveit_config`` package but later we will learn how to make our own in the `MoveIt Setup Assistant tutorial <../setup_assistant/setup_assistant_tutorial.html>`_.
 
 Build your Catkin Workspace
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^

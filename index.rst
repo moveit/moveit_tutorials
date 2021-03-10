@@ -1,12 +1,12 @@
-MoveIt! Tutorials
+MoveIt Tutorials
 =================
 
-These tutorials will step you through using MoveIt! with your robot. It is assumed the robot you are working with has already been configured to work with MoveIt! - check the `list of robots running MoveIt! <http://moveit.ros.org/robots/>`_ to see whether MoveIt! is already available for your robot. Otherwise, skip to the "Integration with a New Robot" tutorials, below. If you just want to quickly try MoveIt!, use the default Panda robot as your quick-start demo.
+These tutorials will step you through using MoveIt with your robot. It is assumed the robot you are working with has already been configured to work with MoveIt - check the `list of robots running MoveIt <http://moveit.ros.org/robots/>`_ to see whether MoveIt is already available for your robot. Otherwise, skip to the "Integration with a New Robot" tutorials, below. If you just want to quickly try MoveIt, use the default Panda robot as your quick-start demo.
 
 To follow along with these tutorials you will need a **ROBOT_moveit_config** package. This tutorial will use the Panda robot from Franka Emika. To get a working **panda_moveit_config** package you can install from source, create your own, or install from Debian. We will walk through each method in the following Getting Started tutorial:
 
 
-Getting Started with MoveIt! and RViz
+Getting Started with MoveIt and RViz
 -------------------------------------
 .. toctree::
    :maxdepth: 1
@@ -16,7 +16,7 @@ Getting Started with MoveIt! and RViz
 
 MoveGroup - ROS Wrappers in C++ and Python
 ------------------------------------------
-The simplest way to use MoveIt! through scripting is using the ``move_group_interface``. This interface is ideal for beginners and provides unified access to many of the features of MoveIt!.
+The simplest way to use MoveIt through scripting is using the ``move_group_interface``. This interface is ideal for beginners and provides unified access to many of the features of MoveIt.
 
 .. toctree::
    :maxdepth: 1
@@ -25,9 +25,9 @@ The simplest way to use MoveIt! through scripting is using the ``move_group_inte
    doc/move_group_python_interface/move_group_python_interface_tutorial
    doc/moveit_commander_scripting/moveit_commander_scripting_tutorial
 
-Using MoveIt! Directly Through the C++ API
+Using MoveIt Directly Through the C++ API
 ------------------------------------------
-Building more complex applications with MoveIt! often requires developers to dig into MoveIt!’s C++ API. As an added plus, using the C++ API directly skips many of the ROS Service/Action layers resulting in significantly faster performance.
+Building more complex applications with MoveIt often requires developers to dig into MoveIt’s C++ API. As an added plus, using the C++ API directly skips many of the ROS Service/Action layers resulting in significantly faster performance.
 
 .. toctree::
    :maxdepth: 1
@@ -44,7 +44,7 @@ Building more complex applications with MoveIt! often requires developers to dig
 
 Integration with a New Robot
 ----------------------------
-Before attempting to integrate a new robot with MoveIt!, check whether your robot has already been setup (see the `list of robots running MoveIt! <http://moveit.ros.org/robots/>`_). Otherwise, follow the tutorials in this section to integrate your robot with MoveIt! (and share your results on the MoveIt! mailing list)
+Before attempting to integrate a new robot with MoveIt, check whether your robot has already been setup (see the `list of robots running MoveIt <http://moveit.ros.org/robots/>`_). Otherwise, follow the tutorials in this section to integrate your robot with MoveIt (and share your results on the MoveIt mailing list)
 
 .. toctree::
    :maxdepth: 1
@@ -81,9 +81,9 @@ Miscellaneous
 
 Attribution
 -----------
-Major contributors to the MoveIt! tutorials are listed in chronological order: Sachin Chitta, Dave Hershberger, Acorn Pooley, Dave Coleman, Michael Gorner, Francisco Suarez, Mike Lautman. Help us improve these docs and we'll be happy to include you here also!
+Major contributors to the MoveIt tutorials are listed in chronological order: Sachin Chitta, Dave Hershberger, Acorn Pooley, Dave Coleman, Michael Gorner, Francisco Suarez, Mike Lautman. Help us improve these docs and we'll be happy to include you here also!
 
-The tutorials had a major update in 2018 during a code sprint sponsored by Franka Emika in collaboration with PickNik (`Check out the blog post! <http://moveit.ros.org/moveit!/ros/2018/02/26/tutorials-documentation-codesprint.html>`_)
+The tutorials had a major update in 2018 during a code sprint sponsored by Franka Emika in collaboration with PickNik (`Check out the blog post! <http://moveit.ros.org/MoveIt/ros/2018/02/26/tutorials-documentation-codesprint.html>`_)
 
 .. image:: ./_static/franka_logo.png
    :width: 300px
