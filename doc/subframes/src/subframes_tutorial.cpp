@@ -46,6 +46,9 @@
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 #include <tf2_eigen/tf2_eigen.h>
 
+// The circle constant tau = 2*pi. One tau is one rotation in radians.
+const double tau = 2 * M_PI;
+
 // BEGIN_SUB_TUTORIAL plan1
 //
 // Creating the planning request
@@ -121,35 +124,35 @@ void spawnCollisionObjects(moveit::planning_interface::PlanningSceneInterface& p
   box.subframe_poses[0].position.z = 0.0 + z_offset_box;
 
   tf2::Quaternion orientation;
-  orientation.setRPY(90.0 / 180.0 * M_PI, 0, 0);
+  orientation.setRPY(tau / 4, 0, 0);  // A quarter turn about the x-axis
   box.subframe_poses[0].orientation = tf2::toMsg(orientation);
   // END_SUB_TUTORIAL
 
   box.subframe_names[1] = "top";
   box.subframe_poses[1].position.y = .05;
   box.subframe_poses[1].position.z = 0.0 + z_offset_box;
-  orientation.setRPY(-90.0 / 180.0 * M_PI, 0, 0);
+  orientation.setRPY(-tau / 4, 0, 0);
   box.subframe_poses[1].orientation = tf2::toMsg(orientation);
 
   box.subframe_names[2] = "corner_1";
   box.subframe_poses[2].position.x = -.025;
   box.subframe_poses[2].position.y = -.05;
   box.subframe_poses[2].position.z = -.01 + z_offset_box;
-  orientation.setRPY(90.0 / 180.0 * M_PI, 0, 0);
+  orientation.setRPY(tau / 4, 0, 0);
   box.subframe_poses[2].orientation = tf2::toMsg(orientation);
 
   box.subframe_names[3] = "corner_2";
   box.subframe_poses[3].position.x = .025;
   box.subframe_poses[3].position.y = -.05;
   box.subframe_poses[3].position.z = -.01 + z_offset_box;
-  orientation.setRPY(90.0 / 180.0 * M_PI, 0, 0);
+  orientation.setRPY(tau / 4, 0, 0);
   box.subframe_poses[3].orientation = tf2::toMsg(orientation);
 
   box.subframe_names[4] = "side";
   box.subframe_poses[4].position.x = .0;
   box.subframe_poses[4].position.y = .0;
   box.subframe_poses[4].position.z = -.01 + z_offset_box;
-  orientation.setRPY(0, 180.0 / 180.0 * M_PI, 0);
+  orientation.setRPY(0, tau / 2, 0);
   box.subframe_poses[4].orientation = tf2::toMsg(orientation);
 
   // Next, define the cylinder
@@ -165,7 +168,7 @@ void spawnCollisionObjects(moveit::planning_interface::PlanningSceneInterface& p
   cylinder.primitive_poses[0].position.x = 0.0;
   cylinder.primitive_poses[0].position.y = 0.0;
   cylinder.primitive_poses[0].position.z = 0.0 + z_offset_cylinder;
-  orientation.setRPY(0, 90.0 / 180.0 * M_PI, 0);
+  orientation.setRPY(0, tau / 4, 0);
   cylinder.primitive_poses[0].orientation = tf2::toMsg(orientation);
 
   cylinder.subframe_poses.resize(1);
@@ -174,7 +177,7 @@ void spawnCollisionObjects(moveit::planning_interface::PlanningSceneInterface& p
   cylinder.subframe_poses[0].position.x = 0.03;
   cylinder.subframe_poses[0].position.y = 0.0;
   cylinder.subframe_poses[0].position.z = 0.0 + z_offset_cylinder;
-  orientation.setRPY(0, 90.0 / 180.0 * M_PI, 0);
+  orientation.setRPY(0, tau / 4, 0);
   cylinder.subframe_poses[0].orientation = tf2::toMsg(orientation);
 
   // BEGIN_SUB_TUTORIAL object2
@@ -282,7 +285,7 @@ int main(int argc, char** argv)
   fixed_pose.header.frame_id = "panda_link0";
   fixed_pose.pose.position.y = -.4;
   fixed_pose.pose.position.z = .3;
-  target_orientation.setRPY(0, (-20.0 / 180.0 * M_PI), 0);
+  target_orientation.setRPY(0, (-20.0 / 360.0 * tau), 0);
   fixed_pose.pose.orientation = tf2::toMsg(target_orientation);
 
   // Set up a small command line interface to make the tutorial interactive.
@@ -316,7 +319,7 @@ int main(int argc, char** argv)
       // The target pose is given relative to a box subframe:
       target_pose.header.frame_id = "box/bottom";
       // The orientation is determined by RPY angles to align the cylinder and box subframes:
-      target_orientation.setRPY(0, 180.0 / 180.0 * M_PI, 90.0 / 180.0 * M_PI);
+      target_orientation.setRPY(0, tau / 2, tau / 4);
       target_pose.pose.orientation = tf2::toMsg(target_orientation);
       // To keep some distance to the box, we use a small offset:
       target_pose.pose.position.z = 0.01;
@@ -330,7 +333,7 @@ int main(int argc, char** argv)
     {
       ROS_INFO_STREAM("Moving to top of box with cylinder tip");
       target_pose.header.frame_id = "box/top";
-      target_orientation.setRPY(180.0 / 180.0 * M_PI, 0, 90.0 / 180.0 * M_PI);
+      target_orientation.setRPY(tau / 2, 0, tau / 4);
       target_pose.pose.orientation = tf2::toMsg(target_orientation);
       target_pose.pose.position.z = 0.01;
       showFrames(target_pose, "cylinder/tip");
@@ -341,7 +344,7 @@ int main(int argc, char** argv)
     {
       ROS_INFO_STREAM("Moving to corner1 of box with cylinder tip");
       target_pose.header.frame_id = "box/corner_1";
-      target_orientation.setRPY(0, 180.0 / 180.0 * M_PI, 90.0 / 180.0 * M_PI);
+      target_orientation.setRPY(0, tau / 2, tau / 4);
       target_pose.pose.orientation = tf2::toMsg(target_orientation);
       target_pose.pose.position.z = 0.01;
       showFrames(target_pose, "cylinder/tip");
@@ -350,7 +353,7 @@ int main(int argc, char** argv)
     else if (character_input == 4)
     {
       target_pose.header.frame_id = "box/corner_2";
-      target_orientation.setRPY(0, 180.0 / 180.0 * M_PI, 90.0 / 180.0 * M_PI);
+      target_orientation.setRPY(0, tau / 2, tau / 4);
       target_pose.pose.orientation = tf2::toMsg(target_orientation);
       target_pose.pose.position.z = 0.01;
       showFrames(target_pose, "cylinder/tip");
@@ -359,7 +362,7 @@ int main(int argc, char** argv)
     else if (character_input == 5)
     {
       target_pose.header.frame_id = "box/side";
-      target_orientation.setRPY(0, 180.0 / 180.0 * M_PI, 90.0 / 180.0 * M_PI);
+      target_orientation.setRPY(0, tau / 2, tau / 4);
       target_pose.pose.orientation = tf2::toMsg(target_orientation);
       target_pose.pose.position.z = 0.01;
       showFrames(target_pose, "cylinder/tip");

@@ -44,6 +44,9 @@
 // TF2
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 
+// The circle constant tau = 2*pi. One tau is one rotation in radians.
+const double tau = 2 * M_PI;
+
 void openGripper(trajectory_msgs::JointTrajectory& posture)
 {
   // BEGIN_SUB_TUTORIAL open_gripper
@@ -94,7 +97,7 @@ void pick(moveit::planning_interface::MoveGroupInterface& move_group)
   // transform from `"panda_link8"` to the palm of the end effector.
   grasps[0].grasp_pose.header.frame_id = "panda_link0";
   tf2::Quaternion orientation;
-  orientation.setRPY(-M_PI / 2, -M_PI / 4, -M_PI / 2);
+  orientation.setRPY(-tau / 4, -tau / 8, -tau / 4);
   grasps[0].grasp_pose.pose.orientation = tf2::toMsg(orientation);
   grasps[0].grasp_pose.pose.position.x = 0.415;
   grasps[0].grasp_pose.pose.position.y = 0;
@@ -152,7 +155,7 @@ void place(moveit::planning_interface::MoveGroupInterface& group)
   // +++++++++++++++++++++++++++
   place_location[0].place_pose.header.frame_id = "panda_link0";
   tf2::Quaternion orientation;
-  orientation.setRPY(0, 0, M_PI / 2);
+  orientation.setRPY(0, 0, tau / 4);  // A quarter turn about the z-axis
   place_location[0].place_pose.pose.orientation = tf2::toMsg(orientation);
 
   /* For place location, we set the value to the exact location of the center of the object. */

@@ -45,6 +45,9 @@
 
 #include <moveit_visual_tools/moveit_visual_tools.h>
 
+// The circle constant tau = 2*pi. One tau is one rotation in radians.
+const double tau = 2 * M_PI;
+
 int main(int argc, char** argv)
 {
   ros::init(argc, argv, "move_group_interface_tutorial");
@@ -178,7 +181,7 @@ int main(int argc, char** argv)
   current_state->copyJointGroupPositions(joint_model_group, joint_group_positions);
 
   // Now, let's modify one of the joints, plan to the new joint space goal and visualize the plan.
-  joint_group_positions[0] = -1.0;  // radians
+  joint_group_positions[0] = -tau / 6;  // -1/6 turn in radians
   move_group.setJointValueTarget(joint_group_positions);
 
   // We lower the allowed maximum velocity and acceleration to 5% of their maximum.

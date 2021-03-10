@@ -52,6 +52,11 @@ import moveit_commander
 import moveit_msgs.msg
 import geometry_msgs.msg
 from math import pi, dist, fabs, cos
+try:
+  from math import tau
+except: # For Python 2 compatibility
+  from math import pi
+  tau = 2.0*pi
 from std_msgs.msg import String
 from moveit_commander.conversions import pose_to_list
 ## END_SUB_TUTORIAL
@@ -168,16 +173,17 @@ class MoveGroupPythonInterfaceTutorial(object):
     ##
     ## Planning to a Joint Goal
     ## ^^^^^^^^^^^^^^^^^^^^^^^^
-    ## The Panda's zero configuration is at a `singularity <https://www.quora.com/Robotics-What-is-meant-by-kinematic-singularity>`_ so the first
-    ## thing we want to do is move it to a slightly better configuration.
-    # We can get the joint values from the group and adjust some of the values:
+    ## The Panda's zero configuration is at a `singularity <https://www.quora.com/Robotics-What-is-meant-by-kinematic-singularity>`_, so the first
+    ## thing we want to do is move it to a slightly better configuration. 
+    ## We use the constant `tau = 2*pi <https://en.wikipedia.org/wiki/Turn_(angle)#Tau_proposals>`_ for convenience:
+    # We get the joint values from the group and change some of the values:
     joint_goal = move_group.get_current_joint_values()
     joint_goal[0] = 0
-    joint_goal[1] = -pi/4
+    joint_goal[1] = -tau/8
     joint_goal[2] = 0
-    joint_goal[3] = -pi/2
+    joint_goal[3] = -tau/4
     joint_goal[4] = 0
-    joint_goal[5] = pi/3
+    joint_goal[5] = tau/6  # 1/6 of a turn
     joint_goal[6] = 0
 
     # The go command can be called with joint values, poses, or without any
