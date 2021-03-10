@@ -21,7 +21,7 @@ This loads the constraint definition (in a format explained below) from the ROS 
 Defining constraints
 ^^^^^^^^^^^^^^^^^^^^
 
-The ``generate_state_database`` executable reads constraints from ROS parameters on ``/constraints``, in a more compact format that a complete ROS message.
+The ``generate_state_database`` executable reads constraints from ROS parameters on ``/constraints``, in a more compact format than a complete ROS message.
 You can define these in ``rosparam`` to be loaded together in a file, eg. ``X_moveit_config/config/constraints.yaml``::
 
  path_constraint:
