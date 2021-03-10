@@ -149,19 +149,19 @@ int main(int argc, char** argv)
   visual_tools.trigger();
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
 
+  // Finally, to execute the trajectory stored in my_plan, you could use the following method call:
+  // Note that this can lead to problems if the robot moved in the meanwhile.
+  // move_group.execute(my_plan);
+
   // Moving to a pose goal
   // ^^^^^^^^^^^^^^^^^^^^^
   //
-  // Moving to a pose goal is similar to the step above
-  // except we now use the move() function. Note that
-  // the pose goal we had set earlier is still active
-  // and so the robot will try to move to that goal. We will
-  // not use that function in this tutorial since it is
-  // a blocking function and requires a controller to be active
-  // and report success on execution of a trajectory.
+  // If you do not want to inspect the planned trajectory,
+  // the following is a more robust combination of the two-step plan+execute pattern shown above
+  // and should be preferred. Note that the pose goal we had set earlier is still active,
+  // so the robot will try to move to that goal.
 
-  /* Uncomment below line when working with a real robot */
-  /* move_group.move(); */
+  // move_group.move();
 
   // Planning to a joint-space goal
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
