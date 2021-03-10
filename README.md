@@ -1,6 +1,8 @@
 # MoveIt Tutorials
 
-[https://ros-planning.github.io/moveit_tutorials/](https://ros-planning.github.io/moveit_tutorials/)
+[MoveIt 1 Live tutorials](https://ros-planning.github.io/moveit_tutorials/)
+
+*These are the tutorials for MoveIt 1, for MoveIt 2 see [MoveIt 2 Tutorials](https://github.com/ros-planning/moveit2_tutorials/)*
 
 This is the primary documentation for the MoveIt project. We strongly encourage you to help improve MoveIt's documentation. Please consider reading the guidelines below for writing the best documentation and tutorials. However, if you are uncomfortable with any of the approaches, simply adding documentation text to your pull requests is better than nothing.
 
