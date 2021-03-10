@@ -49,7 +49,7 @@
 // setStateFeasibilityPredicate function. Here's a simple example of a
 // user-defined callback that checks whether the "panda_joint1" of
 // the Panda robot is at a positive or negative angle:
-bool stateFeasibilityTestExample(const moveit::core::RobotState& kinematic_state, bool verbose)
+bool stateFeasibilityTestExample(const moveit::core::RobotState& kinematic_state, bool /*verbose*/)
 {
   const double* joint_values = kinematic_state.getJointPositions("panda_joint1");
   return (joint_values[0] > 0.0);
@@ -61,7 +61,7 @@ int main(int argc, char** argv)
   ros::init(argc, argv, "panda_arm_kinematics");
   ros::AsyncSpinner spinner(1);
   spinner.start();
-  std::size_t count = 0;
+
   // BEGIN_TUTORIAL
   //
   // Setup
@@ -78,7 +78,7 @@ int main(int argc, char** argv)
   // but this method of instantiation is only intended for illustration.
 
   robot_model_loader::RobotModelLoader robot_model_loader("robot_description");
-  moveit::core::RobotModelPtr kinematic_model = robot_model_loader.getModel();
+  const moveit::core::RobotModelPtr& kinematic_model = robot_model_loader.getModel();
   planning_scene::PlanningScene planning_scene(kinematic_model);
 
   // Collision Checking
@@ -270,8 +270,7 @@ int main(int argc, char** argv)
 
   kinematic_constraints::ConstraintEvaluationResult constraint_eval_result =
       kinematic_constraint_set.decide(copied_state);
-  ROS_INFO_STREAM("Test 10: Random state is "
-                  << (constraint_eval_result.satisfied ? "constrained" : "not constrained"));
+  ROS_INFO_STREAM("Test 10: Random state is " << (constraint_eval_result.satisfied ? "constrained" : "not constrained"));
 
   // User-defined constraints
   // ~~~~~~~~~~~~~~~~~~~~~~~~

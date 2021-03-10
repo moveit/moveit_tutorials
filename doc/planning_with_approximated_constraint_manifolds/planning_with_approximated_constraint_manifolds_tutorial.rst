@@ -21,7 +21,8 @@ This loads the constraint definition (in a format explained below) from the ROS 
 Defining constraints
 ^^^^^^^^^^^^^^^^^^^^
 
-The ``generate_state_database`` executable reads constraints from ROS parameters on ``/constraints``, in a more compact format than a complete ROS message.
+The ``generate_state_database`` executable reads constraints from ROS parameters on ``/constraints``, in a more compact format that a complete ROS message.
+
 You can define these in ``rosparam`` to be loaded together in a file, eg. ``X_moveit_config/config/constraints.yaml``::
 
  path_constraint:
@@ -61,6 +62,7 @@ PositionConstraint
 """"""""""""""""""
 
 A ``PositionConstraint`` constrains the Cartesian positions allowed for a (position relative to a) link.
+
 ``target_offset`` is that relative position w.r.t. a link, e.g., the tip of the end-effector relative to its mounting point or other origin definition.
 This region (boxes only in this compact definition) is compactly defined by specifying the upper and lower bounds along each axis.
 
@@ -96,7 +98,7 @@ VisibilityConstraint
 
 A ``VisibilityConstraint`` allows to eg. specify a camera should always be able to see the gripper.
 
-How this is achieved is best explained by the `VisibilityConstraint <https://docs.ros.org/melodic/api/moveit_core/html/classkinematic__constraints_1_1VisibilityConstraint.html#details>`_ class documentation.
+How this is achieved is best explained by the `VisibilityConstraint <https://docs.ros.org/noetic/api/moveit_core/html/classkinematic__constraints_1_1VisibilityConstraint.html#details>`_ class documentation.
 
 Such a constraint is compactly defined like this::
 
@@ -127,7 +129,7 @@ The file with the constraint definitions can be passed to the launch file::
 Internals
 ^^^^^^^^^
 
-The main functionality is implemented in the `ConstraintsLibrary <http://docs.ros.org/melodic/api/moveit_planners_ompl/html/classompl__interface_1_1ConstraintsLibrary.html>`_ class.
+The main functionality is implemented in the `ConstraintsLibrary <http://docs.ros.org/noetic/api/moveit_planners_ompl/html/classompl__interface_1_1ConstraintsLibrary.html>`_ class.
 
 Constraints are added by calling ``addConstraintApproximation()`` which can be called subsequently to include multiple constraints in the approximation.
 The function requires four parameters:

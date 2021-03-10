@@ -41,13 +41,22 @@
 ## and a `RobotCommander`_ class. More on these below. We also import `rospy`_ and some messages that we will use:
 ##
 
+# Python 2/3 compatibility imports
+from __future__ import print_function
+from six.moves import input
+
 import sys
 import copy
 import rospy
 import moveit_commander
 import moveit_msgs.msg
 import geometry_msgs.msg
-from math import pi
+from math import pi, dist, fabs, cos
+try:
+  from math import tau
+except: # For Python 2 compatibility
+  from math import pi
+  tau = 2.0*pi
 from std_msgs.msg import String
 from moveit_commander.conversions import pose_to_list
 ## END_SUB_TUTORIAL
@@ -55,13 +64,14 @@ from moveit_commander.conversions import pose_to_list
 
 def all_close(goal, actual, tolerance):
   """
-  Convenience method for testing if a list of values are within a tolerance of their counterparts in another list
+  Convenience method for testing if the values in two lists are within a tolerance of each other.
+  For Pose and PoseStamped inputs, the angle between the two quaternions is compared (the angle 
+  between the identical orientations q and -q is calculated correctly).
   @param: goal       A list of floats, a Pose or a PoseStamped
   @param: actual     A list of floats, a Pose or a PoseStamped
   @param: tolerance  A float
   @returns: bool
   """
-  all_equal = True
   if type(goal) is list:
     for index in range(len(goal)):
       if abs(actual[index] - goal[index]) > tolerance:
@@ -71,15 +81,21 @@ def all_close(goal, actual, tolerance):
     return all_close(goal.pose, actual.pose, tolerance)
 
   elif type(goal) is geometry_msgs.msg.Pose:
-    return all_close(pose_to_list(goal), pose_to_list(actual), tolerance)
+    x0, y0, z0, qx0, qy0, qz0, qw0 = pose_to_list(actual)
+    x1, y1, z1, qx1, qy1, qz1, qw1 = pose_to_list(goal)
+    # Euclidean distance
+    d = dist((x1, y1, z1), (x0, y0, z0))
+    # phi = angle between orientations
+    cos_phi_half = fabs(qx0*qx1 + qy0*qy1 + qz0*qz1 + qw0*qw1)
+    return d <= tolerance and cos_phi_half >= cos(tolerance / 2.0)
 
   return True
 
 
-class MoveGroupPythonIntefaceTutorial(object):
-  """MoveGroupPythonIntefaceTutorial"""
+class MoveGroupPythonInterfaceTutorial(object):
+  """MoveGroupPythonInterfaceTutorial"""
   def __init__(self):
-    super(MoveGroupPythonIntefaceTutorial, self).__init__()
+    super(MoveGroupPythonInterfaceTutorial, self).__init__()
 
     ## BEGIN_SUB_TUTORIAL setup
     ##
@@ -119,21 +135,21 @@ class MoveGroupPythonIntefaceTutorial(object):
     ## ^^^^^^^^^^^^^^^^^^^^^^^^^
     # We can get the name of the reference frame for this robot:
     planning_frame = move_group.get_planning_frame()
-    print "============ Planning frame: %s" % planning_frame
+    print("============ Planning frame: %s" % planning_frame)
 
     # We can also print the name of the end-effector link for this group:
     eef_link = move_group.get_end_effector_link()
-    print "============ End effector link: %s" % eef_link
+    print("============ End effector link: %s" % eef_link)
 
     # We can get a list of all the groups in the robot:
     group_names = robot.get_group_names()
-    print "============ Available Planning Groups:", robot.get_group_names()
+    print("============ Available Planning Groups:", robot.get_group_names())
 
     # Sometimes for debugging it is useful to print the entire state of the
     # robot:
-    print "============ Printing robot state"
-    print robot.get_current_state()
-    print ""
+    print("============ Printing robot state")
+    print(robot.get_current_state())
+    print("")
     ## END_SUB_TUTORIAL
 
     # Misc variables
@@ -157,16 +173,17 @@ class MoveGroupPythonIntefaceTutorial(object):
     ##
     ## Planning to a Joint Goal
     ## ^^^^^^^^^^^^^^^^^^^^^^^^
-    ## The Panda's zero configuration is at a `singularity <https://www.quora.com/Robotics-What-is-meant-by-kinematic-singularity>`_ so the first
-    ## thing we want to do is move it to a slightly better configuration.
-    # We can get the joint values from the group and adjust some of the values:
+    ## The Panda's zero configuration is at a `singularity <https://www.quora.com/Robotics-What-is-meant-by-kinematic-singularity>`_, so the first
+    ## thing we want to do is move it to a slightly better configuration. 
+    ## We use the constant `tau = 2*pi <https://en.wikipedia.org/wiki/Turn_(angle)#Tau_proposals>`_ for convenience:
+    # We get the joint values from the group and change some of the values:
     joint_goal = move_group.get_current_joint_values()
     joint_goal[0] = 0
-    joint_goal[1] = -pi/4
+    joint_goal[1] = -tau/8
     joint_goal[2] = 0
-    joint_goal[3] = -pi/2
+    joint_goal[3] = -tau/4
     joint_goal[4] = 0
-    joint_goal[5] = pi/3
+    joint_goal[5] = tau/6  # 1/6 of a turn
     joint_goal[6] = 0
 
     # The go command can be called with joint values, poses, or without any
@@ -362,13 +379,13 @@ class MoveGroupPythonIntefaceTutorial(object):
     ##
     ## Adding Objects to the Planning Scene
     ## ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    ## First, we will create a box in the planning scene at the location of the left finger:
+    ## First, we will create a box in the planning scene between the fingers:
     box_pose = geometry_msgs.msg.PoseStamped()
-    box_pose.header.frame_id = "panda_leftfinger"
+    box_pose.header.frame_id = "panda_hand"
     box_pose.pose.orientation.w = 1.0
-    box_pose.pose.position.z = 0.07 # slightly above the end effector
+    box_pose.pose.position.z = 0.11 # above the panda_hand frame
     box_name = "box"
-    scene.add_box(box_name, box_pose, size=(0.1, 0.1, 0.1))
+    scene.add_box(box_name, box_pose, size=(0.075, 0.075, 0.075))
 
     ## END_SUB_TUTORIAL
     # Copy local variables back to class variables. In practice, you should use the class
@@ -449,58 +466,47 @@ class MoveGroupPythonIntefaceTutorial(object):
 
 def main():
   try:
-    print ""
-    print "----------------------------------------------------------"
-    print "Welcome to the MoveIt MoveGroup Python Interface Tutorial"
-    print "----------------------------------------------------------"
-    print "Press Ctrl-D to exit at any time"
-    print ""
-    print "============ Press `Enter` to begin the tutorial by setting up the moveit_commander ..."
-    raw_input()
-    tutorial = MoveGroupPythonIntefaceTutorial()
+    print("")
+    print("----------------------------------------------------------")
+    print("Welcome to the MoveIt MoveGroup Python Interface Tutorial")
+    print("----------------------------------------------------------")
+    print("Press Ctrl-D to exit at any time")
+    print("")
+    input("============ Press `Enter` to begin the tutorial by setting up the moveit_commander ...")
+    tutorial = MoveGroupPythonInterfaceTutorial()
 
-    print "============ Press `Enter` to execute a movement using a joint state goal ..."
-    raw_input()
+    input("============ Press `Enter` to execute a movement using a joint state goal ...")
     tutorial.go_to_joint_state()
 
-    print "============ Press `Enter` to execute a movement using a pose goal ..."
-    raw_input()
+    input("============ Press `Enter` to execute a movement using a pose goal ...")
     tutorial.go_to_pose_goal()
 
-    print "============ Press `Enter` to plan and display a Cartesian path ..."
-    raw_input()
+    input("============ Press `Enter` to plan and display a Cartesian path ...")
     cartesian_plan, fraction = tutorial.plan_cartesian_path()
 
-    print "============ Press `Enter` to display a saved trajectory (this will replay the Cartesian path)  ..."
-    raw_input()
+    input("============ Press `Enter` to display a saved trajectory (this will replay the Cartesian path)  ...")
     tutorial.display_trajectory(cartesian_plan)
 
-    print "============ Press `Enter` to execute a saved path ..."
-    raw_input()
+    input("============ Press `Enter` to execute a saved path ...")
     tutorial.execute_plan(cartesian_plan)
 
-    print "============ Press `Enter` to add a box to the planning scene ..."
-    raw_input()
+    input("============ Press `Enter` to add a box to the planning scene ...")
     tutorial.add_box()
 
-    print "============ Press `Enter` to attach a Box to the Panda robot ..."
-    raw_input()
+    input("============ Press `Enter` to attach a Box to the Panda robot ...")
     tutorial.attach_box()
 
-    print "============ Press `Enter` to plan and execute a path with an attached collision object ..."
-    raw_input()
+    input("============ Press `Enter` to plan and execute a path with an attached collision object ...")
     cartesian_plan, fraction = tutorial.plan_cartesian_path(scale=-1)
     tutorial.execute_plan(cartesian_plan)
 
-    print "============ Press `Enter` to detach the box from the Panda robot ..."
-    raw_input()
+    input("============ Press `Enter` to detach the box from the Panda robot ...")
     tutorial.detach_box()
 
-    print "============ Press `Enter` to remove the box from the planning scene ..."
-    raw_input()
+    input("============ Press `Enter` to remove the box from the planning scene ...")
     tutorial.remove_box()
 
-    print "============ Python tutorial demo complete!"
+    print("============ Python tutorial demo complete!")
   except rospy.ROSInterruptException:
     return
   except KeyboardInterrupt:
@@ -511,25 +517,25 @@ if __name__ == '__main__':
 
 ## BEGIN_TUTORIAL
 ## .. _moveit_commander:
-##    http://docs.ros.org/melodic/api/moveit_commander/html/namespacemoveit__commander.html
+##    http://docs.ros.org/noetic/api/moveit_commander/html/namespacemoveit__commander.html
 ##
 ## .. _MoveGroupCommander:
-##    http://docs.ros.org/melodic/api/moveit_commander/html/classmoveit__commander_1_1move__group_1_1MoveGroupCommander.html
+##    http://docs.ros.org/noetic/api/moveit_commander/html/classmoveit__commander_1_1move__group_1_1MoveGroupCommander.html
 ##
 ## .. _RobotCommander:
-##    http://docs.ros.org/melodic/api/moveit_commander/html/classmoveit__commander_1_1robot_1_1RobotCommander.html
+##    http://docs.ros.org/noetic/api/moveit_commander/html/classmoveit__commander_1_1robot_1_1RobotCommander.html
 ##
 ## .. _PlanningSceneInterface:
-##    http://docs.ros.org/melodic/api/moveit_commander/html/classmoveit__commander_1_1planning__scene__interface_1_1PlanningSceneInterface.html
+##    http://docs.ros.org/noetic/api/moveit_commander/html/classmoveit__commander_1_1planning__scene__interface_1_1PlanningSceneInterface.html
 ##
 ## .. _DisplayTrajectory:
-##    http://docs.ros.org/melodic/api/moveit_msgs/html/msg/DisplayTrajectory.html
+##    http://docs.ros.org/noetic/api/moveit_msgs/html/msg/DisplayTrajectory.html
 ##
 ## .. _RobotTrajectory:
-##    http://docs.ros.org/melodic/api/moveit_msgs/html/msg/RobotTrajectory.html
+##    http://docs.ros.org/noetic/api/moveit_msgs/html/msg/RobotTrajectory.html
 ##
 ## .. _rospy:
-##    http://docs.ros.org/melodic/api/rospy/html/
+##    http://docs.ros.org/noetic/api/rospy/html/
 ## CALL_SUB_TUTORIAL imports
 ## CALL_SUB_TUTORIAL setup
 ## CALL_SUB_TUTORIAL basic_info

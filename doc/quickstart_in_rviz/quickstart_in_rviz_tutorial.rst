@@ -52,12 +52,13 @@ Step 1: Launch the Demo and Configure the Plugin
 
   * Make sure the **Robot Description** field is set to ``robot_description``.
 
-  * Make sure the **Planning Scene Topic** field is set to ``/planning_scene``.
+  * Make sure the **Planning Scene Topic** field is set to ``move_group/monitored_planning_scene``.
     Click on topic name to expose topic-name drop-down.
 
-  * In **Planning Request**, change the **Planning Group** to ``panda_arm``.
+  * Make sure the **Trajectory Topic** under **Planned Path** is set to ``/move_group/display_planned_path``.
 
-  * In **Planned Path**, change the **Trajectory Topic** to ``/move_group/display_planned_path``.
+  * In **Planning Request**, change the **Planning Group** to ``panda_arm``. You can also see this in the MotionPlanning panel in the bottom left.
+
 
 .. image:: rviz_plugin_start.png
    :width: 700px
@@ -67,7 +68,7 @@ Step 2: Play with the Visualized Robots
 ---------------------------------------
 There are four different overlapping visualizations:
 
-#. The robot's configuration in the ``/planning scene`` planning environment (active by default).
+#. The robot's configuration in the ``move_group/monitored_planning_scene`` planning environment (active by default).
 
 #. The planned path for the robot (active by default).
 
@@ -133,8 +134,12 @@ Moving Joints or in Null Space
 ++++++++++++++++++++++++++++++
 You can use the **Joints** tab to move single joints and the redundant joints of 7-DOF robots. Try moving the "null space exploration" slider as shown in the animation below.
 
-.. image:: rviz_joints_nullspace.webm
-   :width: 700px
+.. raw:: html
+
+    <video width="700px" nocontrols="true" autoplay="true" loop="true">
+        <source src="../../_static/rviz_joints_nullspace.webm" type="video/webm">
+        The joints moving while the end effector stays still
+    </video>
 
 Step 4: Use Motion Planning with the Panda
 -------------------------------------------

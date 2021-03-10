@@ -89,7 +89,7 @@ int main(int argc, char** argv)
 
   /* Filling in a seed state */
   robot_model_loader::RobotModelLoader robot_model_loader("robot_description");
-  moveit::core::RobotModelPtr kinematic_model = robot_model_loader.getModel();
+  const moveit::core::RobotModelPtr& kinematic_model = robot_model_loader.getModel();
   moveit::core::RobotStatePtr kinematic_state(new moveit::core::RobotState(kinematic_model));
   const moveit::core::JointModelGroup* joint_model_group = kinematic_model->getJointModelGroup("panda_arm");
 

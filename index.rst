@@ -47,8 +47,10 @@ Building more complex applications with MoveIt often requires developers to dig 
    doc/pick_place/pick_place_tutorial
    doc/moveit_grasps/moveit_grasps_tutorial
    doc/moveit_task_constructor/moveit_task_constructor_tutorial
+   doc/moveit_deep_grasps/moveit_deep_grasps_tutorial
    doc/subframes/subframes_tutorial
    doc/moveit_cpp/moveitcpp_tutorial
+   doc/bullet_collision_checker/bullet_collision_checker
 
 Integration with a New Robot
 ----------------------------
@@ -61,6 +63,7 @@ Before attempting to integrate a new robot with MoveIt, check whether your robot
    doc/urdf_srdf/urdf_srdf_tutorial
    doc/controller_configuration/controller_configuration_tutorial
    doc/perception_pipeline/perception_pipeline_tutorial
+   doc/hand_eye_calibration/hand_eye_calibration_tutorial
    doc/ikfast/ikfast_tutorial
    doc/trac_ik/trac_ik_tutorial
 
@@ -76,6 +79,7 @@ Configuration
    doc/chomp_planner/chomp_planner_tutorial
    doc/stomp_planner/stomp_planner_tutorial
    doc/trajopt_planner/trajopt_planner_tutorial
+   doc/pilz_industrial_motion_planner/pilz_industrial_motion_planner
    doc/planning_adapters/planning_adapters_tutorial.rst
 
 Miscellaneous
@@ -85,7 +89,7 @@ Miscellaneous
    :maxdepth: 1
 
    doc/joystick_control_teleoperation/joystick_control_teleoperation_tutorial
-   doc/arm_jogging/arm_jogging_tutorial
+   doc/realtime_servo/realtime_servo_tutorial
    doc/benchmarking/benchmarking_tutorial
    doc/tests/tests_tutorial
 

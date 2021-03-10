@@ -22,12 +22,16 @@ This repository is currently built automatically by two systems. Travis builds t
 
 ## Build Locally
 
-If you want to test the tutorials by generating the html pages locally on your machine, use the ``build_locally`` script.
-It has been tested on Ubuntu 16.04 with ROS Kinetic pre-installed. Run in the root of the moveit_tutorials package:
+If you want to test the tutorials by generating the html pages locally on your machine, you will first need to install the `rosdoc_lite` package, and then you can use the ``build_locally`` script.
+Run in the root of the moveit_tutorials package:
+
+> **_NOTE:_**  [rosdoc_lite](https://wiki.ros.org/rosdoc_lite) is needed to run the build_locally.sh script!
 
     export ROS_DISTRO=kinetic # 16.04
     export ROS_DISTRO=melodic # 18.04
+    export ROS_DISTRO=noetic  # 20.04
 
+    sudo apt install ros-$ROS_DISTRO-rosdoc-lite
     source /opt/ros/$ROS_DISTRO/setup.bash
     ./build_locally.sh
 
@@ -91,3 +95,44 @@ moveit_tutorials/doc/
         ├── <tutorial_name>_tutorial_test.py            # Python tests for tutorial
         └── <tutorial_name>_tutorial_test.cpp           # C++ tests for tutorial
 ```
+
+### Including Images and Videos
+#### Images
+The standard way to include an image in reStructuredText is
+```
+.. image:: filename.png
+   :width: 700px
+```
+
+This assumes that `filename.png` is in the same folder as the source `.rst` file. Images linked in this way will automatically be copied to the appropriate folder in the build.
+
+[External Documentation](https://sublime-and-sphinx-guide.readthedocs.io/en/latest/images.html)
+
+Do **not** include animated gifs as the file format leads to very large files. Use a video format like `webm` and see the section on local video below.
+
+#### YouTube and other External Video
+You can embed video with raw html, like in this example from the Pick and Place Tutorial.
+```
+.. raw:: html
+
+    <div style="position: relative; padding-bottom: 5%; height: 0; overflow: hidden; max-width: 100%; height: auto;">
+        <iframe width="700px" height="400px" src="https://www.youtube.com/embed/QBJPxx_63Bs?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
+```
+This includes [Youtube's suggested embed html](https://support.google.com/youtube/answer/171780?hl=en).
+
+#### Local Video
+To embed a video that is included in this repository, you also will use raw html, like this example from the Quickstart in RViz tutorial.
+
+```
+.. raw:: html
+
+    <video width="700px" nocontrols="true" autoplay="true" loop="true">
+        <source src="../../_static/rviz_joints_nullspace.webm" type="video/webm">
+        The joints moving while the end effector stays still
+    </video>
+```
+
+Note that the video file is in the `_static` folder instead of the same folder.
+
+[External Documentation on &lt;video&gt; tag](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video)
