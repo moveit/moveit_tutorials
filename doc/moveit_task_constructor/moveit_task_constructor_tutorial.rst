@@ -50,7 +50,27 @@ Subsequently, you can run the individual demos: ::
   rosrun moveit_task_constructor_demo modular
   roslaunch moveit_task_constructor_demo pickplace.launch
 
-On the right side you should see the `Motion Planning Tasks` panel outlining the hierarchical stage structure of the tasks.
+.. tip::
+
+  To debug your application code and
+  generate a visual task representation,
+  add a new panel to your `RViZ` display.
+  If you use the provided launch file, this is already pre-configured.
+
+  .. figure:: images/panel_1.png
+    :width: 370px
+    :alt: add mtc rviz panel_1
+    :align: center
+
+  Select the `Motion Planning Tasks` plugin from the
+  ``moveit_task_constructor_visualization`` package.
+
+  .. figure:: images/panel_2.png
+    :width: 370px
+    :alt: add mtc rviz panel_2
+    :align: center
+
+The `Motion Planning Tasks` panel outlines the hierarchical stage structure of the tasks.
 When you select a particular stage, the list of successful and failed solutions will be
 shown in the right-most window. Selecting one of those solutions will start its visualization.
 
@@ -97,6 +117,11 @@ Examples are running alternative planners for a free-motion plan, picking object
 Stages not only support solving motion planning problems.
 They can also be used for all kinds of state transitions, as for instance modifying the planning scene.
 Combined with the possibility of using class inheritance it is possible to construct very complex behavior while only relying on a well-structured set of primitive stages.
+
+.. tip::
+
+  In general, it is a good habit to encapsulate
+  application-specific `MoveIt Task Constructor` code within a ros-node.
 
 Programmatic Extension
 ----------------------
