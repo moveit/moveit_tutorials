@@ -54,7 +54,7 @@ Building more complex applications with MoveIt often requires developers to dig 
 
 Integration with a New Robot
 ----------------------------
-Before attempting to integrate a new robot with MoveIt, check whether your robot has already been setup (see the `list of robots running MoveIt <http://moveit.ros.org/robots/>`_). Otherwise, follow the tutorials in this section to integrate your robot with MoveIt (and share your results on the MoveIt mailing list)
+Before attempting to integrate a new robot with MoveIt, check whether your robot has already been setup (see the `list of robots running MoveIt <http://moveit.ros.org/robots/>`_). Otherwise, follow the tutorials in this section to integrate your robot with MoveIt (and share your results on the MoveIt Discourse Channel)
 
 .. toctree::
    :maxdepth: 1
@@ -87,6 +87,7 @@ Miscellaneous
 .. toctree::
    :maxdepth: 1
 
+   doc/gazebo_simulation/gazebo_simulation.rst
    doc/joystick_control_teleoperation/joystick_control_teleoperation_tutorial
    doc/realtime_servo/realtime_servo_tutorial
    doc/benchmarking/benchmarking_tutorial
