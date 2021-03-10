@@ -1,7 +1,7 @@
 Representation and Evaluation of Constraints
 ============================================
 
-Constraints are integral component of MoveIt and OMPL. They are used both to constrain robot motion as well as to define planning goals. There following set of constraints are defined in the :code:`kinematic_constraints` namespace:
+Constraints are an integral component of MoveIt and OMPL. They are used both to constrain robot motion as well as to define planning goals. There following set of constraints are defined in the :code:`kinematic_constraints` namespace:
 
 - kinematic_constraints::JointConstraint
 - kinematic_constraints::OrientationConstraint
