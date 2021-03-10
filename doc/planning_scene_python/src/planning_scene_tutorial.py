@@ -1,10 +1,10 @@
+#!/usr/bin/env python
 import sys
 
 import moveit_commander
 import numpy as np
 import rospy
 from geometry_msgs.msg import PoseStamped
-from moveit_msgs.msg import DisplayRobotState
 from pymoveit import kinematic_constraints, collision_detection, robot_model, random_numbers
 from pymoveit.planning_scene import PlanningScene
 
@@ -58,6 +58,21 @@ def main():
     planning_scene.checkSelfCollision(collision_request, collision_result)
     rospy.loginfo(f"Test 1: Current state is {'in' if collision_result.collision else 'not in'} self collision")
 
+    # Now, we can get contact information for any collisions that might
+    # have happened at a given configuration of the Panda arm. We can ask
+    # for contact information by filling in the appropriate field in the
+    # collision request and specifying the maximum number of contacts to
+    # be returned as a large number.
+
+    collision_request.contacts = True
+    collision_request.max_contacts = 1000
+
+    collision_result.clear()
+    planning_scene.checkSelfCollision(collision_request, collision_result)
+    for (first_name, second_name), contacts in collision_result.contacts.items():
+        rospy.loginfo(f"Contact between {first_name} and {second_name}")
+
+
     # Change the state
     # ~~~~~~~~~~~~~~~~
     #
@@ -103,21 +118,6 @@ def main():
     current_state.setJointGroupPositions(joint_model_group, joint_values)
     rospy.loginfo(
         f"Test 4: Current state is {'valid' if current_state.satisfiesBounds(joint_model_group) else 'not valid'}")
-
-    # Now, we can get contact information for any collisions that might
-    # have happened at a given configuration of the Panda arm. We can ask
-    # for contact information by filling in the appropriate field in the
-    # collision request and specifying the maximum number of contacts to
-    # be returned as a large number.
-
-    collision_request.contacts = True
-    collision_request.max_contacts = 1000
-
-    collision_result.clear()
-    planning_scene.checkSelfCollision(collision_request, collision_result)
-    rospy.loginfo(f"Test 5: Current state is {'in' if collision_result.collision else 'not in'} self collision")
-    for (first_name, second_name), contacts in collision_result.contacts:
-        rospy.loginfo(f"Contact between {first_name} and {second_name}")
 
     # Modifying the Allowed Collision Matrix
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -217,9 +217,6 @@ def main():
     constraint_eval_result = kinematic_constraint_set.decide(copied_state)
     rospy.loginfo(
         f"Test 10: Random state is {'constrained' if constraint_eval_result.satisfied else 'not constrained'}")
-
-    # User-defined constraints
-    # ~~~~~~~~~~~~~~~~~~~~~~~~
 
     # Whenever isStateValid is called, three checks are conducted: (a)
     # collision checking (b) constraint checking and (c) feasibility
