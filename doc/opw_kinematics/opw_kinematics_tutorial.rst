@@ -70,7 +70,7 @@ and then add a ``rosparam`` ``load`` line to your *launch/planning_context.launc
 
 Note that the *ns* parameter has to match the name you gave your planning group during the setup.
 
-This can also be done directly within the MoveIt setup assistant. On the *Define Planning Group* page, select the *opw_parameters*
+The MoveIt Setup Assistant can automatically insert that line, removing the need to manually edit the ``planning_context.launch`` file. On the *Define Planning Group* page, select the *opw_parameters*
 file for your robot in the *Kin. parameters file* field
 
 .. image:: images/assistant.png
