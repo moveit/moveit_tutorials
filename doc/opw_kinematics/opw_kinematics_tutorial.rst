@@ -58,7 +58,7 @@ Sharing OPW descriptions
 -------------------------
 
 We plan to collect OPW parameter sets as part of the ROS-Industrial robot support packages. This has already started for FANUC.
-Taking the `M-10iA <https://github.com/ros-industrial/fanuc/blob/kinetic-devel/fanuc_m10ia_support/config/opw_parameters_m10ia.yaml>`_ as
+Taking the `M-10iA <https://github.com/ros-industrial/fanuc/blob/3ea2842baca3184cc621071b785cbf0c588a4046/fanuc_m10ia_support/config/opw_parameters_m10ia.yaml>`_ as
 an example you can reduce your ``kinematics.yaml`` to the following:
 
 .. code-block:: yaml
