@@ -186,8 +186,8 @@ int main(int argc, char** argv)
   req.reference_trajectories.resize(1);
   req.reference_trajectories[0].joint_trajectory.resize(1);
   // trajectory includes both the start and end points (N_STEPS + 1)
-  req.reference_trajectories[0].joint_trajectory[0].points.resize(N_STEPS + 1); 
-  req.reference_trajectories[0].joint_trajectory[0].joint_names = joint_names;  
+  req.reference_trajectories[0].joint_trajectory[0].points.resize(N_STEPS + 1);
+  req.reference_trajectories[0].joint_trajectory[0].joint_names = joint_names;
   req.reference_trajectories[0].joint_trajectory[0].points[0].positions = current_joint_values;
 
   std::vector<double> joint_values = current_joint_values;
@@ -195,11 +195,11 @@ int main(int argc, char** argv)
   for (std::size_t step_index = 1; step_index <= N_STEPS; ++step_index)
   {
     double increment;
-    step_index <=10 ? (increment = 0.05) : (increment = 0.044);
+    step_index <= 10 ? (increment = 0.05) : (increment = 0.044);
     for (int dof_index = 0; dof_index < N_DOF; ++dof_index)
-      {
-        joint_values[dof_index] = joint_values[dof_index] + increment;
-      }
+    {
+      joint_values[dof_index] = joint_values[dof_index] + increment;
+    }
     req.reference_trajectories[0].joint_trajectory[0].joint_names = joint_names;
     req.reference_trajectories[0].joint_trajectory[0].points[step_index].positions = joint_values;
   }
