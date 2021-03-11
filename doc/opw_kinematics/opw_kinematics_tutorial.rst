@@ -61,16 +61,20 @@ We plan to collect OPW parameter sets as part of the ROS-Industrial robot suppor
 Taking the `LR Mate 200iB <https://github.com/ros-industrial/fanuc/blob/3ea2842baca3184cc621071b785cbf0c588a4046/fanuc_lrmate200ib_support/config/opw_parameters_lrmate200ib.yaml>`_ as
 an example you can reduce your ``kinematics.yaml`` to the following: ::
 
-  manipulator:
-    kinematics_solver: moveit_opw_kinematics_plugin/MoveItOPWKinematicsPlugin
+.. code-block:: yaml
+
+   manipulator:
+     kinematics_solver: moveit_opw_kinematics_plugin/MoveItOPWKinematicsPlugin
 
 and then add a ``rosparam`` ``load`` line to your ``launch/planning_context.launch`` which causes the parameters in that file to be loaded onto the parameter server: ::
 
-  <!-- Load default settings for kinematics; these settings are overridden by settings in a node's namespace -->
-  <group ns="$(arg robot_description)_kinematics">
-    <rosparam command="load" file="$(find opw_tutorial)/config/kinematics.yaml"/>
-    <rosparam command="load" ns="manipulator" file="$(find fanuc_lrmate200ib_support)/config/opw_parameters_lrmate200ib.yaml"/>
-  </group>
+.. code-block:: xml
+
+   <!-- Load default settings for kinematics; these settings are overridden by settings in a node's namespace -->
+   <group ns="$(arg robot_description)_kinematics">
+     <rosparam command="load" file="$(find opw_tutorial)/config/kinematics.yaml"/>
+     <rosparam command="load" ns="manipulator" file="$(find fanuc_lrmate200ib_support)/config/opw_parameters_lrmate200ib.yaml"/>
+   </group>
 
 Note that the ``ns`` parameter has to match the name you gave your planning group during the setup.
 
