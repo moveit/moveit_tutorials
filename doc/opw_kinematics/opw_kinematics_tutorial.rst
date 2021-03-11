@@ -32,7 +32,7 @@ Usage
 - Replace ``kinematics_solver: kdl_kinematics_plugin/KDLKinematicsPlugin`` (or similar) with ``kinematics_solver: moveit_opw_kinematics_plugin/MoveItOPWKinematicsPlugin``.
 - Set parameters to describe the geometry of your manipulator.
 
-The following is an example of the parameters needed for the KUKA KR 6 R700: ::
+The following is an example of the parameters needed for the KUKA KR 6 R700:
 
 .. code-block:: yaml
 
