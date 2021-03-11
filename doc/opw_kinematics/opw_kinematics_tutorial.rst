@@ -21,7 +21,7 @@ joint-zero offsets. Given this structure, no other setup is required.
 Installation
 -------------
 
-The `opw_kinematics_plugin <https://github.com/JeroenDM/moveit_opw_kinematics_plugin>`_ can be installed from packages: ::
+The `opw_kinematics_plugin <https://github.com/JeroenDM/moveit_opw_kinematics_plugin>`_ can be installed using ``apt`` on Ubuntu and Debian: ::
 
   sudo apt install ros-noetic-opw-kinematics-plugin
 
@@ -29,23 +29,25 @@ Usage
 ------
 
 - Find the MoveIt `kinematics.yaml <../kinematics_configuration/kinematics_configuration_tutorial.html>`_ file created for your robot.
-- Replace ``kinematics_solver: kdl_kinematics_plugin/KDLKinematicsPlugin`` (or similar) with ``kinematics_solver: moveit_opw_kinematics_plugin/MoveItOPWKinematicsPlugin``
+- Replace ``kinematics_solver: kdl_kinematics_plugin/KDLKinematicsPlugin`` (or similar) with ``kinematics_solver: moveit_opw_kinematics_plugin/MoveItOPWKinematicsPlugin``.
 - Set parameters to describe the geometry of your manipulator.
 
-The following is an example for the KUKA KR 6 R700: ::
+The following is an example of the parameters needed for the KUKA KR 6 R700: ::
 
-  manipulator:
-    kinematics_solver: moveit_opw_kinematics_plugin/MoveItOPWKinematicsPlugin
-    opw_kinematics_geometric_parameters:
-      a1:  0.025
-      a2: -0.035
-      b:   0.000
-      c1:  0.400
-      c2:  0.315
-      c3:  0.365
-      c4:  0.080
-    opw_kinematics_joint_offsets: [0.0, -1.57079632679, 0, 0, 0, 0]
-    opw_kinematics_joint_sign_corrections: [-1, 1, 1, -1, 1, -1]
+.. code-block:: yaml
+
+   manipulator:
+     kinematics_solver: moveit_opw_kinematics_plugin/MoveItOPWKinematicsPlugin
+     opw_kinematics_geometric_parameters:
+       a1:  0.025
+       a2: -0.035
+       b:   0.000
+       c1:  0.400
+       c2:  0.315
+       c3:  0.365
+       c4:  0.080
+     opw_kinematics_joint_offsets: [0.0, -1.57079632679, 0, 0, 0, 0]
+     opw_kinematics_joint_sign_corrections: [-1, 1, 1, -1, 1, -1]
 
 The meaning of the parameters can best be understood with a sketch and some tinkering. The plugin will print a ``ROS_ERROR`` on startup if they
 do not match your URDF, so you can safely guess and test if needed:
@@ -57,12 +59,12 @@ Sharing OPW descriptions
 
 We plan to collect OPW parameter sets as part of the ROS-Industrial robot support packages. This has already started for FANUC.
 Taking the `LR Mate 200iB <https://github.com/ros-industrial/fanuc/blob/3ea2842baca3184cc621071b785cbf0c588a4046/fanuc_lrmate200ib_support/config/opw_parameters_lrmate200ib.yaml>`_ as
-an example you can reduce your *kinematics.yaml* to the following header: ::
+an example you can reduce your ``kinematics.yaml`` to the following: ::
 
   manipulator:
     kinematics_solver: moveit_opw_kinematics_plugin/MoveItOPWKinematicsPlugin
 
-and then add a ``rosparam`` ``load`` line to your *launch/planning_context.launch* which causes the parameters in that file to be loaded onto the parameter server: ::
+and then add a ``rosparam`` ``load`` line to your ``launch/planning_context.launch`` which causes the parameters in that file to be loaded onto the parameter server: ::
 
   <!-- Load default settings for kinematics; these settings are overridden by settings in a node's namespace -->
   <group ns="$(arg robot_description)_kinematics">
@@ -70,7 +72,7 @@ and then add a ``rosparam`` ``load`` line to your *launch/planning_context.launc
     <rosparam command="load" ns="manipulator" file="$(find fanuc_lrmate200ib_support)/config/opw_parameters_lrmate200ib.yaml"/>
   </group>
 
-Note that the *ns* parameter has to match the name you gave your planning group during the setup.
+Note that the ``ns`` parameter has to match the name you gave your planning group during the setup.
 
 The MoveIt Setup Assistant can automatically insert that line, removing the need to manually edit the ``planning_context.launch`` file. On the *Define Planning Group* page, select the *opw_parameters*
 file for your robot in the *Kin. parameters file* field
