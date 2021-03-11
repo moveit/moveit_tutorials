@@ -24,14 +24,14 @@ Install `wstool <http://wiki.ros.org/wstool>`_ : ::
 
 Create A Catkin Workspace and Download MoveIt Source
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-These tutorials rely on the master branch of MoveIt, which requires a build from source.
-You will need to have a `catkin <http://wiki.ros.org/catkin>`_ workspace setup: ::
+Because the version of the tutorials uses the ``master`` branch which is being actively developed, you will most likely need to build all of MoveIt from soruce. You will need to have a `catkin <http://wiki.ros.org/catkin>`_ workspace setup: ::
 
   mkdir -p ~/ws_moveit/src
   cd ~/ws_moveit/src
 
   wstool init .
   wstool merge -t . https://raw.githubusercontent.com/ros-planning/moveit/master/moveit.rosinstall
+  wstool remove  moveit_tutorials  # this is clone'd in the next section
   wstool update -t .
 
 Download Example Code
@@ -53,7 +53,7 @@ The following will install from Debian any package dependencies not already in y
 
   cd ~/ws_moveit/src
   rosdep install -y --from-paths . --ignore-src --rosdistro noetic
-  
+
 **Note** In case an upstream package is not (yet) available from the standard ROS repositories or if you experience any build errors in those packages, please try to fetch the latest release candidates from the `ROS testing repositories <http://wiki.ros.org/TestingRepository>`_ instead: ::
 
         sudo sh -c 'echo "deb http://packages.ros.org/ros-testing/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
