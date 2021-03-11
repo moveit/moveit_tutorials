@@ -53,7 +53,7 @@ do not match your URDF, so you can safely guess and test if needed:
 Sharing OPW descriptions
 -------------------------
 
-We plan to collect OPW parameter sets as part of the ROS-I robot description packages. This has already started for Fanuc.
+We plan to collect OPW parameter sets as part of the ROS-Industrial robot support packages. This has already started for FANUC.
 Taking the `LR Mate 200iB <https://github.com/ros-industrial/fanuc/blob/kinetic-devel/fanuc_lrmate200ib_support/config/opw_parameters_lrmate200ib.yaml>`_ as
 an example you can reduce your *kinematics.yaml* to the following header: ::
 
