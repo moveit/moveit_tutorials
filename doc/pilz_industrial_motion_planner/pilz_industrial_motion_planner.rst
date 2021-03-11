@@ -292,7 +292,7 @@ defined at ``/robot_description_planning``.
 
 An example showing the cartesian limits which have to be defined can be
 found in `prbt_moveit_config
-<https://github.com/ros-planning/moveit_resources/blob/melodic-devel/prbt_moveit_config/config/cartesian_limits.yaml>`_.
+<https://github.com/ros-planning/moveit_resources/blob/master/prbt_moveit_config/config/cartesian_limits.yaml>`_.
 
 Sequence of multiple segments
 =============================
