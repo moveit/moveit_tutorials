@@ -45,7 +45,7 @@ Usage
     opw_kinematics_joint_offsets: [0.0, -1.57079632679, 0, 0, 0, 0]
     opw_kinematics_joint_sign_corrections: [-1, 1, 1, -1, 1, -1]
 
-The meaning of the parameters can best be understood with a sketch and some tinkering. The plugin will throw ROS_ERRORs on startup if they
+The meaning of the parameters can best be understood with a sketch and some tinkering. The plugin will print ``ROS_ERROR``s on startup if they
 do not match your URDF, so you can safely guess and test if needed:
 
 .. image:: images/opw.png
@@ -74,4 +74,3 @@ This can also be done directly within the MoveIt setup assistant. On the *Define
 file for your robot in the *Kin. parameters file* field
 
 .. image:: images/assistant.png
-
