@@ -21,7 +21,7 @@ joint-zero offsets. Given this structure, no other setup is required.
 Installation
 -------------
 
-The `opw_kinematics_plugin https://github.com/JeroenDM/moveit_opw_kinematics_plugin`_ can be installed from packages: ::
+The `opw_kinematics_plugin <https://github.com/JeroenDM/moveit_opw_kinematics_plugin>`_ can be installed from packages: ::
 
   sudo apt install ros-noetic-opw-kinematics-plugin
 
@@ -30,7 +30,9 @@ Usage
 
 - Find the MoveIt `kinematics.yaml <../kinematics_configuration/kinematics_configuration_tutorial.html>`_ file created for your robot.
 - Replace ``kinematics_solver: kdl_kinematics_plugin/KDLKinematicsPlugin`` (or similar) with ``kinematics_solver: moveit_opw_kinematics_plugin/MoveItOPWKinematicsPlugin``
-- Set parameters to describe the geometry of your manipulator. The following is an example for the KUKA KR 6 R700: ::
+- Set parameters to describe the geometry of your manipulator.
+
+The following is an example for the KUKA KR 6 R700: ::
 
   manipulator:
     kinematics_solver: moveit_opw_kinematics_plugin/MoveItOPWKinematicsPlugin
@@ -45,7 +47,7 @@ Usage
     opw_kinematics_joint_offsets: [0.0, -1.57079632679, 0, 0, 0, 0]
     opw_kinematics_joint_sign_corrections: [-1, 1, 1, -1, 1, -1]
 
-The meaning of the parameters can best be understood with a sketch and some tinkering. The plugin will print ``ROS_ERROR``s on startup if they
+The meaning of the parameters can best be understood with a sketch and some tinkering. The plugin will print a ``ROS_ERROR`` on startup if they
 do not match your URDF, so you can safely guess and test if needed:
 
 .. image:: images/opw.png
