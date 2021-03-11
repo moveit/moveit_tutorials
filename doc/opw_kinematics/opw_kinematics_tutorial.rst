@@ -59,14 +59,14 @@ Sharing OPW descriptions
 
 We plan to collect OPW parameter sets as part of the ROS-Industrial robot support packages. This has already started for FANUC.
 Taking the `LR Mate 200iB <https://github.com/ros-industrial/fanuc/blob/3ea2842baca3184cc621071b785cbf0c588a4046/fanuc_lrmate200ib_support/config/opw_parameters_lrmate200ib.yaml>`_ as
-an example you can reduce your ``kinematics.yaml`` to the following: ::
+an example you can reduce your ``kinematics.yaml`` to the following:
 
 .. code-block:: yaml
 
    manipulator:
      kinematics_solver: moveit_opw_kinematics_plugin/MoveItOPWKinematicsPlugin
 
-and then add a ``rosparam`` ``load`` line to your ``launch/planning_context.launch`` which causes the parameters in that file to be loaded onto the parameter server: ::
+and then add a ``rosparam`` ``load`` line to your ``launch/planning_context.launch`` which causes the parameters in that file to be loaded onto the parameter server:
 
 .. code-block:: xml
 
