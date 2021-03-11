@@ -60,7 +60,7 @@ an example you can reduce your *kinematics.yaml* to the following header: ::
   manipulator:
     kinematics_solver: moveit_opw_kinematics_plugin/MoveItOPWKinematicsPlugin
 
-and then add second line of the following to your *launch/planning_context.launch*: ::
+and then add a ``rosparam`` ``load`` line to your *launch/planning_context.launch* which causes the parameters in that file to be loaded onto the parameter server: ::
 
   <!-- Load default settings for kinematics; these settings are overridden by settings in a node's namespace -->
   <group ns="$(arg robot_description)_kinematics">
