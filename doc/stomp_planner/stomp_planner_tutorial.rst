@@ -4,7 +4,15 @@ STOMP Planner
 .. image:: stomp.png
    :width: 700px
 
-Stochastic Trajectory Optimization for Motion Planning (STOMP) is a probabilistic optimization framework (Kalakrishnan et al. 2011). STOMP produces smooth well behaved collision free paths within reasonable times. The approach relies on generating noisy trajectories to explore the space around an initial (possibly infeasible) trajectory which are then combined to produce an updated trajectory with lower cost. A cost function based on a combination of obstacle and smoothness cost is optimized in each iteration. No gradient information is required for the particular optimization algorithm that we use and so general costs for which derivatives may not be available (e.g. costs corresponding to constraints and motor torques) can be included in the cost function. Some of the strengths of STOMP include: it can incorporate additional objective functions such as torque limits, energy and tool constraints. STOMP can handle cost functions which do not need to be differentiable. It uses distance field and spherical approximations to quickly compute distance queries and collision costs. Integration into Kinetic and Melodic version of MoveIt is work in progress. `More info <https://personalrobotics.ri.cmu.edu/files/courses/papers/Kalakrishnan11-stomp.pdf>`_
+Stochastic Trajectory Optimization for Motion Planning (STOMP) is a probabilistic optimization framework (Kalakrishnan et al. 2011). STOMP produces smooth well behaved collision free paths within reasonable times. The approach relies on generating noisy trajectories to explore the space around an initial (possibly infeasible) trajectory which are then combined to produce an updated trajectory with lower cost. A cost function based on a combination of obstacle and smoothness cost is optimized in each iteration. No gradient information is required for the particular optimization algorithm that we use and so general costs for which derivatives may not be available (e.g. costs corresponding to constraints and motor torques) can be included in the cost function.
+
+Some of the strengths of STOMP include:
+
+- Incorporates additional objective functions such as torque limits, energy and tool constraints.
+- Handles cost functions which do not need to be differentiable.
+- Uses distance field and spherical approximations to quickly compute distance queries and collision costs.
+
+Integration into Kinetic and Melodic version of MoveIt is work in progress. `More info <https://www.sachinchitta.org/uploads/2/2/5/7/22571428/kalakrishnan_icra_2011.pdf>`_
 
 Getting Started
 ---------------
@@ -109,43 +117,59 @@ STOMP has some parameters associated with it. These can be modified for the give
 
 **Optimization Parameters**:
 
-- *num_timesteps*: the number of timesteps the optimizer can take to find a solution before terminating.
+- **num_timesteps**: ::
+  The number of timesteps the optimizer can take to find a solution before terminating.
 
-- *num_iterations*: this is the number of iterations that the planner can take to find a good solution while optimization.
+- **num_iterations**: ::
+  This is the number of iterations that the planner can take to find a good solution while optimization.
 
-- *num_iterations_after_valid*: maximum iterations to be performed after a valid path has been found.
+- **num_iterations_after_valid**: ::
+  Maximum iterations to be performed after a valid path has been found.
 
-- *num_rollouts*: this is the number of noisy trajectories.
+- **num_rollouts**: ::
+  This is the number of noisy trajectories.
 
-- *max_rollouts*: the combined number of new and old rollouts during each iteration should not exceed this value.
+- **max_rollouts**: ::
+  The combined number of new and old rollouts during each iteration should not exceed this value.
 
-- *initialization method*: this is the initialization method chosen to select the means to initialize the trajectory.
+- **initialization method**: ::
+  This is the initialization method chosen to select the means to initialize the trajectory.
 
-- *control_cost_weight*: this is the percentage of the trajectory accelerations cost to be applied in the total cost calculation.
+- **control_cost_weight**: ::
+  This is the percentage of the trajectory accelerations cost to be applied in the total cost calculation.
 
 **Noise Generator Parameters**:
 
-- *class*: this can be set to "NormalDistributionSampling" (default) or "GoalGuidedMultivariateGaussian". Depending on what class is used specific parameters need to be set. Have a look at `this link <https://github.com/ros-industrial/industrial_moveit/blob/kinetic-devel/stomp_plugins/example_pages.dox>`_ for setting parameters if using the "GoalGuidedMultivariateGaussian".
+- **class**: ::
+  This can be set to "NormalDistributionSampling" (default) or "GoalGuidedMultivariateGaussian". Depending on what class is used specific parameters need to be set. Have a look at `this link <https://github.com/ros-industrial/industrial_moveit/blob/kinetic-devel/stomp_plugins/example_pages.dox>`_ for setting parameters if using the "GoalGuidedMultivariateGaussian".
 
-- *stddev*: this is the degree of noise that can be applied to the joints. Each value in this array is the amplitude of the noise applied to the joint at that position in the array. For instace, the leftmost value in the array will be the value used to set the noise of the first joint of the robot (panda_joint1 in our case). The dimensionality of this array should be equal to the number of joints in the planning group name. Larger "stddev" values correspond to larger motions of the joints.
+- **stddev**: ::
+  This is the degree of noise that can be applied to the joints. Each value in this array is the amplitude of the noise applied to the joint at that position in the array. For instace, the leftmost value in the array will be the value used to set the noise of the first joint of the robot (panda_joint1 in our case). The dimensionality of this array should be equal to the number of joints in the planning group name. Larger "stddev" values correspond to larger motions of the joints.
 
 **Cost Function Parameters**:
 
-- *class*: here you can set the cost function you want to use. You could set this to "CollisionCheck", "ObstacleDistanceGradient" or "ToolGoalPose". Depending on what you put here, you need to set the appropriate cost function class's parameters: For "CollisionCheck", you need to set the parameters (collision_penalty, cost_weight, kernel_window_percentage, longest_valid_joint_nove); for "ObstacleDistanceGradient", you should set the parameters (cost_weight, max_distance, longest_valid_joint_move) and for "ToolGoalPose", you should set the parameters (constrained_dofs, position_error_range, orientation_error_range, position_cost_weight, orientation_cost_weight). Have a look at `this link <https://github.com/ros-industrial/industrial_moveit/blob/kinetic-devel/stomp_plugins/example_pages.dox>`_ for setting parameters for "ToolGoalPose" class.
+- **class**: ::
+  Here you can set the cost function you want to use. You could set this to "CollisionCheck", "ObstacleDistanceGradient" or "ToolGoalPose". Depending on what you put here, you need to set the appropriate cost function class's parameters: For "CollisionCheck", you need to set the parameters (collision_penalty, cost_weight, kernel_window_percentage, longest_valid_joint_nove); for "ObstacleDistanceGradient", you should set the parameters (cost_weight, max_distance, longest_valid_joint_move) and for "ToolGoalPose", you should set the parameters (constrained_dofs, position_error_range, orientation_error_range, position_cost_weight, orientation_cost_weight). Have a look at `this link <https://github.com/ros-industrial/industrial_moveit/blob/kinetic-devel/stomp_plugins/example_pages.dox>`_ for setting parameters for "ToolGoalPose" class.
 
-- *collision_penalty*: this is the value assigned to a collision state.
+- **collision_penalty**: ::
+  This is the value assigned to a collision state.
 
-- *cost_weight*: unused parameter.
+- **cost_weight**: ::
+  Unused parameter.
 
-- *kernel_window_percentage*: the multiplicative factor used to compute the window_size for doing kernel smoothing.
+- **kernel_window_percentage**: ::
+  The multiplicative factor used to compute the window_size for doing kernel smoothing.
 
-- *longest_valid_joint_move*: this parameter indicates how far can a joint move in between consecutive trajectory points.
+- **longest_valid_joint_move**: ::
+  This parameter indicates how far can a joint move in between consecutive trajectory points.
 
 **Update Filter parameters**:
 
-- class: this can be set to "PolynomialSmoother" or "ConstrainedCartesianGoal". Specific paramters need to be set depending on the chosen class. For setting parameters for "ConstrainedCartesianGoal", have a look at `this link <https://github.com/ros-industrial/industrial_moveit/blob/kinetic-devel/stomp_plugins/example_pages.dox>`_.
+- **class**: ::
+  This can be set to "PolynomialSmoother" or "ConstrainedCartesianGoal". Specific paramters need to be set depending on the chosen class. For setting parameters for "ConstrainedCartesianGoal", have a look at `this link <https://github.com/ros-industrial/industrial_moveit/blob/kinetic-devel/stomp_plugins/example_pages.dox>`_.
 
-- *poly_order*: this is the order of the polynomial function used for smoothing trajectories.
+- **poly_order**: ::
+  This is the order of the polynomial function used for smoothing trajectories.
 
 
 Choosing parameters for STOMP requires lesser intuition than CHOMP. One can have the default parameters for STOMP and this works well in most environments. However you could increase the number of timesteps, number of rollouts and play around with the stddev array for STOMP to perform well under complicated environments so that STOMP can find an optimal path in these situations. Alternatively you can try different cost functions, noise generators, update filter classes by setting whichever ones you want in the stomp_config.yaml file.
@@ -154,15 +178,19 @@ Choosing parameters for STOMP requires lesser intuition than CHOMP. One can have
 Difference between plans obtained by STOMP, CHOMP and OMPL
 ----------------------------------------------------------
 
-In this section a distinction is made between paths obtained from STOMP, CHOMP and OMPL. STOMP. Some of the moveIt planners tend to produce jerky trajectories and may introduce unnecessary robot movements. A post processing smoothing step is usually needed. In contrast as STOMP tends to produce smooth well behaved motion plans in a short time, there is no need for a post processing smoothing step as required by some other motion planners. CHOMP optimizes a given initial naive trajectory based on convarient and functional gradient approaches. CHOMP is entirely based on trajectory optimization. OMPL is an open source library for sampling based / randomized motion planning algorithms.  Sampling based algorithms are probabilistically complete: a solution would be eventually found if one exists, however non-existence of a solution cannot be reported. These algorithms are efficient and usually find a solution quickly. Now a qualitative analysis is performed for these planners below:
+In this section a distinction is made between paths obtained from STOMP, CHOMP and OMPL. Some of the moveIt planners tend to produce jerky trajectories and may introduce unnecessary robot movements. A post processing smoothing step is usually needed. In contrast as STOMP tends to produce smooth well behaved motion plans in a short time, there is no need for a post processing smoothing step as required by some other motion planners. CHOMP optimizes a given initial naive trajectory based on convarient and functional gradient approaches. CHOMP is entirely based on trajectory optimization. OMPL is an open source library for sampling based / randomized motion planning algorithms.  Sampling based algorithms are probabilistically complete: a solution would be eventually found if one exists, however non-existence of a solution cannot be reported. These algorithms are efficient and usually find a solution quickly. Now a qualitative analysis is performed for these planners below:
 
-- **Local Minima Handling**: STOMP can avoid local minima due to its stochastic nature. CHOMP however is prone to and gets often stuck in local minima, thereby avoiding an optimal solution. As per the STOMP and CHOMP papers, STOMP performs better. CHOMP however due to its gradient based nature gets stuck in local minima and is often not able to find solution or returns sub-optimal solutions.
+- **Local Minima Handling**: ::
+  STOMP can avoid local minima due to its stochastic nature. CHOMP however is prone to and gets often stuck in local minima, thereby avoiding an optimal solution. As per the STOMP and CHOMP papers, STOMP performs better. CHOMP however due to its gradient based nature gets stuck in local minima and is often not able to find solution or returns sub-optimal solutions.
 
-- **Time requirements**: the execution times are comparable, even though CHOMP requires more iterations to achieve success than STOMP. This is mainly because each iteration of STOMP requires multiple trajectory cost evaluations, but can make larger steps in a more stable fashion than the CHOMP gradient update rule. OMPL algorithms are efficient and usually find a solution quickly.
+- **Time requirements**: ::
+  The execution times are comparable, even though CHOMP requires more iterations to achieve success than STOMP. This is mainly because each iteration of STOMP requires multiple trajectory cost evaluations, but can make larger steps in a more stable fashion than the CHOMP gradient update rule. OMPL algorithms are efficient and usually find a solution quickly.
 
-- **Parameter tuning**: CHOMP generally requires additional parameter tuning than STOMP to obtain a successful solution. OMPL does not require a lot of parameter tuning, the default parameters do a good job in most situations.
+- **Parameter tuning**: ::
+    CHOMP generally requires additional parameter tuning than STOMP to obtain a successful solution. OMPL does not require a lot of parameter tuning, the default parameters do a good job in most situations.
 
-- **Obstacle Handling**: For scenes containing obstacles, STOMP often is able to successfully avoid obstacles due to its stochastic nature. CHOMP however generates paths which do not prefer smooth trajectories by addition of some noise (*ridge_factor*) in the cost function for the dynamical quantities of the robot (like acceleration, velocity). OMPL also generates collision free smooth paths in the presence of obstacles.
+- **Obstacle Handling**: ::
+    For scenes containing obstacles, STOMP often is able to successfully avoid obstacles due to its stochastic nature. CHOMP however generates paths which do not prefer smooth trajectories by addition of some noise (*ridge_factor*) in the cost function for the dynamical quantities of the robot (like acceleration, velocity). OMPL also generates collision free smooth paths in the presence of obstacles.
 
 Running STOMP Unit Tests
 ------------------------
