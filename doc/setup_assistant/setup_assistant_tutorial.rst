@@ -147,7 +147,7 @@ Add the arm
   an internal tree structure. This makes it easy to select a serial
   chain of joints.
 
-  * Click on **virtual_joint**, hold down the **Shift**
+  * Click on *panda_joint1*, hold down the **Shift**
     button on your keyboard and then click on the
     *panda_joint8*. Now click on the **>** button to add these
     joints into the list of selected joints on the right.
