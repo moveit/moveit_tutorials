@@ -114,8 +114,7 @@ int main(int argc, char** argv)
   // We can get a list of all the groups in the robot:
   ROS_INFO_NAMED("tutorial", "Available Planning Groups:");
   std::copy(move_group_interface.getJointModelGroupNames().begin(),
-            move_group_interface.getJointModelGroupNames().end(),
-            std::ostream_iterator<std::string>(std::cout, ", "));
+            move_group_interface.getJointModelGroupNames().end(), std::ostream_iterator<std::string>(std::cout, ", "));
 
   // Start the demo
   // ^^^^^^^^^^^^^^^^^^^^^^^^^
