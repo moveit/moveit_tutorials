@@ -265,13 +265,12 @@ Stage Configuration
 -------------------
 
 Stages are configured with properties.
-A property is a ``boost::any`` value stored inside the `Property` class, which provides the following
+A property is a ``boost::any`` value stored with key-value style inside the ``Property`` class, which provides the following
 wrapper-like functionality:
 
 - Maintain default and current values with get-/set-/reset-to-default functions.
-- Provide a description.
+- Provide descriptions.
 - Serialization into strings.
-- Get the ``boost::any`` value or the entire `Property` object for a given key.
 - Check for type and if-defined status of the property.
 - Initialization from an already existing property.
 
@@ -285,7 +284,7 @@ They define a priority hierarchy in which initializations are carried out:
 
 Initialization of properties is carried out during planning of the entire
 task hierarchy. You can therefore specify a priority hierarchy on a per-property-basis from where the stage should get
-the inforation for its properties.
+the information for its properties.
 
 E.g. use the ``MANUAL`` flag if you want to explicitly configure a (set) of properties
 from a property map. ``MANUAL`` takes precedence over all the other flags.
