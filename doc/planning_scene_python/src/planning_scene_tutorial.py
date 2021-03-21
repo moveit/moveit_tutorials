@@ -5,8 +5,9 @@ import moveit_commander
 import numpy as np
 import rospy
 from geometry_msgs.msg import PoseStamped
-from pymoveit import kinematic_constraints, collision_detection, robot_model, random_numbers
-from pymoveit.planning_scene import PlanningScene
+import moveit.core
+from moveit.core import kinematic_constraints, collision_detection, robot_model
+from moveit.core.planning_scene import PlanningScene
 
 
 def main():
@@ -30,7 +31,7 @@ def main():
 
     urdf_path = '/opt/ros/noetic/share/moveit_resources_panda_description/urdf/panda.urdf'
     srdf_path = '/opt/ros/noetic/share/moveit_resources_panda_moveit_config/config/panda.srdf'
-    kinematic_model = robot_model.load_robot_model(urdf_path, srdf_path)
+    kinematic_model = moveit.core.load_robot_model(urdf_path, srdf_path)
     planning_scene = PlanningScene(kinematic_model, collision_detection.World())
     current_state = planning_scene.getCurrentStateNonConst()
     joint_model_group = current_state.getJointModelGroup("panda_arm")
@@ -83,8 +84,7 @@ def main():
     # the collision_result before making a new collision checking
     # request.
 
-    rng = random_numbers.RandomNumbers(0)
-    current_state.setToRandomPositions(joint_model_group, rng)
+    current_state.setToRandomPositions(joint_model_group)
 
     collision_result.clear()
     planning_scene.checkSelfCollision(collision_request, collision_result)
@@ -100,7 +100,7 @@ def main():
     # collision request.
 
     collision_request.group_name = "hand"
-    current_state.setToRandomPositions(joint_model_group, rng)
+    current_state.setToRandomPositions(joint_model_group)
     collision_result.clear()
     planning_scene.checkSelfCollision(collision_request, collision_result)
     rospy.loginfo(f"Test 3: Current state is {'in' if collision_result.collision else 'not in'} self collision")
@@ -195,7 +195,7 @@ def main():
 
     # Now, we can check a state against this constraint using the
     # isStateConstrained functions in the PlanningScene class.
-    copied_state.setToRandomPositions(joint_model_group, rng)
+    copied_state.setToRandomPositions(joint_model_group)
     copied_state.update()
     constrained = planning_scene.isStateConstrained(copied_state, goal_constraint)
     rospy.loginfo(f"Test 8: Random state is {'constrained' if constrained else 'not constrained'}")
