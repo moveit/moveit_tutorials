@@ -115,6 +115,9 @@ int main(int argc, char** argv)
   ROS_INFO_NAMED("tutorial", "Available Planning Groups:");
   std::copy(move_group_interface.getJointModelGroupNames().begin(),
             move_group_interface.getJointModelGroupNames().end(), std::ostream_iterator<std::string>(std::cout, ", "));
+  
+  // We can get the planning pipeline that is set (OMPL by default):
+  ROS_INFO_NAMED("tutorial", "Current pipeline: %s", move_group_interface.getPlanningPipelineId().c_str());
 
   // Start the demo
   // ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -152,17 +155,28 @@ int main(int argc, char** argv)
   visual_tools.trigger();
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
 
-  // Finally, to execute the trajectory stored in my_plan, you could use the following method call:
+  // To execute the trajectory stored in my_plan, you can use the following method call:
   // Note that this can lead to problems if the robot moved in the meanwhile.
   // move_group_interface.execute(my_plan);
+
+  // You can also use a different planning pipeline (OMPL by default), such as the Pilz
+  // industrial motion planner:
+  // move_group_interface.setPlanningPipelineId("pilz_industrial_motion_planner");
+  // move_group_interface.setPlannerId("LIN");
+
+  // Or, to plan only one motion with a different planner:
+
+  success = (move_group_interface.plan(my_plan, "pilz_industrial_motion_planner", "LIN") == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+  visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group);
+  visual_tools.trigger();
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
 
   // Moving to a pose goal
   // ^^^^^^^^^^^^^^^^^^^^^
   //
-  // If you do not want to inspect the planned trajectory,
-  // the following is a more robust combination of the two-step plan+execute pattern shown above
-  // and should be preferred. Note that the pose goal we had set earlier is still active,
-  // so the robot will try to move to that goal.
+  // If you do not want to inspect the planned trajectory, you can call the "move"
+  // command to combine the plan+execute pattern shown above. Note that the pose goal 
+  // we set earlier is still active, so the robot will try to move to that goal.
 
   // move_group_interface.move();
 
