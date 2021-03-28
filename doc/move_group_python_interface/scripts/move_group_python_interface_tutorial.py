@@ -32,7 +32,7 @@
 # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 #
-# Author: Acorn Pooley, Mike Lautman, Peter Mitrano
+# Author: Acorn Pooley, Mike Lautman
 
 ## BEGIN_SUB_TUTORIAL imports
 ##
@@ -41,12 +41,14 @@
 ## and a `RobotCommander`_ class. More on these below. We also import `rospy`_ and some messages that we will use:
 ##
 
+# Python 2/3 compatibility imports
+from __future__ import print_function
+from six.moves import input
+
 import sys
 import copy
 import rospy
-from moveit_commander import roscpp_initializer
-from moveit.core.conversions import pose_to_list
-from moveit.planning_interface import planning_interface
+import moveit_commander
 import moveit_msgs.msg
 import geometry_msgs.msg
 try:
@@ -61,38 +63,34 @@ from moveit_commander.conversions import pose_to_list
 ## END_SUB_TUTORIAL
 
 
-
-## END_SUB_TUTORIAL
-
-
 def all_close(goal, actual, tolerance):
-    """
-    Convenience method for testing if the values in two lists are within a tolerance of each other.
-    For Pose and PoseStamped inputs, the angle between the two quaternions is compared (the angle
-    between the identical orientations q and -q is calculated correctly).
-    @param: goal       A list of floats, a Pose or a PoseStamped
-    @param: actual     A list of floats, a Pose or a PoseStamped
-    @param: tolerance  A float
-    @returns: bool
-    """
-    if type(goal) is list:
-        for index in range(len(goal)):
-            if abs(actual[index] - goal[index]) > tolerance:
-                return False
+  """
+  Convenience method for testing if the values in two lists are within a tolerance of each other.
+  For Pose and PoseStamped inputs, the angle between the two quaternions is compared (the angle 
+  between the identical orientations q and -q is calculated correctly).
+  @param: goal       A list of floats, a Pose or a PoseStamped
+  @param: actual     A list of floats, a Pose or a PoseStamped
+  @param: tolerance  A float
+  @returns: bool
+  """
+  if type(goal) is list:
+    for index in range(len(goal)):
+      if abs(actual[index] - goal[index]) > tolerance:
+        return False
 
-    elif type(goal) is geometry_msgs.msg.PoseStamped:
-        return all_close(goal.pose, actual.pose, tolerance)
+  elif type(goal) is geometry_msgs.msg.PoseStamped:
+    return all_close(goal.pose, actual.pose, tolerance)
 
-    elif type(goal) is geometry_msgs.msg.Pose:
-        x0, y0, z0, qx0, qy0, qz0, qw0 = pose_to_list(actual)
-        x1, y1, z1, qx1, qy1, qz1, qw1 = pose_to_list(goal)
-        # Euclidean distance
-        d = dist((x1, y1, z1), (x0, y0, z0))
-        # phi = angle between orientations
-        cos_phi_half = fabs(qx0 * qx1 + qy0 * qy1 + qz0 * qz1 + qw0 * qw1)
-        return d <= tolerance and cos_phi_half >= cos(tolerance / 2.0)
+  elif type(goal) is geometry_msgs.msg.Pose:
+    x0, y0, z0, qx0, qy0, qz0, qw0 = pose_to_list(actual)
+    x1, y1, z1, qx1, qy1, qz1, qw1 = pose_to_list(goal)
+    # Euclidean distance
+    d = dist((x1, y1, z1), (x0, y0, z0))
+    # phi = angle between orientations
+    cos_phi_half = fabs(qx0*qx1 + qy0*qy1 + qz0*qz1 + qw0*qw1)
+    return d <= tolerance and cos_phi_half >= cos(tolerance / 2.0)
 
-    return True
+  return True
 
 
 class MoveGroupPythonInterfaceTutorial(object):
@@ -177,7 +175,7 @@ class MoveGroupPythonInterfaceTutorial(object):
     ## Planning to a Joint Goal
     ## ^^^^^^^^^^^^^^^^^^^^^^^^
     ## The Panda's zero configuration is at a `singularity <https://www.quora.com/Robotics-What-is-meant-by-kinematic-singularity>`_, so the first
-    ## thing we want to do is move it to a slightly better configuration.
+    ## thing we want to do is move it to a slightly better configuration. 
     ## We use the constant `tau = 2*pi <https://en.wikipedia.org/wiki/Turn_(angle)#Tau_proposals>`_ for convenience:
     # We get the joint values from the group and change some of the values:
     joint_goal = move_group.get_current_joint_values()
@@ -468,58 +466,55 @@ class MoveGroupPythonInterfaceTutorial(object):
 
 
 def main():
-    try:
-        print("")
-        print("----------------------------------------------------------")
-        print("Welcome to the MoveIt MoveGroup Python Interface Tutorial")
-        print("----------------------------------------------------------")
-        print("Press Ctrl-D to exit at any time")
-        print("")
-        input("============ Press `Enter` to begin the tutorial by setting up the moveit_commander ...")
-        tutorial = MoveGroupPythonInterfaceTutorial()
+  try:
+    print("")
+    print("----------------------------------------------------------")
+    print("Welcome to the MoveIt MoveGroup Python Interface Tutorial")
+    print("----------------------------------------------------------")
+    print("Press Ctrl-D to exit at any time")
+    print("")
+    input("============ Press `Enter` to begin the tutorial by setting up the moveit_commander ...")
+    tutorial = MoveGroupPythonInterfaceTutorial()
 
-        input("============ Press `Enter` to execute a movement using a joint state goal ...")
-        tutorial.go_to_joint_state()
+    input("============ Press `Enter` to execute a movement using a joint state goal ...")
+    tutorial.go_to_joint_state()
 
-        input("============ Press `Enter` to execute a movement using a pose goal ...")
-        tutorial.go_to_pose_goal()
+    input("============ Press `Enter` to execute a movement using a pose goal ...")
+    tutorial.go_to_pose_goal()
 
-        input("============ Press `Enter` to plan and display a Cartesian path ...")
-        cartesian_plan, fraction = tutorial.plan_cartesian_path()
+    input("============ Press `Enter` to plan and display a Cartesian path ...")
+    cartesian_plan, fraction = tutorial.plan_cartesian_path()
 
-        input("============ Press `Enter` to display a saved trajectory (this will replay the Cartesian path)  ...")
-        tutorial.display_trajectory(cartesian_plan)
+    input("============ Press `Enter` to display a saved trajectory (this will replay the Cartesian path)  ...")
+    tutorial.display_trajectory(cartesian_plan)
 
-        input("============ Press `Enter` to execute a saved path ...")
-        tutorial.execute_plan(cartesian_plan)
+    input("============ Press `Enter` to execute a saved path ...")
+    tutorial.execute_plan(cartesian_plan)
 
-        input("============ Press `Enter` to add a box to the planning scene ...")
-        tutorial.add_box()
+    input("============ Press `Enter` to add a box to the planning scene ...")
+    tutorial.add_box()
 
-        input("============ Press `Enter` to attach a Box to the Panda robot ...")
-        tutorial.attach_box()
+    input("============ Press `Enter` to attach a Box to the Panda robot ...")
+    tutorial.attach_box()
 
-        input("============ Press `Enter` to plan and execute a path with an attached collision object ...")
-        cartesian_plan, fraction = tutorial.plan_cartesian_path(scale=-1)
-        tutorial.execute_plan(cartesian_plan)
+    input("============ Press `Enter` to plan and execute a path with an attached collision object ...")
+    cartesian_plan, fraction = tutorial.plan_cartesian_path(scale=-1)
+    tutorial.execute_plan(cartesian_plan)
 
-        input("============ Press `Enter` to detach the box from the Panda robot ...")
-        tutorial.detach_box()
+    input("============ Press `Enter` to detach the box from the Panda robot ...")
+    tutorial.detach_box()
 
-        input("============ Press `Enter` to remove the box from the planning scene ...")
-        tutorial.remove_box()
+    input("============ Press `Enter` to remove the box from the planning scene ...")
+    tutorial.remove_box()
 
-        print("============ Python tutorial demo complete!")
-
-        roscpp_initializer.roscpp_shutdown()
-    except rospy.ROSInterruptException:
-        return
-    except KeyboardInterrupt:
-        return
-
+    print("============ Python tutorial demo complete!")
+  except rospy.ROSInterruptException:
+    return
+  except KeyboardInterrupt:
+    return
 
 if __name__ == '__main__':
-    main()
+  main()
 
 ## BEGIN_TUTORIAL
 ## .. _moveit_commander:
