@@ -255,7 +255,7 @@ class MoveGroupPythonInterfaceTutorial(object):
     ## Cartesian Paths
     ## ^^^^^^^^^^^^^^^
     ## You can plan a Cartesian path directly by specifying a list of waypoints
-    ## for the end-effector to go through. If executing  interactively in a
+    ## for the end-effector to go through. If executing interactively in a
     ## Python shell, set scale = 1.0.
     ##
     waypoints = []
@@ -309,7 +309,7 @@ class MoveGroupPythonInterfaceTutorial(object):
     display_trajectory.trajectory_start = robot.get_current_state()
     display_trajectory.trajectory.append(plan)
     # Publish
-    display_trajectory_publisher.publish(display_trajectory);
+    display_trajectory_publisher.publish(display_trajectory)
 
     ## END_SUB_TUTORIAL
 
