@@ -22,7 +22,7 @@ Open two shells. Start RViz and wait for everything to finish loading in the fir
   roslaunch panda_moveit_config demo.launch
 
 Now run the Python code directly in the other shell using ``rosrun``.
-Note in some instances you may need to make the python script executable (using  ``chmod +x /path_to_file/file_name.py``): ::
+Note that you may need to make the Python script executable (using  ``chmod +x /path_to_file/file_name.py``): ::
 
  rosrun moveit_tutorials move_group_python_interface_tutorial.py
 
