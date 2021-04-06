@@ -51,12 +51,13 @@ import rospy
 import moveit_commander
 import moveit_msgs.msg
 import geometry_msgs.msg
-from math import pi, dist, fabs, cos
 try:
-  from math import tau
+  from math import pi, tau, dist, fabs, cos
 except: # For Python 2 compatibility
-  from math import pi
+  from math import pi, fabs, cos, sqrt
   tau = 2.0*pi
+  def dist(p, q):
+    return sqrt(sum((p_i - q_i)**2.0 for p_i, q_i in zip(p,q)))
 from std_msgs.msg import String
 from moveit_commander.conversions import pose_to_list
 ## END_SUB_TUTORIAL
