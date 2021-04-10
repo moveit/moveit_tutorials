@@ -29,8 +29,8 @@ def main():
     # this tutorial, we will instantiate a PlanningScene class directly,
     # but this method of instantiation is only intended for illustration.
 
-    urdf_path = '/opt/ros/noetic/share/moveit_resources_panda_description/urdf/panda.urdf'
-    srdf_path = '/opt/ros/noetic/share/moveit_resources_panda_moveit_config/config/panda.srdf'
+    urdf_path = "/opt/ros/noetic/share/moveit_resources_panda_description/urdf/panda.urdf"
+    srdf_path = "/opt/ros/noetic/share/moveit_resources_panda_moveit_config/config/panda.srdf"
     kinematic_model = moveit.core.load_robot_model(urdf_path, srdf_path)
     planning_scene = PlanningScene(kinematic_model, collision_detection.World())
     current_state = planning_scene.getCurrentStateNonConst()
@@ -115,8 +115,8 @@ def main():
     joint_values = np.array([0.0, 0.0, 0.0, -2.9, 0.0, 1.4, 0.0])
     joint_model_group = current_state.getJointModelGroup("panda_arm")
     current_state.setJointGroupPositions(joint_model_group, joint_values)
-    rospy.loginfo(
-        f"Test 4: Current state is {'valid' if current_state.satisfiesBounds(joint_model_group) else 'not valid'}")
+    satisfied_bounds = current_state.satisfiesBounds(joint_model_group)
+    rospy.loginfo(f"Test 4: Current state is {'valid' if satisfied_bounds else 'not valid'}")
 
     # Modifying the Allowed Collision Matrix
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -163,8 +163,8 @@ def main():
     # ^^^^^^^^^^^^^^^^^^^
     #
     # The PlanningScene class also includes easy to use function calls for checking constraints. The constraints can be
-    # of two types: (a) constraints constructed using :moveit_core_python:`core.kinematic_constraints`, or (b) user defined
-    # constraints specified through a callback. We will first look at an example with a simple
+    # of two types: (a) constraints constructed using :moveit_core_python:`core.kinematic_constraints`,
+    # or (b) user defined constraints specified through a callback. We will first look at an example with a simple
     # KinematicConstraint.
     #
     # Checking Kinematic Constraints
@@ -207,7 +207,8 @@ def main():
 
     constraint_eval_result = kinematic_constraint_set.decide(copied_state)
     rospy.loginfo(
-        f"Test 10: Random state is {'constrained' if constraint_eval_result.satisfied else 'not constrained'}")
+        f"Test 10: Random state is {'constrained' if constraint_eval_result.satisfied else 'not constrained'}"
+    )
 
     # Whenever isStateValid is called, three checks are conducted: (a)
     # collision checking (b) constraint checking and (c) feasibility
@@ -224,5 +225,5 @@ def main():
     moveit_commander.roscpp_shutdown()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
