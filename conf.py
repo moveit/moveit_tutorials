@@ -50,6 +50,7 @@ html_context = {
 # Add any paths that contain custom themes here, relative to this directory.
 
 # Links
+<<<<<<< HEAD
 ros_distro = "noetic"
 extlinks = {
     "codedir": (
@@ -81,6 +82,12 @@ extlinks = {
         "http://docs.ros.org/"
         + ros_distro
         + "/api/moveit_core/html/cpp/classmoveit_1_1core_1_1%s.html",
+        "",
+    ),
+    "moveit_python": (
+        "http://docs.ros.org/"
+        + ros_distro
+        + "/api/moveit_core/html/python/_autosummary/moveit.%s.html",
         "",
     ),
     "planning_scene": (

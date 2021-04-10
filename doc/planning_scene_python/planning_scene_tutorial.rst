@@ -1,7 +1,7 @@
 Planning Scene Python
 ==================================
 
-The :planning_scene:`PlanningScene` class provides the main interface that you will use
+The :moveit_python:`core.planning_scene.PlanningScene` class provides the main interface that you will use
 for collision checking and constraint checking. In this tutorial, we
 will explore the Python interface to this class.
 
@@ -17,6 +17,10 @@ The entire code can be seen :codedir:`here in the MoveIt GitHub project<planning
 
 Running the code
 ----------------
+Open two shells. Start RViz and wait for everything to finish loading in the first shell. You need to first clone `panda_moveit_config <http://github.com/ros-planning/panda_moveit_config>`_ in your catkin workspace and build: ::
+
+  roslaunch panda_moveit_config demo.launch
+
 Roslaunch the launch file to run the code directly from moveit_tutorials: ::
 
  rosrun moveit_tutorials planning_scene_tutorial.py

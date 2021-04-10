@@ -19,7 +19,7 @@ def main():
     # Setup
     # ^^^^^
     #
-    # The :planning_scene:`PlanningScene` class can be easily setup and
+    # The :moveit_python:`core.planning_scene.PlanningScene` class can be easily setup and
     # configured using a URDF and
     # SRDF. This is, however, not the recommended way to instantiate a
     # PlanningScene. At the time of writing there are not yet python bindings
@@ -46,8 +46,8 @@ def main():
     # current state is in *self-collision*, i.e. whether the current
     # configuration of the robot would result in the robot's parts
     # hitting each other. To do this, we will construct a
-    # :collision_detection_struct:`CollisionRequest` object and a
-    # :collision_detection_struct:`CollisionResult` object and pass them
+    # :moveit_python:`core.collision_detection.CollisionRequest` object and a
+    # :moveit_python:`core.collision_detection.CollisionResult` object and pass them
     # into the collision checking function. Note that the result of
     # whether the robot is in self-collision or not is contained within
     # the result. Self collision checking uses an *unpadded* version of
@@ -72,7 +72,6 @@ def main():
     planning_scene.checkSelfCollision(collision_request, collision_result)
     for (first_name, second_name), contacts in collision_result.contacts.items():
         rospy.loginfo(f"Contact between {first_name} and {second_name}")
-
 
     # Change the state
     # ~~~~~~~~~~~~~~~~
@@ -122,7 +121,7 @@ def main():
     # Modifying the Allowed Collision Matrix
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     #
-    # The :collision_detection_class:`AllowedCollisionMatrix` (ACM)
+    # The :moveit_python:`core.collision_detection.AllowedCollisionMatrix` (ACM)
     # provides a mechanism to tell the collision world to ignore
     # collisions between certain object: both parts of the robot and
     # objects in the world. We can tell the collision checker to ignore
@@ -163,16 +162,10 @@ def main():
     # Constraint Checking
     # ^^^^^^^^^^^^^^^^^^^
     #
-    # The PlanningScene class also includes easy to use function calls
-    # for checking constraints. The constraints can be of two types:
-    # (a) constraints chosen from the
-    # :kinematic_constraints:`KinematicConstraint` set:
-    # i.e. :kinematic_constraints:`JointConstraint`,
-    # :kinematic_constraints:`PositionConstraint`,
-    # :kinematic_constraints:`OrientationConstraint` and
-    # :kinematic_constraints:`VisibilityConstraint` and (b) user
-    # defined constraints specified through a callback. We will first
-    # look at an example with a simple KinematicConstraint.
+    # The PlanningScene class also includes easy to use function calls for checking constraints. The constraints can be
+    # of two types: (a) constraints constructed using :moveit_python:`core.kinematic_constraints`, or (b) user defined
+    # constraints specified through a callback. We will first look at an example with a simple
+    # KinematicConstraint.
     #
     # Checking Kinematic Constraints
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -180,8 +173,6 @@ def main():
     # We will first define a simple position and orientation constraint
     # on the end-effector of the panda_arm group of the Panda robot. Note the
     # use of convenience functions for filling up the constraints
-    # (these functions are found in the :moveit_core_files:`utils.h<utils_8h>` file from the
-    # kinematic_constraints directory in moveit_core).
 
     end_effector_name = joint_model_group.getLinkModelNames()[-1]
 

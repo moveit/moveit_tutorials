@@ -38,6 +38,7 @@ Building more complex applications with MoveIt often requires developers to dig 
    doc/planning_scene/planning_scene_tutorial
    doc/planning_scene_monitor/planning_scene_monitor_tutorial
    doc/planning_scene_ros_api/planning_scene_ros_api_tutorial
+   doc/planning_scene_python/planning_scene_tutorial
    doc/motion_planning_api/motion_planning_api_tutorial
    doc/motion_planning_pipeline/motion_planning_pipeline_tutorial
    doc/creating_moveit_plugins/plugin_tutorial
