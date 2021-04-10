@@ -19,7 +19,7 @@ def main():
     # Setup
     # ^^^^^
     #
-    # The :moveit_python:`core.planning_scene.PlanningScene` class can be easily setup and
+    # The :moveit_core_python:`core.planning_scene.PlanningScene` class can be easily setup and
     # configured using a URDF and
     # SRDF. This is, however, not the recommended way to instantiate a
     # PlanningScene. At the time of writing there are not yet python bindings
@@ -46,8 +46,8 @@ def main():
     # current state is in *self-collision*, i.e. whether the current
     # configuration of the robot would result in the robot's parts
     # hitting each other. To do this, we will construct a
-    # :moveit_python:`core.collision_detection.CollisionRequest` object and a
-    # :moveit_python:`core.collision_detection.CollisionResult` object and pass them
+    # :moveit_core_python:`core.collision_detection.CollisionRequest` object and a
+    # :moveit_core_python:`core.collision_detection.CollisionResult` object and pass them
     # into the collision checking function. Note that the result of
     # whether the robot is in self-collision or not is contained within
     # the result. Self collision checking uses an *unpadded* version of
@@ -121,7 +121,7 @@ def main():
     # Modifying the Allowed Collision Matrix
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     #
-    # The :moveit_python:`core.collision_detection.AllowedCollisionMatrix` (ACM)
+    # The :moveit_core_python:`core.collision_detection.AllowedCollisionMatrix` (ACM)
     # provides a mechanism to tell the collision world to ignore
     # collisions between certain object: both parts of the robot and
     # objects in the world. We can tell the collision checker to ignore
@@ -163,7 +163,7 @@ def main():
     # ^^^^^^^^^^^^^^^^^^^
     #
     # The PlanningScene class also includes easy to use function calls for checking constraints. The constraints can be
-    # of two types: (a) constraints constructed using :moveit_python:`core.kinematic_constraints`, or (b) user defined
+    # of two types: (a) constraints constructed using :moveit_core_python:`core.kinematic_constraints`, or (b) user defined
     # constraints specified through a callback. We will first look at an example with a simple
     # KinematicConstraint.
     #

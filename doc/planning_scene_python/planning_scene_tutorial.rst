@@ -1,7 +1,7 @@
 Planning Scene Python
 ==================================
 
-The :moveit_python:`core.planning_scene.PlanningScene` class provides the main interface that you will use
+The :moveit_core_python:`core.planning_scene.PlanningScene` class provides the main interface that you will use
 for collision checking and constraint checking. In this tutorial, we
 will explore the Python interface to this class.
 

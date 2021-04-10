@@ -50,7 +50,6 @@ html_context = {
 # Add any paths that contain custom themes here, relative to this directory.
 
 # Links
-<<<<<<< HEAD
 ros_distro = "noetic"
 extlinks = {
     "codedir": (
