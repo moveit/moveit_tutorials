@@ -173,7 +173,7 @@ int main(int argc, char** argv)
   // package.
   //
   // .. _kinematic_constraints:
-  //     http://docs.ros.org/noetic/api/moveit_core/html/namespacekinematic__constraints.html#a88becba14be9ced36fefc7980271e132
+  //     http://docs.ros.org/noetic/api/moveit_core/html/cpp/namespacekinematic__constraints.html#a88becba14be9ced36fefc7980271e132
   moveit_msgs::Constraints pose_goal =
       kinematic_constraints::constructGoalConstraints("panda_link8", pose, tolerance_pose, tolerance_angle);
 
