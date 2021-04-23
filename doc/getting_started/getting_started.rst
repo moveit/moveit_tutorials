@@ -24,14 +24,14 @@ Install `wstool <http://wiki.ros.org/wstool>`_ : ::
 
 Create A Catkin Workspace and Download MoveIt Source
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Because the version of the tutorials uses the ``master`` branch which is being actively developed, you will most likely need to build all of MoveIt from soruce. You will need to have a `catkin <http://wiki.ros.org/catkin>`_ workspace setup: ::
+Because the version of the tutorials uses the ``master`` branch which is being actively developed, you will most likely need to build all of MoveIt from source. You will need to have a `catkin <http://wiki.ros.org/catkin>`_ workspace setup: ::
 
   mkdir -p ~/ws_moveit/src
   cd ~/ws_moveit/src
 
   wstool init .
   wstool merge -t . https://raw.githubusercontent.com/ros-planning/moveit/master/moveit.rosinstall
-  wstool remove  moveit_tutorials  # this is clone'd in the next section
+  wstool remove  moveit_tutorials  # this is cloned in the next section
   wstool update -t .
 
 Download Example Code
