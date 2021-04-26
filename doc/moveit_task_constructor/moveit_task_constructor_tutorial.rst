@@ -5,6 +5,9 @@ MoveIt Task Constructor
 .. image:: images/mtc_example.png
    :width: 700px
 
+Overview
+--------
+
 The Task Constructor framework provides a flexible and transparent way to define and plan actions that consist of multiple interdependent subtasks.
 It draws on the planning capabilities of MoveIt to solve individual subproblems in black-box planning stages.
 A common interface, based on MoveIt's PlanningScene is used to pass solution hypotheses between stages.
@@ -13,16 +16,20 @@ For more details, please refer to the associated `ICRA 2019 publication`_.
 
 .. _ICRA 2019 publication: https://pub.uni-bielefeld.de/download/2918864/2933599/paper.pdf
 
+.. contents:: Table of Contents
+   :depth: 2
+   :backlinks: top
+
 Getting Started
 ---------------
 
 If you have not already done so, make sure you have completed the steps in `Getting Started <../getting_started/getting_started.html>`_.
 
 Installing MoveIt Task Constructor
-----------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Install From Source
-^^^^^^^^^^^^^^^^^^^
++++++++++++++++++++
 
 Go into your catkin workspace and initialize wstool if necessary (assuming `~/ws_moveit` as workspace path): ::
 
@@ -38,7 +45,7 @@ Build the workspace: ::
   catkin build
 
 Running the Demo
-----------------
+^^^^^^^^^^^^^^^^
 
 The MoveIt Task Constructor package contains several basic examples and a pick-and-place demo.
 For all demos you should launch the basic environment: ::
@@ -79,6 +86,7 @@ shown in the right-most window. Selecting one of those solutions will start its 
    :width: 700px
 
 .. _basic_concepts:
+
 Basic Concepts
 --------------
 
