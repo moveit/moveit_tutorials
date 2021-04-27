@@ -136,7 +136,8 @@ If you set the initial and the final location of the robot in a way that there i
 
 Running the Interface
 +++++++++++++++++++++
-Roslaunch the launch file to run the code directly from moveit_tutorials: ::
+
+Launch the prepared launch file in moveit_tutorials to see the planning scene integrating sample point cloud data into an octomap: ::
 
  roslaunch moveit_tutorials obstacle_avoidance_demo.launch
 
@@ -160,9 +161,10 @@ After running the code, you should be able to see something like this in RViz:
 
 Running the Code
 ++++++++++++++++
-Roslaunch the launch file to run the code directly from moveit_tutorials: ::
 
- roslaunch moveit_tutorials detect_and_add_cylinder_collision_object_demo.launch
+Keep the launch file from above running and run the code directly from moveit_tutorials: ::
+
+ rosrun moveit_tutorials detect_and_add_cylinder_collision_object_demo
 
 KNOWN ISSUE - You may see the following error when running the demo ::
 
@@ -190,4 +192,4 @@ The details regarding the implementation of each of the perception pipeline func
 
    </code>
 
-.. tutorial-formatter:: ./src/cylinder_segment.cpp
+.. tutorial-formatter:: ./src/detect_and_add_cylinder_collision_object_demo.cpp
