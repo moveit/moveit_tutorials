@@ -1,5 +1,10 @@
 <launch>
   <include file="$(find panda_moveit_config)/launch/demo.launch" />
+  <!--
+  In this tutorial we wait much longer for the robot transforms than we usually would,
+  because the user's machine might be quite slow.
+  -->
+  <param name="robot_description_planning/shape_transform_cache_lookup_wait_time" value="0.5" />
 
   <!-- Play the rosbag that contains the pointcloud data -->
   <node pkg="moveit_tutorials" type="bag_publisher_maintain_time" name="point_clouds" />
