@@ -1,8 +1,6 @@
 <?xml version="1.0"?>
 <launch>
 
-  <node pkg="moveit_tutorials" type="filtered_depth_subscriber_node" name="filtered_depth_subscriber_node" output="screen"/>
-
   <include file="$(find moveit_tutorials)/doc/mesh_filter/launch/test_gazebo.launch"/>
 
   <node name="relay_depth" pkg="topic_tools" type="relay" args="/camera/depth/image_raw /depth"/>
