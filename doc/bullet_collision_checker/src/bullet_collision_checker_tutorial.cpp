@@ -163,8 +163,11 @@ int main(int argc, char** argv)
     // Changing the collision detector to Bullet
     // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     // The active collision detector is set from the planning scene using the specific collision detector allocator for
-    // Bullet.
-    g_planning_scene->setActiveCollisionDetector(collision_detection::CollisionDetectorAllocatorBullet::create());
+    // Bullet. The second argument indicates that Bullet will be the exclusive collision detection algorithm; the
+    // default FCL will not be available anymore. Having one exclusive collision detection algorithm helps performance
+    // a bit and is much more common.
+    g_planning_scene->setActiveCollisionDetector(collision_detection::CollisionDetectorAllocatorBullet::create(),
+                                                 true /* exclusive */);
     // For understanding the interactive interactive_robot, please refer to the Visualizing Collisions tutorial.
     // CALL_SUB_TUTORIAL CCD
     // CALL_SUB_TUTORIAL CCD_2
@@ -209,7 +212,8 @@ int main(int argc, char** argv)
   // again set as the active collision detector.
   robot_model::RobotModelPtr robot_model = moveit::core::loadTestingRobotModel("panda");
   auto planning_scene = std::make_shared<planning_scene::PlanningScene>(robot_model);
-  planning_scene->setActiveCollisionDetector(collision_detection::CollisionDetectorAllocatorBullet::create());
+  planning_scene->setActiveCollisionDetector(collision_detection::CollisionDetectorAllocatorBullet::create(),
+                                             /* exclusive = */ true);
 
   // The box is added and the robot brought into its position.
   Eigen::Isometry3d box_pose{ Eigen::Isometry3d::Identity() };
