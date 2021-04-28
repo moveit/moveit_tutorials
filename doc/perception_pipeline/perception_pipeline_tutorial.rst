@@ -52,9 +52,9 @@ Save this file in the config folder in the robot's moveit_config package with na
 
 * *point_subsample*: Choose one of every *point_subsample* points.
 
-* *padding_offset*: The size of the padding (in cm).
+* *padding_scale*: Should always be >= 1.0. Scale up collision shapes in the scene before excluding them from the octomap.
 
-* *padding_scale*: The scale of the padding.
+* *padding_offset*: Absolute padding (in m) around scaled collision shapes when excluding them from the octomap.
 
 * *filtered_cloud_topic*: The topic on which the filtered cloud will be published (mainly for debugging). The filtering cloud is the resultant cloud after self-filtering has been performed.
 
@@ -94,9 +94,9 @@ Save this file in the config folder in the robot's moveit_config package with na
 
 * *shadow_threshold*: The minimum brightness of the shadow map below an entity for its dynamic shadow to be visible
 
-* *padding_offset*: The size of the padding (in cm).
+* *padding_scale*: Should always be >= 1.0. Scale up collision shapes in the scene before excluding them from the octomap.
 
-* *padding_scale*: The scale of the padding.
+* *padding_offset*: Absolute padding (in m) around scaled collision shapes when excluding them from the octomap.
 
 * *filtered_cloud_topic*: The topic on which the filtered cloud will be published (mainly for debugging). The filtering cloud is the resultant cloud after self-filtering has been performed.
 
