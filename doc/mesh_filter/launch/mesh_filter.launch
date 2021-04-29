@@ -3,11 +3,11 @@
 
   <include file="$(find moveit_tutorials)/doc/mesh_filter/launch/test_gazebo.launch"/>
 
-  <node name="relay_depth" pkg="topic_tools" type="relay" args="/camera/depth/image_raw /depth"/>
-  <node name="relay_camera_info" pkg="topic_tools" type="relay" args="/camera/color/camera_info /camera_info"/>
-
   <node pkg="nodelet" type="nodelet" name="standalone_nodelet" args="manager" output="screen"/>
-  <node pkg="nodelet" type="nodelet" name="mesh_filter" args="load mesh_filter/DepthSelfFiltering standalone_nodelet" output="screen"/>
+  <node pkg="nodelet" type="nodelet" name="mesh_filter" args="load mesh_filter/DepthSelfFiltering standalone_nodelet" output="screen">
+    <remap to="/camera/depth/image_raw" from="/depth"/>
+    <remap to="/camera/color/camera_info" from="/camera_info"/>
+  </node>
   
 </launch>
  
