@@ -73,7 +73,7 @@
 
 from __future__ import print_function
 
-__version__ = '0.1.2'
+__version__ = "0.1.2"
 
 import os
 from docutils.parsers import rst
@@ -81,31 +81,37 @@ from docutils.parsers.rst.directives import flag, unchanged
 from docutils.statemachine import string2lines
 from pygments.lexers import get_lexer_for_filename
 
+
 class TutorialFormatterDirective(rst.Directive):
     has_content = False
     final_argument_whitespace = True
     required_arguments = 1
 
-    option_spec = dict(shell=flag, prompt=flag, nostderr=flag,
-                       in_srcdir=flag, extraargs=unchanged,
-                       until=unchanged)
+    option_spec = dict(
+        shell=flag,
+        prompt=flag,
+        nostderr=flag,
+        in_srcdir=flag,
+        extraargs=unchanged,
+        until=unchanged,
+    )
 
     def flatten_sub_tutorials(self, file_):
         lines = []
         in_sub = False
-        begin_sub_tutorial = 'BEGIN_SUB_TUTORIAL'
-        end_sub_tutorial = 'END_SUB_TUTORIAL'
-        call_sub_tutorial = 'CALL_SUB_TUTORIAL'
-        sub_name = ''
+        begin_sub_tutorial = "BEGIN_SUB_TUTORIAL"
+        end_sub_tutorial = "END_SUB_TUTORIAL"
+        call_sub_tutorial = "CALL_SUB_TUTORIAL"
+        sub_name = ""
         subs = {}
         sub_lines = []
         regular_lines = []
         for line in file_:
-            begin_pos = line.find( begin_sub_tutorial )
+            begin_pos = line.find(begin_sub_tutorial)
             if begin_pos != -1:
-                sub_name = line[begin_pos + len(begin_sub_tutorial) : ].strip()
+                sub_name = line[begin_pos + len(begin_sub_tutorial) :].strip()
                 in_sub = True
-            elif line.find( end_sub_tutorial ) != -1 and in_sub:
+            elif line.find(end_sub_tutorial) != -1 and in_sub:
                 in_sub = False
                 subs[sub_name] = sub_lines
                 sub_lines = []
@@ -115,15 +121,18 @@ class TutorialFormatterDirective(rst.Directive):
                 regular_lines.append(line)
         flattened_lines = []
         for line in regular_lines:
-            call_pos = line.find( call_sub_tutorial )
+            call_pos = line.find(call_sub_tutorial)
             if call_pos != -1:
-                sub_name = line[call_pos + len(call_sub_tutorial) : ].strip()
+                sub_name = line[call_pos + len(call_sub_tutorial) :].strip()
                 if sub_name in subs:
-                    flattened_lines.extend( subs[sub_name] )
+                    flattened_lines.extend(subs[sub_name])
                 else:
-                    print('tutorialformatter.py error: sub-tutorial %s not found.' % sub_name)
+                    print(
+                        "tutorialformatter.py error: sub-tutorial %s not found."
+                        % sub_name
+                    )
             else:
-                flattened_lines.append( line )
+                flattened_lines.append(line)
         return flattened_lines
 
     def run(self):
@@ -132,23 +141,23 @@ class TutorialFormatterDirective(rst.Directive):
         tag_len = 0
 
         filepath = os.path.dirname(self.state.document.settings.env.docname)
-        absfilename = os.path.abspath(os.path.join( filepath, filename ))
-        if absfilename.endswith('.h'):
-            language = 'c++'
-        elif absfilename.endswith('CMakeLists.txt'):
-            language = 'cmake'
+        absfilename = os.path.abspath(os.path.join(filepath, filename))
+        if absfilename.endswith(".h"):
+            language = "c++"
+        elif absfilename.endswith("CMakeLists.txt"):
+            language = "cmake"
         else:
             try:
-                language = get_lexer_for_filename( absfilename ).name.lower()
-                if language == 'text only':
-                    language = 'none'
+                language = get_lexer_for_filename(absfilename).name.lower()
+                if language == "text only":
+                    language = "none"
             except:
-                language = 'none'
-        code_prefix = '\n.. code-block:: ' + language + '\n\n'
-        code_suffix = '\n'
+                language = "none"
+        code_prefix = "\n.. code-block:: " + language + "\n\n"
+        code_suffix = "\n"
 
         print("tutorial-formatter running on " + absfilename)
-        file_ = open( absfilename, 'r' )
+        file_ = open(absfilename, "r")
         text_to_process = ""
         current_block = ""
         in_code = False
@@ -157,33 +166,33 @@ class TutorialFormatterDirective(rst.Directive):
         lines = self.flatten_sub_tutorials(file_)
         for line in lines:
             if not in_tutorial:
-                begin_pos = line.find( 'BEGIN_TUTORIAL' )
+                begin_pos = line.find("BEGIN_TUTORIAL")
                 if begin_pos != -1:
                     text_tag = line[:begin_pos].lstrip()
-                    tag_len = len( text_tag )
+                    tag_len = len(text_tag)
                     in_tutorial = True
                 continue
-            if line.find( 'END_TUTORIAL' ) != -1:
+            if line.find("END_TUTORIAL") != -1:
                 break
             stripped = line.lstrip()
-            if stripped.startswith( text_tag.strip() ):
+            if stripped.startswith(text_tag.strip()):
                 if in_code:
                     text_to_process += code_prefix + current_block + code_suffix
                     current_block = ""
                     in_code = False
                 in_text = True
                 addition = stripped[tag_len:]
-                if addition == '' or addition[-1] != '\n':
-                    addition += '\n'
+                if addition == "" or addition[-1] != "\n":
+                    addition += "\n"
                 current_block += addition
             else:
                 if in_text:
                     text_to_process += current_block
                     current_block = ""
                     in_text = False
-                    in_code = True # Code to show begins right after tagged text
+                    in_code = True  # Code to show begins right after tagged text
                 if in_code:
-                    current_block += ' ' + line
+                    current_block += " " + line
         if in_code:
             text_to_process += code_prefix + current_block + code_suffix
         elif in_text:
@@ -194,10 +203,11 @@ class TutorialFormatterDirective(rst.Directive):
         # print(text_to_process)
         # print('= text_to_process')
 
-        lines = string2lines( text_to_process )
-        self.state_machine.insert_input( lines, absfilename )
+        lines = string2lines(text_to_process)
+        self.state_machine.insert_input(lines, absfilename)
 
         return []
 
+
 def setup(app):
-    app.add_directive('tutorial-formatter', TutorialFormatterDirective)
+    app.add_directive("tutorial-formatter", TutorialFormatterDirective)

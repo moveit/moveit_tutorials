@@ -57,7 +57,7 @@ to every joint (except :code:`${arm_id}_joint8}` joint) in :code:`franka_descrip
 
 3. Add inertia matrices and masses to the links
 -----------------------------------------------
-Inertia matrices are required for Gazebo physics engine to work properly. We don't require exact numbers for pedagogic reasons, 
+Inertia matrices are required for Gazebo physics engine to work properly. We don't require exact numbers for pedagogic reasons,
 yet it is perfectly suitable to go after them with MeshLab as explained at `relevant Gazebo documentation page <http://gazebosim.org/tutorials?tut=inertia&cat=build_robot>`_
 in great depth. Add following snippet to the links from :code:`${arm_id}_link0` to :code:`${arm_id}_link8` in :code:`franka_description/robots/panda_arm.xacro`:
 
@@ -94,7 +94,7 @@ As previously mentioned, these values come from the referred blog post. It is ex
 
 4. Add friction and colorize the links
 --------------------------------------
-In order to have a nice illustration of the robot in Gazebo simulation we need to colorize the links. 
+In order to have a nice illustration of the robot in Gazebo simulation we need to colorize the links.
 Moreover friction forces are added in order to have realistic dynamics. You can ignore them at all or change their values to experiment with.
 Since the focus is MoveIt in this tutorial, we will just use the values from the provided solution.
 
@@ -149,11 +149,11 @@ Then add the following block to the end of :code:`franka_description/robots/pand
 ------------------------------------------------------------
 
 This is necessary for the robot to move in Gazebo. ROS Control is a highly capable robot-agnostic stack, providing interfaces
-to control theoretically any type of robot. :code:`gazebo_ros_control` enables the ROS control to be used in Gazebo. 
+to control theoretically any type of robot. :code:`gazebo_ros_control` enables the ROS control to be used in Gazebo.
 See `its document <http://gazebosim.org/tutorials/?tut=ros_control>`_ for full details.
 
 
-Along with the transmissions and actuators, which are the crucial components for joints to be able to move in Gazebo, 
+Along with the transmissions and actuators, which are the crucial components for joints to be able to move in Gazebo,
 the plugin specification will be handled in a new file, :code:`panda.control.xacro`. As before, I will provide the full content now:
 
 .. code-block:: xml

@@ -4,7 +4,7 @@ OPW Kinematics Solver for Industrial Manipulators
 Intro
 ------
 
-Taken from `opw_kinematics <https://github.com/Jmeyer1292/opw_kinematics>`_: 
+Taken from `opw_kinematics <https://github.com/Jmeyer1292/opw_kinematics>`_:
 A simple, analytical inverse kinematic library for industrial robots with parallel bases and spherical wrists.
 Based on the paper *An Analytical Solution of the Inverse Kinematics Problem of Industrial Serial Manipulators
 with an Ortho-parallel Basis and a Spherical Wrist* by Mathias Brandstötter, Arthur Angerer, and Michael Hofbaur.
@@ -53,7 +53,7 @@ The meaning of the parameters can best be understood with a sketch and some tink
 do not match your URDF, so you can safely guess and test if needed:
 
 .. image:: images/opw.png
-    
+
 Sharing OPW descriptions
 -------------------------
 

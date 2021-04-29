@@ -9,8 +9,8 @@ import geometry_msgs.msg
 import time
 import sys
 
-class CollisionSceneExample(object):
 
+class CollisionSceneExample(object):
     def __init__(self):
         self._scene = PlanningSceneInterface()
 
@@ -67,19 +67,24 @@ class CollisionSceneExample(object):
 
         self._scene.add_box(name, p, (dimensions[0], dimensions[1], dimensions[2]))
 
+
 if __name__ == "__main__":
     rospy.init_node("collision_scene_example_cluttered")
-    while not rospy.search_param('robot_description_semantic') and not rospy.is_shutdown():
+    while (
+        not rospy.search_param("robot_description_semantic") and not rospy.is_shutdown()
+    ):
         time.sleep(0.5)
     load_scene = CollisionSceneExample()
 
-    if (len(sys.argv) != 2):
-        print("Correct usage:: \n\"rosrun moveit_tutorials collision_scene_example.py cluttered\" OR \n\"rosrun moveit_tutorials collision_scene_example.py sparse\"")
+    if len(sys.argv) != 2:
+        print(
+            'Correct usage:: \n"rosrun moveit_tutorials collision_scene_example.py cluttered" OR \n"rosrun moveit_tutorials collision_scene_example.py sparse"'
+        )
         sys.exit()
     if sys.argv[1] == "cluttered":
-        load_scene.add_four_boxes();
+        load_scene.add_four_boxes()
     elif sys.argv[1] == "sparse":
-        load_scene.add_one_box();
+        load_scene.add_one_box()
     else:
         print("Please specify correct type of scene as cluttered or sparse")
         sys.exit()
