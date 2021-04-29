@@ -10,8 +10,11 @@ These tutorials use the [reStructuredText](http://www.sphinx-doc.org/en/stable/r
 
 All content in this repository is open source and released under the [BSD License v3](https://opensource.org/licenses/BSD-3-Clause). Each individual source code file should contain a copy of the license.
 
-This repository is currently built automatically by two systems. Travis builds the documentation for Melodic and ROS Build Farm builds the documentation for older versions:
-- [![Travis Status](https://travis-ci.org/ros-planning/moveit_tutorials.svg?branch=master)](https://travis-ci.org/ros-planning/moveit_tutorials) [Github Pages + Travis](https://ros-planning.github.io/moveit_tutorials/): latest
+This repository is currently built automatically by two systems. Github Actions builds the documentation for Noetic and Melodic, and ROS Build Farm builds the documentation for older versions:
+
+- [![Formatting (pre-commit)](https://github.com/ros-planning/moveit_tutorials/actions/workflows/format.yaml/badge.svg?branch=main)](https://github.com/ros-planning/moveit_tutorials/actions/workflows/format.yaml?query=branch%3Amain) [Format + Github Actions](https://ros-planning.github.io/): Latest
+- [![Github Pages Deploy](https://github.com/ros-planning/moveit_tutorials/actions/workflows/deploy.yaml/badge.svg?branch=main)](https://github.com/ros-planning/moveit_tutorials/actions/workflows/deploy.yaml?query=branch%3Amain) [Github Pages + Github Actions](https://ros-planning.github.io/): Latest
+- [![Github Actions Build Status](https://github.com/ros-planning/moveit_tutorials/actions/workflows/ci.yaml/badge.svg?branch=main)](https://github.com/ros-planning/moveit_tutorials/actions/workflows/ci.yaml?query=branch%3Amain) [Build + Github Actions](https://ros-planning.github.io/moveit_tutorials/): Latest
 - [![ROS Melodic Build Farm Status](http://build.ros.org/buildStatus/icon?job=Mdoc__moveit_tutorials__ubuntu_bionic_amd64)](http://build.ros.org/job/Mdoc__moveit_tutorials__ubuntu_bionic_amd64/) [ROS Melodic Build Farm](http://docs.ros.org/melodic/api/moveit_tutorials/html/)
 - [![ROS Kinetic Build Farm Status](http://build.ros.org/buildStatus/icon?job=Kdoc__moveit_tutorials__ubuntu_xenial_amd64)](http://build.ros.org/job/Kdoc__moveit_tutorials__ubuntu_xenial_amd64/) [ROS Kinetic Build Farm](http://docs.ros.org/kinetic/api/moveit_tutorials/html/)
 
@@ -48,7 +51,7 @@ We rely on the community to keep these tutorials up to date and bug free. If you
 
 **Code Formatting**
 
-* These tutorials use the same [style guidelines](http://moveit.ros.org/documentation/contributing/code/) as the MoveIt project. When modifying or adding to these tutorials, it is required that code is auto formatted using [clang-format](http://moveit.ros.org/documentation/contributing/code/).
+* These tutorials use the same [style guidelines](http://moveit.ros.org/documentation/contributing/code/) as the MoveIt project. When modifying or adding to these tutorials, it is required that code is auto formatted using [clang-format](http://moveit.ros.org/documentation/contributing/code/). To check and apply our style guidelines we use [pre-commit](https://pre-commit.com/).
 * Tutorials should exemplify best coding practices. If a contribution wouldn't pass review in the MoveIt project, then it shouldn't pass review in the tutorials.
 * Relevant code should be included and explained using the ``.. tutorial-formatter::`` tag.
 * Irrelevant code should be excluded from the generated html using the ``BEGIN_TUTORIAL``, ``END_TUTORIAL``, ``BEGIN_SUB_TUTORIAL``, and ``END_SUB_TUTORIAL`` tags.
@@ -61,6 +64,20 @@ We rely on the community to keep these tutorials up to date and bug free. If you
 * Each tutorial should be focused on teaching the user one feature or interface within MoveIt.
 * Tutorials should flow from show to tell with videos and demos at the beginning followed by explanations.
 * New tutorials should match the formatting, style and flow of existing tutorials whenever possible.
+
+**pre-commit**
+
+pre-commit is a tool that is used in ``moveit_tutorials`` to check and apply style guidelines automatically. To install pre-commit into your system:
+
+    pip3 install pre-commit
+
+In you catkin workspace, under ``moveit_tutorials`` directory you can install the git hooks like this:
+
+    cd $CATKIN_WS/src/moveit_tutorials && pre-commit install
+
+With this pre-commit will automatically run and check a list of styling including clang-format, end of files and trailing whitespaces whenever you run ``git commit``. To run pre-commit any time other than ``git commit`` you can use the following command:
+
+    cd $CATKIN_WS/src/moveit_tutorials && pre-commit run -a
 
 ### Directory Structure
 
