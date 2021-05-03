@@ -3,10 +3,9 @@ Planning with Approximated Constraint Manifolds
 
 OMPL supports custom constraints to enable planning trajectories that follow a desired behavior.
 Constraints can be defined in joint space and Cartesian space where the latter is either orientation or position based.
-While planning a trajectory each joint state needs to follow all of the set constraints, which is performed by rejection sampling by default.
-This however might lead to very long planning times, especially when the constraints are very restrictive and the rejection rate is correspondingly high.
+While planning a trajectory, each joint state needs to follow all of the set constraints, which is performed by rejection sampling by default. For more information see `Representation and Evaluation of Constraints <../planning_constraints/planning_constraints>`_.
 
-`Sucan et al <http://ioan.sucan.ro/files/pubs/constraints_iros2012.pdf>`_ present an approach where they compute an approximation of the constraint manifold beforehand and perform trajectory planning in that.
+Rejection sampling for each joint state might lead to very long planning times, especially when the constraints are very restrictive and the rejection rate is correspondingly high. `Sucan et al <http://ioan.sucan.ro/files/pubs/constraints_iros2012.pdf>`_ present an approach where they compute an approximation of the constraint manifold beforehand and perform trajectory planning in that.
 The OMPL plugin contains the functionality to do that for a given set of constraints and save it in a database.
 In later instances the database can be loaded to use for constrained planning with any OMPL planner which strongly reduces planning time.
 
@@ -23,6 +22,7 @@ Defining constraints
 ^^^^^^^^^^^^^^^^^^^^
 
 The ``generate_state_database`` executable reads constraints from ROS parameters on ``/constraints``, in a more compact format that a complete ROS message.
+
 You can define these in ``rosparam`` to be loaded together in a file, eg. ``X_moveit_config/config/constraints.yaml``::
 
  path_constraint:
@@ -61,11 +61,12 @@ For example::
 PositionConstraint
 """"""""""""""""""
 
-A ``PositionConstraint`` constraints the Cartesian positions allowed for a (position relative to a) link.
+A ``PositionConstraint`` constrains the Cartesian positions allowed for a (position relative to a) link.
+
 ``target_offset`` is that relative position w.r.t. a link, e.g., the tip of the end-effector relative to its mounting point or other origin definition.
 This region (boxes only in this compact definition) is compactly defined by specifying the upper and lower bounds along each axis.
 
-For example::
+For example (in YAML format)::
 
  - type: position
    frame_id: base_link
