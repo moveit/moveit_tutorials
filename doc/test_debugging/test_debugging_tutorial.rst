@@ -1,5 +1,5 @@
 Debugging Tests
-================
+===============
 
 How to debug when a test is failing.
 
@@ -17,7 +17,7 @@ Our CI runs in Travis and uses scripts found in the `moveit_ci repo <https://git
 For troubleshooting a specific travis test it is helpful to look at the .travis.yml config file and test output to understand what environment variables are being set in your test.
 
 Launch Docker Environment
------------------------
+-------------------------
 
 To start docker container for kinetic:
 
@@ -30,7 +30,7 @@ To start docker container for melodic:
   docker run -it moveit/moveit:melodic-ci /bin/bash
 
 Setup Environment
-----------------
+-----------------
 
 The first thing you should do is update debians and install tools you'll need for debugging.  The update is important because that is what we do in CI.
 
@@ -97,5 +97,4 @@ You can also use rostest to run a specific test.  The text argument sends output
   cd ${CATKIN_WS}
   source devel/setup.bash
   rostest moveit_ros_planning_interface move_group_pick_place_test.test --text
-
 
