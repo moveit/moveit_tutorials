@@ -57,8 +57,7 @@ public:
   {
   }
 
-  /** \brief Given the parameters of the cylinder add the cylinder to the planning scene.
-      @param cylinder_params - struct AddCylinderParams. */
+  /** \brief Given the parameters of the cylinder add the cylinder to the planning scene. */
   void addCylinder()
   {
     // BEGIN_SUB_TUTORIAL add_cylinder
@@ -107,10 +106,9 @@ public:
     // END_SUB_TUTORIAL
   }
 
-  /** \brief Given the pointcloud containing just the cylinder, compute its center point and its height and store in
-     cylinder_params.
-      @param cloud - Pointcloud containing just the cylinder.
-      @param cylinder_params - Pointer to the struct AddCylinderParams. */
+  /** \brief Given the pointcloud containing just the cylinder,
+      compute its center point and its height and store in cylinder_params.
+      @param cloud - point cloud containing just the cylinder. */
   void extractLocationHeight(const pcl::PointCloud<pcl::PointXYZ>::Ptr& cloud)
   {
     double max_angle_y = -std::numeric_limits<double>::infinity();
@@ -278,7 +276,7 @@ public:
     // First, we convert from sensor_msgs to pcl::PointXYZ which is needed for most of the processing.
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
     pcl::fromROSMsg(*input, *cloud);
-    // Use a passthough filter to get the region of interest.
+    // Use a passthrough filter to get the region of interest.
     // The filter removes points outside the specified range.
     passThroughFilter(cloud);
     // Compute point normals for later sample consensus step.
@@ -286,9 +284,9 @@ public:
     computeNormals(cloud, cloud_normals);
     // inliers_plane will hold the indices of the point cloud that correspond to a plane.
     pcl::PointIndices::Ptr inliers_plane(new pcl::PointIndices);
-    // Detect and remove points on the plane on which the cylinder is kept.
+    // Detect and remove points on the (planar) surface on which the cylinder is resting.
     removePlaneSurface(cloud, inliers_plane);
-    // Remove planar inliners from normals as well
+    // Remove surface points from normals as well
     extractNormals(cloud_normals, inliers_plane);
     // ModelCoefficients will hold the parameters using which we can define a cylinder of infinite length.
     // It has a public attribute |code_start| values\ |code_end| of type |code_start| std::vector<float>\ |code_end|\ .
