@@ -182,28 +182,23 @@ int main(int argc, char** argv)
   int const N_STEPS = 20;  // number of steps
   int const N_DOF = 7;     // number of degrees of freedom
 
-  // Calculate the increment value for each joint
-  std::vector<double> dt_vector;
-  for (int joint_index = 0; joint_index < N_DOF; ++joint_index)
-  {
-    double dt = (goal_joint_values[joint_index] - current_joint_values[joint_index]) / N_STEPS;
-    dt_vector.push_back(dt);
-  }
-
+  // We need one reference trajectory with one joint_trajectory
   req.reference_trajectories.resize(1);
   req.reference_trajectories[0].joint_trajectory.resize(1);
   // trajectory includes both the start and end points (N_STEPS + 1)
   req.reference_trajectories[0].joint_trajectory[0].points.resize(N_STEPS + 1);
   req.reference_trajectories[0].joint_trajectory[0].joint_names = joint_names;
   req.reference_trajectories[0].joint_trajectory[0].points[0].positions = current_joint_values;
-  // Use the increment values (dt_vector) to caluclate the joint values at each step
+
+  std::vector<double> joint_values = current_joint_values;
+  // Increment joint values at each step
   for (std::size_t step_index = 1; step_index <= N_STEPS; ++step_index)
   {
-    std::vector<double> joint_values;
+    double increment;
+    step_index <= 10 ? (increment = 0.05) : (increment = 0.044);
     for (int dof_index = 0; dof_index < N_DOF; ++dof_index)
     {
-      double joint_value = current_joint_values[dof_index] + step_index * dt_vector[dof_index];
-      joint_values.push_back(joint_value);
+      joint_values[dof_index] = joint_values[dof_index] + increment;
     }
     req.reference_trajectories[0].joint_trajectory[0].joint_names = joint_names;
     req.reference_trajectories[0].joint_trajectory[0].points[step_index].positions = joint_values;
