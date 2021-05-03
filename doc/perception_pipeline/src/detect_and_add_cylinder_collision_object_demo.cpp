@@ -58,7 +58,7 @@ public:
   }
 
   /** \brief Given the parameters of the cylinder add the cylinder to the planning scene.
-      @param cylinder_params - Pointer to the struct AddCylinderParams. */
+      @param cylinder_params - struct AddCylinderParams. */
   void addCylinder()
   {
     // BEGIN_SUB_TUTORIAL add_cylinder
@@ -75,15 +75,15 @@ public:
     primitive.type = primitive.CYLINDER;
     primitive.dimensions.resize(2);
     /* Setting height of cylinder. */
-    primitive.dimensions[0] = cylinder_params->height;
+    primitive.dimensions[0] = cylinder_params.height;
     /* Setting radius of cylinder. */
-    primitive.dimensions[1] = cylinder_params->radius;
+    primitive.dimensions[1] = cylinder_params.radius;
 
     // Define a pose for the cylinder (specified relative to frame_id).
     geometry_msgs::Pose cylinder_pose;
     /* Computing and setting quaternion from axis angle representation. */
-    Eigen::Vector3d cylinder_z_direction(cylinder_params->direction_vec[0], cylinder_params->direction_vec[1],
-                                         cylinder_params->direction_vec[2]);
+    Eigen::Vector3d cylinder_z_direction(cylinder_params.direction_vec[0], cylinder_params.direction_vec[1],
+                                         cylinder_params.direction_vec[2]);
     Eigen::Vector3d origin_z_direction(0., 0., 1.);
     Eigen::Vector3d axis;
     axis = origin_z_direction.cross(cylinder_z_direction);
@@ -95,9 +95,9 @@ public:
     cylinder_pose.orientation.w = cos(angle / 2);
 
     // Setting the position of cylinder.
-    cylinder_pose.position.x = cylinder_params->center_pt[0];
-    cylinder_pose.position.y = cylinder_params->center_pt[1];
-    cylinder_pose.position.z = cylinder_params->center_pt[2];
+    cylinder_pose.position.x = cylinder_params.center_pt[0];
+    cylinder_pose.position.y = cylinder_params.center_pt[1];
+    cylinder_pose.position.z = cylinder_params.center_pt[2];
 
     // Add cylinder as collision object
     collision_object.primitives.push_back(primitive);
@@ -153,11 +153,11 @@ public:
       }
     }
     /* Store the center point of cylinder */
-    cylinder_params->center_pt[0] = (highest_point[0] + lowest_point[0]) / 2;
-    cylinder_params->center_pt[1] = (highest_point[1] + lowest_point[1]) / 2;
-    cylinder_params->center_pt[2] = (highest_point[2] + lowest_point[2]) / 2;
+    cylinder_params.center_pt[0] = (highest_point[0] + lowest_point[0]) / 2;
+    cylinder_params.center_pt[1] = (highest_point[1] + lowest_point[1]) / 2;
+    cylinder_params.center_pt[2] = (highest_point[2] + lowest_point[2]) / 2;
     /* Store the height of cylinder */
-    cylinder_params->height =
+    cylinder_params.height =
         sqrt(pow((lowest_point[0] - highest_point[0]), 2) + pow((lowest_point[1] - highest_point[1]), 2) +
              pow((lowest_point[2] - highest_point[2]), 2));
     // END_SUB_TUTORIAL
@@ -293,49 +293,48 @@ public:
     // ModelCoefficients will hold the parameters using which we can define a cylinder of infinite length.
     // It has a public attribute |code_start| values\ |code_end| of type |code_start| std::vector<float>\ |code_end|\ .
     // |br|
-    // |code_start| Values[0-2]\ |code_end| hold a point on the center line of the cylinder. |br|
-    // |code_start| Values[3-5]\ |code_end| hold direction vector of the z-axis. |br|
-    // |code_start| Values[6]\ |code_end| is the radius of the cylinder.
+    // |code_start| values[0-2]\ |code_end| hold a point on the center line of the cylinder. |br|
+    // |code_start| values[3-5]\ |code_end| hold direction vector of the z-axis. |br|
+    // |code_start| values[6]\ |code_end| is the radius of the cylinder.
     pcl::ModelCoefficients::Ptr coefficients_cylinder(new pcl::ModelCoefficients);
     /* Extract the cylinder using SACSegmentation. */
     extractCylinder(cloud, coefficients_cylinder, cloud_normals);
     // END_SUB_TUTORIAL
-    if (cloud->points.empty())
+    if (cloud->points.empty() || coefficients_cylinder->values.size() != 7)
     {
       ROS_ERROR_STREAM_NAMED("cylinder_segment", "Can't find the cylindrical component.");
       return;
     }
-    if (points_not_found)
-    {
-      // BEGIN_TUTORIAL
-      // CALL_SUB_TUTORIAL callback
-      //
-      // Storing Relevant Cylinder Values
-      // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-      // The information that we have in |code_start| coefficients_cylinder\ |code_end| is not enough to define our
-      // cylinder.
-      // It does not have the actual location of the cylinder nor the actual height. |br|
-      // We define a struct to hold the parameters that are actually needed for defining a collision object completely.
-      // |br|
-      // CALL_SUB_TUTORIAL param_struct
-      /* Store the radius of the cylinder. */
-      cylinder_params->radius = coefficients_cylinder->values[6];
-      /* Store direction vector of z-axis of cylinder. */
-      cylinder_params->direction_vec[0] = coefficients_cylinder->values[3];
-      cylinder_params->direction_vec[1] = coefficients_cylinder->values[4];
-      cylinder_params->direction_vec[2] = coefficients_cylinder->values[5];
-      //
-      // Extracting Location and Height
-      // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-      // Compute the center point of the cylinder using standard geometry
-      extractLocationHeight(cloud);
-      // CALL_SUB_TUTORIAL extract_location_height
-      // Use the parameters extracted to add the cylinder to the planning scene as a collision object.
-      addCylinder();
-      // CALL_SUB_TUTORIAL add_cylinder
-      // END_TUTORIAL
-      points_not_found = false;
-    }
+
+    ROS_INFO("Detected Cylinder - Adding CollisionObject to PlanningScene");
+
+    // BEGIN_TUTORIAL
+    // CALL_SUB_TUTORIAL callback
+    //
+    // Storing Relevant Cylinder Values
+    // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    // The information that we have in |code_start| coefficients_cylinder\ |code_end| is not enough to define our
+    // cylinder.
+    // It does not have the actual location of the cylinder nor the actual height. |br|
+    // We define a struct to hold the parameters that are actually needed for defining a collision object completely.
+    // |br|
+    // CALL_SUB_TUTORIAL param_struct
+    /* Store the radius of the cylinder. */
+    cylinder_params.radius = coefficients_cylinder->values[6];
+    /* Store direction vector of z-axis of cylinder. */
+    cylinder_params.direction_vec[0] = coefficients_cylinder->values[3];
+    cylinder_params.direction_vec[1] = coefficients_cylinder->values[4];
+    cylinder_params.direction_vec[2] = coefficients_cylinder->values[5];
+    //
+    // Extracting Location and Height
+    // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    // Compute the center point of the cylinder using standard geometry
+    extractLocationHeight(cloud);
+    // CALL_SUB_TUTORIAL extract_location_height
+    // Use the parameters extracted to add the cylinder to the planning scene as a collision object.
+    addCylinder();
+    // CALL_SUB_TUTORIAL add_cylinder
+    // END_TUTORIAL
   }
 
 private:
@@ -345,7 +344,7 @@ private:
   {
     /* Radius of the cylinder. */
     double radius;
-    /* Direction vector towards the z-axis of the cylinder. */
+    /* Direction vector along the z-axis of the cylinder. */
     double direction_vec[3];
     /* Center point of the cylinder. */
     double center_pt[3];
@@ -353,10 +352,8 @@ private:
     double height;
   };
   // Declare a variable of type AddCylinderParams and store relevant values from ModelCoefficients.
-  AddCylinderParams* cylinder_params;
+  AddCylinderParams cylinder_params;
   // END_SUB_TUTORIAL
-
-  bool points_not_found = true;
 };
 
 int main(int argc, char** argv)
