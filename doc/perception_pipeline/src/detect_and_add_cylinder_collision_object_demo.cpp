@@ -248,11 +248,11 @@ public:
     // Set the normal angular distance weight
     segmentor.setNormalDistanceWeight(0.1);
     // run at max 1000 iterations before giving up
-    segmentor.setMaxIterations(10000);
+    segmentor.setMaxIterations(1000);
     // tolerance for variation from model
-    segmentor.setDistanceThreshold(0.05);
+    segmentor.setDistanceThreshold(0.008);
     // min max values of radius in meters to consider
-    segmentor.setRadiusLimits(0.0, 1.0);
+    segmentor.setRadiusLimits(0.01, 0.1);
     segmentor.setInputCloud(cloud);
     segmentor.setInputNormals(cloud_normals);
 
