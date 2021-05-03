@@ -86,8 +86,7 @@ Run the Tests
 
 To run all the tests we can use the run_tests cmake arg.  Here we should specify a specific package we want to test as that will speed up this run.
 
-  catkin build --summarize --catkin-make-args run_tests --
-moveit_ros_planning_interface
+  catkin build --summarize --catkin-make-args run_tests -- moveit_ros_planning_interface
 
 Run One Test
 ------------
