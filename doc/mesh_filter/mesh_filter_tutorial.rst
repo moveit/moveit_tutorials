@@ -42,7 +42,7 @@ Check out the mesh filter code `here <https://github.com/ros-planning/moveit/blo
 How to add sensor to arm in simulation 
 --------------------------------------
 
-Include sensor plugin in a ``.gazebo`` file. In this tutorial, a kinect sensor plugin is added to ``ur5_sensor.gazebo`` ::
+Include sensor plugin in a ``.gazebo`` file. In this tutorial, a kinect sensor plugin is added to ``kinect_camera.gazebo`` ::
 
     <gazebo reference="camera_depth_frame">
         <sensor name="kinect_camera" type="depth">

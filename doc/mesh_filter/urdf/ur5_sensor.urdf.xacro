@@ -9,7 +9,7 @@
   <xacro:include filename="$(find ur_description)/urdf/common.gazebo.xacro" />
 
   <!-- Add sensor -->
-  <xacro:include filename="$(arg resource_dir)/urdf/ur5_sensor.gazebo" />
+  <xacro:include filename="$(arg resource_dir)/urdf/kinect_camera.gazebo" />
 
   <!-- ur5 -->
   <xacro:include filename="$(find ur_description)/urdf/ur5.urdf.xacro" />
