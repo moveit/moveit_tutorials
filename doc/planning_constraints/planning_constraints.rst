@@ -23,4 +23,4 @@ A related functionality to representing and evaluating constraints is :code:`con
 See Also
 --------
 - `How to plan with path constraints in general <../move_group_interface/move_group_interface_tutorial.html#planning-with-path-constraints>`_.
-- `Planning with Approximated Constraint Manifolds <../planning_with_approximated_constraint_manifolds/planning_with_approximated_constraint_manifolds_tutorial>`_.
+- `Planning with Approximated Constraint Manifolds <../planning_with_approximated_constraint_manifolds/planning_with_approximated_constraint_manifolds_tutorial.html>`_.
