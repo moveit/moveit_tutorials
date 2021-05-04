@@ -220,7 +220,7 @@ class MoveGroupPythonInterfaceTutorial(object):
 
     move_group.set_pose_target(pose_goal)
 
-    ## We call the planner to compute the plan and execute it.
+    ## We call the planner to compute the plan.
     plan = move_group.plan()
     # "move_group.execute(plan, wait=True)" would execute the plan
 
