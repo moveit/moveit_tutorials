@@ -9,7 +9,7 @@
   <xacro:include filename="$(find ur_description)/urdf/common.gazebo.xacro" />
 
   <!-- Add sensor -->
-  <xacro:include filename="$(arg resource_dir)/urdf/kinect_camera.gazebo" />
+  <include filename="$(find moveit_tutorials)/doc/mesh_filter/urdf/kinect_camera.gazebo" />
 
   <!-- ur5 -->
   <xacro:include filename="$(find ur_description)/urdf/ur5.urdf.xacro" />
@@ -96,7 +96,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file://$(arg resource_dir)/meshes/kinect.dae"/>
+        <mesh filename="package://moveit_tutorials/doc/mesh_filter/meshes/kinect.dae"/>
       </geometry>
     </visual>
     <collision>
