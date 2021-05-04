@@ -57,6 +57,13 @@
   <run_depend>tf2_eigen</run_depend>
   <run_depend>tf2_geometry_msgs</run_depend>
   <run_depend>xacro</run_depend>
+  <run_depend>nodelet</run_depend>
+  <run_depend>gazebo_ros</run_depend>
+
+  <!-- The universal robot package is not released for melodic -->
+  <!-- Make sure to clone the package (melodic-devel branch) onto your workspace -->
+  <!-- <run_depend>ur_gazebo</run_time> -->
+  <!-- <run_depend>ur_description</run_time> -->
 
   <test_depend>moveit_resources_panda_moveit_config</test_depend>
   <test_depend>rosunit</test_depend>
