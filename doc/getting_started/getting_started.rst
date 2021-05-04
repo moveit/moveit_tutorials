@@ -54,7 +54,8 @@ The following will install from Debian any package dependencies not already in y
   cd ~/ws_moveit/src
   rosdep install -y --from-paths . --ignore-src --rosdistro noetic
 
-**Note** In case you're using an Ubuntu based distribution your can specifiy the Ubuntu base of your distro using ``--os ubuntu:base`` for example in Case of Mint 20.1 which is based on Ubuntu focal use ``--os ubuntu:focal``
+**Note** To install on Ubuntu-based distributions such as Mint, you may need to specifiy the Ubuntu base of your distro using ``--os ubuntu:base``. 
+ For example in case of Mint 20.1, which is based on Ubuntu Focal, use ``--os ubuntu:focal``.
 
 **Note** In case an upstream package is not (yet) available from the standard ROS repositories or if you experience any build errors in those packages, please try to fetch the latest release candidates from the `ROS testing repositories <http://wiki.ros.org/TestingRepository>`_ instead: ::
 
