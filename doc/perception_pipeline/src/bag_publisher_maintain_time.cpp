@@ -47,7 +47,8 @@ int main(int argc, char** argv)
   ros::AsyncSpinner spinner(1);
   spinner.start();
 
-  ros::Publisher point_cloud_publisher = nh.advertise<sensor_msgs::PointCloud2>("/camera/depth_registered/points", 1);
+  ros::Publisher point_cloud_publisher =
+      nh.advertise<sensor_msgs::PointCloud2>("/camera/depth_registered/points", 2, true);
 
   // Variable holding the rosbag containing point cloud data.
   rosbag::Bag bagfile;
