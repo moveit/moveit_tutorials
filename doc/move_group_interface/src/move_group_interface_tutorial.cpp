@@ -152,9 +152,11 @@ int main(int argc, char** argv)
   visual_tools.trigger();
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
 
-  // Finally, to execute the trajectory stored in my_plan, you could use the following method call:
+  // Finally, to execute the trajectory stored in my_plan, you could use the following method call.
   // Note that this can lead to problems if the robot moved in the meanwhile.
-  // move_group_interface.execute(my_plan);
+  // This tutorial does not actually move the robot, so this line is commented out
+
+  /* move_group_interface.execute(my_plan); */
 
   // Moving to a pose goal
   // ^^^^^^^^^^^^^^^^^^^^^
@@ -163,8 +165,9 @@ int main(int argc, char** argv)
   // the following is a more robust combination of the two-step plan+execute pattern shown above
   // and should be preferred. Note that the pose goal we had set earlier is still active,
   // so the robot will try to move to that goal.
+  // This tutorial does not actually move the robot, so this line is commented out
 
-  // move_group_interface.move();
+  /* move_group_interface.move(); */
 
   // Planning to a joint-space goal
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -320,8 +323,9 @@ int main(int argc, char** argv)
   // the trajectory manually, as described `here <https://groups.google.com/forum/#!topic/moveit-users/MOoFxy2exT4>`_.
   // Pull requests are welcome.
   //
-  // You can execute a trajectory like this.
-  move_group_interface.execute(trajectory);
+  // You can execute a trajectory like this. This tutorial does not actually move the robot, so this line is commented out
+
+  /* move_group_interface.execute(trajectory); */
 
   // Adding objects to the environment
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
