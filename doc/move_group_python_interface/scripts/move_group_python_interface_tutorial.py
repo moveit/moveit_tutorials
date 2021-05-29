@@ -179,12 +179,12 @@ class MoveGroupPythonInterfaceTutorial(object):
     ## We use the constant `tau = 2*pi <https://en.wikipedia.org/wiki/Turn_(angle)#Tau_proposals>`_ for convenience:
     # We get the joint values from the group and change some of the values:
     joint_goal = move_group.get_current_joint_values()
-    joint_goal[0] = 0
-    joint_goal[1] = -tau/8
-    joint_goal[2] = 0
-    joint_goal[3] = -tau/4
-    joint_goal[4] = 0
-    joint_goal[5] = tau/6  # 1/6 of a turn
+    joint_goal[0] = -tau/8
+    joint_goal[1] = -tau/6
+    joint_goal[2] = tau/6  # 1/6 of a turn
+    joint_goal[3] = -tau/3
+    joint_goal[4] = -tau/12
+    joint_goal[5] = tau/4
     joint_goal[6] = 0
 
     # The go command can be called with joint values, poses, or without any
@@ -221,8 +221,15 @@ class MoveGroupPythonInterfaceTutorial(object):
 
     move_group.set_pose_target(pose_goal)
 
-    ## Now, we call the planner to compute the plan and execute it.
-    plan = move_group.go(wait=True)
+    ## We call the planner to compute the plan.
+    plan = move_group.plan()
+    # "move_group.execute(plan, wait=True)" would execute the plan
+
+    ## We can also specify a planner directly. The default planning pipeline in Moveit is OMPL. 
+    ## The Pilz Industrial Motion planner offers PTP, LIN and CIRC motions. 
+    ## See `the Pilz tutorial <../pilz_industrial_motion_planner/pilz_industrial_motion_planner.html>`_ for details.
+    plan = move_group.go(wait=True, planning_pipeline="pilz_industrial_motion_planner", planner_id="LIN")
+    
     # Calling `stop()` ensures that there is no residual movement
     move_group.stop()
     # It is always good to clear your targets after planning with poses.
@@ -249,7 +256,7 @@ class MoveGroupPythonInterfaceTutorial(object):
     ## Cartesian Paths
     ## ^^^^^^^^^^^^^^^
     ## You can plan a Cartesian path directly by specifying a list of waypoints
-    ## for the end-effector to go through. If executing  interactively in a
+    ## for the end-effector to go through. If executing interactively in a
     ## Python shell, set scale = 1.0.
     ##
     waypoints = []
@@ -303,7 +310,7 @@ class MoveGroupPythonInterfaceTutorial(object):
     display_trajectory.trajectory_start = robot.get_current_state()
     display_trajectory.trajectory.append(plan)
     # Publish
-    display_trajectory_publisher.publish(display_trajectory);
+    display_trajectory_publisher.publish(display_trajectory)
 
     ## END_SUB_TUTORIAL
 
