@@ -4,7 +4,8 @@ set -e
 # Define some config vars
 export NOKOGIRI_USE_SYSTEM_LIBRARIES=true
 export REPOSITORY_NAME=${PWD##*/}
-echo "Testing branch $TRAVIS_BRANCH of $REPOSITORY_NAME"
+echo "Testing branch ${GITHUB_BASE_REF:-$GITHUB_HEAD_REF} of $REPOSITORY_NAME"
+
 # Install htmlpoofer
 gem update --system
 gem --version
