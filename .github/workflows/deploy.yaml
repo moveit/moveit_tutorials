@@ -1,4 +1,4 @@
-name: Deploy Website
+name: Build+Test+Deploy
 
 on:
   workflow_dispatch:
@@ -7,19 +7,19 @@ on:
       - master
 
 jobs:
-  deploy-website:
-    name: Deploy Website
+  default:
+    name: Build + Test + Deploy Website
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: ros-tooling/setup-ros@v0.1
+    - uses: ros-tooling/setup-ros@v0.2
       with:
         required-ros-distributions: noetic
     - uses: actions/setup-python@v2
     - uses: ruby/setup-ruby@v1
       with:
         ruby-version: '2.7'
-    - name: Run htmlproofer.sh
+    - name: "Build+Test: Run htmlproofer.sh"
       run: ./htmlproofer.sh
     - name: Deploy
       if: ${{ success() && github.event_name == 'push'}}
