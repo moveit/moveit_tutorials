@@ -17,7 +17,7 @@ jobs:
           - IMAGE: noetic-source
     env:
       DOCKER_IMAGE: moveit/moveit:${{ matrix.env.IMAGE }}
-      UNDERLAY: $ROS_UNDERLAY
+      UNDERLAY: /root/ws_moveit/install
       CATKIN_LINT: true
       CCACHE_DIR: ${{ github.workspace }}/.ccache
       BASEDIR: ${{ github.workspace }}/.work
