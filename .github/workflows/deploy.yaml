@@ -1,12 +1,14 @@
-name: Check And Build Pages
+name: Deploy Website
 
 on:
   workflow_dispatch:
-  pull_request:
+  push:
+    branches:
+      - master
 
 jobs:
-  check-html:
-    name: Check And Build Pages
+  deploy-website:
+    name: Deploy Website
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -19,3 +21,9 @@ jobs:
         ruby-version: '2.7'
     - name: Run htmlproofer.sh
       run: ./htmlproofer.sh
+    - name: Deploy
+      if: ${{ success() && github.event_name == 'push'}}
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./build/html
