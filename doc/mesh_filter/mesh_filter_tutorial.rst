@@ -1,18 +1,18 @@
 Mesh Filter with UR5 and Kinect
 ===============================
 
-MoveIt's mesh filter functionality removes your robot's geometry from a point cloud! If your robot's arm is in your depth sensor's view, the points associated with the arm are subtracted from the point cloud. 
+MoveIt's mesh filter functionality removes your robot's geometry from a point cloud! If your robot's arm is in your depth sensor's view, the points associated with the arm are subtracted from the point cloud.
 
 This is accomplished by giving the original point cloud, the robot's transforms (``\tf``) and the robot's URDF as inputs.
 The filter then publishes a modified point cloud which does not contain the points that overlaps with the current robot state.
 
 .. image:: MeshFilter.gif
 
-Getting Started 
+Getting Started
 ---------------
 
 * Follow the instructions for :moveit_website:`installing MoveIt<install>`
-  first if you have not already done that. 
+  first if you have not already done that.
 
 * Clone the `Universal Robot package <https://github.com/ros-industrial/universal_robot>`_ to your workspace for Melodic. Remember to rebuild your workspace after cloning.
 
@@ -30,7 +30,7 @@ The above command opens a UR5 arm with Kinect sensor on Gazebo and Rviz
 
 Topic ``/filtered/depth`` produces the modified point cloud with points subtracted that overlaps with the robot state.
 
-.. image:: Filtered_Depth.png 
+.. image:: Filtered_Depth.png
 
 Topic ``/model/depth`` gives the points that overlap with the current robot state
 
@@ -39,7 +39,7 @@ Topic ``/model/depth`` gives the points that overlap with the current robot stat
 Check out the mesh filter code `here <https://github.com/ros-planning/moveit/blob/master/moveit_ros/perception/mesh_filter/src/depth_self_filter_nodelet.cpp>`_
 
 
-How to add sensor to arm in simulation 
+How to add sensor to arm in simulation
 --------------------------------------
 
 Include sensor plugin in a ``.gazebo`` file. In this tutorial, a kinect sensor plugin is added to ``kinect_camera.gazebo`` ::
@@ -83,7 +83,7 @@ Include sensor plugin in a ``.gazebo`` file. In this tutorial, a kinect sensor p
 
 
 Attach sensor to `base urdf <https://github.com/ros-industrial/universal_robot/blob/melodic-devel/ur_description/urdf/ur5.urdf.xacro>`_ of UR5 using links and joints as shown in ``ur5_sensor.urdf.xacro`` ::
-    
+
     <!-- ur5 -->
     <xacro:include filename="$(find ur_description)/urdf/ur5.urdf.xacro" />
 
@@ -106,6 +106,6 @@ Attach sensor to `base urdf <https://github.com/ros-industrial/universal_robot/b
 
 
 
-References 
+References
 ----------
-`Understanding ROS Nodelets <https://medium.com/@waleedmansoor/understanding-ros-nodelets-c43a11c8169e>`_ 
+`Understanding ROS Nodelets <https://medium.com/@waleedmansoor/understanding-ros-nodelets-c43a11c8169e>`_

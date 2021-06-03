@@ -15,8 +15,8 @@
   <xacro:include filename="$(find ur_description)/urdf/ur5.urdf.xacro" />
 
   <xacro:ur5_robot prefix="" joint_limited="false"
-    transmission_hw_interface="$(arg transmission_hw_interface)"/> 
- 
+    transmission_hw_interface="$(arg transmission_hw_interface)"/>
+
   <link name="world" />
 
   <link name="table">
@@ -121,7 +121,7 @@
     <parent link="camera_rgb_frame"/>
     <child link="camera_depth_frame"/>
   </joint>
-  
+
   <link name="camera_depth_frame">
     <inertial>
       <mass value="0.001"/>
@@ -135,7 +135,7 @@
     <parent link="camera_depth_frame"/>
     <child link="camera_depth_optical_frame"/>
   </joint>
-  
+
   <link name="camera_depth_optical_frame">
     <inertial>
       <mass value="0.001"/>

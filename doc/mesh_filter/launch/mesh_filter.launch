@@ -8,5 +8,5 @@
     <remap to="/camera/depth/image_raw" from="/depth"/>
     <remap to="/camera/color/camera_info" from="/camera_info"/>
   </node>
-  
+
 </launch>

@@ -96,4 +96,3 @@ You can also use rostest to run a specific test.  The text argument sends output
   cd ${CATKIN_WS}
   source devel/setup.bash
   rostest moveit_ros_planning_interface move_group_pick_place_test.test --text
-
