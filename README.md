@@ -10,13 +10,13 @@ These tutorials use the [reStructuredText](http://www.sphinx-doc.org/en/stable/r
 
 All content in this repository is open source and released under the [BSD License v3](https://opensource.org/licenses/BSD-3-Clause). Each individual source code file should contain a copy of the license.
 
-This repository is currently built automatically by two systems. Github Actions builds the documentation for Noetic and Melodic, and ROS Build Farm builds the documentation for older versions:
+This repository is currently built automatically by two systems. Github Actions builds the documentation for Noetic, and ROS Build Farm builds the documentation for older versions:
 
-- [![Formatting (pre-commit)](https://github.com/ros-planning/moveit_tutorials/actions/workflows/format.yaml/badge.svg?branch=main)](https://github.com/ros-planning/moveit_tutorials/actions/workflows/format.yaml?query=branch%3Amain) [Format + Github Actions](https://ros-planning.github.io/): Latest
-- [![Github Pages Deploy](https://github.com/ros-planning/moveit_tutorials/actions/workflows/deploy.yaml/badge.svg?branch=main)](https://github.com/ros-planning/moveit_tutorials/actions/workflows/deploy.yaml?query=branch%3Amain) [Github Pages + Github Actions](https://ros-planning.github.io/): Latest
-- [![Github Actions Build Status](https://github.com/ros-planning/moveit_tutorials/actions/workflows/ci.yaml/badge.svg?branch=main)](https://github.com/ros-planning/moveit_tutorials/actions/workflows/ci.yaml?query=branch%3Amain) [Build + Github Actions](https://ros-planning.github.io/moveit_tutorials/): Latest
-- [![ROS Melodic Build Farm Status](http://build.ros.org/buildStatus/icon?job=Mdoc__moveit_tutorials__ubuntu_bionic_amd64)](http://build.ros.org/job/Mdoc__moveit_tutorials__ubuntu_bionic_amd64/) [ROS Melodic Build Farm](http://docs.ros.org/melodic/api/moveit_tutorials/html/)
-- [![ROS Kinetic Build Farm Status](http://build.ros.org/buildStatus/icon?job=Kdoc__moveit_tutorials__ubuntu_xenial_amd64)](http://build.ros.org/job/Kdoc__moveit_tutorials__ubuntu_xenial_amd64/) [ROS Kinetic Build Farm](http://docs.ros.org/kinetic/api/moveit_tutorials/html/)
+- [Formatting](https://ros-planning.github.io/): [![Formatting (pre-commit)](https://github.com/ros-planning/moveit_tutorials/actions/workflows/format.yaml/badge.svg?branch=master)](https://github.com/ros-planning/moveit_tutorials/actions/workflows/format.yaml?query=branch%3master)
+- [Github Pages](https://ros-planning.github.io/): [![Github Pages](https://github.com/ros-planning/moveit_tutorials/actions/workflows/deploy.yaml/badge.svg?branch=master)](https://github.com/ros-planning/moveit_tutorials/actions/workflows/deploy.yaml?query=branch%3Amaster)
+- [Build](https://ros-planning.github.io/moveit_tutorials/): [![Build](https://github.com/ros-planning/moveit_tutorials/actions/workflows/ci.yaml/badge.svg?branch=master)](https://github.com/ros-planning/moveit_tutorials/actions/workflows/ci.yaml?query=branch%3Amaster)
+- [ROS Melodic Build Farm](http://docs.ros.org/melodic/api/moveit_tutorials/html/): [![ROS Melodic Build Farm Status](http://build.ros.org/buildStatus/icon?job=Mdoc__moveit_tutorials__ubuntu_bionic_amd64)](http://build.ros.org/job/Mdoc__moveit_tutorials__ubuntu_bionic_amd64/)
+- [ROS Kinetic Build Farm](http://docs.ros.org/kinetic/api/moveit_tutorials/html/): [![ROS Kinetic Build Farm Status](http://build.ros.org/buildStatus/icon?job=Kdoc__moveit_tutorials__ubuntu_xenial_amd64)](http://build.ros.org/job/Kdoc__moveit_tutorials__ubuntu_xenial_amd64/)
 
 ## Versions
 
