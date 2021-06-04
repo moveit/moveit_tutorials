@@ -69,6 +69,10 @@ int main(int argc, char** argv)
     return 1;
   }
 
+  // Give a bit of time to move_group to connect & cache transforms
+  // works around sporadic tf extrapolation errors
+  ros::Duration(1.0).sleep();
+
   ros::Rate loop_rate(0.2);
   while (ros::ok())
   {
