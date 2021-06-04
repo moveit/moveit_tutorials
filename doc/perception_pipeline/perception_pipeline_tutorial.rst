@@ -169,14 +169,6 @@ Keep the launch file from above running and run the code directly from moveit_tu
 
  rosrun moveit_tutorials detect_and_add_cylinder_collision_object_demo
 
-KNOWN ISSUE - You may see the following error when running the demo ::
-
-  ros.moveit_ros_planning.planning_scene_monitor: Transform error: Lookup would require extrapolation into the future.  Requested time 1527473962.793050157 but the latest data is at time 1527473962.776993978, when looking up transform from frame [panda_link2] to frame [camera_rgb_optical_frame]
-  ros.moveit_ros_perception: Transform cache was not updated. Self-filtering may fail.
-
-We are working on fixing it, it should not break the working of the demo.
-You can follow its status in the `issue tracker <https://github.com/ros-planning/moveit_tutorials/issues/192>`_
-
 Relevant Code
 +++++++++++++
 
