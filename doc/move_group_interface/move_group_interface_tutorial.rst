@@ -30,9 +30,9 @@ Expected Output
 ---------------
 See the `YouTube video <https://youtu.be/_5siHkFQPBQ>`_ at the top of this tutorial for expected output. In RViz, we should be able to see the following:
  1. The robot moves its arm to the pose goal to its front.
- 2. The robot moves its arm to the joint goal at its side.
- 3. The robot moves its arm back to a new pose goal while maintaining the end-effector level.
- 4. The robot moves its arm along the desired Cartesian path (a triangle down, right, up+left).
+ 2. The robot moves its arm back to a new pose goal while maintaining the end-effector level.
+ 3. The robot moves its arm along the desired Cartesian path (a triangle down, right, up+left).
+ 4. The robot moves its arm to the joint goal back at it's starting position.
  5. A box object is added into the environment to the right of the arm.
     |B|
 
