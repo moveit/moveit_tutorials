@@ -1,15 +1,6 @@
 #!/usr/bin/env python
 import sys
 
-import moveit_commander
-import numpy as np
-import rospy
-from geometry_msgs.msg import PoseStamped
-import moveit.core
-from moveit.core import kinematic_constraints, collision_detection, robot_model
-from moveit.core.planning_scene import PlanningScene
-
-
 def main():
     rospy.init_node("planning_scene_tutorial")
     moveit_commander.roscpp_initialize(sys.argv)
@@ -28,10 +19,18 @@ def main():
     # using data from the robot's joints and the sensors on the robot. In
     # this tutorial, we will instantiate a PlanningScene class directly,
     # but this method of instantiation is only intended for illustration.
+    import moveit_commander
+    import numpy as np
+    import rospy
+    from geometry_msgs.msg import PoseStamped
+    import moveit.core
+    from moveit.core import kinematic_constraints, collision_detection, robot_model
+    from moveit.core.planning_scene import PlanningScene
 
-    urdf_path = "/opt/ros/noetic/share/moveit_resources_panda_description/urdf/panda.urdf"
-    srdf_path = "/opt/ros/noetic/share/moveit_resources_panda_moveit_config/config/panda.srdf"
-    kinematic_model = moveit.core.load_robot_model(urdf_path, srdf_path)
+    r = rospkg.RosPack()
+    urdf_path = pathlib.Path(r.get_path("moveit_resources_panda_description")) / "urdf" / "panda.urdf"
+    srdf_path = pathlib.Path(r.get_path("moveit_resources_panda_moveit_config")) /"config"/"panda.srdf"
+    kinematic_model = moveit.core.load_robot_model(urdf_path.as_posix(), srdf_path.as_posix())
     planning_scene = PlanningScene(kinematic_model, collision_detection.World())
     current_state = planning_scene.getCurrentStateNonConst()
     joint_model_group = current_state.getJointModelGroup("panda_arm")
@@ -137,7 +136,6 @@ def main():
     acm = planning_scene.getAllowedCollisionMatrix()
     copied_state = planning_scene.getCurrentState()
 
-    # for (it2 = collision_result.contacts.begin() it2 != collision_result.contacts.end() + +it2)
     for (first_name, second_name), contacts in collision_result.contacts:
         acm.setEntry(first_name, second_name, True)
     collision_result.clear()
