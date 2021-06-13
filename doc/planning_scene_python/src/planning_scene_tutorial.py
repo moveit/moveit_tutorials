@@ -23,7 +23,7 @@ def main():
     # configured using a URDF and
     # SRDF. This is, however, not the recommended way to instantiate a
     # PlanningScene. At the time of writing there are not yet python bindings
-    # for the PlanningSceneMonitoir, which is is the recommended method to
+    # for the PlanningSceneMonitor, which is is the recommended method to
     # create and maintain the current planning scene
     # using data from the robot's joints and the sensors on the robot. In
     # this tutorial, we will instantiate a PlanningScene class directly,
