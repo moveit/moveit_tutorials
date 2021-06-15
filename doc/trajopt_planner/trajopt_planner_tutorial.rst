@@ -60,9 +60,9 @@ Motion planning problem in TrajOpt is defined by a set of cost (COST) and constr
   - *n_steps*: The number of steps from start to goal
 
   - *convex_solver*: Which convex solver is to be used
-  
+
   - *use_time*: Set to `false` value to use a unitless timestep. x1-x0 is the velocity
-  
+
   - *start_fixed*: Set to `true` to add a constraint for the current joint value
 
 - **InitInfo**: It defines how to initialize the optimization problem by setting a guessed trajectory in a matrix whose number of rows is the same as number of timesteps and whose number of columns is equal to the degrees of freedom. There are three different types for initialization:
