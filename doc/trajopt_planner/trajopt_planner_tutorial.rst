@@ -56,10 +56,14 @@ How TrajOpt works
 Motion planning problem in TrajOpt is defined by a set of cost (COST) and constraints (CNT) functions that are added to ``TrajOptProblem`` through ``ConstructProblem`` function. This function gets the information regarding to the problem (``ProblemInfo``) which carries different types of information explained below:
 
 - **BasicInfo**: This type holds general information of the optimization algorithm. (These parameters are further investigated in the following section):
-  * `n_steps`: The number of steps from start to goal
-  * `convex_solver`: Which convex solver is to be used
-  * `use_time`: Set to `false` value to use a unitless timestep. x1-x0 is the velocity
-  * `start_fixed`: Set to `true` to add a constraint for the current joint value
+
+  - *n_steps*: The number of steps from start to goal
+
+  - *convex_solver*: Which convex solver is to be used
+
+  - *use_time*: Set to `false` value to use a unitless timestep. x1-x0 is the velocity
+
+  - *start_fixed*: Set to `true` to add a constraint for the current joint value
 
 - **InitInfo**: It defines how to initialize the optimization problem by setting a guessed trajectory in a matrix whose number of rows is the same as number of timesteps and whose number of columns is equal to the degrees of freedom. There are three different types for initialization:
 
