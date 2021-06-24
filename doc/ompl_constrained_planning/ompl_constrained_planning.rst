@@ -18,8 +18,8 @@ OMPL reads configurations parameters from a file called :code:`ompl_planning.yam
 .. code-block:: yaml
 
    panda_arm:
-      enforce_constrained_state_space: true                                    
-      projection_evaluator: joints(panda_joint1,panda_joint2) 
+      enforce_constrained_state_space: true
+      projection_evaluator: joints(panda_joint1,panda_joint2)
 
 Note that, as we are changing configuration files, you should also clone the repository `panda_moveit_config`_ in you're workspace. (Instead of using the version installed with :code:`sudo apt install`.
 

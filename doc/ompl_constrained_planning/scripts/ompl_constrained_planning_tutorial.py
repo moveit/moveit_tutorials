@@ -76,7 +76,9 @@ class ConstrainedPlanningTutorial(object):
 
         # Create a publisher to visualize the position constraints in Rviz
         self.marker_publisher = rospy.Publisher(
-            "/visualization_marker", visualization_msgs.msg.Marker, queue_size=20,
+            "/visualization_marker",
+            visualization_msgs.msg.Marker,
+            queue_size=20,
         )
         rospy.sleep(0.5)  # publisher needs some time to connect Rviz
         self.remove_all_markers()
@@ -194,7 +196,6 @@ class ConstrainedPlanningTutorial(object):
         self.display_box(cbox_pose, cbox.dimensions)
 
         return pcm
-
 
     ## If you make a box really thin along one dimension, you get something plane like.
     ## We create a plane perpendicular to the y-axis and tilt it by 45 degrees in the function below.
@@ -384,7 +385,7 @@ class ConstrainedPlanningTutorial(object):
             pose.pose.orientation.w,
         ]
         quat_rotate = quaternion_from_euler(-pi / 2, 0, 0)
-        #quat_new = quaternion_multiply(quat_rotate, quat_ee)
+        # quat_new = quaternion_multiply(quat_rotate, quat_ee)
         quat_new = quat_ee
 
         pose.pose.orientation.x = quat_new[0]
@@ -395,7 +396,6 @@ class ConstrainedPlanningTutorial(object):
         self.display_sphere(pose.pose)
 
         return pose
-
 
     def create_vertical_plane_constraints(self):
         pcm = moveit_msgs.msg.PositionConstraint()
@@ -465,7 +465,9 @@ def run_tutorial():
     move_group.clear_path_constraints()
 
     # Now wait for the user (you) to press enter before doing trying the position constraints.
-    print("============ Press enter to continue with the plane constrained planning problem.")
+    print(
+        "============ Press enter to continue with the plane constrained planning problem."
+    )
     input()
     # remove all markers in Rviz before starting the next tutorial
     tutorial.remove_all_markers()
@@ -499,7 +501,9 @@ def run_tutorial():
     move_group.plan()
     move_group.clear_path_constraints()
 
-    print("============ Press enter to continue with the plane constrained planning problem with obstacle.")
+    print(
+        "============ Press enter to continue with the plane constrained planning problem with obstacle."
+    )
     input()
 
     tutorial.remove_all_markers()
@@ -520,7 +524,9 @@ def run_tutorial():
     move_group.plan()
     move_group.clear_path_constraints()
 
-    print("============ Press enter to continue with the line constrained planning problem.")
+    print(
+        "============ Press enter to continue with the line constrained planning problem."
+    )
     input()
     tutorial.remove_all_markers()
     tutorial.remove_obstacle()
@@ -563,6 +569,7 @@ def run_tutorial():
 
     print("Done!")
     ## END_SUB_TUTORIAL
+
 
 def main():
     """ Catch interupt when the user presses `ctrl-c`. """
