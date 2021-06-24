@@ -1,3 +1,42 @@
+/*********************************************************************
+ * Software License Agreement (BSD License)
+ *
+ *  Copyright (c) 2019, PickNik, LLC.
+ *  All rights reserved.
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *
+ *   * Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ *   * Redistributions in binary form must reproduce the above
+ *     copyright notice, this list of conditions and the following
+ *     disclaimer in the documentation and/or other materials provided
+ *     with the distribution.
+ *   * Neither the name of PickNik nor the names of its
+ *     contributors may be used to endorse or promote products derived
+ *     from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ *  FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ *  COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ *  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ *  BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ *  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ *  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ *  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ *  POSSIBILITY OF SUCH DAMAGE.
+ *********************************************************************/
+
+/* Author: Omid Heidari
+   Desc: This file is a test for using trajopt in MoveIt. The goal is to make different types of constraints in
+   MotionPlanRequest and visualize the result calculated using the trajopt planner.
+*/
+
 #include <ros/ros.h>
 #include <ros/console.h>
 #include <moveit/planning_interface/planning_interface.h>
@@ -20,11 +59,6 @@
 #include <tf2/utils.h>
 #include <tf2_eigen/tf2_eigen.h>
 #include <tf2_ros/transform_listener.h>
-
-/* Author: Omid Heidari
-   Desc: This file is a test for using trajopt in MoveIt. The goal is to make different types of constraints in
-   MotionPlanRequest and visualize the result calculated using the trajopt planner.
-*/
 
 int main(int argc, char** argv)
 {
@@ -148,28 +182,23 @@ int main(int argc, char** argv)
   int const N_STEPS = 20;  // number of steps
   int const N_DOF = 7;     // number of degrees of freedom
 
-  // Calculate the increment value for each joint
-  std::vector<double> dt_vector;
-  for (int joint_index = 0; joint_index < N_DOF; ++joint_index)
-  {
-    double dt = (goal_joint_values[joint_index] - current_joint_values[joint_index]) / N_STEPS;
-    dt_vector.push_back(dt);
-  }
-
+  // We need one reference trajectory with one joint_trajectory
   req.reference_trajectories.resize(1);
   req.reference_trajectories[0].joint_trajectory.resize(1);
   // trajectory includes both the start and end points (N_STEPS + 1)
   req.reference_trajectories[0].joint_trajectory[0].points.resize(N_STEPS + 1);
   req.reference_trajectories[0].joint_trajectory[0].joint_names = joint_names;
   req.reference_trajectories[0].joint_trajectory[0].points[0].positions = current_joint_values;
-  // Use the increment values (dt_vector) to caluclate the joint values at each step
+
+  std::vector<double> joint_values = current_joint_values;
+  // Increment joint values at each step
   for (std::size_t step_index = 1; step_index <= N_STEPS; ++step_index)
   {
-    std::vector<double> joint_values;
+    double increment;
+    step_index <= 10 ? (increment = 0.05) : (increment = 0.044);
     for (int dof_index = 0; dof_index < N_DOF; ++dof_index)
     {
-      double joint_value = current_joint_values[dof_index] + step_index * dt_vector[dof_index];
-      joint_values.push_back(joint_value);
+      joint_values[dof_index] = joint_values[dof_index] + increment;
     }
     req.reference_trajectories[0].joint_trajectory[0].joint_names = joint_names;
     req.reference_trajectories[0].joint_trajectory[0].points[step_index].positions = joint_values;
@@ -227,13 +256,12 @@ int main(int argc, char** argv)
   moveit_msgs::MotionPlanResponse response;
   res.getMessage(response);
 
-  for (int timestep_index = 0; timestep_index < response.trajectory.joint_trajectory.points.size(); ++timestep_index)
+  for (size_t timestep_index = 0; timestep_index < response.trajectory.joint_trajectory.points.size(); ++timestep_index)
   {
     std::stringstream joint_values_stream;
-    for (int joint_index = 0;
-         joint_index < response.trajectory.joint_trajectory.points[timestep_index].positions.size(); ++joint_index)
+    for (double position : response.trajectory.joint_trajectory.points[timestep_index].positions)
     {
-      joint_values_stream << response.trajectory.joint_trajectory.points[timestep_index].positions[joint_index] << " ";
+      joint_values_stream << position << " ";
     }
     ROS_DEBUG_STREAM_NAMED(NODE_NAME, "step: " << timestep_index << " joints positions: " << joint_values_stream.str());
   }

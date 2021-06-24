@@ -39,6 +39,34 @@ The LMA (Levenberg-Marquardt) kinematics plugin also wraps around a numerical in
  * The LMA kinematics plugin currently only works with serial chains.
  * Usage: ``kinematics_solver: lma_kinematics_plugin/LMAKinematicsPlugin``
 
+The Cached IK Plugin
+^^^^^^^^^^^^^^^^^^^^
+
+The Cached IK Kinematics Plugin creates a persistent cache of IK solutions. This cache is then used to speed up any other IK solver. A call to an IK solver will use a similar state in the cache as a seed for the IK solver. If that fails to return a solution, the IK solver is called again with the user-specified seed state. New IK solutions that are sufficiently different from states in the cache are added to the cache. Periodically, the cache is saved to disk.
+
+To use the Cached IK Kinematics Plugin, you need to modify the file ``kinematics.yaml`` for your robot. Change lines like these: ::
+
+ manipulator:
+   kinematics_solver: kdl_kinematics_plugin/KDLKinematicsPlugin
+
+to this: ::
+
+ manipulator:
+   kinematics_solver: cached_ik_kinematics_plugin/CachedKDLKinematicsPlugin
+   # optional parameters for caching:
+   max_cache_size: 10000
+   min_pose_distance: 1
+   min_joint_config_distance: 4
+
+The cache size can be controlled with an absolute cap (``max_cache_size``) or with a distance threshold on the end effector pose (``min_pose_distance``) or robot joint state (``min_joint_config_distance``). Normally, the cache files are saved to the current working directory (which is usually ``${HOME}/.ros``, not the directory where you ran ``roslaunch``), in a subdirectory for each robot. Possible values for ``kinematics_solver`` are:
+
+- *cached_ik_kinematics_plugin/CachedKDLKinematicsPlugin*: a wrapper for the default KDL IK solver.
+- *cached_ik_kinematics_plugin/CachedSrvKinematicsPlugin*: a wrapper for the solver that uses ROS service calls to communicate with external IK solvers.
+- *cached_ik_kinematics_plugin/CachedTRACKinematicsPlugin*: a wrapper for the `TRAC IK solver <https://bitbucket.org/traclabs/trac_ik>`_. This solver is only available if the TRAC IK kinematics plugin is detected at compile time.
+- *cached_ik_kinematics_plugin/CachedUR5KinematicsPlugin*: a wrapper for the analytic IK solver for the UR5 arm (similar solvers exist for the UR3 and UR10). This is only for illustrative purposes; the caching just adds extra overhead to the solver.
+
+See the `Cached IK README <https://github.com/ros-planning/moveit/blob/master/moveit_kinematics/cached_ik_kinematics_plugin/README.md>`_ for more information.
+
 Position Only IK
 ----------------
 Position only IK can easily be enabled (only if you are using the KDL Kinematics Plugin) by adding the following line to your kinematics.yaml file (for the particular group that you want to solve IK for): ::

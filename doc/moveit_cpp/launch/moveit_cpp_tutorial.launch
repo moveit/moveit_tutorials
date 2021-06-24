@@ -36,4 +36,3 @@
     <include file="$(find moveit_tutorials)/doc/moveit_cpp/launch/moveit_cpp_node.launch"/>
 
 </launch>
-

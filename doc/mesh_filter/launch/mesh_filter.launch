@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<launch>
+
+  <include file="$(dirname)/ur5_gazebo.launch"/>
+
+  <node pkg="nodelet" type="nodelet" name="standalone_nodelet" args="manager" output="screen"/>
+  <node pkg="nodelet" type="nodelet" name="mesh_filter" args="load mesh_filter/DepthSelfFiltering standalone_nodelet" output="screen">
+    <remap to="/camera/depth/image_raw" from="/depth"/>
+    <remap to="/camera/color/camera_info" from="/camera_info"/>
+  </node>
+
+</launch>

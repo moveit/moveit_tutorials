@@ -1,0 +1,67 @@
+# This config uses industrial_ci (https://github.com/ros-industrial/industrial_ci.git).
+# For troubleshooting, see readme (https://github.com/ros-industrial/industrial_ci/blob/master/README.rst)
+
+name: CI
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+
+jobs:
+  default:
+    strategy:
+      matrix:
+        env:
+          - IMAGE: master-source
+          - IMAGE: noetic-source
+    env:
+      DOCKER_IMAGE: moveit/moveit:${{ matrix.env.IMAGE }}
+      UNDERLAY: /root/ws_moveit/install
+      CATKIN_LINT: true
+      CCACHE_DIR: ${{ github.workspace }}/.ccache
+      BASEDIR: ${{ github.workspace }}/.work
+      CLANG_TIDY_BASE_REF: ${{ github.base_ref || github.ref }}
+
+    name: ${{ matrix.env.IMAGE }}${{ matrix.env.CATKIN_LINT && ' + catkin_lint' || ''}}${{ matrix.env.CLANG_TIDY && ' + clang-tidy' || '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      # The target directory cache doesn't include the source directory because
+      # that comes from the checkout.  See "prepare target_ws for cache" task below
+      - name: cache target_ws
+        uses: pat-s/always-upload-cache@v2.1.3
+        with:
+          path: ${{ env.BASEDIR }}/target_ws
+          key: ${{ env.CACHE_PREFIX }}-${{ github.run_id }}
+          restore-keys: ${{ env.CACHE_PREFIX }}
+        env:
+          CACHE_PREFIX: target_ws-${{ matrix.env.IMAGE }}-${{ hashFiles('**/CMakeLists.txt', '**/package.xml') }}
+      - name: cache ccache
+        uses: pat-s/always-upload-cache@v2.1.3
+        with:
+          path: ${{ env.CCACHE_DIR }}
+          key: ${{ env.CACHE_PREFIX }}-${{ github.sha }}-${{ github.run_id }}
+          restore-keys: |
+            ${{ env.CACHE_PREFIX }}-${{ github.sha }}
+            ${{ env.CACHE_PREFIX }}
+        env:
+          CACHE_PREFIX: ccache-${{ matrix.env.IMAGE }}
+
+      - name: industrial_ci
+        uses: ros-industrial/industrial_ci@master
+        env: ${{ matrix.env }}
+
+      - name: upload test artifacts (on failure)
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: test-results
+          path: ${{ env.BASEDIR }}/target_ws/**/test_results/**/*.xml
+      - name: prepare target_ws for cache
+        if: ${{ always() }}
+        run: |
+          du -sh ${{ env.BASEDIR }}/target_ws
+          sudo find ${{ env.BASEDIR }}/target_ws -wholename '*/test_results/*' -delete
+          sudo rm -rf ${{ env.BASEDIR }}/target_ws/src ${{ env.BASEDIR }}/target_ws/logs
+          du -sh ${{ env.BASEDIR }}/target_ws

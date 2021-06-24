@@ -1,4 +1,3 @@
 <launch>
     <node pkg="moveit_tutorials" type="moveit_cpp_tutorial" name="moveit_cpp_tutorial" output="screen"/>
 </launch>
-

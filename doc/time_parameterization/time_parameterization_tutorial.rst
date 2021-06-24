@@ -16,7 +16,7 @@ The speed of a parameterized kinematic trajectory can also be modified during ru
 
 Time Parameterization Algorithms
 --------------------------------
-MoveIt can support different algorithms for post-processing a kinematic trajectory to add timestamps and velocity/acceleration values. Currently there are three available by default in MoveIt: 
+MoveIt can support different algorithms for post-processing a kinematic trajectory to add timestamps and velocity/acceleration values. Currently there are three available by default in MoveIt:
 
 * :moveit_codedir:`Iterative Parabolic Time Parameterization<moveit_core/trajectory_processing/src/iterative_time_parameterization.cpp>`
 * :moveit_codedir:`Iterative Spline Parameterization<moveit_core/trajectory_processing/src/iterative_spline_parameterization.cpp>`

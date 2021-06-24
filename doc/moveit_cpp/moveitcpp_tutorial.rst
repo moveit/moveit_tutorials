@@ -5,6 +5,10 @@ Introduction
 ------------
 MoveItCpp is a new high level interface, a unified C++ API that does not require the use of ROS Actions, Services, and Messages to access the core MoveIt functionality, and an alternative (not a full replacement) for the existing `MoveGroup API <../move_group_interface/move_group_interface_tutorial.html>`_, we recommend this interface for advanced users needing more realtime control or for industry applications. This interface has been developed at PickNik Robotics by necessity for our many commercial applications.
 
+.. image:: images/moveitcpp_start.png
+   :width: 300pt
+   :align: center
+
 Getting Started
 ---------------
 If you haven't already done so, make sure you've completed the steps in `Getting Started <../getting_started/getting_started.html>`_.

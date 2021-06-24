@@ -5,29 +5,33 @@ This tutorial will install MoveIt and create a workspace sandbox to run the tuto
 
 Install ROS and Catkin
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-`Install ROS Melodic <http://wiki.ros.org/melodic/Installation/Ubuntu>`_.
+`Install ROS Noetic <http://wiki.ros.org/noetic/Installation/Ubuntu>`_.
 It is easy to miss steps when going through the ROS installation tutorial. If you run into errors in the next few steps, a good place to start is to go back and make sure you have installed ROS correctly.
 
 Once you have ROS installed, make sure you have the most up to date packages: ::
 
   rosdep update
-  sudo apt-get update
-  sudo apt-get dist-upgrade
+  sudo apt update
+  sudo apt dist-upgrade
 
 Install `catkin <http://wiki.ros.org/catkin>`_ the ROS build system: ::
 
-  sudo apt-get install ros-melodic-catkin python-catkin-tools
+  sudo apt install ros-noetic-catkin python3-catkin-tools
+
+Install `wstool <http://wiki.ros.org/wstool>`_ : ::
+
+  sudo apt install python3-wstool
 
 Create A Catkin Workspace and Download MoveIt Source
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-These tutorials rely on the master branch of MoveIt, which requires a build from source.
-You will need to have a `catkin <http://wiki.ros.org/catkin>`_ workspace setup: ::
+Because the version of the tutorials uses the ``master`` branch which is being actively developed, you will most likely need to build all of MoveIt from source. You will need to have a `catkin <http://wiki.ros.org/catkin>`_ workspace setup: ::
 
   mkdir -p ~/ws_moveit/src
   cd ~/ws_moveit/src
 
   wstool init .
   wstool merge -t . https://raw.githubusercontent.com/ros-planning/moveit/master/moveit.rosinstall
+  wstool remove  moveit_tutorials  # this is cloned in the next section
   wstool update -t .
 
 Download Example Code
@@ -35,7 +39,7 @@ Download Example Code
 
 To easily follow along with these tutorials, you will need a **ROBOT_moveit_config** package. The default demo robot is the Panda arm from Franka Emika. To get a working **panda_moveit_config** package, we recommend you install from source.
 
-Within your `catkin <http://wiki.ros.org/catkin>`_ workspace, download the tutorials as well as the ``panda_moveit_config`` package: ::
+Within your `catkin <http://wiki.ros.org/catkin>`_ workspace, download the tutorials as well as the ``panda_moveit_config`` package. You may safely ignore any :code:`git clone` errors saying the destination already exists: ::
 
   cd ~/ws_moveit/src
   git clone https://github.com/ros-planning/moveit_tutorials.git -b master
@@ -48,7 +52,12 @@ Build your Catkin Workspace
 The following will install from Debian any package dependencies not already in your workspace: ::
 
   cd ~/ws_moveit/src
-  rosdep install -y --from-paths . --ignore-src --rosdistro melodic
+  rosdep install -y --from-paths . --ignore-src --rosdistro noetic
+
+**Note** In case an upstream package is not (yet) available from the standard ROS repositories or if you experience any build errors in those packages, please try to fetch the latest release candidates from the `ROS testing repositories <http://wiki.ros.org/TestingRepository>`_ instead: ::
+
+        sudo sh -c 'echo "deb http://packages.ros.org/ros-testing/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+        sudo apt update
 
 The next command will configure your catkin workspace: ::
 

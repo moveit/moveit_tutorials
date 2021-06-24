@@ -62,7 +62,7 @@ int main(int argc, char** argv)
   robot_model_loader::RobotModelLoader robot_model_loader("robot_description");
 
   /* Get a shared pointer to the model */
-  moveit::core::RobotModelPtr kinematic_model = robot_model_loader.getModel();
+  const moveit::core::RobotModelPtr& kinematic_model = robot_model_loader.getModel();
 
   /* Create a kinematic state - this represents the configuration for the robot represented by kinematic_model */
   moveit::core::RobotStatePtr kinematic_state(new moveit::core::RobotState(kinematic_model));

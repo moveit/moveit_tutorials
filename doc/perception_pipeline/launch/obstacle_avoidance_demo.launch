@@ -1,11 +1,16 @@
 <launch>
   <include file="$(find panda_moveit_config)/launch/demo.launch" />
+  <!--
+  In this tutorial we wait much longer for the robot transforms than we usually would,
+  because the user's machine might be quite slow.
+  -->
+  <param name="robot_description_planning/shape_transform_cache_lookup_wait_time" value="0.5" />
 
   <!-- Play the rosbag that contains the pointcloud data -->
   <node pkg="moveit_tutorials" type="bag_publisher_maintain_time" name="point_clouds" />
 
   <!-- If needed, broadcast static tf for robot root -->
   <node pkg="tf2_ros" type="static_transform_publisher" name="to_panda" args="0 0 0 0 0 0  world panda_link0" />
-  <node pkg="tf2_ros" type="static_transform_publisher" name="to_camera" args="0.115 0.427 0.570 0 0.2 1.92 camera_rgb_optical_frame world" />
+  <node pkg="tf2_ros" type="static_transform_publisher" name="to_camera" args="0.00 -.40 0.60 0.19 0.07 -1.91 world camera_rgb_optical_frame" />
 
 </launch>

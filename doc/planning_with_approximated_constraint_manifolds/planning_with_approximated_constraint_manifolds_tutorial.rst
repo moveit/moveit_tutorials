@@ -3,10 +3,9 @@ Planning with Approximated Constraint Manifolds
 
 OMPL supports custom constraints to enable planning trajectories that follow a desired behavior.
 Constraints can be defined in joint space and Cartesian space where the latter is either orientation or position based.
-While planning a trajectory each joint state needs to follow all of the set constraints, which is performed by rejection sampling by default.
-This however might lead to very long planning times, especially when the constraints are very restrictive and the rejection rate is correspondingly high.
+While planning a trajectory, each joint state needs to follow all of the set constraints, which is performed by rejection sampling by default. For more information see `Representation and Evaluation of Constraints <../planning_constraints/planning_constraints.html>`_.
 
-`Sucan et al <http://ioan.sucan.ro/files/pubs/constraints_iros2012.pdf>`_ present an approach where they compute an approximation of the constraint manifold beforehand and perform trajectory planning in that.
+Rejection sampling for each joint state might lead to very long planning times, especially when the constraints are very restrictive and the rejection rate is correspondingly high. `Sucan et al <http://ioan.sucan.ro/files/pubs/constraints_iros2012.pdf>`_ present an approach where they compute an approximation of the constraint manifold beforehand and perform trajectory planning in that.
 The OMPL plugin contains the functionality to do that for a given set of constraints and save it in a database.
 In later instances the database can be loaded to use for constrained planning with any OMPL planner which strongly reduces planning time.
 
@@ -16,13 +15,14 @@ For more information on how to plan with path constraints in general, take a loo
 Creating the Constraint Database
 --------------------------------
 
-Constructing a Constraints database is done with the ``generate_state_database`` executable. 
+Constructing a Constraints database is done with the ``generate_state_database`` executable.
 This loads the constraint definition (in a format explained below) from the ROS parameter server and outputs the state database to a given directory.
 
 Defining constraints
 ^^^^^^^^^^^^^^^^^^^^
 
-The ``generate_state_database`` executable reads constraints from ROS parameters on ``/constraints``, in a more compact format that a complete ROS message. 
+The ``generate_state_database`` executable reads constraints from ROS parameters on ``/constraints``, in a more compact format that a complete ROS message.
+
 You can define these in ``rosparam`` to be loaded together in a file, eg. ``X_moveit_config/config/constraints.yaml``::
 
  path_constraint:
@@ -35,7 +35,7 @@ You can define these in ``rosparam`` to be loaded together in a file, eg. ``X_mo
 JointConstraint
 """""""""""""""
 
-A ``JointConstraint`` limits the positions a joint can take. There are three ways to compactly specify this. 
+A ``JointConstraint`` limits the positions a joint can take. There are three ways to compactly specify this.
 
 1. position + a single tolerance
 2. position + lower an upper tolerance
@@ -61,11 +61,12 @@ For example::
 PositionConstraint
 """"""""""""""""""
 
-A ``PositionConstraint`` constraints the Cartesian positions allowed for a (position relative to a) link. 
-``target_offset`` is that relative position w.r.t. a link, e.g., the tip of the end-effector relative to its mounting point or other origin definition.
-This region (boxes only in this compact definition) is compactly defined by specifying the upper and lower bounds along each axis. 
+A ``PositionConstraint`` constrains the Cartesian positions allowed for a (position relative to a) link.
 
-For example::
+``target_offset`` is that relative position w.r.t. a link, e.g., the tip of the end-effector relative to its mounting point or other origin definition.
+This region (boxes only in this compact definition) is compactly defined by specifying the upper and lower bounds along each axis.
+
+For example (in YAML format)::
 
  - type: position
    frame_id: base_link
@@ -76,7 +77,7 @@ For example::
      y: [0, 1.0] # [start, end]
      z: [0, 1.0] # [start, end]
    weight: 1.0
-   
+
 OrientationConstraint
 """""""""""""""""""""
 
@@ -91,13 +92,13 @@ It is compactly represented with a list of roll, pitch, yaw and a list of tolera
    orientation: [-3.1415269, -1.57079632, 0] #RPY
    tolerances: [6.28318531, 0.2, 6.28318531]
    weight: 1.0
-   
+
 VisibilityConstraint
 """"""""""""""""""""
 
 A ``VisibilityConstraint`` allows to eg. specify a camera should always be able to see the gripper.
 
-How this is achieved is best explained by the `VisibilityConstraint <https://docs.ros.org/melodic/api/moveit_core/html/classkinematic__constraints_1_1VisibilityConstraint.html#details>`_ class documentation.
+How this is achieved is best explained by the `VisibilityConstraint <https://docs.ros.org/noetic/api/moveit_core/html/cpp/classkinematic__constraints_1_1VisibilityConstraint.html#details>`_ class documentation.
 
 Such a constraint is compactly defined like this::
 
@@ -128,7 +129,7 @@ The file with the constraint definitions can be passed to the launch file::
 Internals
 ^^^^^^^^^
 
-The main functionality is implemented in the `ConstraintsLibrary <http://docs.ros.org/melodic/api/moveit_planners_ompl/html/classompl__interface_1_1ConstraintsLibrary.html>`_ class.
+The main functionality is implemented in the `ConstraintsLibrary <http://docs.ros.org/noetic/api/moveit_planners_ompl/html/classompl__interface_1_1ConstraintsLibrary.html>`_ class.
 
 Constraints are added by calling ``addConstraintApproximation()`` which can be called subsequently to include multiple constraints in the approximation.
 The function requires four parameters:

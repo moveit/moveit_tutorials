@@ -1,12 +1,16 @@
 #!/usr/bin/env python
+
+# Python 2/3 compatibility import
+from __future__ import print_function
+
 import rospy
 from moveit_commander import RobotCommander, PlanningSceneInterface
 import geometry_msgs.msg
 import time
 import sys
 
-class CollisionSceneExample(object):
 
+class CollisionSceneExample(object):
     def __init__(self):
         self._scene = PlanningSceneInterface()
 
@@ -16,7 +20,7 @@ class CollisionSceneExample(object):
         self.robot = RobotCommander()
 
         # pause to wait for rviz to load
-        print "============ Waiting while RVIZ displays the scene with obstacles..."
+        print("============ Waiting while RVIZ displays the scene with obstacles...")
 
         # TODO: need to replace this sleep by explicitly waiting for the scene to be updated.
         rospy.sleep(2)
@@ -27,7 +31,7 @@ class CollisionSceneExample(object):
 
         self.add_box_object("box1", box1_dimensions, box1_pose)
 
-        print "============ Added one obstacle to RViz!!"
+        print("============ Added one obstacle to RViz!!")
 
     def add_four_boxes(self):
         box1_pose = [0.20, 0.50, 0.25, 0, 0, 0, 1]
@@ -47,7 +51,7 @@ class CollisionSceneExample(object):
         self.add_box_object("box3", box3_dimensions, box3_pose)
         self.add_box_object("box4", box4_dimensions, box4_pose)
 
-        print "========== Added 4 obstacles to the scene!!"
+        print("========== Added 4 obstacles to the scene!!")
 
     def add_box_object(self, name, dimensions, pose):
         p = geometry_msgs.msg.PoseStamped()
@@ -63,19 +67,24 @@ class CollisionSceneExample(object):
 
         self._scene.add_box(name, p, (dimensions[0], dimensions[1], dimensions[2]))
 
+
 if __name__ == "__main__":
     rospy.init_node("collision_scene_example_cluttered")
-    while not rospy.search_param('robot_description_semantic') and not rospy.is_shutdown():
+    while (
+        not rospy.search_param("robot_description_semantic") and not rospy.is_shutdown()
+    ):
         time.sleep(0.5)
     load_scene = CollisionSceneExample()
 
-    if (len(sys.argv) != 2):
-        print "Correct usage:: \n\"rosrun moveit_tutorials collision_scene_example.py cluttered\" OR \n\"rosrun moveit_tutorials collision_scene_example.py sparse\""
+    if len(sys.argv) != 2:
+        print(
+            'Correct usage:: \n"rosrun moveit_tutorials collision_scene_example.py cluttered" OR \n"rosrun moveit_tutorials collision_scene_example.py sparse"'
+        )
         sys.exit()
     if sys.argv[1] == "cluttered":
-        load_scene.add_four_boxes();
+        load_scene.add_four_boxes()
     elif sys.argv[1] == "sparse":
-        load_scene.add_one_box();
+        load_scene.add_one_box()
     else:
-        print "Please specify correct type of scene as cluttered or sparse"
+        print("Please specify correct type of scene as cluttered or sparse")
         sys.exit()
