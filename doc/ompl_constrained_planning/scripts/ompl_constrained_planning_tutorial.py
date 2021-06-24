@@ -171,6 +171,31 @@ class ConstrainedPlanningTutorial(object):
 
         return pcm
 
+    def create_box_constraints(self):
+        pcm = moveit_msgs.msg.PositionConstraint()
+        pcm.header.frame_id = self.ref_link
+        pcm.link_name = self.ee_link
+
+        cbox = shape_msgs.msg.SolidPrimitive()
+        cbox.type = shape_msgs.msg.SolidPrimitive.BOX
+        cbox.dimensions = [0.4, 0.1, 0.4]
+        pcm.constraint_region.primitives.append(cbox)
+
+        current_pose = self.move_group.get_current_pose()
+
+        cbox_pose = geometry_msgs.msg.Pose()
+        cbox_pose.position.x = 0.4
+        cbox_pose.position.y = current_pose.pose.position.y
+        cbox_pose.position.z = 0.45
+        cbox_pose.orientation.w = 1.0
+        pcm.constraint_region.primitive_poses.append(cbox_pose)
+
+        # display the constraints in rviz
+        self.display_box(cbox_pose, cbox.dimensions)
+
+        return pcm
+
+
     ## If you make a box really thin along one dimension, you get something plane like.
     ## We create a plane perpendicular to the y-axis and tilt it by 45 degrees in the function below.
     ## When solving the problem, you can tell the planner to model this really thin box as an equality constraint.
@@ -298,9 +323,9 @@ class ConstrainedPlanningTutorial(object):
         box_pose = geometry_msgs.msg.PoseStamped()
         box_pose.header.frame_id = self.ref_link
         box_pose.pose.orientation.w = 1.0
-        box_pose.pose.position.x = 0.5
+        box_pose.pose.position.x = 0.6
         box_pose.pose.position.y = 0.0
-        box_pose.pose.position.z = 0.5
+        box_pose.pose.position.z = 0.6
         self.obstacle_name = "obstacle"
         self.scene.add_box(self.obstacle_name, box_pose, size=(0.2, 0.4, 0.1))
 
@@ -312,7 +337,7 @@ class ConstrainedPlanningTutorial(object):
         # Give the planning scene some time to update
         rospy.sleep(0.5)
 
-    def create_pose_goal_under_obstacle(self):
+    def create_pose_goal_rotated(self):
         self.move_group.clear_pose_targets()
         pose = self.move_group.get_current_pose()
 
@@ -340,6 +365,37 @@ class ConstrainedPlanningTutorial(object):
         self.display_sphere(pose.pose)
 
         return pose
+
+    def create_pose_goal_under_obstacle(self):
+        self.move_group.clear_pose_targets()
+        pose = self.move_group.get_current_pose()
+
+        self.display_sphere(pose.pose, color=COLOR_RED)
+
+        pose.pose.position.x += 0.2
+        pose.pose.position.y += 0.0
+        pose.pose.position.z -= 0.3
+
+        # rotate the pose around the x axis?
+        quat_ee = [
+            pose.pose.orientation.x,
+            pose.pose.orientation.y,
+            pose.pose.orientation.z,
+            pose.pose.orientation.w,
+        ]
+        quat_rotate = quaternion_from_euler(-pi / 2, 0, 0)
+        #quat_new = quaternion_multiply(quat_rotate, quat_ee)
+        quat_new = quat_ee
+
+        pose.pose.orientation.x = quat_new[0]
+        pose.pose.orientation.y = quat_new[1]
+        pose.pose.orientation.z = quat_new[2]
+        pose.pose.orientation.w = quat_new[3]
+
+        self.display_sphere(pose.pose)
+
+        return pose
+
 
     def create_vertical_plane_constraints(self):
         pcm = moveit_msgs.msg.PositionConstraint()
@@ -379,10 +435,16 @@ def run_tutorial():
 
     ## Create the first planning problem
     start_state = tutorial.create_start_state()
-    pose_goal = tutorial.create_pose_goal()
+    path_constraints = moveit_msgs.msg.Constraints()
+
+    # Now wait for the user (you) to press enter before doing trying the position constraints.
+    print("============ Press enter to start the box constrained planning problem.")
+    input()
+
+    pose_goal = tutorial.create_pose_goal_rotated()
 
     # Let's try the simple box constraints first!
-    pcm = tutorial.create_simple_box_constraints()
+    pcm = tutorial.create_box_constraints()
 
     # We need two wrap the constraints in a generic `Constraints` message.
     path_constraints = moveit_msgs.msg.Constraints()
@@ -403,7 +465,7 @@ def run_tutorial():
     move_group.clear_path_constraints()
 
     # Now wait for the user (you) to press enter before doing trying the position constraints.
-    print("============ Press enter to continue with the second planning problem.")
+    print("============ Press enter to continue with the plane constrained planning problem.")
     input()
     # remove all markers in Rviz before starting the next tutorial
     tutorial.remove_all_markers()
@@ -419,8 +481,10 @@ def run_tutorial():
     ## However, if we make it too small, the box will be thinner that the tolerance used by OMPL to evaluate constraints (:code:`1e-4` by default).
     ## MoveIt will use the stricter tolerance (the box width) to check the constraints, and many states will appear invalid.
     ## That's where the magic number :code:`0.0005` comes from, it is between :code:`0.00001` and :code:`0.001`.
-    pose_goal = tutorial.create_pose_goal_in_plane()
-    pcm = tutorial.create_plane_constraints()  # this function uses the 'magic' number
+    # pose_goal = tutorial.create_pose_goal_in_plane()
+    # pcm = tutorial.create_plane_constraints()  # this function uses the 'magic' number
+    pose_goal = tutorial.create_pose_goal_rotated()
+    pcm = tutorial.create_vertical_plane_constraints()
 
     path_constraints = moveit_msgs.msg.Constraints()
     path_constraints.position_constraints.append(pcm)
@@ -431,12 +495,35 @@ def run_tutorial():
     move_group.set_start_state(start_state)
     move_group.set_pose_target(pose_goal)
     move_group.set_path_constraints(path_constraints)
+    move_group.set_planning_time(1)
     move_group.plan()
     move_group.clear_path_constraints()
 
-    print("============ Press enter to continue with the second planning problem.")
+    print("============ Press enter to continue with the plane constrained planning problem with obstacle.")
+    input()
+
+    tutorial.remove_all_markers()
+    tutorial.add_obstacle()
+
+    pose_goal = tutorial.create_pose_goal_under_obstacle()
+    pcm = tutorial.create_vertical_plane_constraints()
+
+    # We need two wrap the constraints in a generic `Constraints` message.
+    path_constraints = moveit_msgs.msg.Constraints()
+    path_constraints.position_constraints.append(pcm)
+    path_constraints.name = "use_equality_constraints"
+
+    move_group.set_start_state(start_state)
+    move_group.set_pose_target(pose_goal)
+    move_group.set_path_constraints(path_constraints)
+    move_group.set_planning_time(15)
+    move_group.plan()
+    move_group.clear_path_constraints()
+
+    print("============ Press enter to continue with the line constrained planning problem.")
     input()
     tutorial.remove_all_markers()
+    tutorial.remove_obstacle()
     ## Finally we can also plan along the line.
     pose_goal = tutorial.create_pose_goal()
 
@@ -450,12 +537,32 @@ def run_tutorial():
     move_group.set_start_state(start_state)
     move_group.set_pose_target(pose_goal)
     move_group.set_path_constraints(path_constraints)
+    move_group.set_planning_time(1)
     move_group.plan()
     move_group.clear_path_constraints()
 
+    # print("============ Press enter to continue with the box constrained planning problem with obstacle.")
+    # input()
+
+    # tutorial.remove_all_markers()
+    # tutorial.add_obstacle()
+
+    # pose_goal = tutorial.create_pose_goal_under_obstacle()
+    # pcm = tutorial.create_box_constraints()
+
+    # # We need two wrap the constraints in a generic `Constraints` message.
+    # path_constraints = moveit_msgs.msg.Constraints()
+    # path_constraints.position_constraints.append(pcm)
+
+    # move_group.set_start_state(start_state)
+    # move_group.set_pose_target(pose_goal)
+    # move_group.set_path_constraints(path_constraints)
+    # move_group.set_planning_time(60)
+    # move_group.plan()
+    # move_group.clear_path_constraints()
+
     print("Done!")
     ## END_SUB_TUTORIAL
-
 
 def main():
     """ Catch interupt when the user presses `ctrl-c`. """
