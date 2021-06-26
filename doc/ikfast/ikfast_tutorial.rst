@@ -42,6 +42,8 @@ The following command will ensure that you can run docker with your user account
 
 You need to log off/log on in order to actually activate this permission change.
 
+  Note: To run docker from `WSL2 <https://docs.microsoft.com/en-us/windows/wsl/install-win10>`_, you need to install the `Docker Desktop WSL 2 backend <https://docs.docker.com/docker-for-windows/wsl>`_.
+
 Install the MoveIt IKFast package either from Debian packages or from source.
 
 **Binary Install**: ::
@@ -61,7 +63,7 @@ Creating the IKFast MoveIt plugin
 
 To facilitate copy-and-paste, we suggest to define the robot name as an environment variable: ::
 
-  export MYROBOT_NAME="panda_arm"
+  export MYROBOT_NAME="panda"
 
 OpenRAVE uses Collada instead of URDF to describe the robot. In order to automatically convert your robot's URDF to Collada, you need to provide the .urdf file.
 If your .urdf file is generated from `xacro <http://wiki.ros.org/xacro/>`_ files, you can generate the URDF using the following command: ::
@@ -85,6 +87,7 @@ To generate the IKFast MoveIt plugin, issue the following command: ::
 
   rosrun moveit_kinematics auto_create_ikfast_moveit_plugin.sh --iktype Transform6D $MYROBOT_NAME.urdf <planning_group_name> <base_link> <eef_link>
 
+Replace the last three positional parameters with the correct ``planning_group_name`` as well as the names of the base link and the end-effector link of your robot.
 The speed and success of this process will depend on the complexity of your robot. A typical 6 DOF manipulator with 3 intersecting axes at the base or wrist will take only a few minutes to generate the solver code. For a detailed explanation of the creation procedure and additional tweaks of the process, see `Tweaking the creation process`_.
 
 The command above creates a new ROS package named ``$MYROBOT_NAME_<planning_group_name>_ikfast_plugin`` within the current folder.
@@ -101,11 +104,13 @@ The IKFast plugin can be used as a drop-in replacement for the default KDL IK So
 Edit these parts: ::
 
  <planning_group>:
-   kinematics_solver: <myrobot_name>_<planning_group>_ikfast_plugin/IKFastKinematicsPlugin
+   kinematics_solver: <myrobot_name>_<planning_group>/IKFastKinematicsPlugin
 
 Test the Plugin
 ^^^^^^^^^^^^^^^
-Use the MoveIt RViz Motion Planning Plugin and use the interactive markers to see if correct IK Solutions are found.
+Use the MoveIt RViz Motion Planning Plugin and use the interactive markers to see if correct IK Solutions are found: ::
+
+  roslaunch "$MYROBOT_NAME"_moveit_config demo.launch
 
 Updating the Plugin
 -------------------
