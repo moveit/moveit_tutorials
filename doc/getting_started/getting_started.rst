@@ -16,7 +16,7 @@ Once you have ROS installed, make sure you have the most up to date packages: ::
 
 Install `catkin <http://wiki.ros.org/catkin>`_ the ROS build system: ::
 
-  sudo apt install ros-noetic-catkin python3-catkin-tools
+  sudo apt install ros-noetic-catkin python3-catkin-tools python3-osrf-pycommon
 
 Install `wstool <http://wiki.ros.org/wstool>`_ : ::
 
