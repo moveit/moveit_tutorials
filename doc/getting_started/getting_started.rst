@@ -65,6 +65,15 @@ The next command will configure your catkin workspace: ::
   catkin config --extend /opt/ros/${ROS_DISTRO} --cmake-args -DCMAKE_BUILD_TYPE=Release
   catkin build
 
+**Note** If catkin config gives you this error: 
+
+  pkg_resources.DistributionNotFound: The 'osrf-pycommon>0.1.1' distribution was not found and is required by catkin-tools
+
+then install osrf-pycommon manually:
+
+  sudo apt install python3-catkin-lint python3-pip
+  pip3 install osrf-pycommon
+
 Source the catkin workspace: ::
 
   source ~/ws_moveit/devel/setup.bash
