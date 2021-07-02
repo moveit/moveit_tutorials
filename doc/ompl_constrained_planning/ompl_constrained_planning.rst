@@ -9,11 +9,11 @@ For a short walkthrough of running the tutorial, you can watch `this video`_.
 
 When can I use this planner?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-The interface currently only supports position constraints on any link of the robot, where the constrained regions is represented using a box_. The planning approach provides an alternative for the `enforce_joint_model_state_space`_ option. It is expected to be most valuable for constraints regions that have a small (or zero) volume in Cartesian space, where the rejection sampling does not always works. For example, keeping the end-effector on a plane or along a line.
+The interface currently only supports position constraints on any link of the robot, where the constrained region is represented using a box_. The planning approach provides an alternative for the `enforce_joint_model_state_space`_ option. It is expected to be most valuable for constraint regions that have a small (or zero) volume in Cartesian space, where the rejection sampling does not always works. For example, keeping the end-effector on a plane or along a line.
 
 Configure OMPL
 ^^^^^^^^^^^^^^^^
-OMPL reads configurations parameters from a file called :code:`ompl_planning.yaml`. This tutorial uses the Panda robot, for which this file can be found in :code:`panda_moveit_config/config/ompl_planning.yaml`. We will add a parameter to tell OMPL to plan in a constrained state space by setting :code:`enforce_constrained_state_space`. In addition, if the parameter `projection_evaluator`_ was not yet specified we also need to add it.
+OMPL reads configuration parameters from a file called :code:`ompl_planning.yaml`. This tutorial uses the Panda robot, for which this file can be found in :code:`panda_moveit_config/config/ompl_planning.yaml`. We will add a parameter to tell OMPL to plan in a constrained state space by setting :code:`enforce_constrained_state_space`. In addition, if the parameter `projection_evaluator`_ was not yet specified we also need to add it.
 
 .. code-block:: yaml
 
@@ -21,13 +21,13 @@ OMPL reads configurations parameters from a file called :code:`ompl_planning.yam
       enforce_constrained_state_space: true
       projection_evaluator: joints(panda_joint1,panda_joint2)
 
-Note that, as we are changing configuration files, you should also clone the repository `panda_moveit_config`_ in you're workspace. (Instead of using the version installed with :code:`sudo apt install`.
+Note that, as we are changing configuration files, you should also clone the repository `panda_moveit_config`_ in your workspace, instead of using the version installed with :code:`sudo apt install`.
 
 .. code-block:: bash
 
   cd catkin_ws/src
   git clone https://github.com/ros-planning/panda_moveit_config.git
-  cd ../..
+  cd ..
   catkin build
 
 Run the tutorial
@@ -60,7 +60,7 @@ After pressing enter, the next planning problem is solved.
 .. image:: case_2.gif
    :width: 300px
 
-Again, if planning succeeds, the trajectory is animated in rviz. And finally the last planning problem is solved after pressing enter again.
+Again, if planning succeeds, the trajectory is animated in RViz. And finally the last planning problem is solved after pressing enter again.
 
 .. image:: case_3.gif
    :width: 300px
