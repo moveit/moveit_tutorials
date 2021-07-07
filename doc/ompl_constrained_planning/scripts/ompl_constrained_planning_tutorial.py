@@ -148,7 +148,7 @@ class ConstrainedPlanningTutorial(object):
     ## END_SUB_TUTORIAL
 
     ## BEGIN_SUB_TUTORIAL ori_con
-    ## First we create simple box constraints on the current end-effector link (:code:`self.ee_link = "panda_link8"`).
+    ## First we create simple orientation constraints on the current end-effector link (:code:`self.ee_link = "panda_link8"`).
     def create_orientation_constraints(self):
         ocm = moveit_msgs.msg.OrientationConstraint()
         ocm.header.frame_id = self.ref_link
@@ -164,7 +164,7 @@ class ConstrainedPlanningTutorial(object):
         # ocm.orientation = Quaternion(0.5, 0.5, 0.5, 0.5)
         # Allow rotation of 45 degrees around the x and y axis
         ocm.absolute_x_axis_tolerance = 1  # rotation "to the front"
-        ocm.absolute_y_axis_tolerance = 1  # rotation
+        ocm.absolute_y_axis_tolerance = 1  # rotation "to the side"
         ocm.absolute_z_axis_tolerance = pi  # rotation around vertical axis
 
         # ocm.parameterization = moveit_msgs.msg.OrientationConstraint.XYZ_EULER_ANGLES
@@ -173,19 +173,6 @@ class ConstrainedPlanningTutorial(object):
         # ROTATION_VECTOR = 1
         # The tilt constraint is the only constraint
         ocm.weight = 1
-
-        # cbox = shape_msgs.msg.SolidPrimitive()
-        # cbox.type = shape_msgs.msg.SolidPrimitive.BOX
-        # cbox.dimensions = [0.1, 0.4, 0.4]
-
-        # cbox_pose = geometry_msgs.msg.Pose()
-        # cbox_pose.position.x = current_pose.pose.position.x
-        # cbox_pose.position.y = 0.15
-        # cbox_pose.position.z = 0.45
-        # cbox_pose.orientation.w = 1.0
-
-        # # display the constraints in rviz
-        # self.display_box(cbox_pose, cbox.dimensions)
 
         return ocm
 
@@ -728,6 +715,10 @@ if __name__ == "__main__":
 ## Create position constraints
 ## ***************************
 ## CALL_SUB_TUTORIAL pos_con
+##
+## Create orientation constraints
+## ***************************
+## CALL_SUB_TUTORIAL ori_con
 ##
 ## Finally, solve a planning problem!
 ## **********************************
