@@ -44,7 +44,6 @@
 #include <moveit/robot_model/robot_model.h>
 #include <moveit/robot_state/robot_state.h>
 #include <moveit/planning_scene/planning_scene.h>
-#include <moveit/collision_detection_fcl/collision_env_fcl.h>
 #include <moveit/collision_detection/collision_tools.h>
 
 planning_scene::PlanningScene* g_planning_scene = nullptr;
