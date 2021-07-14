@@ -76,11 +76,10 @@ int main(int argc, char** argv)
   planning_scene_monitor::PlanningSceneMonitorPtr psm(
       new planning_scene_monitor::PlanningSceneMonitor(robot_model_loader));
 
-  /* listen for planning scene messages on topic /XXX and apply them to the internal planning scene
+  /* listen for planning scene messages on topic /XXX and apply them to
                        the internal planning scene accordingly */
   psm->startSceneMonitor();
-  /* listens to changes of world geometry, collision objects, and (optionally) octomaps
-                                world geometry, collision objects and optionally octomaps */
+  /* listens to changes of world geometry, collision objects, and (optionally) octomaps */
   psm->startWorldGeometryMonitor();
   /* listen to joint state updates as well as changes in attached collision objects
                         and update the internal planning scene accordingly*/
