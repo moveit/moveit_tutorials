@@ -1,10 +1,8 @@
 #!/usr/bin/env python
 import sys
+import rospy
 
 def main():
-    rospy.init_node("planning_scene_tutorial")
-    moveit_commander.roscpp_initialize(sys.argv)
-
     # BEGIN_TUTORIAL
     #
     # Setup
@@ -19,13 +17,18 @@ def main():
     # using data from the robot's joints and the sensors on the robot. In
     # this tutorial, we will instantiate a PlanningScene class directly,
     # but this method of instantiation is only intended for illustration.
-    import moveit_commander
-    import numpy as np
-    import rospy
     from geometry_msgs.msg import PoseStamped
-    import moveit.core
     from moveit.core import kinematic_constraints, collision_detection, robot_model
     from moveit.core.planning_scene import PlanningScene
+    import moveit.core
+    import moveit_commander
+    import numpy as np
+    import pathlib
+    import rospkg
+    import rospy
+
+    rospy.init_node("planning_scene_tutorial")
+    moveit_commander.roscpp_initialize(sys.argv)
 
     r = rospkg.RosPack()
     urdf_path = pathlib.Path(r.get_path("moveit_resources_panda_description")) / "urdf" / "panda.urdf"
