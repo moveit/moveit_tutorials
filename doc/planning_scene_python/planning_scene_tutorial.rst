@@ -17,7 +17,7 @@ The entire code can be seen :codedir:`here in the MoveIt GitHub project<planning
 
 Running the code
 ----------------
-Open two shells. Start RViz and wait for everything to finish loading in the first shell. You need to first clone `panda_moveit_config <http://github.com/ros-planning/panda_moveit_config>`_ in your catkin workspace and build: ::
+If you haven't already, you need to clone `panda_moveit_config <http://github.com/ros-planning/panda_moveit_config>`_ in your catkin workspace and build. Then, open two shells and start RViz and wait for everything to finish loading in the first shell:  ::
 
   roslaunch panda_moveit_config demo.launch
 
