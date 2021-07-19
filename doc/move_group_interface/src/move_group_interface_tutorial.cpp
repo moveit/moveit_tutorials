@@ -452,6 +452,56 @@ int main(int argc, char** argv)
   // .. image:: ./move_group_interface_tutorial_attached_object.gif
   //    :alt: animation showing the arm moving differently once the object is attached
   //
+
+  // Moving to a goal pose with orientation tolerances
+  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  //
+  // Show text in RViz of status
+  visual_tools.deleteAllMarkers();
+  visual_tools.publishText(text_pose, "Goal with orientation tolerance", rvt::WHITE, rvt::XLARGE);
+  visual_tools.trigger();
+  // Let's plan to a goal colliding on the top of the collision object.
+  move_group_interface.setStartState(*move_group_interface.getCurrentState());
+  geometry_msgs::Pose pose_above_collision_object;
+  pose_above_collision_object.orientation.x = 1.0;
+  pose_above_collision_object.position.x = 0.45;
+  pose_above_collision_object.position.y = 0.0;
+  pose_above_collision_object.position.z = 0.59;
+  move_group_interface.setPoseTarget(pose_above_collision_object);
+
+  std::vector<double> goal_orientation_tolerance_xyz = { 1e-3, M_PI / 2, M_PI / 4 };
+  move_group_interface.setGoalOrientationToleranceXYZ(goal_orientation_tolerance_xyz);
+
+  success = (move_group_interface.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+  ROS_INFO_NAMED("tutorial", "Visualizing plan 8 (Pose goal with orientation tolerances avoiding collision) %s",
+                 success ? "" : "FAILED");
+  visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group);
+  visual_tools.trigger();
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window once the plan is complete");
+
+  // Moving to a goal pose with position tolerances
+  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  //
+  // Show text in RViz of status
+  visual_tools.deleteAllMarkers();
+  visual_tools.publishText(text_pose, "Goal with position tolerance", rvt::WHITE, rvt::XLARGE);
+  visual_tools.trigger();
+  // Let's plan to a goal colliding on the top of the collision object.
+  move_group_interface.setStartState(*move_group_interface.getCurrentState());
+  move_group_interface.setPoseTarget(pose_above_collision_object);
+
+  goal_orientation_tolerance_xyz = { 1e-3, 1e-3, 1e-3 };
+  move_group_interface.setGoalOrientationToleranceXYZ(goal_orientation_tolerance_xyz);
+  std::vector<double> goal_position_tolerance_xyz = { 1e-4, 1e-4, 0.2 };
+  move_group_interface.setGoalPositionToleranceXYZ(goal_position_tolerance_xyz);
+
+  success = (move_group_interface.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+  ROS_INFO_NAMED("tutorial", "Visualizing plan 9 (Pose goal with position tolerances avoiding collision) %s",
+                 success ? "" : "FAILED");
+  visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group);
+  visual_tools.trigger();
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window once the plan is complete");
+
   // Detaching and Removing Objects
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   //

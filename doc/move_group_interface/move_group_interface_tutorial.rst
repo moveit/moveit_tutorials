@@ -38,8 +38,10 @@ See the `YouTube video <https://youtu.be/_5siHkFQPBQ>`_ at the top of this tutor
 
  6. The robot moves its arm to the pose goal, avoiding collision with the box.
  7. The object is attached to the wrist (its color will change to purple/orange/green).
- 8. The object is detached from the wrist (its color will change back to green).
- 9. The object is removed from the environment.
+ 8. The robot moves its arm to a pose goal with orientation tolerance, avoiding collision with the box.
+ 9. The robot moves its arm to a pose goal with position tolerance, avoiding collision with the box.
+ 10. The object is detached from the wrist (its color will change back to green).
+ 11. The object is removed from the environment.
 
 .. |B| image:: ./move_group_interface_tutorial_robot_with_box.png
 
