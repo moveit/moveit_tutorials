@@ -21,7 +21,7 @@ If you haven't already, you need to clone `panda_moveit_config <http://github.co
 
   roslaunch panda_moveit_config demo.launch
 
-Roslaunch the launch file to run the code directly from moveit_tutorials: ::
+Run the code directly from moveit_tutorials: ::
 
  rosrun moveit_tutorials planning_scene_tutorial.py
 
