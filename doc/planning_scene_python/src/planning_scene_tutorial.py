@@ -2,6 +2,7 @@
 import sys
 import rospy
 
+
 def main():
     # BEGIN_TUTORIAL
     #
@@ -31,9 +32,19 @@ def main():
     moveit_commander.roscpp_initialize(sys.argv)
 
     r = rospkg.RosPack()
-    urdf_path = pathlib.Path(r.get_path("moveit_resources_panda_description")) / "urdf" / "panda.urdf"
-    srdf_path = pathlib.Path(r.get_path("moveit_resources_panda_moveit_config")) /"config"/"panda.srdf"
-    kinematic_model = moveit.core.load_robot_model(urdf_path.as_posix(), srdf_path.as_posix())
+    urdf_path = (
+        pathlib.Path(r.get_path("moveit_resources_panda_description"))
+        / "urdf"
+        / "panda.urdf"
+    )
+    srdf_path = (
+        pathlib.Path(r.get_path("moveit_resources_panda_moveit_config"))
+        / "config"
+        / "panda.srdf"
+    )
+    kinematic_model = moveit.core.load_robot_model(
+        urdf_path.as_posix(), srdf_path.as_posix()
+    )
     planning_scene = PlanningScene(kinematic_model, collision_detection.World())
     current_state = planning_scene.getCurrentStateNonConst()
     joint_model_group = current_state.getJointModelGroup("panda_arm")
@@ -59,7 +70,9 @@ def main():
     collision_request = collision_detection.CollisionRequest()
     collision_result = collision_detection.CollisionResult()
     planning_scene.checkSelfCollision(collision_request, collision_result)
-    rospy.loginfo(f"Test 1: Current state is {'in' if collision_result.collision else 'not in'} self collision")
+    rospy.loginfo(
+        f"Test 1: Current state is {'in' if collision_result.collision else 'not in'} self collision"
+    )
 
     # Now, we can get contact information for any collisions that might
     # have happened at a given configuration of the Panda arm. We can ask
@@ -89,7 +102,9 @@ def main():
 
     collision_result.clear()
     planning_scene.checkSelfCollision(collision_request, collision_result)
-    rospy.loginfo(f"Test 2: Current state is {'in' if collision_result.collision else 'not in'} self collision")
+    rospy.loginfo(
+        f"Test 2: Current state is {'in' if collision_result.collision else 'not in'} self collision"
+    )
 
     # Checking for a group
     # ~~~~~~~~~~~~~~~~~~~~
@@ -104,7 +119,9 @@ def main():
     current_state.setToRandomPositions(joint_model_group)
     collision_result.clear()
     planning_scene.checkSelfCollision(collision_request, collision_result)
-    rospy.loginfo(f"Test 3: Current state is {'in' if collision_result.collision else 'not in'} self collision")
+    rospy.loginfo(
+        f"Test 3: Current state is {'in' if collision_result.collision else 'not in'} self collision"
+    )
 
     # Getting Contact Information
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -118,7 +135,9 @@ def main():
     joint_model_group = current_state.getJointModelGroup("panda_arm")
     current_state.setJointGroupPositions(joint_model_group, joint_values)
     satisfied_bounds = current_state.satisfiesBounds(joint_model_group)
-    rospy.loginfo(f"Test 4: Current state is {'valid' if satisfied_bounds else 'not valid'}")
+    rospy.loginfo(
+        f"Test 4: Current state is {'valid' if satisfied_bounds else 'not valid'}"
+    )
 
     # Modifying the Allowed Collision Matrix
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -142,8 +161,12 @@ def main():
     for (first_name, second_name), contacts in collision_result.contacts:
         acm.setEntry(first_name, second_name, True)
     collision_result.clear()
-    planning_scene.checkSelfCollision(collision_request, collision_result, copied_state, acm)
-    rospy.loginfo(f"Test 6: Current state is {'in' if collision_result.collision else 'not in'} self collision")
+    planning_scene.checkSelfCollision(
+        collision_request, collision_result, copied_state, acm
+    )
+    rospy.loginfo(
+        f"Test 6: Current state is {'in' if collision_result.collision else 'not in'} self collision"
+    )
 
     # Full Collision Checking
     # ~~~~~~~~~~~~~~~~~~~~~~~
@@ -157,8 +180,12 @@ def main():
     # of the robot. Padding helps in keeping the robot further away
     # from obstacles in the environment.
     collision_result.clear()
-    planning_scene.checkCollision(collision_request, collision_result, copied_state, acm)
-    rospy.loginfo(f"Test 7: Current state is {'in' if collision_result.collision else 'not in'} self collision")
+    planning_scene.checkCollision(
+        collision_request, collision_result, copied_state, acm
+    )
+    rospy.loginfo(
+        f"Test 7: Current state is {'in' if collision_result.collision else 'not in'} self collision"
+    )
 
     # Constraint Checking
     # ^^^^^^^^^^^^^^^^^^^
@@ -183,14 +210,18 @@ def main():
     desired_pose.pose.position.y = -0.185
     desired_pose.pose.position.z = 0.5
     desired_pose.header.frame_id = "panda_link0"
-    goal_constraint = kinematic_constraints.constructGoalConstraints(end_effector_name, desired_pose)
+    goal_constraint = kinematic_constraints.constructGoalConstraints(
+        end_effector_name, desired_pose
+    )
 
     # Now, we can check a state against this constraint using the
     # isStateConstrained functions in the PlanningScene class.
     copied_state.setToRandomPositions(joint_model_group)
     copied_state.update()
     constrained = planning_scene.isStateConstrained(copied_state, goal_constraint)
-    rospy.loginfo(f"Test 8: Random state is {'constrained' if constrained else 'not constrained'}")
+    rospy.loginfo(
+        f"Test 8: Random state is {'constrained' if constrained else 'not constrained'}"
+    )
 
     # There's a more efficient way of checking constraints (when you want
     # to check the same constraint over and over again, e.g. inside a
@@ -198,10 +229,16 @@ def main():
     # pre-processes the ROS Constraints messages and sets it up for quick
     # processing.
 
-    kinematic_constraint_set = kinematic_constraints.KinematicConstraintSet(kinematic_model)
+    kinematic_constraint_set = kinematic_constraints.KinematicConstraintSet(
+        kinematic_model
+    )
     kinematic_constraint_set.add(goal_constraint, planning_scene.getTransforms())
-    constrained_2 = planning_scene.isStateConstrained(copied_state, kinematic_constraint_set)
-    rospy.loginfo(f"Test 9: Random state is {'constrained' if constrained_2 else 'not constrained'}")
+    constrained_2 = planning_scene.isStateConstrained(
+        copied_state, kinematic_constraint_set
+    )
+    rospy.loginfo(
+        f"Test 9: Random state is {'constrained' if constrained_2 else 'not constrained'}"
+    )
 
     # There's a direct way to do this using the KinematicConstraintSet
     # class.
@@ -215,7 +252,9 @@ def main():
     # collision checking (b) constraint checking and (c) feasibility
     # checking using the user-defined callback.
 
-    state_valid = planning_scene.isStateValid(copied_state, kinematic_constraint_set, "panda_arm")
+    state_valid = planning_scene.isStateValid(
+        copied_state, kinematic_constraint_set, "panda_arm"
+    )
     rospy.loginfo(f"Test 12: Random state is {'valid' if state_valid else 'not valid'}")
 
     # Note that all the planners available through MoveIt and OMPL will
