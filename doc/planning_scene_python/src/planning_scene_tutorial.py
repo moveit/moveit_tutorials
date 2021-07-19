@@ -125,7 +125,7 @@ def main():
     #
     # The :moveit_core_python:`core.collision_detection.AllowedCollisionMatrix` (ACM)
     # provides a mechanism to tell the collision world to ignore
-    # collisions between certain object: both parts of the robot and
+    # collisions between certain objects: both parts of the robot and
     # objects in the world. We can tell the collision checker to ignore
     # all collisions between the links reported above, i.e. even though
     # the links are actually in collision, the collision checker will
