@@ -61,7 +61,7 @@ def main():
     # hitting each other. To do this, we will construct a
     # :moveit_core_python:`core.collision_detection.CollisionRequest` object and a
     # :moveit_core_python:`core.collision_detection.CollisionResult` object and pass them
-    # into the collision checking function. Note that 
+    # into the collision checking function. Note that
     # whether the robot is in self-collision or not is contained within
     # the `CollisionResult` object. Self collision checking uses an *unpadded* version of
     # the robot, i.e. it directly uses the collision meshes provided in
