@@ -22,6 +22,7 @@ jobs:
       CCACHE_DIR: ${{ github.workspace }}/.ccache
       BASEDIR: ${{ github.workspace }}/.work
       CLANG_TIDY_BASE_REF: ${{ github.base_ref || github.ref }}
+      UPSTREAM_WORKSPACE: github:ros-planning/moveit_task_constructor#master
 
     name: ${{ matrix.env.IMAGE }}${{ matrix.env.CATKIN_LINT && ' + catkin_lint' || ''}}${{ matrix.env.CLANG_TIDY && ' + clang-tidy' || '' }}
     runs-on: ubuntu-latest
