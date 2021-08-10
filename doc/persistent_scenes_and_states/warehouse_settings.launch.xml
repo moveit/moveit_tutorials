@@ -1,0 +1,20 @@
+<launch>
+## BEGIN_TUTORIAL
+  <!-- Set the parameters for the warehouse. -->
+
+## Parameters for warehouse_ros_sqlite
+  <arg name="moveit_warehouse_host" default="/path/to/your/file.sqlite" />
+  <arg name="moveit_warehouse_port" default="0" />
+  <param name="warehouse_plugin" value="warehouse_ros_sqlite::DatabaseConnection" />
+
+## For warehouse_ros_mongodb use the following instead
+  <!-- <arg name="moveit_warehouse_port" default="33829" />
+  <arg name="moveit_warehouse_host" default="localhost" />
+  <param name="warehouse_plugin" value="warehouse_ros_mongo::MongoDatabaseConnection" /> -->
+
+## END_TUTORIAL
+
+  <!-- Set parameters for the warehouse -->
+  <param name="warehouse_port" value="$(arg moveit_warehouse_port)"/>
+  <param name="warehouse_host" value="$(arg moveit_warehouse_host)"/>
+</launch>

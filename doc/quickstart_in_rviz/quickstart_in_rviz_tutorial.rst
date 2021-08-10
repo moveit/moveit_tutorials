@@ -235,3 +235,5 @@ Next Tutorials
 * To easily control your robot using Python, check out the `Move Group Python Interface <../move_group_python_interface/move_group_python_interface_tutorial.html>`_
 
 * To create your own ``*_moveit_config`` package, check out the `Setup Assistant <../setup_assistant/setup_assistant_tutorial.html>`_
+
+* Save and restore robot states from a database or from disk using `warehouse_ros <../persistent_scenes_and_states/persistent_scenes_and_states.html>`_
