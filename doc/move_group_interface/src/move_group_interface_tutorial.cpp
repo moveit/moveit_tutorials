@@ -453,6 +453,21 @@ int main(int argc, char** argv)
   //    :alt: animation showing the arm moving differently once the object is attached
   //
 
+  // Detaching Objects
+  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  //
+  // Now, let's detach the cylinder from the robot's gripper.
+  ROS_INFO_NAMED("tutorial", "Detach the object from the robot");
+  move_group_interface.detachObject(object_to_attach.id);
+
+  // Show text in RViz of status
+  visual_tools.deleteAllMarkers();
+  visual_tools.publishText(text_pose, "Object detached from robot", rvt::WHITE, rvt::XLARGE);
+  visual_tools.trigger();
+
+  /* Wait for MoveGroup to receive and process the attached collision object message */
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window once the new object is detached from the robot");
+
   // Moving to a goal pose with orientation tolerances
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   //
@@ -502,21 +517,9 @@ int main(int argc, char** argv)
   visual_tools.trigger();
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window once the plan is complete");
 
-  // Detaching and Removing Objects
+  // Removing Objects
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   //
-  // Now, let's detach the cylinder from the robot's gripper.
-  ROS_INFO_NAMED("tutorial", "Detach the object from the robot");
-  move_group_interface.detachObject(object_to_attach.id);
-
-  // Show text in RViz of status
-  visual_tools.deleteAllMarkers();
-  visual_tools.publishText(text_pose, "Object detached from robot", rvt::WHITE, rvt::XLARGE);
-  visual_tools.trigger();
-
-  /* Wait for MoveGroup to receive and process the attached collision object message */
-  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window once the new object is detached from the robot");
-
   // Now, let's remove the objects from the world.
   ROS_INFO_NAMED("tutorial", "Remove the objects from the world");
   std::vector<std::string> object_ids;
@@ -525,11 +528,12 @@ int main(int argc, char** argv)
   planning_scene_interface.removeCollisionObjects(object_ids);
 
   // Show text in RViz of status
+  visual_tools.deleteAllMarkers();
   visual_tools.publishText(text_pose, "Objects removed", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
 
   /* Wait for MoveGroup to receive and process the attached collision object message */
-  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to once the collision object disapears");
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to shutdown the demo node");
 
   // END_TUTORIAL
 
