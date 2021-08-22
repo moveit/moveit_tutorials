@@ -92,16 +92,16 @@ void pick(moveit::planning_interface::MoveGroupInterface& move_group)
   // Setting grasp pose
   // ++++++++++++++++++++++
   // This is the pose of panda_link8. |br|
-  // Make sure that when you set the grasp_pose, you are setting it to be the pose of the last link in
-  // your manipulator which in this case would be `"panda_link8"` You will have to compensate for the
-  // transform from `"panda_link8"` to the palm of the end effector.
+  // Make sure that when you set the grasp_pose, you are setting it to be the pose of the end effector,
+  // in this case `"panda_link8"`. You will have to compensate for the
+  // transform from `"panda_link8"` to the palm of the end effector, or set your end effector link
   grasps[0].grasp_pose.header.frame_id = "panda_link0";
   tf2::Quaternion orientation;
   orientation.setRPY(-tau / 4, -tau / 8, -tau / 4);
   grasps[0].grasp_pose.pose.orientation = tf2::toMsg(orientation);
   grasps[0].grasp_pose.pose.position.x = 0.415;
   grasps[0].grasp_pose.pose.position.y = 0;
-  grasps[0].grasp_pose.pose.position.z = 0.5;
+  grasps[0].grasp_pose.pose.position.z = 0.4 + 0.08;  // Table height + grasp height
 
   // Setting pre-grasp approach
   // ++++++++++++++++++++++++++
@@ -136,7 +136,7 @@ void pick(moveit::planning_interface::MoveGroupInterface& move_group)
   // Set support surface as table1.
   move_group.setSupportSurfaceName("table1");
   // Call pick to pick up the object using the grasps given
-  move_group.pick("object", grasps);
+  move_group.pick("bottle", grasps);
   // END_SUB_TUTORIAL
 }
 
@@ -158,10 +158,11 @@ void place(moveit::planning_interface::MoveGroupInterface& group)
   orientation.setRPY(0, 0, tau / 4);  // A quarter turn about the z-axis
   place_location[0].place_pose.pose.orientation = tf2::toMsg(orientation);
 
-  /* For place location, we set the value to the exact location of the center of the object. */
+  /* For the place location, we set the value to the target location of the center of the object. */
   place_location[0].place_pose.pose.position.x = 0;
   place_location[0].place_pose.pose.position.y = 0.5;
   place_location[0].place_pose.pose.position.z = 0.5;
+  place_location[0].place_pose.pose.position.z = 0.49 + 0.08 + 0.002;  // Cabinet height + grasp height + buffer
 
   // Setting pre-place approach
   // ++++++++++++++++++++++++++
@@ -189,7 +190,7 @@ void place(moveit::planning_interface::MoveGroupInterface& group)
   // Set support surface as table2.
   group.setSupportSurfaceName("table2");
   // Call place to place the object using the place locations given.
-  group.place("object", place_location);
+  group.place("bottle", place_location);
   // END_SUB_TUTORIAL
 }
 
@@ -203,30 +204,35 @@ void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& pla
   std::vector<moveit_msgs::CollisionObject> collision_objects;
   collision_objects.resize(3);
 
-  // Add the first table where the cube will originally be kept.
+  // Add the table where the bottle will originally be.
   collision_objects[0].id = "table1";
   collision_objects[0].header.frame_id = "panda_link0";
 
   /* Define the primitive and its dimensions. */
   collision_objects[0].primitives.resize(1);
-  collision_objects[0].primitives[0].type = collision_objects[0].primitives[0].BOX;
-  collision_objects[0].primitives[0].dimensions.resize(3);
-  collision_objects[0].primitives[0].dimensions[0] = 0.2;
-  collision_objects[0].primitives[0].dimensions[1] = 0.4;
-  collision_objects[0].primitives[0].dimensions[2] = 0.4;
+  collision_objects[0].primitives[0].type = collision_objects[0].primitives[0].CYLINDER;
+  collision_objects[0].primitives[0].dimensions.resize(2);
+  collision_objects[0].primitives[0].dimensions[0] = 0.4;
+  collision_objects[0].primitives[0].dimensions[1] = 0.23;
 
   /* Define the pose of the table. */
-  collision_objects[0].primitive_poses.resize(1);
-  collision_objects[0].primitive_poses[0].position.x = 0.5;
-  collision_objects[0].primitive_poses[0].position.y = 0;
-  collision_objects[0].primitive_poses[0].position.z = 0.2;
-  collision_objects[0].primitive_poses[0].orientation.w = 1.0;
+  collision_objects[0].pose.position.x = 0.5;
+  collision_objects[0].pose.position.y = 0;
+  collision_objects[0].pose.position.z = 0.2;
+  collision_objects[0].pose.orientation.w = 1.0;
+
+  /* Define the visual geometry of the table (for display in Rviz only). */
+  tf2::Quaternion orientation;
+  collision_objects[0].visual_geometry_mesh_url = "package://moveit_tutorials/doc/pick_place/meshes/table.stl";
+  orientation.setRPY(0.0 / 360.0 * tau, 0.0 / 360.0 * tau, 0.0 / 360.0 * tau);
+  collision_objects[0].visual_geometry_pose.orientation = tf2::toMsg(orientation);
+  collision_objects[0].visual_geometry_pose.position.z = -collision_objects[0].pose.position.z;
   // END_SUB_TUTORIAL
 
   collision_objects[0].operation = collision_objects[0].ADD;
 
   // BEGIN_SUB_TUTORIAL table2
-  // Add the second table where we will be placing the cube.
+  // Add the cabinet on top of which we will place the bottle.
   collision_objects[1].id = "table2";
   collision_objects[1].header.frame_id = "panda_link0";
 
@@ -234,39 +240,48 @@ void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& pla
   collision_objects[1].primitives.resize(1);
   collision_objects[1].primitives[0].type = collision_objects[1].primitives[0].BOX;
   collision_objects[1].primitives[0].dimensions.resize(3);
-  collision_objects[1].primitives[0].dimensions[0] = 0.4;
-  collision_objects[1].primitives[0].dimensions[1] = 0.2;
-  collision_objects[1].primitives[0].dimensions[2] = 0.4;
+  collision_objects[1].primitives[0].dimensions[0] = 0.53;
+  collision_objects[1].primitives[0].dimensions[1] = 0.24;
+  collision_objects[1].primitives[0].dimensions[2] = 0.46;
 
-  /* Define the pose of the table. */
-  collision_objects[1].primitive_poses.resize(1);
-  collision_objects[1].primitive_poses[0].position.x = 0;
-  collision_objects[1].primitive_poses[0].position.y = 0.5;
-  collision_objects[1].primitive_poses[0].position.z = 0.2;
-  collision_objects[1].primitive_poses[0].orientation.w = 1.0;
+  /* Define the pose of the cabinet. */
+  collision_objects[1].pose.position.x = 0;
+  collision_objects[1].pose.position.y = 0.5;
+  collision_objects[1].pose.position.z = 0.23;
+
+  /* Define the visual geometry of the cabinet (for display in Rviz). */
+  collision_objects[1].visual_geometry_mesh_url = "package://moveit_tutorials/doc/pick_place/meshes/cabinet.stl";
+  orientation.setRPY(0.0 / 360.0 * tau, 0.0 / 360.0 * tau, 0.0 / 360.0 * tau);
+  collision_objects[1].visual_geometry_pose.orientation = tf2::toMsg(orientation);
+  collision_objects[1].visual_geometry_pose.position.z = -collision_objects[1].pose.position.z;
   // END_SUB_TUTORIAL
 
   collision_objects[1].operation = collision_objects[1].ADD;
 
   // BEGIN_SUB_TUTORIAL object
-  // Define the object that we will be manipulating
+  // Define the bottle object that we will manipulate
   collision_objects[2].header.frame_id = "panda_link0";
-  collision_objects[2].id = "object";
+  collision_objects[2].id = "bottle";
 
   /* Define the primitive and its dimensions. */
   collision_objects[2].primitives.resize(1);
-  collision_objects[2].primitives[0].type = collision_objects[1].primitives[0].BOX;
+  collision_objects[2].primitives[0].type = collision_objects[1].primitives[0].CYLINDER;
   collision_objects[2].primitives[0].dimensions.resize(3);
-  collision_objects[2].primitives[0].dimensions[0] = 0.02;
-  collision_objects[2].primitives[0].dimensions[1] = 0.02;
-  collision_objects[2].primitives[0].dimensions[2] = 0.2;
+  collision_objects[2].primitives[0].dimensions[0] = 0.20;
+  collision_objects[2].primitives[0].dimensions[1] = 0.035;
+  collision_objects[2].primitive_poses.resize(1);
+  collision_objects[2].primitive_poses[0].position.z = 0.1;
 
   /* Define the pose of the object. */
-  collision_objects[2].primitive_poses.resize(1);
-  collision_objects[2].primitive_poses[0].position.x = 0.5;
-  collision_objects[2].primitive_poses[0].position.y = 0;
-  collision_objects[2].primitive_poses[0].position.z = 0.5;
-  collision_objects[2].primitive_poses[0].orientation.w = 1.0;
+  collision_objects[2].pose.position.x = 0.5;
+  collision_objects[2].pose.position.y = 0;
+  collision_objects[2].pose.position.z = collision_objects[0].primitives[0].dimensions[0] + 0.001;
+  collision_objects[2].pose.orientation.w = 1.0;
+
+  /* Define the visual geometry of the bottle (for display in Rviz). */
+  collision_objects[2].visual_geometry_mesh_url = "package://moveit_tutorials/doc/pick_place/meshes/beer_bottle.stl";
+  orientation.setRPY(0.0 / 360.0 * tau, 0.0 / 360.0 * tau, 0.0 / 360.0 * tau);
+  collision_objects[2].visual_geometry_pose.orientation = tf2::toMsg(orientation);
   // END_SUB_TUTORIAL
 
   collision_objects[2].operation = collision_objects[2].ADD;
@@ -322,3 +337,8 @@ int main(int argc, char** argv)
 // ^^^^^^^^^^^^^^
 // CALL_SUB_TUTORIAL place
 // END_TUTORIAL
+
+// Attribution:
+// "Table" (https://skfb.ly/6BYHM) by yryabchenko is licensed under Creative Commons Attribution
+// (http://creativecommons.org/licenses/by/4.0/). "Cabinet With Glass Pattern Windows" (https://skfb.ly/6WZtK) by Frank
+// Heuver is licensed under Creative Commons Attribution-NonCommercial (http://creativecommons.org/licenses/by-nc/4.0/).
