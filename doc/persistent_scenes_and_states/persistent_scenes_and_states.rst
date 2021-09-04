@@ -17,20 +17,18 @@ You can install both of them with your favourite package manager
 Storage plugin selection
 ------------------------
 
+The warehouse plugin and settings have to be specified in the launch files of your MoveIt configuration.
+You should adapt ``warehouse_settings.launch.xml`` and possibly also ``warehouse.launch`` if you do not wish to use the MongoDB plugin.
 The storage plugin is determined by the parameter ``warehouse_plugin``.
 Valid options are ``warehouse_ros_mongo::MongoDatabaseConnection`` for MongoDB and
 ``warehouse_ros_sqlite::DatabaseConnection`` for SQLite.
 Furthermore, the parameters ``warehouse_host`` and ``warehouse_port`` configure the connection details.
-In case of the SQLite plugin, ``warehouse_host`` contains the path of the database file,
+In case of the SQLite plugin, ``warehouse_host`` contains the path to the database file,
 and ``warehouse_port`` is unused.
-They have to be set in the launch file (e. g. ``warehouse_settings.launch.xml``) as followed:
 
 .. tutorial-formatter:: ./warehouse_settings.launch.xml
 
 .. tutorial-formatter:: ./warehouse.launch
-
-You can find the launch file :codedir:`here in the tutorials GitHub repository <persistent_scenes_and_states/warehouse_settings.launch.xml>`
-or (unmodified) in your workspace at ``install/share/moveit_resources_panda_moveit_config/launch/warehouse_settings.launch.xml``.
 
 Connecting to the storage backend
 ---------------------------------
