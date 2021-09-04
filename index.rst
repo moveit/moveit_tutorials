@@ -83,6 +83,7 @@ Configuration
    doc/trajopt_planner/trajopt_planner_tutorial
    doc/pilz_industrial_motion_planner/pilz_industrial_motion_planner
    doc/planning_adapters/planning_adapters_tutorial.rst
+   doc/persistent_scenes_and_states/persistent_scenes_and_states
 
 Miscellaneous
 ----------------------------
