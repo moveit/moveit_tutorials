@@ -1,5 +1,5 @@
-Persistent Planning Scenes and Robot States
-===========================================
+Warehouse - Persistent Scenes and States
+========================================
 
 The "MotionPlanning" plugin of RViz offers the possibility to save
 complete planning scenes and robot states persistently.
