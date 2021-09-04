@@ -75,7 +75,7 @@ The `-r 100` sends new commands at a 100 Hz rate. The combination of `-s` and `a
 
 Settings
 --------
-User-configurable settings of the servo node are well-documented in ``servo/config/ur_simulated_config.yaml``.
+User-configurable settings of the servo node are well-documented in ``moveit_servo/config/ur_simulated_config.yaml``.
 
 Changing Control Dimensions
 ---------------------------
