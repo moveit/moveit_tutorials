@@ -6,7 +6,7 @@ Move Group C++ Interface
 In MoveIt, the simplest user interface is through the :planning_interface:`MoveGroupInterface` class. It provides easy to use functionality for most operations that a user may want to carry out, specifically setting joint or pose goals, creating motion plans, moving the robot, adding objects into the environment and attaching/detaching objects from the robot. This interface communicates over ROS topics, services, and actions to the `MoveGroup Node <http://docs.ros.org/noetic/api/moveit_ros_move_group/html/annotated.html>`_.
 
 
-Watch this quick `YouTube video demo <https://youtu.be/_5siHkFQPBQ>`_ to see the power of the move group interface!
+Watch this quick `YouTube video demo <https://youtu.be/xwB7tpZK9-o>`_ to see the power of the move group interface!
 
 Getting Started
 ---------------
@@ -28,7 +28,7 @@ After a short moment, the RViz window should appear and look similar to the one 
 
 Expected Output
 ---------------
-See the `YouTube video <https://youtu.be/_5siHkFQPBQ>`_ at the top of this tutorial for expected output. In RViz, we should be able to see the following:
+See the `YouTube video <https://youtu.be/xwB7tpZK9-o>`_ at the top of this tutorial for expected output. In RViz, we should be able to see the following:
  1. The robot moves its arm to the pose goal to its front.
  2. The robot moves its arm to the joint goal at its side.
  3. The robot moves its arm back to a new pose goal while maintaining the end-effector level.
