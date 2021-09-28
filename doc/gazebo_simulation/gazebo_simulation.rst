@@ -306,7 +306,7 @@ with :code:`<param name="robot_description" textfile="$(arg urdf_path)" />` and 
 
 .. code-block:: xml
 
-    <param name="robot_description" command="$(find xacro)/xacro '$(find franka_description)/robots/panda_arm_hand.urdf.xacro'"/>
+    <param name="robot_description" command="$(find xacro)/xacro '$(find franka_description)/robots/panda_arm.urdf.xacro' hand:=true"/>
 
 
 With this adjustment we are using :code:`xacro` executable that compiles :code:`xacro` files into URDF files.
