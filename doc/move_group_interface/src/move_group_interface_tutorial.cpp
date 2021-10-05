@@ -469,7 +469,7 @@ int main(int argc, char** argv)
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window once the new object is detached from the robot");
 
   // Moving to a goal pose with orientation tolerances
-  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   //
   // Show text in RViz of status
   visual_tools.deleteAllMarkers();
@@ -495,7 +495,7 @@ int main(int argc, char** argv)
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window once the plan is complete");
 
   // Moving to a goal pose with position tolerances
-  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   //
   // Show text in RViz of status
   visual_tools.deleteAllMarkers();
