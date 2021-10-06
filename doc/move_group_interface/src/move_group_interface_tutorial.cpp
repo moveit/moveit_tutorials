@@ -156,18 +156,18 @@ int main(int argc, char** argv)
   // Note that this can lead to problems if the robot moved in the meanwhile.
   // move_group_interface.execute(my_plan);
 
-  // Moving to a pose goal
-  // ^^^^^^^^^^^^^^^^^^^^^
+  // 1. Moving to a pose goal
+  // ^^^^^^^^^^^^^^^^^^^^^^^^
   //
   // If you do not want to inspect the planned trajectory,
   // the following is a more robust combination of the two-step plan+execute pattern shown above
   // and should be preferred. Note that the pose goal we had set earlier is still active,
   // so the robot will try to move to that goal.
 
-  // move_group_interface.move();
+  move_group_interface.move();
 
-  // Planning to a joint-space goal
-  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  // 2. Planning to a joint-space goal
+  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   //
   // Let's set a joint space goal and move towards it.  This will replace the
   // pose target we set above.
@@ -201,8 +201,8 @@ int main(int argc, char** argv)
   visual_tools.trigger();
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
 
-  // Planning with Path Constraints
-  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  // 3. Planning with Path Constraints
+  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   //
   // Path constraints can easily be specified for a link on the robot.
   // Let's specify a path constraint and a pose goal for our group.
@@ -273,8 +273,8 @@ int main(int argc, char** argv)
   // When done with the path constraint be sure to clear it.
   move_group_interface.clearPathConstraints();
 
-  // Cartesian Paths
-  // ^^^^^^^^^^^^^^^
+  // 4. Cartesian Paths
+  // ^^^^^^^^^^^^^^^^^^
   // You can plan a Cartesian path directly by specifying a list of waypoints
   // for the end-effector to go through. Note that we are starting
   // from the new start state above.  The initial pose (start state) does not
@@ -323,8 +323,8 @@ int main(int argc, char** argv)
   // You can execute a trajectory like this.
   move_group_interface.execute(trajectory);
 
-  // Adding objects to the environment
-  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  // 5. Move without obstacle
+  // ^^^^^^^^^^^^^^^^^^^^^^^^
   //
   // First let's plan to another simple goal with no objects in the way.
   move_group_interface.setStartState(*move_group_interface.getCurrentState());
@@ -348,6 +348,9 @@ int main(int argc, char** argv)
   //
   // .. image:: ./move_group_interface_tutorial_clear_path.gif
   //    :alt: animation showing the arm moving relatively straight toward the goal
+  //
+  // 6. Adding objects to the environment
+  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   //
   // Now let's define a collision object ROS message for the robot to avoid.
   moveit_msgs::CollisionObject collision_object;
@@ -388,6 +391,9 @@ int main(int argc, char** argv)
   visual_tools.trigger();
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to once the collision object appears in RViz");
 
+  // 7. Move avoiding obstacle
+  // ^^^^^^^^^^^^^^^^^^^^^^^^^
+  //
   // Now when we plan a trajectory it will avoid the obstacle
   success = (move_group_interface.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
   ROS_INFO_NAMED("tutorial", "Visualizing plan 6 (pose goal move around cuboid) %s", success ? "" : "FAILED");
@@ -401,8 +407,8 @@ int main(int argc, char** argv)
   // .. image:: ./move_group_interface_tutorial_avoid_path.gif
   //    :alt: animation showing the arm moving avoiding the new obstacle
   //
-  // Attaching objects to the robot
-  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  // 8. Attaching objects to the robot
+  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   //
   // You can attach objects to the robot, so that it moves with the robot geometry.
   // This simulates picking up the object for the purpose of manipulating it.
@@ -439,6 +445,9 @@ int main(int argc, char** argv)
   /* Wait for MoveGroup to receive and process the attached collision object message */
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window once the new object is attached to the robot");
 
+  // 9. Move with attached object avoiding obstacle
+  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  //
   // Replan, but now with the object in hand.
   move_group_interface.setStartStateToCurrentState();
   success = (move_group_interface.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
@@ -453,8 +462,8 @@ int main(int argc, char** argv)
   //    :alt: animation showing the arm moving differently once the object is attached
   //
 
-  // Detaching Objects
-  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  // 10. Detaching Objects
+  // ^^^^^^^^^^^^^^^^^^^^^
   //
   // Now, let's detach the cylinder from the robot's gripper.
   ROS_INFO_NAMED("tutorial", "Detach the object from the robot");
@@ -468,8 +477,8 @@ int main(int argc, char** argv)
   /* Wait for MoveGroup to receive and process the attached collision object message */
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window once the new object is detached from the robot");
 
-  // Moving to a goal pose with orientation tolerances
-  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  // 11. Moving to a goal pose with orientation tolerances
+  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   //
   // Show text in RViz of status
   visual_tools.deleteAllMarkers();
@@ -494,8 +503,8 @@ int main(int argc, char** argv)
   visual_tools.trigger();
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window once the plan is complete");
 
-  // Moving to a goal pose with position tolerances
-  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  // 12. Moving to a goal pose with position tolerances
+  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   //
   // Show text in RViz of status
   visual_tools.deleteAllMarkers();
@@ -517,8 +526,8 @@ int main(int argc, char** argv)
   visual_tools.trigger();
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window once the plan is complete");
 
-  // Removing Objects
-  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  // 13. Removing Objects
+  // ^^^^^^^^^^^^^^^^^^^^
   //
   // Now, let's remove the objects from the world.
   ROS_INFO_NAMED("tutorial", "Remove the objects from the world");

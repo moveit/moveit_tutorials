@@ -29,20 +29,20 @@ After a short moment, the RViz window should appear and look similar to the one 
 Expected Output
 ---------------
 See the `YouTube video <https://youtu.be/xwB7tpZK9-o>`_ at the top of this tutorial for expected output. In RViz, we should be able to see the following:
- 1. The robot moves its arm to the pose goal to its front.
+ 1. The robot moves its arm to the pose goal.
  2. The robot moves its arm to the joint goal at its side.
- 3. The robot moves its arm back to a new pose goal while maintaining the end-effector level.
+ 3. The robot moves its arm to a new pose goal while maintaining the end-effector level.
  4. The robot moves its arm along the desired Cartesian path (a triangle down, right, up+left).
- - A box object is added into the environment to the right of the arm.
+ 5. The robot moves its arm to a new pose goal to its front.
+ 6. A box object is added into the environment on the previous way.
     |B|
- 5. The robot moves its arm to a new pose goal.
- 6. The robot moves its arm to the pose goal, avoiding collision with the box.
- - The object is attached to the wrist (its color will change to purple/orange/green).
- 7. The robot moves its arm to the pose goal, avoiding collision between the cylinder and the box box.
- - The object is detached from the wrist (its color will change back to green).
- 8. The robot moves its arm to a pose goal with orientation tolerance, avoiding collision with the box.
- 9. The robot moves its arm to a pose goal with position tolerance, avoiding collision with the box.
- - The objects are removed from the environment.
+ 7. The robot moves its arm to the pose goal, avoiding collision with the box.
+ 8 The object is attached to the wrist (its color will change to purple/orange/green).
+ 9. The robot moves its arm to the pose goal, avoiding collision between the cylinder and the box box.
+ 10 The object is detached from the wrist (its color will change back to green).
+ 11. The robot moves its arm to a pose goal with orientation tolerance, avoiding collision with the box.
+ 12. The robot moves its arm to a pose goal with position tolerance, avoiding collision with the box.
+ 13 The objects are removed from the environment.
 
 .. |B| image:: ./move_group_interface_tutorial_robot_with_box.png
 
