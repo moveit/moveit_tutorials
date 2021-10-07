@@ -122,8 +122,8 @@ int main(int argc, char** argv)
 
   // .. _move_group_interface-planning-to-pose-goal:
   //
-  // Planning to a Pose goal
-  // ^^^^^^^^^^^^^^^^^^^^^^^
+  // 1. Planning to a Pose goal
+  // ^^^^^^^^^^^^^^^^^^^^^^^^^^
   // We can plan a motion for this group to a desired pose for the
   // end-effector.
   geometry_msgs::Pose target_pose1;
@@ -153,19 +153,19 @@ int main(int argc, char** argv)
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
 
   // Finally, to execute the trajectory stored in my_plan, you could use the following method call:
-  // Note that this can lead to problems if the robot moved in the meanwhile.
   // move_group_interface.execute(my_plan);
-
-  // 1. Moving to a pose goal
-  // ^^^^^^^^^^^^^^^^^^^^^^^^
+  //
+  // Note that this can lead to problems if the robot moved in the meanwhile.
+  //
+  // Moving to a pose goal
+  // ^^^^^^^^^^^^^^^^^^^^^
   //
   // If you do not want to inspect the planned trajectory,
-  // the following is a more robust combination of the two-step plan+execute pattern shown above
-  // and should be preferred. Note that the pose goal we had set earlier is still active,
-  // so the robot will try to move to that goal.
-
-  move_group_interface.move();
-
+  // the following is a more robust combination of the two-step plan+execute pattern shown above and should be
+  // preferred: move_group_interface.move();
+  //
+  // Note that the pose goal we had set earlier is still active, so the robot will try to move to that goal.
+  //
   // 2. Planning to a joint-space goal
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   //
@@ -383,7 +383,7 @@ int main(int argc, char** argv)
 
   // Now, let's add the collision object into the world
   // (using a vector that could contain additional objects)
-  ROS_INFO_NAMED("tutorial", "Add an object into the world");
+  ROS_INFO_NAMED("tutorial", "Add an object into the world (6)");
   planning_scene_interface.addCollisionObjects(collision_objects);
 
   // Show text in RViz of status and wait for MoveGroup to receive and process the collision object message
@@ -396,7 +396,7 @@ int main(int argc, char** argv)
   //
   // Now when we plan a trajectory it will avoid the obstacle
   success = (move_group_interface.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
-  ROS_INFO_NAMED("tutorial", "Visualizing plan 6 (pose goal move around cuboid) %s", success ? "" : "FAILED");
+  ROS_INFO_NAMED("tutorial", "Visualizing plan 7 (pose goal move around cuboid) %s", success ? "" : "FAILED");
   visual_tools.publishText(text_pose, "Obstacle Goal", rvt::WHITE, rvt::XLARGE);
   visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group);
   visual_tools.trigger();
@@ -439,7 +439,7 @@ int main(int argc, char** argv)
   ROS_INFO_NAMED("tutorial", "Attach the object to the robot");
   move_group_interface.attachObject(object_to_attach.id, "panda_hand");
 
-  visual_tools.publishText(text_pose, "Object attached to robot", rvt::WHITE, rvt::XLARGE);
+  visual_tools.publishText(text_pose, "Object attached to robot (8)", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
 
   /* Wait for MoveGroup to receive and process the attached collision object message */
@@ -451,7 +451,7 @@ int main(int argc, char** argv)
   // Replan, but now with the object in hand.
   move_group_interface.setStartStateToCurrentState();
   success = (move_group_interface.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
-  ROS_INFO_NAMED("tutorial", "Visualizing plan 7 (move around cuboid with cylinder) %s", success ? "" : "FAILED");
+  ROS_INFO_NAMED("tutorial", "Visualizing plan 9 (move around cuboid with cylinder) %s", success ? "" : "FAILED");
   visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group);
   visual_tools.trigger();
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window once the plan is complete");
@@ -471,7 +471,7 @@ int main(int argc, char** argv)
 
   // Show text in RViz of status
   visual_tools.deleteAllMarkers();
-  visual_tools.publishText(text_pose, "Object detached from robot", rvt::WHITE, rvt::XLARGE);
+  visual_tools.publishText(text_pose, "Object detached from robot (10)", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
 
   /* Wait for MoveGroup to receive and process the attached collision object message */
@@ -497,7 +497,7 @@ int main(int argc, char** argv)
   move_group_interface.setGoalOrientationToleranceXYZ(goal_orientation_tolerance_xyz);
 
   success = (move_group_interface.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
-  ROS_INFO_NAMED("tutorial", "Visualizing plan 8 (Pose goal with orientation tolerances avoiding collision) %s",
+  ROS_INFO_NAMED("tutorial", "Visualizing plan 11 (Pose goal with orientation tolerances avoiding collision) %s",
                  success ? "" : "FAILED");
   visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group);
   visual_tools.trigger();
@@ -520,7 +520,7 @@ int main(int argc, char** argv)
   move_group_interface.setGoalPositionToleranceXYZ(goal_position_tolerance_xyz);
 
   success = (move_group_interface.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
-  ROS_INFO_NAMED("tutorial", "Visualizing plan 9 (Pose goal with position tolerances avoiding collision) %s",
+  ROS_INFO_NAMED("tutorial", "Visualizing plan 12 (Pose goal with position tolerances avoiding collision) %s",
                  success ? "" : "FAILED");
   visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group);
   visual_tools.trigger();
@@ -538,7 +538,7 @@ int main(int argc, char** argv)
 
   // Show text in RViz of status
   visual_tools.deleteAllMarkers();
-  visual_tools.publishText(text_pose, "Objects removed", rvt::WHITE, rvt::XLARGE);
+  visual_tools.publishText(text_pose, "Objects removed (13)", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
 
   /* Wait for MoveGroup to receive and process the attached collision object message */
