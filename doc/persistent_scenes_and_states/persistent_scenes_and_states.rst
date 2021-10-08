@@ -7,7 +7,7 @@ Currently, two storage plugins (based on
 `warehouse_ros <https://github.com/ros-planning/warehouse_ros>`_) are available:
 
 * `warehouse_ros_mongo <https://github.com/ros-planning/warehouse_ros_mongo>`_, which uses MongoDB as backend
-* `warehouse_ros_sqlite <https://github.com/gleichdick/warehouse_ros_sqlite>`_, which uses SQLite as backend
+* `warehouse_ros_sqlite <https://github.com/ros-planning/warehouse_ros_sqlite>`_, which uses SQLite as backend
 
 You can install both of them with your favourite package manager
 (e.g. ``apt-get install ros-noetic-warehouse-ros-mongo``) or
