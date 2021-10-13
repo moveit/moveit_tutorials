@@ -60,7 +60,7 @@ bool LERPInterface::solve(const planning_scene::PlanningSceneConstPtr& planning_
                           moveit_msgs::MotionPlanDetailedResponse& res)
 {
   // Load the planner-specific parameters
-  nh_.getParam("num_steps", num_steps_);
+  nh_.param("num_steps", num_steps_, 10);
 
   ros::WallTime start_time = ros::WallTime::now();
   moveit::core::RobotModelConstPtr robot_model = planning_scene->getRobotModel();
