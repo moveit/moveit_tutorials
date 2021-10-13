@@ -52,13 +52,13 @@ public:
   {
   }
 
-  bool initialize(const moveit::core::RobotModelConstPtr& model, const std::string& /*ns*/) override
+  bool initialize(const moveit::core::RobotModelConstPtr& model, const std::string& ns) override
   {
     for (const std::string& gpName : model->getJointModelGroupNames())
     {
       std::cout << "group name " << gpName << std::endl << "robot model  " << model->getName() << std::endl;
       planning_contexts_[gpName] =
-          LERPPlanningContextPtr(new LERPPlanningContext("lerp_planning_context", gpName, model));
+          LERPPlanningContextPtr(new LERPPlanningContext("lerp_planning_context", ns, gpName, model));
     }
     return true;
   }

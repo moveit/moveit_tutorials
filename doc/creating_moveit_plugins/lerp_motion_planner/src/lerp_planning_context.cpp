@@ -44,11 +44,11 @@
 
 namespace lerp_interface
 {
-LERPPlanningContext::LERPPlanningContext(const std::string& context_name, const std::string& group_name,
-                                         const moveit::core::RobotModelConstPtr& model)
+LERPPlanningContext::LERPPlanningContext(const std::string& context_name, const std::string& ns,
+                                         const std::string& group_name, const moveit::core::RobotModelConstPtr& model)
   : planning_interface::PlanningContext(context_name, group_name), robot_model_(model)
 {
-  lerp_interface_ = LERPInterfacePtr(new LERPInterface());
+  lerp_interface_ = LERPInterfacePtr(new LERPInterface(ros::NodeHandle(ns)));
 }
 
 bool LERPPlanningContext::solve(planning_interface::MotionPlanDetailedResponse& res)
