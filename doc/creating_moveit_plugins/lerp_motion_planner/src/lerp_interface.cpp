@@ -72,9 +72,9 @@ bool LERPInterface::solve(const planning_scene::PlanningSceneConstPtr& planning_
   std::vector<double> start_joint_values;
   start_state->copyJointGroupPositions(joint_model_group, start_joint_values);
 
-  // This planner only supports one goal constriant in the request
-  std::vector<moveit_msgs::Constraints> goal_constraints = req.goal_constraints;
-  std::vector<moveit_msgs::JointConstraint> goal_joint_constraint = goal_constraints[0].joint_constraints;
+  // This planner only supports one goal constraint in the request
+  const std::vector<moveit_msgs::Constraints>& goal_constraints = req.goal_constraints;
+  const std::vector<moveit_msgs::JointConstraint>& goal_joint_constraint = goal_constraints[0].joint_constraints;
 
   std::vector<double> goal_joint_values;
   goal_joint_values.reserve(goal_joint_constraint.size());
