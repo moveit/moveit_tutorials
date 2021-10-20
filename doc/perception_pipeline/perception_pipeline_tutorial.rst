@@ -39,6 +39,7 @@ Save this file in the config folder in the robot's moveit_config package with na
      padding_scale: 1.0
      max_update_rate: 1.0
      filtered_cloud_topic: filtered_cloud
+     ns: kinect
 
 **The general parameters are:**
 
@@ -59,6 +60,7 @@ Save this file in the config folder in the robot's moveit_config package with na
 
 * *filtered_cloud_topic*: The topic on which the filtered cloud will be published (mainly for debugging). The filtering cloud is the resultant cloud after self-filtering has been performed.
 
+* *ns*: An optional namespace for the advertised topics. Required for multiple sensors of the same type.
 
 YAML Configuration file (Depth Map)
 +++++++++++++++++++++++++++++++++++
@@ -77,6 +79,7 @@ Save this file in the config folder in the robot's moveit_config package with na
      padding_offset: 0.03
      max_update_rate: 1.0
      filtered_cloud_topic: filtered_cloud
+     ns: kinect
 
 **The general parameters are:**
 
@@ -101,6 +104,7 @@ Save this file in the config folder in the robot's moveit_config package with na
 
 * *filtered_cloud_topic*: The topic on which the filtered cloud will be published (mainly for debugging). The filtering cloud is the resultant cloud after self-filtering has been performed.
 
+* *ns*: An optional namespace for the advertised topics. Required for multiple sensors of the same type.
 
 Update the launch file
 ++++++++++++++++++++++
