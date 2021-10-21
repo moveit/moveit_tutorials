@@ -43,7 +43,7 @@ Within your `catkin <http://wiki.ros.org/catkin>`_ workspace, download the tutor
 
   cd ~/ws_moveit/src
   git clone https://github.com/ros-planning/moveit_tutorials.git -b master
-  git clone https://github.com/ros-planning/panda_moveit_config.git -b melodic-devel
+  git clone https://github.com/ros-planning/panda_moveit_config.git -b noetic-devel
 
 .. note:: For now we will use a pre-generated ``panda_moveit_config`` package but later we will learn how to make our own in the `MoveIt Setup Assistant tutorial <../setup_assistant/setup_assistant_tutorial.html>`_.
 
