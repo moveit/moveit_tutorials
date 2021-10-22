@@ -52,13 +52,12 @@ public:
   {
   }
 
-  bool initialize(const moveit::core::RobotModelConstPtr& model, const std::string& /*ns*/) override
+  bool initialize(const moveit::core::RobotModelConstPtr& model, const std::string& ns) override
   {
     for (const std::string& gpName : model->getJointModelGroupNames())
     {
-      std::cout << "group name " << gpName << std::endl << "robot model  " << model->getName() << std::endl;
       planning_contexts_[gpName] =
-          LERPPlanningContextPtr(new LERPPlanningContext("lerp_planning_context", gpName, model));
+          LERPPlanningContextPtr(new LERPPlanningContext("lerp_planning_context", ns, gpName, model));
     }
     return true;
   }
@@ -99,21 +98,14 @@ public:
       return planning_interface::PlanningContextPtr();
     }
 
-    // create PlanningScene using hybrid collision detector
-    planning_scene::PlanningScenePtr ps = planning_scene->diff();
-
-    // set FCL as the allocaotor
-    ps->setActiveCollisionDetector(collision_detection::CollisionDetectorAllocatorFCL::create(), true);
-
     // retrieve and configure existing context
     const LERPPlanningContextPtr& context = planning_contexts_.at(req.group_name);
     ROS_INFO_STREAM_NAMED("lerp_planner_manager", "===>>> context is made ");
 
-    context->setPlanningScene(ps);
+    context->setPlanningScene(planning_scene);
     context->setMotionPlanRequest(req);
 
     error_code.val = moveit_msgs::MoveItErrorCodes::SUCCESS;
-
     return context;
   }
 
