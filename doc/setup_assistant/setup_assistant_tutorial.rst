@@ -154,9 +154,9 @@ In the following, we will define two planning groups for the arm and one group f
   Thus, click on the *Add Kin. Chain* button and, on the next pane, click the *Expand All* button to see the full
   kinematic tree of your robot.
 
-  * Click on the **panda_link0** link and press the *Choose Selected* button next to the
+  * Click on the ``panda_link0`` link and press the *Choose Selected* button next to the
     **Base link** text field.
-  * Click on the **panda_link8** link and press the *Choose Selected* button next to the
+  * Click on the ``panda_link8`` link and press the *Choose Selected* button next to the
     **Tip link** text field.
 
 .. image:: setup_assistant_panda_arm_links.png
@@ -237,8 +237,8 @@ some special operations to happen on them internally.
 
 * Select **panda_link8** as the *Parent Link* and **panda_arm** as the *Parent Group* for this end-effector.
 
-Add another end effector group, called **hand_tcp**, using **manipulator** as its parent group
-and **panda_hand_tcp** as its parent link. Thus, the two arm planning groups essentially differ in
+Add another end effector group, called **hand_tcp**, using **panda_hand_tcp** as its parent link
+and **manipulator** as its parent group. Thus, the two arm planning groups essentially differ in
 their associated end effector as well as the corresponding end-effector link = parent link.
 Thus they will provide different interactive markers to steer the robot in Cartesian space.
 
@@ -279,7 +279,7 @@ ROS Control tab can be used to auto-generate simulated controllers to actuate th
 .. image:: setup_assistant_panda_ros_control_add_controller.png
    :width: 700px
 
-Add the arm
+Add the ``panda_arm`` controller
 
 * We will first add Panda arm position controller
 
@@ -301,7 +301,8 @@ Add the arm
 
 * Click *Save* to save the selected controller.
 
-Add the gripper
+Following, repeat the process above the create the ``manipulator`` controller. Keep everything the same but now
+use **manipulator** as the *Controller Name*. Next, add the ``hand`` controller
 
 * Again, click on *Add Controller* to add the hand controller.
 
