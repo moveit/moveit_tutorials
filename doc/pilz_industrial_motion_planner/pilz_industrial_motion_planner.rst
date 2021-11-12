@@ -121,6 +121,9 @@ Planning results in ``moveit_msg::MotionPlanResponse``
 -  ``group_name``: name of the planning group
 -  ``error_code/val``: error code of the motion planning
 
+Collision checking is deferred to the pipeline calling the solver for performance reasons to avoid
+duplicate checks.
+
 The LIN motion command
 ----------------------
 
@@ -134,6 +137,9 @@ time. This planner only accepts start state with zero velocity. Planning
 result is a joint trajectory. The user needs to adapt the Cartesian
 velocity/acceleration scaling factor if the motion plan fails due to
 violation of joint space limits.
+
+Collision checking is handled by the IK solver callback and in addition
+by the pipeline calling the solver.
 
 Input parameters in ``moveit_msgs::MotionPlanRequest``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -205,6 +211,9 @@ time. This planner only accepts start state with zero velocity. Planning
 result is a joint trajectory. The user needs to adapt the Cartesian
 velocity/acceleration scaling factor if motion plan fails due to
 violation of joint limits.
+
+Collision checking is handled by the IK solver callback and in addition
+by the pipeline calling the solver.
 
 Input parameters in ``moveit_msgs::MotionPlanRequest``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
