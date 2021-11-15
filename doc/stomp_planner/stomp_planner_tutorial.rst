@@ -24,7 +24,7 @@ Prerequisites
 -------------
  1. You must have the latest version of MoveIt for your ROS distribution installed. As STOMP is distributed independently you can safely install the packaged version of MoveIt however. STOMP then needs to be build from source, we will go through the steps for doing this below.
  2. To use STOMP with your robot you must need to have a MoveIt configuration package for your robot ready. For example, if you have a Panda robot, it's probably called ``panda_moveit_config``. This is typically built using the `MoveIt Setup Assistant <../setup_assistant/setup_assistant_tutorial.html>`_.
- 3. You must also have built `ros-industrial/stomp_ros package <https://github.com/ros-industrial/stomp_ros>`_ from source. This needs to be built from source since stomp_ros is not released as a debian yet.
+ 3. You must also have built `ros-industrial/stomp_ros package <https://github.com/ros-industrial/stomp_ros>`_ and  `ros-industrial/stomp package <https://github.com/ros-industrial/stomp>`_ from source. This needs to be built from source since stomp_ros is not released as a debian yet.
 
 Installing STOMP from Source
 ------------------------------
