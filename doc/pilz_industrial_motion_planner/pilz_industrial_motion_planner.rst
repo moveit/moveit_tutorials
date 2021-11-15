@@ -2,8 +2,11 @@ Pilz Industrial Motion Planner
 ==============================
 
 ``pilz_industrial_motion_planner`` provides a trajectory generator to plan standard robot
-motions like PTP, LIN, CIRC with the interface of a MoveIt PlannerManager
-plugin.
+motions like PTP, LIN, CIRC with the interface of a MoveIt PlannerManager plugin.
+
+Note, that these planners are motion generators only, i.e. they don't consider obstacle avoidance.
+The intended trajectory (LINear or CIRCular in Cartesian space, or PTP) is computed and only finally tested
+for validity regarding collisions. If a collision occurs, the whole trajectory is rejected.
 
 User Interface MoveGroup
 ------------------------
