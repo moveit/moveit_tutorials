@@ -6,7 +6,7 @@ Move Group C++ Interface
 In MoveIt, the simplest user interface is through the :planning_interface:`MoveGroupInterface` class. It provides easy to use functionality for most operations that a user may want to carry out, specifically setting joint or pose goals, creating motion plans, moving the robot, adding objects into the environment and attaching/detaching objects from the robot. This interface communicates over ROS topics, services, and actions to the `MoveGroup Node <http://docs.ros.org/noetic/api/moveit_ros_move_group/html/annotated.html>`_.
 
 
-Watch this quick `YouTube video demo <https://youtu.be/_5siHkFQPBQ>`_ to see the power of the move group interface!
+Watch this quick `YouTube video demo <https://youtu.be/xwB7tpZK9-o>`_ to see the power of the move group interface!
 
 Getting Started
 ---------------
@@ -28,18 +28,21 @@ After a short moment, the RViz window should appear and look similar to the one 
 
 Expected Output
 ---------------
-See the `YouTube video <https://youtu.be/_5siHkFQPBQ>`_ at the top of this tutorial for expected output. In RViz, we should be able to see the following:
- 1. The robot moves its arm to the pose goal to its front.
+See the `YouTube video <https://youtu.be/xwB7tpZK9-o>`_ at the top of this tutorial for expected output. In RViz, we should be able to see the following:
+ 1. The robot moves its arm to the pose goal.
  2. The robot moves its arm to the joint goal at its side.
- 3. The robot moves its arm back to a new pose goal while maintaining the end-effector level.
+ 3. The robot moves its arm to a new pose goal while maintaining the end-effector level.
  4. The robot moves its arm along the desired Cartesian path (a triangle down, right, up+left).
- 5. A box object is added into the environment to the right of the arm.
+ 5. The robot moves its arm to a new pose goal to its front.
+ 6. A box object is added into the environment on the previous way.
     |B|
-
- 6. The robot moves its arm to the pose goal, avoiding collision with the box.
- 7. The object is attached to the wrist (its color will change to purple/orange/green).
- 8. The object is detached from the wrist (its color will change back to green).
- 9. The object is removed from the environment.
+ 7. The robot moves its arm to the pose goal, avoiding collision with the box.
+ 8. The object is attached to the wrist (its color will change to purple/orange/green).
+ 9. The robot moves its arm to the pose goal, avoiding collision between the cylinder and the box box.
+ 10. The object is detached from the wrist (its color will change back to green).
+ 11. The robot moves its arm to a pose goal with orientation tolerance, avoiding collision with the box.
+ 12. The robot moves its arm to a pose goal with position tolerance, avoiding collision with the box.
+ 13. The objects are removed from the environment.
 
 .. |B| image:: ./move_group_interface_tutorial_robot_with_box.png
 
