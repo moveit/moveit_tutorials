@@ -223,8 +223,8 @@ void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& pla
 
   /* Define the visual geometry of the table (for display in Rviz only). */
   tf2::Quaternion orientation;
-  collision_objects[0].visual_geometry_mesh_url = "package://moveit_tutorials/doc/pick_place/meshes/table.stl";
-  collision_objects[0].visual_geometry_mesh_scaling_factor = 0.001;
+  collision_objects[0].visual_geometry_mesh_url = "package://moveit_tutorials/doc/pick_place/meshes/table.dae";
+  collision_objects[0].visual_geometry_mesh_scaling_factor = 0.1;
   orientation.setRPY(0.0 / 360.0 * tau, 0.0 / 360.0 * tau, 0.0 / 360.0 * tau);
   collision_objects[0].visual_geometry_pose.orientation = tf2::toMsg(orientation);
   collision_objects[0].visual_geometry_pose.position.z = -collision_objects[0].pose.position.z;
