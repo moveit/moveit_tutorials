@@ -224,6 +224,7 @@ void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& pla
   /* Define the visual geometry of the table (for display in Rviz only). */
   tf2::Quaternion orientation;
   collision_objects[0].visual_geometry_mesh_url = "package://moveit_tutorials/doc/pick_place/meshes/table.stl";
+  collision_objects[0].visual_geometry_mesh_scaling_factor = 0.001;
   orientation.setRPY(0.0 / 360.0 * tau, 0.0 / 360.0 * tau, 0.0 / 360.0 * tau);
   collision_objects[0].visual_geometry_pose.orientation = tf2::toMsg(orientation);
   collision_objects[0].visual_geometry_pose.position.z = -collision_objects[0].pose.position.z;
@@ -251,6 +252,7 @@ void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& pla
 
   /* Define the visual geometry of the cabinet (for display in Rviz). */
   collision_objects[1].visual_geometry_mesh_url = "package://moveit_tutorials/doc/pick_place/meshes/cabinet.stl";
+  collision_objects[1].visual_geometry_mesh_scaling_factor = 0.001;
   orientation.setRPY(0.0 / 360.0 * tau, 0.0 / 360.0 * tau, 0.0 / 360.0 * tau);
   collision_objects[1].visual_geometry_pose.orientation = tf2::toMsg(orientation);
   collision_objects[1].visual_geometry_pose.position.z = -collision_objects[1].pose.position.z;
@@ -280,6 +282,7 @@ void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& pla
 
   /* Define the visual geometry of the bottle (for display in Rviz). */
   collision_objects[2].visual_geometry_mesh_url = "package://moveit_tutorials/doc/pick_place/meshes/beer_bottle.stl";
+  collision_objects[2].visual_geometry_mesh_scaling_factor = 0.001;
   orientation.setRPY(0.0 / 360.0 * tau, 0.0 / 360.0 * tau, 0.0 / 360.0 * tau);
   collision_objects[2].visual_geometry_pose.orientation = tf2::toMsg(orientation);
   // END_SUB_TUTORIAL
