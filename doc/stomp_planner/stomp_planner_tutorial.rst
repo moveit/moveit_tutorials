@@ -91,7 +91,7 @@ If you have the ``panda_moveit_config`` from the `ros-planning/panda_moveit_conf
 
 Running STOMP with Obstacles in the Scene
 +++++++++++++++++++++++++++++++++++++++++
-To run STOMP in an evironment with obstacles, you can run the sample python script:
+To run STOMP in an environment with obstacles, you can run the sample python script:
 
   :codedir:`collision_scene_example.py<collision_environments/scripts/collision_scene_example.py>`.
 
@@ -109,7 +109,7 @@ or: ::
 
   rosrun moveit_tutorials collision_scene_example.py sparse
 
-Next, in RViz, select STOMP in the MotionPlanning pannel under the Context tab. Set the desired start and goal states by moving the end-effector around with the imarker and then click on the Plan button under the Planning tab in the MotionPlanning pannel to start planning. The planner will now attempt to find a feasible solution between the given start and end position. STOMP performs better than CHOMP in avoiding obstacles. This is due to STOMP's stochastic nature which produces non-jerky trajectories as opposed to CHOMP which often produces jerky paths to avoid obstacles.
+Next, in RViz, select STOMP in the MotionPlanning panel under the Context tab. Set the desired start and goal states by moving the end-effector around with the imarker and then click on the Plan button under the Planning tab in the MotionPlanning panel to start planning. The planner will now attempt to find a feasible solution between the given start and end position. STOMP performs better than CHOMP in avoiding obstacles. This is due to STOMP's stochastic nature which produces non-jerky trajectories as opposed to CHOMP which often produces jerky paths to avoid obstacles.
 
 Tweaking some of the parameters for STOMP
 -----------------------------------------
@@ -144,7 +144,7 @@ STOMP has some parameters associated with it. These can be modified for the give
   This can be set to "NormalDistributionSampling" (default) or "GoalGuidedMultivariateGaussian". Depending on what class is used specific parameters need to be set. Have a look at `this link <https://github.com/ros-industrial/industrial_moveit/blob/kinetic-devel/stomp_plugins/example_pages.dox>`_ for setting parameters if using the "GoalGuidedMultivariateGaussian".
 
 - **stddev**: ::
-  This is the degree of noise that can be applied to the joints. Each value in this array is the amplitude of the noise applied to the joint at that position in the array. For instace, the leftmost value in the array will be the value used to set the noise of the first joint of the robot (panda_joint1 in our case). The dimensionality of this array should be equal to the number of joints in the planning group name. Larger "stddev" values correspond to larger motions of the joints.
+  This is the degree of noise that can be applied to the joints. Each value in this array is the amplitude of the noise applied to the joint at that position in the array. For instance, the leftmost value in the array will be the value used to set the noise of the first joint of the robot (panda_joint1 in our case). The dimensionality of this array should be equal to the number of joints in the planning group name. Larger "stddev" values correspond to larger motions of the joints.
 
 **Cost Function Parameters**:
 
@@ -166,7 +166,7 @@ STOMP has some parameters associated with it. These can be modified for the give
 **Update Filter parameters**:
 
 - **class**: ::
-  This can be set to "PolynomialSmoother" or "ConstrainedCartesianGoal". Specific paramters need to be set depending on the chosen class. For setting parameters for "ConstrainedCartesianGoal", have a look at `this link <https://github.com/ros-industrial/industrial_moveit/blob/kinetic-devel/stomp_plugins/example_pages.dox>`_.
+  This can be set to "PolynomialSmoother" or "ConstrainedCartesianGoal". Specific parameters need to be set depending on the chosen class. For setting parameters for "ConstrainedCartesianGoal", have a look at `this link <https://github.com/ros-industrial/industrial_moveit/blob/kinetic-devel/stomp_plugins/example_pages.dox>`_.
 
 - **poly_order**: ::
   This is the order of the polynomial function used for smoothing trajectories.

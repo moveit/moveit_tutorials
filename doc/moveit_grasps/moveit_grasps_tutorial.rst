@@ -214,7 +214,7 @@ The ``setIdealGraspPoseRPY()`` and ``setIdealGraspPose()`` methods in GraspGener
 
 These methods is used to score grasp candidates favoring grasps that are closer to the desired orientation.
 
-This is useful in applications such as bin and shelf picking where you would want to pick the objects from a bin with a grasp that is vertically alligned and you would want to pick obejects from a shelf with a grasp that is horozontally alligned.
+This is useful in applications such as bin and shelf picking where you would want to pick the objects from a bin with a grasp that is vertically aligned and you would want to pick obejects from a shelf with a grasp that is horozontally aligned.
 
 Tested Robots
 -------------
