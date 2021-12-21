@@ -34,7 +34,7 @@ If you have the ``panda_moveit_config`` from the `ros-planning/panda_moveit_conf
 
 Running CHOMP with Obstacles in the Scene
 +++++++++++++++++++++++++++++++++++++++++
-To run CHOMP in an evironment with obstacles, you can run the sample python script:
+To run CHOMP in an environment with obstacles, you can run the sample python script:
 
   :codedir:`collision_scene_example.py<collision_environments/scripts/collision_scene_example.py>`.
 
@@ -52,7 +52,7 @@ or: ::
 
   rosrun moveit_tutorials collision_scene_example.py sparse
 
-Next, in RViz, select CHOMP in the MotionPlanning pannel under the Context tab. Set the desired start and goal states by moving the end-effector around with the imarker and then click on the Plan button under the Planning tab in the MotionPlanning pannel to start planning. The planner will now attempt to find a feasible solution between the given start and end position.
+Next, in RViz, select CHOMP in the MotionPlanning panel under the Context tab. Set the desired start and goal states by moving the end-effector around with the imarker and then click on the Plan button under the Planning tab in the MotionPlanning panel to start planning. The planner will now attempt to find a feasible solution between the given start and end position.
 
 Tweaking some of the parameters for CHOMP
 -----------------------------------------
@@ -101,7 +101,7 @@ CHOMP has some optimization parameters associated with it. These can be modified
   Set this to true/false if you want to use stochastic descent while optimizing the cost. In stochastic descent, a random point from the trajectory is used, rather than all the trajectory points. This is faster and guaranteed to converge, but it may take more iterations in the worst case.
 
 - **enable failure recovery**: ::
-  If this is set to true, CHOMP tweaks ceratin parameters in the hope to find a solution when one does not exist with the default paramters specified in the ``chomp_planning.yaml`` file.
+  If this is set to true, CHOMP tweaks certain parameters in the hope to find a solution when one does not exist with the default parameters specified in the ``chomp_planning.yaml`` file.
 
 - **max_recovery_attempts**: ::
   This is the maximum times that CHOMP is run with a varied set of parameters after the first attempt with the default parameters.
@@ -159,7 +159,7 @@ To achieve this, follow the steps:
     </launch>
 
 #. This launch file defines the new planning pipeline ``ompl-chomp``, deriving from the ``ompl`` pipeline,
-   but adding the CHOMP post-processor as a planning adapter. Also, the ``trajectory_initialization_method`` is overriden to use the OMPL-generated trajectory.
+   but adding the CHOMP post-processor as a planning adapter. Also, the ``trajectory_initialization_method`` is overridden to use the OMPL-generated trajectory.
 
 #. Now you can launch the newly configure planning pipeline as follows: ::
 

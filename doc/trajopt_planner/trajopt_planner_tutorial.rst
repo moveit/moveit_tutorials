@@ -73,7 +73,7 @@ Motion planning problem in TrajOpt is defined by a set of cost (COST) and constr
 
   - *GIVEN_TRAJ*: the user provides the entire trajectory for ``data`` member.
 
-- **TermInfo**: This is the base struct for all types of COST and CNT functions that are carried by ``cost_infos`` and ``cnt_infos`` members. COST functions are the objectives that are supposed to be minimized and CNT are the ones that must be satisfied. The current implementation containts ``JointPoseTermInfo``, ``JointVelTermInfo`` (hard-coded) and ``CartPoseTermInfo`` (is partially implemented). Member *term_type* dictates the type of the term we are adding; it could be ``TT_COST`` or ``TT_CNT`` which means a cost term or constraint term respectively. Also ``TT_USE_TIME`` can be selected for this member which allows time parameterization. In this case *use_time* of ``BasicInfo`` should be set to ``true`` as well.  The other parameters of these terms which need to be set are loaded from ``trajopt_planning.yaml`` file. The following list describes these parametrs:
+- **TermInfo**: This is the base struct for all types of COST and CNT functions that are carried by ``cost_infos`` and ``cnt_infos`` members. COST functions are the objectives that are supposed to be minimized and CNT are the ones that must be satisfied. The current implementation contains ``JointPoseTermInfo``, ``JointVelTermInfo`` (hard-coded) and ``CartPoseTermInfo`` (is partially implemented). Member *term_type* dictates the type of the term we are adding; it could be ``TT_COST`` or ``TT_CNT`` which means a cost term or constraint term respectively. Also ``TT_USE_TIME`` can be selected for this member which allows time parameterization. In this case *use_time* of ``BasicInfo`` should be set to ``true`` as well.  The other parameters of these terms which need to be set are loaded from ``trajopt_planning.yaml`` file. The following list describes these parametrs:
 
   - *coeffs*: weight coefficients for joints
 
@@ -124,7 +124,7 @@ Note that if we want to use TrajOpt through MotionPlanning Display in RViz, we s
 .. image:: req_traj_start.png
    :width: 500px
 
-For any new joint constraint, the corresponding information should be added to the yaml file. The current implementatoin can only handle the joint space constraints as ``JointPoseTermInfo`` from ``TermInfo``. The some of the remaining constraints to add are ``JointAccTermInfo``, ``JointJerkTermInfo``, ``CartPoseTermInfo``, ``TotalTimeTermInfo`` and ``CollisionTermInfo``.
+For any new joint constraint, the corresponding information should be added to the yaml file. The current implementation can only handle the joint space constraints as ``JointPoseTermInfo`` from ``TermInfo``. The some of the remaining constraints to add are ``JointAccTermInfo``, ``JointJerkTermInfo``, ``CartPoseTermInfo``, ``TotalTimeTermInfo`` and ``CollisionTermInfo``.
 
 References
 ---------------------------------------------------

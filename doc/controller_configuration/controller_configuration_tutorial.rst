@@ -170,6 +170,6 @@ All controller names get prefixed by the namespace of their ros_control node. Fo
 Controllers for Multiple Nodes
 ------------------------------
 
-MoveItMultiControllerManager can be used for more than one ros_control nodes. It works by creating several MoveItControllerManagers, one for each node. It instantiates them with their respecitve namespace and takes care of proper delegation. To use it must be added to the launch file. ::
+MoveItMultiControllerManager can be used for more than one ros_control nodes. It works by creating several MoveItControllerManagers, one for each node. It instantiates them with their respective namespace and takes care of proper delegation. To use it must be added to the launch file. ::
 
   <param name="moveit_controller_manager" value="moveit_ros_control_interface::MoveItMultiControllerManager" />
