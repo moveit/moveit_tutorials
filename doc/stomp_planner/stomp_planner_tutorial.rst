@@ -12,7 +12,7 @@ Some of the strengths of STOMP include:
 - Handles cost functions which do not need to be differentiable.
 - Uses distance field and spherical approximations to quickly compute distance queries and collision costs.
 
-Integration into Kinetic and Melodic version of MoveIt is work in progress. `More info <https://www.sachinchitta.org/uploads/2/2/5/7/22571428/kalakrishnan_icra_2011.pdf>`_
+Integration into Kinetic and Melodic version of MoveIt is work in progress. `More info <http://www-clmc.usc.edu/publications/K/kalakrishnan-ICRA2011.pdf>`_
 
 Getting Started
 ---------------
