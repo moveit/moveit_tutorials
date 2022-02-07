@@ -12,7 +12,7 @@ Some of the strengths of STOMP include:
 - Handles cost functions which do not need to be differentiable.
 - Uses distance field and spherical approximations to quickly compute distance queries and collision costs.
 
-Integration into Kinetic and Melodic version of MoveIt is work in progress. `More info <https://www.sachinchitta.org/uploads/2/2/5/7/22571428/kalakrishnan_icra_2011.pdf>`_
+Integration into Kinetic and Melodic version of MoveIt is work in progress. `More info <http://www-clmc.usc.edu/publications/K/kalakrishnan-ICRA2011.pdf>`_
 
 Getting Started
 ---------------
@@ -22,19 +22,20 @@ You should also have gone through the steps in `Visualization with MoveIt RViz P
 
 Prerequisites
 -------------
- 1. You must have the latest version of MoveIt for your ROS distribution installed. As STOMP is distributed independently you can safely install the packaged version of MoveIt however. STOMP then needs to be build from source, we will go through the steps for doing this below.
- 2. To use STOMP with your robot you must need to have a MoveIt configuration package for your robot ready. For example, if you have a Panda robot, it's probably called ``panda_moveit_config``. This is typically built using the `MoveIt Setup Assistant <../setup_assistant/setup_assistant_tutorial.html>`_.
+ 1. You must have the latest version of MoveIt for your ROS distribution installed. As STOMP is distributed independently you can safely install the packaged version of MoveIt. However, STOMP needs to be built from source. We will go through the steps for doing this below.
+ 2. To use STOMP with your robot you must have a MoveIt configuration package for your robot ready. For example, if you have a Panda robot, it's probably called ``panda_moveit_config``. This is typically built using the `MoveIt Setup Assistant <../setup_assistant/setup_assistant_tutorial.html>`_.
  3. You must also have built `ros-industrial/stomp_ros package <https://github.com/ros-industrial/stomp_ros>`_ and  `ros-industrial/stomp package <https://github.com/ros-industrial/stomp>`_ from source. This needs to be built from source since stomp_ros is not released as a debian yet.
 
 Installing STOMP from Source
 ------------------------------
-As you add and remove packages from your workspace you will need to clean your workspace and re-run the command to install new missing dependencies. Clean your workspace to remove references to the system wide installation of MoveIt: ::
+As you add and remove packages from your workspace you will need to clean your workspace with ``catkin clean`` and re-run the command to install new missing dependencies. Clean your workspace to remove references to the system wide installation of MoveIt: ::
 
-  cd ~/ws_moveit/src
-  source /opt/ros/melodic/setup.bash
-  wstool init
-  wstool set stomp https://github.com/ros-industrial/stomp_ros.git --git
-  wstool update
+  cd ~/ws_moveit
+  source /opt/ros/noetic/setup.bash
+  wstool set -t src stomp_ros https://github.com/ros-industrial/stomp_ros.git --git
+  wstool update -t src stomp_ros
+  wstool merge -t src src/stomp_ros/dependencies.rosinstall
+  wstool update -t src stomp ros_industrial_cmake_boilerplate
   catkin build
 
 Re-source the setup files: ::
