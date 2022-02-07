@@ -49,13 +49,19 @@ Step 1: Start
 
 .. image:: setup_assistant_start.png
 
-* Click on the browse button and navigate to the *panda_arm_hand.urdf.xacro* file
-  installed when you installed the Franka package above. (This file
-  gets installed in
-  /opt/ros/noetic/share/franka_description/robots/panda_arm_hand.urdf.xacro on Ubuntu
-  with ROS Noetic.)  Choose that file and then click *Load Files*. The
-  Setup Assistant will load the files (this might take a few seconds)
-  and present you with this screen:
+* Click on the browse button and navigate to the ``.urdf`` file of your robot.
+  MoveIt Setup Assistant supports both, plain ``.urdf`` files as well as ``.urdf.xacro`` files
+  that require the `xacro <http://wiki.ros.org/xacro>`_ pre-processor to generate the final URDF.
+
+  For the Panda robot, the file is called ``panda_arm.urdf.xacro`` provided by the ``franka_description``
+  package, located in ``/opt/ros/noetic/share/franka_description/robots/panda_arm.urdf.xacro`` when installed
+  from the ROS Noetic package repository as done above.
+
+* Optionally, enter xacro commandline parameters to steer the URDF generation process.
+  For the Panda, you should add **hand:=true** to enable creation of both arm *and* hand.
+
+* Finally, click *Load Files*. The Setup Assistant will load the files (this might take a few seconds) and present
+  you with this screen, showing the robot in a default pose with all joints at the center of their range:
 
 .. image:: setup_assistant_panda_100.png
    :width: 700px
@@ -116,6 +122,10 @@ Step 4: Add Planning Groups
 
 Planning groups are used for semantically describing different parts
 of your robot, such as defining what an arm is, or an end effector.
+A planning group essentially defines which joints will actively participate in
+motion generation, what are reference frames for inverse kinematics, etc.
+
+In the following, we will define two planning groups for the arm and one group for the hand.
 
 * Click on the *Planning Groups* pane selector.
 
@@ -124,9 +134,8 @@ of your robot, such as defining what an arm is, or an end effector.
 .. image:: setup_assistant_panda_planning_groups.png
    :width: 700px
 
-Add the arm
 
-* We will first add Panda arm as a planning group
+* We will first add ``panda_arm`` as a planning group
 
   * Enter *Group Name* as **panda_arm**
 
@@ -134,37 +143,39 @@ Add the arm
     kinematics solver. *Note: if you have a custom robot and would
     like a powerful custom IK solver, see* `Kinematics/IKFast <../ikfast/ikfast_tutorial.html>`_
 
-  * Let *Kin. Search Resolution* and *Kin. Search Timeout* stay at
+  * Let *Kin. Search Resolution*, *Kin. Search Timeout* and *Kin. parameters file* stay at
     their default values.
 
 .. image:: setup_assistant_panda_arm.png
    :width: 700px
 
-* Now, click on the *Add Joints* button. You will see a
-  list of joints on the left hand side. You need to choose all the
-  joints that belong to the arm and add them to the right hand
-  side. The joints are arranged in the order that they are stored in
-  an internal tree structure. This makes it easy to select a serial
-  chain of joints.
+* Groups can be define in various ways. Here, we prefer defining the group via a kinematic chain,
+  i.e. defining its first and last link along the chain.
+  Thus, click on the *Add Kin. Chain* button and, on the next pane, click the *Expand All* button to see the full
+  kinematic tree of your robot.
 
-  * Click on **virtual_joint**, hold down the **Shift**
-    button on your keyboard and then click on the
-    *panda_joint8*. Now click on the **>** button to add these
-    joints into the list of selected joints on the right.
+  * Click on the ``panda_link0`` link and press the *Choose Selected* button next to the
+    **Base link** text field.
+  * Click on the ``panda_link8`` link and press the *Choose Selected* button next to the
+    **Tip link** text field.
 
-.. image:: setup_assistant_panda_arm_joints.png
+.. image:: setup_assistant_panda_arm_links.png
    :width: 700px
 
 * Click *Save* to save the selected group.
 
-.. image:: setup_assistant_panda_arm_joints_saved.png
+.. image:: setup_assistant_panda_arm_links_saved.png
    :width: 700px
 
-Add the gripper
+Repeat this procedure for another arm group, called ``manipulator``, ranging from base link ``panda_link0``
+to tip link ``panda_hand_tcp``. While ``panda_link8`` defines the tool mount frame of the Panda, the virtual frame
+``panda_hand_tcp`` defines the tool center point between the two gripper flanges. Both frames have a different orientation
+as well, ``panda_hand_tcp`` being aligned with the hand.
 
-* We will also add a group for the end
-  effector. NOTE that you will do this using a different procedure
-  than adding the arm.
+Add the ``hand`` group
+
+* We will also add a group for the end effector.
+  NOTE that you will do this using a slightly different procedure than adding the arm.
 
   * Click on the *Add Group* button.
 
@@ -172,7 +183,8 @@ Add the gripper
 
   * Let *Kinematic Solver* stay at its default value; **None**.
 
-  * Let *Kin. Search Resolution* and *Kin. Search Timeout* stay at their default values.
+  * Let *Kin. Search Resolution*, *Kin. Search Timeout* and *Kin. parameters file* stay at
+    their default values.
 
   * Click on the *Add Links* button.
 
@@ -207,12 +219,12 @@ certain position of the robot as a **Home** position.
 .. image:: setup_assistant_panda_saved_poses.png
    :width: 700px
 
-Step 6: Label End Effectors
+Step 6: Add End Effectors
 ---------------------------
 
-We have already added the gripper of the Panda. Now, we
-will designate this group as a special group:
-**end effectors**. Designating this group as end effectors allows
+We have already added the gripper of the Panda as a planning group. Now, we
+will designate this group as a special group, an **end effector**.
+Designating the group as an end effector allows
 some special operations to happen on them internally.
 
 * Click on the *End Effectors* pane.
@@ -223,9 +235,16 @@ some special operations to happen on them internally.
 
 * Select **hand** as the *End Effector Group*.
 
-* Select **panda_link8** as the *Parent Link* for this end-effector.
+* Select **panda_link8** as the *Parent Link* and **panda_arm** as the *Parent Group* for this end-effector.
 
-* Leave *Parent Group* blank.
+Add another end effector group, called **hand_tcp**, using **panda_hand_tcp** as its parent link
+and **manipulator** as its parent group. Thus, the two arm planning groups essentially differ in
+their associated end effector as well as the corresponding end-effector link = parent link.
+Thus they will provide different interactive markers to steer the robot in Cartesian space.
+
+Note, that it is possible to associate several end effector groups to a single parent group.
+If you select such a planning group for planning, *all* associated interactive markers will be provided
+to steer the arm - potentially using different end-effector reference frames.
 
 .. image:: setup_assistant_panda_end_effector_add.png
    :width: 700px
@@ -241,24 +260,58 @@ directly controlled. The Panda does not have any passive
 joints so we will skip this step.
 
 
-Step 8: 3D Perception
---------------------------
+Step 8: Controllers
+---------------------
 
-The 3D Perception tab is meant to set the parameters of the YAML configuration file
-for configuring the 3D sensors `sensors_3d.yaml`.
+ROS Control is a set of packages that include controller interfaces, controller managers, transmissions and hardware_interfaces, for more details please look at `ros_control` documentation_
 
-e.g. `point_cloud` parameters:
+.. _documentation: http://wiki.ros.org/ros_control
 
-.. image:: setup_assistant_panda_3d_perception_point_cloud.png
+ROS Control tab can be used to auto-generate simulated controllers to actuate the joints of your robot. This will allow us to provide the correct ROS interfaces MoveIt.
+
+* Click on the *ROS Control* pane selector.
+
+.. image:: setup_assistant_panda_ros_control.png
    :width: 700px
 
-For more details about those parameters please see perception pipeline `tutorial <../perception_pipeline/perception_pipeline_tutorial.html>`_
+* Click on *Add Controller* and you should see the following screen:
 
-In case of `sensors_3d.yaml` was not needed, choose `None`.
-
-.. image:: setup_assistant_panda_3d_perception.png
+.. image:: setup_assistant_panda_ros_control_add_controller.png
    :width: 700px
 
+Add the ``panda_arm`` controller
+
+* We will first add Panda arm position controller
+
+* Enter *Controller Name* as **arm_position_controller**
+
+* Choose **position_controllers/JointTrajectoryController** as the controller type
+
+* Next, you have to choose the controlled joints, you can add joints individually or add all the joints in a planning group altogether.
+
+* Now, click on *Add Planning Group Joints*.
+
+.. image:: setup_assistant_panda_ros_control_create.png
+   :width: 700px
+
+* Choose panda_arm planning group to add all the joints in that group to the arm controller.
+
+.. image:: setup_assistant_panda_ros_control_add_joints.png
+   :width: 700px
+
+* Click *Save* to save the selected controller.
+
+Following, repeat the process above the create the ``manipulator`` controller. Keep everything the same but now
+use **manipulator** as the *Controller Name*. Next, add the ``hand`` controller
+
+* Again, click on *Add Controller* to add the hand controller.
+
+* Now also choose the **position_controllers/JointTrajectoryController** controller as the controller type
+  but set the *Controller Name* as **panda_hand_controller**.
+
+* Now, click on *Add Individual Joints* and add the **panda_finger_joint1** joint.
+
+* Finally, click *save* to save the selected controller.
 
 Step 9: Gazebo Simulation
 --------------------------
@@ -283,41 +336,23 @@ You can use the generated robot `urdf` to spawn the robot in Gazebo in the follo
    :width: 700px
 
 
-Step 10: ROS Control
----------------------
+Step 10: 3D Perception
+--------------------------
 
-ROS Control is a set of packages that include controller interfaces, controller managers, transmissions and hardware_interfaces, for more details please look at `ros_control` documentation_
+The 3D Perception tab is meant to set the parameters of the YAML configuration file
+for configuring the 3D sensors `sensors_3d.yaml`.
 
-.. _documentation: http://wiki.ros.org/ros_control
+e.g. `point_cloud` parameters:
 
-ROS Control tab can be used to auto generate simulated controllers to actuate the joints of your robot. This will allow us to provide the correct ROS interfaces MoveIt.
-
-* Click on the *ROS Control* pane selector.
-
-.. image:: setup_assistant_panda_ros_control.png
+.. image:: setup_assistant_panda_3d_perception_point_cloud.png
    :width: 700px
 
-* Click on *Add Controller* and you should see the following screen:
+For more details about those parameters please see perception pipeline `tutorial <../perception_pipeline/perception_pipeline_tutorial.html>`_
 
-* We will first add Panda arm position controller
+In case of `sensors_3d.yaml` was not needed, choose `None`.
 
-* Enter *Controller Name* as **arm_position_controller**
-
-* Choose **position_controllers/JointPositionController** as the controller type
-
-* Next you have to choose this controller joints, you can add joints individually or add all the joints in a planning group all together.
-
-* Now, click on Add Planning Group Joints.
-
-.. image:: setup_assistant_panda_ros_control_create.png
+.. image:: setup_assistant_panda_3d_perception.png
    :width: 700px
-
-* Choose panda_arm planning group to add all the joints in that group to the arm controller.
-
-.. image:: setup_assistant_panda_ros_control_add_joints.png
-   :width: 700px
-
-* Click *Save* to save the selected controller.
 
 Step 11: Add Author Information
 --------------------------------
@@ -359,7 +394,6 @@ files that you will need to start using MoveIt
 
 What's Next
 ---------------
-
 
 The MoveIt RViz plugin
 
