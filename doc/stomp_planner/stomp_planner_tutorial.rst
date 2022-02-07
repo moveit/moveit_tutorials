@@ -31,11 +31,11 @@ Installing STOMP from Source
 As you add and remove packages from your workspace you will need to clean your workspace with ``catkin clean`` and re-run the command to install new missing dependencies. Clean your workspace to remove references to the system wide installation of MoveIt: ::
 
   cd ~/ws_moveit
-  source /opt/ros/melodic/setup.bash
+  source /opt/ros/noetic/setup.bash
   wstool set -t src stomp_ros https://github.com/ros-industrial/stomp_ros.git --git
   wstool update -t src stomp_ros
   wstool merge -t src src/stomp_ros/dependencies.rosinstall
-  wstool update -t src stomp ros_industrial_cke_boilerplate
+  wstool update -t src stomp ros_industrial_cmake_boilerplate
   catkin build
 
 Re-source the setup files: ::
