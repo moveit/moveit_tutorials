@@ -250,6 +250,7 @@ int main(int argc, char** argv)
   att_coll_object.object.id = "cylinder";
   att_coll_object.link_name = "panda_hand";
   att_coll_object.object.operation = att_coll_object.object.ADD;
+  att_coll_object.touch_links = { att_coll_object.link_name };
   ROS_INFO_STREAM("Attaching cylinder to robot.");
   planning_scene_interface.applyAttachedCollisionObject(att_coll_object);
   // END_SUB_TUTORIAL
@@ -322,7 +323,7 @@ int main(int argc, char** argv)
       target_orientation.setRPY(0, tau / 2, tau / 4);
       target_pose.pose.orientation = tf2::toMsg(target_orientation);
       // To keep some distance to the box, we use a small offset:
-      target_pose.pose.position.z = 0.01;
+      target_pose.pose.position.z = 0.03;
       showFrames(target_pose, "cylinder/tip");
       moveToCartPose(target_pose, group, "cylinder/tip");
       // END_SUB_TUTORIAL
@@ -335,7 +336,7 @@ int main(int argc, char** argv)
       target_pose.header.frame_id = "box/top";
       target_orientation.setRPY(tau / 2, 0, tau / 4);
       target_pose.pose.orientation = tf2::toMsg(target_orientation);
-      target_pose.pose.position.z = 0.01;
+      target_pose.pose.position.z = 0.03;
       showFrames(target_pose, "cylinder/tip");
       moveToCartPose(target_pose, group, "cylinder/tip");
     }
@@ -346,7 +347,7 @@ int main(int argc, char** argv)
       target_pose.header.frame_id = "box/corner_1";
       target_orientation.setRPY(0, tau / 2, tau / 4);
       target_pose.pose.orientation = tf2::toMsg(target_orientation);
-      target_pose.pose.position.z = 0.01;
+      target_pose.pose.position.z = 0.03;
       showFrames(target_pose, "cylinder/tip");
       moveToCartPose(target_pose, group, "cylinder/tip");
     }
@@ -355,7 +356,7 @@ int main(int argc, char** argv)
       target_pose.header.frame_id = "box/corner_2";
       target_orientation.setRPY(0, tau / 2, tau / 4);
       target_pose.pose.orientation = tf2::toMsg(target_orientation);
-      target_pose.pose.position.z = 0.01;
+      target_pose.pose.position.z = 0.03;
       showFrames(target_pose, "cylinder/tip");
       moveToCartPose(target_pose, group, "cylinder/tip");
     }
@@ -364,7 +365,7 @@ int main(int argc, char** argv)
       target_pose.header.frame_id = "box/side";
       target_orientation.setRPY(0, tau / 2, tau / 4);
       target_pose.pose.orientation = tf2::toMsg(target_orientation);
-      target_pose.pose.position.z = 0.01;
+      target_pose.pose.position.z = 0.05;
       showFrames(target_pose, "cylinder/tip");
       moveToCartPose(target_pose, group, "cylinder/tip");
     }
@@ -424,6 +425,7 @@ int main(int argc, char** argv)
       att_coll_object.object.id = "cylinder";
       att_coll_object.link_name = "panda_hand";
       att_coll_object.object.operation = att_coll_object.object.ADD;
+      att_coll_object.touch_links = { att_coll_object.link_name };
       ROS_INFO_STREAM("Attaching cylinder to robot.");
       planning_scene_interface.applyAttachedCollisionObject(att_coll_object);
     }
