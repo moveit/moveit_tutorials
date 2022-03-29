@@ -10,7 +10,7 @@ master_doc = "index"
 # The suffix of source filenames.
 source_suffix = ".rst"
 
-project = u"moveit_tutorials"
+project = "moveit_tutorials"
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
