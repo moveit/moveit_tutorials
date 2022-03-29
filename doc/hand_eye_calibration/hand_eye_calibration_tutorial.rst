@@ -35,15 +35,15 @@ Then, make sure you have the appropriate dependencies and build the package::
 Launch RViz and Load Calibration Plugin
 ---------------------------------------
 Launch the appropriate MoveIt demo for your robot. For instance, ``roslaunch panda_moveit_config demo.launch``.
-In the RViz "Panels" menu, choose "Add New Panel":
+In the RViz "Displays" panel, click "Add":
 
-.. image:: images/choose_new_panel.png
+.. image:: images/choose_add_display.png
 
-Then, select the "HandEyeCalibration" panel type:
+Then, select the "HandEyeCalibration" display type:
 
-.. image:: images/add_handeye_panel.png
+.. image:: images/add_handeye_display.png
 
-The panel will be added with the "Target" tab active.
+The display will be added with the "Target" tab active.
 
 Create and Print a Target
 -------------------------
