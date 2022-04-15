@@ -3,7 +3,7 @@ Introduction
 In MoveIt, we can plan motions for multiple robot arms, but we need to pre-required steps to prepare robot models and configure ros controllers. This tutorial provides ROS beginners with the steps to model multiple arms, configure controllers, and plan motions using MoveIt.
 
 .. image:: images/multiple_arms_start.png
-   :width: 300pt
+   :width: 600pt
    :align: center
 
 Getting Started
