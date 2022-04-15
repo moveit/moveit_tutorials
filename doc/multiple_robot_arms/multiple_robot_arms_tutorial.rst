@@ -1,54 +1,36 @@
 Introduction
 ------------
-MoveIt provides capabilities of simulating and controlling multiple robot arms. This tutorial provides ROS beginners with the steps to model, control, and plan motions using MoveIt for their multiple robot arms without additional help.
+In MoveIt, we can plan motions for multiple robot arms, but we need to pre-required steps to prepare robot models and configure ros controllers. This tutorial provides ROS beginners with the steps to model multiple arms, configure controllers, and plan motions using MoveIt.
 
 .. image:: images/multiple_arms_start.png
-   :width: 500pt
+   :width: 300pt
    :align: center
-
-Requirement: can read the tutorial and set up a ros2_control / MoveIt pipeline
-------------------------------------------------------------------------------
 
 Getting Started
 ---------------
 If you haven't already done so, make sure you've completed the steps in `Getting Started <../getting_started/getting_started.html>`_.
 
 
-The steps of setting multiple arms environments are as follows:
+The steps of setting multiple arms environments to use MoveIt motion planning are as follows:
 
-1. Build the Xacro/URDF model of the muktiple arms.
+1. Build the Xacro/URDF model of the multiple arms.
 
-2. Prepare MoveIt config package using MoveIt setup assistant. 
+2. Prepare the MoveIt config package using MoveIt setup Assistant. 
 
 3. Write the ros_control configuration for the multiple arms. 
 
-4. Integrate the simulation in Gazebo with Rviz motion planning plugin/visualization.
+4. Integrate the simulation in Gazebo with MoveIt motion planning.
 
-5. Plan arms motions with MoveIt Cpp interface.
+5. Plan arms motions with MoveIt Move Group Interface.
 
-This tutorial explain every step in detail to help setup your multiple robot arms environment. 
+This tutorial explains every step to help set up your multiple robot arms environment. 
 
-Step 1: Build the Xacro/URDF model of the muktiple arms
--------------------------------------------------------
+1. Build the Xacro/URDF model of the multiple arms
+--------------------------------------------------
 
-The tutorial uses Panda robot arm, but the same method applies to other types of robot arms. 
+The Panda robot arm is used in the following explanation, but the same applies to preparing other types of robot arms.
 
-Assuming that you have aleady downloaded the Panda MoveIt config package, to check the model you have, run the command: ::
-
-    roslaunch panda_moveit_config demo.launch
-
-When using your robot arm, you do not need to build a single arm MoveIt config packages if you plan to use multiple arms. In this case, an alternative command to check your robot links and joints visually is: ::
-    
-    roslaunch urdf_tutorials display.launch model:=robot_arm.urdf
-
-If you have the xacro model, not the URDF, you can convert Xacro to URDF as follows then use the above command: :: 
-
-    rosrun xacro xacro.launch robot_file.xacro -o desired_urdf_name.urdf
-
-
-The command takes the xacro file, and produces the urdf model with the `-o` option. 
-
-To start building your multiple arms model, create a new package as follows: :: 
+To start building your multiple arms model, create a new ``panda_multiple_arms`` package as follows: :: 
 
     cd ~/ws_moveit
     catkin create pkg panda_multiple_arms
@@ -56,17 +38,15 @@ To start building your multiple arms model, create a new package as follows: ::
     mkdir robot_description
     touch panda_multiple_arms.xacro
 
-To build your multiple robot arms robot description xacro file, you need to have each single arm's description file. In the following part, we will build a dual arm panda robot description file.
+To prepare your multiple robot arms xacro file (model), you need to have the single arm's xacro file. In the following part, we will build a multiple arms panda robot description file consisting of two identical arms.
 
-It is worth mentioning that the difference between xacro and URDF is that TODO1. This property makes it easier to include multiple robot arms models in the same file, with a different prefix. 
+..
+    It is worth mentioning that the difference between xacro and URDF is that TODO1. This property makes it easier to include multiple robot arms models in the same file, with a different prefix. 
 
-The structure of your dual panda robot arm should be as follows: ::
+Our multiple arms model has a ``rgt_panda`` and ``lft_panda`` arms. Its structure is as follows: ::
 
     <?xml version="1.0"?>
-    <robot name="dual_panda_arms" xmlns:xacro="http://ros.org/wiki/xacro">
-
-    <?xml version="1.0" encoding="utf-8"?>
-    <robot name="dual_panda_arms" xmlns:xacro="http://ros.org/wiki/xacro">
+    <robot name="multiple_panda_arms" xmlns:xacro="http://ros.org/wiki/xacro">
 
     <xacro:arg name="arm_id_1" default="rgt_panda" />
     <xacro:arg name="arm_id_2" default="lft_panda" />
@@ -105,15 +85,15 @@ The structure of your dual panda robot arm should be as follows: ::
 
 Notes: 
 
-1. The  ``franka_description`` package is already installed as a dependency of the ``panda_moveit_config`` package. When modeling your robot, make sure the robot_descriptionb package is available in your ROS workspace.
+1. The ``franka_description`` package is already installed as a dependency of the ``panda_moveit_config`` package. When modeling your robot, make sure the robot_descriptionb package is available in your ROS workspace.
 
-2. You need to have a careful look at your arm's xacro file to understand the xacro parameters to use. Here is an example from the ``panda_arm.xacro`` in the ``franka_description`` package: ::
+2. We usually need to have a careful look at the arm's xacro file to understand the xacro parameters to use. Here is an example from the ``panda_arm.xacro`` in the ``franka_description`` package: ::
       
       <xacro:macro name="panda_arm" params="arm_id:='panda' description_pkg:='franka_description' connected_to:='' xyz:='0 0 0' rpy:='0 0 0' safety_distance:=0">
 
-We can see the parameters and that some of them got default values and others did not. Search those parameters in the same file to understand the function of each. The ``arm_id`` sets a prefix name to the arm to be enable reusing the same model with different names. This is essential for our purpose of modeling multiple robots, and makes our job really simple. We can insert different arms with altering only the arm_id that changes the robot name. The ``connected_to`` parameter gives possibility to connect the robot base with a fixed joint to a given link. In our dual arm model, each robot is connected to the box shaped base. 
+We can search those parameters in the xacro macro file to understand the function of each. The ``arm_id`` sets a prefix to the arm name to be enable reusing the same model. This is essential for our purpose of modeling multiple arms or robots. The ``connected_to`` parameter gives possibility to connect the robot base with a fixed joint to a given link. In our multiple arms model, each robot is connected to the box shaped base. 
 
-At this point, it is recommended to check our xacro file is working as expected. This can be done in three simple steps; convert your xacro model to URDF, check the connections between links and joints are correct, and if needed you can visualize it. RUn the following commands to check the URDF has no problems. ::
+At this point, it is recommended to check our xacro model is working as expected. This can be done in three simple steps; convert your xacro model to URDF, check the connections between links and joints are correct, and if needed you can visualize it (as described before). Run the following commands to check the URDF has no problems. 
 
     cd ~ws_moveit
     catkin build 
@@ -123,9 +103,9 @@ At this point, it is recommended to check our xacro file is working as expected.
     check_urdf panda_multiple_arms.urdf
 
 
-The ``check_urdf`` command shows the links tree and indicats if there are any errors: ::
+The ``check_urdf`` shows the links tree and indicats if there are any errors: ::
 
-    robot name is: dual_panda_arms
+    robot name is: multiple_panda_arms
     ---------- Successfully Parsed XML ---------------
     root Link: base has 2 child(ren)
         child(1):  lft_panda_link0
@@ -366,7 +346,40 @@ Step 4: Integrate the simulation in Gazebo with Moveit motion planning
 
 The controllers are now ready. We need to launch all the required files to start a simulated robot with the controllers and motion planning context. 
 
+To grasp the big picture, we need to prepare a ``panda_multiple_arms_bringup_moveit.launch`` file . This file loads The file loads the robot in a gazebo world, loads the two gazebo controllers, moveit_planning_execution launch file, and the robot state publisher. 
 
+To spawn the panda arms in a gazebo empty world, we need to prepare a launch file in the ``panda_multiple_arms`` package. Let's call this file ``view_panda_multiple_arms_empty_world.launch``. Here are the steps to prepar this file. :: 
+
+    cd ~/ws_moveit
+    cd src/panda_multiple_arms/launch 
+    touch view_panda_multiple_arms_empty_world.launch
+
+The ``view_panda_multiple_arms_empty_world.launch`` file launches an empty world file, loads the robot description, and spawns the robot in the empty world. Its contents are as follows::
+    
+     
+
+
+
+  
+<launch>
+  <!-- Launch Gazebo  -->
+  <include file="$(find mylabworkcell_support)/launch/view_dual_arm_gazebo_empty_world.launch" />   
+
+  <!-- ros_control seven dof arm launch file -->
+  <include file="$(find mylabworkcell_support)/launch/dual_arm_gazebo_controller.launch" />   
+
+  <!-- ros_control trajectory control dof arm launch file -->
+  <include file="$(find mylabworkcell_support)/launch/dual_arm_trajectory_controller.launch" />    
+
+  <!-- moveit launch file -->
+  <include file="$(find mylabworkcell_moveit_config)/launch/moveit_planning_execution.launch" />    
+
+	<!-- publish joint states -->
+	<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+		<param name="/use_gui" value="false"/>
+		<rosparam param="/source_list">[/move_group/fake_controller_joint_states]</rosparam>
+	</node>
+</launch>
 
 ```
 Tutorial for multiple robot arms
