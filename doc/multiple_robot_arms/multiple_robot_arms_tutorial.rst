@@ -161,45 +161,44 @@ If you are not familiar with MoveIt Setup Assistant, please refer to this tutori
 
 .. _tutorial: https://ros-planning.github.io/moveit_tutorials/doc/setup_assistant/setup_assistant_tutorial.html 
 
-We use the MoveIt Setup Assistant to configure our multiple robot arms for use with MoveIt. It generates necessary configuration files for using the Moveit pipeline. 
+MoveIt Setup Assistant is used to configure our multiple robot arms for using the MoveIt pipeline. 
 
 - Start the MoveIt Setup Assistant: ::
 
     roslaunch moveit_setup_assistant setup_assistant.launch
 
-Follow the MoveIt Setup Assistant tutorial_ to condifure the arms. Note that we will be making a separate move group for each arm. For our example, we wil call them ``rgt_arm`` and ``lft_arm``. 
+Follow the MoveIt Setup Assistant tutorial_ to configure the arms. Note that we will be making a separate move group for each arm. They are called ``rgt_arm`` and ``lft_arm``. 
 
 .. _tutorial: https://ros-planning.github.io/moveit_tutorials/doc/setup_assistant/setup_assistant_tutorial.html 
 
 
-I will clarify two more steps over the previous tutorial to ensure your model is complete. 
+Two more points should be considered, over the Setup Assistant tutorial, to ensure the multiple arms model is correctly done. 
 
-When you generate the collision matrix, diable the collision between the pairs ``rgt_panda_link6`` & ``rgt_panda_link8``, and ``lft_panda_link6`` & ``lft_panda_link8``. The reason is that those pairs do not come into collision, but due to the collision geometry type, they come into collision. Have a look at the following figures for clear description.
+1. When you generate the collision matrix, disable the collision between the pairs ``rgt_panda_link6`` & ``rgt_panda_link8``, and ``lft_panda_link6`` & ``lft_panda_link8``. The reason is that those pairs do not come into collision, but due to the collision geometry type, they collide. Have a look at the following figures for a clear description.
 
-The visual meshes descriping the real robot do not collide. 
+The visual meshes describing the real robot do not collide. 
 
 .. image:: images/panda_arm_visual1-2.png
    :width: 500pt
    :align: center
 
 
-But the collision sphere geometries do come into collision. However, this shold be corrected considering the real robot.
+The collision sphere geometries do come into collision. We should correct this behavior considering the real robot geometry.
 
 .. image:: images/panda_arm_collision1-2.png
    :width: 500pt
    :align: center
 
 
-It is beyond the scope of this tutorial, but it is worth mentioning this is not the best representation of collision for panda_link8. I would suggest covering this hand link with a box type geometry, not a sphere.
+It is beyond the scope of this tutorial, but covering this hand link with a box-type geometry would be better because of the link shape.
 
-
-The second point I want to add is about defining the ``rgt_hand`` and ``lft_hand`` move grous and their poses. The ``open`` state has the joint1 value set to 0.35, and the ``close`` has the joint1 set to 0.0. Note that the hand joint2 mimics the value of joint1, therefor there is no need to fix it in the hand move_group pose. The defined poses can be as follows. You can add more zero poses for the arms, if you want.
+2. The other point I want to add is about defining the ``rgt_hand`` and ``lft_hand`` move groups and their pref-defined poses. Make the ``open`` pose with joint1 value set to 0.35, and the ``close`` has the joint1 set to 0.0. Note that the hand joint2 mimics the value of joint1.  Therefore, there is no need to fix joint2 in the hand move_group poses.  The defined poses for the arms and hand can be as follows. You can add other poses of interest for the arms, if needed.
 
 .. image:: images/move_groups_poses.png
    :width: 500pt
    :align: center
 
-Name the package ``panda_multiple_arms_moveit_config`` and generate its files using the Setup Assistant. We have the multiple arms and their hands moveit configuration packages ready. 
+Name the Moveit config package ``panda_multiple_arms_moveit_config`` and generate the files using the Setup Assistant. 
 
 Step 3: Write the ros_control configuration for the multiple arms 
 -----------------------------------------------------------------
