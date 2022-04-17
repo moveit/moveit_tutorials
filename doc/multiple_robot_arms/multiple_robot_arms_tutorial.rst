@@ -203,9 +203,9 @@ Name the Moveit config package ``panda_multiple_arms_moveit_config`` and generat
 Step 3: Write the ros_control configuration for the multiple arms 
 -----------------------------------------------------------------
 
-In this step, we will write ros_control configuration files and launch files to spawn those controllers. This step is very connected to the next step.
+This step will write ros_control configuration files and roslaunch files to start them. 
 
-The type of controller we need to interface Moveit with Gazebo simulated robot is ``Joint Trajectory Controller``. To write the controller configuration ::
+The type of controller we need to execute joint-space trajectories on a group of robot joints is ``JointTrajectoryController``. Create a controller configuration (yaml) file in the ``panda_multiple_arms`` package as follows::
 
     cd ~/ws_moveit
     cd src/panda_multiple_arms
@@ -213,102 +213,107 @@ The type of controller we need to interface Moveit with Gazebo simulated robot i
     touch trajectory_controller.yaml 
 
 
-Open the ``trajectory_controller.yaml`` and copy the next multiple_arms controllers configuration to it ::
+Open the ``trajectory_controller.yaml`` and copy the next multiple_arms controller configuration to it ::
 
-    multiple_arms:
+    panda_multiple_arms:
         rgt_panda_trajectory_controller:
-            type: "position_controllers/JointTrajectoryController"
+            type: "effort_controllers/JointTrajectoryController"
             joints:
-            - rgt_panda_joint_1
-            - rgt_panda_joint_2
-            - rgt_panda_joint_3
-            - rgt_panda_joint_4
-            - rgt_panda_joint_5
-            - rgt_panda_joint_6
+            - rgt_panda_joint1
+            - rgt_panda_joint2
+            - rgt_panda_joint3
+            - rgt_panda_joint4
+            - rgt_panda_joint5
+            - rgt_panda_joint6
             constraints:
                 goal_time: 0.6
                 stopped_velocity_tolerance: 0.05
-                rgt_panda_joint_1: {trajectory: 0.1, goal: 0.1}
-                rgt_panda_joint_2: {trajectory: 0.1, goal: 0.1}
-                rgt_panda_joint_3: {trajectory: 0.1, goal: 0.1}
-                rgt_panda_joint_4: {trajectory: 0.1, goal: 0.1}
-                rgt_panda_joint_5: {trajectory: 0.1, goal: 0.1}
-                rgt_panda_joint_6: {trajectory: 0.1, goal: 0.1}
+                rgt_panda_joint1: {trajectory: 0.1, goal: 0.1}
+                rgt_panda_joint2: {trajectory: 0.1, goal: 0.1}
+                rgt_panda_joint3: {trajectory: 0.1, goal: 0.1}
+                rgt_panda_joint4: {trajectory: 0.1, goal: 0.1}
+                rgt_panda_joint5: {trajectory: 0.1, goal: 0.1}
+                rgt_panda_joint6: {trajectory: 0.1, goal: 0.1}
             stop_trajectory_duration: 0.5
             state_publish_rate:  25
             action_monitor_rate: 10
 
         lft_panda_trajectory_controller:
-            type: "position_controllers/JointTrajectoryController"
+            type: "effort_controllers/JointTrajectoryController"
             joints:
-            - lft_panda_joint_1
-            - lft_panda_joint_2
-            - lft_panda_joint_3
-            - lft_panda_joint_4
-            - lft_panda_joint_5
-            - lft_panda_joint_6
+            - lft_panda_joint1
+            - lft_panda_joint2
+            - lft_panda_joint3
+            - lft_panda_joint4
+            - lft_panda_joint5
+            - lft_panda_joint6
             constraints:
                 goal_time: 0.6
                 stopped_velocity_tolerance: 0.05
-                lft_panda_joint_1: {trajectory: 0.1, goal: 0.1}
-                lft_panda_joint_2: {trajectory: 0.1, goal: 0.1}
-                lft_panda_joint_3: {trajectory: 0.1, goal: 0.1}
-                lft_panda_joint_4: {trajectory: 0.1, goal: 0.1}
-                lft_panda_joint_5: {trajectory: 0.1, goal: 0.1}
-                lft_panda_joint_6: {trajectory: 0.1, goal: 0.1}
+                lft_panda_joint1: {trajectory: 0.1, goal: 0.1}
+                lft_panda_joint2: {trajectory: 0.1, goal: 0.1}
+                lft_panda_joint3: {trajectory: 0.1, goal: 0.1}
+                lft_panda_joint4: {trajectory: 0.1, goal: 0.1}
+                lft_panda_joint5: {trajectory: 0.1, goal: 0.1}
+                lft_panda_joint6: {trajectory: 0.1, goal: 0.1}
             stop_trajectory_duration: 0.5
             state_publish_rate:  25
             action_monitor_rate: 10
 
-Create a launch file to load the previous controller configurations. Let the names be descriptive such as ``multiple_panda_arms_trajectory_controller.launch`` ::
+The ``panda_multiple_arms`` is the controller's namespace. The ``rgt_panda_trajectory_controller`` and ``rgt_panda_trajectory_controller`` are the controllers names. Under each controller, we need to specify its type, joint groups, and needed constraints. For more about joint trajectory controllers, refer to their documentation_. 
+
+.. _documentation: http://wiki.ros.org/joint_trajectory_controller 
+
+Next, create a launch file to load the trajectory controller configurations. Let the name be descriptive such as ``multiple_panda_arms_trajectory_controller.launch`` ::
 
     cd ~/ws_moveit
     cd src/panda_multiple_arms
     mkdir launch
     touch multiple_panda_arms_trajectory_controller.launch
 
-Edit ``the multiple_panda_arms_trajectory_controller.launch`` and add the following to it ::
+Edit the ``multiple_panda_arms_trajectory_controller.launch`` and add the following to it::
 
     <launch>
     
         <rosparam file="$(find panda_multiple_arms)/config/trajectory_controller.yaml" command="load" />
 
-        <node name="multiple_panda_arms_controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" ns="/multiple_arms" args="rgt_panda_joint_controller lft_panda_joint_controller" />
+        <node name="multiple_panda_arms_controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" ns="/panda_multiple_arms" args="rgt_panda_joint_controller lft_panda_joint_controller" />
 
     </launch>
 
-Please be careful with the namespace (ns) and the controllers names when doing this step. The names must match the names in the trajectory_controller.yaml file. 
+Please be careful with the namespace (ns) and the controller's names when doing this step. Those names must match the names in the trajectory_controller.yaml file. 
 
-Next, we should modify the auto-generated ros_controllers.yaml in the path ``panda_multiple_arms_moveit_config/config/ros_controllers.yaml``. The file contents should be as follows ::
+Next, we should modify the auto-generated ros_controllers.yaml in the moveit config package for interfacing the arm using MoveIt to Gazebo. We need a trajectory controller which has the FollowJointTrajectoryAction interface. After motion planning, the FollowJointTrajectoryAction interface sends the generated trajectory to the robot ros controller (written above ``trajectory_controller.yaml``).
+
+The ros_controllers.yaml is generated in the path ``panda_multiple_arms_moveit_config/config/ros_controllers.yaml``. The file contents should be as follows ::
 
     controller_manager_ns: controller_manager
     controller_list:
-    - name: multiple_arms/rgt_panda_trajectory_controller
-      action_ns: follow_joint_trajectory
-      type: FollowJointTrajectory
-      default: true
-      joints:
-        - rgt_panda_joint_1
-        - rgt_panda_joint_2
-        - rgt_panda_joint_3
-        - rgt_panda_joint_4
-        - rgt_panda_joint_5
-        - rgt_panda_joint_6
+    - name: panda_multiple_arms/rgt_panda_trajectory_controller
+        action_ns: follow_joint_trajectory
+        type: FollowJointTrajectory
+        default: true
+        joints:
+        - rgt_panda_joint1
+        - rgt_panda_joint2
+        - rgt_panda_joint3
+        - rgt_panda_joint4
+        - rgt_panda_joint5
+        - rgt_panda_joint6
 
-    - name: multiple_arms/lft_panda_trajectory_controller
-      action_ns: follow_joint_trajectory
-      type: FollowJointTrajectory
-      default: true
-      joints:
-        - lft_panda_joint_1
-        - lft_panda_joint_2
-        - lft_panda_joint_3
-        - lft_panda_joint_4
-        - lft_panda_joint_5
-        - lft_panda_joint_6
+    - name: panda_multiple_arms/lft_panda_trajectory_controller
+        action_ns: follow_joint_trajectory
+        type: FollowJointTrajectory
+        default: true
+        joints:
+        - lft_panda_joint1
+        - lft_panda_joint2
+        - lft_panda_joint3
+        - lft_panda_joint4
+        - lft_panda_joint5
+        - lft_panda_joint6
     
-Notice that the controller names correspond to the names in the previous ``trajectory_controller.yaml`` file.
-For example, the ``multiple_arms`` is the namespace, and the ``rgt_panda_trajectory_controller`` is the controller name. 
+Notice that the namespace and controller names correspond to the names in ``trajectory_controller.yaml`` file.
 
 In the same moveit config package, create two files ``panda_multiple_arms_moveit_controller_manager.launch.xml`` and ``moveit_planning_execution.launch``.
 Make the first file load the ``ros_controllers.yaml`` as follows :: 
@@ -324,7 +329,7 @@ Make the first file load the ``ros_controllers.yaml`` as follows ::
         <rosparam file="$(find mylabworkcell_moveit_config)/config/ros_controllers.yaml"/>
     </launch>
 
-The second file should start the planning, execution, and visualization components of MoveIt as follows:: 
+The second file should start the planning, execution, and visualization components of MoveIt:: 
 
     <?xml version="1.0"?>
     <launch>
@@ -343,49 +348,51 @@ The second file should start the planning, execution, and visualization componen
 Step 4: Integrate the simulation in Gazebo with Moveit motion planning
 ----------------------------------------------------------------------
 
-The controllers are now ready. We need to launch all the required files to start a simulated robot with the controllers and motion planning context. 
+We need to launch all the required files to start a simulated robot with the controllers and moveit motion planning context. 
 
-To grasp the big picture, we need to prepare a ``panda_multiple_arms_bringup_moveit.launch`` file . This file loads The file loads the robot in a gazebo world, loads the two gazebo controllers, moveit_planning_execution launch file, and the robot state publisher. 
+To grasp the big picture, we need to prepare a ``panda_multiple_arms_bringup_moveit.launch`` file . This file loads the robot in a gazebo world, the ros controllers, moveit_planning_execution launch file, and the robot state publisher. 
 
 To spawn the panda arms in a gazebo empty world, we need to prepare a launch file in the ``panda_multiple_arms`` package. Let's call this file ``view_panda_multiple_arms_empty_world.launch``. Here are the steps to prepar this file. :: 
 
     cd ~/ws_moveit
     cd src/panda_multiple_arms/launch 
-    touch view_panda_multiple_arms_empty_world.launch
+    touch panda_multiple_arms_empty_world.launch
 
-The ``view_panda_multiple_arms_empty_world.launch`` file launches an empty world file, loads the robot description, and spawns the robot in the empty world. Its contents are as follows::
-    
-     
+The ``panda_multiple_arms_empty_world.launch`` file launches an empty world file, loads the robot description, and spawns the robot in the empty world. Its contents are as follows::
 
+    <?xml version="1.0"?>
+    <launch>
+        <!-- Launch empty Gazebo world -->
+        <include file="$(find gazebo_ros)/launch/empty_world.launch">
+            <arg name="use_sim_time" value="true" />
+            <arg name="gui" value="true" />
+            <arg name="debug" value="false" />
+            <arg name="paused" value="true" />
+        </include>
 
+        <!-- Find my robot Description-->
+        <param name="robot_description" command="$(find xacro)/xacro  '$(find panda_multiple_arms)/robot_description/panda_multiple_arms.xacro'" />
 
-  
-<launch>
-  <!-- Launch Gazebo  -->
-  <include file="$(find mylabworkcell_support)/launch/view_dual_arm_gazebo_empty_world.launch" />   
+        <!-- convert joint states to TF transforms for rviz, etc -->
+        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
+            <remap from="/joint_states" to="/panda_multiple_arms/joint_states" />
+        </node>
 
-  <!-- ros_control seven dof arm launch file -->
-  <include file="$(find mylabworkcell_support)/launch/dual_arm_gazebo_controller.launch" />   
+        <!-- Spawn The Robot using the robot_description param-->
+        <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -param robot_description -model panda_multiple_arms" />
 
-  <!-- ros_control trajectory control dof arm launch file -->
-  <include file="$(find mylabworkcell_support)/launch/dual_arm_trajectory_controller.launch" />    
+        <!-- spawn the controllers -->
+        <include file="$(find panda_multiple_arms)/launch/panda_multiple_arms_trajectory_controller.launch" />
 
-  <!-- moveit launch file -->
-  <include file="$(find mylabworkcell_moveit_config)/launch/moveit_planning_execution.launch" />    
+    </launch>
 
-	<!-- publish joint states -->
-	<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
-		<param name="/use_gui" value="false"/>
-		<rosparam param="/source_list">[/move_group/fake_controller_joint_states]</rosparam>
-	</node>
-</launch>
+``Todo``: make the panda robot arm Gazebo-simulation ready. 
 
-```
-Tutorial for multiple robot arms
-While there are some ROS Answers posts and examples floating around, there is no definitive resource on how to set up multiple manipulators with MoveIt (and especially MoveIt2). The goal of this project is to write a tutorial that should become the reference.
-Expected outcome: A ROS beginner can read the tutorial and set up a ros2_control / MoveIt pipeline without additional help.
-Project size: medium (175 hours)
-Difficulty: easy
-Preferred skills: Technical Writing, ROS, MoveIt, Python, and YAML
-Mentor: Andy Zelenak
-```
+..
+    Tutorial for multiple robot arms
+    While there are some ROS Answers posts and examples floating around, there is no definitive resource on how to set up multiple manipulators with MoveIt (and especially MoveIt2). The goal of this project is to write a tutorial that should become the reference.
+    Expected outcome: A ROS beginner can read the tutorial and set up a ros2_control / MoveIt pipeline without additional help.
+    Project size: medium (175 hours)
+    Difficulty: easy
+    Preferred skills: Technical Writing, ROS, MoveIt, Python, and YAML
+    Mentor: Andy Zelenak
