@@ -23,7 +23,7 @@ Installation
 
 The `opw_kinematics_plugin <https://github.com/JeroenDM/moveit_opw_kinematics_plugin>`_ can be installed using ``apt`` on Ubuntu and Debian: ::
 
-  sudo apt install ros-noetic-opw-kinematics-plugin
+  sudo apt install ros-noetic-moveit-opw-kinematics-plugin
 
 Usage
 ------

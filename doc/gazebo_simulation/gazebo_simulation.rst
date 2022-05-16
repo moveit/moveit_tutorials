@@ -150,7 +150,7 @@ Then add the following block to the end of :code:`franka_description/robots/pand
 
 This is necessary for the robot to move in Gazebo. ROS Control is a highly capable robot-agnostic stack, providing interfaces
 to control theoretically any type of robot. :code:`gazebo_ros_control` enables the ROS control to be used in Gazebo.
-See `its document <http://gazebosim.org/tutorials/?tut=ros_control>`_ for full details.
+See `its document <https://classic.gazebosim.org/tutorials?tut=ros_control>`_ for full details.
 
 
 Along with the transmissions and actuators, which are the crucial components for joints to be able to move in Gazebo,

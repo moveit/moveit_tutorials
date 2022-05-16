@@ -38,7 +38,7 @@ This script can handle the following types of joysticks:
 3. PS4 Controller via USB
 4. PS4 Controller via Bluetooth (Please use ds4_driver package at `http://wiki.ros.org/ds4_driver <http://wiki.ros.org/ds4_driver>`_)
 5. XBox360 Controller via USB
-6. Arctic USB Wireless `Gamepad <https://www.arctic.ac/eu_en/usb-wireless-gamepad.html>`_
+6. Arctic USB Wireless Gamepad
 
 Joystick Command Mappings
 -------------------------
