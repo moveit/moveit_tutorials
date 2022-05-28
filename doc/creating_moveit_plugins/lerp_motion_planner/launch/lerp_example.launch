@@ -1,4 +1,8 @@
 <launch>
+  <!-- Launch rviz demo -->
+  <include file="$(find panda_moveit_config)/launch/demo.launch">
+    <arg name="pipeline" value="lerp"/>
+  </include>
 
   <!-- Launch main node -->
   <node name="$(anon moveit_tutorials)" pkg="moveit_tutorials" type="lerp_example" respawn="false" output="screen">
