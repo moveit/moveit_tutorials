@@ -66,9 +66,9 @@ To facilitate copy-and-paste, we suggest to define the robot name as an environm
   export MYROBOT_NAME="panda"
 
 OpenRAVE uses Collada instead of URDF to describe the robot. In order to automatically convert your robot's URDF to Collada, you need to provide the .urdf file.
-If your .urdf file is generated from `xacro <http://wiki.ros.org/xacro/>`_ files, you can generate the URDF using the following command: ::
+If your .urdf file is generated from `xacro <http://wiki.ros.org/xacro/>`_ files, you can generate the URDF in ``/tmp`` using the following command: ::
 
-  rosrun xacro xacro -o $MYROBOT_NAME.urdf $MYROBOT_NAME.urdf.xacro
+  rosrun xacro xacro -o /tmp/$MYROBOT_NAME.urdf $MYROBOT_NAME.urdf.xacro
 
 Select IK Type
 ^^^^^^^^^^^^^^
@@ -83,11 +83,11 @@ The following instructions will assume you have chosen one ``<planning_group_nam
 Generate IKFast MoveIt plugin
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-To generate the IKFast MoveIt plugin, issue the following command: ::
+To generate the IKFast MoveIt plugin, issue the following command in the ``src`` folder of your catkin workspace: ::
 
-  rosrun moveit_kinematics auto_create_ikfast_moveit_plugin.sh --iktype Transform6D $MYROBOT_NAME.urdf <planning_group_name> <base_link> <eef_link>
+  rosrun moveit_kinematics auto_create_ikfast_moveit_plugin.sh --iktype Transform6D /tmp/$MYROBOT_NAME.urdf <planning_group_name> <base_link> <eef_link>
 
-Replace the last three positional parameters with the correct ``planning_group_name`` as well as the names of the base link and the end-effector link of your robot.
+Replace the last three positional parameters with the correct ``planning_group_name`` as well as the names of the base link and the end-effector link of your robot. If you don't refer to the temporary URDF generated above, please specify the full path to your URDF.
 The speed and success of this process will depend on the complexity of your robot. A typical 6 DOF manipulator with 3 intersecting axes at the base or wrist will take only a few minutes to generate the solver code. For a detailed explanation of the creation procedure and additional tweaks of the process, see `Tweaking the creation process`_.
 
 The command above creates a new ROS package named ``$MYROBOT_NAME_<planning_group_name>_ikfast_plugin`` within the current folder.
