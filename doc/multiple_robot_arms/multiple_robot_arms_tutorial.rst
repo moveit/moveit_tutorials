@@ -48,8 +48,8 @@ Our multiple arms model has a ``rgt_panda`` and ``lft_panda`` arms. Its structur
     <?xml version="1.0"?>
     <robot name="panda_multiple_arms" xmlns:xacro="http://ros.org/wiki/xacro">
 
-        <xacro:arg name="arm_id_1" default="rgt_panda" />
-        <xacro:arg name="arm_id_2" default="lft_panda" />
+        <xacro:arg name="arm_id_1" default="rgt_arm" />
+        <xacro:arg name="arm_id_2" default="lft_arm" />
 
         <xacro:include filename="$(find franka_description)/robots/utils.xacro"/>
         <xacro:include filename="$(find franka_description)/robots/panda_arm.xacro"/>
@@ -90,9 +90,10 @@ Notes:
 
 2. We usually need to have a careful look at the arm's xacro file to understand the xacro parameters to use. Here is an example from the ``panda_arm.xacro`` in the ``franka_description`` package: ::
       
-      <xacro:macro name="panda_arm" params="arm_id:='panda' description_pkg:='franka_description' connected_to:='' xyz:='0 0 0' rpy:='0 0 0' safety_distance:=0">
+        <xacro:macro name="panda_arm" params="arm_id:='panda' description_pkg:='franka_description' connected_to:='' xyz:='0 0 0' rpy:='0 0 0' gazebo:=false safety_distance:=0">
 
-We can search those parameters in the xacro macro file to understand the function of each. The ``arm_id`` sets a prefix to the arm name to be enable reusing the same model. This is essential for our purpose of modeling multiple arms or robots. The ``connected_to`` parameter gives possibility to connect the robot base with a fixed joint to a given link. In our multiple arms model, each robot is connected to the box shaped base. 
+
+We can search those parameters in the xacro macro file to understand the function of each. The ``arm_id`` sets a prefix to the arm name to be enable reusing the same model. This is essential for our purpose of modeling multiple arms or robots. The ``connected_to`` parameter gives possibility to connect the robot base with a fixed joint to a given link. In our multiple arms model, each robot is connected to the box shaped base. The gazebo parameter decides whether to load the gazebo simulation required information (e.g links inertia and joints transmission) or not. 
 
 At this point, it is recommended to check our xacro model is working as expected. This can be done in three simple steps; convert your xacro model to URDF, check the connections between links and joints are correct, and if needed you can visualize it (as described before). Run the following commands to check the URDF has no problems. 
 
@@ -106,35 +107,53 @@ At this point, it is recommended to check our xacro model is working as expected
 
 The ``check_urdf`` shows the links tree and indicats if there are any errors: ::
 
-    robot name is: multiple_panda_arms
+    robot name is: panda_multiple_arms
     ---------- Successfully Parsed XML ---------------
     root Link: base has 2 child(ren)
-        child(1):  lft_panda_link0
-            child(1):  lft_panda_link1
-                child(1):  lft_panda_link2
-                    child(1):  lft_panda_link3
-                        child(1):  lft_panda_link4
-                            child(1):  lft_panda_link5
-                                child(1):  lft_panda_link6
-                                    child(1):  lft_panda_link7
-                                        child(1):  lft_panda_link8
-                                            child(1):  lft_panda_hand
-                                                child(1):  lft_panda_leftfinger
-                                                child(2):  lft_panda_rightfinger
-                                                child(3):  lft_panda_hand_tcp
-        child(2):  rgt_panda_link0
-            child(1):  rgt_panda_link1
-                child(1):  rgt_panda_link2
-                    child(1):  rgt_panda_link3
-                        child(1):  rgt_panda_link4
-                            child(1):  rgt_panda_link5
-                                child(1):  rgt_panda_link6
-                                    child(1):  rgt_panda_link7
-                                        child(1):  rgt_panda_link8
-                                            child(1):  rgt_panda_hand
-                                                child(1):  rgt_panda_leftfinger
-                                                child(2):  rgt_panda_rightfinger
-                                                child(3):  rgt_panda_hand_tcp
+        child(1):  lft_arm_link0
+            child(1):  lft_arm_link1
+                child(1):  lft_arm_link2
+                    child(1):  lft_arm_link3
+                        child(1):  lft_arm_link4
+                            child(1):  lft_arm_link5
+                                child(1):  lft_arm_link6
+                                    child(1):  lft_arm_link7
+                                        child(1):  lft_arm_link8
+                                            child(1):  lft_arm_hand
+                                                child(1):  lft_arm_leftfinger
+                                                child(2):  lft_arm_rightfinger
+                                                child(3):  lft_arm_hand_sc
+                                                child(4):  lft_arm_hand_tcp
+                                        child(2):  lft_arm_link7_sc
+                                    child(2):  lft_arm_link6_sc
+                                child(2):  lft_arm_link5_sc
+                            child(2):  lft_arm_link4_sc
+                        child(2):  lft_arm_link3_sc
+                    child(2):  lft_arm_link2_sc
+                child(2):  lft_arm_link1_sc
+            child(2):  lft_arm_link0_sc
+        child(2):  rgt_arm_link0
+            child(1):  rgt_arm_link1
+                child(1):  rgt_arm_link2
+                    child(1):  rgt_arm_link3
+                        child(1):  rgt_arm_link4
+                            child(1):  rgt_arm_link5
+                                child(1):  rgt_arm_link6
+                                    child(1):  rgt_arm_link7
+                                        child(1):  rgt_arm_link8
+                                            child(1):  rgt_arm_hand
+                                                child(1):  rgt_arm_leftfinger
+                                                child(2):  rgt_arm_rightfinger
+                                                child(3):  rgt_arm_hand_sc
+                                                child(4):  rgt_arm_hand_tcp
+                                        child(2):  rgt_arm_link7_sc
+                                    child(2):  rgt_arm_link6_sc
+                                child(2):  rgt_arm_link5_sc
+                            child(2):  rgt_arm_link4_sc
+                        child(2):  rgt_arm_link3_sc
+                    child(2):  rgt_arm_link2_sc
+                child(2):  rgt_arm_link1_sc
+            child(2):  rgt_arm_link0_sc
 
 To visually check your multiple robot model, run the command: ::
 
@@ -168,32 +187,23 @@ MoveIt Setup Assistant is used to configure our multiple robot arms for using th
 
     roslaunch moveit_setup_assistant setup_assistant.launch
 
-Follow the MoveIt Setup Assistant tutorial_ to configure the arms. Note that we will be making a separate move group for each arm. They are called ``rgt_arm`` and ``lft_arm``. 
+Follow the MoveIt Setup Assistant tutorial_ to configure the arms. Note that we will be making a separate move group for each arm and hand. The groups are called ``rgt_arm``, ``lft_arm``, ``rgt_hand``, and ``lft_hand``. 
 
 .. _tutorial: https://ros-planning.github.io/moveit_tutorials/doc/setup_assistant/setup_assistant_tutorial.html 
 
 
-Two more points should be considered, over the Setup Assistant tutorial, to ensure the multiple arms model is correctly done. 
+I want to consider two more point along with the the Setup Assistant tutorial 
 
-1. When you generate the collision matrix, disable the collision between the pairs ``rgt_panda_link6`` & ``rgt_panda_link8``, and ``lft_panda_link6`` & ``lft_panda_link8``. The reason is that those pairs do not come into collision, but due to the collision geometry type, they collide. Have a look at the following figures for a clear description.
+1. Define a practical `ready` pose for both arms with joint values {0.0, -0.785, 0.0, -2.356, 0.0, 1.571, 0.785}.
 
-The visual meshes describing the real robot do not collide. 
+The arms should look as follows at the `ready` pose.
 
-.. image:: images/panda_arm_visual1-2.png
+.. image:: images/rgt_lft_arms_ready_poses.png
    :width: 500pt
    :align: center
 
 
-The collision sphere geometries do come into collision. We should correct this behavior considering the real robot geometry.
-
-.. image:: images/panda_arm_collision1-2.png
-   :width: 500pt
-   :align: center
-
-
-It is beyond the scope of this tutorial, but covering this hand link with a box-type geometry would be better because of the link shape.
-
-2. The other point I want to add is about defining the ``rgt_hand`` and ``lft_hand`` move groups and their pref-defined poses. Make the ``open`` pose with joint1 value set to 0.35, and the ``close`` has the joint1 set to 0.0. Note that the hand joint2 mimics the value of joint1.  Therefore, there is no need to fix joint2 in the hand move_group poses.  The defined poses for the arms and hand can be as follows. You can add other poses of interest for the arms, if needed.
+1. Define ``open`` and ``close`` poses for the ``rgt_hand`` and ``lft_hand`` move groups. The ``open`` pose with joint1 value set to 0.35, and the ``close`` has the joint1 set to 0.0. Note that the hand joint2 mimics the value of joint1.  Therefore, there is no need to fix joint2 in the hand move_group poses.  The defined poses for the arms and hand can be as follows. You can add other poses of interest for the arms, if needed.
 
 .. image:: images/move_groups_poses.png
    :width: 500pt
