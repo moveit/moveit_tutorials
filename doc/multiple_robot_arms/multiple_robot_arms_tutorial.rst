@@ -82,6 +82,39 @@ Our multiple arms model has a ``rgt_panda`` and ``lft_panda`` arms. Its structur
         <xacro:panda_arm arm_id="$(arg arm_id_2)" connected_to="base"  xyz="0 0.5 1" gazebo="true"  safety_distance="0.03"/>
         <xacro:hand arm_id="$(arg arm_id_2)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id_2)_link8" gazebo="true" safety_distance="0.03"/>
         
+        <!-- right arm joints control interface -->
+        <xacro:gazebo-joint joint="$(arg arm_id_1)_joint1" transmission="hardware_interface/PositionJointInterface" />
+        <xacro:gazebo-joint joint="$(arg arm_id_1)_joint2" transmission="hardware_interface/PositionJointInterface" />
+        <xacro:gazebo-joint joint="$(arg arm_id_1)_joint3" transmission="hardware_interface/PositionJointInterface" />
+        <xacro:gazebo-joint joint="$(arg arm_id_1)_joint4" transmission="hardware_interface/PositionJointInterface" />
+        <xacro:gazebo-joint joint="$(arg arm_id_1)_joint5" transmission="hardware_interface/PositionJointInterface" />
+        <xacro:gazebo-joint joint="$(arg arm_id_1)_joint6" transmission="hardware_interface/PositionJointInterface" />
+        <xacro:gazebo-joint joint="$(arg arm_id_1)_joint7" transmission="hardware_interface/PositionJointInterface" />
+
+        <!-- left arm joints control interface -->
+        <xacro:gazebo-joint joint="$(arg arm_id_2)_joint1" transmission="hardware_interface/PositionJointInterface" />
+        <xacro:gazebo-joint joint="$(arg arm_id_2)_joint2" transmission="hardware_interface/PositionJointInterface" />
+        <xacro:gazebo-joint joint="$(arg arm_id_2)_joint3" transmission="hardware_interface/PositionJointInterface" />
+        <xacro:gazebo-joint joint="$(arg arm_id_2)_joint4" transmission="hardware_interface/PositionJointInterface" />
+        <xacro:gazebo-joint joint="$(arg arm_id_2)_joint5" transmission="hardware_interface/PositionJointInterface" />
+        <xacro:gazebo-joint joint="$(arg arm_id_2)_joint6" transmission="hardware_interface/PositionJointInterface" />
+        <xacro:gazebo-joint joint="$(arg arm_id_2)_joint7" transmission="hardware_interface/PositionJointInterface" />
+
+        <!-- right hand joints control interface -->
+        <xacro:gazebo-joint joint="$(arg arm_id_1)_finger_joint1" transmission="hardware_interface/EffortJointInterface" />
+        <xacro:gazebo-joint joint="$(arg arm_id_1)_finger_joint2" transmission="hardware_interface/EffortJointInterface" />
+
+        <!-- left hand joints control interface -->
+        <xacro:gazebo-joint joint="$(arg arm_id_2)_finger_joint1" transmission="hardware_interface/EffortJointInterface" />
+        <xacro:gazebo-joint joint="$(arg arm_id_2)_finger_joint2" transmission="hardware_interface/EffortJointInterface" />
+
+        <!-- load ros_control plugin -->
+        <gazebo>
+            <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+                <robotNamespace>/panda_multiple_arms</robotNamespace>
+            </plugin>
+        </gazebo>
+
     </robot>>
 
 Notes: 
@@ -227,62 +260,62 @@ The type of controller we need to execute joint-space trajectories on a group of
 Open the ``trajectory_controller.yaml`` and copy the next multiple_arms controller configuration to it ::
 
     panda_multiple_arms:
-        rgt_panda_trajectory_controller:
-            type: "effort_controllers/JointTrajectoryController"
+        rgt_arm_trajectory_controller:
+            type: "position_controllers/JointTrajectoryController"
             joints:
-            - rgt_panda_joint1
-            - rgt_panda_joint2
-            - rgt_panda_joint3
-            - rgt_panda_joint4
-            - rgt_panda_joint5
-            - rgt_panda_joint6
+            - rgt_arm_joint1
+            - rgt_arm_joint2
+            - rgt_arm_joint3
+            - rgt_arm_joint4
+            - rgt_arm_joint5
+            - rgt_arm_joint6
             constraints:
                 goal_time: 0.6
                 stopped_velocity_tolerance: 0.05
-                rgt_panda_joint1: {trajectory: 0.1, goal: 0.1}
-                rgt_panda_joint2: {trajectory: 0.1, goal: 0.1}
-                rgt_panda_joint3: {trajectory: 0.1, goal: 0.1}
-                rgt_panda_joint4: {trajectory: 0.1, goal: 0.1}
-                rgt_panda_joint5: {trajectory: 0.1, goal: 0.1}
-                rgt_panda_joint6: {trajectory: 0.1, goal: 0.1}
+                rgt_arm_joint1: {trajectory: 0.1, goal: 0.1}
+                rgt_arm_joint2: {trajectory: 0.1, goal: 0.1}
+                rgt_arm_joint3: {trajectory: 0.1, goal: 0.1}
+                rgt_arm_joint4: {trajectory: 0.1, goal: 0.1}
+                rgt_arm_joint5: {trajectory: 0.1, goal: 0.1}
+                rgt_arm_joint6: {trajectory: 0.1, goal: 0.1}
             stop_trajectory_duration: 0.5
             state_publish_rate:  25
             action_monitor_rate: 10
 
-        lft_panda_trajectory_controller:
-            type: "effort_controllers/JointTrajectoryController"
+        lft_arm_trajectory_controller:
+            type: "position_controllers/JointTrajectoryController"
             joints:
-            - lft_panda_joint1
-            - lft_panda_joint2
-            - lft_panda_joint3
-            - lft_panda_joint4
-            - lft_panda_joint5
-            - lft_panda_joint6
+            - lft_arm_joint1
+            - lft_arm_joint2
+            - lft_arm_joint3
+            - lft_arm_joint4
+            - lft_arm_joint5
+            - lft_arm_joint6
             constraints:
                 goal_time: 0.6
                 stopped_velocity_tolerance: 0.05
-                lft_panda_joint1: {trajectory: 0.1, goal: 0.1}
-                lft_panda_joint2: {trajectory: 0.1, goal: 0.1}
-                lft_panda_joint3: {trajectory: 0.1, goal: 0.1}
-                lft_panda_joint4: {trajectory: 0.1, goal: 0.1}
-                lft_panda_joint5: {trajectory: 0.1, goal: 0.1}
-                lft_panda_joint6: {trajectory: 0.1, goal: 0.1}
+                lft_arm_joint1: {trajectory: 0.1, goal: 0.1}
+                lft_arm_joint2: {trajectory: 0.1, goal: 0.1}
+                lft_arm_joint3: {trajectory: 0.1, goal: 0.1}
+                lft_arm_joint4: {trajectory: 0.1, goal: 0.1}
+                lft_arm_joint5: {trajectory: 0.1, goal: 0.1}
+                lft_arm_joint6: {trajectory: 0.1, goal: 0.1}
             stop_trajectory_duration: 0.5
             state_publish_rate:  25
             action_monitor_rate: 10
 
-The ``panda_multiple_arms`` is the controller's namespace. The ``rgt_panda_trajectory_controller`` and ``rgt_panda_trajectory_controller`` are the controllers names. Under each controller, we need to specify its type, joint groups, and needed constraints. For more about joint trajectory controllers, refer to their documentation_. 
+The ``panda_multiple_arms`` is the controller's namespace. The ``rgt_arm_trajectory_controller`` and ``lft_arm_trajectory_controller`` are the controllers names. Under each controller, we need to specify its type, joint groups, and needed constraints. For more about joint trajectory controllers, refer to their documentation_. 
 
 .. _documentation: http://wiki.ros.org/joint_trajectory_controller 
 
-Next, create a launch file to load the trajectory controller configurations. Let the name be descriptive such as ``multiple_panda_arms_trajectory_controller.launch`` ::
+Next, create a launch file to load the trajectory controller configurations. Let the name be descriptive such as ``panda_multiple_arms_trajectory_controller.launch`` ::
 
     cd ~/ws_moveit
     cd src/panda_multiple_arms
     mkdir launch
-    touch multiple_panda_arms_trajectory_controller.launch
+    touch panda_multiple_arms_trajectory_controller.launch
 
-Edit the ``multiple_panda_arms_trajectory_controller.launch`` and add the following to it::
+Edit the ``panda_multiple_arms_trajectory_controller.launch`` and add the following to it::
 
     <launch>
     
