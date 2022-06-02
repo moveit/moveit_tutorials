@@ -46,42 +46,43 @@ To prepare your multiple robot arms xacro file (model), you need to have the sin
 Our multiple arms model has a ``rgt_panda`` and ``lft_panda`` arms. Its structure is as follows: ::
 
     <?xml version="1.0"?>
-    <robot name="multiple_panda_arms" xmlns:xacro="http://ros.org/wiki/xacro">
+    <robot name="panda_multiple_arms" xmlns:xacro="http://ros.org/wiki/xacro">
 
-    <xacro:arg name="arm_id_1" default="rgt_panda" />
-    <xacro:arg name="arm_id_2" default="lft_panda" />
+        <xacro:arg name="arm_id_1" default="rgt_panda" />
+        <xacro:arg name="arm_id_2" default="lft_panda" />
 
-    <xacro:include filename="$(find franka_description)/robots/panda_arm.xacro"/>
-    <xacro:include filename="$(find franka_description)/robots/hand.xacro"/>
+        <xacro:include filename="$(find franka_description)/robots/utils.xacro"/>
+        <xacro:include filename="$(find franka_description)/robots/panda_arm.xacro"/>
+        <xacro:include filename="$(find franka_description)/robots/hand.xacro"/>
 
-    <!-- box shaped table as base for the 2 Pandas -->
-    <link name="base">
-        <visual>
-        <origin xyz="0 0 0.5" rpy="0 0 0"/>
-        <geometry>
-            <box size="1 2 1" />
-        </geometry>
-        <material name="White">
-            <color rgba="1.0 1.0 1.0 1.0"/>
-        </material>
-        </visual>
-        <collision>
-        <origin xyz="0 0 0.5" rpy="0 0 0"/>
-        <geometry>
-            <box size="1 2 1" />
-        </geometry>
-        </collision>
-    </link>
+        <!-- box shaped table as base for the 2 Pandas -->
+        <link name="base">
+            <visual>
+            <origin xyz="0 0 0.5" rpy="0 0 0"/>
+            <geometry>
+                <box size="1 2 1" />
+            </geometry>
+            <material name="White">
+                <color rgba="1.0 1.0 1.0 1.0"/>
+            </material>
+            </visual>
+            <collision>
+            <origin xyz="0 0 0.5" rpy="0 0 0"/>
+            <geometry>
+                <box size="1 2 1" />
+            </geometry>
+            </collision>
+        </link>
 
-    <!-- right arm with gripper -->
-    <xacro:panda_arm arm_id="$(arg arm_id_1)" connected_to="base"  xyz="0 -0.5 1" safety_distance="0.03"/>
-    <xacro:hand arm_id="$(arg arm_id_1)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id_1)_link8" safety_distance="0.03"/>
+        <!-- right arm with gripper -->
+        <xacro:panda_arm arm_id="$(arg arm_id_1)" connected_to="base"  xyz="0 -0.5 1" gazebo="true" safety_distance="0.03"/>
+        <xacro:hand arm_id="$(arg arm_id_1)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id_1)_link8" gazebo="true" safety_distance="0.03"/>
 
-    <!-- left arm with gripper -->
-    <xacro:panda_arm arm_id="$(arg arm_id_2)" connected_to="base"  xyz="0 0.5 1" safety_distance="0.03"/>
-    <xacro:hand arm_id="$(arg arm_id_2)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id_2)_link8" safety_distance="0.03"/>
-
-    </robot>
+        <!-- left arm with gripper -->
+        <xacro:panda_arm arm_id="$(arg arm_id_2)" connected_to="base"  xyz="0 0.5 1" gazebo="true"  safety_distance="0.03"/>
+        <xacro:hand arm_id="$(arg arm_id_2)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id_2)_link8" gazebo="true" safety_distance="0.03"/>
+        
+    </robot>>
 
 Notes: 
 
