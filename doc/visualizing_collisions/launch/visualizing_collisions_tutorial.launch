@@ -1,7 +1,7 @@
 <launch>
 
   <!-- load URDF -->
-  <param name="robot_description" command="$(find xacro)/xacro '$(find franka_description)/robots/panda_arm.urdf.xacro'"/>
+  <param name="robot_description" command="$(find xacro)/xacro '$(find franka_description)/robots/panda_arm.urdf.xacro' hand:=true" />
 
   <!-- load SRDF -->
   <param name="robot_description_semantic" command="$(find xacro)/xacro '$(find panda_moveit_config)/config/panda_arm_hand.srdf.xacro'"/>
