@@ -49,10 +49,10 @@ Step 1: Start
 
 .. image:: setup_assistant_start.png
 
-* Click on the browse button and navigate to the *panda_arm_hand.urdf.xacro* file
+* Click on the browse button and navigate to the *panda_arm.urdf.xacro* file
   installed when you installed the Franka package above. (This file
   gets installed in
-  /opt/ros/noetic/share/franka_description/robots/panda_arm_hand.urdf.xacro on Ubuntu
+  /opt/ros/noetic/share/franka_description/robots/panda_arm.urdf.xacro on Ubuntu
   with ROS Noetic.)  Choose that file and then click *Load Files*. The
   Setup Assistant will load the files (this might take a few seconds)
   and present you with this screen:

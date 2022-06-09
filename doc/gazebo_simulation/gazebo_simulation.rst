@@ -27,14 +27,14 @@ the procedure outlined in there will be repeated (with improvements) in here as 
 
 1. Fix the robot to the world coordinate system
 -----------------------------------------------
-Open the :code:`franka_description/robots/panda_arm_hand.urdf.xacro` file and change the line 5 with:
+Open the :code:`franka_description/robots/panda_arm.urdf.xacro` file and change the line 5 with:
 
 .. code-block:: xml
 
     <xacro:panda_arm xyz="0 0 0" rpy="0 0 0" connected_to="world"/>
 
 It alone doesn't fix the problem, since now we need to provide a link with name :code:`world`. Add the following line to
-:code:`franka_description/robots/panda_arm_hand.urdf.xacro`:
+:code:`franka_description/robots/panda_arm.urdf.xacro`:
 
 .. code-block:: xml
 
@@ -306,7 +306,7 @@ with :code:`<param name="robot_description" textfile="$(arg urdf_path)" />` and 
 
 .. code-block:: xml
 
-    <param name="robot_description" command="$(find xacro)/xacro '$(find franka_description)/robots/panda_arm_hand.urdf.xacro'"/>
+    <param name="robot_description" command="$(find xacro)/xacro '$(find franka_description)/robots/panda_arm.urdf.xacro'"/>
 
 
 With this adjustment we are using :code:`xacro` executable that compiles :code:`xacro` files into URDF files.
