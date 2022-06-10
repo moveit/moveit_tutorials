@@ -51,37 +51,51 @@ Our multiple arms model has a ``rgt_panda`` and ``lft_panda`` arms. Its structur
         <xacro:arg name="arm_id_1" default="rgt_arm" />
         <xacro:arg name="arm_id_2" default="lft_arm" />
 
-        <xacro:include filename="$(find franka_description)/robots/utils.xacro"/>
-        <xacro:include filename="$(find franka_description)/robots/panda_arm.xacro"/>
-        <xacro:include filename="$(find franka_description)/robots/hand.xacro"/>
+        <xacro:include filename="$(find franka_description)/robots/utils.xacro" />
+        <xacro:include filename="$(find franka_description)/robots/panda_arm.xacro" />
+        <xacro:include filename="$(find franka_description)/robots/hand.xacro" />
+
+        <link name="world"/>
 
         <!-- box shaped table as base for the 2 Pandas -->
         <link name="base">
             <visual>
-            <origin xyz="0 0 0.5" rpy="0 0 0"/>
-            <geometry>
-                <box size="1 2 1" />
-            </geometry>
-            <material name="White">
-                <color rgba="1.0 1.0 1.0 1.0"/>
-            </material>
+                <origin xyz="0 0 0.5" rpy="0 0 0" />
+                <geometry>
+                    <box size="1 2 1" />
+                </geometry>
+                <material name="White">
+                    <color rgba="1.0 1.0 1.0 1.0" />
+                </material>
             </visual>
             <collision>
-            <origin xyz="0 0 0.5" rpy="0 0 0"/>
-            <geometry>
-                <box size="1 2 1" />
-            </geometry>
+                <origin xyz="0 0 0.5" rpy="0 0 0" />
+                <geometry>
+                    <box size="1 2 1" />
+                </geometry>
             </collision>
+            <inertial>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+                <mass value="10.0"/>
+                <inertia ixx="0.001" ixy="0.0" ixz="0.001" iyy="0.0" iyz="0.0" izz="0.001"/>
+            </inertial>
+            
         </link>
 
+        <joint name="base_to_world" type="fixed">
+            <parent link="world"/>
+            <child link="base"/>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        </joint>
+        
         <!-- right arm with gripper -->
-        <xacro:panda_arm arm_id="$(arg arm_id_1)" connected_to="base"  xyz="0 -0.5 1" gazebo="true" safety_distance="0.03"/>
-        <xacro:hand arm_id="$(arg arm_id_1)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id_1)_link8" gazebo="true" safety_distance="0.03"/>
+        <xacro:panda_arm arm_id="$(arg arm_id_1)" connected_to="base" xyz="0 -0.5 1" gazebo="true" safety_distance="0.03" />
+        <xacro:hand arm_id="$(arg arm_id_1)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id_1)_link8" gazebo="true" safety_distance="0.03" />
 
         <!-- left arm with gripper -->
-        <xacro:panda_arm arm_id="$(arg arm_id_2)" connected_to="base"  xyz="0 0.5 1" gazebo="true"  safety_distance="0.03"/>
-        <xacro:hand arm_id="$(arg arm_id_2)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id_2)_link8" gazebo="true" safety_distance="0.03"/>
-        
+        <xacro:panda_arm arm_id="$(arg arm_id_2)" connected_to="base" xyz="0 0.5 1" gazebo="true" safety_distance="0.03" />
+        <xacro:hand arm_id="$(arg arm_id_2)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id_2)_link8" gazebo="true" safety_distance="0.03" />
+
         <!-- right arm joints control interface -->
         <xacro:gazebo-joint joint="$(arg arm_id_1)_joint1" transmission="hardware_interface/PositionJointInterface" />
         <xacro:gazebo-joint joint="$(arg arm_id_1)_joint2" transmission="hardware_interface/PositionJointInterface" />
@@ -115,7 +129,7 @@ Our multiple arms model has a ``rgt_panda`` and ``lft_panda`` arms. Its structur
             </plugin>
         </gazebo>
 
-    </robot>>
+    </robot>
 
 Notes: 
 
@@ -321,7 +335,7 @@ Edit the ``panda_multiple_arms_trajectory_controller.launch`` and add the follow
     
         <rosparam file="$(find panda_multiple_arms)/config/trajectory_controller.yaml" command="load" />
 
-        <node name="multiple_panda_arms_controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" ns="/panda_multiple_arms" args="rgt_panda_joint_controller lft_panda_joint_controller" />
+        <node name="multiple_panda_arms_controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" ns="/panda_multiple_arms" args="rgt_arm_joint_controller lft_arm_joint_controller" />
 
     </launch>
 
