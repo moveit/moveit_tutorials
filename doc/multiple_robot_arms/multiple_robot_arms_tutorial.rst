@@ -6,6 +6,11 @@ In MoveIt, we can plan motions for multiple robot arms, but there are pre-requir
    :width: 600pt
    :align: center
 
+.. raw:: html
+
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/h8zlsuzeW3U" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
 Getting Started
 ---------------
 If you haven't already done so, make sure you've completed the steps in `Getting Started <../getting_started/getting_started.html>`_.
