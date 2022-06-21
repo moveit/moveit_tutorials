@@ -17,7 +17,7 @@ The steps of setting multiple arms environments to use MoveIt motion planning ar
 
 2. Prepare the MoveIt config package using MoveIt setup Assistant. 
 
-3. Write the ros_control configuration for the multiple arms. 
+3. Write the ros controllers configuration and launch files for the multiple arms. 
 
 4. Integrate the simulation in Gazebo with MoveIt motion planning.
 
@@ -145,10 +145,15 @@ We can search those parameters in the xacro macro file to understand the functio
 At this point, it is recommended to check our xacro model is working as expected. This can be done in three simple steps; convert your xacro model to URDF, check the connections between links and joints are correct, and if needed you can visualize it (as described before). Run the following commands to check the URDF has no problems. 
 
     cd ~ws_moveit
+
     catkin build 
+
     source devel/setup.bash
+
     roscd dual_panda_arms/robot_description
+
     rosrun xacro xacro panda_multiple_arms.xacro -o panda_multiple_arms.urdf
+    
     check_urdf panda_multiple_arms.urdf
 
 
@@ -258,8 +263,8 @@ The arms should look as follows at the `ready` pose.
 
 Name the Moveit config package ``panda_multiple_arms_moveit_config`` and generate the files using the Setup Assistant. 
 
-Step 3: Write the ros_control configuration for the multiple arms 
------------------------------------------------------------------
+Step 3: Write the ros controllers configuration and launch files for the multiple arms 
+--------------------------------------------------------------------------------------
 
 This step creates ros_control configuration files and roslaunch files to start them. We need two controller types, the first is a *joint state controller* type, which publishes the state of all joints. The second is of the type *joint trajectory controller*, which executes joint-space trajectories on a group of robot joints.
 
@@ -267,7 +272,7 @@ Notice that in the following configuration files, the ``panda_multiple_arms`` is
 
 .. _documentation: http://wiki.ros.org/ros_control  
 
-- The joint state controller: 
+- The joint state controller:
    
 1. Create the controller configuration file ``joint_state_controller.yaml`` in the ``panda_multiple_arms`` package as follows::
 
@@ -361,14 +366,7 @@ Notice that in the following configuration files, the ``panda_multiple_arms`` is
 
 
 
-3. Last step is to create a launch file to load the trajectory controller configurations. Name it ``panda_multiple_arms_trajectory_controller.launch`` ::
-
-    cd ~/ws_moveit
-    cd src/panda_multiple_arms
-    mkdir launch
-    touch panda_multiple_arms_trajectory_controller.launch
-
-Edit the ``panda_multiple_arms_trajectory_controller.launch`` and add the following to it::
+3. Create the  launch file ``panda_multiple_arms_trajectory_controller.launch`` to load the joint trajectory controller configurations and spawn it. ::
 
     <?xml version="1.0"?>
     <launch>
@@ -378,11 +376,11 @@ Edit the ``panda_multiple_arms_trajectory_controller.launch`` and add the follow
 
     </launch>
 
-Please be careful with the namespace (ns) and the controller's names when doing this step. Those names must match the names in the trajectory_controller.yaml file. 
+Please be careful with the namespace (ns) and the controllers names when doing this step. Those names must match the names in the trajectory_controller.yaml file. 
 
-Next, we should modify the auto-generated ros_controllers.yaml in the moveit config package for interfacing the arm using MoveIt to Gazebo. We need a trajectory controller which has the FollowJointTrajectoryAction interface. After motion planning, the FollowJointTrajectoryAction interface sends the generated trajectory to the robot ros controller (written above ``trajectory_controller.yaml``).
+The remaining part of this step presents guidance how to modify the auto-generated ros_controllers.yaml in the moveit config package for interfacing the arm using MoveIt to Gazebo. We need a trajectory controller which has a FollowJointTrajectoryAction interface. After motion planning, the FollowJointTrajectoryAction interface sends the generated trajectory to the robot ros controller (written above ``trajectory_controller.yaml``).
 
-The ros_controllers.yaml is generated in the path ``panda_multiple_arms_moveit_config/config/ros_controllers.yaml``. The file contents should be as follows ::
+The ros_controllers.yaml is auto-generated in the path ``panda_multiple_arms_moveit_config/config/ros_controllers.yaml``. The file contents should be modified as follows ::
 
     controller_manager_ns: controller_manager
     controller_list:
