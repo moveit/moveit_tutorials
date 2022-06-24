@@ -45,21 +45,32 @@ To prepare your multiple robot arms xacro file (model), you need to have the sin
 ..
     It is worth mentioning that the difference between xacro and URDF is that TODO1. This property makes it easier to include multiple robot arms models in the same file, with a different prefix. 
 
-Our multiple arms model has ``rgt_arm`` and ``lft_arm`` models. Each arm is equipped with a gripper. The xacro files can get lengthy. Here is a link to the multiple_arms_ xacro file.
+Our multiple arms model has ``rgt_arm`` and ``lft_arm`` models. Each arm is equipped with a gripper. The xacro files can get lengthy. Here is a link to the multiple_arms_ xacro file. 
 
 .. _multiple_arms: https://github.com/Robotawi/panda_arms_ws/blob/master/src/panda_multiple_arms/robot_description/panda_multiple_arms.xacro 
 
 
 Notes: 
 
-1. The ``franka_description`` package is already installed as a dependency of the ``panda_moveit_config`` package. When modeling your robot, make sure the robot_descriptionb package is available in your ROS workspace.
+1. Two xacro arguments ``rgt_arm`` and ``lft_arm`` are defined as prefixes to differentiate the arms and hands names. 
+   
+2. The arms and hands models are loaded from the ``franka_description`` package, which is expected to be installed as a dependency. Similarly, when modeling your robots, make sure their robot_description packages are available in your ROS workspace.
 
-2. We usually need to have a careful look at the arm's xacro file to understand the xacro parameters to use. Here is an example from the ``panda_arm.xacro`` in the ``franka_description`` package: ::
+3. We usually need to have a careful look at the robot's xacro file to understand the xacro parameters to use. Here is an example from the ``panda_arm.xacro`` in the ``franka_description`` package. ::
       
-        <xacro:macro name="panda_arm" params="arm_id:='panda' description_pkg:='franka_description' connected_to:='' xyz:='0 0 0' rpy:='0 0 0' gazebo:=false safety_distance:=0">
+    <xacro:macro name="panda_arm" params="arm_id:='panda' description_pkg:='franka_description' connected_to:='' xyz:='0 0 0' rpy:='0 0 0' gazebo:=false safety_distance:=0">
 
 
-We can search those parameters in the xacro macro file to understand the function of each. The ``arm_id`` sets a prefix to the arm name to be enable reusing the same model. This is essential for our purpose of modeling multiple arms or robots. The ``connected_to`` parameter gives possibility to connect the robot base with a fixed joint to a given link. In our multiple arms model, each robot is connected to the box shaped base. The gazebo parameter decides whether to load the gazebo simulation required information (e.g links inertia and joints transmission) or not. 
+We can search those parameters in the xacro macro to understand the function of each. The ``arm_id`` sets a prefix to the arm name to be enable reusing the same model. This is essential for our purpose of modeling multiple arms or robots. The ``connected_to`` parameter gives possibility to connect the robot base with a fixed joint to a given link. In our multiple arms model, each robot is connected to the box shaped base. The gazebo parameter decides whether to load the gazebo simulation required information (e.g links inertia and joints transmission) or not. 
+
+After knowing the xacro macro for the arm, and understanding the input parameters, we can use it as follows to load the arms. ::
+
+    <xacro:panda_arm arm_id="$(arg arm_id_1)" connected_to="base" xyz="0 -0.5 1" gazebo="true" safety_distance="0.03" />
+
+    <xacro:panda_arm arm_id="$(arg arm_id_2)" connected_to="base" xyz="0 0.5 1" gazebo="true" safety_distance="0.03" />
+
+
+The same applies to loading the grippers/hands models, and other robots that are defined with xacro macros. 
 
 At this point, it is recommended to check our xacro model is working as expected. This can be done in three simple steps; convert your xacro model to URDF, check the connections between links and joints are correct, and if needed you can visualize it (as described before). Run the following commands to check the URDF has no problems. 
 
