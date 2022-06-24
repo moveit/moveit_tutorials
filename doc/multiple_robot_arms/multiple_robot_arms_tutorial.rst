@@ -182,7 +182,7 @@ The arms should look as follows at the `ready` pose.
    :align: center
 
 
-1. Define ``open`` and ``close`` poses for the ``rgt_hand`` and ``lft_hand`` move groups. The ``open`` pose with joint1 value set to 0.35, and the ``close`` has the joint1 set to 0.0. Note that the hand joint2 mimics the value of joint1.  Therefore, there is no need to fix joint2 in the hand move_group poses.  The defined poses for the arms and hand can be as follows. You can add other poses of interest for the arms, if needed.
+1. Define ``open`` and ``close`` poses for the ``rgt_hand`` and ``lft_hand`` move groups. The ``open`` pose with joint1 value set to 0.35, and the ``close`` has the joint1 set to 0.0. Notice that the hand joint2 mimics the value of joint1.  Therefore, there is no need to fix joint2 in the hand move_group poses.  The defined poses for the arms and hand can be as follows. You can add other poses of interest for the arms, if needed.
 
 .. image:: images/move_groups_poses.png
    :width: 500pt
@@ -193,15 +193,15 @@ Name the Moveit config package ``panda_multiple_arms_moveit_config`` and generat
 Step 3: Write the ros controllers configuration and launch files for the multiple arms 
 --------------------------------------------------------------------------------------
 
-This step creates ros_control configuration files and roslaunch files to start them. We need two controller types, the first is a *joint state controller* type, which publishes the state of all joints. The second is of the type *joint trajectory controller*, which executes joint-space trajectories on a group of robot joints.
+This step creates ros_control configuration files and roslaunch files to start them. We need two controller types, the first is a *joint state controller*, which publishes the state of all joints. The second is *joint trajectory controller* type, which executes joint-space trajectories on a group of robot joints.
 
-Notice that in the following configuration files, the ``panda_multiple_arms`` is the controllers namespace. The controllers names are ``joint_state_controller``, ``rgt_arm_trajectory_controller``, and ``lft_arm_trajectory_controller``. Under each trajectory controller, we need to specify its hardware interface type, joint groups, and needed constraints. For more about ros controllers,  refer to their documentation_. Let's create the controllers configuration and their launch files in systematic steps and with descriptive names. 
+In the following configuration files, the controllers names are ``joint_state_controller``, ``rgt_arm_trajectory_controller``, and ``lft_arm_trajectory_controller``. Under each trajectory controller, we need to specify its hardware interface type, joint groups, and constraints. For more about ros controllers,  refer to their documentation_. Let's create the controllers configuration and their launch file in systematic steps and with descriptive names. Some comments are added after the steps not to break the flow. 
 
 .. _documentation: http://wiki.ros.org/ros_control  
 
 - The joint state controller:
    
-1. Create the controller configuration file ``joint_state_controller.yaml`` in the ``panda_multiple_arms`` package as follows::
+1. Create the controller configuration files ``joint_state_controller.yaml`` inside the ``panda_multiple_arms/config`` package as follows::
 
     cd ~/ws_moveit
     cd src/panda_multiple_arms
@@ -215,24 +215,9 @@ Notice that in the following configuration files, the ``panda_multiple_arms`` is
         type: joint_state_controller/JointStateController
         publish_rate: 50  
 
-3. Create a launch file ``panda_multiple_arms_joint_state_controller.launch`` to load and spawn this controller :: 
-
-    <?xml version="1.0"?>
-    <launch>
-        <!-- Load joint controller configurations from YAML file to parameter server -->
-        <rosparam file="$(find panda_multiple_arms)/config/joint_state_controller.yaml" command="load" />
-        <node name="joint_controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" ns="/panda_multiple_arms" args="joint_state_controller" />
-
-        <!-- Broadcast TF transforms for from joint states -->
-        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
-            <remap from="/joint_states" to="/panda_multiple_arms/joint_states" />
-        </node>
-
-    </launch>
-
 - The joint trajectory controller: 
 
-1. Create the controller configuration file ``trajectory_controller.yaml`` in the ``panda_multiple_arms`` package as follows::
+3. Create the controller configuration file ``trajectory_controller.yaml`` in the ``panda_multiple_arms/config`` package as follows::
 
     cd ~/ws_moveit
     cd src/panda_multiple_arms
@@ -240,12 +225,11 @@ Notice that in the following configuration files, the ``panda_multiple_arms`` is
     touch trajectory_controller.yaml 
 
 
-2. Open the ``trajectory_controller.yaml`` and copy the controller configuration to it ::
+4. Open the ``trajectory_controller.yaml`` and copy the controller configuration to it ::
 
-    panda_multiple_arms:
     rgt_arm_trajectory_controller:
-        type: "position_controllers/JointTrajectoryController"
-        joints:
+    type: "position_controllers/JointTrajectoryController"
+    joints:
         - rgt_arm_joint1
         - rgt_arm_joint2
         - rgt_arm_joint3
@@ -253,23 +237,23 @@ Notice that in the following configuration files, the ``panda_multiple_arms`` is
         - rgt_arm_joint5
         - rgt_arm_joint6
         - rgt_arm_joint7
-        constraints:
-            goal_time: 0.6
-            stopped_velocity_tolerance: 0.05
-            rgt_arm_joint1: {trajectory: 0.1, goal: 0.1}
-            rgt_arm_joint2: {trajectory: 0.1, goal: 0.1}
-            rgt_arm_joint3: {trajectory: 0.1, goal: 0.1}
-            rgt_arm_joint4: {trajectory: 0.1, goal: 0.1}
-            rgt_arm_joint5: {trajectory: 0.1, goal: 0.1}
-            rgt_arm_joint6: {trajectory: 0.1, goal: 0.1}
-            rgt_arm_joint7: {trajectory: 0.1, goal: 0.1}
-        stop_trajectory_duration: 0.5
-        state_publish_rate:  25
-        action_monitor_rate: 10
+    constraints:
+        goal_time: 0.6
+        stopped_velocity_tolerance: 0.05
+        rgt_arm_joint1: {trajectory: 0.1, goal: 0.1}
+        rgt_arm_joint2: {trajectory: 0.1, goal: 0.1}
+        rgt_arm_joint3: {trajectory: 0.1, goal: 0.1}
+        rgt_arm_joint4: {trajectory: 0.1, goal: 0.1}
+        rgt_arm_joint5: {trajectory: 0.1, goal: 0.1}
+        rgt_arm_joint6: {trajectory: 0.1, goal: 0.1}
+        rgt_arm_joint7: {trajectory: 0.1, goal: 0.1}
+    stop_trajectory_duration: 0.5
+    state_publish_rate:  25
+    action_monitor_rate: 10
 
     lft_arm_trajectory_controller:
-        type: "position_controllers/JointTrajectoryController"
-        joints:
+    type: "position_controllers/JointTrajectoryController"
+    joints:
         - lft_arm_joint1
         - lft_arm_joint2
         - lft_arm_joint3
@@ -277,94 +261,207 @@ Notice that in the following configuration files, the ``panda_multiple_arms`` is
         - lft_arm_joint5
         - lft_arm_joint6
         - lft_arm_joint7
-        constraints:
-            goal_time: 0.6
-            stopped_velocity_tolerance: 0.05
-            lft_arm_joint1: {trajectory: 0.1, goal: 0.1}
-            lft_arm_joint2: {trajectory: 0.1, goal: 0.1}
-            lft_arm_joint3: {trajectory: 0.1, goal: 0.1}
-            lft_arm_joint4: {trajectory: 0.1, goal: 0.1}
-            lft_arm_joint5: {trajectory: 0.1, goal: 0.1}
-            lft_arm_joint6: {trajectory: 0.1, goal: 0.1}
-            lft_arm_joint7: {trajectory: 0.1, goal: 0.1}
-        stop_trajectory_duration: 0.5
-        state_publish_rate:  25
-        action_monitor_rate: 10
+    constraints:
+        goal_time: 0.6
+        stopped_velocity_tolerance: 0.05
+        lft_arm_joint1: {trajectory: 0.1, goal: 0.1}
+        lft_arm_joint2: {trajectory: 0.1, goal: 0.1}
+        lft_arm_joint3: {trajectory: 0.1, goal: 0.1}
+        lft_arm_joint4: {trajectory: 0.1, goal: 0.1}
+        lft_arm_joint5: {trajectory: 0.1, goal: 0.1}
+        lft_arm_joint6: {trajectory: 0.1, goal: 0.1}
+        lft_arm_joint7: {trajectory: 0.1, goal: 0.1}
+    stop_trajectory_duration: 0.5
+    state_publish_rate:  25
+    action_monitor_rate: 10
+
+    #notice that the grippers joint2 mimics joint1
+    #this is why it is not listed under the hand controllers
+    rgt_hand_controller:
+    type: "effort_controllers/JointTrajectoryController"
+    joints:
+        - rgt_arm_finger_joint1
+    gains:
+        rgt_arm_finger_joint1:  {p: 50.0, d: 1.0, i: 0.01, i_clamp: 1.0}
+
+    lft_hand_controller:
+    type: "effort_controllers/JointTrajectoryController"
+    joints:
+        - lft_arm_finger_joint1
+    gains:
+        lft_arm_finger_joint1:  {p: 50.0, d: 1.0, i: 0.01, i_clamp: 1.0}
 
 
 
-3. Create the  launch file ``panda_multiple_arms_trajectory_controller.launch`` to load the joint trajectory controller configurations and spawn it. ::
+5. Create the  launch ``control_utils.launch`` file to load the controllers and spawn them. ::
 
     <?xml version="1.0"?>
     <launch>
-        <rosparam file="$(find panda_multiple_arms)/config/trajectory_controller.yaml" command="load" />
 
-        <node name="arms_trajectory_controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" ns="/panda_multiple_arms" args="rgt_arm_trajectory_controller lft_arm_trajectory_controller" />
+    <!-- Robot state publisher -->
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+        <param name="publish_frequency" type="double" value="50.0" />
+        <param name="tf_prefix" type="string" value="" />
+    </node>
+
+    <!-- Joint state controller -->
+    <rosparam file="$(find panda_multiple_arms)/config/joint_state_controller.yaml" command="load" />
+    <node name="joint_state_controller_spawner" pkg="controller_manager" type="spawner" args="joint_state_controller" respawn="false" output="screen" />
+
+    <!-- Joint trajectory controller -->
+    <rosparam file="$(find panda_multiple_arms)/config/trajectory_controller.yaml" command="load" />
+    <node name="arms_trajectory_controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="rgt_arm_trajectory_controller lft_arm_trajectory_controller rgt_hand_controller lft_hand_controller" />
 
     </launch>
 
-Please be careful with the namespace (ns) and the controllers names when doing this step. Those names must match the names in the trajectory_controller.yaml file. 
+The joint state controller publishes the robot joint values ``/joint_states`` and the robot state publisher uses them to calculate forward kinematics and publish the poses/transforms of the robot links. The joint state controller enables executing joint-space trajectories on a group of joints.
 
-The remaining part of this step presents guidance how to modify the auto-generated ros_controllers.yaml in the moveit config package for interfacing the arm using MoveIt to Gazebo. We need a trajectory controller which has a FollowJointTrajectoryAction interface. After motion planning, the FollowJointTrajectoryAction interface sends the generated trajectory to the robot ros controller (written above ``trajectory_controller.yaml``).
+..
+    Please be careful with the namespace (ns) and the controllers names when doing this step. Those names must match the names in the trajectory_controller.yaml file. 
 
-The ros_controllers.yaml is auto-generated in the path ``panda_multiple_arms_moveit_config/config/ros_controllers.yaml``. The file contents should be modified as follows ::
+The remaining part of this step presents guidance how to modify the auto-generated control-related files in the moveit config package for interfacing the arm using MoveIt to Gazebo. Also in a systematic way, we need to modify two files. ``ros_controllers.yaml``, and ``simple_moveit_controllers.yaml`` 
 
-    controller_manager_ns: controller_manager
+- The ros_controllers.yaml 
+
+  The ``ros_controllers.yaml`` file is autogenerated in the  ``panda_multiple_arms_moveit_config/config``. According to the MoveIt Setup Assistant authors, this file is meant for the ros control contfiguration (this means its content both ``joint_state_controller.yaml`` and ``trajectory_controller.yaml``). Just copy the contents of the two files into this file. The file should look as follows ::
+
+    joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50  
+    
+    rgt_arm_trajectory_controller:
+    type: "position_controllers/JointTrajectoryController"
+    joints:
+        - rgt_arm_joint1
+        - rgt_arm_joint2
+        - rgt_arm_joint3
+        - rgt_arm_joint4
+        - rgt_arm_joint5
+        - rgt_arm_joint6
+        - rgt_arm_joint7
+    constraints:
+        goal_time: 0.6
+        stopped_velocity_tolerance: 0.05
+        rgt_arm_joint1: {trajectory: 0.1, goal: 0.1}
+        rgt_arm_joint2: {trajectory: 0.1, goal: 0.1}
+        rgt_arm_joint3: {trajectory: 0.1, goal: 0.1}
+        rgt_arm_joint4: {trajectory: 0.1, goal: 0.1}
+        rgt_arm_joint5: {trajectory: 0.1, goal: 0.1}
+        rgt_arm_joint6: {trajectory: 0.1, goal: 0.1}
+        rgt_arm_joint7: {trajectory: 0.1, goal: 0.1}
+    stop_trajectory_duration: 0.5
+    state_publish_rate:  25
+    action_monitor_rate: 10
+
+    lft_arm_trajectory_controller:
+    type: "position_controllers/JointTrajectoryController"
+    joints:
+        - lft_arm_joint1
+        - lft_arm_joint2
+        - lft_arm_joint3
+        - lft_arm_joint4
+        - lft_arm_joint5
+        - lft_arm_joint6
+        - lft_arm_joint7
+    constraints:
+        goal_time: 0.6
+        stopped_velocity_tolerance: 0.05
+        lft_arm_joint1: {trajectory: 0.1, goal: 0.1}
+        lft_arm_joint2: {trajectory: 0.1, goal: 0.1}
+        lft_arm_joint3: {trajectory: 0.1, goal: 0.1}
+        lft_arm_joint4: {trajectory: 0.1, goal: 0.1}
+        lft_arm_joint5: {trajectory: 0.1, goal: 0.1}
+        lft_arm_joint6: {trajectory: 0.1, goal: 0.1}
+        lft_arm_joint7: {trajectory: 0.1, goal: 0.1}
+    stop_trajectory_duration: 0.5
+    state_publish_rate:  25
+    action_monitor_rate: 10
+
+    #notice that the grippers joint2 mimics joint1
+    #this is why it is not listed under the hand controllers
+    rgt_hand_controller:
+    type: "effort_controllers/JointTrajectoryController"
+    joints:
+        - rgt_arm_finger_joint1
+    gains:
+        rgt_arm_finger_joint1:  {p: 50.0, d: 1.0, i: 0.01, i_clamp: 1.0}
+
+    lft_hand_controller:
+    type: "effort_controllers/JointTrajectoryController"
+    joints:
+        - lft_arm_finger_joint1
+    gains:
+        lft_arm_finger_joint1:  {p: 50.0, d: 1.0, i: 0.01, i_clamp: 1.0}
+    
+.. 
+    Notice that the namespace and controller names correspond to the names in ``trajectory_controller.yaml`` file.
+- The simple_moveit_controllers.yaml 
+
+  This file is autogenerated in the ``panda_multiple_arms_moveit_config/config``. Moveit requires a trajectory controller which has a FollowJointTrajectoryAction interface. After motion planning, the FollowJointTrajectoryAction interface sends the generated trajectory to the robot ros controller (written above).
+  
+  This is the file that configures the controllers to be used by MoveIt controller manager to operate the robot. The controllers names should correspond to the ros controllers in the previous ros_controllers.yaml, which is same as the trajectory_control.yaml. 
+
+
+Modift the file contents to be as follows. :: 
+    
     controller_list:
-    - name: panda_multiple_arms/rgt_panda_trajectory_controller
-        action_ns: follow_joint_trajectory
-        type: FollowJointTrajectory
-        default: true
-        joints:
-        - rgt_panda_joint1
-        - rgt_panda_joint2
-        - rgt_panda_joint3
-        - rgt_panda_joint4
-        - rgt_panda_joint5
-        - rgt_panda_joint6
+      - name: rgt_arm_trajectory_controller
+          action_ns: follow_joint_trajectory
+          type: FollowJointTrajectory
+          default: True
+          joints:
+          - rgt_arm_joint1
+          - rgt_arm_joint2
+          - rgt_arm_joint3
+          - rgt_arm_joint4
+          - rgt_arm_joint5
+          - rgt_arm_joint6
+          - rgt_arm_joint7
+      - name: lft_arm_trajectory_controller
+          action_ns: follow_joint_trajectory
+          type: FollowJointTrajectory
+          default: True
+          joints:
+          - lft_arm_joint1
+          - lft_arm_joint2
+          - lft_arm_joint3
+          - lft_arm_joint4
+          - lft_arm_joint5
+          - lft_arm_joint6
+          - lft_arm_joint7
 
-    - name: panda_multiple_arms/lft_panda_trajectory_controller
-        action_ns: follow_joint_trajectory
-        type: FollowJointTrajectory
-        default: true
-        joints:
-        - lft_panda_joint1
-        - lft_panda_joint2
-        - lft_panda_joint3
-        - lft_panda_joint4
-        - lft_panda_joint5
-        - lft_panda_joint6
-    
-Notice that the namespace and controller names correspond to the names in ``trajectory_controller.yaml`` file.
+      #notice that the grippers joint2 mimics joint1
+      #this is why it is not listed under the hand controllers
 
-In the same moveit config package, create two files ``panda_multiple_arms_moveit_controller_manager.launch.xml`` and ``moveit_planning_execution.launch``.
-Make the first file load the ``ros_controllers.yaml`` as follows :: 
+      - name: rgt_hand_controller
+          action_ns: follow_joint_trajectory
+          type: FollowJointTrajectory
+          default: true
+          joints:
+          - rgt_arm_finger_joint1
+
+      - name: lft_hand_controller
+          action_ns: follow_joint_trajectory
+          type: FollowJointTrajectory
+          default: true
+          joints:
+          - lft_arm_finger_joint1
+
+The last step in the setup is to let the ``ros_controllers.launch`` spawn the ros controllers configured in the ros_controller.yaml file. This is simply done by adding the controller names as arguments in the spawner node as shown below. ::
 
     <?xml version="1.0"?>
     <launch>
-        <!-- loads moveit_controller_manager on the parameter server which is taken as argument
-        if no argument is passed, moveit_simple_controller_manager will be set -->
-        <arg name="moveit_controller_manager" default="moveit_simple_controller_manager/MoveItSimpleControllerManager" />
-        <param name="moveit_controller_manager" value="$(arg moveit_controller_manager)"/>
-    
-        <!-- loads ros_controllers to the param server -->
-        <rosparam file="$(find mylabworkcell_moveit_config)/config/ros_controllers.yaml"/>
+
+        <!-- Load joint controller configurations from YAML file to parameter server -->
+        <rosparam file="$(find panda_multiple_arms_moveit_config)/config/ros_controllers.yaml" command="load"/>
+
+        <!-- Load the controllers -->
+        <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+            output="screen" args=" rgt_arm_trajectory_controller lft_arm_trajectory_controller rgt_hand_controller lft_hand_controller"/>
+
     </launch>
 
-The second file should start the planning, execution, and visualization components of MoveIt:: 
 
-    <?xml version="1.0"?>
-    <launch>
-        <!-- The planning and execution components of MoveIt! configured to 
-        publish the current configuration of the robot (simulated or real)
-        and the current state of the world as seen by the planner -->
-        <include file="$(find panda_multiple_arms_moveit_config)/launch/move_group.launch">
-            <arg name="publish_monitored_planning_scene" value="true" />
-        </include>
-        
-        <!-- The visualization component of MoveIt! -->
-        <include file="$(find panda_multiple_arms_moveit_config)/launch/moveit_rviz.launch" />
-    </launch>
 
 
 Step 4: Integrate the simulation in Gazebo with Moveit motion planning
