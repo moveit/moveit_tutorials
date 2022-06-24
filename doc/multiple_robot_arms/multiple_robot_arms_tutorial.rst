@@ -6,7 +6,7 @@ In MoveIt, we can plan motions for multiple robot arms, but there are pre-requir
    :width: 600pt
    :align: center
 
-Watch this `Quick YouTube video <https://youtu.be/_5siHkFQPBQ>`_ of the multiple arms being controlled in Gazebo from Rviz.
+Watch this `Quick YouTube video <https://www.youtube.com/watch?v=h8zlsuzeW3U>`_ of the multiple arms being controlled in Gazebo with Moveit from Rviz.
 
 Getting Started
 ---------------
