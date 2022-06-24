@@ -467,11 +467,11 @@ The last step in the setup is to let the ``ros_controllers.launch`` spawn the ro
 Step 4: Integrate the simulation in Gazebo with Moveit motion planning
 ----------------------------------------------------------------------
 
-We need to launch all the required files to start a simulated robot with the controllers and moveit motion planning context. 
+We need to prepare the required components to start a simulated robot in Gazebo, load the ros controllers, and moveit motion plannig. We have already prepared the ``control_utils.launch`` file to load the ros controllers, and the required moveit launch file is the ``move_group.launch`` which is auto generated. Then, our tasks here are to start a simulated robot in gazebo world, and prepare a launch file that launches the above mentioned three components.   
 
-To grasp the big picture, we need to prepare a ``panda_multiple_arms_bringup_moveit.launch`` file . This file loads the robot in a gazebo world, the ros controllers, moveit_planning_execution launch file, and the robot state publisher. 
+1. Start the simulated a robot in an empty Gazebo world 
 
-To spawn the panda arms in a gazebo empty world, we need to prepare a launch file in the ``panda_multiple_arms`` package. Let's call this file ``view_panda_multiple_arms_empty_world.launch``. Here are the steps to prepar this file. :: 
+To spawn the panda multiple arms model in a gazebo, we need to prepare a launch file in the ``panda_multiple_arms`` package. Let's call it ``view_panda_multiple_arms_empty_world.launch``. Here are the steps to prepar this file. :: 
 
     cd ~/ws_moveit
     cd src/panda_multiple_arms/launch 
@@ -479,33 +479,66 @@ To spawn the panda arms in a gazebo empty world, we need to prepare a launch fil
 
 The ``panda_multiple_arms_empty_world.launch`` file launches an empty world file, loads the robot description, and spawns the robot in the empty world. Its contents are as follows::
 
-    <?xml version="1.0"?>
+     <?xml version="1.0"?>
     <launch>
         <!-- Launch empty Gazebo world -->
         <include file="$(find gazebo_ros)/launch/empty_world.launch">
             <arg name="use_sim_time" value="true" />
             <arg name="gui" value="true" />
+            <arg name="paused" value="false" />
             <arg name="debug" value="false" />
-            <arg name="paused" value="true" />
         </include>
 
         <!-- Find my robot Description-->
         <param name="robot_description" command="$(find xacro)/xacro  '$(find panda_multiple_arms)/robot_description/panda_multiple_arms.xacro'" />
 
-        <!-- convert joint states to TF transforms for rviz, etc -->
-        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
-            <remap from="/joint_states" to="/panda_multiple_arms/joint_states" />
-        </node>
-
-        <!-- Spawn The Robot using the robot_description param-->
+        <!-- Spawn The robot over the robot_description param-->
         <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -param robot_description -model panda_multiple_arms" />
+        
+    </launch>
 
-        <!-- spawn the controllers -->
-        <include file="$(find panda_multiple_arms)/launch/panda_multiple_arms_trajectory_controller.launch" />
+2. Prepare a ``bringup_moveit.launch`` file to start the three components. Create the file in the ``panda_multiple_arms/launch`` directory as follows then copy the contents into it. ::
+
+    cd ~/ws_moveit
+    cd src/panda_multiple_arms/launch 
+    touch bringup_moveit.launch
+
+The ``bringup_moveit.launch`` contents are as follows. ::
+    
+    <?xml version="1.0"?>
+    <launch>
+
+        <!-- Run the main MoveIt executable with trajectory execution -->
+        <include file="$(find panda_multiple_arms_moveit_config)/launch/move_group.launch">
+            <arg name="allow_trajectory_execution" value="true" />
+            <arg name="moveit_controller_manager" value="ros_control" />
+            <arg name="fake_execution_type" value="interpolate" />
+            <arg name="info" value="true" />
+            <arg name="debug" value="false" />
+            <arg name="pipeline" value="ompl" />
+            <arg name="load_robot_description" value="true" />
+        </include>
+
+        <!-- Start the simulated robot in an empty Gazebo world -->
+        <include file="$(find panda_multiple_arms)/launch/view_panda_multiple_arms_empty_world.launch" />
+
+        <!-- Start the controllers -->
+        <include file="$(find panda_multiple_arms)/launch/controller_utils.launch"/>
+
+        <!-- Start moveit_rviz with the motion planning plugin -->
+        <include file="$(find panda_multiple_arms_moveit_config)/launch/moveit_rviz.launch">
+            <arg name="rviz_config" value="$(find panda_multiple_arms_moveit_config)/launch/moveit.rviz" />
+        </include>
 
     </launch>
 
-``Todo``: make the panda robot arm Gazebo-simulation ready. 
+
+To run the Moveit Gazebo integration, run the ``bringup_moveit.launch``. ::
+
+    roslaunch panda_multiple_arms bringup_moveit.launch
+
+If all steps are done, this should bringup all the required components for the integration. Then, we are able to control the simulated robot in rviz and execute the motions in Gazebo as shown in `this video <https://www.youtube.com/watch?v=h8zlsuzeW3U>`_. As shown in the video, we can interact with the arms and hands in Rviz with their move groups, and execute arms motions and hands open and close commands in Gazebo. 
+
 
 ..
     Tutorial for multiple robot arms
