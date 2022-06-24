@@ -539,6 +539,11 @@ To run the Moveit Gazebo integration, run the ``bringup_moveit.launch``. ::
 
 If all steps are done, this should bringup all the required components for the integration. Then, we are able to control the simulated robot in rviz and execute the motions in Gazebo as shown in `this video <https://www.youtube.com/watch?v=h8zlsuzeW3U>`_. As shown in the video, we can interact with the arms and hands in Rviz with their move groups, and execute arms motions and hands open and close commands in Gazebo. 
 
+Step 5: Plan arms motions with MoveIt Move Group Interface.  
+-----------------------------------------------------------
+
+After ensuring our integration is correct, the most interesting part is to plan robot motion with the Moveit API and see our robots moving in Gazebo. This step shows how to write code for planning simple motions for the arms and hands. 
+
 
 ..
     Tutorial for multiple robot arms
