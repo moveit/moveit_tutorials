@@ -72,18 +72,13 @@ After knowing the xacro macro for the arm, and understanding the input parameter
 
 The same applies to loading the grippers/hands models, and other robots that are defined with xacro macros. 
 
-At this point, it is recommended to check our xacro model is working as expected. This can be done in three simple steps; convert your xacro model to URDF, check the connections between links and joints are correct, and if needed you can visualize it (as described before). Run the following commands to check the URDF has no problems. 
-
-    cd ~ws_moveit
-
-    catkin build 
-
-    source devel/setup.bash
-
-    roscd dual_panda_arms/robot_description
-
-    rosrun xacro xacro panda_multiple_arms.xacro -o panda_multiple_arms.urdf
+At this point, it is recommended to check our xacro model is working as expected. This can be done in three simple steps; convert your xacro model to URDF, check the connections between links and joints are correct, and if needed you can visualize it (as described before). Run the following commands to check the URDF has no problems. ::
     
+    cd ~ws_moveit
+    catkin build 
+    source devel/setup.bash
+    roscd dual_panda_arms/robot_description
+    rosrun xacro xacro panda_multiple_arms.xacro -o panda_multiple_arms.urdf
     check_urdf panda_multiple_arms.urdf
 
 
