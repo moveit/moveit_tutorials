@@ -86,51 +86,53 @@ The ``check_urdf`` shows the links tree and indicats if there are any errors: ::
 
     robot name is: panda_multiple_arms
     ---------- Successfully Parsed XML ---------------
-    root Link: base has 2 child(ren)
-        child(1):  lft_arm_link0
-            child(1):  lft_arm_link1
-                child(1):  lft_arm_link2
-                    child(1):  lft_arm_link3
-                        child(1):  lft_arm_link4
-                            child(1):  lft_arm_link5
-                                child(1):  lft_arm_link6
-                                    child(1):  lft_arm_link7
-                                        child(1):  lft_arm_link8
-                                            child(1):  lft_arm_hand
-                                                child(1):  lft_arm_leftfinger
-                                                child(2):  lft_arm_rightfinger
-                                                child(3):  lft_arm_hand_sc
-                                                child(4):  lft_arm_hand_tcp
-                                        child(2):  lft_arm_link7_sc
-                                    child(2):  lft_arm_link6_sc
-                                child(2):  lft_arm_link5_sc
-                            child(2):  lft_arm_link4_sc
-                        child(2):  lft_arm_link3_sc
-                    child(2):  lft_arm_link2_sc
-                child(2):  lft_arm_link1_sc
-            child(2):  lft_arm_link0_sc
-        child(2):  rgt_arm_link0
-            child(1):  rgt_arm_link1
-                child(1):  rgt_arm_link2
-                    child(1):  rgt_arm_link3
-                        child(1):  rgt_arm_link4
-                            child(1):  rgt_arm_link5
-                                child(1):  rgt_arm_link6
-                                    child(1):  rgt_arm_link7
-                                        child(1):  rgt_arm_link8
-                                            child(1):  rgt_arm_hand
-                                                child(1):  rgt_arm_leftfinger
-                                                child(2):  rgt_arm_rightfinger
-                                                child(3):  rgt_arm_hand_sc
-                                                child(4):  rgt_arm_hand_tcp
-                                        child(2):  rgt_arm_link7_sc
-                                    child(2):  rgt_arm_link6_sc
-                                child(2):  rgt_arm_link5_sc
-                            child(2):  rgt_arm_link4_sc
-                        child(2):  rgt_arm_link3_sc
-                    child(2):  rgt_arm_link2_sc
-                child(2):  rgt_arm_link1_sc
-            child(2):  rgt_arm_link0_sc
+    root Link: world has 1 child(ren)
+        child(1):  base
+            child(1):  lft_arm_link0
+                child(1):  lft_arm_link1
+                    child(1):  lft_arm_link2
+                        child(1):  lft_arm_link3
+                            child(1):  lft_arm_link4
+                                child(1):  lft_arm_link5
+                                    child(1):  lft_arm_link6
+                                        child(1):  lft_arm_link7
+                                            child(1):  lft_arm_link8
+                                                child(1):  lft_arm_hand
+                                                    child(1):  lft_arm_leftfinger
+                                                    child(2):  lft_arm_rightfinger
+                                                    child(3):  lft_arm_hand_sc
+                                                    child(4):  lft_arm_hand_tcp
+                                            child(2):  lft_arm_link7_sc
+                                        child(2):  lft_arm_link6_sc
+                                    child(2):  lft_arm_link5_sc
+                                child(2):  lft_arm_link4_sc
+                            child(2):  lft_arm_link3_sc
+                        child(2):  lft_arm_link2_sc
+                    child(2):  lft_arm_link1_sc
+                child(2):  lft_arm_link0_sc
+            child(2):  rgt_arm_link0
+                child(1):  rgt_arm_link1
+                    child(1):  rgt_arm_link2
+                        child(1):  rgt_arm_link3
+                            child(1):  rgt_arm_link4
+                                child(1):  rgt_arm_link5
+                                    child(1):  rgt_arm_link6
+                                        child(1):  rgt_arm_link7
+                                            child(1):  rgt_arm_link8
+                                                child(1):  rgt_arm_hand
+                                                    child(1):  rgt_arm_leftfinger
+                                                    child(2):  rgt_arm_rightfinger
+                                                    child(3):  rgt_arm_hand_sc
+                                                    child(4):  rgt_arm_hand_tcp
+                                            child(2):  rgt_arm_link7_sc
+                                        child(2):  rgt_arm_link6_sc
+                                    child(2):  rgt_arm_link5_sc
+                                child(2):  rgt_arm_link4_sc
+                            child(2):  rgt_arm_link3_sc
+                        child(2):  rgt_arm_link2_sc
+                    child(2):  rgt_arm_link1_sc
+                child(2):  rgt_arm_link0_sc
+
 
 To visually check your multiple robot model, run the command: ::
 
