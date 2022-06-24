@@ -45,93 +45,10 @@ To prepare your multiple robot arms xacro file (model), you need to have the sin
 ..
     It is worth mentioning that the difference between xacro and URDF is that TODO1. This property makes it easier to include multiple robot arms models in the same file, with a different prefix. 
 
-Our multiple arms model has a ``rgt_panda`` and ``lft_panda`` arms. Its structure is as follows: ::
+Our multiple arms model has ``rgt_arm`` and ``lft_arm`` models. Each arm is equipped with a gripper. The xacro files can get lengthy. Here is a link to the multiple_arms_ xacro file.
 
-    <?xml version="1.0"?>
-    <robot name="panda_multiple_arms" xmlns:xacro="http://ros.org/wiki/xacro">
+.. _multiple_arms: https://github.com/Robotawi/panda_arms_ws/blob/master/src/panda_multiple_arms/robot_description/panda_multiple_arms.xacro 
 
-        <xacro:arg name="arm_id_1" default="rgt_arm" />
-        <xacro:arg name="arm_id_2" default="lft_arm" />
-
-        <xacro:include filename="$(find franka_description)/robots/utils.xacro" />
-        <xacro:include filename="$(find franka_description)/robots/panda_arm.xacro" />
-        <xacro:include filename="$(find franka_description)/robots/hand.xacro" />
-
-        <link name="world"/>
-
-        <!-- box shaped table as base for the 2 Pandas -->
-        <link name="base">
-            <visual>
-                <origin xyz="0 0 0.5" rpy="0 0 0" />
-                <geometry>
-                    <box size="1 2 1" />
-                </geometry>
-                <material name="White">
-                    <color rgba="1.0 1.0 1.0 1.0" />
-                </material>
-            </visual>
-            <collision>
-                <origin xyz="0 0 0.5" rpy="0 0 0" />
-                <geometry>
-                    <box size="1 2 1" />
-                </geometry>
-            </collision>
-            <inertial>
-                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
-                <mass value="10.0"/>
-                <inertia ixx="0.001" ixy="0.0" ixz="0.001" iyy="0.0" iyz="0.0" izz="0.001"/>
-            </inertial>
-            
-        </link>
-
-        <joint name="base_to_world" type="fixed">
-            <parent link="world"/>
-            <child link="base"/>
-            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
-        </joint>
-        
-        <!-- right arm with gripper -->
-        <xacro:panda_arm arm_id="$(arg arm_id_1)" connected_to="base" xyz="0 -0.5 1" gazebo="true" safety_distance="0.03" />
-        <xacro:hand arm_id="$(arg arm_id_1)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id_1)_link8" gazebo="true" safety_distance="0.03" />
-
-        <!-- left arm with gripper -->
-        <xacro:panda_arm arm_id="$(arg arm_id_2)" connected_to="base" xyz="0 0.5 1" gazebo="true" safety_distance="0.03" />
-        <xacro:hand arm_id="$(arg arm_id_2)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id_2)_link8" gazebo="true" safety_distance="0.03" />
-
-        <!-- right arm joints control interface -->
-        <xacro:gazebo-joint joint="$(arg arm_id_1)_joint1" transmission="hardware_interface/PositionJointInterface" />
-        <xacro:gazebo-joint joint="$(arg arm_id_1)_joint2" transmission="hardware_interface/PositionJointInterface" />
-        <xacro:gazebo-joint joint="$(arg arm_id_1)_joint3" transmission="hardware_interface/PositionJointInterface" />
-        <xacro:gazebo-joint joint="$(arg arm_id_1)_joint4" transmission="hardware_interface/PositionJointInterface" />
-        <xacro:gazebo-joint joint="$(arg arm_id_1)_joint5" transmission="hardware_interface/PositionJointInterface" />
-        <xacro:gazebo-joint joint="$(arg arm_id_1)_joint6" transmission="hardware_interface/PositionJointInterface" />
-        <xacro:gazebo-joint joint="$(arg arm_id_1)_joint7" transmission="hardware_interface/PositionJointInterface" />
-
-        <!-- left arm joints control interface -->
-        <xacro:gazebo-joint joint="$(arg arm_id_2)_joint1" transmission="hardware_interface/PositionJointInterface" />
-        <xacro:gazebo-joint joint="$(arg arm_id_2)_joint2" transmission="hardware_interface/PositionJointInterface" />
-        <xacro:gazebo-joint joint="$(arg arm_id_2)_joint3" transmission="hardware_interface/PositionJointInterface" />
-        <xacro:gazebo-joint joint="$(arg arm_id_2)_joint4" transmission="hardware_interface/PositionJointInterface" />
-        <xacro:gazebo-joint joint="$(arg arm_id_2)_joint5" transmission="hardware_interface/PositionJointInterface" />
-        <xacro:gazebo-joint joint="$(arg arm_id_2)_joint6" transmission="hardware_interface/PositionJointInterface" />
-        <xacro:gazebo-joint joint="$(arg arm_id_2)_joint7" transmission="hardware_interface/PositionJointInterface" />
-
-        <!-- right hand joints control interface -->
-        <xacro:gazebo-joint joint="$(arg arm_id_1)_finger_joint1" transmission="hardware_interface/EffortJointInterface" />
-        <xacro:gazebo-joint joint="$(arg arm_id_1)_finger_joint2" transmission="hardware_interface/EffortJointInterface" />
-
-        <!-- left hand joints control interface -->
-        <xacro:gazebo-joint joint="$(arg arm_id_2)_finger_joint1" transmission="hardware_interface/EffortJointInterface" />
-        <xacro:gazebo-joint joint="$(arg arm_id_2)_finger_joint2" transmission="hardware_interface/EffortJointInterface" />
-
-        <!-- load ros_control plugin -->
-        <gazebo>
-            <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
-                <robotNamespace>/panda_multiple_arms</robotNamespace>
-            </plugin>
-        </gazebo>
-
-    </robot>
 
 Notes: 
 
