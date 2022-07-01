@@ -542,7 +542,74 @@ If all steps are done, this should bringup all the required components for the i
 Step 5: Plan arms motions with MoveIt Move Group Interface.  
 -----------------------------------------------------------
 
-After ensuring our integration is correct, the most interesting part is to plan robot motion with the Moveit API and see our robots moving in Gazebo. This step shows how to write code for planning simple motions for the arms and hands. 
+After ensuring our integration is correct, the most interesting part is to plan robot motion with the Moveit API and see our robots moving in Gazebo. This step shows how to prepare the dependenies and write code for planning simple motions for the arms and hands.
+
+We need to include some dependenies in the robot's package ``CMakeLists.txt`` file. They are packages to enable using moveit group interface and utility package to describe the arms target poses. Here is a link to a `minimal CMakeLists.txt <https://mohamed.raessa>`_ file used in this step. 
+
+For the motion planning, please refer to Move Group Interface `tutorial <https://ros-planning.github.io/moveit_tutorials/doc/move_group_interface/move_group_interface_tutorial.html>`_ for more details about MoveIt's move group C++ interface. We are using a separate move group for every arm and every hand.
+
+This is a link to the code for planning simple motions. It does the following.
+
+1. Set the move groups names for arms and hands (considering same naming in step 2).::
+   
+    static const std::string rgt_arm_group = "rgt_arm";
+    static const std::string rgt_hand_group = "rgt_hand";
+
+    static const std::string lft_arm_group = "lft_arm";
+    static const std::string lft_hand_group = "lft_hand";
+
+
+2. Declar MoveGroupInterface objects for every arm and hand.::
+    
+    moveit::planning_interface::MoveGroupInterface rgt_arm_move_group_interface(rgt_arm_group);
+    moveit::planning_interface::MoveGroupInterface rgt_hand_move_group_interface(rgt_hand_group);
+
+    moveit::planning_interface::MoveGroupInterface lft_arm_move_group_interface(lft_arm_group);
+    moveit::planning_interface::MoveGroupInterface lft_hand_move_group_interface(lft_hand_group);
+
+3. Set the arms goal poses to the pre-defined ``ready`` pose.::
+   
+    rgt_arm_move_group_interface.setNamedTarget("ready");
+    lft_arm_move_group_interface.setNamedTarget("ready");
+
+4. Plan the arms motions, and if successful move arms and open grippers.::
+   
+    bool rgt_success = (rgt_arm_move_group_interface.plan(rgt_arm_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+    bool lft_success = (lft_arm_move_group_interface.plan(lft_arm_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+
+    if (rgt_success)
+    {
+        rgt_arm_move_group_interface.execute(rgt_arm_plan);
+
+        rgt_hand_move_group_interface.setNamedTarget("open");
+        rgt_hand_move_group_interface.move();
+    }
+
+    if (lft_success)
+    {
+        lft_arm_move_group_interface.execute(lft_arm_plan);
+
+        lft_hand_move_group_interface.setNamedTarget("open");
+        lft_hand_move_group_interface.move();
+    }
+
+5. In the last step, the arms are tasked to move arbitary motion with respect to the current pose. The right arm move 0.10 meter up, and the left arm move 0.10 forward. The motion is done with respect to the current poses of the robots. Here is the example of moving the right arm up. ::
+   
+    geometry_msgs::PoseStamped current_rgt_arm_pose = rgt_arm_move_group_interface.getCurrentPose();
+    geometry_msgs::PoseStamped target_rgt_arm_pose = current_rgt_arm_pose;
+
+    target_rgt_arm_pose.pose.position.z += 0.10;
+
+    rgt_arm_move_group_interface.setPoseTarget(target_rgt_arm_pose);
+    rgt_success = (rgt_arm_move_group_interface.plan(rgt_arm_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+
+    if (rgt_success)
+    {
+        rgt_arm_move_group_interface.execute(rgt_arm_plan);
+    }
+
+
+This `YouTube video <https://youtu.be/sxUQh91oQxM>`_ shows the previous motion of arms and hands using MoveIt move group interface. You may think the arms should move in straight lines between current and target poses. This is can be accomplished using the MoveIt Cartesian Planners, which is also explained in the Move Group Interface tutorial, and you are encouraged to try. 
 
 
 ..
