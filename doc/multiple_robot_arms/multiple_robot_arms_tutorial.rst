@@ -156,9 +156,7 @@ This concludes the step of building the model and verifying it.
 Step 2: Prepare the MoveIt config package using MoveIt Setup Assistant 
 ----------------------------------------------------------------------
 
-If you are not familiar with MoveIt Setup Assistant, please refer to this tutorial_. 
-
-.. _tutorial: https://ros-planning.github.io/moveit_tutorials/doc/setup_assistant/setup_assistant_tutorial.html 
+If you are not familiar with MoveIt Setup Assistant, please refer to this `tutorial <https://ros-planning.github.io/moveit_tutorials/doc/setup_assistant/setup_assistant_tutorial.html>`_. 
 
 MoveIt Setup Assistant is used to configure our multiple robot arms for using the MoveIt pipeline. 
 
@@ -166,9 +164,7 @@ MoveIt Setup Assistant is used to configure our multiple robot arms for using th
 
     roslaunch moveit_setup_assistant setup_assistant.launch
 
-Follow the MoveIt Setup Assistant tutorial_ to configure the arms. Note that we will be making a separate move group for each arm and hand. The groups are called ``rgt_arm``, ``lft_arm``, ``rgt_hand``, and ``lft_hand``. 
-
-.. _tutorial: https://ros-planning.github.io/moveit_tutorials/doc/setup_assistant/setup_assistant_tutorial.html 
+Follow the MoveIt Setup Assistant tutorial to configure the arms. Note that we will be making a separate move group for each arm and hand. The groups are called ``rgt_arm``, ``lft_arm``, ``rgt_hand``, and ``lft_hand``. 
 
 
 I want to consider two more point along with the the Setup Assistant tutorial 
@@ -193,7 +189,7 @@ Name the Moveit config package ``panda_multiple_arms_moveit_config`` and generat
 Step 3: Write the ros controllers configuration and launch files for the multiple arms 
 --------------------------------------------------------------------------------------
 
-This step creates ros_control configuration files and roslaunch files to start them. We need two controller types. The first is a *joint state controller*, which publishes the state of all joints. The second is *joint trajectory controller* type, which executes joint-space trajectories on a group of robot joints.
+This step creates ``ros_control`` configuration files and ``roslaunch`` files to start them. We need two controller types. The first is a *joint state controller*, which publishes the state of all joints. The second is *joint trajectory controller* type, which executes joint-space trajectories on a group of robot joints.
 
 In the following configuration files, the controllers names are ``joint_state_controller``, ``rgt_arm_trajectory_controller``, and ``lft_arm_trajectory_controller``. Under each trajectory controller, we need to specify its hardware interface type, joint groups, and constraints. For more about ros controllers,  refer to their documentation_. Let's create the controllers configuration and their launch file in systematic steps and with descriptive names. Some comments are added after the steps not to break the flow. 
 
@@ -293,7 +289,7 @@ In the following configuration files, the controllers names are ``joint_state_co
 
 
 
-5. Create the  launch ``control_utils.launch`` file to load the controllers and spawn them. ::
+5. Create the  launch ``control_utils.launch`` file to start the robot state publisher, load the controllers, and spawn them. ::
 
     <?xml version="1.0"?>
     <launch>
@@ -314,12 +310,12 @@ In the following configuration files, the controllers names are ``joint_state_co
 
     </launch>
 
-The joint state controller publishes the robot joint values ``/joint_states`` and the robot state publisher uses them to calculate forward kinematics and publish the poses/transforms of the robot links. The joint state controller enables executing joint-space trajectories on a group of joints.
+The joint state controller publishes the robot joint values on the ``/joint_states`` topic, and the robot state publisher uses them to calculate forward kinematics and publish the poses/transforms of the robot links. The joint trajectory controller enables executing joint-space trajectories on a group of joints.
 
 ..
     Please be careful with the namespace (ns) and the controllers names when doing this step. Those names must match the names in the trajectory_controller.yaml file. 
 
-The remaining part of this step presents guidance how to modify the auto-generated control-related files in the moveit config package for interfacing the arm using MoveIt to Gazebo. Also in a systematic way, we need to modify two files. ``ros_controllers.yaml``, and ``simple_moveit_controllers.yaml`` 
+The remaining part of this step presents guidance how to modify the auto-generated control-related files in the moveit config package for interfacing the arm using MoveIt to Gazebo. Also in a systematic way, we need to modify two files, ``ros_controllers.yaml``, and ``simple_moveit_controllers.yaml`` 
 
 - The ros_controllers.yaml 
 
@@ -399,10 +395,10 @@ The remaining part of this step presents guidance how to modify the auto-generat
 
   This file is autogenerated in the ``panda_multiple_arms_moveit_config/config``. Moveit requires a trajectory controller which has a FollowJointTrajectoryAction interface. After motion planning, the FollowJointTrajectoryAction interface sends the generated trajectory to the robot ros controller (written above).
   
-  This is the file that configures the controllers to be used by MoveIt controller manager to operate the robot. The controllers names should correspond to the ros controllers in the previous ros_controllers.yaml, which is same as the trajectory_control.yaml. 
+  This is the file that configures the controllers to be used by MoveIt controller manager to operate the robot. The controllers names should correspond to the ros controllers in the previous ``ros_controllers.yaml``, which is same as the ``trajectory_control.yaml``. 
 
 
-Modift the file contents to be as follows. :: 
+Modify the file contents to be as follows. :: 
     
     controller_list:
       - name: rgt_arm_trajectory_controller
@@ -447,7 +443,7 @@ Modift the file contents to be as follows. ::
           joints:
           - lft_arm_finger_joint1
 
-The last step in the setup is to let the ``ros_controllers.launch`` spawn the ros controllers configured in the ros_controller.yaml file. This is simply done by adding the controller names as arguments in the spawner node as shown below. ::
+The last step is to let the ``ros_controllers.launch`` spawn the ros controllers configured in the ``ros_controller.yaml`` file. This is simply done by adding the controller names as arguments in the spawner node as shown below. ::
 
     <?xml version="1.0"?>
     <launch>
@@ -467,7 +463,7 @@ The last step in the setup is to let the ``ros_controllers.launch`` spawn the ro
 Step 4: Integrate the simulation in Gazebo with Moveit motion planning
 ----------------------------------------------------------------------
 
-We need to prepare the required components to start a simulated robot in Gazebo, load the ros controllers, and moveit motion plannig. We have already prepared the ``control_utils.launch`` file to load the ros controllers, and the required moveit launch file is the ``move_group.launch`` which is auto generated. Then, our tasks here are to start a simulated robot in gazebo world, and prepare a launch file that launches the above mentioned three components.   
+We need to prepare a launch file to start three required components for the integration to work. Those components are the simulated robot in Gazebo, ros controllers, and moveit motion plannig executable. We have already prepared the ``control_utils.launch`` file to load the ros controllers, and the required moveit motion planning file ``move_group.launch`` is auto generated. Then, our tasks here are to start the simulated robot in gazebo world, and prepare a launch file that launches the above mentioned three components.
 
 1. Start the simulated a robot in an empty Gazebo world 
 
@@ -522,7 +518,7 @@ The ``bringup_moveit.launch`` contents are as follows. ::
         <!-- Start the simulated robot in an empty Gazebo world -->
         <include file="$(find panda_multiple_arms)/launch/view_panda_multiple_arms_empty_world.launch" />
 
-        <!-- Start the controllers -->
+        <!-- Start the controllers and robot state publisher-->
         <include file="$(find panda_multiple_arms)/launch/controller_utils.launch"/>
 
         <!-- Start moveit_rviz with the motion planning plugin -->
@@ -537,18 +533,19 @@ To run the Moveit Gazebo integration, run the ``bringup_moveit.launch``. ::
 
     roslaunch panda_multiple_arms bringup_moveit.launch
 
-If all steps are done, this should bringup all the required components for the integration. Then, we are able to control the simulated robot in rviz and execute the motions in Gazebo as shown in `this video <https://www.youtube.com/watch?v=h8zlsuzeW3U>`_. As shown in the video, we can interact with the arms and hands in Rviz with their move groups, and execute arms motions and hands open and close commands in Gazebo. 
+If all steps are done, this should bringup all the required components for the integration. Then, we can plan motions for the arms and hands using MoveIt's rviz plugin and execute those motions on the simulated robots in Gazebo as shown in `this video <https://www.youtube.com/watch?v=h8zlsuzeW3U>`_.
 
-Step 5: Plan arms motions with MoveIt Move Group Interface.  
+
+Step 5: Plan arms motions with MoveIt Move Group Interface.
 -----------------------------------------------------------
 
 After ensuring our integration is correct, the most interesting part is to plan robot motion with the Moveit API and see our robots moving in Gazebo. This step shows how to prepare the dependenies and write code for planning simple motions for the arms and hands.
 
-We need to include some dependenies in the robot's package ``CMakeLists.txt`` file. They are packages to enable using moveit group interface and utility package to describe the arms target poses. Here is a link to a `minimal CMakeLists.txt <https://mohamed.raessa>`_ file used in this step. 
+We need to include some dependenies in the robot's package ``CMakeLists.txt`` file. They are packages to enable using moveit group interface and utility package to describe the arms target poses. Here is a link to a `minimal CMakeLists.txt <https://github.com/Robotawi/panda_arms_ws/blob/master/src/panda_multiple_arms/CMakeLists.txt>`_ file used in this step. 
 
 For the motion planning, please refer to Move Group Interface `tutorial <https://ros-planning.github.io/moveit_tutorials/doc/move_group_interface/move_group_interface_tutorial.html>`_ for more details about MoveIt's move group C++ interface. We are using a separate move group for every arm and every hand.
 
-This is a link to the code for planning simple motions. It does the following.
+This is the `file <https://github.com/Robotawi/panda_arms_ws/blob/master/src/panda_multiple_arms/src/plan_simple_motion.cpp>`_ used for planning the simple motions. The code in this file does the following.
 
 1. Set the move groups names for arms and hands (considering same naming in step 2).::
    
@@ -559,7 +556,7 @@ This is a link to the code for planning simple motions. It does the following.
     static const std::string lft_hand_group = "lft_hand";
 
 
-2. Declar MoveGroupInterface objects for every arm and hand.::
+2. Declare MoveGroupInterface objects for every arm and hand.::
     
     moveit::planning_interface::MoveGroupInterface rgt_arm_move_group_interface(rgt_arm_group);
     moveit::planning_interface::MoveGroupInterface rgt_hand_move_group_interface(rgt_hand_group);
@@ -572,7 +569,7 @@ This is a link to the code for planning simple motions. It does the following.
     rgt_arm_move_group_interface.setNamedTarget("ready");
     lft_arm_move_group_interface.setNamedTarget("ready");
 
-4. Plan the arms motions, and if successful move arms and open grippers.::
+4. Plan the arms motions, and if the planning is successful move arms and open grippers.::
    
     bool rgt_success = (rgt_arm_move_group_interface.plan(rgt_arm_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
     bool lft_success = (lft_arm_move_group_interface.plan(lft_arm_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
@@ -593,7 +590,7 @@ This is a link to the code for planning simple motions. It does the following.
         lft_hand_move_group_interface.move();
     }
 
-5. In the last step, the arms are tasked to move arbitary motion with respect to the current pose. The right arm move 0.10 meter up, and the left arm move 0.10 forward. The motion is done with respect to the current poses of the robots. Here is the example of moving the right arm up. ::
+5. In the last step, the arms are tasked to move arbitary motion with respect to theie current poses. The right arm moves 0.10 meter up, and the left arm moves 0.10 forward. Here is the code for moving the right arm up. ::
    
     geometry_msgs::PoseStamped current_rgt_arm_pose = rgt_arm_move_group_interface.getCurrentPose();
     geometry_msgs::PoseStamped target_rgt_arm_pose = current_rgt_arm_pose;
@@ -609,7 +606,7 @@ This is a link to the code for planning simple motions. It does the following.
     }
 
 
-This `YouTube video <https://youtu.be/sxUQh91oQxM>`_ shows the previous motion of arms and hands using MoveIt move group interface. You may think the arms should move in straight lines between current and target poses. This is can be accomplished using the MoveIt Cartesian Planners, which is also explained in the Move Group Interface tutorial, and you are encouraged to try. 
+This `short YouTube video <https://youtu.be/sxUQh91oQxM>`_ shows the described arms and hands motions using MoveIt move group interface. You may think the arms should move in straight lines between current and target poses. This is can be accomplished using the MoveIt Cartesian Planners, which is also explained in the Move Group Interface `tutorials <https://ros-planning.github.io/moveit_tutorials/doc/move_group_interface/move_group_interface_tutorial.html>`_, and you are strongly encouraged to implement it. 
 
 
 ..
