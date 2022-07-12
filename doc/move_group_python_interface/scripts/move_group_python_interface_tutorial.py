@@ -342,7 +342,7 @@ class MoveGroupPythonInterfaceTutorial(object):
         ##
         ## Ensuring Collision Updates Are Received
         ## ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-        ## If the Python nodewas just created and did not connect to other nodes yet, or 
+        ## If the Python node was just created and did not connect to other nodes yet, or 
         ## dies before publishing a collision object update message, the message
         ## could get lost and the box will not appear. To ensure that the updates are
         ## made, we wait until we see the changes reflected in the
