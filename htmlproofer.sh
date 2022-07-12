@@ -9,7 +9,7 @@ echo "Testing branch ${GITHUB_BASE_REF:-$GITHUB_HEAD_REF} of $REPOSITORY_NAME"
 # Install htmlpoofer
 gem update --system
 gem --version
-gem install html-proofer
+gem install html-proofer -v 3.19.4 # newer 4.x requires different cmdline options
 # Install ROS's version of sphinx
 sudo apt-get -qq install "ros-noetic-rosdoc-lite"
 source "/opt/ros/noetic/setup.bash"
