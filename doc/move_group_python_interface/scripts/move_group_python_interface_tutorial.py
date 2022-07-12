@@ -342,13 +342,16 @@ class MoveGroupPythonInterfaceTutorial(object):
         ##
         ## Ensuring Collision Updates Are Received
         ## ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-        ## If the Python node dies before publishing a collision object update message, the message
+        ## If the Python node was just created (https://github.com/ros/ros_comm/issues/176),
+        ## or dies before actually publishing the scene update message, the message
         ## could get lost and the box will not appear. To ensure that the updates are
         ## made, we wait until we see the changes reflected in the
         ## ``get_attached_objects()`` and ``get_known_object_names()`` lists.
         ## For the purpose of this tutorial, we call this function after adding,
         ## removing, attaching or detaching an object in the planning scene. We then wait
-        ## until the updates have been made or ``timeout`` seconds have passed
+        ## until the updates have been made or ``timeout`` seconds have passed.
+        ## To avoid waiting for scene updates like this at all, initialize the
+        ## planning scene interface with  ``synchronous = True``.
         start = rospy.get_time()
         seconds = rospy.get_time()
         while (seconds - start < timeout) and not rospy.is_shutdown():
