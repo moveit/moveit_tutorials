@@ -342,8 +342,8 @@ class MoveGroupPythonInterfaceTutorial(object):
         ##
         ## Ensuring Collision Updates Are Received
         ## ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-        ## If the Python node was just created and did not connect to other nodes yet, or
-        ## dies before publishing a collision object update message, the message
+        ## If the Python node was just created (https://github.com/ros/ros_comm/issues/176),
+        ## or dies before actually publishing the scene update message, the message
         ## could get lost and the box will not appear. To ensure that the updates are
         ## made, we wait until we see the changes reflected in the
         ## ``get_attached_objects()`` and ``get_known_object_names()`` lists.
