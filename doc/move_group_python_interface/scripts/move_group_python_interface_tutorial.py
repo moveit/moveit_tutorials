@@ -350,8 +350,8 @@ class MoveGroupPythonInterfaceTutorial(object):
         ## For the purpose of this tutorial, we call this function after adding,
         ## removing, attaching or detaching an object in the planning scene. We then wait
         ## until the updates have been made or ``timeout`` seconds have passed.
-        ## An alternative to this would be to set the ``synchronous`` parameter of the
-        ## planning scene interface constructor to ``True``.
+        ## To avoid waiting for scene updates like this at all, initialize the
+        ## planning scene interface with  ``synchronous = True``.
         start = rospy.get_time()
         seconds = rospy.get_time()
         while (seconds - start < timeout) and not rospy.is_shutdown():
