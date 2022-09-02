@@ -194,7 +194,12 @@ Set the base link and EEF link to the desired index::
  export BASE_LINK="0"
  export EEF_LINK="8"
 
-If you have a 7 DOF arm you will need to specify a free joint. Selecting the correct free joint for a 7 DOF robot can have significant impact on performance of your kinematics plugin. We suggest experimenting with different choices for the free joint ::
+If you have a 7 DOF arm you will need to specify a free joint. Selecting the correct free joint for a 7 DOF robot can have significant impact on performance of your kinematics plugin. Typically, the elbow joint should *not* be used as the free joint. We suggest experimenting with different choices for the free joint.
+To this end, figure out the desired joint index first::
+
+ openrave-robot.py "$MYROBOT_NAME".dae --info joints
+
+and then store this index as an environment variable for later use::
 
  export FREE_INDEX="1"
 
@@ -209,15 +214,11 @@ For a 6DOF arm: ::
 
  python `openrave-config --python-dir`/openravepy/_openravepy_/ikfast.py --robot="$MYROBOT_NAME".dae --iktype=transform6d --baselink="$BASE_LINK" --eelink="$EEF_LINK" --savefile="$IKFAST_OUTPUT_PATH"
 
-For a 7 dof arm, you will need to specify a free link: ::
+For a 7 dof arm, you also specify the free joint::
 
  python `openrave-config --python-dir`/openravepy/_openravepy_/ikfast.py --robot="$MYROBOT_NAME".dae --iktype=transform6d --baselink="$BASE_LINK" --eelink="$EEF_LINK" --freeindex="$FREE_INDEX" --savefile="$IKFAST_OUTPUT_PATH"
 
 The speed and success of this process will depend on the complexity of your robot. A typical 6 DOF manipulator with 3 intersecting axis at the base or wrist will take only a few minutes to generate the IK.
-
-**Known issue**
---freeindex argument is known to have a bug that it cannot handle tree index correctly.
-Say --baselink=2 --eelink=16 and links index from 3 to 9 is not related to current planning group chain. In that case --freeindex will expect index 2 as link 2, but index 3 as link 10 ... and index 9 as link 16.
 
 You should consult the OpenRAVE mailing list and ROS Answers for information about 5 and 7 DOF manipulators.
 
