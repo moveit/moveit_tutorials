@@ -41,8 +41,8 @@
 #include <moveit/robot_state/conversions.h>
 
 // default world object position is just in front and left of Panda robot.
-const Eigen::Isometry3d InteractiveRobot::DEFAULT_WORLD_OBJECT_POSE_(Eigen::Isometry3d(Eigen::Translation3d(0.25, -0.5,
-                                                                                                            0.5)));
+const Eigen::Isometry3d
+    InteractiveRobot::DEFAULT_WORLD_OBJECT_POSE_(Eigen::Isometry3d(Eigen::Translation3d(0.25, -0.5, 0.5)));
 
 // size of the world geometry cube
 const double InteractiveRobot::WORLD_BOX_SIZE_ = 0.15;

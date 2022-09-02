@@ -270,8 +270,7 @@ int main(int argc, char** argv)
 
   kinematic_constraints::ConstraintEvaluationResult constraint_eval_result =
       kinematic_constraint_set.decide(copied_state);
-  ROS_INFO_STREAM("Test 10: Random state is "
-                  << (constraint_eval_result.satisfied ? "constrained" : "not constrained"));
+  ROS_INFO_STREAM("Test 10: Random state is " << (constraint_eval_result.satisfied ? "constrained" : "not constrained"));
 
   // User-defined constraints
   // ~~~~~~~~~~~~~~~~~~~~~~~~

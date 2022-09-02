@@ -59,7 +59,7 @@ int main(int argc, char** argv)
   //
   // MoveIt operates on sets of joints called "planning groups" and stores them in an object called
   // the `JointModelGroup`. Throughout MoveIt the terms "planning group" and "joint model group"
-  // are used interchangably.
+  // are used interchangeably.
   static const std::string PLANNING_GROUP = "panda_arm";
 
   // The :move_group_interface:`MoveGroupInterface` class can be easily
@@ -77,7 +77,7 @@ int main(int argc, char** argv)
   // Visualization
   // ^^^^^^^^^^^^^
   //
-  // The package MoveItVisualTools provides many capabilties for visualizing objects, robots,
+  // The package MoveItVisualTools provides many capabilities for visualizing objects, robots,
   // and trajectories in RViz as well as debugging tools such as step-by-step introspection of a script
   namespace rvt = rviz_visual_tools;
   moveit_visual_tools::MoveItVisualTools visual_tools("panda_link0");
@@ -267,7 +267,7 @@ int main(int argc, char** argv)
 
   // Cartesian motions are frequently needed to be slower for actions such as approach and retreat
   // grasp motions. Here we demonstrate how to reduce the speed of the robot arm via a scaling factor
-  // of the maxiumum speed of each joint. Note this is not the speed of the end effector point.
+  // of the maximum speed of each joint. Note this is not the speed of the end effector point.
   move_group.setMaxVelocityScalingFactor(0.1);
 
   // We want the Cartesian path to be interpolated at a resolution of 1 cm
@@ -279,7 +279,7 @@ int main(int argc, char** argv)
   const double jump_threshold = 0.0;
   const double eef_step = 0.01;
   double fraction = move_group.computeCartesianPath(waypoints, eef_step, jump_threshold, trajectory);
-  ROS_INFO_NAMED("tutorial", "Visualizing plan 4 (Cartesian path) (%.2f%% acheived)", fraction * 100.0);
+  ROS_INFO_NAMED("tutorial", "Visualizing plan 4 (Cartesian path) (%.2f%% achieved)", fraction * 100.0);
 
   // Visualize the plan in RViz
   visual_tools.deleteAllMarkers();
@@ -330,7 +330,7 @@ int main(int argc, char** argv)
   visual_tools.publishText(text_pose, "Add object", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
 
-  // Wait for MoveGroup to recieve and process the collision object message
+  // Wait for MoveGroup to receive and process the collision object message
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to once the collision object appears in RViz");
 
   // Now when we plan a trajectory it will avoid the obstacle
@@ -360,7 +360,7 @@ int main(int argc, char** argv)
   visual_tools.publishText(text_pose, "Object attached to robot", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
 
-  /* Wait for MoveGroup to recieve and process the attached collision object message */
+  /* Wait for MoveGroup to receive and process the attached collision object message */
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to once the collision object attaches to the "
                       "robot");
 
@@ -372,7 +372,7 @@ int main(int argc, char** argv)
   visual_tools.publishText(text_pose, "Object dettached from robot", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
 
-  /* Wait for MoveGroup to recieve and process the attached collision object message */
+  /* Wait for MoveGroup to receive and process the attached collision object message */
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to once the collision object detaches to the "
                       "robot");
 
@@ -386,8 +386,8 @@ int main(int argc, char** argv)
   visual_tools.publishText(text_pose, "Object removed", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
 
-  /* Wait for MoveGroup to recieve and process the attached collision object message */
-  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to once the collision object disapears");
+  /* Wait for MoveGroup to receive and process the attached collision object message */
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to once the collision object disappears");
 
   // END_TUTORIAL
 
