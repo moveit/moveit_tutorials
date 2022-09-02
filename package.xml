@@ -10,7 +10,10 @@
   <author email="mike@picknik.ai">Mike Lautman</author>
 
   <maintainer email="dave@picknik.ai">Dave Coleman</maintainer>
-  <maintainer email="mike@picknik.ai">Mike Lautman</maintainer>
+
+  <url type="website">http://docs.ros.org/en/melodic/api/moveit_tutorials/html/index.html</url>
+  <url type="repository">https://github.com/ros-planning/moveit_tutorials</url>
+  <url type="bugtracker">https://github.com/ros-planning/moveit_tutorials/issues</url>
 
   <buildtool_depend>catkin</buildtool_depend>
 
