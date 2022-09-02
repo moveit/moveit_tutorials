@@ -11,16 +11,14 @@ jobs:
   default:
     name: Build + Test + Deploy Website
     runs-on: ubuntu-latest
+    container: ros:noetic-ros-base
     steps:
     - uses: actions/checkout@v2
-    - uses: ros-tooling/setup-ros@v0.2
-      with:
-        required-ros-distributions: noetic
-    - uses: actions/setup-python@v2
-    - uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: '2.7'
-    - name: "Build+Test: Run htmlproofer.sh"
+    - name: "Install ruby"
+      run: |
+        apt-get update -q
+        apt-get install -q -y ruby-dev libffi-dev build-essential git
+    - name: "Run htmlproofer.sh"
       run: ./htmlproofer.sh
     - name: Deploy
       if: ${{ success() && github.event_name == 'push'}}
