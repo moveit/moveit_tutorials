@@ -48,7 +48,7 @@ To achieve this, follow the steps:
                 chomp/OptimizerAdapter
                 default_planner_request_adapters/AddTimeParameterization" />
 
-#. The values of the ``planning_adapters`` is the order in which the mentioned adapters are called / invoked. Order here matters. Inside the CHOMP adapter, a :moveit_codedir:`call <moveit_planners/chomp/chomp_optimizer_adapter/src/chomp_optimizer_adapter.cpp#L169>` to OMPL is made before invoking the CHOMP optimization solver, so CHOMP takes the initial path computed by OMPL as the starting point to further optimize it. 
+#. The values of the ``planning_adapters`` is the order in which the mentioned adapters are called / invoked. Order here matters. Inside the CHOMP adapter, a :moveit_codedir:`call <moveit_planners/chomp/chomp_optimizer_adapter/src/chomp_optimizer_adapter.cpp#L169>` to OMPL is made before invoking the CHOMP optimization solver, so CHOMP takes the initial path computed by OMPL as the starting point to further optimize it.
 
 #. Find the line where ``<rosparam command="load" file="$(find panda_moveit_config)/config/ompl_planning.yaml"/>`` is mentioned and after this line, add the following: ::
 
@@ -185,7 +185,7 @@ This will launch RViz, select CHOMP in the Motion Planning panel under the Conte
 Planning Insights for different motion planners and planners with planning adapters
 -----------------------------------------------------------------------------------
 
-This section has insights as to when to use which planner and how using certain planning request adapters in a certain pipeline can lead to producing robust paths overall. Here we consider using OMPL, STOMP, CHOMP seperately and together to produce robust smooth optimized paths obtained from the planner. For each planner, a basic insight is provided which gives the user an intuition to use a particular planner in a specific situation.
+This section has insights as to when to use which planner and how using certain planning request adapters in a certain pipeline can lead to producing robust paths overall. Here we consider using OMPL, STOMP, CHOMP separately and together to produce robust smooth optimized paths obtained from the planner. For each planner, a basic insight is provided which gives the user an intuition to use a particular planner in a specific situation.
 
 - **CHOMP**: CHOMP is an optimization algorithm which optimizes a given initial trajectory. Based on the environment CHOMP rapidly tries to pull the initial trajectory out of collisions. However an important point to pay attention here is that the parameter ``ridge_factor`` needs to be more than or equal to 0.001 for avoiding obstacles. Doing this CHOMP is able to find paths while avoiding obstacles. It should be noted here even though CHOMP can avoid obstacles successfully but it fails to provide smooth paths often leading to jerky paths in the presence of obstacles. For CHOMP collision avoidance comes at the cost of the trajectory's velocity smoothness.
 

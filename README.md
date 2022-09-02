@@ -14,16 +14,16 @@ This repository is currently built automatically by two systems. Travis builds t
 
 ## Versions
 
-- ``indigo-devel`` usage is discouraged
-- ``kinetic-devel`` stable
-- ``melodic-devel`` latest, changes should target this branch
+- ``kinetic-devel`` usage is discouraged
+- ``melodic-devel`` stable
+- ``noetic-devel`` latest, changes should target this branch
 
 ## Build Locally
 
 If you want to test the tutorials by generating the html pages locally on your machine, use the following helper script.
-It has been tested on Ubuntu 16.04 with ROS Kinetic pre-installed. Run in the root of the moveit_tutorials package:
+It has been tested on Ubuntu 18.04 with ROS Melodic pre-installed. Run in the root of the moveit_tutorials package:
 
-    source /opt/ros/kinetic/setup.bash
+    source /opt/ros/melodic/setup.bash
     ./build_locally.sh
 
 The local website ``LOCAL_PACKAGE_PATH/build/html/index.html`` should automatically open in your web browser.

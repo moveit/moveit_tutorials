@@ -123,7 +123,7 @@ int main(int argc, char** argv)
 
   // Visualization
   // ^^^^^^^^^^^^^
-  // The package MoveItVisualTools provides many capabilties for visualizing objects, robots,
+  // The package MoveItVisualTools provides many capabilities for visualizing objects, robots,
   // and trajectories in RViz as well as debugging tools such as step-by-step introspection of a script
   namespace rvt = rviz_visual_tools;
   moveit_visual_tools::MoveItVisualTools visual_tools("panda_link0");
@@ -173,7 +173,7 @@ int main(int argc, char** argv)
   // package.
   //
   // .. _kinematic_constraints:
-  //     http://docs.ros.org/melodic/api/moveit_core/html/namespacekinematic__constraints.html#a88becba14be9ced36fefc7980271e132
+  //     http://docs.ros.org/melodic/api/moveit_core/html/cpp/namespacekinematic__constraints.html#a88becba14be9ced36fefc7980271e132
   moveit_msgs::Constraints pose_goal =
       kinematic_constraints::constructGoalConstraints("panda_link8", pose, tolerance_pose, tolerance_angle);
 

@@ -318,7 +318,7 @@ class MoveGroupPythonIntefaceTutorial(object):
 
     ## BEGIN_SUB_TUTORIAL wait_for_scene_update
     ##
-    ## Ensuring Collision Updates Are Receieved
+    ## Ensuring Collision Updates Are Received
     ## ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     ## If the Python node dies before publishing a collision object update message, the message
     ## could get lost and the box will not appear. To ensure that the updates are

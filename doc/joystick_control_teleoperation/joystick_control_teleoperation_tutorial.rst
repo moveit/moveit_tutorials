@@ -36,7 +36,7 @@ This script can read four types of joysticks:
 1. XBox360 Controller via USB
 2. PS3 Controller via USB
 3. PS3 Controller via Bluetooth (Please use ps3joy package at `http://wiki.ros.org/ps3joy <http://wiki.ros.org/ps3joy>`_)
-4. Arctic USB Wireless `Gamepad <https://www.arctic.ac/eu_en/usb-wireless-gamepad.html>`_
+4. Arctic USB Wireless Gamepad
 
 Joystick Command Mappings
 -------------------------

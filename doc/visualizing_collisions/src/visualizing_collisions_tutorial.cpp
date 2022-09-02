@@ -140,7 +140,7 @@ void computeCollisionContactPoints(InteractiveRobot& robot)
       color.a = 0.5;
       visualization_msgs::MarkerArray markers;
 
-      /* Get the contact ponts and display them as markers */
+      /* Get the contact points and display them as markers */
       collision_detection::getCollisionMarkersFromContacts(markers, "panda_link0", c_res.contacts, color,
                                                            ros::Duration(),  // remain until deleted
                                                            0.01);            // radius

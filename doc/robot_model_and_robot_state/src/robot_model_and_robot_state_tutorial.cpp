@@ -86,7 +86,7 @@ int main(int argc, char** argv)
 
   // Get Joint Values
   // ^^^^^^^^^^^^^^^^
-  // We can retreive the current set of joint values stored in the state for the Panda arm.
+  // We can retrieve the current set of joint values stored in the state for the Panda arm.
   std::vector<double> joint_values;
   kinematic_state->copyJointGroupPositions(joint_model_group, joint_values);
   for (std::size_t i = 0; i < joint_names.size(); ++i)
