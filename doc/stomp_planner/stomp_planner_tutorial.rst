@@ -4,7 +4,15 @@ STOMP Planner
 .. image:: stomp.png
    :width: 700px
 
-Stochastic Trajectory Optimization for Motion Planning (STOMP) is a probabilistic optimization framework (Kalakrishnan et al. 2011). STOMP produces smooth well behaved collision free paths within reasonable times. The approach relies on generating noisy trajectories to explore the space around an initial (possibly infeasible) trajectory which are then combined to produce an updated trajectory with lower cost. A cost function based on a combination of obstacle and smoothness cost is optimized in each iteration. No gradient information is required for the particular optimization algorithm that we use and so general costs for which derivatives may not be available (e.g. costs corresponding to constraints and motor torques) can be included in the cost function. Some of the strengths of STOMP include: it can incorporate additional objective functions such as torque limits, energy and tool constraints. STOMP can handle cost functions which do not need to be differentiable. It uses distance field and spherical approximations to quickly compute distance queries and collision costs. Integration into Melodic version of MoveIt is work in progress. `More info <https://personalrobotics.ri.cmu.edu/files/courses/papers/Kalakrishnan11-stomp.pdf>`_
+Stochastic Trajectory Optimization for Motion Planning (STOMP) is a probabilistic optimization framework (Kalakrishnan et al. 2011). STOMP produces smooth well behaved collision free paths within reasonable times. The approach relies on generating noisy trajectories to explore the space around an initial (possibly infeasible) trajectory which are then combined to produce an updated trajectory with lower cost. A cost function based on a combination of obstacle and smoothness cost is optimized in each iteration. No gradient information is required for the particular optimization algorithm that we use and so general costs for which derivatives may not be available (e.g. costs corresponding to constraints and motor torques) can be included in the cost function.
+
+Some of the strengths of STOMP include:
+
+- Incorporates additional objective functions such as torque limits, energy and tool constraints.
+- Handles cost functions which do not need to be differentiable.
+- Uses distance field and spherical approximations to quickly compute distance queries and collision costs.
+
+Integration into Kinetic and Melodic version of MoveIt is work in progress. `More info <http://wiki.ros.org/Papers/ICRA2011_Kalakrishnan?action=AttachFile&do=get&target=kalakrishnan_icra2011.pdf>`_
 
 Getting Started
 ---------------
@@ -14,18 +22,21 @@ You should also have gone through the steps in `Visualization with MoveIt RViz P
 
 Prerequisites
 -------------
- 1. You must have the latest version of MoveIt installed. On ROS Melodic you will need to build MoveIt from source. A build from source is required as STOMP is not part of the official release yet. It is therefore not included in the binary packages. We will go through the steps for doing this below.
- 2. To use STOMP with your robot you must already have a MoveIt configuration package for your robot already. For example, if you have a Panda robot, it's probably called ``panda_moveit_config``. This is typically built using the `MoveIt Setup Assistant <../setup_assistant/setup_assistant_tutorial.html>`_.
- 3. You must also have built `ros-industrial/industrial_moveit package <https://github.com/ros-industrial/industrial_moveit>`_ from source. This needs to be built from source since industrial_moveit is not released as a debian yet. You only need to build the `stomp_core <https://github.com/ros-industrial/industrial_moveit/tree/melodic-devel/stomp_core>`_ package from industrial_moveit as other packages are not required for the functionality of STOMP with moveIt.
+ 1. You must have the latest version of MoveIt for your ROS distribution installed. As STOMP is distributed independently you can safely install the packaged version of MoveIt. However, STOMP needs to be built from source. We will go through the steps for doing this below.
+ 2. To use STOMP with your robot you must have a MoveIt configuration package for your robot ready. For example, if you have a Panda robot, it's probably called ``panda_moveit_config``. This is typically built using the `MoveIt Setup Assistant <../setup_assistant/setup_assistant_tutorial.html>`_.
+ 3. You must also have built `ros-industrial/stomp_ros package <https://github.com/ros-industrial/stomp_ros>`_ and  `ros-industrial/stomp package <https://github.com/ros-industrial/stomp>`_ from source. This needs to be built from source since stomp_ros is not released as a debian yet.
 
-Installing MoveIt from Source
+Installing STOMP from Source
 ------------------------------
-As you add and remove packages from your workspace you will need to clean your workspace and re-run the command to install new missing dependencies. Clean your workspace to remove references to the system wide installation of MoveIt: ::
+As you add and remove packages from your workspace you will need to clean your workspace with ``catkin clean`` and re-run the command to install new missing dependencies. Clean your workspace to remove references to the system wide installation of MoveIt: ::
 
-  cd ~/ws_moveit/src
-  catkin clean
-
-Now follow the instructions on the MoveIt homepage for `installing MoveIt Melodic from source <http://moveit.ros.org/install/source/>`_. Note that you can skip the **Prerequisites** section since you should already have a Catkin workspace.
+  cd ~/ws_moveit
+  source /opt/ros/noetic/setup.bash
+  wstool set -t src stomp_ros https://github.com/ros-industrial/stomp_ros.git --git
+  wstool update -t src stomp_ros
+  wstool merge -t src src/stomp_ros/dependencies.rosinstall
+  wstool update -t src stomp ros_industrial_cmake_boilerplate
+  catkin build
 
 Re-source the setup files: ::
 
@@ -57,7 +68,7 @@ Using STOMP with Your Robot
 #. Adjust the line ``<rosparam command="load" file="$(find panda_moveit_config)/config/stomp_planning.yaml" />`` to ``<rosparam command="load" file="$(find <robot_moveit_config>)/config/stomp_planning.yaml" />`` replacing ``<robot_moveit_config>`` with the name of your MoveIt configuration package.
 #. Download `stomp_planning.yaml <https://github.com/ros-planning/panda_moveit_config/blob/melodic-devel/config/stomp_planning.yaml>`_ file into the config directory of your MoveIt config package. In our case, we will save this file in the ``panda_moveit_config/config`` directory. Create the "*stomp_planning.yaml*" configuration file. This file contains the parameters required by STOMP.  The parameters are specific to each ''planning group'' defined in   the SRDF file.  So if there are three planning groups, then the configuration file defines a specific set of parameters for each  planning group. In our case there is only one planning group, i.e., the "panda_arm".
 
-   **>** *Save this file in the* **config** *directory of the moveit_config package*. Also make sure that the dimensionality of the `stddev` array parameter is the same as the number of joints present in the planning group name of your robot.
+   **>** *Save this file in the* **config** *directory of the moveit_config package*. Also make sure that the dimensionality of the `stddev` array parameter is the same as the number of joints present in the planning group name of your robot. This example is for a 7 DoF robot. Industrial robots will often have 5-6 DoF. **Check the DoF of your robot!**
 
 #. Modify the **move_group.launch** file. Open the **move_group.launch** in the launch directory and change the ```pipeline``` parameter value to ```stomp``` as shown below: ::
 
@@ -107,43 +118,59 @@ STOMP has some parameters associated with it. These can be modified for the give
 
 **Optimization Parameters**:
 
-- *num_timesteps*: the number of timesteps the optimizer can take to find a solution before terminating.
+- **num_timesteps**: ::
+  The number of timesteps the optimizer can take to find a solution before terminating.
 
-- *num_iterations*: this is the number of iterations that the planner can take to find a good solution while optimization.
+- **num_iterations**: ::
+  This is the number of iterations that the planner can take to find a good solution while optimization.
 
-- *num_iterations_after_valid*: maximum iterations to be performed after a valid path has been found.
+- **num_iterations_after_valid**: ::
+  Maximum iterations to be performed after a valid path has been found.
 
-- *num_rollouts*: this is the number of noisy trajectories.
+- **num_rollouts**: ::
+  This is the number of noisy trajectories.
 
-- *max_rollouts*: the combined number of new and old rollouts during each iteration should not exceed this value.
+- **max_rollouts**: ::
+  The combined number of new and old rollouts during each iteration should not exceed this value.
 
-- *initialization method*: this is the initialization method chosen to select the means to initialize the trajectory.
+- **initialization method**: ::
+  This is the initialization method chosen to select the means to initialize the trajectory.
 
-- *control_cost_weight*: this is the percentage of the trajectory accelerations cost to be applied in the total cost calculation.
+- **control_cost_weight**: ::
+  This is the percentage of the trajectory accelerations cost to be applied in the total cost calculation.
 
 **Noise Generator Parameters**:
 
-- *class*: this can be set to "NormalDistributionSampling" (default) or "GoalGuidedMultivariateGaussian". Depending on what class is used specific parameters need to be set. Have a look at `this link <https://github.com/ros-industrial/industrial_moveit/blob/melodic-devel/stomp_plugins/example_pages.dox>`_ for setting parameters if using the "GoalGuidedMultivariateGaussian".
+- **class**: ::
+  This can be set to "NormalDistributionSampling" (default) or "GoalGuidedMultivariateGaussian". Depending on what class is used specific parameters need to be set. Have a look at `this link <https://github.com/ros-industrial/industrial_moveit/blob/kinetic-devel/stomp_plugins/example_pages.dox>`_ for setting parameters if using the "GoalGuidedMultivariateGaussian".
 
-- *stddev*: this is the degree of noise that can be applied to the joints. Each value in this array is the amplitude of the noise applied to the joint at that position in the array. For instance, the leftmost value in the array will be the value used to set the noise of the first joint of the robot (panda_joint1 in our case). The dimensionality of this array should be equal to the number of joints in the planning group name. Larger "stddev" values correspond to larger motions of the joints.
+- **stddev**: ::
+  This is the degree of noise that can be applied to the joints. Each value in this array is the amplitude of the noise applied to the joint at that position in the array. For instance, the leftmost value in the array will be the value used to set the noise of the first joint of the robot (panda_joint1 in our case). The dimensionality of this array should be equal to the number of joints in the planning group name. Larger "stddev" values correspond to larger motions of the joints.
 
 **Cost Function Parameters**:
 
-- *class*: here you can set the cost function you want to use. You could set this to "CollisionCheck", "ObstacleDistanceGradient" or "ToolGoalPose". Depending on what you put here, you need to set the appropriate cost function class's parameters: For "CollisionCheck", you need to set the parameters (collision_penalty, cost_weight, kernel_window_percentage, longest_valid_joint_nove); for "ObstacleDistanceGradient", you should set the parameters (cost_weight, max_distance, longest_valid_joint_move) and for "ToolGoalPose", you should set the parameters (constrained_dofs, position_error_range, orientation_error_range, position_cost_weight, orientation_cost_weight). Have a look at `this link <https://github.com/ros-industrial/industrial_moveit/blob/melodic-devel/stomp_plugins/example_pages.dox>`_ for setting parameters for "ToolGoalPose" class.
+- **class**: ::
+  Here you can set the cost function you want to use. You could set this to "CollisionCheck", "ObstacleDistanceGradient" or "ToolGoalPose". Depending on what you put here, you need to set the appropriate cost function class's parameters: For "CollisionCheck", you need to set the parameters (collision_penalty, cost_weight, kernel_window_percentage, longest_valid_joint_nove); for "ObstacleDistanceGradient", you should set the parameters (cost_weight, max_distance, longest_valid_joint_move) and for "ToolGoalPose", you should set the parameters (constrained_dofs, position_error_range, orientation_error_range, position_cost_weight, orientation_cost_weight). Have a look at `this link <https://github.com/ros-industrial/industrial_moveit/blob/kinetic-devel/stomp_plugins/example_pages.dox>`_ for setting parameters for "ToolGoalPose" class.
 
-- *collision_penalty*: this is the value assigned to a collision state.
+- **collision_penalty**: ::
+  This is the value assigned to a collision state.
 
-- *cost_weight*: unused parameter.
+- **cost_weight**: ::
+  Unused parameter.
 
-- *kernel_window_percentage*: the multiplicative factor used to compute the window_size for doing kernel smoothing.
+- **kernel_window_percentage**: ::
+  The multiplicative factor used to compute the window_size for doing kernel smoothing.
 
-- *longest_valid_joint_move*: this parameter indicates how far can a joint move in between consecutive trajectory points.
+- **longest_valid_joint_move**: ::
+  This parameter indicates how far can a joint move in between consecutive trajectory points.
 
 **Update Filter parameters**:
 
-- class: this can be set to "PolynomialSmoother" or "ConstrainedCartesianGoal". Specific parameters need to be set depending on the chosen class. For setting parameters for "ConstrainedCartesianGoal", have a look at `this link <https://github.com/ros-industrial/industrial_moveit/blob/melodic-devel/stomp_plugins/example_pages.dox>`_.
+- **class**: ::
+  This can be set to "PolynomialSmoother" or "ConstrainedCartesianGoal". Specific parameters need to be set depending on the chosen class. For setting parameters for "ConstrainedCartesianGoal", have a look at `this link <https://github.com/ros-industrial/industrial_moveit/blob/kinetic-devel/stomp_plugins/example_pages.dox>`_.
 
-- *poly_order*: this is the order of the polynomial function used for smoothing trajectories.
+- **poly_order**: ::
+  This is the order of the polynomial function used for smoothing trajectories.
 
 
 Choosing parameters for STOMP requires lesser intuition than CHOMP. One can have the default parameters for STOMP and this works well in most environments. However you could increase the number of timesteps, number of rollouts and play around with the stddev array for STOMP to perform well under complicated environments so that STOMP can find an optimal path in these situations. Alternatively you can try different cost functions, noise generators, update filter classes by setting whichever ones you want in the stomp_config.yaml file.
@@ -152,19 +179,23 @@ Choosing parameters for STOMP requires lesser intuition than CHOMP. One can have
 Difference between plans obtained by STOMP, CHOMP and OMPL
 ----------------------------------------------------------
 
-In this section a distinction is made between paths obtained from STOMP, CHOMP and OMPL. STOMP. Some of the moveIt planners tend to produce jerky trajectories and may introduce unnecessary robot movements. A post processing smoothing step is usually needed. In contrast as STOMP tends to produce smooth well behaved motion plans in a short time, there is no need for a post processing smoothing step as required by some other motion planners. CHOMP optimizes a given initial naive trajectory based on convarient and functional gradient approaches. CHOMP is entirely based on trajectory optimization. OMPL is an open source library for sampling based / randomized motion planning algorithms.  Sampling based algorithms are probabilistically complete: a solution would be eventually found if one exists, however non-existence of a solution cannot be reported. These algorithms are efficient and usually find a solution quickly. Now a qualitative analysis is performed for these planners below:
+In this section a distinction is made between paths obtained from STOMP, CHOMP and OMPL. Some of the moveIt planners tend to produce jerky trajectories and may introduce unnecessary robot movements. A post processing smoothing step is usually needed. In contrast as STOMP tends to produce smooth well behaved motion plans in a short time, there is no need for a post processing smoothing step as required by some other motion planners. CHOMP optimizes a given initial naive trajectory based on convarient and functional gradient approaches. CHOMP is entirely based on trajectory optimization. OMPL is an open source library for sampling based / randomized motion planning algorithms.  Sampling based algorithms are probabilistically complete: a solution would be eventually found if one exists, however non-existence of a solution cannot be reported. These algorithms are efficient and usually find a solution quickly. Now a qualitative analysis is performed for these planners below:
 
-- **Local Minima Handling**: STOMP can avoid local minima due to its stochastic nature. CHOMP however is prone to and gets often stuck in local minima, thereby avoiding an optimal solution. As per the STOMP and CHOMP papers, STOMP performs better. CHOMP however due to its gradient based nature gets stuck in local minima and is often not able to find solution or returns sub-optimal solutions.
+- **Local Minima Handling**: ::
+  STOMP can avoid local minima due to its stochastic nature. CHOMP however is prone to and gets often stuck in local minima, thereby avoiding an optimal solution. As per the STOMP and CHOMP papers, STOMP performs better. CHOMP however due to its gradient based nature gets stuck in local minima and is often not able to find solution or returns sub-optimal solutions.
 
-- **Time requirements**: the execution times are comparable, even though CHOMP requires more iterations to achieve success than STOMP. This is mainly because each iteration of STOMP requires multiple trajectory cost evaluations, but can make larger steps in a more stable fashion than the CHOMP gradient update rule. OMPL algorithms are efficient and usually find a solution quickly.
+- **Time requirements**: ::
+  The execution times are comparable, even though CHOMP requires more iterations to achieve success than STOMP. This is mainly because each iteration of STOMP requires multiple trajectory cost evaluations, but can make larger steps in a more stable fashion than the CHOMP gradient update rule. OMPL algorithms are efficient and usually find a solution quickly.
 
-- **Parameter tuning**: CHOMP generally requires additional parameter tuning than STOMP to obtain a successful solution. OMPL does not require a lot of parameter tuning, the default parameters do a good job in most situations.
+- **Parameter tuning**: ::
+    CHOMP generally requires additional parameter tuning than STOMP to obtain a successful solution. OMPL does not require a lot of parameter tuning, the default parameters do a good job in most situations.
 
-- **Obstacle Handling**: For scenes containing obstacles, STOMP often is able to successfully avoid obstacles due to its stochastic nature. CHOMP however generates paths which do not prefer smooth trajectories by addition of some noise (*ridge_factor*) in the cost function for the dynamical quantities of the robot (like acceleration, velocity). OMPL also generates collision free smooth paths in the presence of obstacles.
+- **Obstacle Handling**: ::
+    For scenes containing obstacles, STOMP often is able to successfully avoid obstacles due to its stochastic nature. CHOMP however generates paths which do not prefer smooth trajectories by addition of some noise (*ridge_factor*) in the cost function for the dynamical quantities of the robot (like acceleration, velocity). OMPL also generates collision free smooth paths in the presence of obstacles.
 
 Running STOMP Unit Tests
 ------------------------
 
-For running the unit tests, you must have the `stomp_core <https://github.com/ros-industrial/industrial_moveit/tree/melodic-devel/stomp_core>`_ package from `ros-industrial/industrial_moveit <https://github.com/ros-industrial/industrial_moveit>`_ repository. If these tests run successfully, this implies STOMP is successfully built and running on your system. To run the STOMP unit tests, open a terminal and do the following in your catkin workspace: ::
+For running the unit tests, you must have the `stomp_core <https://github.com/ros-industrial/industrial_moveit/tree/kinetic-devel/stomp_core>`_ package from `ros-industrial/industrial_moveit <https://github.com/ros-industrial/industrial_moveit>`_ repository. If these tests run successfully, this implies STOMP is successfully built and running on your system. To run the STOMP unit tests, open a terminal and do the following in your catkin workspace: ::
 
   catkin_make run_tests_stomp_moveit stomp_moveit_utest
