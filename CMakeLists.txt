@@ -1,9 +1,6 @@
 cmake_minimum_required(VERSION 3.1.3)
 project(moveit_tutorials)
 
-set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_EXTENSIONS OFF)
-
 find_package(catkin REQUIRED
   COMPONENTS
     interactive_markers
