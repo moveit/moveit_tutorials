@@ -49,7 +49,7 @@ public:
   {
   }
 
-  bool sendTrajectory(const moveit_msgs::RobotTrajectory& /*t*/) override
+  bool sendTrajectory(const moveit_msgs::RobotTrajectory& /*t*/, const ExecutionCompleteCallback& /*cb*/) override
   {
     // do whatever is needed to actually execute this trajectory
     return true;
