@@ -180,7 +180,7 @@ To apply your yaml configurations, load them as rosparams with your grasping app
 For an example, see the segment below from the file `launch/grasp_pipeline_demo.launch <https://github.com/ros-planning/moveit_grasps/blob/melodic-devel/launch/grasp_pipeline_demo.launch>`_::
 
     <node name="moveit_grasps_demo" pkg="moveit_grasps" type="moveit_grasps_pipeline_demo">
-      <param name="ee_group_name" value="hand"/>
+      <param name="ee_group_name" value="panda_hand"/>
       <param name="planning_group_name" value="panda_arm"/>
       <rosparam command="load" file="$(find moveit_grasps)/config_robot/panda_grasp_data.yaml"/>
       <rosparam command="load" file="$(find moveit_grasps)/config/moveit_grasps_config.yaml"/>

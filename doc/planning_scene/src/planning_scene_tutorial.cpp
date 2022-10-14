@@ -126,10 +126,10 @@ int main(int argc, char** argv)
   // Now, we will do collision checking only for the hand of the
   // Panda, i.e. we will check whether there are any collisions between
   // the hand and other parts of the body of the robot. We can ask
-  // for this specifically by adding the group name "hand" to the
+  // for this specifically by adding the group name "panda_hand" to the
   // collision request.
 
-  collision_request.group_name = "hand";
+  collision_request.group_name = "panda_hand";
   current_state.setToRandomPositions();
   collision_result.clear();
   planning_scene.checkSelfCollision(collision_request, collision_result);

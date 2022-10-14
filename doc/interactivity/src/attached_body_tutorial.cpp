@@ -102,7 +102,7 @@ void userCallback(InteractiveRobot& robot)
   // prepare to check collisions
   collision_detection::CollisionRequest c_req;
   collision_detection::CollisionResult c_res;
-  c_req.group_name = "hand";
+  c_req.group_name = "panda_hand";
   // c_req.group_name = "panda_arm";
   c_req.contacts = true;
   c_req.max_contacts = 100;
