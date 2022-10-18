@@ -1,0 +1,5 @@
+add_executable(simultaneous_trajectory_execution_tutorial src/simultaneous_trajectory_execution_tutorial.cpp)
+target_link_libraries(simultaneous_trajectory_execution_tutorial ${catkin_LIBRARIES} ${Boost_LIBRARIES})
+install(TARGETS simultaneous_trajectory_execution_tutorial DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+
+install(DIRECTORY launch DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
