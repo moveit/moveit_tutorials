@@ -42,8 +42,6 @@ To start building your multiple arms model, create a new ``panda_multiple_arms``
 
 To prepare your multiple robot arms xacro file (model), you need to have the single arm's xacro file. In the following part, we will build a multiple arms panda robot description file consisting of two identical arms.
 
-..
-    It is worth mentioning that the difference between xacro and URDF is that TODO1. This property makes it easier to include multiple robot arms models in the same file, with a different prefix. 
 
 Our multiple arms model has ``rgt_arm`` and ``lft_arm`` models. Each arm is equipped with a gripper. The xacro files can get lengthy. Here is a link to the multiple_arms_ xacro file. 
 
@@ -605,13 +603,3 @@ This is the `file <https://github.com/Robotawi/panda_arms_ws/blob/master/src/pan
 
 
 This `short YouTube video <https://youtu.be/sxUQh91oQxM>`_ shows the described arms and hands motions using MoveIt move group interface. You may think the arms should move in straight lines between current and target poses. This is can be accomplished using the MoveIt Cartesian Planners, which is also explained in the Move Group Interface `tutorials <https://ros-planning.github.io/moveit_tutorials/doc/move_group_interface/move_group_interface_tutorial.html>`_, and you are strongly encouraged to implement it. 
-
-
-..
-    Tutorial for multiple robot arms
-    While there are some ROS Answers posts and examples floating around, there is no definitive resource on how to set up multiple manipulators with MoveIt (and especially MoveIt2). The goal of this project is to write a tutorial that should become the reference.
-    Expected outcome: A ROS beginner can read the tutorial and set up a ros2_control / MoveIt pipeline without additional help.
-    Project size: medium (175 hours)
-    Difficulty: easy
-    Preferred skills: Technical Writing, ROS, MoveIt, Python, and YAML
-    Mentor: Andy Zelenak
