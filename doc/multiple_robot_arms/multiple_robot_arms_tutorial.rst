@@ -34,7 +34,7 @@ The Panda robot arm is used in the following explanation, but the same applies t
 
 To start building your multiple arms model, create a new ``panda_multiple_arms`` package as follows: :: 
 
-    cd ~/ws_moveit
+    cd ~/ws_moveit/src
     catkin create pkg panda_multiple_arms
     cd panda_multiple_arms
     mkdir robot_description
@@ -74,10 +74,10 @@ The same applies to loading the grippers/hands models, and other robots that are
 
 At this point, it is recommended to check our xacro model is working as expected. This can be done in three simple steps; convert your xacro model to URDF, check the connections between links and joints are correct, and visualize it (as described before). Run the following commands to check the URDF has no problems. ::
     
-    cd ~ws_moveit
+    cd ~/ws_moveit
     catkin build 
     source devel/setup.bash
-    roscd dual_panda_arms/robot_description
+    roscd panda_multiple_arms/robot_description
     rosrun xacro xacro panda_multiple_arms.xacro -o panda_multiple_arms.urdf
     check_urdf panda_multiple_arms.urdf
 
@@ -201,7 +201,7 @@ In the following configuration files, the controllers names are ``joint_state_co
 
     cd ~/ws_moveit
     cd src/panda_multiple_arms
-    mkdir config
+    mkdir config && cd config
     touch joint_state_controller.yaml 
 
 2. Open the ``joint_state_controller.yaml`` and copy the controller configuration to it ::
@@ -216,9 +216,8 @@ In the following configuration files, the controllers names are ``joint_state_co
 3. Create the controller configuration file ``trajectory_controller.yaml`` in the ``panda_multiple_arms/config`` package as follows::
 
     cd ~/ws_moveit
-    cd src/panda_multiple_arms
-    mkdir config
-    touch trajectory_controller.yaml 
+    cd src/panda_multiple_arms/config
+    touch trajectory_controller.yaml
 
 
 4. Open the ``trajectory_controller.yaml`` and copy the controller configuration to it ::
