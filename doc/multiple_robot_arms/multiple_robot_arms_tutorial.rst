@@ -54,14 +54,14 @@ Notes:
 
 1. Two xacro arguments ``rgt_arm`` and ``lft_arm`` are defined as prefixes to differentiate the arms and hands names. 
    
-2. The arms and hands models are loaded from the ``franka_description`` package, which is expected to be installed as a dependency. Similarly, when modeling your robots, make sure their robot_description packages are available in your ROS workspace.
+2. The arms and hands models are loaded from the ``franka_description`` package, which is installed as a dependency of the ``panda_moveit_config`` package. When modeling your robot, make sure the robot_description package is available in your ROS workspace.
 
 3. We usually need to have a careful look at the robot's xacro file to understand the xacro parameters to use. Here is an example from the ``panda_arm.xacro`` in the ``franka_description`` package. ::
       
     <xacro:macro name="panda_arm" params="arm_id:='panda' description_pkg:='franka_description' connected_to:='' xyz:='0 0 0' rpy:='0 0 0' gazebo:=false safety_distance:=0">
 
 
-We can search those parameters in the xacro macro to understand the function of each. The ``arm_id`` sets a prefix to the arm name to be enable reusing the same model. This is essential for our purpose of modeling multiple arms or robots. The ``connected_to`` parameter gives possibility to connect the robot base with a fixed joint to a given link. In our multiple arms model, each robot is connected to the box shaped base. The gazebo parameter decides whether to load the gazebo simulation required information (e.g links inertia and joints transmission) or not. 
+We can search those parameters in the xacro macro to understand the function of each. The ``arm_id`` sets a prefix to the arm name to enable reusing the same model. This is essential for our purpose of modeling multiple robots. The ``connected_to`` parameter allows the robot base to be attached to a given link. In our multiple arms model, each robot is connected to the box shaped base. The gazebo parameter determines whether to load the gazebo simulation required information (e.g links inertias and joints transmissions) or not. 
 
 After knowing the xacro macro for the arm, and understanding the input parameters, we can use it as follows to load the arms. ::
 
@@ -72,7 +72,7 @@ After knowing the xacro macro for the arm, and understanding the input parameter
 
 The same applies to loading the grippers/hands models, and other robots that are defined with xacro macros. 
 
-At this point, it is recommended to check our xacro model is working as expected. This can be done in three simple steps; convert your xacro model to URDF, check the connections between links and joints are correct, and if needed you can visualize it (as described before). Run the following commands to check the URDF has no problems. ::
+At this point, it is recommended to check our xacro model is working as expected. This can be done in three simple steps; convert your xacro model to URDF, check the connections between links and joints are correct, and visualize it (as described before). Run the following commands to check the URDF has no problems. ::
     
     cd ~ws_moveit
     catkin build 
