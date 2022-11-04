@@ -57,7 +57,7 @@ Notes:
     <xacro:macro name="franka_arm" params="arm_id:='panda' description_pkg:='franka_description' connected_to:='' xyz:='0 0 0' rpy:='0 0 0' gazebo:=false safety_distance:=0 joint_limits" >
 
 
-We can search those parameters in the xacro macro to understand the function of each. The ``arm_id`` sets a prefix to the arm name to enable reusing the same model. This is essential for our purpose of modeling multiple robots. The ``connected_to`` parameter allows the robot base to be attached to a given link. In our multiple arms model, each robot is connected to a box-shaped base. The gazebo parameter determines whether to load the gazebo simulation required information (e.g links inertias and joints transmissions) or not. 
+We can search those parameters in the xacro macro to understand the function of each. The ``arm_id`` sets a prefix to the arm name to enable reusing the same model. This is essential for our purpose of modeling multiple robots. The ``connected_to`` parameter allows the robot base to be attached to a given link. In our multiple arms model, each robot is connected to a box-shaped base. The ``gazebo`` parameter determines whether to load the gazebo simulation required information (e.g links inertias and joints transmissions) or not. 
 
 After knowing the xacro macro for the arm, and understanding the input parameters, we can use it as follows to load the arms. ::
 
@@ -68,7 +68,7 @@ After knowing the xacro macro for the arm, and understanding the input parameter
 
 The same way applies to loading the grippers/hands models, and other robots that are defined with xacro macros. 
 
-At this point, it is recommended to check our xacro model is working as expected. This can be done in three simple steps; convert your xacro model to URDF, check the connections between links and joints are correct, and visualize the model. Run the following commands to build your panda_multiple_arms package and check the xacro model has no problems. ::
+At this point, it is recommended to check our xacro model is working as expected. This can be done in three simple steps; convert your xacro model to URDF, check the connections between links and joints are correct, and visualize the model. Run the following commands to build your ``panda_multiple_arms`` package and check the xacro model has no problems. ::
     
     cd ~/ws_moveit
     catkin build 
@@ -134,7 +134,7 @@ To visually check your multiple robot arm model, run the command: ::
 
     roslaunch urdf_tutorial display.launch model:=panda_multiple_arms.urdf
 
-Once Rviz GUI starts, set the fixed frame on the upper left corner to be ``base``. 
+Once Rviz GUI starts, set the fixed frame on the upper left corner to be ``world``. 
 
 .. image:: images/rviz_fixed_frame.png
    :width: 300pt
