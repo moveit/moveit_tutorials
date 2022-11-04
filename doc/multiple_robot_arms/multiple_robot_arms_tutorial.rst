@@ -444,11 +444,11 @@ The remaining part of this step explains how to modify the auto-generated contro
 Step 4: Integrate the simulation in Gazebo with Moveit motion planning
 ----------------------------------------------------------------------
 
-We need to prepare a launch file to start three required components for the integration to work. Those components are the simulated robot in Gazebo, ros controllers, and moveit motion plannig executable. We have already prepared the ``control_utils.launch`` file to load the ros controllers, and the required moveit motion planning file ``move_group.launch`` is auto generated. Then, our tasks here are to start the simulated robot in gazebo world, and prepare a launch file that launches the above mentioned three components.
+We need to prepare a launch file to start three required components for the integration to work. Those components are the simulated robot in Gazebo, ros controllers, and Moveit motion plannig executable. We have already prepared the ``control_utils.launch`` file to load the ros controllers, and the required Moveit motion planning file ``move_group.launch`` is auto-generated. Then, our tasks here are to start the simulated robot in a Gazebo world, and prepare a launch file that launches the mentioned three components.
 
-1. Start the simulated a robot in an empty Gazebo world 
+1. Starting the simulated robot in an empty Gazebo world 
 
-To spawn the panda multiple arms model in a gazebo, we need to prepare a launch file in the ``panda_multiple_arms`` package. Let's call it ``panda_multiple_arms_empty_world.launch``. Here are the steps to prepar this file. :: 
+To spawn the panda multiple arms model in Gazebo, we need to prepare a launch file in the ``panda_multiple_arms/launch`` package. Let's call it ``panda_multiple_arms_empty_world.launch``. Here are the steps to prepar this file. :: 
 
     cd ~/ws_moveit
     cd src/panda_multiple_arms/launch 
@@ -474,13 +474,13 @@ The ``panda_multiple_arms_empty_world.launch`` file launches an empty world file
         
     </launch>
 
-2. Prepare a ``bringup_moveit.launch`` file to start the three components. Create the file in the ``panda_multiple_arms/launch`` directory as follows then copy the contents into it. ::
+2. Preparing a ``bringup_moveit.launch`` file to start the three integration components. Create the file in the ``panda_multiple_arms/launch`` directory. ::
 
     cd ~/ws_moveit
     cd src/panda_multiple_arms/launch 
     touch bringup_moveit.launch
 
-The ``bringup_moveit.launch`` contents are as follows. ::
+Copy the following XML code to the ``bringup_moveit.launch`` file. ::
     
     <?xml version="1.0"?>
     <launch>
