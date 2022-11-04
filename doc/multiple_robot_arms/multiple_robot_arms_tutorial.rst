@@ -54,7 +54,7 @@ Notes:
 
 3. We usually need to have a careful look at the robot's xacro file to understand the parameters to use. Here is an of the ``franka_arm.xacro`` from the ``franka_description`` package. ::
       
-    <xacro:macro name="panda_arm" params="arm_id:='panda' description_pkg:='franka_description' connected_to:='' xyz:='0 0 0' rpy:='0 0 0' gazebo:=false safety_distance:=0">
+    <xacro:macro name="franka_arm" params="arm_id:='panda' description_pkg:='franka_description' connected_to:='' xyz:='0 0 0' rpy:='0 0 0' gazebo:=false safety_distance:=0 joint_limits" >
 
 
 We can search those parameters in the xacro macro to understand the function of each. The ``arm_id`` sets a prefix to the arm name to enable reusing the same model. This is essential for our purpose of modeling multiple robots. The ``connected_to`` parameter allows the robot base to be attached to a given link. In our multiple arms model, each robot is connected to a box-shaped base. The gazebo parameter determines whether to load the gazebo simulation required information (e.g links inertias and joints transmissions) or not. 
