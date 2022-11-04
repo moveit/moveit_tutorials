@@ -10,7 +10,7 @@ Watch this `Quick YouTube video <https://www.youtube.com/watch?v=h8zlsuzeW3U>`_ 
 
 Getting Started
 ---------------
-If you haven't already done so, make sure you've completed the steps in `Getting Started <../getting_started/getting_started.html>`_.
+If you haven't already done so, make sure you've completed the steps in `Getting Started <https://ros-planning.github.io/moveit_tutorials/doc/getting_started/getting_started.html>`_.
 
 
 The steps of setting multiple arms environments to use MoveIt motion planning are as follows:
@@ -43,34 +43,32 @@ To start building your multiple arms model, create a new ``panda_multiple_arms``
 To prepare your multiple robot arms xacro file (model), you need to have the single arm's xacro file. In the following part, we will build a multiple arms panda robot description file consisting of two identical arms.
 
 
-Our multiple arms model has ``rgt_arm`` and ``lft_arm`` models. Each arm is equipped with a gripper. Here is a link to the panda_multiple_arms_ xacro file. Please copy its XML code to your ``panda_multiple_arms.xacro`` file.
-
-.. _multiple_arms: https://github.com/Robotawi/panda_arms_ws/blob/master/src/panda_multiple_arms/robot_description/panda_multiple_arms.xacro 
+Our multiple arms model has ``rgt_arm`` and ``lft_arm`` models. Each arm is equipped with a gripper. Here is a link to the `panda_multiple_arms.xacro <https://github.com/Robotawi/panda_arms_ws/blob/master/src/panda_multiple_arms/robot_description/panda_multiple_arms.xacro>`_ file. Please copy its XML code to your ``panda_multiple_arms.xacro`` file. 
 
 
 Notes: 
 
 1. Two xacro arguments ``rgt_arm`` and ``lft_arm`` are defined as prefixes to differentiate the arms and hands names. 
    
-2. The arms and hands models are loaded from the ``franka_description`` package, which is installed as a dependency of the ``panda_moveit_config`` package. When modeling your robot, make sure the robot_description package is available in your ROS workspace.
+2. The arms and hands models are loaded from the ``franka_description`` package, which is installed as a dependency of the ``panda_moveit_config`` package. Ensure the ``franka_description`` package is installed in your ROS environment.
 
-3. We usually need to have a careful look at the robot's xacro file to understand the xacro parameters to use. Here is an example from the ``panda_arm.xacro`` in the ``franka_description`` package. ::
+3. We usually need to have a careful look at the robot's xacro file to understand the parameters to use. Here is an of the ``franka_arm.xacro`` from the ``franka_description`` package. ::
       
     <xacro:macro name="panda_arm" params="arm_id:='panda' description_pkg:='franka_description' connected_to:='' xyz:='0 0 0' rpy:='0 0 0' gazebo:=false safety_distance:=0">
 
 
-We can search those parameters in the xacro macro to understand the function of each. The ``arm_id`` sets a prefix to the arm name to enable reusing the same model. This is essential for our purpose of modeling multiple robots. The ``connected_to`` parameter allows the robot base to be attached to a given link. In our multiple arms model, each robot is connected to the box shaped base. The gazebo parameter determines whether to load the gazebo simulation required information (e.g links inertias and joints transmissions) or not. 
+We can search those parameters in the xacro macro to understand the function of each. The ``arm_id`` sets a prefix to the arm name to enable reusing the same model. This is essential for our purpose of modeling multiple robots. The ``connected_to`` parameter allows the robot base to be attached to a given link. In our multiple arms model, each robot is connected to a box-shaped base. The gazebo parameter determines whether to load the gazebo simulation required information (e.g links inertias and joints transmissions) or not. 
 
 After knowing the xacro macro for the arm, and understanding the input parameters, we can use it as follows to load the arms. ::
 
-    <xacro:panda_arm arm_id="$(arg arm_id_1)" connected_to="base" xyz="0 -0.5 1" gazebo="true" safety_distance="0.03" />
+    <xacro:franka_arm arm_id="$(arg arm_id_1)" connected_to="base" xyz="0 -0.5 1" gazebo="true" safety_distance="0.03" joint_limits="${xacro.load_yaml('$(find franka_description)/robots/panda/joint_limits.yaml')}"/>
 
-    <xacro:panda_arm arm_id="$(arg arm_id_2)" connected_to="base" xyz="0 0.5 1" gazebo="true" safety_distance="0.03" />
+    <xacro:franka_arm arm_id="$(arg arm_id_2)" connected_to="base" xyz="0 0.5 1" gazebo="true" safety_distance="0.03" joint_limits="${xacro.load_yaml('$(find franka_description)/robots/panda/joint_limits.yaml')}"/>
 
 
-The same applies to loading the grippers/hands models, and other robots that are defined with xacro macros. 
+The same way applies to loading the grippers/hands models, and other robots that are defined with xacro macros. 
 
-At this point, it is recommended to check our xacro model is working as expected. This can be done in three simple steps; convert your xacro model to URDF, check the connections between links and joints are correct, and visualize it (as described before). Run the following commands to check the URDF has no problems. ::
+At this point, it is recommended to check our xacro model is working as expected. This can be done in three simple steps; convert your xacro model to URDF, check the connections between links and joints are correct, and visualize the model. Run the following commands to check the URDF has no problems. ::
     
     cd ~/ws_moveit
     catkin build 
@@ -80,7 +78,7 @@ At this point, it is recommended to check our xacro model is working as expected
     check_urdf panda_multiple_arms.urdf
 
 
-The ``check_urdf`` shows the links tree and indicats if there are any errors: ::
+The ``check_urdf`` shows the links tree and indicates if there are any errors: ::
 
     robot name is: panda_multiple_arms
     ---------- Successfully Parsed XML ---------------
@@ -132,7 +130,7 @@ The ``check_urdf`` shows the links tree and indicats if there are any errors: ::
                 child(2):  rgt_arm_link0_sc
 
 
-To visually check your multiple robot model, run the command: ::
+To visually check your multiple robot arm model, run the command: ::
 
     roslaunch urdf_tutorial display.launch model:=panda_multiple_arms.urdf
 
