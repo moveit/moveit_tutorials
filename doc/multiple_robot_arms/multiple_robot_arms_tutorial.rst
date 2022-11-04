@@ -140,14 +140,14 @@ Once Rviz GUI starts, set the fixed frame on the upper left corner to be ``world
    :width: 300pt
    :align: center
 
-If the model is correctly prepared, it should show up as follows. 
+If the previous steps are correctly done, the multiple arms model should show up as follows. 
 
 .. image:: images/rviz_start.png
    :width: 500pt
    :align: center
 
 
-This concludes the step of building the model and verifying it. 
+This concludes the first step of building the model and verifying it. 
 
 Step 2: Prepare the MoveIt config package using MoveIt Setup Assistant 
 ----------------------------------------------------------------------
