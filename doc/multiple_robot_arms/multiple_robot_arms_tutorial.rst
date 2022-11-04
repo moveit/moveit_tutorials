@@ -37,7 +37,7 @@ To start building your multiple arms model, create a new ``panda_multiple_arms``
     cd ~/ws_moveit/src
     catkin create pkg panda_multiple_arms
     cd panda_multiple_arms
-    mkdir robot_description
+    mkdir robot_description && cd robot_description
     touch panda_multiple_arms.xacro
 
 To prepare your multiple robot arms xacro file (model), you need to have the single arm's xacro file. In the following part, we will build a multiple arms panda robot description file consisting of two identical arms.
@@ -68,7 +68,7 @@ After knowing the xacro macro for the arm, and understanding the input parameter
 
 The same way applies to loading the grippers/hands models, and other robots that are defined with xacro macros. 
 
-At this point, it is recommended to check our xacro model is working as expected. This can be done in three simple steps; convert your xacro model to URDF, check the connections between links and joints are correct, and visualize the model. Run the following commands to check the URDF has no problems. ::
+At this point, it is recommended to check our xacro model is working as expected. This can be done in three simple steps; convert your xacro model to URDF, check the connections between links and joints are correct, and visualize the model. Run the following commands to build your panda_multiple_arms package and check the xacro model has no problems. ::
     
     cd ~/ws_moveit
     catkin build 
