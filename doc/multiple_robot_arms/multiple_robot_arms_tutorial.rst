@@ -43,7 +43,7 @@ To start building your multiple arms model, create a new ``panda_multiple_arms``
 To prepare your multiple robot arms xacro file (model), you need to have the single arm's xacro file. In the following part, we will build a multiple arms panda robot description file consisting of two identical arms.
 
 
-Our multiple arms model has ``rgt_arm`` and ``lft_arm`` models. Each arm is equipped with a gripper. The xacro files can get lengthy. Here is a link to the multiple_arms_ xacro file. 
+Our multiple arms model has ``rgt_arm`` and ``lft_arm`` models. Each arm is equipped with a gripper. Here is a link to the panda_multiple_arms_ xacro file. Please copy its XML code to your ``panda_multiple_arms.xacro`` file.
 
 .. _multiple_arms: https://github.com/Robotawi/panda_arms_ws/blob/master/src/panda_multiple_arms/robot_description/panda_multiple_arms.xacro 
 
