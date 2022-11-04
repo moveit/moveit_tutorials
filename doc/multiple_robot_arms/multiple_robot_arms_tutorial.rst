@@ -150,9 +150,7 @@ If the previous steps are correctly done, the multiple arms model should show up
 This concludes the first step of building the model and verifying it. 
 
 Step 2: Prepare the MoveIt config package using MoveIt Setup Assistant 
-----------------------------------------------------------------------
-
-If you are not familiar with MoveIt Setup Assistant, please refer to this `tutorial <https://ros-planning.github.io/moveit_tutorials/doc/setup_assistant/setup_assistant_tutorial.html>`_. 
+---------------------------------------------------------------------- 
 
 MoveIt Setup Assistant is used to configure our multiple robot arms for using the MoveIt pipeline. 
 
@@ -160,7 +158,7 @@ MoveIt Setup Assistant is used to configure our multiple robot arms for using th
 
     roslaunch moveit_setup_assistant setup_assistant.launch
 
-Follow the MoveIt Setup Assistant tutorial to configure the arms. Note that we will be making a separate move group for each arm and hand. The groups are called ``rgt_arm``, ``lft_arm``, ``rgt_hand``, and ``lft_hand``. 
+Follow the MoveIt Setup Assistant `tutorial <https://ros-planning.github.io/moveit_tutorials/doc/setup_assistant/setup_assistant_tutorial.html>`_ to configure the arms. Note that we will be making a separate move group for each arm and hand. The groups are called ``rgt_arm``, ``lft_arm``, ``rgt_hand``, and ``lft_hand``. 
 
 
 I want to consider two more point along with the the Setup Assistant tutorial 
@@ -174,13 +172,13 @@ The arms should look as follows at the `ready` pose.
    :align: center
 
 
-1. Define ``open`` and ``close`` poses for the ``rgt_hand`` and ``lft_hand`` move groups. The ``open`` pose with joint1 value set to 0.35, and the ``close`` has the joint1 set to 0.0. Notice that the hand joint2 mimics the value of joint1.  Therefore, there is no need to fix joint2 in the hand move_group poses.  The defined poses for the arms and hand can be as follows. You can add other poses of interest for the arms, if needed.
+2. Define ``open`` and ``close`` poses for the ``rgt_hand`` and ``lft_hand`` move groups. The ``open`` pose with joint1 value set to 0.035, and the ``close`` has the joint1 set to 0.0. Notice that the hand joint2 mimics the value of joint1.  Therefore, there is no need to fix joint2 in the hand move_group poses.  The defined poses for the arms and hands should look as follows. Feel free to add other poses of interest for the arms/hands.
 
 .. image:: images/move_groups_poses.png
    :width: 500pt
    :align: center
 
-Name the Moveit config package ``panda_multiple_arms_moveit_config`` and generate the files using the Setup Assistant. 
+Name the Moveit config package ``panda_multiple_arms_moveit_config`` and generate the files using the Setup Assistant in the ``~/ws_moveit/src`` directory. 
 
 Step 3: Write the ros controllers configuration and launch files for the multiple arms 
 --------------------------------------------------------------------------------------
