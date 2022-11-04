@@ -1,6 +1,6 @@
 Introduction
 ------------
-In MoveIt, we can plan motions for multiple robot arms, but there are pre-required steps to prepare robot models and configure ros controllers. This tutorial provides ROS beginners with the steps to model multiple arms, configure controllers, and plan motions using MoveIt.
+In MoveIt, we can plan motions for multiple robot arms, but there are pre-required steps to prepare robot models and configure ROS controllers. This tutorial provides ROS beginners with the steps to model multiple arms, configure controllers, and plan motions using MoveIt.
 
 .. image:: images/multiple_arms_start.png
    :width: 600pt
@@ -19,7 +19,7 @@ The steps of setting multiple arms environments to use MoveIt motion planning ar
 
 2. Prepare the MoveIt config package using MoveIt setup Assistant. 
 
-3. Write the ros controllers configuration and launch files for the multiple arms. 
+3. Write the ROS controllers configuration and launch files for the multiple arms. 
 
 4. Integrate the simulation in Gazebo with MoveIt motion planning.
 
@@ -178,14 +178,14 @@ The arms should look as follows at the `ready` pose.
    :width: 500pt
    :align: center
 
-Name the Moveit config package ``panda_multiple_arms_moveit_config`` and generate the files using the Setup Assistant in the ``~/ws_moveit/src`` directory. 
+Name the MoveIt config package ``panda_multiple_arms_moveit_config`` and generate the files using the Setup Assistant in the ``~/ws_moveit/src`` directory. 
 
-Step 3: Write the ros controllers configuration and launch files for the multiple arms 
+Step 3: Write the ROS controllers configuration and launch files for the multiple arms 
 --------------------------------------------------------------------------------------
 
 This step creates ``ros_control`` configuration files and ``roslaunch`` files to start them. We need two controller types. The first is a *joint state controller*, which publishes the state of all joints. The second is *joint trajectory controller* type, which executes joint-space trajectories on a group of robot joints.
 
-In the following configuration files, the controllers names are ``joint_state_controller``, ``rgt_arm_trajectory_controller``, and ``lft_arm_trajectory_controller``. Under each trajectory controller, we need to specify its hardware interface type, joint groups, and constraints. For more about ros controllers,  refer to their documentation_. Let's create the controllers configuration and their launch file in systematic steps and with descriptive names. Some comments are added after the steps not to break the flow. 
+In the following configuration files, the controllers names are ``joint_state_controller``, ``rgt_arm_trajectory_controller``, and ``lft_arm_trajectory_controller``. Under each trajectory controller, we need to specify its hardware interface type, joint groups, and constraints. For more about ROS controllers,  refer to their documentation_. Let's create the controllers configuration and their launch file in systematic steps and with descriptive names. Some comments are added after the steps not to break the flow. 
 
 .. _documentation: http://wiki.ros.org/ros_control  
 
@@ -379,7 +379,7 @@ The remaining part of this step explains how to modify the auto-generated contro
     
 - The simple_moveit_controllers.yaml 
 
-7. This file is auto-generated in the ``panda_multiple_arms_moveit_config/config``. Moveit requires a trajectory controller which has a FollowJointTrajectoryAction interface. After motion planning, the FollowJointTrajectoryAction interface sends the generated trajectory to the robot ros controller (written above). This file configures the controllers to be used by MoveIt controller manager to execute planned trajectories. The controllers names should match to the ros controllers in the previous ``ros_controllers.yaml``, which is same as the ``trajectory_control.yaml``. Modify the file contents to be as follows. :: 
+7. This file is auto-generated in the ``panda_multiple_arms_moveit_config/config``. MoveIt requires a trajectory controller which has a FollowJointTrajectoryAction interface. After motion planning, the FollowJointTrajectoryAction interface sends the generated trajectory to the robot ROS controller (written above). This file configures the controllers to be used by MoveIt controller manager to execute planned trajectories. The controllers names should match to the ROS controllers in the previous ``ros_controllers.yaml``, which is same as the ``trajectory_control.yaml``. Modify the file contents to be as follows. :: 
     
     controller_list:
       - name: rgt_arm_trajectory_controller
@@ -424,7 +424,7 @@ The remaining part of this step explains how to modify the auto-generated contro
           joints:
           - lft_arm_finger_joint1
 
-8. The last step is to make the auto-generated ``ros_controllers.launch`` spawn the ros controllers configured in the ``ros_controller.yaml`` file. This launch file is inside the ``panda_multiple_arms_moveit_config/launch`` directory. Edit the file and add the controller names as arguments in the controller spawner node as shown below. ::
+8. The last step is to make the auto-generated ``ros_controllers.launch`` spawn the ROS controllers configured in the ``ros_controller.yaml`` file. This launch file is inside the ``panda_multiple_arms_moveit_config/launch`` directory. Edit the file and add the controller names as arguments in the controller spawner node as shown below. ::
 
     <?xml version="1.0"?>
     <launch>
@@ -441,15 +441,15 @@ The remaining part of this step explains how to modify the auto-generated contro
 
 
 
-Step 4: Integrate the simulation in Gazebo with Moveit motion planning
+Step 4: Integrate the simulation in Gazebo with MoveIt motion planning
 ----------------------------------------------------------------------
 
-At the integration step, we need to ensure that ROS packages for ROS control, Gazebo ROS control, MoveIt ROS control interface, and MoveIt planners are installed and sourced on our ROS environment. Install the required ROS packages as follows, and **source** your ROS workspace::
+At the integration step, we need to ensure that ROS packages for ROS control, Gazebo ROS control, MoveIt ROS control interface, and MoveIt planners are installed and sourced on our ROS environment. Install the required ROS packages as follows, and **source** your ROS environment::
 
-    sudo apt install sudo apt-get install ros-noetic-ros-control ros-noetic-ros-controllers ros-noetic-joint-state-controller ros-noetic-effort-controllers ros-noetic-position-controllers ros-noetic-velocity-controllers ros-noetic-gazebo-ros ros-noetic-gazebo-ros-control ros-noetic-moveit-ros-control-interface ros-noetic-moveit-simple-controller-manager
+ sudo apt install sudo apt-get install ros-noetic-ros-control ros-noetic-ros-controllers ros-noetic-joint-state-controller ros-noetic-effort-controllers ros-noetic-position-controllers ros-noetic-velocity-controllers ros-noetic-gazebo-ros ros-noetic-gazebo-ros-control ros-noetic-moveit-ros-control-interface ros-noetic-moveit-simple-controller-manager
  ros-noetic-moveit-fake-controller-manager ros-noetic-moveit-planners
 
-For the integration to work, we need to prepare a launch file to start three components. Those components are the simulated robot in Gazebo, ros controllers, and Moveit motion plannig executable. We have already prepared the ``control_utils.launch`` file to load the ros controllers, and the required Moveit motion planning file ``move_group.launch`` is auto-generated. Then, our tasks here are to start the simulated robot in a Gazebo world, and prepare a launch file that launches the mentioned three components.
+For the integration to work, we need to prepare a launch file to start three components. Those components are the simulated robot in Gazebo, ROS controllers, and MoveIt motion plannig executable. We have already prepared the ``control_utils.launch`` file to load the ROS controllers, and the required MoveIt motion planning file ``move_group.launch`` is auto-generated. Then, our tasks here are to start the simulated robot in a Gazebo world, and prepare a launch file that starts the mentioned three components.
 
 1. Starting the simulated robot in an empty Gazebo world 
 
@@ -515,7 +515,7 @@ Copy the following XML code to the ``bringup_moveit.launch`` file. ::
     </launch>
 
 
-To run the Moveit Gazebo integration, build and source your ROS workspace, and run the ``bringup_moveit.launch``. ::
+To run the MoveIt-Gazebo integration, build and source your ROS workspace, and run the ``bringup_moveit.launch``. ::
 
     cd ~/ws_moveit
     catkin build 
@@ -528,7 +528,7 @@ If all steps are done, this should bring up all the required components for the 
 Step 5: Plan arms motions with MoveIt Move Group Interface.
 -----------------------------------------------------------
 
-After ensuring our integration is correct, the most interesting part is to plan robot motion with the Moveit API and see our robots moving in Gazebo. This step shows how to prepare the dependenies and write code for planning simple motions for the arms and hands.
+After ensuring our integration is correct, the most interesting part is to plan robot motion with the MoveIt API and see our robots moving in Gazebo. This step shows how to prepare the dependenies and write code for planning simple motions for the arms and hands.
 
 We need to include some dependenies in the robot's package ``CMakeLists.txt`` file. They are packages to enable using moveit group interface and utility package to describe the arms target poses. Here is a link to a `minimal CMakeLists.txt <https://github.com/Robotawi/panda_arms_ws/blob/master/src/panda_multiple_arms/CMakeLists.txt>`_ file used in this step. 
 
