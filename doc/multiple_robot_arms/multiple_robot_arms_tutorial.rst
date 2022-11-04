@@ -444,7 +444,12 @@ The remaining part of this step explains how to modify the auto-generated contro
 Step 4: Integrate the simulation in Gazebo with Moveit motion planning
 ----------------------------------------------------------------------
 
-We need to prepare a launch file to start three required components for the integration to work. Those components are the simulated robot in Gazebo, ros controllers, and Moveit motion plannig executable. We have already prepared the ``control_utils.launch`` file to load the ros controllers, and the required Moveit motion planning file ``move_group.launch`` is auto-generated. Then, our tasks here are to start the simulated robot in a Gazebo world, and prepare a launch file that launches the mentioned three components.
+At the integration step, we need to ensure that ROS packages for ROS control, Gazebo ROS control, MoveIt ROS control interface, and MoveIt planners are installed and sourced on our ROS environment. Install the required ROS packages as follows, and **source** your ROS workspace::
+
+    sudo apt install sudo apt-get install ros-noetic-ros-control ros-noetic-ros-controllers ros-noetic-joint-state-controller ros-noetic-effort-controllers ros-noetic-position-controllers ros-noetic-velocity-controllers ros-noetic-gazebo-ros ros-noetic-gazebo-ros-control ros-noetic-moveit-ros-control-interface ros-noetic-moveit-simple-controller-manager
+ ros-noetic-moveit-fake-controller-manager ros-noetic-moveit-planners
+
+For the integration to work, we need to prepare a launch file to start three components. Those components are the simulated robot in Gazebo, ros controllers, and Moveit motion plannig executable. We have already prepared the ``control_utils.launch`` file to load the ros controllers, and the required Moveit motion planning file ``move_group.launch`` is auto-generated. Then, our tasks here are to start the simulated robot in a Gazebo world, and prepare a launch file that launches the mentioned three components.
 
 1. Starting the simulated robot in an empty Gazebo world 
 
@@ -510,11 +515,14 @@ Copy the following XML code to the ``bringup_moveit.launch`` file. ::
     </launch>
 
 
-To run the Moveit Gazebo integration, run the ``bringup_moveit.launch``. ::
+To run the Moveit Gazebo integration, build and source your ROS workspace, and run the ``bringup_moveit.launch``. ::
 
+    cd ~/ws_moveit
+    catkin build 
+    source devel/setup.bash
     roslaunch panda_multiple_arms bringup_moveit.launch
 
-If all steps are done, this should bringup all the required components for the integration. Then, we can plan motions for the arms and hands using MoveIt's rviz plugin and execute those motions on the simulated robots in Gazebo as shown in `this video <https://www.youtube.com/watch?v=h8zlsuzeW3U>`_.
+If all steps are done, this should bring up all the required components for the integration. Then, we can plan motions for the arms and hands using MoveIt's rviz plugin and execute those motions on the simulated robots in Gazebo as shown in `this video <https://www.youtube.com/watch?v=h8zlsuzeW3U>`_.
 
 
 Step 5: Plan arms motions with MoveIt Move Group Interface.
