@@ -8,6 +8,7 @@ find_package(catkin REQUIRED
     moveit_ros_planning
     moveit_ros_planning_interface
     moveit_ros_perception
+    moveit_task_constructor_core
     rviz_visual_tools
     moveit_visual_tools
     pluginlib
@@ -71,3 +72,4 @@ add_subdirectory(doc/collision_environments)
 add_subdirectory(doc/visualizing_collisions)
 add_subdirectory(doc/bullet_collision_checker)
 add_subdirectory(doc/mesh_filter)
+add_subdirectory(doc/moveit_task_constructor)

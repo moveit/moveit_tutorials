@@ -24,6 +24,7 @@
   <build_depend>moveit_ros_planning</build_depend>
   <build_depend>moveit_ros_planning_interface</build_depend>
   <build_depend>moveit_ros_perception</build_depend>
+  <build_depend>moveit_task_constructor_core</build_depend>
   <build_depend>interactive_markers</build_depend>
   <build_depend>geometric_shapes</build_depend>
   <build_depend>moveit_visual_tools</build_depend>
@@ -43,6 +44,7 @@
   <run_depend>moveit_fake_controller_manager</run_depend>
   <run_depend>moveit_ros_planning_interface</run_depend>
   <run_depend>moveit_ros_perception</run_depend>
+  <run_depend>moveit_task_constructor_core</run_depend>
   <run_depend>interactive_markers</run_depend>
   <run_depend>moveit_visual_tools</run_depend>
   <run_depend>rviz_visual_tools</run_depend>
