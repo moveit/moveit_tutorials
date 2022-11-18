@@ -27,8 +27,8 @@ The steps of setting multiple arms environments to use MoveIt motion planning ar
 
 This tutorial explains every step to help set up your multiple robot arms environment. 
 
-1. Build the Xacro/URDF model of the multiple arms
---------------------------------------------------
+Step 1: Build the Xacro/URDF model of the multiple arms
+-------------------------------------------------------
 
 The Panda robot arm is used in the following explanation, but the same applies to preparing other types of robot arms.
 
@@ -43,21 +43,21 @@ To start building your multiple arms model, create a new ``panda_multiple_arms``
 To prepare your multiple robot arms xacro file (model), you need to have the single arm's xacro file. In the following part, we will build a multiple arms panda robot description file consisting of two identical arms.
 
 
-Our multiple arms model has ``rgt_arm`` and ``lft_arm`` models. Each arm is equipped with a gripper. Here is a link to the `panda_multiple_arms.xacro <https://github.com/Robotawi/panda_arms_ws/blob/master/src/panda_multiple_arms/robot_description/panda_multiple_arms.xacro>`_ file. Please copy its XML code to your ``panda_multiple_arms.xacro`` file. 
+Our multiple arms model has ``rgt_arm`` and ``lft_arm`` robots. Each arm is equipped with a gripper. Here is a link to the `panda_multiple_arms.xacro <https://github.com/Robotawi/panda_arms_ws/blob/master/src/panda_multiple_arms/robot_description/panda_multiple_arms.xacro>`_ file. Please copy its XML code to your ``panda_multiple_arms.xacro`` file. 
 
 
 Notes: 
 
-1. Two xacro arguments ``rgt_arm`` and ``lft_arm`` are defined as prefixes to differentiate the arms and hands names. 
+1. Two arguments ``rgt_arm`` and ``lft_arm`` are defined as prefixes to differentiate the arms and hands names. 
    
 2. The arms and hands models are loaded from the ``franka_description`` package, which is installed as a dependency of the ``panda_moveit_config`` package. Ensure the ``franka_description`` package is installed in your ROS environment.
 
-3. We usually need to have a careful look at the robot's xacro file to understand the parameters to use. Here is an of the ``franka_arm.xacro`` from the ``franka_description`` package. ::
+3. We usually need to have a careful look at the robot's xacro macro to understand parameters to use. Here is an example from the ``franka_arm.xacro`` file in the ``franka_description`` package. It has the following macro for the robot model::
       
     <xacro:macro name="franka_arm" params="arm_id:='panda' description_pkg:='franka_description' connected_to:='' xyz:='0 0 0' rpy:='0 0 0' gazebo:=false safety_distance:=0 joint_limits" >
 
 
-We can search those parameters in the xacro macro to understand the function of each. The ``arm_id`` sets a prefix to the arm name to enable reusing the same model. This is essential for our purpose of modeling multiple robots. The ``connected_to`` parameter allows the robot base to be attached to a given link. In our multiple arms model, each robot is connected to a box-shaped base. The ``gazebo`` parameter determines whether to load the gazebo simulation required information (e.g links inertias and joints transmissions) or not. 
+We can search those parameters in the macro to understand the function of each. The ``arm_id`` sets a prefix to the arm name to enable reusing the same model. This is essential for our purpose of modeling multiple robots. The ``connected_to`` parameter allows the robot base to be attached to a given link. In our multiple arms model, each robot is connected to a box-shaped base. The ``gazebo`` parameter determines whether to load the gazebo simulation required information (e.g links inertias and joints transmissions) or not. 
 
 After knowing the xacro macro for the arm, and understanding the input parameters, we can use it as follows to load the arms. ::
 
@@ -66,7 +66,7 @@ After knowing the xacro macro for the arm, and understanding the input parameter
     <xacro:franka_arm arm_id="$(arg arm_id_2)" connected_to="base" xyz="0 0.5 1" gazebo="true" safety_distance="0.03" joint_limits="${xacro.load_yaml('$(find franka_description)/robots/panda/joint_limits.yaml')}"/>
 
 
-The same way applies to loading the grippers/hands models, and other robots that are defined with xacro macros. 
+The same way applies to loading the robot grippers/hands models. Follow the tutorials of `URDF <http://wiki.ros.org/urdf/Tutorials>`_ and `Xacro <http://wiki.ros.org/urdf/Tutorials/Using%20Xacro%20to%20Clean%20Up%20a%20URDF%20File>`_ to learn more about modeling robots with those formats. 
 
 At this point, it is recommended to check our xacro model is working as expected. This can be done in three simple steps; convert your xacro model to URDF, check the connections between links and joints are correct, and visualize the model. Run the following commands to build your ``panda_multiple_arms`` package and check the xacro model has no problems. ::
     
@@ -78,7 +78,7 @@ At this point, it is recommended to check our xacro model is working as expected
     check_urdf panda_multiple_arms.urdf
 
 
-The ``check_urdf`` shows the links tree and indicates if there are any errors: ::
+The ``check_urdf`` command shows the links tree and indicates if there are any errors: ::
 
     robot name is: panda_multiple_arms
     ---------- Successfully Parsed XML ---------------
@@ -130,7 +130,7 @@ The ``check_urdf`` shows the links tree and indicates if there are any errors: :
                 child(2):  rgt_arm_link0_sc
 
 
-To visually check your multiple robot arm model, run the command: ::
+To visually check your multiple robot arm model, ensure that the ``urdf_tutorial`` ROS package is installed and run the command: ::
 
     roslaunch urdf_tutorial display.launch model:=panda_multiple_arms.urdf
 
@@ -172,7 +172,7 @@ The arms should look as follows at the `ready` pose.
    :align: center
 
 
-2. Define ``open`` and ``close`` poses for the ``rgt_hand`` and ``lft_hand`` move groups. The ``open`` pose with joint1 value set to 0.035, and the ``close`` has the joint1 set to 0.0. Notice that the hand joint2 mimics the value of joint1.  Therefore, there is no need to fix joint2 in the hand move_group poses.  The defined poses for the arms and hands should look as follows. Feel free to add other poses of interest for the arms/hands.
+2. Define ``open`` and ``close`` poses for the ``rgt_hand`` and ``lft_hand`` move groups. The ``open`` pose with joint1 value set to 0.035, and the ``close`` has the joint1 set to 0.0. Notice that the **hand's** ``joint2`` mimics the value of ``joint1``.  Therefore, there is no need to include ``joint2`` in the **hand** move_group poses.  The defined poses for the arms and hands should look as follows. Feel free to add other poses of interest for the arms/hands.
 
 .. image:: images/move_groups_poses.png
    :width: 500pt
@@ -183,9 +183,9 @@ Name the MoveIt config package ``panda_multiple_arms_moveit_config`` and generat
 Step 3: Write the ROS controllers configuration and launch files for the multiple arms 
 --------------------------------------------------------------------------------------
 
-This step creates ``ros_control`` configuration files and ``roslaunch`` files to start them. We need two controller types. The first is a *joint state controller*, which publishes the state of all joints. The second is *joint trajectory controller* type, which executes joint-space trajectories on a group of robot joints.
+This step creates ``ros_control`` configuration files and ``roslaunch`` files to start them. We need two controller types. The first is a *joint state controller*, which publishes the state of all joints. The second is *joint trajectory controller*, which executes joint-space trajectories on a group of robot joints.
 
-In the following configuration files, the controllers names are ``joint_state_controller``, ``rgt_arm_trajectory_controller``, and ``lft_arm_trajectory_controller``. Under each trajectory controller, we need to specify its hardware interface type, joint groups, and constraints. For more about ROS controllers,  refer to their documentation_. Let's create the controllers configuration and their launch file in systematic steps and with descriptive names. Some comments are added after the steps not to break the flow. 
+In the following configuration files, the controllers names are ``joint_state_controller``, ``rgt_arm_trajectory_controller``, and ``lft_arm_trajectory_controller``. Under each trajectory controller, we need to specify its hardware interface type, joint groups, and constraints. For more about ROS controllers,  refer to their documentation_. Let's create the controllers configuration and their launch file in systematic steps and with descriptive names. 
 
 .. _documentation: http://wiki.ros.org/ros_control  
 
@@ -198,7 +198,7 @@ In the following configuration files, the controllers names are ``joint_state_co
     mkdir config && cd config
     touch joint_state_controller.yaml 
 
-2. Open the ``joint_state_controller.yaml`` and copy the controller configuration to it ::
+2. Open the ``joint_state_controller.yaml`` and copy the following controller configuration to it ::
 
     joint_state_controller:
         type: joint_state_controller/JointStateController
@@ -213,7 +213,7 @@ In the following configuration files, the controllers names are ``joint_state_co
     touch trajectory_controller.yaml
 
 
-4. Open the ``trajectory_controller.yaml`` and copy the controller configuration to it ::
+4. Open the ``trajectory_controller.yaml`` and copy the following controller configuration to it ::
 
     rgt_arm_trajectory_controller:
         type: "position_controllers/JointTrajectoryController"
@@ -280,7 +280,7 @@ In the following configuration files, the controllers names are ``joint_state_co
             lft_arm_finger_joint1:  {p: 50.0, d: 1.0, i: 0.01, i_clamp: 1.0}
 
 
-5. Create a ``control_utils.launch`` file inside the ``panda_multiple_arms/launch`` directory to start the robot state publisher, and the controllers. ::
+5. Create a ``control_utils.launch`` file inside the ``panda_multiple_arms/launch`` directory to start the robot state publisher, and the controllers. Copy the following XML code to your ``control_utils.launch`` file::
 
     <?xml version="1.0"?>
     <launch>
@@ -307,7 +307,7 @@ The remaining part of this step explains how to modify the auto-generated contro
 
 - The ros_controllers.yaml 
 
-6. The ``ros_controllers.yaml`` file is auto-generated in the  ``panda_multiple_arms_moveit_config/config``. This file is for the ROS control configuration, which means its content should be the same as the content of both ``joint_state_controller.yaml`` and ``trajectory_controller.yaml``. Copy the two files contents into this file, and it should be as follows ::
+6. The ``ros_controllers.yaml`` file is auto-generated in the  ``panda_multiple_arms_moveit_config/config``. This file is for the ROS control configuration, which means its content should be the same as the content of both ``joint_state_controller.yaml`` and ``trajectory_controller.yaml``. Its contents should be as follows ::
     
     joint_state_controller:
         type: joint_state_controller/JointStateController
@@ -379,7 +379,7 @@ The remaining part of this step explains how to modify the auto-generated contro
     
 - The simple_moveit_controllers.yaml 
 
-7. This file is auto-generated in the ``panda_multiple_arms_moveit_config/config``. MoveIt requires a trajectory controller which has a FollowJointTrajectoryAction interface. After motion planning, the FollowJointTrajectoryAction interface sends the generated trajectory to the robot ROS controller (written above). This file configures the controllers to be used by MoveIt controller manager to execute planned trajectories. The controllers names should match to the ROS controllers in the previous ``ros_controllers.yaml``, which is same as the ``trajectory_control.yaml``. Modify the file contents to be as follows. :: 
+7. This file is also auto-generated in the ``panda_multiple_arms_moveit_config/config``. MoveIt requires a trajectory controller which has a FollowJointTrajectoryAction interface. After motion planning, the FollowJointTrajectoryAction interface sends the generated trajectory to the robot ROS controller (written above). This file configures the controllers to be used by MoveIt controller manager to execute planned trajectories. The controllers names should match the ROS controllers in the previous ``ros_controllers.yaml``. Copy the following to your ``simple_moveit_controllers.yaml`` file. :: 
     
     controller_list:
       - name: rgt_arm_trajectory_controller
@@ -453,13 +453,13 @@ For the integration to work, we need to prepare a launch file to start three com
 
 1. Starting the simulated robot in an empty Gazebo world 
 
-To spawn the panda multiple arms model in Gazebo, we need to prepare a launch file in the ``panda_multiple_arms/launch`` package. Let's call it ``panda_multiple_arms_empty_world.launch``. Here are the steps to prepar this file. :: 
+To spawn the panda multiple arms model in Gazebo, we need to prepare a launch file in the ``panda_multiple_arms/launch`` directory. Let's call it ``panda_multiple_arms_empty_world.launch``. Here are the steps to prepar this file. :: 
 
     cd ~/ws_moveit
     cd src/panda_multiple_arms/launch 
     touch panda_multiple_arms_empty_world.launch
 
-The ``panda_multiple_arms_empty_world.launch`` file launches an empty world file, loads the robot description, and spawns the robot in the empty world. Its contents are as follows::
+The ``panda_multiple_arms_empty_world.launch`` file launches an empty world file, loads the robot description, and spawns the robot in the empty world. Copy the following XML code to this file. ::
 
     <?xml version="1.0"?>
     <launch>
@@ -515,7 +515,7 @@ Copy the following XML code to the ``bringup_moveit.launch`` file. ::
     </launch>
 
 
-To run the MoveIt-Gazebo integration, build and source your ROS workspace, and run the ``bringup_moveit.launch``. ::
+To start the MoveIt-Gazebo integration, build and source your ROS workspace, and run the ``bringup_moveit.launch`` file. ::
 
     cd ~/ws_moveit
     catkin build 
@@ -528,15 +528,16 @@ If all steps are done, this should bring up all the required components for the 
 Step 5: Plan arms motions with MoveIt Move Group Interface.
 -----------------------------------------------------------
 
-After ensuring our integration is correct, the most interesting part is to plan robot motion with the MoveIt API and see our robots moving in Gazebo. This step shows how to prepare the dependenies and write code for planning simple motions for the arms and hands.
+After ensuring our integration is properly working, the most interesting part is to plan robot motion with the MoveIt API and see our robots moving in Gazebo. This step shows how to prepare the dependenies and write code for planning simple motions for the arms and hands.
 
-We need to include some dependenies in the robot's package ``CMakeLists.txt`` file. They are packages to enable using moveit group interface and utility package to describe the arms target poses. Here is a link to a `minimal CMakeLists.txt <https://github.com/Robotawi/panda_arms_ws/blob/master/src/panda_multiple_arms/CMakeLists.txt>`_ file used in this step. Copy the contents of this CMakeLists.txt file to your ``panda_multiple_arms/CMakeLists.txt`` file.
+We need to include some dependenies in the robot's package ``CMakeLists.txt`` file. They are packages to enable using Moveit move group interface and utility package to describe the arms target poses. Here is a link to a `minimal CMakeLists.txt <https://github.com/Robotawi/panda_arms_ws/blob/master/src/panda_multiple_arms/CMakeLists.txt>`_ file used in this step. Copy the contents of this CMakeLists.txt file to your ``panda_multiple_arms/CMakeLists.txt`` file.
 
 For the motion planning, please refer to Move Group Interface `tutorials <https://ros-planning.github.io/moveit_tutorials/doc/move_group_interface/move_group_interface_tutorial.html>`_ for more details about MoveIt's move group C++ interface. We are using a separate move group for every arm and every hand.
 
-This is the `file <https://github.com/Robotawi/panda_arms_ws/blob/master/src/panda_multiple_arms/src/plan_simple_motion.cpp>`_ used for planning the simple motions. Copy the content of this CPP file into ``panda_multiple_arms/src/plan_simple_motion.cpp`` in your package. The code in this file does the following::
+This is the `file <https://github.com/Robotawi/panda_arms_ws/blob/master/src/panda_multiple_arms/src/plan_simple_motion.cpp>`_ used for planning the simple motions. Copy the content of this CPP file into ``panda_multiple_arms/src/plan_simple_motion.cpp`` in your package. The code in this file does the following.
 
-1. Set the move groups names for arms and hands (considering same naming in step 2)::
+
+1. Set the move groups names for arms and hands (considering same naming in step 2). ::
    
     static const std::string rgt_arm_group = "rgt_arm";
     static const std::string rgt_hand_group = "rgt_hand";
@@ -545,7 +546,7 @@ This is the `file <https://github.com/Robotawi/panda_arms_ws/blob/master/src/pan
     static const std::string lft_hand_group = "lft_hand";
 
 
-2. Declare MoveGroupInterface objects for every arm and hand::
+2. Declare MoveGroupInterface objects for every arm and hand. ::
     
     moveit::planning_interface::MoveGroupInterface rgt_arm_move_group_interface(rgt_arm_group);
     moveit::planning_interface::MoveGroupInterface rgt_hand_move_group_interface(rgt_hand_group);
@@ -553,12 +554,12 @@ This is the `file <https://github.com/Robotawi/panda_arms_ws/blob/master/src/pan
     moveit::planning_interface::MoveGroupInterface lft_arm_move_group_interface(lft_arm_group);
     moveit::planning_interface::MoveGroupInterface lft_hand_move_group_interface(lft_hand_group);
 
-3. Set the arms goal poses to the pre-defined ``ready`` pose::
+3. Set the arms goal poses to the pre-defined ``ready`` pose. ::
    
     rgt_arm_move_group_interface.setNamedTarget("ready");
     lft_arm_move_group_interface.setNamedTarget("ready");
 
-4. Plan the arms motions, and if the planning is successful move arms and open grippers::
+4. Plan the arms motions, and if the planning is successful move arms and open grippers. ::
    
     bool rgt_success = (rgt_arm_move_group_interface.plan(rgt_arm_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
     bool lft_success = (lft_arm_move_group_interface.plan(lft_arm_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
@@ -579,7 +580,7 @@ This is the `file <https://github.com/Robotawi/panda_arms_ws/blob/master/src/pan
         lft_hand_move_group_interface.move();
     }
 
-5. In the last step, the arms are tasked to move arbitary motion with respect to theie current poses. The right arm moves 0.10 meter up, and the left arm moves 0.10 forward. Here is the code for moving the right arm up::
+5. In the last step, the arms are tasked to move with respect to their current poses. The right arm moves 0.10 meter up, and the left arm moves 0.10 forward. Here is the code for moving the right arm up. ::
    
     geometry_msgs::PoseStamped current_rgt_arm_pose = rgt_arm_move_group_interface.getCurrentPose();
     geometry_msgs::PoseStamped target_rgt_arm_pose = current_rgt_arm_pose;
@@ -595,11 +596,11 @@ This is the `file <https://github.com/Robotawi/panda_arms_ws/blob/master/src/pan
     }
 
 
-Build the workspace and run the plan_simple_motion node::
+Build the workspace and run the ``plan_simple_motion`` node::
 
     cd ~/ws_moveit
     catkin build 
     source devel/setup.bash
     rosrun panda_multiple_arms plan_simple_motion
 
-This `short YouTube video <https://youtu.be/sxUQh91oQxM>`_ shows the described arms and hands motions using MoveIt move group interface. You may think the arms should move in straight lines between current and target poses. This is can be accomplished using the MoveIt `Cartesian Path planner <https://ros-planning.github.io/moveit_tutorials/doc/move_group_interface/move_group_interface_tutorial.html#cartesian-paths>`_ , which is also explained in the Move Group Interface tutorials, and you are strongly encouraged to implement it. 
+This `short YouTube video <https://youtu.be/sxUQh91oQxM>`_ shows the described arms and hands motions using MoveIt move group interface. After seeing the arms motions, you may think they should move in straight lines between current and target poses. This is can be accomplished using MoveIt's `Cartesian Path planner <https://ros-planning.github.io/moveit_tutorials/doc/move_group_interface/move_group_interface_tutorial.html#cartesian-paths>`_ , which is also explained in the Move Group Interface tutorials, and you are strongly encouraged to implement it. 
