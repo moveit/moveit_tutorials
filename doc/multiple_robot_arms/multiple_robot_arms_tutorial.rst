@@ -532,7 +532,7 @@ After ensuring our integration is correct, the most interesting part is to plan 
 
 We need to include some dependenies in the robot's package ``CMakeLists.txt`` file. They are packages to enable using moveit group interface and utility package to describe the arms target poses. Here is a link to a `minimal CMakeLists.txt <https://github.com/Robotawi/panda_arms_ws/blob/master/src/panda_multiple_arms/CMakeLists.txt>`_ file used in this step. Copy the contents of this CMakeLists.txt file to your ``panda_multiple_arms/CMakeLists.txt`` file.
 
-For the motion planning, please refer to Move Group Interface `tutorial <https://ros-planning.github.io/moveit_tutorials/doc/move_group_interface/move_group_interface_tutorial.html>`_ for more details about MoveIt's move group C++ interface. We are using a separate move group for every arm and every hand.
+For the motion planning, please refer to Move Group Interface `tutorials <https://ros-planning.github.io/moveit_tutorials/doc/move_group_interface/move_group_interface_tutorial.html>`_ for more details about MoveIt's move group C++ interface. We are using a separate move group for every arm and every hand.
 
 This is the `file <https://github.com/Robotawi/panda_arms_ws/blob/master/src/panda_multiple_arms/src/plan_simple_motion.cpp>`_ used for planning the simple motions. Copy the content of this CPP file into ``panda_multiple_arms/src/plan_simple_motion.cpp`` in your package. The code in this file does the following::
 
@@ -602,4 +602,4 @@ Build the workspace and run the plan_simple_motion node::
     source devel/setup.bash
     rosrun panda_multiple_arms plan_simple_motion
 
-This `short YouTube video <https://youtu.be/sxUQh91oQxM>`_ shows the described arms and hands motions using MoveIt move group interface. You may think the arms should move in straight lines between current and target poses. This is can be accomplished using the MoveIt Cartesian Planners, which is also explained in the Move Group Interface `tutorials <https://ros-planning.github.io/moveit_tutorials/doc/move_group_interface/move_group_interface_tutorial.html>`_, and you are strongly encouraged to implement it. 
+This `short YouTube video <https://youtu.be/sxUQh91oQxM>`_ shows the described arms and hands motions using MoveIt move group interface. You may think the arms should move in straight lines between current and target poses. This is can be accomplished using the MoveIt `Cartesian Path planner <https://ros-planning.github.io/moveit_tutorials/doc/move_group_interface/move_group_interface_tutorial.html#cartesian-paths>`_ , which is also explained in the Move Group Interface tutorials, and you are strongly encouraged to implement it. 
