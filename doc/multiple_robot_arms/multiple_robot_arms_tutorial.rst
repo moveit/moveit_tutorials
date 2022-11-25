@@ -142,7 +142,7 @@ Once Rviz GUI starts, set the fixed frame on the upper left corner to be ``world
 
 If the previous steps are correctly done, the multiple arms model should show up as follows. 
 
-.. image:: images/rviz_start.png
+.. image:: images/check_urdf_in_rviz.png
    :width: 500pt
    :align: center
 
@@ -167,14 +167,14 @@ Here are two more steps which are not required but they are often useful:
 
 The arms should look as follows at the `ready` pose.
 
-.. image:: images/rgt_lft_arms_ready_poses.png
+.. image:: images/arms_at_ready_poses.png
    :width: 500pt
    :align: center
 
 
 2. Define ``open`` and ``close`` poses for the ``right_hand`` and ``left_hand`` move groups. The ``open`` pose with joint1 value set to 0.035, and the ``close`` has the joint1 set to 0.0. Notice that the **hand's** ``joint2`` mimics the value of ``joint1``.  Therefore, there is no need to include ``joint2`` in the **hand** move_group poses.  The defined poses for the arms and hands should look as follows. Feel free to add other poses of interest for the arms/hands.
 
-.. image:: images/move_groups_poses.png
+.. image:: images/move_groups_and_poses.png
    :width: 500pt
    :align: center
 
