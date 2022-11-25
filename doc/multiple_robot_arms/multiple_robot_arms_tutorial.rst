@@ -1,4 +1,4 @@
-MoveIt Multiple Robot Arms
+Multiple Robot Arms
 ==========================
 
 Introduction
