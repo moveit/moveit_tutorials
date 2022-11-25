@@ -43,12 +43,12 @@ To start building your multiple arms model, create a new ``panda_multiple_arms``
 To prepare your multiple robot arms xacro file (model), you need to have the single arm's xacro file. In the following part, we will build a multiple arms panda robot description file consisting of two identical arms.
 
 
-Our multiple arms model has ``rgt_arm`` and ``lft_arm`` robots. Each arm is equipped with a gripper. Here is a link to the `panda_multiple_arms.xacro <https://github.com/Robotawi/panda_arms_ws/blob/master/src/panda_multiple_arms/robot_description/panda_multiple_arms.xacro>`_ file. Please copy its XML code to your ``panda_multiple_arms.xacro`` file. 
+Our multiple arms model has ``right_arm`` and ``left_arm`` robots. Each arm is equipped with a gripper. Here is a link to the `panda_multiple_arms.xacro <https://github.com/Robotawi/panda_arms_ws/blob/master/src/panda_multiple_arms/robot_description/panda_multiple_arms.xacro>`_ file. Please copy its XML code to your ``panda_multiple_arms.xacro`` file. 
 
 
 Notes: 
 
-1. Two arguments ``rgt_arm`` and ``lft_arm`` are defined as prefixes to differentiate the arms and hands names. 
+1. Two arguments ``right_arm`` and ``left_arm`` are defined as prefixes to differentiate the arms and hands names. 
    
 2. The arms and hands models are loaded from the ``franka_description`` package, which is installed as a dependency of the ``panda_moveit_config`` package. Ensure the ``franka_description`` package is installed in your ROS environment.
 
@@ -84,50 +84,50 @@ The ``check_urdf`` command shows the links tree and indicates if there are any e
     ---------- Successfully Parsed XML ---------------
     root Link: world has 1 child(ren)
         child(1):  base
-            child(1):  lft_arm_link0
-                child(1):  lft_arm_link1
-                    child(1):  lft_arm_link2
-                        child(1):  lft_arm_link3
-                            child(1):  lft_arm_link4
-                                child(1):  lft_arm_link5
-                                    child(1):  lft_arm_link6
-                                        child(1):  lft_arm_link7
-                                            child(1):  lft_arm_link8
-                                                child(1):  lft_arm_hand
-                                                    child(1):  lft_arm_leftfinger
-                                                    child(2):  lft_arm_rightfinger
-                                                    child(3):  lft_arm_hand_sc
-                                                    child(4):  lft_arm_hand_tcp
-                                            child(2):  lft_arm_link7_sc
-                                        child(2):  lft_arm_link6_sc
-                                    child(2):  lft_arm_link5_sc
-                                child(2):  lft_arm_link4_sc
-                            child(2):  lft_arm_link3_sc
-                        child(2):  lft_arm_link2_sc
-                    child(2):  lft_arm_link1_sc
-                child(2):  lft_arm_link0_sc
-            child(2):  rgt_arm_link0
-                child(1):  rgt_arm_link1
-                    child(1):  rgt_arm_link2
-                        child(1):  rgt_arm_link3
-                            child(1):  rgt_arm_link4
-                                child(1):  rgt_arm_link5
-                                    child(1):  rgt_arm_link6
-                                        child(1):  rgt_arm_link7
-                                            child(1):  rgt_arm_link8
-                                                child(1):  rgt_arm_hand
-                                                    child(1):  rgt_arm_leftfinger
-                                                    child(2):  rgt_arm_rightfinger
-                                                    child(3):  rgt_arm_hand_sc
-                                                    child(4):  rgt_arm_hand_tcp
-                                            child(2):  rgt_arm_link7_sc
-                                        child(2):  rgt_arm_link6_sc
-                                    child(2):  rgt_arm_link5_sc
-                                child(2):  rgt_arm_link4_sc
-                            child(2):  rgt_arm_link3_sc
-                        child(2):  rgt_arm_link2_sc
-                    child(2):  rgt_arm_link1_sc
-                child(2):  rgt_arm_link0_sc
+            child(1):  left_arm_link0
+                child(1):  left_arm_link1
+                    child(1):  left_arm_link2
+                        child(1):  left_arm_link3
+                            child(1):  left_arm_link4
+                                child(1):  left_arm_link5
+                                    child(1):  left_arm_link6
+                                        child(1):  left_arm_link7
+                                            child(1):  left_arm_link8
+                                                child(1):  left_arm_hand
+                                                    child(1):  left_arm_leftfinger
+                                                    child(2):  left_arm_rightfinger
+                                                    child(3):  left_arm_hand_sc
+                                                    child(4):  left_arm_hand_tcp
+                                            child(2):  left_arm_link7_sc
+                                        child(2):  left_arm_link6_sc
+                                    child(2):  left_arm_link5_sc
+                                child(2):  left_arm_link4_sc
+                            child(2):  left_arm_link3_sc
+                        child(2):  left_arm_link2_sc
+                    child(2):  left_arm_link1_sc
+                child(2):  left_arm_link0_sc
+            child(2):  right_arm_link0
+                child(1):  right_arm_link1
+                    child(1):  right_arm_link2
+                        child(1):  right_arm_link3
+                            child(1):  right_arm_link4
+                                child(1):  right_arm_link5
+                                    child(1):  right_arm_link6
+                                        child(1):  right_arm_link7
+                                            child(1):  right_arm_link8
+                                                child(1):  right_arm_hand
+                                                    child(1):  right_arm_leftfinger
+                                                    child(2):  right_arm_rightfinger
+                                                    child(3):  right_arm_hand_sc
+                                                    child(4):  right_arm_hand_tcp
+                                            child(2):  right_arm_link7_sc
+                                        child(2):  right_arm_link6_sc
+                                    child(2):  right_arm_link5_sc
+                                child(2):  right_arm_link4_sc
+                            child(2):  right_arm_link3_sc
+                        child(2):  right_arm_link2_sc
+                    child(2):  right_arm_link1_sc
+                child(2):  right_arm_link0_sc
 
 
 To visually check your multiple robot arm model, ensure that the ``urdf_tutorial`` ROS package is installed and run the command: ::
@@ -158,7 +158,7 @@ MoveIt Setup Assistant is used to configure our multiple robot arms for using th
 
     roslaunch moveit_setup_assistant setup_assistant.launch
 
-Follow the MoveIt Setup Assistant `tutorial <https://ros-planning.github.io/moveit_tutorials/doc/setup_assistant/setup_assistant_tutorial.html>`_ to configure the arms. Note that we will be making a separate move group for each arm and hand. The groups are called ``rgt_arm``, ``lft_arm``, ``rgt_hand``, and ``lft_hand``. 
+Follow the MoveIt Setup Assistant `tutorial <https://ros-planning.github.io/moveit_tutorials/doc/setup_assistant/setup_assistant_tutorial.html>`_ to configure the arms. Note that we will be making a separate move group for each arm and hand. The groups are called ``right_arm``, ``left_arm``, ``right_hand``, and ``left_hand``. 
 
 
 I want to consider two more point along with the the Setup Assistant tutorial 
@@ -172,7 +172,7 @@ The arms should look as follows at the `ready` pose.
    :align: center
 
 
-2. Define ``open`` and ``close`` poses for the ``rgt_hand`` and ``lft_hand`` move groups. The ``open`` pose with joint1 value set to 0.035, and the ``close`` has the joint1 set to 0.0. Notice that the **hand's** ``joint2`` mimics the value of ``joint1``.  Therefore, there is no need to include ``joint2`` in the **hand** move_group poses.  The defined poses for the arms and hands should look as follows. Feel free to add other poses of interest for the arms/hands.
+2. Define ``open`` and ``close`` poses for the ``right_hand`` and ``left_hand`` move groups. The ``open`` pose with joint1 value set to 0.035, and the ``close`` has the joint1 set to 0.0. Notice that the **hand's** ``joint2`` mimics the value of ``joint1``.  Therefore, there is no need to include ``joint2`` in the **hand** move_group poses.  The defined poses for the arms and hands should look as follows. Feel free to add other poses of interest for the arms/hands.
 
 .. image:: images/move_groups_poses.png
    :width: 500pt
@@ -185,7 +185,7 @@ Step 3: Write the ROS controllers configuration and launch files for the multipl
 
 This step creates ``ros_control`` configuration files and ``roslaunch`` files to start them. We need two controller types. The first is a *joint state controller*, which publishes the state of all joints. The second is *joint trajectory controller*, which executes joint-space trajectories on a group of robot joints.
 
-In the following configuration files, the controllers names are ``joint_state_controller``, ``rgt_arm_trajectory_controller``, and ``lft_arm_trajectory_controller``. Under each trajectory controller, we need to specify its hardware interface type, joint groups, and constraints. For more about ROS controllers,  refer to their documentation_. Let's create the controllers configuration and their launch file in systematic steps and with descriptive names. 
+In the following configuration files, the controllers names are ``joint_state_controller``, ``right_arm_trajectory_controller``, and ``left_arm_trajectory_controller``. Under each trajectory controller, we need to specify its hardware interface type, joint groups, and constraints. For more about ROS controllers,  refer to their documentation_. Let's create the controllers configuration and their launch file in systematic steps and with descriptive names. 
 
 .. _documentation: http://wiki.ros.org/ros_control  
 
@@ -215,69 +215,69 @@ In the following configuration files, the controllers names are ``joint_state_co
 
 4. Open the ``trajectory_controller.yaml`` and copy the following controller configuration to it ::
 
-    rgt_arm_trajectory_controller:
+    right_arm_trajectory_controller:
         type: "position_controllers/JointTrajectoryController"
         joints:
-            - rgt_arm_joint1
-            - rgt_arm_joint2
-            - rgt_arm_joint3
-            - rgt_arm_joint4
-            - rgt_arm_joint5
-            - rgt_arm_joint6
-            - rgt_arm_joint7
+            - right_arm_joint1
+            - right_arm_joint2
+            - right_arm_joint3
+            - right_arm_joint4
+            - right_arm_joint5
+            - right_arm_joint6
+            - right_arm_joint7
         constraints:
             goal_time: 0.6
             stopped_velocity_tolerance: 0.05
-            rgt_arm_joint1: {trajectory: 0.1, goal: 0.1}
-            rgt_arm_joint2: {trajectory: 0.1, goal: 0.1}
-            rgt_arm_joint3: {trajectory: 0.1, goal: 0.1}
-            rgt_arm_joint4: {trajectory: 0.1, goal: 0.1}
-            rgt_arm_joint5: {trajectory: 0.1, goal: 0.1}
-            rgt_arm_joint6: {trajectory: 0.1, goal: 0.1}
-            rgt_arm_joint7: {trajectory: 0.1, goal: 0.1}
+            right_arm_joint1: {trajectory: 0.1, goal: 0.1}
+            right_arm_joint2: {trajectory: 0.1, goal: 0.1}
+            right_arm_joint3: {trajectory: 0.1, goal: 0.1}
+            right_arm_joint4: {trajectory: 0.1, goal: 0.1}
+            right_arm_joint5: {trajectory: 0.1, goal: 0.1}
+            right_arm_joint6: {trajectory: 0.1, goal: 0.1}
+            right_arm_joint7: {trajectory: 0.1, goal: 0.1}
         stop_trajectory_duration: 0.5
         state_publish_rate:  25
         action_monitor_rate: 10
 
-    lft_arm_trajectory_controller:
+    left_arm_trajectory_controller:
         type: "position_controllers/JointTrajectoryController"
         joints:
-            - lft_arm_joint1
-            - lft_arm_joint2
-            - lft_arm_joint3
-            - lft_arm_joint4
-            - lft_arm_joint5
-            - lft_arm_joint6
-            - lft_arm_joint7
+            - left_arm_joint1
+            - left_arm_joint2
+            - left_arm_joint3
+            - left_arm_joint4
+            - left_arm_joint5
+            - left_arm_joint6
+            - left_arm_joint7
         constraints:
             goal_time: 0.6
             stopped_velocity_tolerance: 0.05
-            lft_arm_joint1: {trajectory: 0.1, goal: 0.1}
-            lft_arm_joint2: {trajectory: 0.1, goal: 0.1}
-            lft_arm_joint3: {trajectory: 0.1, goal: 0.1}
-            lft_arm_joint4: {trajectory: 0.1, goal: 0.1}
-            lft_arm_joint5: {trajectory: 0.1, goal: 0.1}
-            lft_arm_joint6: {trajectory: 0.1, goal: 0.1}
-            lft_arm_joint7: {trajectory: 0.1, goal: 0.1}
+            left_arm_joint1: {trajectory: 0.1, goal: 0.1}
+            left_arm_joint2: {trajectory: 0.1, goal: 0.1}
+            left_arm_joint3: {trajectory: 0.1, goal: 0.1}
+            left_arm_joint4: {trajectory: 0.1, goal: 0.1}
+            left_arm_joint5: {trajectory: 0.1, goal: 0.1}
+            left_arm_joint6: {trajectory: 0.1, goal: 0.1}
+            left_arm_joint7: {trajectory: 0.1, goal: 0.1}
         stop_trajectory_duration: 0.5
         state_publish_rate:  25
         action_monitor_rate: 10
 
     #notice that the grippers joint2 mimics joint1
     #this is why it is not listed under the hand controllers
-    rgt_hand_controller:
+    right_hand_controller:
         type: "effort_controllers/JointTrajectoryController"
         joints:
-            - rgt_arm_finger_joint1
+            - right_arm_finger_joint1
         gains:
-            rgt_arm_finger_joint1:  {p: 50.0, d: 1.0, i: 0.01, i_clamp: 1.0}
+            right_arm_finger_joint1:  {p: 50.0, d: 1.0, i: 0.01, i_clamp: 1.0}
 
-    lft_hand_controller:
+    left_hand_controller:
         type: "effort_controllers/JointTrajectoryController"
         joints:
-            - lft_arm_finger_joint1
+            - left_arm_finger_joint1
         gains:
-            lft_arm_finger_joint1:  {p: 50.0, d: 1.0, i: 0.01, i_clamp: 1.0}
+            left_arm_finger_joint1:  {p: 50.0, d: 1.0, i: 0.01, i_clamp: 1.0}
 
 
 5. Create a ``control_utils.launch`` file inside the ``panda_multiple_arms/launch`` directory to start the robot state publisher, and the controllers. Copy the following XML code to your ``control_utils.launch`` file::
@@ -297,7 +297,7 @@ In the following configuration files, the controllers names are ``joint_state_co
 
     <!-- Joint trajectory controller -->
     <rosparam file="$(find panda_multiple_arms)/config/trajectory_controller.yaml" command="load" />
-    <node name="arms_trajectory_controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="rgt_arm_trajectory_controller lft_arm_trajectory_controller rgt_hand_controller lft_hand_controller" />
+    <node name="arms_trajectory_controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="right_arm_trajectory_controller left_arm_trajectory_controller right_hand_controller left_hand_controller" />
 
     </launch>
 
@@ -313,116 +313,116 @@ The remaining part of this step explains how to modify the auto-generated contro
         type: joint_state_controller/JointStateController
         publish_rate: 50  
     
-    rgt_arm_trajectory_controller:
+    right_arm_trajectory_controller:
         type: "position_controllers/JointTrajectoryController"
         joints:
-            - rgt_arm_joint1
-            - rgt_arm_joint2
-            - rgt_arm_joint3
-            - rgt_arm_joint4
-            - rgt_arm_joint5
-            - rgt_arm_joint6
-            - rgt_arm_joint7
+            - right_arm_joint1
+            - right_arm_joint2
+            - right_arm_joint3
+            - right_arm_joint4
+            - right_arm_joint5
+            - right_arm_joint6
+            - right_arm_joint7
         constraints:
             goal_time: 0.6
             stopped_velocity_tolerance: 0.05
-            rgt_arm_joint1: {trajectory: 0.1, goal: 0.1}
-            rgt_arm_joint2: {trajectory: 0.1, goal: 0.1}
-            rgt_arm_joint3: {trajectory: 0.1, goal: 0.1}
-            rgt_arm_joint4: {trajectory: 0.1, goal: 0.1}
-            rgt_arm_joint5: {trajectory: 0.1, goal: 0.1}
-            rgt_arm_joint6: {trajectory: 0.1, goal: 0.1}
-            rgt_arm_joint7: {trajectory: 0.1, goal: 0.1}
+            right_arm_joint1: {trajectory: 0.1, goal: 0.1}
+            right_arm_joint2: {trajectory: 0.1, goal: 0.1}
+            right_arm_joint3: {trajectory: 0.1, goal: 0.1}
+            right_arm_joint4: {trajectory: 0.1, goal: 0.1}
+            right_arm_joint5: {trajectory: 0.1, goal: 0.1}
+            right_arm_joint6: {trajectory: 0.1, goal: 0.1}
+            right_arm_joint7: {trajectory: 0.1, goal: 0.1}
         stop_trajectory_duration: 0.5
         state_publish_rate:  25
         action_monitor_rate: 10
 
-    lft_arm_trajectory_controller:
+    left_arm_trajectory_controller:
         type: "position_controllers/JointTrajectoryController"
         joints:
-            - lft_arm_joint1
-            - lft_arm_joint2
-            - lft_arm_joint3
-            - lft_arm_joint4
-            - lft_arm_joint5
-            - lft_arm_joint6
-            - lft_arm_joint7
+            - left_arm_joint1
+            - left_arm_joint2
+            - left_arm_joint3
+            - left_arm_joint4
+            - left_arm_joint5
+            - left_arm_joint6
+            - left_arm_joint7
         constraints:
             goal_time: 0.6
             stopped_velocity_tolerance: 0.05
-            lft_arm_joint1: {trajectory: 0.1, goal: 0.1}
-            lft_arm_joint2: {trajectory: 0.1, goal: 0.1}
-            lft_arm_joint3: {trajectory: 0.1, goal: 0.1}
-            lft_arm_joint4: {trajectory: 0.1, goal: 0.1}
-            lft_arm_joint5: {trajectory: 0.1, goal: 0.1}
-            lft_arm_joint6: {trajectory: 0.1, goal: 0.1}
-            lft_arm_joint7: {trajectory: 0.1, goal: 0.1}
+            left_arm_joint1: {trajectory: 0.1, goal: 0.1}
+            left_arm_joint2: {trajectory: 0.1, goal: 0.1}
+            left_arm_joint3: {trajectory: 0.1, goal: 0.1}
+            left_arm_joint4: {trajectory: 0.1, goal: 0.1}
+            left_arm_joint5: {trajectory: 0.1, goal: 0.1}
+            left_arm_joint6: {trajectory: 0.1, goal: 0.1}
+            left_arm_joint7: {trajectory: 0.1, goal: 0.1}
         stop_trajectory_duration: 0.5
         state_publish_rate:  25
         action_monitor_rate: 10
 
     #notice that the grippers joint2 mimics joint1
     #this is why it is not listed under the hand controllers
-    rgt_hand_controller:
+    right_hand_controller:
         type: "effort_controllers/JointTrajectoryController"
         joints:
-            - rgt_arm_finger_joint1
+            - right_arm_finger_joint1
         gains:
-            rgt_arm_finger_joint1:  {p: 50.0, d: 1.0, i: 0.01, i_clamp: 1.0}
+            right_arm_finger_joint1:  {p: 50.0, d: 1.0, i: 0.01, i_clamp: 1.0}
 
-    lft_hand_controller:
+    left_hand_controller:
         type: "effort_controllers/JointTrajectoryController"
         joints:
-            - lft_arm_finger_joint1
+            - left_arm_finger_joint1
         gains:
-            lft_arm_finger_joint1:  {p: 50.0, d: 1.0, i: 0.01, i_clamp: 1.0}
+            left_arm_finger_joint1:  {p: 50.0, d: 1.0, i: 0.01, i_clamp: 1.0}
     
 - The simple_moveit_controllers.yaml 
 
 7. This file is also auto-generated in the ``panda_multiple_arms_moveit_config/config``. MoveIt requires a trajectory controller which has a FollowJointTrajectoryAction interface. After motion planning, the FollowJointTrajectoryAction interface sends the generated trajectory to the robot ROS controller (written above). This file configures the controllers to be used by MoveIt controller manager to execute planned trajectories. The controllers names should match the ROS controllers in the previous ``ros_controllers.yaml``. Copy the following to your ``simple_moveit_controllers.yaml`` file. :: 
     
     controller_list:
-      - name: rgt_arm_trajectory_controller
+      - name: right_arm_trajectory_controller
           action_ns: follow_joint_trajectory
           type: FollowJointTrajectory
           default: True
           joints:
-          - rgt_arm_joint1
-          - rgt_arm_joint2
-          - rgt_arm_joint3
-          - rgt_arm_joint4
-          - rgt_arm_joint5
-          - rgt_arm_joint6
-          - rgt_arm_joint7
-      - name: lft_arm_trajectory_controller
+          - right_arm_joint1
+          - right_arm_joint2
+          - right_arm_joint3
+          - right_arm_joint4
+          - right_arm_joint5
+          - right_arm_joint6
+          - right_arm_joint7
+      - name: left_arm_trajectory_controller
           action_ns: follow_joint_trajectory
           type: FollowJointTrajectory
           default: True
           joints:
-          - lft_arm_joint1
-          - lft_arm_joint2
-          - lft_arm_joint3
-          - lft_arm_joint4
-          - lft_arm_joint5
-          - lft_arm_joint6
-          - lft_arm_joint7
+          - left_arm_joint1
+          - left_arm_joint2
+          - left_arm_joint3
+          - left_arm_joint4
+          - left_arm_joint5
+          - left_arm_joint6
+          - left_arm_joint7
 
       #notice that the grippers joint2 mimics joint1
       #this is why it is not listed under the hand controllers
 
-      - name: rgt_hand_controller
+      - name: right_hand_controller
           action_ns: follow_joint_trajectory
           type: FollowJointTrajectory
           default: true
           joints:
-          - rgt_arm_finger_joint1
+          - right_arm_finger_joint1
 
-      - name: lft_hand_controller
+      - name: left_hand_controller
           action_ns: follow_joint_trajectory
           type: FollowJointTrajectory
           default: true
           joints:
-          - lft_arm_finger_joint1
+          - left_arm_finger_joint1
 
 8. The last step is to make the auto-generated ``ros_controllers.launch`` spawn the ROS controllers configured in the ``ros_controller.yaml`` file. This launch file is inside the ``panda_multiple_arms_moveit_config/launch`` directory. Edit the file and add the controller names as arguments in the controller spawner node as shown below. ::
 
@@ -434,7 +434,7 @@ The remaining part of this step explains how to modify the auto-generated contro
 
         <!-- Load the controllers -->
         <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
-            output="screen" args=" rgt_arm_trajectory_controller lft_arm_trajectory_controller rgt_hand_controller lft_hand_controller"/>
+            output="screen" args=" right_arm_trajectory_controller left_arm_trajectory_controller right_hand_controller left_hand_controller"/>
 
     </launch>
 
@@ -539,60 +539,60 @@ This is the `file <https://github.com/Robotawi/panda_arms_ws/blob/master/src/pan
 
 1. Set the move groups names for arms and hands (considering same naming in step 2). ::
    
-    static const std::string rgt_arm_group = "rgt_arm";
-    static const std::string rgt_hand_group = "rgt_hand";
+    static const std::string right_arm_group = "right_arm";
+    static const std::string right_hand_group = "right_hand";
 
-    static const std::string lft_arm_group = "lft_arm";
-    static const std::string lft_hand_group = "lft_hand";
+    static const std::string left_arm_group = "left_arm";
+    static const std::string left_hand_group = "left_hand";
 
 
 2. Declare MoveGroupInterface objects for every arm and hand. ::
     
-    moveit::planning_interface::MoveGroupInterface rgt_arm_move_group_interface(rgt_arm_group);
-    moveit::planning_interface::MoveGroupInterface rgt_hand_move_group_interface(rgt_hand_group);
+    moveit::planning_interface::MoveGroupInterface right_arm_move_group_interface(right_arm_group);
+    moveit::planning_interface::MoveGroupInterface right_hand_move_group_interface(right_hand_group);
 
-    moveit::planning_interface::MoveGroupInterface lft_arm_move_group_interface(lft_arm_group);
-    moveit::planning_interface::MoveGroupInterface lft_hand_move_group_interface(lft_hand_group);
+    moveit::planning_interface::MoveGroupInterface left_arm_move_group_interface(left_arm_group);
+    moveit::planning_interface::MoveGroupInterface left_hand_move_group_interface(left_hand_group);
 
 3. Set the arms goal poses to the pre-defined ``ready`` pose. ::
    
-    rgt_arm_move_group_interface.setNamedTarget("ready");
-    lft_arm_move_group_interface.setNamedTarget("ready");
+    right_arm_move_group_interface.setNamedTarget("ready");
+    left_arm_move_group_interface.setNamedTarget("ready");
 
 4. Plan the arms motions, and if the planning is successful move arms and open grippers. ::
    
-    bool rgt_success = (rgt_arm_move_group_interface.plan(rgt_arm_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
-    bool lft_success = (lft_arm_move_group_interface.plan(lft_arm_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+    bool right_success = (right_arm_move_group_interface.plan(right_arm_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+    bool left_success = (left_arm_move_group_interface.plan(left_arm_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
 
-    if (rgt_success)
+    if (right_success)
     {
-        rgt_arm_move_group_interface.execute(rgt_arm_plan);
+        right_arm_move_group_interface.execute(right_arm_plan);
 
-        rgt_hand_move_group_interface.setNamedTarget("open");
-        rgt_hand_move_group_interface.move();
+        right_hand_move_group_interface.setNamedTarget("open");
+        right_hand_move_group_interface.move();
     }
 
-    if (lft_success)
+    if (left_success)
     {
-        lft_arm_move_group_interface.execute(lft_arm_plan);
+        left_arm_move_group_interface.execute(left_arm_plan);
 
-        lft_hand_move_group_interface.setNamedTarget("open");
-        lft_hand_move_group_interface.move();
+        left_hand_move_group_interface.setNamedTarget("open");
+        left_hand_move_group_interface.move();
     }
 
 5. In the last step, the arms are tasked to move with respect to their current poses. The right arm moves 0.10 meter up, and the left arm moves 0.10 forward. Here is the code for moving the right arm up. ::
    
-    geometry_msgs::PoseStamped current_rgt_arm_pose = rgt_arm_move_group_interface.getCurrentPose();
-    geometry_msgs::PoseStamped target_rgt_arm_pose = current_rgt_arm_pose;
+    geometry_msgs::PoseStamped current_right_arm_pose = right_arm_move_group_interface.getCurrentPose();
+    geometry_msgs::PoseStamped target_right_arm_pose = current_right_arm_pose;
 
-    target_rgt_arm_pose.pose.position.z += 0.10;
+    target_right_arm_pose.pose.position.z += 0.10;
 
-    rgt_arm_move_group_interface.setPoseTarget(target_rgt_arm_pose);
-    rgt_success = (rgt_arm_move_group_interface.plan(rgt_arm_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+    right_arm_move_group_interface.setPoseTarget(target_right_arm_pose);
+    right_success = (right_arm_move_group_interface.plan(right_arm_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
 
-    if (rgt_success)
+    if (right_success)
     {
-        rgt_arm_move_group_interface.execute(rgt_arm_plan);
+        right_arm_move_group_interface.execute(right_arm_plan);
     }
 
 
