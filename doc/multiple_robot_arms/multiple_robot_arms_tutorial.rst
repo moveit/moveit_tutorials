@@ -161,7 +161,7 @@ MoveIt Setup Assistant is used to configure our multiple robot arms for using th
 Follow the MoveIt Setup Assistant `tutorial <https://ros-planning.github.io/moveit_tutorials/doc/setup_assistant/setup_assistant_tutorial.html>`_ to configure the arms. Note that we will be making a separate move group for each arm and hand. The groups are called ``rgt_arm``, ``lft_arm``, ``rgt_hand``, and ``lft_hand``. 
 
 
-I want to consider two more point along with the the Setup Assistant tutorial 
+Here are two more steps which are not required but they are often useful:
 
 1. Define a practical `ready` pose for both arms with joint values {0.0, -0.785, 0.0, -2.356, 0.0, 1.571, 0.785}.
 
