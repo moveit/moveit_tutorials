@@ -528,6 +528,6 @@ If all steps are done, this should bring up all the required components for the 
 Step 5: Plan arms motions with MoveIt Move Group Interface.
 -----------------------------------------------------------
 
-When writing code for multiple move groups, motion planning works the same way it did in previous tutorials. There is an `example here for multiple move groups. <https://github.com/Robotawi/panda_arms_ws/blob/master/src/panda_multiple_arms/src/plan_simple_motion.cpp>`_ and a `minimal CMakeLists.txt <https://github.com/Robotawi/panda_arms_ws/blob/master/src/panda_multiple_arms/CMakeLists.txt>`_ file with the dependencies to use Moveit Move Group Interface and describe the arms poses. This `short YouTube video <https://youtu.be/sxUQh91oQxM>`_ shows the resulting arms and hands motions. 
+When writing code for multiple move groups, motion planning works the same way it did in previous tutorials. There is an `example here for multiple move groups <https://github.com/Robotawi/panda_arms_ws/blob/master/src/panda_multiple_arms/src/plan_simple_motion.cpp>`_ and a `minimal CMakeLists.txt <https://github.com/Robotawi/panda_arms_ws/blob/master/src/panda_multiple_arms/CMakeLists.txt>`_ file with the dependencies to use Moveit Move Group Interface and describe the arms poses. This `short YouTube video <https://youtu.be/sxUQh91oQxM>`_ shows the resulting arms and hands motions. 
 
-Refer to `MoveIt tutorials <https://ros-planning.github.io/moveit_tutorials/doc/move_group_interface/move_group_interface_tutorial.html>`_ to learn more about the Move Group Interface.
+Refer to MoveIt tutorials to learn more about the `Move Group Interface <https://ros-planning.github.io/moveit_tutorials/doc/move_group_interface/move_group_interface_tutorial.html>`_.
