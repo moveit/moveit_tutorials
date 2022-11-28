@@ -410,7 +410,7 @@ The remaining part of this step explains how to modify the auto-generated contro
           - left_arm_joint6
           - left_arm_joint7
 
-      #notice that the grippers joint2 mimics joint1
+      #notice that the gripper's joint2 mimics joint1
       #this is why it is not listed under the hand controllers
 
       - name: right_hand_controller
@@ -449,8 +449,7 @@ Step 4: Integrate the simulation in Gazebo with MoveIt motion planning
 
 At the integration step, we need to ensure that ROS packages for ROS control, Gazebo ROS control, MoveIt ROS control interface, and MoveIt planners are installed and sourced on our ROS environment. Install the required ROS packages as follows, and **source** your ROS environment::
 
- sudo apt install sudo apt-get install ros-noetic-ros-control ros-noetic-ros-controllers ros-noetic-joint-state-controller ros-noetic-effort-controllers ros-noetic-position-controllers ros-noetic-velocity-controllers ros-noetic-gazebo-ros ros-noetic-gazebo-ros-control ros-noetic-moveit-ros-control-interface ros-noetic-moveit-simple-controller-manager
- ros-noetic-moveit-fake-controller-manager ros-noetic-moveit-planners
+ sudo apt install ros-noetic-ros-control ros-noetic-ros-controllers ros-noetic-joint-state-controller ros-noetic-effort-controllers ros-noetic-position-controllers ros-noetic-velocity-controllers ros-noetic-gazebo-ros ros-noetic-gazebo-ros-control ros-noetic-moveit-ros-control-interface ros-noetic-moveit-simple-controller-manager ros-noetic-moveit-fake-controller-manager ros-noetic-moveit-planners
 
 For the integration to work, we need to prepare a launch file to start three components. Those components are the simulated robot in Gazebo, ROS controllers, and MoveIt motion plannig executable. We have already prepared the ``control_utils.launch`` file to load the ROS controllers, and the required MoveIt motion planning file ``move_group.launch`` is auto-generated. Then, our tasks here are to start the simulated robot in a Gazebo world, and prepare a launch file that starts the mentioned three components.
 
