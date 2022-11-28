@@ -82,7 +82,7 @@ Include sensor plugin in a ``.gazebo`` file. In this tutorial, a kinect sensor p
     </gazebo>
 
 
-Attach sensor to `base urdf <https://github.com/ros-industrial/universal_robot/blob/melodic-devel/ur_description/urdf/ur5.urdf.xacro>`_ of UR5 using links and joints as shown in ``ur5_sensor.urdf.xacro`` ::
+Attach sensor to `base urdf <https://github.com/ros-industrial/universal_robot/blob/melodic-devel/ur_description/urdf/ur5.xacro>`_ of UR5 using links and joints as shown in ``ur5_sensor.urdf.xacro`` ::
 
     <!-- ur5 -->
     <xacro:include filename="$(find ur_description)/urdf/ur5.urdf.xacro" />

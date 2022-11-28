@@ -68,6 +68,7 @@ Before attempting to integrate a new robot with MoveIt, check whether your robot
    doc/ikfast/ikfast_tutorial
    doc/trac_ik/trac_ik_tutorial
    doc/opw_kinematics/opw_kinematics_tutorial
+   doc/multiple_robot_arms/multiple_robot_arms_tutorial
 
 Configuration
 -------------
