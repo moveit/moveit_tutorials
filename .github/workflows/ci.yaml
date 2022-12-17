@@ -8,6 +8,9 @@ on:
   pull_request:
   push:
 
+permissions:
+  contents: read # to fetch code (actions/checkout)
+
 jobs:
   default:
     strategy:
@@ -26,19 +29,21 @@ jobs:
     name: ${{ matrix.env.IMAGE }}${{ matrix.env.CATKIN_LINT && ' + catkin_lint' || ''}}${{ matrix.env.CLANG_TIDY && ' + clang-tidy' || '' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       # The target directory cache doesn't include the source directory because
       # that comes from the checkout.  See "prepare target_ws for cache" task below
-      - name: cache target_ws
-        uses: pat-s/always-upload-cache@v2.1.5
+      - name: Cache target workspace
+        if: "!matrix.env.CCOV"
+        uses: rhaschke/cache@main
         with:
           path: ${{ env.BASEDIR }}/target_ws
           key: ${{ env.CACHE_PREFIX }}-${{ github.run_id }}
           restore-keys: ${{ env.CACHE_PREFIX }}
         env:
+          GHA_CACHE_SAVE: always
           CACHE_PREFIX: target_ws-${{ matrix.env.IMAGE }}-${{ hashFiles('**/CMakeLists.txt', '**/package.xml') }}
-      - name: cache ccache
-        uses: pat-s/always-upload-cache@v2.1.5
+      - name: Cache ccache
+        uses: rhaschke/cache@main
         with:
           path: ${{ env.CCACHE_DIR }}
           key: ${{ env.CACHE_PREFIX }}-${{ github.sha }}-${{ github.run_id }}
@@ -46,18 +51,20 @@ jobs:
             ${{ env.CACHE_PREFIX }}-${{ github.sha }}
             ${{ env.CACHE_PREFIX }}
         env:
+          GHA_CACHE_SAVE: always
           CACHE_PREFIX: ccache-${{ matrix.env.IMAGE }}
 
-      - name: industrial_ci
+      - name: Run industrial_ci
         uses: ros-industrial/industrial_ci@master
+        env: ${{ matrix.env }}
 
-      - name: upload test artifacts (on failure)
-        uses: actions/upload-artifact@v2
-        if: failure()
+      - name: Upload test artifacts (on failure)
+        uses: actions/upload-artifact@v3
+        if: failure() && (steps.ici.outputs.run_target_test || steps.ici.outputs.target_test_results)
         with:
-          name: test-results
+          name: test-results-${{ matrix.env.IMAGE }}
           path: ${{ env.BASEDIR }}/target_ws/**/test_results/**/*.xml
-      - name: prepare target_ws for cache
+      - name: Prepare target_ws for cache
         if: ${{ always() }}
         run: |
           du -sh ${{ env.BASEDIR }}/target_ws

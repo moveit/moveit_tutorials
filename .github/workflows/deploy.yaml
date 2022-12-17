@@ -7,23 +7,44 @@ on:
     branches:
       - master
 
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
-  default:
+  doc:
     name: Build + Test + Deploy Website
     runs-on: ubuntu-latest
     container: ros:noetic-ros-base
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
+    - name: Setup Pages
+      uses: actions/configure-pages@v2
+      if: github.repository_owner == 'ros-planning'
     - name: "Install ruby"
       run: |
         apt-get update -q
         apt-get install -q -y ruby-dev libffi-dev build-essential git
+
     - name: "Run htmlproofer.sh"
       run: ./htmlproofer.sh
-    - name: Deploy
-      if: ${{ success() && github.event_name == 'push'}}
-      uses: peaceiris/actions-gh-pages@v3
+
+    - name: Upload pages artifact
+      uses: actions/upload-pages-artifact@v1
+      if: github.repository_owner == 'ros-planning'
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./build/html
-        force_orphan: true
+        path: build/html
+
+  deploy:
+    if: github.repository_owner == 'ros-planning' && github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    needs: doc
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
