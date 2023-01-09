@@ -195,7 +195,7 @@ Database Loading and Usage
 --------------------------
 The constraints database must be loaded at launch of the move group node by setting the ros parameter::
 
- <param name="move_group/constraint_approximations_path" value="<path_to_database>"/>
+ <param name="move_group/planning_pipelines/ompl/constraint_approximations_path" value="<path_to_database>"/>
 
 To verify if the database was found an successfully loaded check if the named constraint is shown in the log.
 
