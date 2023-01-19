@@ -73,7 +73,7 @@ are explained below.
 For a general introduction on how to fill a ``MotionPlanRequest`` see
 :ref:`move_group_interface-planning-to-pose-goal`.
 
-You can specify "PTP", "LIN" or "CIRC" as the ``planner\_id``of the ``MotionPlanRequest``.
+You can specify "PTP", "LIN" or "CIRC" as the ``planner_id``of the ``MotionPlanRequest``.
 
 The PTP motion command
 ----------------------
