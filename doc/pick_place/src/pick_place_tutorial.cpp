@@ -86,6 +86,9 @@ void pick(moveit::planning_interface::MoveGroupInterface& move_group)
   std::vector<moveit_msgs::Grasp> grasps;
   grasps.resize(1);
 
+  // Allow collisions of panda_hand_sc with object
+  grasps[0].allowed_touch_objects.push_back("panda_hand_sc");
+
   // Setting grasp pose
   // ++++++++++++++++++++++
   // This is the pose of panda_link8. |br|
