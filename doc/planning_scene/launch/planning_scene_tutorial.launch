@@ -1,6 +1,7 @@
 <launch>
   <!-- send Panda urdf to parameter server -->
-  <param name="robot_description" command="$(find xacro)/xacro '$(find franka_description)/robots/panda_arm.urdf.xacro' hand:=true" />
+  <param name="robot_description"
+    command="$(find xacro)/xacro '$(find franka_description)/robots/panda/panda.urdf.xacro' hand:=true"/>
 
   <include file="$(find panda_moveit_config)/launch/planning_context.launch"/>
 
