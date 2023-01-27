@@ -34,7 +34,7 @@
 
 /* Author: Sachin Chitta, Mike Lautman*/
 
-#include <pluginlib/class_loader.h>
+#include <pluginlib/class_loader.hpp>
 #include <ros/ros.h>
 
 // MoveIt

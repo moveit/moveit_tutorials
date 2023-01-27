@@ -38,7 +38,7 @@
 
 #include <ros/ros.h>
 
-#include <pluginlib/class_loader.h>
+#include <pluginlib/class_loader.hpp>
 
 // MoveIt!
 #include <moveit/robot_model_loader/robot_model_loader.h>
