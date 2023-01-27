@@ -89,12 +89,12 @@ InteractiveRobot::InteractiveRobot(const std::string& robot_description, const s
 
   // Create a marker to control the "panda_arm" group
   imarker_robot_ = new IMarker(interactive_marker_server_, "robot", desired_group_end_link_pose_, "/panda_link0",
-                               boost::bind(movedRobotMarkerCallback, this, _1), IMarker::BOTH);
+                               boost::bind(movedRobotMarkerCallback, this, boost::placeholders::_1), IMarker::BOTH);
 
   // create an interactive marker to control the world geometry (the yellow cube)
   desired_world_object_pose_ = DEFAULT_WORLD_OBJECT_POSE_;
   imarker_world_ = new IMarker(interactive_marker_server_, "world", desired_world_object_pose_, "/panda_link0",
-                               boost::bind(movedWorldMarkerCallback, this, _1), IMarker::POS);
+                               boost::bind(movedWorldMarkerCallback, this, boost::placeholders::_1), IMarker::POS);
 
   // start publishing timer.
   init_time_ = ros::Time::now();
