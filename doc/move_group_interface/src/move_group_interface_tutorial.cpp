@@ -116,6 +116,9 @@ int main(int argc, char** argv)
   std::copy(move_group_interface.getJointModelGroupNames().begin(),
             move_group_interface.getJointModelGroupNames().end(), std::ostream_iterator<std::string>(std::cout, ", "));
 
+  // We can get the current state of the robot as well
+  moveit::core::RobotStatePtr initial_state = move_group_interface.getCurrentState();
+
   // Start the demo
   // ^^^^^^^^^^^^^^^^^^^^^^^^^
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to start the demo");
@@ -152,53 +155,11 @@ int main(int argc, char** argv)
   visual_tools.trigger();
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
 
-  // Finally, to execute the trajectory stored in my_plan, you could use the following method call:
-  // Note that this can lead to problems if the robot moved in the meanwhile.
-  // move_group_interface.execute(my_plan);
-
   // Moving to a pose goal
   // ^^^^^^^^^^^^^^^^^^^^^
-  //
-  // If you do not want to inspect the planned trajectory,
-  // the following is a more robust combination of the two-step plan+execute pattern shown above
-  // and should be preferred. Note that the pose goal we had set earlier is still active,
-  // so the robot will try to move to that goal.
-
-  // move_group_interface.move();
-
-  // Planning to a joint-space goal
-  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  //
-  // Let's set a joint space goal and move towards it.  This will replace the
-  // pose target we set above.
-  //
-  // To start, we'll create an pointer that references the current robot's state.
-  // RobotState is the object that contains all the current position/velocity/acceleration data.
-  moveit::core::RobotStatePtr current_state = move_group_interface.getCurrentState();
-  //
-  // Next get the current set of joint values for the group.
-  std::vector<double> joint_group_positions;
-  current_state->copyJointGroupPositions(joint_model_group, joint_group_positions);
-
-  // Now, let's modify one of the joints, plan to the new joint space goal and visualize the plan.
-  joint_group_positions[0] = -tau / 6;  // -1/6 turn in radians
-  move_group_interface.setJointValueTarget(joint_group_positions);
-
-  // We lower the allowed maximum velocity and acceleration to 5% of their maximum.
-  // The default values are 10% (0.1).
-  // Set your preferred defaults in the joint_limits.yaml file of your robot's moveit_config
-  // or set explicit factors in your code if you need your robot to move faster.
-  move_group_interface.setMaxVelocityScalingFactor(0.05);
-  move_group_interface.setMaxAccelerationScalingFactor(0.05);
-
-  success = (move_group_interface.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
-  ROS_INFO_NAMED("tutorial", "Visualizing plan 2 (joint space goal) %s", success ? "" : "FAILED");
-
-  // Visualize the plan in RViz
-  visual_tools.deleteAllMarkers();
-  visual_tools.publishText(text_pose, "Joint Space Goal", rvt::WHITE, rvt::XLARGE);
-  visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group);
-  visual_tools.trigger();
+  // Finally, to execute the trajectory stored in :code:`my_plan`, you can use the following method call.
+  // Note that this can lead to problems if the robot moved between planning and this call.
+  move_group_interface.execute(my_plan);
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
 
   // Planning with Path Constraints
@@ -237,22 +198,18 @@ int main(int argc, char** argv)
   // sampling to find valid requests. Please note that this might
   // increase planning time considerably.
   //
-  // We will reuse the old goal that we had and plan to it.
+  // We will plan to a new pose goal.
   // Note that this will only work if the current state already
-  // satisfies the path constraints. So we need to set the start
-  // state to a new pose.
-  moveit::core::RobotState start_state(*move_group_interface.getCurrentState());
-  geometry_msgs::Pose start_pose2;
-  start_pose2.orientation.w = 1.0;
-  start_pose2.position.x = 0.55;
-  start_pose2.position.y = -0.05;
-  start_pose2.position.z = 0.8;
-  start_state.setFromIK(joint_model_group, start_pose2);
-  move_group_interface.setStartState(start_state);
+  // satisfies the path constraints.
+  geometry_msgs::Pose target_pose2;
+  target_pose2.orientation.w = 1.0;
+  target_pose2.position.x = 0.55;
+  target_pose2.position.y = -0.05;
+  target_pose2.position.z = 0.8;
 
-  // Now we will plan to the earlier pose target from the new
-  // start state that we have just created.
-  move_group_interface.setPoseTarget(target_pose1);
+  // Now we will plan from the current state to the new target pose that we have just created.
+  move_group_interface.setStartStateToCurrentState();
+  move_group_interface.setPoseTarget(target_pose2);
 
   // Planning with constraints can be slow because every sample must call an inverse kinematics solver.
   // Lets increase the planning time from the default 5 seconds to be sure the planner has enough time to succeed.
@@ -263,12 +220,16 @@ int main(int argc, char** argv)
 
   // Visualize the plan in RViz
   visual_tools.deleteAllMarkers();
-  visual_tools.publishAxisLabeled(start_pose2, "start");
+  visual_tools.publishAxisLabeled(target_pose2, "start");
   visual_tools.publishAxisLabeled(target_pose1, "goal");
   visual_tools.publishText(text_pose, "Constrained Goal", rvt::WHITE, rvt::XLARGE);
   visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group);
   visual_tools.trigger();
-  visual_tools.prompt("next step");
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
+
+  // Execute the previous plan
+  move_group_interface.execute(my_plan);
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
 
   // When done with the path constraint be sure to clear it.
   move_group_interface.clearPathConstraints();
@@ -277,12 +238,10 @@ int main(int argc, char** argv)
   // ^^^^^^^^^^^^^^^
   // You can plan a Cartesian path directly by specifying a list of waypoints
   // for the end-effector to go through. Note that we are starting
-  // from the new start state above.  The initial pose (start state) does not
+  // from the new start target above.  The initial pose (start state) does not
   // need to be added to the waypoint list but adding it can help with visualizations
   std::vector<geometry_msgs::Pose> waypoints;
-  waypoints.push_back(start_pose2);
-
-  geometry_msgs::Pose target_pose3 = start_pose2;
+  geometry_msgs::Pose target_pose3 = target_pose2;
 
   target_pose3.position.z -= 0.2;
   waypoints.push_back(target_pose3);  // down
@@ -319,9 +278,38 @@ int main(int argc, char** argv)
   // plans cannot currently be set through the maxVelocityScalingFactor, but requires you to time
   // the trajectory manually, as described `here <https://groups.google.com/forum/#!topic/moveit-users/MOoFxy2exT4>`_.
   // Pull requests are welcome.
-  //
-  // You can execute a trajectory like this.
   move_group_interface.execute(trajectory);
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
+
+  // Planning to a joint-space goal
+  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  //
+  // Let's set a joint space goal and move towards it. We will pick the initial state the robot started in at the
+  // beginning of the tutorial
+  std::vector<double> joint_group_positions;
+  initial_state->copyJointGroupPositions(joint_model_group, joint_group_positions);
+
+  // We can directly set a joint state target
+  move_group_interface.setJointValueTarget(joint_group_positions);
+  move_group_interface.setStartStateToCurrentState();
+
+  // We lower the allowed maximum velocity and acceleration to 5% of their maximum.
+  // The default values are 10% (0.1).
+  // Set your preferred defaults in the joint_limits.yaml file of your robot's moveit_config
+  // or set explicit factors in your code if you need your robot to move faster.
+  move_group_interface.setMaxVelocityScalingFactor(0.05);
+  move_group_interface.setMaxAccelerationScalingFactor(0.05);
+
+  // Visualize the plan in RViz
+  visual_tools.deleteAllMarkers();
+  visual_tools.publishText(text_pose, "Joint Space Move", rvt::WHITE, rvt::XLARGE);
+  visual_tools.trigger();
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
+
+  // If you do not want to inspect the planned trajectory, the following is a more robust combination of the two-step
+  // plan+execute pattern shown above and should be preferred.
+  move_group_interface.move();
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
 
   // Adding objects to the environment
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
