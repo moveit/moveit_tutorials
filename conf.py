@@ -80,13 +80,13 @@ extlinks = {
     "moveit_core": (
         "http://docs.ros.org/"
         + ros_distro
-        + "/api/moveit_core/html/cpp/classmoveit_1_1core_1_1%s.html",
+        + "/api/moveit_core/html/classmoveit_1_1core_1_1%s.html",
         "",
     ),
     "planning_scene": (
         "http://docs.ros.org/"
         + ros_distro
-        + "/api/moveit_core/html/cpp/classplanning__scene_1_1%s.html",
+        + "/api/moveit_core/html/classplanning__scene_1_1%s.html",
         "",
     ),
     "planning_scene_monitor": (
@@ -98,23 +98,23 @@ extlinks = {
     "collision_detection_struct": (
         "http://docs.ros.org/"
         + ros_distro
-        + "/api/moveit_core/html/cpp/structcollision__detection_1_1%s.html",
+        + "/api/moveit_core/html/structcollision__detection_1_1%s.html",
         "",
     ),
     "collision_detection_class": (
         "http://docs.ros.org/"
         + ros_distro
-        + "/api/moveit_core/html/cpp/classcollision__detection_1_1%s.html",
+        + "/api/moveit_core/html/classcollision__detection_1_1%s.html",
         "",
     ),
     "kinematic_constraints": (
         "http://docs.ros.org/"
         + ros_distro
-        + "/api/moveit_core/html/cpp/classkinematic__constraints_1_1%s.html",
+        + "/api/moveit_core/html/classkinematic__constraints_1_1%s.html",
         "",
     ),
     "moveit_core_files": (
-        "http://docs.ros.org/" + ros_distro + "/api/moveit_core/html/cpp/%s.html",
+        "http://docs.ros.org/" + ros_distro + "/api/moveit_core/html/%s.html",
         "",
     ),
     "moveit_website": ("http://moveit.ros.org/%s/", ""),
