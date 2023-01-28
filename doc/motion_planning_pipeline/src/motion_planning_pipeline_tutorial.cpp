@@ -66,12 +66,14 @@ int main(int argc, char** argv)
   //     http://docs.ros.org/melodic/api/moveit_ros_planning/html/classrobot__model__loader_1_1RobotModelLoader.html
   robot_model_loader::RobotModelLoader robot_model_loader("robot_description");
   robot_model::RobotModelPtr robot_model = robot_model_loader.getModel();
+  robot_state::RobotState robot_state(robot_model);
+  const robot_state::JointModelGroup* joint_model_group = robot_state.getJointModelGroup("panda_arm");
 
   // Using the :moveit_core:`RobotModel`, we can construct a
   // :planning_scene:`PlanningScene` that maintains the state of
   // the world (including the robot).
   planning_scene::PlanningScenePtr planning_scene(new planning_scene::PlanningScene(robot_model));
-
+  planning_scene->getCurrentStateNonConst().setToDefaultValues(joint_model_group, "ready");
   // We can now setup the PlanningPipeline
   // object, which will use the ROS parameter server
   // to determine the set of request adapters and the
@@ -166,9 +168,7 @@ int main(int argc, char** argv)
   // Joint Space Goals
   // ^^^^^^^^^^^^^^^^^
   /* First, set the state in the planning scene to the final state of the last plan */
-  robot_state::RobotState& robot_state = planning_scene->getCurrentStateNonConst();
   planning_scene->setCurrentState(response.trajectory_start);
-  const robot_model::JointModelGroup* joint_model_group = robot_state.getJointModelGroup("panda_arm");
   robot_state.setJointGroupPositions(joint_model_group, response.trajectory.joint_trajectory.points.back().positions);
 
   // Now, setup a joint space goal
