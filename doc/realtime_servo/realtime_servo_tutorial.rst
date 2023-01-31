@@ -22,7 +22,7 @@ Clone `universal_robot melodic-devel branch <https://github.com/ros-industrial/u
 
     cd ~/ws_moveit/src
 
-    git clone -b 1.2.7 https://github.com/ros-industrial/universal_robot
+    git clone -b melodic-devel https://github.com/ros-industrial/universal_robot
 
 Install any new dependencies that may be missing: ::
 
