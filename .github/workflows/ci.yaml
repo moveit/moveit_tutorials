@@ -18,6 +18,7 @@ jobs:
         env:
           - IMAGE: master-source  # MoveIt master branch built on Melodic
           - IMAGE: noetic-source  # MoveIt master branch built on Noetic
+            CLANG_TIDY: pedantic
     env:
       DOCKER_IMAGE: moveit/moveit:${{ matrix.env.IMAGE }}
       UNDERLAY: /root/ws_moveit/install
@@ -25,7 +26,9 @@ jobs:
       CCACHE_DIR: ${{ github.workspace }}/.ccache
       BASEDIR: ${{ github.workspace }}/.work
       CLANG_TIDY_BASE_REF: ${{ github.base_ref || github.ref }}
-      CXXFLAGS: -Wall -Wextra -Wwrite-strings -Wunreachable-code -Wpointer-arith -Wredundant-decls
+      CXXFLAGS: -Werror -Wall -Wextra -Wwrite-strings -Wunreachable-code -Wpointer-arith -Wredundant-decls
+      CC: ${{ matrix.env.CLANG_TIDY && 'clang' }}
+      CXX: ${{ matrix.env.CLANG_TIDY && 'clang++' }}
 
     name: ${{ matrix.env.IMAGE }}${{ matrix.env.CATKIN_LINT && ' + catkin_lint' || ''}}${{ matrix.env.CLANG_TIDY && ' + clang-tidy' || '' }}
     runs-on: ubuntu-latest
