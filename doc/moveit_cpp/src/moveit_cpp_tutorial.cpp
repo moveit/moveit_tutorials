@@ -32,7 +32,7 @@ int main(int argc, char** argv)
   ROS_INFO_STREAM_NAMED(LOGNAME, "Starting MoveIt Tutorials...");
 
   auto moveit_cpp_ptr = std::make_shared<moveit_cpp::MoveItCpp>(nh);
-  moveit_cpp_ptr->getPlanningSceneMonitor()->providePlanningSceneService();
+  moveit_cpp_ptr->getPlanningSceneMonitorNonConst()->providePlanningSceneService();
 
   auto planning_components = std::make_shared<moveit_cpp::PlanningComponent>(PLANNING_GROUP, moveit_cpp_ptr);
   auto robot_model_ptr = moveit_cpp_ptr->getRobotModel();
@@ -45,7 +45,7 @@ int main(int argc, char** argv)
   // The package MoveItVisualTools provides many capabilities for visualizing objects, robots,
   // and trajectories in RViz as well as debugging tools such as step-by-step introspection of a script
   moveit_visual_tools::MoveItVisualTools visual_tools("panda_link0", rvt::RVIZ_MARKER_TOPIC,
-                                                      moveit_cpp_ptr->getPlanningSceneMonitor());
+                                                      moveit_cpp_ptr->getPlanningSceneMonitorNonConst());
   visual_tools.deleteAllMarkers();
   visual_tools.loadRemoteControl();
 
