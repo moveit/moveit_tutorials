@@ -65,6 +65,9 @@ Several planners that are part of the OMPL planning library are capable of optim
 * SPARS
 * SPARS2
 * Transition-based RRT (T-RRT)
+* AIT*
+* BIT*
+* ABIT*
 
 OMPL also provides a meta-optimization algorithm called AnytimePathShortening, which repeatedly runs several planners in parallel interleaved with path shortcutting and path hybridization, two techniques that locally optimize a solution path. Although not *proven* optimal, it is often an effective strategy in practice to obtaining near-optimal solution paths.
 
