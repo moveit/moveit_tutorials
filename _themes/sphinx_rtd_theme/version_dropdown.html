@@ -2,8 +2,6 @@
     <div class="version-dropdown">
         <lable for="version-list">Version:</lable>
     <select class="version-list" id="version-list" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
-        <option value="https://moveit.picknik.ai/foxy/index.html">Moveit 2 - Foxy</option>
-        <option value="https://moveit.picknik.ai/galactic/index.html">Moveit 2 - Galactic</option>
         <option value="https://moveit.picknik.ai/humble/index.html">Moveit 2 - Humble</option>
         <option value="https://moveit.picknik.ai/main/index.html">Moveit 2 - Rolling</option>
         <option value='' selected>MoveIt 1 - {{ version }}</option>
