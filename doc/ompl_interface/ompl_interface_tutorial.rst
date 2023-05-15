@@ -65,6 +65,9 @@ Several planners that are part of the OMPL planning library are capable of optim
 * SPARS
 * SPARS2
 * Transition-based RRT (T-RRT)
+* Adaptively Informed Tree (AIT*)
+* Batched Informed Tree (BIT*)
+* Advanced Batched Informed Tree (ABIT*)
 
 OMPL also provides a meta-optimization algorithm called AnytimePathShortening, which repeatedly runs several planners in parallel interleaved with path shortcutting and path hybridization, two techniques that locally optimize a solution path. Although not *proven* optimal, it is often an effective strategy in practice to obtaining near-optimal solution paths.
 
@@ -73,7 +76,6 @@ Other optimal planners in OMPL but not exposed in MoveIt yet:
 * RRT#
 * RRTX
 * Informed RRT*
-* Batch Informed Trees (BIT*)
 * Sparse Stable RRT
 * CForest
 
