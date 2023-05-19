@@ -80,10 +80,12 @@ InteractiveRobot::InteractiveRobot(const std::string& robot_description, const s
     ROS_ERROR("Could not get RobotState from Model");
     throw RobotLoadException();
   }
-  robot_state_->setToDefaultValues();
 
   // Prepare to move the "panda_arm" group
   group_ = robot_state_->getJointModelGroup("panda_arm");
+  // Initialize pose to "ready"
+  robot_state_->setToDefaultValues(group_, "ready");
+
   std::string end_link = group_->getLinkModelNames().back();
   desired_group_end_link_pose_ = robot_state_->getGlobalLinkTransform(end_link);
 
