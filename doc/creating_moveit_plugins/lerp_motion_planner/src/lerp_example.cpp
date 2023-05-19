@@ -107,7 +107,7 @@ int main(int argc, char** argv)
   req.start_state.joint_state.position = start_joint_values;
 
   // Goal constraint
-  std::vector<double> goal_joint_values = { 0.8, 0.7, 1, 1.3, 1.9, 2.2, 3 };
+  std::vector<double> goal_joint_values = { 0.0, 0.0, 0.0, -M_PI_2, 0.0, M_PI_2, M_PI_4 };
   robot_state->setJointGroupPositions(joint_model_group, goal_joint_values);
   robot_state->update();
   moveit_msgs::Constraints joint_goal =
