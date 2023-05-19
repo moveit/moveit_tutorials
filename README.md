@@ -25,7 +25,7 @@ This repository is currently built automatically by two systems. Github Actions 
 
 ## Build Locally
 
-If you want to test the tutorials by generating the html pages locally on your machine, you can use the ``build_locally`` script.
+If you want to test the tutorials by generating the HTML pages locally on your machine, you can use the ``build_locally`` script.
 Run in the root of the moveit_tutorials package:
 
     export ROS_DISTRO=kinetic # 16.04
@@ -39,20 +39,20 @@ The local website ``<LOCAL_PACKAGE_PATH>/build/html/index.html`` should automati
 
 ## ROS Build Farm Deployment
 
-For deploying documentation changes to the web, [Section 3 of rosdoc_lite wiki](http://wiki.ros.org/rosdoc_lite) says that "rosdoc_lite is automatically run for packages in repositories that have rosinstall files listed in the rosdistro repository." This is done about once every 24 hours, [overnight](http://wiki.ros.org/rosdistro/Tutorials/Indexing%20Your%20ROS%20Repository%20for%20Documentation%20Generation).
+For deploying documentation changes to the web, [Section 3 of the rosdoc_lite wiki](http://wiki.ros.org/rosdoc_lite) says that "rosdoc_lite is automatically run for packages in repositories that have rosinstall files listed in the rosdistro repository." This is done about once every 24 hours, [overnight](http://wiki.ros.org/rosdistro/Tutorials/Indexing%20Your%20ROS%20Repository%20for%20Documentation%20Generation).
 
 ## Contributing
 
-We rely on the community to keep these tutorials up to date and bug free. If you find an issue with the tutorials please [open an issue on GitHub](https://github.com/ros-planning/moveit_tutorials/issues/new) or open a PR with proposed changes.
+We rely on the community to keep these tutorials up-to-date and bug-free. If you find an issue with the tutorials please [open an issue on GitHub](https://github.com/ros-planning/moveit_tutorials/issues/new) or open a PR with the proposed changes.
 
 ### Formatting and Style
 
 **Code Formatting**
 
-* These tutorials use the same [style guidelines](http://moveit.ros.org/documentation/contributing/code/) as the MoveIt project. When modifying or adding to these tutorials, it is required that code is auto formatted using [clang-format](http://moveit.ros.org/documentation/contributing/code/). To check and apply our style guidelines we use [pre-commit](https://pre-commit.com/).
+* These tutorials use the same [style guidelines](http://moveit.ros.org/documentation/contributing/code/) as the MoveIt project. When modifying or adding to these tutorials, it is required that code is auto-formatted using [clang-format](http://moveit.ros.org/documentation/contributing/code/). To check and apply the style guidelines we use [pre-commit](https://pre-commit.com/).
 * Tutorials should exemplify best coding practices. If a contribution wouldn't pass review in the MoveIt project, then it shouldn't pass review in the tutorials.
 * Relevant code should be included and explained using the ``.. tutorial-formatter::`` tag.
-* Irrelevant code should be excluded from the generated html using the ``BEGIN_TUTORIAL``, ``END_TUTORIAL``, ``BEGIN_SUB_TUTORIAL``, and ``END_SUB_TUTORIAL`` tags.
+* Irrelevant code should be excluded from the generated HTML using the ``BEGIN_TUTORIAL``, ``END_TUTORIAL``, ``BEGIN_SUB_TUTORIAL``, and ``END_SUB_TUTORIAL`` tags.
 * Whenever possible, links should be created using the ``extlinks`` dictionary defined in ``conf.py``.
 * All demo code should be runnable from within the ``moveit_tutorials`` package.
 * Python code should be run using ``rosrun``.
@@ -61,7 +61,7 @@ We rely on the community to keep these tutorials up to date and bug free. If you
 
 * Each tutorial should be focused on teaching the user one feature or interface within MoveIt.
 * Tutorials should flow from show to tell with videos and demos at the beginning followed by explanations.
-* New tutorials should match the formatting, style and flow of existing tutorials whenever possible.
+* New tutorials should match the formatting, style, and flow of existing tutorials whenever possible.
 
 **pre-commit**
 
@@ -69,11 +69,11 @@ pre-commit is a tool that is used in ``moveit_tutorials`` to check and apply sty
 
     pip3 install pre-commit
 
-In you catkin workspace, under ``moveit_tutorials`` directory you can install the git hooks like this:
+In your catkin workspace, under the``moveit_tutorials`` directory you can install the git hooks like this:
 
     cd $CATKIN_WS/src/moveit_tutorials && pre-commit install
 
-With this pre-commit will automatically run and check a list of styling including clang-format, end of files and trailing whitespaces whenever you run ``git commit``. To run pre-commit any time other than ``git commit`` you can use the following command:
+With this pre-commit will automatically run and check a list of styling including clang-format, end of files, and trailing whitespaces whenever you run ``git commit``. To run a pre-commit at any time other than ``git commit`` you can use the following command:
 
     cd $CATKIN_WS/src/moveit_tutorials && pre-commit run -a
 
@@ -122,10 +122,10 @@ This assumes that `filename.png` is in the same folder as the source `.rst` file
 
 [External Documentation](https://sublime-and-sphinx-guide.readthedocs.io/en/latest/images.html)
 
-Do **not** include animated gifs as the file format leads to very large files. Use a video format like `webm` and see the section on local video below.
+Do **not** include animated gifs as the file format leads to very large files. Use a video format like `webm` and see the section on the local video below.
 
 #### YouTube and other External Video
-You can embed video with raw html, like in this example from the Pick and Place Tutorial.
+You can embed video with raw HTML, like in this example from the Pick and Place Tutorial.
 ```
 .. raw:: html
 
@@ -133,10 +133,10 @@ You can embed video with raw html, like in this example from the Pick and Place 
         <iframe width="700px" height="400px" src="https://www.youtube.com/embed/QBJPxx_63Bs?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
 ```
-This includes [Youtube's suggested embed html](https://support.google.com/youtube/answer/171780?hl=en).
+This includes [Youtube's suggested embed code](https://support.google.com/youtube/answer/171780?hl=en).
 
 #### Local Video
-To embed a video that is included in this repository, you also will use raw html, like this example from the Quickstart in RViz tutorial.
+To embed a video that is included in this repository, you also will use raw HTML, like this example from the Quickstart in RViz tutorial.
 
 ```
 .. raw:: html
