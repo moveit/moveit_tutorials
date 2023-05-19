@@ -49,7 +49,7 @@ We rely on the community to keep these tutorials up-to-date and bug-free. If you
 
 **Code Formatting**
 
-* These tutorials use the same [style guidelines](http://moveit.ros.org/documentation/contributing/code/) as the MoveIt project. When modifying or adding to these tutorials, it is required that code is auto-formatted using [clang format](http://moveit.ros.org/documentation/contributing/code/). To check and apply the style guidelines we use [pre-commit](https://pre-commit.com/).
+* These tutorials use the same [style guidelines](http://moveit.ros.org/documentation/contributing/code/) as the MoveIt project. When modifying or adding to these tutorials, it is required that code is auto-formatted using [clang-format](http://moveit.ros.org/documentation/contributing/code/). To check and apply the style guidelines we use [pre-commit](https://pre-commit.com/).
 * Tutorials should exemplify best coding practices. If a contribution wouldn't pass review in the MoveIt project, then it shouldn't pass review in the tutorials.
 * Relevant code should be included and explained using the ``.. tutorial-formatter::`` tag.
 * Irrelevant code should be excluded from the generated HTML using the ``BEGIN_TUTORIAL``, ``END_TUTORIAL``, ``BEGIN_SUB_TUTORIAL``, and ``END_SUB_TUTORIAL`` tags.
