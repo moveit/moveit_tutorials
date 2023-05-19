@@ -256,7 +256,7 @@ int main(int argc, char** argv)
   marker_publisher.publish(marker_delete);
 
   visualization_msgs::Marker marker;
-  marker.header.frame_id = "/panda_link0";
+  marker.header.frame_id = "panda_link0";
   marker.header.stamp = ros::Time::now();
   marker.ns = "world_cube";
   marker.id = 0;
