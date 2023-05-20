@@ -65,7 +65,7 @@ public:
 
   /** create an interactive marker at the origin */
   IMarker(interactive_markers::InteractiveMarkerServer& server, const std::string& name,
-          const std::string& frame_id = "/panda_link0",
+          const std::string& frame_id = "panda_link0",
           boost::function<void(const visualization_msgs::InteractiveMarkerFeedbackConstPtr&)> callback = printFeedback,
           Dof dof = BOTH)
     : imarker_()
@@ -76,7 +76,7 @@ public:
 
   /** create an interactive marker with an initial pose */
   IMarker(interactive_markers::InteractiveMarkerServer& server, const std::string& name, const Eigen::Isometry3d& pose,
-          const std::string& frame_id = "/panda_link0",
+          const std::string& frame_id = "panda_link0",
           boost::function<void(const visualization_msgs::InteractiveMarkerFeedbackConstPtr&)> callback = printFeedback,
           Dof dof = BOTH)
     : imarker_()
@@ -90,7 +90,7 @@ public:
   /** create an interactive marker with an initial pose */
   IMarker(interactive_markers::InteractiveMarkerServer& server, const std::string& name,
           const Eigen::Vector3d& position, const Eigen::Quaterniond& orientation,
-          const std::string& frame_id = "/panda_link0",
+          const std::string& frame_id = "panda_link0",
           boost::function<void(const visualization_msgs::InteractiveMarkerFeedbackConstPtr&)> callback = printFeedback,
           Dof dof = BOTH)
     : imarker_()
@@ -100,7 +100,7 @@ public:
 
   /** create an interactive marker with an initial position */
   IMarker(interactive_markers::InteractiveMarkerServer& server, const std::string& name,
-          const Eigen::Vector3d& position, const std::string& frame_id = "/panda_link0",
+          const Eigen::Vector3d& position, const std::string& frame_id = "panda_link0",
           boost::function<void(const visualization_msgs::InteractiveMarkerFeedbackConstPtr&)> callback = printFeedback,
           Dof dof = BOTH)
     : imarker_()

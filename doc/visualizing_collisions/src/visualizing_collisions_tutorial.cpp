@@ -128,7 +128,7 @@ void computeCollisionContactPoints(InteractiveRobot& robot)
   // for how.
   if (c_res.collision)
   {
-    ROS_INFO_STREAM("COLLIDING contact_point_count" << c_res.contact_count);
+    ROS_INFO_STREAM("COLLIDING contact_point_count: " << c_res.contact_count);
     if (c_res.contact_count > 0)
     {
       std_msgs::ColorRGBA color;

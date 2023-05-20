@@ -80,20 +80,22 @@ InteractiveRobot::InteractiveRobot(const std::string& robot_description, const s
     ROS_ERROR("Could not get RobotState from Model");
     throw RobotLoadException();
   }
-  robot_state_->setToDefaultValues();
 
   // Prepare to move the "panda_arm" group
   group_ = robot_state_->getJointModelGroup("panda_arm");
+  // Initialize pose to "ready"
+  robot_state_->setToDefaultValues(group_, "ready");
+
   std::string end_link = group_->getLinkModelNames().back();
   desired_group_end_link_pose_ = robot_state_->getGlobalLinkTransform(end_link);
 
   // Create a marker to control the "panda_arm" group
-  imarker_robot_ = new IMarker(interactive_marker_server_, "robot", desired_group_end_link_pose_, "/panda_link0",
+  imarker_robot_ = new IMarker(interactive_marker_server_, "robot", desired_group_end_link_pose_, "panda_link0",
                                boost::bind(movedRobotMarkerCallback, this, boost::placeholders::_1), IMarker::BOTH);
 
   // create an interactive marker to control the world geometry (the yellow cube)
   desired_world_object_pose_ = DEFAULT_WORLD_OBJECT_POSE_;
-  imarker_world_ = new IMarker(interactive_marker_server_, "world", desired_world_object_pose_, "/panda_link0",
+  imarker_world_ = new IMarker(interactive_marker_server_, "world", desired_world_object_pose_, "panda_link0",
                                boost::bind(movedWorldMarkerCallback, this, boost::placeholders::_1), IMarker::POS);
 
   // start publishing timer.
@@ -287,7 +289,7 @@ void InteractiveRobot::setWorldObjectPose(const Eigen::Isometry3d& pose)
 void InteractiveRobot::publishWorldState()
 {
   visualization_msgs::Marker marker;
-  marker.header.frame_id = "/panda_link0";
+  marker.header.frame_id = "panda_link0";
   marker.header.stamp = ros::Time::now();
   marker.ns = "world_box";
   marker.id = 0;
