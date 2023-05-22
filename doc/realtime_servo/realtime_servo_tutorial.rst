@@ -10,7 +10,7 @@ This tutorial shows how to send real-time servo commands to a ROS-enabled robot.
         src="https://www.youtube.com/v/8sOucNloJeI&hl=en_US&fs=1&rel=0"
         type="application/x-shockwave-flash" allowscriptaccess="always"
         allowfullscreen="true" width="700"
-        height="385">
+        height="385"/>
     </object>
 
 Getting Started
