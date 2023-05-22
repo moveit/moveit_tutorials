@@ -11,7 +11,6 @@ This tutorial shows how to send real-time servo commands to a ROS-enabled robot.
         type="application/x-shockwave-flash" allowscriptaccess="always"
         allowfullscreen="true" width="700"
         height="385">
-      </embed>
     </object>
 
 Getting Started
