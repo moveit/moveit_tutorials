@@ -309,6 +309,7 @@ int main(int argc, char** argv)
   // Visualize the plan in RViz
   visual_tools.deleteAllMarkers();
   visual_tools.publishText(text_pose, "Cartesian Path", rvt::WHITE, rvt::XLARGE);
+  visual_tools.publishTrajectoryLine(trajectory, joint_model_group);
   visual_tools.publishPath(waypoints, rvt::LIME_GREEN, rvt::SMALL);
   for (std::size_t i = 0; i < waypoints.size(); ++i)
     visual_tools.publishAxisLabeled(waypoints[i], "pt" + std::to_string(i), rvt::SMALL);
@@ -320,8 +321,8 @@ int main(int argc, char** argv)
   // the trajectory manually, as described `here <https://groups.google.com/forum/#!topic/moveit-users/MOoFxy2exT4>`_.
   // Pull requests are welcome.
   //
-  // You can execute a trajectory like this.
-  move_group_interface.execute(trajectory);
+  // You can execute a trajectory like this:
+  // move_group_interface.execute(trajectory);
 
   // Adding objects to the environment
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
