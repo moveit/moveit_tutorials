@@ -19,7 +19,7 @@ This tutorial demonstrates the servo node with a UR5 Gazebo simulation. If you h
 
 Clone `universal_robot melodic-devel branch <https://github.com/ros-industrial/universal_robot.git>`_ into the same catkin workspace from `Getting Started`:
 
-**NOTE: Please stick to older version of Universal Robot Github (1.2.7 ) as newer versions (1.3.x) are incompatible with the servo tutorial.** (`Src <https://github.com/ros-planning/moveit_tutorials/commit/f9fba77cd6cab31c9ae360bbaca3896a6acef446>`_)
+**NOTE: Please stick to older version of Universal Robot Github (1.2.7 ) as newer versions (1.3.x) are incompatible with the servo tutorial.**
 ::
 
     cd ~/ws_moveit/src
