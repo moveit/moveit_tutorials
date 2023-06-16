@@ -132,5 +132,5 @@ There is a Python integration test in ``test/integration``. Run it by:
   
 Debug Tips
 -------------------
-Do run either ``rosservice call /controller_manager/list_controllers`` or ``rosrun controller_manager controller_manager list``. For moveit_servo to be working, ``joint_group_position_controller`` should be ``running``
+Do run either ``rosservice call /controller_manager/list_controllers`` or ``rosrun controller_manager controller_manager list``. For moveit_servo to be working, ``joint_group_position_controller``(tested) or ``joint_group_velocity_controller``(I think, haven't tested personally this one though) should be ``running``
 
