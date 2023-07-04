@@ -129,6 +129,7 @@ There is a Python integration test in ``test/integration``. Run it by:
 
   roscd moveit_servo
   catkin run_tests --this
+
 Debug Tips
--------------------
+---------------
 Do run either ``rosservice call /controller_manager/list_controllers`` or ``rosrun controller_manager controller_manager list``. For moveit_servo to be working, ``joint_group_position_controller`` or ``joint_group_velocity_controller`` should be ``running``.
