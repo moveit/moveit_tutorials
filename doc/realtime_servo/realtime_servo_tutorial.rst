@@ -17,7 +17,10 @@ Getting Started
 ---------------
 This tutorial demonstrates the servo node with a UR5 Gazebo simulation. If you haven't already done so, make sure you've completed the steps in `Getting Started <../getting_started/getting_started.html>`_.
 
-Clone `universal_robot melodic-devel branch <https://github.com/ros-industrial/universal_robot.git>`_ into the same catkin workspace from `Getting Started`: ::
+Clone `universal_robot melodic-devel branch <https://github.com/ros-industrial/universal_robot.git>`_ into the same catkin workspace from `Getting Started`:
+
+**NOTE: Please stick to older version of Universal Robot Github (1.2.7 ) as newer versions (1.3.x) are incompatible with the servo tutorial.**
+::
 
     cd ~/ws_moveit/src
 
@@ -126,3 +129,7 @@ There is a Python integration test in ``test/integration``. Run it by:
 
   roscd moveit_servo
   catkin run_tests --this
+
+Debug Tips
+---------------
+Do run either ``rosservice call /controller_manager/list_controllers`` or ``rosrun controller_manager controller_manager list``. For moveit_servo to be working, ``joint_group_position_controller`` or ``joint_group_velocity_controller`` should be ``running``.
