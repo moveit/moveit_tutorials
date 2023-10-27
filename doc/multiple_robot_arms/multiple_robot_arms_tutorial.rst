@@ -49,7 +49,7 @@ Our multiple arms model has ``right_arm`` and ``left_arm`` robots. Each arm is e
 
 Notes:
 
-1. Two arguments ``right_arm`` and ``left_arm`` are defined as prefixes to differentiate the arms and hands names.
+1. Two arguments ``right_arm`` and ``left_arm`` are defined as prefixes to differentiate the arms and hands names. Be careful not to use any of the following characters in the prefixes: ``-``, ``[``, ``]``, ``(``, ``)``, ``/``.
 
 2. The arms and hands models are loaded from the ``franka_description`` package, which is installed as a dependency of the ``panda_moveit_config`` package. Ensure the ``franka_description`` package is installed in your ROS environment.
 
