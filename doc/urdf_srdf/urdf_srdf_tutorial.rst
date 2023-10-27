@@ -18,7 +18,7 @@ This section contains a set of tips on making sure that the URDF that you genera
 
 Special Characters in Joint Names
 """""""""""""""""""""""""""""""""
-Joint names should not contain any of the following special characters: ``-``, ``[``, ``]``, ``(``, ``)``. 
+Joint names should not contain any of the following special characters: ``-``, ``[``, ``]``, ``(``, ``)``.
 
 We hope to be able to get rid of these restrictions on the joint names soon.
 
