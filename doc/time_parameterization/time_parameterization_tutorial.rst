@@ -27,3 +27,16 @@ The Iterative Parabolic Time Parameterization algorithm is used by default in th
 The Iterative Spline Parameterization algorithm was merged with `PR 382 <https://github.com/ros-planning/moveit/pull/382>`_ as an approach to deal with these issues. While preliminary experiments are very promising, we are waiting for more feedback from the community before replacing the Iterative Parabolic Time Parameterization algorithm completely.
 
 Time-optimal Trajectory Generation introduced in PRs `#809 <https://github.com/ros-planning/moveit/pull/809>`_ and `#1365 <https://github.com/ros-planning/moveit/pull/1365>`_ produces trajectories with very smooth and continuous velocity profiles. The method is based on fitting path segments to the original trajectory and then sampling new waypoints from the optimized path. This is different from strict time parameterization methods as resulting waypoints may divert from the original trajectory within a certain tolerance. As a consequence, additional collision checks might be required when using this method.
+
+Jerk-Limited Trajectory Smoothing
+---------------------------------
+A time parameterization algorithm such as TOTG calculates velocities and accelerations for a trajectory, but none of the time parameterization algorithms support jerk limits. This is not ideal -- large jerks  along a trajectory can cause jerky motion or damage hardware. As a further post-processing step, the Ruckig jerk-limited smoothing algorithm can be appliied to limit joint jerks over the trajectories.
+
+To apply the Ruckig smoothing algorithm, a jerk limit parameter should be defined for every joint. It can go in a launch file and the parameter name is ``ruckig/YOUR_JOINT_NAME/jerk_limit``. If you do not specify a jerk limit for any joint, a reasonable default will be applied and a warning printed.
+
+Finally, add the Ruckig smoothing algorithm to the list of planning request adapters (typically in ``ompl_planning_pipeline.launch.xml`` or ``ompl_planning.yaml``). The Ruckig smoothing algorithm should run last, so put it at the top of list:
+
+    <arg name="planning_adapters"
+        default="default_planner_request_adapters/AddRuckigTrajectorySmoothing
+                default_planner_request_adapters/AddTimeParameterization
+                default_planner_request_adapters/ResolveConstraintFrames

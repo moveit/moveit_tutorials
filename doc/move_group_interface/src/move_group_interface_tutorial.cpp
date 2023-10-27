@@ -309,6 +309,7 @@ int main(int argc, char** argv)
   // Visualize the plan in RViz
   visual_tools.deleteAllMarkers();
   visual_tools.publishText(text_pose, "Cartesian Path", rvt::WHITE, rvt::XLARGE);
+  visual_tools.publishTrajectoryLine(trajectory, joint_model_group);
   visual_tools.publishPath(waypoints, rvt::LIME_GREEN, rvt::SMALL);
   for (std::size_t i = 0; i < waypoints.size(); ++i)
     visual_tools.publishAxisLabeled(waypoints[i], "pt" + std::to_string(i), rvt::SMALL);
@@ -320,8 +321,8 @@ int main(int argc, char** argv)
   // the trajectory manually, as described `here <https://groups.google.com/forum/#!topic/moveit-users/MOoFxy2exT4>`_.
   // Pull requests are welcome.
   //
-  // You can execute a trajectory like this.
-  move_group_interface.execute(trajectory);
+  // You can execute a trajectory like this:
+  // move_group_interface.execute(trajectory);
 
   // Adding objects to the environment
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -428,10 +429,10 @@ int main(int argc, char** argv)
   object_to_attach.operation = object_to_attach.ADD;
   planning_scene_interface.applyCollisionObject(object_to_attach);
 
-  // Then, we "attach" the object to the robot. It uses the frame_id to determine which robot link it is attached to.
-  // You could also use applyAttachedCollisionObject to attach an object to the robot directly.
+  // Then, we "attach" the object to the robot at the given link and allow collisions between the object and the listed
+  // links. You could also use applyAttachedCollisionObject to attach an object to the robot directly.
   ROS_INFO_NAMED("tutorial", "Attach the object to the robot");
-  move_group_interface.attachObject(object_to_attach.id, "panda_hand");
+  move_group_interface.attachObject(object_to_attach.id, "panda_hand", { "panda_leftfinger", "panda_rightfinger" });
 
   visual_tools.publishText(text_pose, "Object attached to robot", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();

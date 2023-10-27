@@ -138,6 +138,10 @@ Using CHOMP as a post-processor for OMPL
 Here, it is demonstrated that CHOMP can also be used as a post-processing optimization technique for plans obtained by other planning algorithms. The intuition behind this is that some randomized planning algorithm produces an initial guess for CHOMP. CHOMP then takes this initial guess and further optimizes the trajectory.
 To achieve this, follow the steps:
 
+#. If you didn't build MoveIt from source, install the CHOMP OptimizerAdapter: ::
+
+    sudo apt install ros-noetic-moveit-chomp-optimizer-adapter
+
 #. Create a new launch file ``ompl-chomp_planning_pipeline.launch`` in the ``<robot_moveit_config>/launch`` folder of your robot with the following contents: ::
 
     <launch>

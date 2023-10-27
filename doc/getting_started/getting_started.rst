@@ -16,22 +16,28 @@ Once you have ROS installed, make sure you have the most up to date packages: ::
 
 Install `catkin <http://wiki.ros.org/catkin>`_ the ROS build system: ::
 
-  sudo apt install ros-noetic-catkin python3-catkin-tools python3-osrf-pycommon
+  sudo apt install ros-noetic-catkin python3-catkin-tools
 
 Install `wstool <http://wiki.ros.org/wstool>`_ : ::
 
   sudo apt install python3-wstool
 
-Create A Catkin Workspace and Download MoveIt Source
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Because the version of the tutorials uses the ``master`` branch which is being actively developed, you will most likely need to build all of MoveIt from source. You will need to have a `catkin <http://wiki.ros.org/catkin>`_ workspace setup: ::
+Create a Catkin Workspace
+^^^^^^^^^^^^^^^^^^^^^^^^^
+You will need to have a `catkin <http://wiki.ros.org/catkin>`_ workspace setup: ::
 
   mkdir -p ~/ws_moveit/src
   cd ~/ws_moveit/src
 
+Download MoveIt Source
+^^^^^^^^^^^^^^^^^^^^^^
+Because the tutorials are actively developed in sync with MoveIt's master, you will most likely need to build all of MoveIt from source.
+To this end, follow the instructions below. However, building MoveIt from source takes roughly an hour, so you might want to skip this step for now and try using the binary Debian packages first.
+Come back to this step, if building of your workspace fails due to unknown symbols! ::
+
   wstool init .
   wstool merge -t . https://raw.githubusercontent.com/ros-planning/moveit/master/moveit.rosinstall
-  wstool remove  moveit_tutorials  # this is cloned in the next section
+  wstool remove moveit_tutorials  # this is cloned in the next section
   wstool update -t .
 
 Download Example Code

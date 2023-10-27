@@ -135,5 +135,6 @@ The process of creating the IKFast MoveIt plugin comprises several steps, perfor
 
 3. Running the OpenRAVE IKFast tool to generate C++ solver code
 4. Creating the MoveIt IKFast plugin package wrapping the generated solver
+5. Updating the ``kinematics.yaml`` file of ``"$MYROBOT_NAME"_moveit_config`` package
 
-The ``auto_create_ikfast_moveit_plugin.sh`` script evaluates the file extension of the input file to determine which steps to run. To re-run the script from any intermediate step (e.g. after having tweaked the accuracy of the ``.dae`` file), simply provide the corresponding output from the previous step as input (``.dae`` or ``.cpp``) instead of the initial ``.urdf`` file.
+The ``auto_create_ikfast_moveit_plugin.sh`` script evaluates the file extension of the input file to determine which (remaining) steps to run. To re-run the script from any intermediate step (e.g. after tweaking the accuracy of the ``.dae`` file), simply provide the corresponding output from the previous step as input (``.dae`` or ``.cpp``) instead of the initial ``.urdf`` file.

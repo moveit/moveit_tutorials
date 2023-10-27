@@ -1,15 +1,16 @@
 <launch>
+  <arg name="arm_id" default="panda"/>
 
   <!-- load URDF -->
   <param name="robot_description"
     command="$(find xacro)/xacro '$(find franka_description)/robots/panda/panda.urdf.xacro hand:=true'"/>
 
   <!-- load SRDF -->
-  <param name="robot_description_semantic" command="$(find xacro)/xacro '$(find panda_moveit_config)/config/panda.srdf.xacro'"/>
+  <param name="robot_description_semantic" command="$(find xacro)/xacro '$(find panda_moveit_config)/config/panda.srdf.xacro' hand:=true"/>
 
   <!-- Run RViz with a custom config -->
   <node name="$(anon rviz)" pkg="rviz" type="rviz" respawn="false" args="-d $(find moveit_tutorials)/doc/bullet_collision_checker/launch/moveit.rviz" output="screen">
-    <rosparam command="load" file="$(find panda_moveit_config)/config/kinematics.yaml"/>
+    <rosparam command="load" file="$(find panda_moveit_config)/config/kinematics.yaml" subst_value="true"/>
   </node>
 
   <!-- If needed, broadcast static tf2 for robot root -->
@@ -17,7 +18,7 @@
 
   <!-- launch interactivity_tutorial -->
   <node name="bullet_collision_tutorial" pkg="moveit_tutorials" type="bullet_collision_checker_tutorial" respawn="false" output="screen">
-    <rosparam command="load" file="$(find panda_moveit_config)/config/kinematics.yaml"/>
+    <rosparam command="load" file="$(find panda_moveit_config)/config/kinematics.yaml" subst_value="true"/>
   </node>
 
 </launch>
