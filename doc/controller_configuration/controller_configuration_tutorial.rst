@@ -109,12 +109,13 @@ If the joint states are published on another topic specific to your project, suc
 
 .. code-block:: XML
 
-    <node name="move_group" ... >
+    <!-- Start the actual move_group node/action server -->
+    <node name="move_group" launch-prefix="$(arg launch_prefix)" pkg="moveit_ros_move_group" type="move_group" respawn="false" output="screen" args="$(arg command_args)">
         <remap
             from="joint_states"
             to="robot/joint_states"
         />
-        ...
+        <!-- Other settings -->
     </node>
 
 The ``default`` setting is used to indicate a default controller that will be chosen to control this set of joints. This is useful when additional controllers are defined for the same joints:
