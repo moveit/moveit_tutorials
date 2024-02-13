@@ -6,7 +6,7 @@ There are a few paths for integrating a controller that moves robot joints with 
 * Any other controllers managed by `ROS Controller Manager <http://wiki.ros.org/controller_manager>`_ can be used by linking them with an existing MoveIt integration plugin if they support `Follow Joint Trajectory Action <https://docs.ros.org/en/noetic/api/control_msgs/html/action/FollowJointTrajectory.html>`_.
 * ROS controllers that don't support `Follow Joint Trajectory Action <https://docs.ros.org/en/noetic/api/control_msgs/html/action/FollowJointTrajectory.html>`_ can be bridged with MoveIt by implementing integration interfaces and exporting a plugin, as long as they can be made to fit into the `Controller Handle <https://docs.ros.org/en/noetic/api/moveit_core/html/classmoveit__controller__manager_1_1MoveItControllerHandle.html>`_ interface.
 * Custom controllers that are not managed by `ROS Controller Manager <http://wiki.ros.org/controller_manager>`_, or for which the `MoveIt Controller Handle <https://docs.ros.org/en/noetic/api/moveit_core/html/classmoveit__controller__manager_1_1MoveItControllerHandle.html>`_ is a poor fit, can be integrated by writing a custom MoveIt Controller Manager.
-
+fCon
 We will look at each of these options in more detail.
 
 Stock ROS Controllers
@@ -26,29 +26,29 @@ The `ROS Controller Manager <http://wiki.ros.org/controller_manager>`_ loads the
 
 .. code-block:: yaml
 
-    arm_controller:
+  arm_controller:
     type: velocity_controllers/JointTrajectoryController
     joints:
-        - shoulder_joint
-        - upperarm_joint
-        - forearm_joint
+      - shoulder_joint
+      - upperarm_joint
+      - forearm_joint
     gains:
-        shoulder_joint:
+      shoulder_joint:
         p: 100
         d: 1
         i: 1
         i_clamp: 1
-        upperarm_joint:
+      upperarm_joint:
         p: 100
         d: 1
         i: 1
         i_clamp: 1
-        forearm_joint:
+      forearm_joint:
         p: 100
         d: 1
         i: 1
         i_clamp: 1
-    gripper_controller:
+  gripper_controller:
     type: position_controllers/GripperActionController
     joint: gripper
 
@@ -56,21 +56,21 @@ The *MoveIt Simple Controller Manager* configured by MSA `as the default <https:
 
 .. code-block:: yaml
 
-    controller_list:
-    - name: arm_controller
-        action_ns: follow_joint_trajectory
-        type: FollowJointTrajectory
-        default: True
-        joints:
-        - shoulder_joint
-        - upperarm_joint
-        - forearm_joint
-    - name: gripper_controller
-        action_ns: gripper_cmd
-        type: GripperCommand
-        default: True
-        joints:
-        - gripper
+  controller_list:
+  - name: arm_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    default: True
+    joints:
+      - shoulder_joint
+      - upperarm_joint
+      - forearm_joint
+  - name: gripper_controller
+    action_ns: gripper_cmd
+    type: GripperCommand
+    default: True
+    joints:
+      - gripper
 
 The mapping from ROS controller ``name`` to MoveIt *controller handle* ``type`` is done by using pre-defined *simple integration types*:
 
