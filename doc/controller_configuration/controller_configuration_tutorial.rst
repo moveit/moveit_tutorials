@@ -205,10 +205,17 @@ To test ROS controller integration with *MoveIt ROS Control Controller Manager*,
   Since the ``GripperActionController`` is not supported by MoveIt ROS Control Controller Manager, it can be replaced in the above example by a flavor of ``JointTrajectoryController`` supported by your hardware, for example:
 
 .. code-block:: yaml
-    gripper_controller:
-        type: position_controllers/JointTrajectoryController
-        joints:
-        - gripper
+
+  gripper_controller:
+    type: position_controllers/JointTrajectoryController
+    joints:
+      - gripper
+    gains:
+      gripper:
+        p: 100
+        d: 1
+        i: 1
+        i_clamp: 1
 
 ROS Controllers with another interface
 --------------------------------------
