@@ -258,25 +258,26 @@ The only job of a controller handle allocator is to create a new instance of the
 
 .. code-block:: c++
 
+    #include "controller_handle_example.h" // the handle being allocated
     #include <moveit_ros_control_interface/ControllerHandle.h>
     #include <pluginlib/class_list_macros.h>
 
     namespace example
     {
-        class controller_handle_allocator_example:
-            public moveit_ros_control_interface::ControllerHandleAllocator
-        {
-        public:
-            moveit_controller_manager::MoveItControllerHandlePtr alloc(
-                const std::string& name, const std::vector<std::string>& resources)
-            {
-                return std::make_shared<controller_handle_example>(
-                    name, std::string("follow_joint_trajectory"));
-            }
-        };
+    class controller_handle_allocator_example : public moveit_ros_control_interface::ControllerHandleAllocator
+    {
+    public:
+    moveit_controller_manager::MoveItControllerHandlePtr alloc(const std::string& name,
+                                                                const std::vector<std::string>& resources) override
+    {
+        return std::make_shared<controller_handle_example>(name, std::string("follow_joint_trajectory"));
     }
+    };
+    }  // namespace example
 
-    PLUGINLIB_EXPORT_CLASS(example::controller_handle_allocator_example, moveit_ros_control_interface::ControllerHandleAllocator)
+    PLUGINLIB_EXPORT_CLASS(example::controller_handle_allocator_example,
+                        moveit_ros_control_interface::ControllerHandleAllocator);
+
 
 This example controller handle allocator can be exported by creating a plugin definition file which is then referenced in the ``exports`` section of ``package.xml``:
 
@@ -314,71 +315,101 @@ The translation between `moveit_msgs::RobotTrajectory <http://docs.ros.org/en/no
 
 .. code-block:: c++
 
-    #include <memory>
-    #include <moveit_ros_control_interface/ControllerHandle.h>
-    #include <actionlib/client/simple_action_client.h>
+      #pragma once
 
-    namespace example
-    {
-        class controller_handle_example :
-            public moveit_controller_manager::MoveItControllerHandle
+      #include <actionlib/client/simple_action_client.h>
+      #include <control_msgs/FollowJointTrajectoryAction.h>
+      #include <memory>
+      #include <moveit_ros_control_interface/ControllerHandle.h>
+
+      namespace example
+      {
+      class controller_handle_example : public moveit_controller_manager::MoveItControllerHandle
+      {
+      private:
+        // Idle or done executing trajectory
+        bool done_;
+
+        // Connects to Action Server exposed by the controller
+        std::shared_ptr<actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>> actionClient_;
+
+      public:
+        controller_handle_example(const std::string& name, const std::string& action_ns)
         {
-        private:
-            // Idle or done executing a trajectory?
-            bool done_;
+          std::string actionName = name + "/" + action_ns;
 
-            // Action Client for communicating with target controller
-            std::shared_ptr<actionlib::SimpleActionClient<your_controller_action>> actionClient_;
+          actionClient_ =
+              std::make_shared<actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>>(actionName, true);
 
-        public:
-            controller_handle_example(
-            const std::string& name, const std::string& action_ns)
-            {
-                // Create an Action Client that connects to the controller's Action Server
-                std::string actionName = name + "/" + action_ns;
+          actionClient_->waitForServer(ros::Duration(20.0));
 
-                actionClient_ = std::make_shared<actionlib::SimpleActionClient<your_controller_action>>(
-                    actionName, true);
+          if (!actionClient_->isServerConnected())
+          {
+            // Report connection error
+            actionClient_.reset();
+          }
+        }
 
-                actionClient_->waitForServer(ros::Duration(your_timeout));
+      public:
+        // MoveIt calls this method when it wants to send a trajectory goal to execute
+        bool sendTrajectory(const moveit_msgs::RobotTrajectory& trajectory) override
+        {
+          if (!actionClient_)
+          {
+            // Report connection error
+            return false;
+          }
 
-                if (!actionClient_->isServerConnected())
-                {
-                    // Report an error
-                }
-            }
+          control_msgs::FollowJointTrajectoryGoal goal;
+          goal.trajectory = trajectory.joint_trajectory;
 
-        public:
-            // MoveIt calls this method when it wants to send a trajectory goal to execute
-            bool sendTrajectory(const moveit_msgs::RobotTrajectory& trajectory) override
-            {
-                // Translate trajectory to format the controller can understand...
-                // Use the Action Client to command the trajectory to the controller...
-            }
+          actionClient_->sendGoal(
+              goal,
+              [this](const auto& state, const auto& result) {
+                // Completed trajectory
+                done_ = true;
+              },
+              [this] {
+                // Beginning trajectory
+              },
+              [this](const auto& feedback) {
+                // Trajectory feedback
+              });
 
-            // MoveIt calls this method when it wants a blocking call that returns when done
-            bool waitForExecution(const ros::Duration& timeout = ros::Duration(0)) override
-            {
-                if (actionClient_ && !done_)
-                    return actionClient_->waitForResult(ros::Duration(5.0));
+          done_ = false;
 
-                return true;
-            }
+          return true;
+        }
 
-            // MoveIt calls this method to get status updates
-            moveit_controller_manager::ExecutionStatus getLastExecutionStatus() override
-            {
-                // Ask the controller through the Action Client about last status
-                // Return moveit_controller_manager::ExecutionStatus
-            }
+        // MoveIt calls this method when it wants a blocking call until done
+        bool waitForExecution(const ros::Duration& timeout = ros::Duration(0)) override
+        {
+          if (actionClient_ && !done_)
+            return actionClient_->waitForResult(ros::Duration(5.0));
 
-            // MoveIt calls this method to abort trajectory goal execution
-            bool cancelExecution() override
-            {
-                // Ask the controller to cancel the goal through the Action Client
-            }
-        };
-    }
+          return true;
+        }
+
+        // MoveIt calls this method to get status updates
+        moveit_controller_manager::ExecutionStatus getLastExecutionStatus() override
+        {
+          // Report last status here
+          return moveit_controller_manager::ExecutionStatus::SUCCEEDED;
+        }
+
+        // MoveIt calls this method to abort trajectory goal execution
+        bool cancelExecution() override
+        {
+          if (!actionClient_)
+            return false;
+
+          actionClient_->cancelGoal();
+          done_ = true;
+
+          return true;
+        }
+      };
+      }  // namespace example
 
 .. note::
    Replace ``your_controller_action`` with the type of action interface supported by the controller, and ``your_timeout`` with how long to wait for the connection to take place (this can be read from settings). If the controller doesn't support an Action Server, this can be replaced by whichever mechanism is supported.
