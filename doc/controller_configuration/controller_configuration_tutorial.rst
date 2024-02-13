@@ -6,7 +6,7 @@ There are a few paths for integrating a controller that moves robot joints with 
 * Any other controllers managed by `ROS Controller Manager <http://wiki.ros.org/controller_manager>`_ can be used by linking them with an existing MoveIt integration plugin if they support `Follow Joint Trajectory Action <https://docs.ros.org/en/noetic/api/control_msgs/html/action/FollowJointTrajectory.html>`_.
 * ROS controllers that don't support `Follow Joint Trajectory Action <https://docs.ros.org/en/noetic/api/control_msgs/html/action/FollowJointTrajectory.html>`_ can be bridged with MoveIt by implementing integration interfaces and exporting a plugin, as long as they can be made to fit into the `Controller Handle <https://docs.ros.org/en/noetic/api/moveit_core/html/classmoveit__controller__manager_1_1MoveItControllerHandle.html>`_ interface.
 * Custom controllers that are not managed by `ROS Controller Manager <http://wiki.ros.org/controller_manager>`_, or for which the `MoveIt Controller Handle <https://docs.ros.org/en/noetic/api/moveit_core/html/classmoveit__controller__manager_1_1MoveItControllerHandle.html>`_ is a poor fit, can be integrated by writing a custom MoveIt Controller Manager.
-fCon
+
 We will look at each of these options in more detail.
 
 Stock ROS Controllers
