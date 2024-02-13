@@ -50,7 +50,8 @@ The `ROS Controller Manager <http://wiki.ros.org/controller_manager>`_ loads the
         i_clamp: 1
   gripper_controller:
     type: position_controllers/GripperActionController
-    joint: gripper
+    joints:
+      - gripper
 
 The *MoveIt Simple Controller Manager* configured by MSA `as the default <https://github.com/ros-planning/moveit/blob/master/moveit_setup_assistant/templates/moveit_config_pkg_template/launch/move_group.launch#L17>`_ will load the *handles* that bridge these controllers with MoveIt by reading the ``simple_moveit_controllers.yaml`` configuration file, for example:
 
