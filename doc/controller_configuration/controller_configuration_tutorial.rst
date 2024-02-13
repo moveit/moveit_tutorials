@@ -14,7 +14,7 @@ Stock ROS Controllers
 
 The `JointTrajectoryController <http://wiki.ros.org/joint_trajectory_controller>`_ and `GripperActionController <http://wiki.ros.org/gripper_action_controller>`_ from `ROS controllers <http://wiki.ros.org/ros_controllers>`_ package are supported out of the box for simple usage scenarios, and can be easily configured by using the `MoveIt Setup Assistant <../setup_assistant/setup_assistant_tutorial.html>`_ (*MSA*) on the *Controllers* page.
 
-These controllers are integrated with MoveIt by using existing `MoveIt Controller Handles <https://docs.ros.org/en/noetic/api/moveit_core/html/classmoveit__controller__manager_1_1MoveItControllerHandle.html>`_
+These controllers are integrated with MoveIt by using existing `MoveIt Controller Handles <https://docs.ros.org/en/noetic/api/moveit_core/html/classmoveit__controller__manager_1_1MoveItControllerHandle.html>`_:
 
 * Stock `JointTrajectoryController <http://wiki.ros.org/joint_trajectory_controller>`_ is integrated through `Joint Trajectory Controller Handle <https://github.com/ros-planning/moveit/blob/master/moveit_plugins/moveit_simple_controller_manager/include/moveit_simple_controller_manager/follow_joint_trajectory_controller_handle.h>`_.
 * Stock `GripperActionController <http://wiki.ros.org/gripper_action_controller>`_ is integrated through `Gripper Controller Handle <https://github.com/ros-planning/moveit/blob/master/moveit_plugins/moveit_simple_controller_manager/include/moveit_simple_controller_manager/gripper_controller_handle.h>`_.
@@ -224,27 +224,34 @@ In this case, a *Controller Handle* and a *Controller Handle Allocator* may need
 
 The following package dependencies are required for implementing controller handles and allocators:
 
-* ``moveit_ros_control_interface`` - Provides base classes for controller handles and allocators
-* ``pluginlib`` - Provides macros for exporting a class as a plugin, only needed to export the controller handle allocator
+* ``moveit_ros_control_interface`` - Provides base classes for controller handles and allocators.
+* ``pluginlib`` - Provides macros for exporting a class as a plugin, only needed to export the controller handle allocator.
 
 The ``actionlib`` package may also be needed for communicating with the ROS controller via an *Action Client* if it exposes an *Action Server*.
 
 The following headers declare the relevant classes and macros:
 
 * ``#include <moveit_ros_control_interface/ControllerHandle.h>``
+
   * declares ``moveit_controller_manager::MoveItControllerHandle`` class
   * declares ``moveit_ros_control_interface::ControllerHandleAllocator`` class
+
 * ``#include <pluginlib/class_list_macros.h>``
+
   * declares ``PLUGINLIB_EXPORT_CLASS`` macro for exporting plugins
 
 Two example *controller handle* implementations are included with MoveIt:
 
 * `follow_joint_trajectory_controller_handle.h <https://github.com/ros-planning/moveit/blob/master/moveit_plugins/moveit_simple_controller_manager/include/moveit_simple_controller_manager/follow_joint_trajectory_controller_handle.h>`_
+
   * See implementation in `follow_joint_trajectory_controller_handle.cpp <https://github.com/ros-planning/moveit/blob/master/moveit_plugins/moveit_simple_controller_manager/src/follow_joint_trajectory_controller_handle.cpp>`_
+
 * `gripper_controller_handle.h <https://github.com/ros-planning/moveit/blob/master/moveit_plugins/moveit_simple_controller_manager/include/moveit_simple_controller_manager/gripper_controller_handle.h>`_
+
   * Implemented inline in the same header file
 
 As you can see, writing a `controller handle <https://github.com/ros-planning/moveit/blob/master/moveit_core/controller_manager/include/moveit/controller_manager/controller_manager.h#L104>`_ comes down to implementing:
+
 * ``sendTrajectory`` method that translates `moveit_msgs::RobotTrajectory <http://docs.ros.org/en/noetic/api/moveit_msgs/html/msg/RobotTrajectory.html>`_ to a format the controller can understand
 * ``cancelExecution`` method to tell the controller to stop any active trajectories
 * ``waitForExecution`` method that will block the calling thread until the controller finishes or the ``timeout`` is reached
@@ -258,25 +265,26 @@ The only job of a controller handle allocator is to create a new instance of the
 
 .. code-block:: c++
 
-    #include "controller_handle_example.h" // the handle being allocated
-    #include <moveit_ros_control_interface/ControllerHandle.h>
-    #include <pluginlib/class_list_macros.h>
+  // declares example::controller_handle_example class
+  #include "controller_handle_example.h"
+  #include <moveit_ros_control_interface/ControllerHandle.h>
+  #include <pluginlib/class_list_macros.h>
 
-    namespace example
-    {
-    class controller_handle_allocator_example : public moveit_ros_control_interface::ControllerHandleAllocator
-    {
-    public:
+  namespace example
+  {
+  class controller_handle_allocator_example : public moveit_ros_control_interface::ControllerHandleAllocator
+  {
+  public:
     moveit_controller_manager::MoveItControllerHandlePtr alloc(const std::string& name,
-                                                                const std::vector<std::string>& resources) override
+                                                               const std::vector<std::string>& resources) override
     {
-        return std::make_shared<controller_handle_example>(name, std::string("follow_joint_trajectory"));
+      return std::make_shared<controller_handle_example>(name, std::string("follow_joint_trajectory"));
     }
-    };
-    }  // namespace example
+  };
+  }  // namespace example
 
-    PLUGINLIB_EXPORT_CLASS(example::controller_handle_allocator_example,
-                        moveit_ros_control_interface::ControllerHandleAllocator);
+  PLUGINLIB_EXPORT_CLASS(example::controller_handle_allocator_example,
+                         moveit_ros_control_interface::ControllerHandleAllocator);
 
 
 This example controller handle allocator can be exported by creating a plugin definition file which is then referenced in the ``exports`` section of ``package.xml``:
@@ -315,101 +323,100 @@ The translation between `moveit_msgs::RobotTrajectory <http://docs.ros.org/en/no
 
 .. code-block:: c++
 
-      #pragma once
+  #include <actionlib/client/simple_action_client.h>
+  #include <control_msgs/FollowJointTrajectoryAction.h>
+  #include <memory>
+  #include <moveit_ros_control_interface/ControllerHandle.h>
 
-      #include <actionlib/client/simple_action_client.h>
-      #include <control_msgs/FollowJointTrajectoryAction.h>
-      #include <memory>
-      #include <moveit_ros_control_interface/ControllerHandle.h>
+  namespace example
+  {
+  class controller_handle_example : public moveit_controller_manager::MoveItControllerHandle
+  {
+  private:
+    // Idle or done executing trajectory
+    bool done_;
 
-      namespace example
+    // Connects to Action Server exposed by the controller
+    std::shared_ptr<actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>> actionClient_;
+
+  public:
+    controller_handle_example(const std::string& name, const std::string& action_ns)
+    {
+      std::string actionName = name + "/" + action_ns;
+
+      actionClient_ =
+          std::make_shared<actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>>(actionName, true);
+
+      // Timeout can be loaded from settings
+      actionClient_->waitForServer(ros::Duration(20.0));
+
+      if (!actionClient_->isServerConnected())
       {
-      class controller_handle_example : public moveit_controller_manager::MoveItControllerHandle
+        // Report connection error
+        actionClient_.reset();
+      }
+    }
+
+  public:
+    // MoveIt calls this method when it wants to send a trajectory goal to execute
+    bool sendTrajectory(const moveit_msgs::RobotTrajectory& trajectory) override
+    {
+      if (!actionClient_)
       {
-      private:
-        // Idle or done executing trajectory
-        bool done_;
+        // Report connection error
+        return false;
+      }
 
-        // Connects to Action Server exposed by the controller
-        std::shared_ptr<actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>> actionClient_;
+      control_msgs::FollowJointTrajectoryGoal goal;
+      goal.trajectory = trajectory.joint_trajectory;
 
-      public:
-        controller_handle_example(const std::string& name, const std::string& action_ns)
-        {
-          std::string actionName = name + "/" + action_ns;
+      actionClient_->sendGoal(
+          goal,
+          [this](const auto& state, const auto& result) {
+            // Complete trajectory callback
+            done_ = true;
+          },
+          [this] {
+            // Begin trajectory callback
+          },
+          [this](const auto& feedback) {
+            // Trajectory state callback
+          });
 
-          actionClient_ =
-              std::make_shared<actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>>(actionName, true);
+      done_ = false;
 
-          actionClient_->waitForServer(ros::Duration(20.0));
+      return true;
+    }
 
-          if (!actionClient_->isServerConnected())
-          {
-            // Report connection error
-            actionClient_.reset();
-          }
-        }
+    // MoveIt calls this method when it wants a blocking call until done
+    bool waitForExecution(const ros::Duration& timeout = ros::Duration(0)) override
+    {
+      if (actionClient_ && !done_)
+        return actionClient_->waitForResult(ros::Duration(5.0));
 
-      public:
-        // MoveIt calls this method when it wants to send a trajectory goal to execute
-        bool sendTrajectory(const moveit_msgs::RobotTrajectory& trajectory) override
-        {
-          if (!actionClient_)
-          {
-            // Report connection error
-            return false;
-          }
+      return true;
+    }
 
-          control_msgs::FollowJointTrajectoryGoal goal;
-          goal.trajectory = trajectory.joint_trajectory;
+    // MoveIt calls this method to get status updates
+    moveit_controller_manager::ExecutionStatus getLastExecutionStatus() override
+    {
+      // Report last status here
+      return moveit_controller_manager::ExecutionStatus::SUCCEEDED;
+    }
 
-          actionClient_->sendGoal(
-              goal,
-              [this](const auto& state, const auto& result) {
-                // Completed trajectory
-                done_ = true;
-              },
-              [this] {
-                // Beginning trajectory
-              },
-              [this](const auto& feedback) {
-                // Trajectory feedback
-              });
+    // MoveIt calls this method to abort trajectory goal execution
+    bool cancelExecution() override
+    {
+      if (!actionClient_)
+        return false;
 
-          done_ = false;
+      actionClient_->cancelGoal();
+      done_ = true;
 
-          return true;
-        }
-
-        // MoveIt calls this method when it wants a blocking call until done
-        bool waitForExecution(const ros::Duration& timeout = ros::Duration(0)) override
-        {
-          if (actionClient_ && !done_)
-            return actionClient_->waitForResult(ros::Duration(5.0));
-
-          return true;
-        }
-
-        // MoveIt calls this method to get status updates
-        moveit_controller_manager::ExecutionStatus getLastExecutionStatus() override
-        {
-          // Report last status here
-          return moveit_controller_manager::ExecutionStatus::SUCCEEDED;
-        }
-
-        // MoveIt calls this method to abort trajectory goal execution
-        bool cancelExecution() override
-        {
-          if (!actionClient_)
-            return false;
-
-          actionClient_->cancelGoal();
-          done_ = true;
-
-          return true;
-        }
-      };
-      }  // namespace example
+      return true;
+    }
+  };
+  }  // namespace example
 
 .. note::
    Replace ``your_controller_action`` with the type of action interface supported by the controller, and ``your_timeout`` with how long to wait for the connection to take place (this can be read from settings). If the controller doesn't support an Action Server, this can be replaced by whichever mechanism is supported.
