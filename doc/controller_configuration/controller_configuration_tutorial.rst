@@ -491,7 +491,7 @@ The *MoveIt Multi Controller Manager* can be used when more than one ``ros_contr
 Controller Switching and Namespaces
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-All controller names get prefixed by the namespace of their ``ros_control`` node. For this reason, controller names should not contain slashes, and can’t be named ``/``. 
+All controller names get prefixed by the namespace of their ``ros_control`` node. For this reason, controller names should not contain slashes, and can’t be named ``/``.
 
 Joints are claimed by each controller during initialization or startup. ROS controllers receive a hardware interface of the type they support (position, velocity, or effort), which they can use to request a *joint handle* for each joint they are configured to control. The act of requesting a joint handle will cause the *ROS Controller Manager* to record that a particular joint was *claimed* as a *resource* by a particular controller.
 
