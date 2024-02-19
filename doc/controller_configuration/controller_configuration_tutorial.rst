@@ -1,15 +1,15 @@
 Low Level Controllers
 =====================
 MoveIt executes planned trajectories by means of MoveIt controller managers. These are plugins that handle the interaction with low-level controllers.
-There are different options available
+There are different options available:
 
-* MoveIt Simple Controller Manager allows to interface any low-level controller supporting either the `JointTrajectoryController <http://wiki.ros.org/joint_trajectory_controller>`_ or `GripperActionController <http://wiki.ros.org/gripper_action_controller>`_ API from the `ROS controllers <http://wiki.ros.org/ros_controllers>`_ package
-* ROS Control Controller Manager and MoveIt Multi Controller Manager allow to interface ros_control controllers that support the `FollowJointTrajectory action <https://docs.ros.org/en/noetic/api/control_msgs/html/action/FollowJointTrajectory.html>`_ without further configuration. This manager directly interacts with the corresponding `ROS Controller Manager <http://wiki.ros.org/controller_manager>`_.
+* *MoveIt Simple Controller Manager* allows to interface any low-level controller supporting either the `JointTrajectoryController <http://wiki.ros.org/joint_trajectory_controller>`_ or `GripperActionController <http://wiki.ros.org/gripper_action_controller>`_ API from the `ROS controllers <http://wiki.ros.org/ros_controllers>`_ package
+* *MoveIt ROS Control Controller Manager* and *MoveIt Multi Controller Manager* allow to interface `ROS Control <http://wiki.ros.org/ros_control>`_ controllers that support the `FollowJointTrajectory action <https://docs.ros.org/en/noetic/api/control_msgs/html/action/FollowJointTrajectory.html>`_ without further configuration. This manager directly interacts with the corresponding `ROS Controller Manager <http://wiki.ros.org/controller_manager>`_.
 * Fake Controller Manager provides fake trajectory execution w/o a real robot. It is used for visualization in RViz and can be configured to use different methods for interpolation between waypoints.
 * ROS controllers that don't support the `FollowJointTrajectory action <https://docs.ros.org/en/noetic/api/control_msgs/html/action/FollowJointTrajectory.html>`_ can be used with a ROS Control Controller Manager by implementing integration interfaces satisfying the `ControllerHandle <https://docs.ros.org/en/noetic/api/moveit_core/html/classmoveit__controller__manager_1_1MoveItControllerHandle.html>`_ API.
 * Completely custom controllers can be integrated by writing and using your own controller manager plugin (not recommended).
 
-In the following, we will look at each of these options in more detail.
+In the following sections, we will look at each of these options in more detail.
 
 MoveIt Simple Controller Manager
 --------------------------------
@@ -53,7 +53,7 @@ The `ROS Controller Manager <http://wiki.ros.org/controller_manager>`_ loads the
     type: position_controllers/GripperActionController
     joint: panda_finger_joint1
 
-The ``MoveItSimpleControllerManager`` configured by MSA `as the default <https://github.com/ros-planning/moveit/blob/master/moveit_setup_assistant/templates/moveit_config_pkg_template/launch/move_group.launch#L17>`_ MoveIt controller manager will bridge these controllers by reading the ``simple_moveit_controllers.yaml`` configuration file, for example:
+The ``MoveItSimpleControllerManager`` configured by MSA `as the default <https://github.com/ros-planning/moveit/blob/master/moveit_setup_assistant/templates/moveit_config_pkg_template/launch/move_group.launch#L17>`_ MoveIt controller manager will bridge these controllers with MoveIt pipeline by reading the ``simple_moveit_controllers.yaml`` configuration file, for example:
 
 .. code-block:: yaml
 
@@ -79,7 +79,7 @@ The ``MoveItSimpleControllerManager`` configured by MSA `as the default <https:/
       - panda_finger_joint1
       - panda_finger_joint2
 
-The mapping from ROS controller ``name`` to a ``MoveItControllerHandle`` ``type`` is done by using the pre-defined *integration types* ``FollowJointTrajectory`` and ``GripperCommand``, which can interface any controller implementing the corresponding action interface (i.e. not only ros_control controllers).
+The mapping from ROS controller ``name`` to a ``MoveItControllerHandle`` ``type`` is done by using the pre-defined *integration types* ``FollowJointTrajectory`` and ``GripperCommand``, which can interface any controller implementing the corresponding action interface (i.e. not only `ROS Control <http://wiki.ros.org/ros_control>`_ controllers).
 
 The ``action_ns`` setting specifies the *action server* topic exposed by the ROS controller. The full topic name is ``<name>/<action_ns>``.
 If you were to list topics by using ``rostopic list`` with the above two ROS controllers loaded, you would see something like the following: ::
@@ -91,7 +91,7 @@ If you were to list topics by using ``rostopic list`` with the above two ROS con
 /gripper_controller/gripper_action/feedback
 /gripper_controller/gripper_action/result
 
-There are many different parameters that can be defined for the two types of controllers.
+There are many different parameters that can be defined for the two types of simple controller interfaces.
 
 FollowJointTrajectory Controller Interface
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -148,9 +148,9 @@ This is because only a `ControllerHandleAllocator <https://github.com/ros-planni
 Controller Switching and Namespaces
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-All controller names get prefixed by the namespace of their ``ros_control`` node. For this reason, controller names should not contain slashes.
+All controller names get prefixed by the namespace of their `ROS Control <http://wiki.ros.org/ros_control>`_ node. For this reason, controller names should not contain slashes.
 
-For a particular ``ros_control`` node, MoveIt can decide which controllers to start or stop. MoveIt will take care of stopping controllers based on their *claimed joint resources* if a to-be-started controller needs any of those resources.
+For a particular `ROS Control <http://wiki.ros.org/ros_control>`_ node, MoveIt can decide which controllers to start or stop. MoveIt will take care of stopping controllers based on their *claimed joint resources* if a to-be-started controller needs any of those resources.
 
 Fake Controller Manager
 -----------------------
