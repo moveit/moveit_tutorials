@@ -5,7 +5,7 @@ There are different options available:
 
 * *MoveIt Simple Controller Manager* allows to interface any low-level controller supporting either the `JointTrajectoryController <http://wiki.ros.org/joint_trajectory_controller>`_ or `GripperActionController <http://wiki.ros.org/gripper_action_controller>`_ API from the `ROS controllers <http://wiki.ros.org/ros_controllers>`_ package
 * *MoveIt ROS Control Controller Manager* and *MoveIt Multi Controller Manager* allow to interface `ROS Control <http://wiki.ros.org/ros_control>`_ controllers that support the `FollowJointTrajectory action <https://docs.ros.org/en/noetic/api/control_msgs/html/action/FollowJointTrajectory.html>`_ without further configuration. This manager directly interacts with the corresponding `ROS Controller Manager <http://wiki.ros.org/controller_manager>`_.
-* Fake Controller Manager provides fake trajectory execution w/o a real robot. It is used for visualization in RViz and can be configured to use different methods for interpolation between waypoints.
+* *Fake Controller Manager* provides fake trajectory execution w/o a real robot. It is used for visualization in RViz and can be configured to use different methods for interpolation between waypoints.
 * ROS controllers that don't support the `FollowJointTrajectory action <https://docs.ros.org/en/noetic/api/control_msgs/html/action/FollowJointTrajectory.html>`_ can be used with a ROS Control Controller Manager by implementing integration interfaces satisfying the `ControllerHandle <https://docs.ros.org/en/noetic/api/moveit_core/html/classmoveit__controller__manager_1_1MoveItControllerHandle.html>`_ API.
 * Completely custom controllers can be integrated by writing and using your own controller manager plugin (not recommended).
 
