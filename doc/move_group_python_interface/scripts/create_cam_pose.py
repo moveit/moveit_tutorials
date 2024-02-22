@@ -4,16 +4,7 @@ import quaternion
 import math
 
 
-CENTER_POS = [0.55, 0.0, 0.04]
-TARGET_POS1 = [
-    [CENTER_POS[0], CENTER_POS[1], 0.55],
-]
-# working version - find better
-TARGET_POS2 = [[0.17 * np.cos(x * np.pi / 180) + CENTER_POS[0], 0.21 * np.sin(x * np.pi / 180) + CENTER_POS[1], 0.44] for x in np.linspace(-160, 200, 50)]
-TARGET_POS3 = [[0.17 * np.cos(x * np.pi / 180) + CENTER_POS[0], 0.25 * np.sin(x * np.pi / 180) + CENTER_POS[1], 0.39] for x in np.linspace(190, -160, 50)]
-TARGET_POS4 = [[0.17 * np.cos(x * np.pi / 180) + CENTER_POS[0], 0.27 * np.sin(x * np.pi / 180) + CENTER_POS[1], 0.34] for x in np.linspace(-160, 120, 50)]
-TARGET_POS = np.concatenate([TARGET_POS1, TARGET_POS2, TARGET_POS3, TARGET_POS4])
-EE2CAM = [0.068915, 0.0325, 0] #numbers from cad
+
 
 def look_at(x1, y1, z1, x2, y2, z2):
     """Function to look at x2, y2, z2 from x1, y1, z1"""
@@ -52,6 +43,16 @@ def look_at(x1, y1, z1, x2, y2, z2):
     return position, rotmat
 
 if __name__ == "__main__":
+    CENTER_POS = [0.55, 0.0, 0.04]
+    TARGET_POS1 = [
+        [CENTER_POS[0], CENTER_POS[1], 0.55],
+    ]
+    # working version - find better
+    TARGET_POS2 = [[0.17 * np.cos(x * np.pi / 180) + CENTER_POS[0], 0.21 * np.sin(x * np.pi / 180) + CENTER_POS[1], 0.44] for x in np.linspace(-160, 200, 50)]
+    TARGET_POS3 = [[0.17 * np.cos(x * np.pi / 180) + CENTER_POS[0], 0.25 * np.sin(x * np.pi / 180) + CENTER_POS[1], 0.39] for x in np.linspace(190, -160, 50)]
+    TARGET_POS4 = [[0.17 * np.cos(x * np.pi / 180) + CENTER_POS[0], 0.27 * np.sin(x * np.pi / 180) + CENTER_POS[1], 0.34] for x in np.linspace(-160, 120, 50)]
+    TARGET_POS = np.concatenate([TARGET_POS1, TARGET_POS2, TARGET_POS3, TARGET_POS4])
+    EE2CAM = [0.055, 0.0325, -0.05] #numbers from cad
     cam_positions = []
     cam_oris = []
     for pos in TARGET_POS:
