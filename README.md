@@ -152,9 +152,11 @@ Note that the video file is in the `_static` folder instead of the same folder.
 [External Documentation on &lt;video&gt; tag](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video)
 
 # Franka Trajectory generation
+## Running rviz
+    roslaunch panda_moveit_config demo.launch
 ## Creating Cam Pose
     cd doc/move_group_python_interface/scripts
     python create_cam_pose.py
 ## Creating joint trajectory
     cd doc/move_group_python_interface/scripts
-    python create_joint_trajectory.py
+    rosrun moveit_tutorials create_joint_trajectory.py
