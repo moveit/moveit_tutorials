@@ -129,7 +129,7 @@ class TrajectoryGenerator(object):
         # ignoring the check for infeasible jumps in joint space, which is sufficient
         # for this tutorial.
         (plan, fraction) = move_group.compute_cartesian_path(
-            waypoints, 0.001, 5.0  # waypoints to follow  # eef_step
+            waypoints, 0.01, 5.0  # waypoints to follow  # eef_step
         )  # jump_threshold
         if fraction > 0.99: # 100% possible?
             print("================== Path planning complete! {}% planned ======================".format(fraction * 100))

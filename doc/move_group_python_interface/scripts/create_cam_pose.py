@@ -43,7 +43,7 @@ def look_at(x1, y1, z1, x2, y2, z2):
     return position, rotmat
 
 if __name__ == "__main__":
-    CENTER_POS = [0.40, 0.0, -0.01]
+    CENTER_POS = [0.45, 0.0, -0.01]
     TARGET_POS1 = [
         [CENTER_POS[0], CENTER_POS[1], 0.55],
     ]
