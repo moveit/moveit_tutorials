@@ -137,6 +137,8 @@ Directly interfacing a ROS controller manager
 
 Alternatively to the simple controller manager described above, MoveIt also provides a controller manager that directly interfaces the `ROS Controller Manager <http://wiki.ros.org/controller_manager>`_. Instead of using a bridging configuration file like ``simple_moveit_controllers.yaml``, this controller manager directly queries the ROS Controller Manager for available controllers.
 
+The MoveIt ROS Controller Manager keeps track of all loaded and started ROS controllers, as well as the subset these controllers that can be used with MoveIt. All loaded and started controllers are designated as *active*, and the subset of these controllers that can be used with MoveIt because they have associated controller handles is designated as *managed*.
+
 This controller manager can only interface controllers from the single ROS controller manager found in the ROS namespace defined by the ROS parameter ``~ros_control_namespace`` (defaults to ``/``). By providing different names in the simple controller manager, the latter can interface multiple ROS controller managers.
 To overcome this limitation, there also exists ``MoveItMultiControllerManager``, which queries *all* existing ROS controller managers and instantiates all controllers with their respective namespace taking care of proper delegation. This type of manager can be configured by setting ``moveit_controller_manager`` to ``moveit_ros_control_interface::MoveItMultiControllerManager``:
 
