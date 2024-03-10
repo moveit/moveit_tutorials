@@ -203,7 +203,7 @@ The *MoveIt ROS Control Controller Manager* will regard any controllers loaded b
 
 For example, see the stock Joint Trajectory Controller `plugin registration <https://github.com/ros-planning/moveit/blob/master/moveit_plugins/moveit_ros_control_interface/moveit_ros_control_interface_plugins.xml>`_, which links several flavors of this controller exported from ``ros_controllers`` package with the corresponding MoveIt Controller Handle that supports `Follow Joint Trajectory Action <https://docs.ros.org/en/noetic/api/control_msgs/html/action/FollowJointTrajectory.html>`_ via an exported MoveIt *Controller Handle Allocator* plugin.
 
-The same pattern can be followed to link any other ROS controller with a MoveIt *Controller Handle* so that it can receive trajectory commands.
+The same pattern can be followed to link any other ROS controller that exposes a `Follow Joint Trajectory Action <https://docs.ros.org/en/noetic/api/control_msgs/html/action/FollowJointTrajectory.html>`_ server with an existing MoveIt *Controller Handle* so that it can receive trajectory commands.
 
 First, create a plugin description file:
 
@@ -231,9 +231,6 @@ Reference the plugin description in your package.xml's ``export`` section:
     <export>
         <moveit_ros_control_interface plugin="${prefix}/controller_moveit_plugin.xml"/>
     </export>
-
-.. note::
-    Replace ``/controller_moveit_plugin.xml`` with a relative path of the plugin description file created in the previous step.
 
 After building the package, any controllers in ``ros_controllers.yaml`` that reference ``controller_package_name/controller_type_name`` will become available for use with MoveIt.
 
