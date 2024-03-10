@@ -338,7 +338,7 @@ This example controller handle allocator can be exported by creating a plugin de
 
 .. code-block:: XML
 
-    <library path="lib/libtrajectory_controller_example">
+    <library path="libtrajectory_controller_example">
         <class
             name="example/trajectory_controller_example"
             type="example::controller_handle_allocator_example"
@@ -349,9 +349,6 @@ This example controller handle allocator can be exported by creating a plugin de
             </description>
         </class>
     </library>
-
-.. note::
-  Replace ``lib/libtrajectory_controller_example`` with your library name by following the same format (prepending ``lib/lib`` to your library name)
 
 This plugin definition links the name of a controller you are integrating with MoveIt (specified by the ``name`` attribute) with the type of the allocator you implemented (specified by the ``type`` attribute), such as the one in the example above.
 
@@ -464,9 +461,6 @@ The translation between `moveit_msgs::RobotTrajectory <http://docs.ros.org/en/no
     }
   };
   }  // namespace example
-
-.. note::
-   Replace ``your_controller_action`` with the type of action interface supported by the controller, and ``your_timeout`` with how long to wait for the connection to take place (this can be read from settings). If the controller doesn't support an Action Server, this can be replaced by whichever mechanism is supported.
 
 Once implemented, the controller handle does not need to be exported, since it's returned by the controller handle allocator, which is exported.
 
