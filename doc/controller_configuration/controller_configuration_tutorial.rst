@@ -224,7 +224,7 @@ First, create a plugin description file:
 
 Replace ``controller_package_name/controller_type_name`` and ``Controller description`` with values appropriate for your project.
 
-Reference the plugin description in your package ``export`` section:
+Reference the plugin description in your package.xml's ``export`` section:
 
 .. code-block:: XML
 
