@@ -386,7 +386,9 @@ The plugin definition can then be referenced in the package manifest:
         <moveit_ros_control_interface plugin="${prefix}/controller_handle_allocator_plugin.xml"/>
     </export>
 
-The translation between `moveit_msgs::RobotTrajectory <http://docs.ros.org/en/noetic/api/moveit_msgs/html/msg/RobotTrajectory.html>`_ message and the type of command supported by the controller would be done by implementing a controller handle, for example:
+The translation between `moveit_msgs::RobotTrajectory <http://docs.ros.org/en/noetic/api/moveit_msgs/html/msg/RobotTrajectory.html>`_ message and the type of command supported by the controller would be done by implementing a controller handle.
+
+The following code listing demonstrates how to write a controller handle that translates robot trajectory message into joint trajectory message. Of course this is already taken care of by existing controller handles included with MoveIt, so you would substitute the message that your custom controller understands here instead of ``FollowJointTrajectory``:
 
 .. code-block:: c++
 
