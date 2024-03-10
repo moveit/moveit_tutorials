@@ -11,8 +11,8 @@ There are different options available:
 
 In the following sections, we will look at each of these options in more detail.
 
-MoveIt Simple Controller Manager
---------------------------------
+Simple Controller Manager
+-------------------------
 
 The `JointTrajectoryController <http://wiki.ros.org/joint_trajectory_controller>`_ and `GripperActionController <http://wiki.ros.org/gripper_action_controller>`_ from the `ROS controllers <http://wiki.ros.org/ros_controllers>`_ package are supported out of the box and can be easily configured using the `MoveIt Setup Assistant <../setup_assistant/setup_assistant_tutorial.html>`_ (*MSA*) on the *Controllers* page.
 
@@ -132,22 +132,25 @@ Additional options for tuning the behavior and safety checks of MoveIt's executi
 
 .. _ros control manager:
 
-Directly interfacing a ROS controller manager
----------------------------------------------
+ROS Control Controller Manager
+-------------------------------------
 
 Alternatively to the simple controller manager described above, MoveIt also provides a controller manager that directly interfaces the `ROS Controller Manager <http://wiki.ros.org/controller_manager>`_. Instead of using a bridging configuration file like ``simple_moveit_controllers.yaml``, this controller manager directly queries the ROS Controller Manager for available controllers.
 
-The MoveIt ROS Controller Manager keeps track of all loaded and started ROS controllers, as well as the subset these controllers that can be used with MoveIt. All loaded and started controllers are designated as *active*, and the subset of these controllers that can be used with MoveIt because they have associated controller handles is designated as *managed*.
+The *MoveIt ROS Control Controller Manager* keeps track of all loaded and started ROS controllers, as well as the subset these controllers that can be used with MoveIt. All loaded and started controllers are designated as *active*, and the subset of these controllers that can be used with MoveIt because they have associated controller handles is designated as *managed*.
 
-This controller manager can only interface controllers from the single ROS controller manager found in the ROS namespace defined by the ROS parameter ``~ros_control_namespace`` (defaults to ``/``). By providing different names in the simple controller manager, the latter can interface multiple ROS controller managers.
-To overcome this limitation, there also exists ``MoveItMultiControllerManager``, which queries *all* existing ROS controller managers and instantiates all controllers with their respective namespace taking care of proper delegation. This type of manager can be configured by setting ``moveit_controller_manager`` to ``moveit_ros_control_interface::MoveItMultiControllerManager``:
+Multi Controller Manager
+-------------------------------
+
+The *MoveIt ROS Control Controller Manager* can only interface controllers from the single ROS controller manager found in the ROS namespace defined by the ROS parameter ``~ros_control_namespace`` (defaults to ``/``).
+
+To overcome this limitation, there also exists ``MoveItMultiControllerManager``, which queries *all* existing ROS controller managers and instantiates all controllers with their respective namespace taking care of proper delegation.
+
+This type of manager can be configured by setting ``moveit_controller_manager`` to ``moveit_ros_control_interface::MoveItMultiControllerManager``:
 
 .. code-block:: XML
 
     <param name="moveit_controller_manager" value="moveit_ros_control_interface::MoveItMultiControllerManager" />
-
-Another limitation of the these controller managers is that, out of the box, they only support controllers that implement the ``FollowJointTrajectory`` action.
-This is because only a `ControllerHandleAllocator <https://github.com/ros-planning/moveit/blob/master/moveit_plugins/moveit_ros_control_interface/src/joint_trajectory_controller_plugin.cpp>`_ for this action type is `exported <https://github.com/ros-planning/moveit/blob/master/moveit_plugins/moveit_ros_control_interface/moveit_ros_control_interface_plugins.xml>`_ as a plugin. Even though there is a `ControllerHandle <https://github.com/ros-planning/moveit/blob/master/moveit_plugins/moveit_simple_controller_manager/include/moveit_simple_controller_manager/gripper_controller_handle.h>`__ for ``GripperCommand`` actions, a corresponding ``ControllerHandleAllocator`` plugin that enables the controller handle to be dynamically created from the ROS controller type name, does not exist.
 
 Controller Switching and Namespaces
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -155,6 +158,23 @@ Controller Switching and Namespaces
 All controller names get prefixed by the namespace of their `ROS Control <http://wiki.ros.org/ros_control>`_ node. For this reason, controller names should not contain slashes.
 
 For a particular `ROS Control <http://wiki.ros.org/ros_control>`_ node, MoveIt can decide which controllers to start or stop. MoveIt will take care of stopping controllers based on their *claimed joint resources* if a to-be-started controller needs any of those resources.
+
+Remapping ``/joint_states`` topic
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+MoveIt requires joint states to be published on the ``/joint_states`` topic to internally maintain the robot's state.
+If the joint states are published on another topic specific to your project, such as ``/robot/joint_states``, add a ``remap`` to the ``move_group`` node in ``move_group.launch`` file generated by MSA:
+
+.. code-block:: XML
+
+    <!-- Start the actual move_group node/action server -->
+    <node name="move_group" launch-prefix="$(arg launch_prefix)" pkg="moveit_ros_move_group" type="move_group" respawn="false" output="screen" args="$(arg command_args)">
+        <remap
+            from="joint_states"
+            to="robot/joint_states"
+        />
+        <!-- Other settings -->
+    </node>
+
 
 Fake Controller Manager
 -----------------------
@@ -193,8 +213,15 @@ The ``type`` setting specifies the *fake controller interpolation type*:
 * ``via points``: jumps to the position specified by each trajectory waypoint without interpolation in between - useful for visual debugging.
 * ``last point``: warps directly to the last trajectory waypoint - the fastest method for off-line benchmarking and unit tests.
 
-ROS Controllers with Joint Trajectory Action
------------------------------------------------------------------
+Integrating Controllers
+-----------------------
+
+MoveIt Controller Managers only support controllers that implement the ``FollowJointTrajectory`` action out of the box.
+
+This is because only a `ControllerHandleAllocator <https://github.com/ros-planning/moveit/blob/master/moveit_plugins/moveit_ros_control_interface/src/joint_trajectory_controller_plugin.cpp>`_ for this action type is `exported <https://github.com/ros-planning/moveit/blob/master/moveit_plugins/moveit_ros_control_interface/moveit_ros_control_interface_plugins.xml>`_ as a plugin. Even though there is a `ControllerHandle <https://github.com/ros-planning/moveit/blob/master/moveit_plugins/moveit_simple_controller_manager/include/moveit_simple_controller_manager/gripper_controller_handle.h>`__ for ``GripperCommand`` actions, a corresponding ``ControllerHandleAllocator`` plugin that enables the controller handle to be dynamically created from the ROS controller type name, does not exist.
+
+ROS Controllers with Joint Trajectory Action interface
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 *Controller handles* implemented by MoveIt bridge ROS Controllers with the MoveIt motion planning pipeline by means of an `Action Client <http://wiki.ros.org/actionlib>`_, as long as the controller starts an *Action Server* that handles one of the two types of supported action interfaces:
 
@@ -222,9 +249,6 @@ First, create a plugin description file:
             </description>
         </class>
     </library>
-
-
-Replace ``controller_package_name/controller_type_name`` and ``Controller description`` with values appropriate for your project.
 
 Reference the plugin description in your package.xml's ``export`` section:
 
@@ -257,7 +281,7 @@ To test ROS controller integration with *MoveIt ROS Control Controller Manager*,
         i_clamp: 1
 
 ROS Controllers with another interface
---------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 What if you need to use a ROS controller that does not support `Follow Joint Trajectory Action <https://docs.ros.org/en/noetic/api/control_msgs/html/action/FollowJointTrajectory.html>`_ with *MoveIt ROS Control Controller Manager*? Some examples from `ROS controllers <http://wiki.ros.org/ros_controllers>`_ package include:
 
@@ -462,19 +486,3 @@ The translation between `moveit_msgs::RobotTrajectory <http://docs.ros.org/en/no
   }  // namespace example
 
 Once implemented, the controller handle does not need to be exported, since it's returned by the controller handle allocator, which is exported.
-
-Remapping ``/joint_states`` topic
----------------------------------
-MoveIt requires joint states to be published on the ``/joint_states`` topic to internally maintain the robot's state.
-If the joint states are published on another topic specific to your project, such as ``/robot/joint_states``, add a ``remap`` to the ``move_group`` node in ``move_group.launch`` file generated by MSA:
-
-.. code-block:: XML
-
-    <!-- Start the actual move_group node/action server -->
-    <node name="move_group" launch-prefix="$(arg launch_prefix)" pkg="moveit_ros_move_group" type="move_group" respawn="false" output="screen" args="$(arg command_args)">
-        <remap
-            from="joint_states"
-            to="robot/joint_states"
-        />
-        <!-- Other settings -->
-    </node>

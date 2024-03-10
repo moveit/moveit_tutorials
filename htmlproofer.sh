@@ -7,9 +7,7 @@ export REPOSITORY_NAME=${PWD##*/}
 echo "Testing branch ${GITHUB_BASE_REF:-$GITHUB_HEAD_REF} of $REPOSITORY_NAME"
 
 # Install htmlpoofer
-sudo gem update --system --no-document
-gem --version
-sudo gem install html-proofer -v 3.19.4 # newer 4.x requires different cmdline options
+gem install html-proofer -v 3.19.4
 # Install ROS's version of sphinx
 sudo apt-get -qq install "ros-$ROS_DISTRO-rosdoc-lite"
 source "/opt/ros/$ROS_DISTRO/setup.bash"
