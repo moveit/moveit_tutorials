@@ -191,13 +191,13 @@ The ``type`` setting specifies the *fake controller interpolation type*:
 * ``via points``: jumps to the position specified by each trajectory waypoint without interpolation in between - useful for visual debugging.
 * ``last point``: warps directly to the last trajectory waypoint - the fastest method for off-line benchmarking and unit tests.
 
-Enabling a GripperCommand controller for a ROS controller manager
+ROS Controllers with Joint Trajectory Action
 -----------------------------------------------------------------
 
 *Controller handles* implemented by MoveIt bridge ROS Controllers with the MoveIt motion planning pipeline by means of an `Action Client <http://wiki.ros.org/actionlib>`_, as long as the controller starts an *Action Server* that handles one of the two types of supported action interfaces:
 
-* The `Joint Trajectory Controller Handle <https://github.com/ros-planning/moveit/blob/master/moveit_plugins/moveit_simple_controller_manager/include/moveit_simple_controller_manager/follow_joint_trajectory_controller_handle.h>`_ plugin can be used for controllers that support `Follow Joint Trajectory Action <https://docs.ros.org/en/noetic/api/control_msgs/html/action/FollowJointTrajectory.html>`_.
-* The `Gripper Controller Handle <https://github.com/ros-planning/moveit/blob/master/moveit_plugins/moveit_simple_controller_manager/include/moveit_simple_controller_manager/gripper_controller_handle.h>`_ plugin can be used for controllers that support `Gripper Command Action <https://docs.ros.org/en/jade/api/control_msgs/html/action/GripperCommand.html>`_.
+* The `Joint Trajectory Controller Handle <https://github.com/ros-planning/moveit/blob/master/moveit_plugins/moveit_simple_controller_manager/include/moveit_simple_controller_manager/follow_joint_trajectory_controller_handle.h>`_ can be used for controllers that support `Follow Joint Trajectory Action <https://docs.ros.org/en/noetic/api/control_msgs/html/action/FollowJointTrajectory.html>`_.
+* The `Gripper Controller Handle <https://github.com/ros-planning/moveit/blob/master/moveit_plugins/moveit_simple_controller_manager/include/moveit_simple_controller_manager/gripper_controller_handle.h>`_ can be used for controllers that support `Gripper Command Action <https://docs.ros.org/en/jade/api/control_msgs/html/action/GripperCommand.html>`_.
 
 The *MoveIt ROS Control Controller Manager* will regard any controllers loaded by ROS Controller Manager as *managed* if it finds a plugin registration that links the ``type`` of the ROS controller with a MoveIt Controller Handle Allocator. If no such registration is found, the controller is regarded as *unmanaged* (merely *active*) and cannot be used to receive trajectory commands from MoveIt.
 
@@ -325,7 +325,7 @@ The only job of a controller handle allocator is to create a new instance of the
     moveit_controller_manager::MoveItControllerHandlePtr alloc(const std::string& name,
                                                                const std::vector<std::string>& resources) override
     {
-      return std::make_shared<controller_handle_example>(name, std::string("follow_joint_trajectory"));
+      return std::make_shared<controller_handle_example>(name);
     }
   };
   }  // namespace example
@@ -387,9 +387,9 @@ The translation between `moveit_msgs::RobotTrajectory <http://docs.ros.org/en/no
     std::shared_ptr<actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>> actionClient_;
 
   public:
-    controller_handle_example(const std::string& name, const std::string& action_ns)
+    controller_handle_example(const std::string& name)
     {
-      std::string actionName = name + "/" + action_ns;
+      std::string actionName = name + "/follow_joint_trajectory";
 
       actionClient_ =
           std::make_shared<actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>>(actionName, true);
