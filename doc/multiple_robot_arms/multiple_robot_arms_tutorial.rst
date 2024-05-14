@@ -13,7 +13,7 @@ Watch this `Quick YouTube video <https://www.youtube.com/watch?v=h8zlsuzeW3U>`_ 
 
 Getting Started
 ---------------
-If you haven't already done so, make sure you've completed the steps in `Getting Started <https://ros-planning.github.io/moveit_tutorials/doc/getting_started/getting_started.html>`_.
+If you haven't already done so, make sure you've completed the steps in `Getting Started <https://moveit.github.io/moveit_tutorials/doc/getting_started/getting_started.html>`_.
 
 
 The steps of setting multiple arms environments to use MoveIt motion planning are as follows:
@@ -156,7 +156,7 @@ MoveIt Setup Assistant is used to configure our multiple robot arms for using th
 
     roslaunch moveit_setup_assistant setup_assistant.launch
 
-Follow the MoveIt Setup Assistant `tutorial <https://ros-planning.github.io/moveit_tutorials/doc/setup_assistant/setup_assistant_tutorial.html>`_ to configure the arms. Note that we will be making a separate move group for each arm and hand. The groups are called ``right_arm``, ``left_arm``, ``right_hand``, and ``left_hand``.
+Follow the MoveIt Setup Assistant `tutorial <https://moveit.github.io/moveit_tutorials/doc/setup_assistant/setup_assistant_tutorial.html>`_ to configure the arms. Note that we will be making a separate move group for each arm and hand. The groups are called ``right_arm``, ``left_arm``, ``right_hand``, and ``left_hand``.
 
 Here are two more steps which are not required but often useful:
 
@@ -524,4 +524,4 @@ Step 5: Plan arms motions with MoveIt Move Group Interface.
 
 When writing code for multiple move groups, motion planning works the same way it did in previous tutorials. There is an `example here for multiple move groups <https://github.com/Robotawi/panda_arms_ws/blob/master/src/panda_multiple_arms/src/plan_simple_motion.cpp>`_ and a `minimal CMakeLists.txt <https://github.com/Robotawi/panda_arms_ws/blob/master/src/panda_multiple_arms/CMakeLists.txt>`_ file with the dependencies to use Moveit Move Group Interface and describe the arms poses. This `short YouTube video <https://youtu.be/sxUQh91oQxM>`_ shows the resulting arms and hands motions. This example uses a separate move group for every arm, but we can make a new move group that contains both the ``right_arm`` and ``left_arm`` groups to plan and execute motions for them simultaneously.
 
-Refer to MoveIt tutorials to learn more about the `Move Group Interface <https://ros-planning.github.io/moveit_tutorials/doc/move_group_interface/move_group_interface_tutorial.html>`_.
+Refer to MoveIt tutorials to learn more about the `Move Group Interface <https://moveit.github.io/moveit_tutorials/doc/move_group_interface/move_group_interface_tutorial.html>`_.
