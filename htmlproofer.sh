@@ -21,7 +21,7 @@ sphinx-build -W -b html . native_build
 rosdoc_lite -o build .
 
 # Run HTML tests on generated build output to check for 404 errors, etc
-URL_SWAP="--url-swap https\://github.com/ros-planning/moveit_tutorials/blob/master/:file\://$PWD/build/html/"
+URL_SWAP="--url-swap https\://github.com/moveit/moveit_tutorials/blob/master/:file\://$PWD/build/html/"
 htmlproofer ./build --only-4xx --check-html --file-ignore ./build/html/genindex.html,./build/html/search.html --alt-ignore '/.*/' --url-ignore '#' $URL_SWAP
 
 # Tell GitHub Pages (on deploy) to bypass Jekyll processing
