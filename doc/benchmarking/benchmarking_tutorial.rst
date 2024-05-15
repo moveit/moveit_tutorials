@@ -11,7 +11,7 @@ The example below demonstrates how the benchmarking can be run for a Panda robot
 Example
 -------
 An example is provided in the ``examples`` folder. The launch file requires a MoveIt configuration package
-for the Panda robot arm available from `here <https://github.com/ros-planning/panda_moveit_config>`_.
+for the Panda robot arm available from `here <https://github.com/moveit/panda_moveit_config>`_.
 
 To run:
 

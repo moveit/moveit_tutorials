@@ -36,7 +36,7 @@ Topic ``/model/depth`` gives the points that overlap with the current robot stat
 
 .. image:: Model_Depth.png
 
-Check out the mesh filter code `here <https://github.com/ros-planning/moveit/blob/master/moveit_ros/perception/mesh_filter/src/depth_self_filter_nodelet.cpp>`_
+Check out the mesh filter code `here <https://github.com/moveit/moveit/blob/master/moveit_ros/perception/mesh_filter/src/depth_self_filter_nodelet.cpp>`_
 
 
 How to add sensor to arm in simulation

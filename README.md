@@ -2,7 +2,7 @@
 
 [MoveIt 1 Live tutorials](https://moveit.github.io/moveit_tutorials/)
 
-*These are the tutorials for MoveIt 1, for MoveIt 2 see [MoveIt 2 Tutorials](https://github.com/ros-planning/moveit2_tutorials/)*
+*These are the tutorials for MoveIt 1, for MoveIt 2 see [MoveIt 2 Tutorials](https://github.com/moveit/moveit2_tutorials/)*
 
 This is the primary documentation for the MoveIt project. We strongly encourage you to help improve MoveIt's documentation. Please consider reading the guidelines below for writing the best documentation and tutorials. However, if you are uncomfortable with any of the approaches, simply adding documentation text to your pull requests is better than nothing.
 
@@ -12,7 +12,7 @@ All content in this repository is open source and released under the [BSD Licens
 
 This repository is currently built automatically by two systems. Github Actions builds the documentation for Noetic, and ROS Build Farm builds the documentation for older versions:
 
-- [ROS Noetic](https://moveit.github.io/moveit_tutorials/): [![CI](https://github.com/ros-planning/moveit_tutorials/actions/workflows/ci.yaml/badge.svg?branch=master)](https://github.com/ros-planning/moveit_tutorials/actions/workflows/ci.yaml?query=branch%3Amaster) [![Deploy](https://github.com/ros-planning/moveit_tutorials/actions/workflows/deploy.yaml/badge.svg?branch=master)](https://github.com/ros-planning/moveit_tutorials/actions/workflows/deploy.yaml?query=branch%3Amaster) [![Formatting](https://github.com/ros-planning/moveit_tutorials/actions/workflows/format.yaml/badge.svg?branch=master)](https://github.com/ros-planning/moveit_tutorials/actions/workflows/format.yaml?query=branch%3Amaster)
+- [ROS Noetic](https://moveit.github.io/moveit_tutorials/): [![CI](https://github.com/moveit/moveit_tutorials/actions/workflows/ci.yaml/badge.svg?branch=master)](https://github.com/moveit/moveit_tutorials/actions/workflows/ci.yaml?query=branch%3Amaster) [![Deploy](https://github.com/moveit/moveit_tutorials/actions/workflows/deploy.yaml/badge.svg?branch=master)](https://github.com/moveit/moveit_tutorials/actions/workflows/deploy.yaml?query=branch%3Amaster) [![Formatting](https://github.com/moveit/moveit_tutorials/actions/workflows/format.yaml/badge.svg?branch=master)](https://github.com/moveit/moveit_tutorials/actions/workflows/format.yaml?query=branch%3Amaster)
 - [ROS Melodic](http://docs.ros.org/melodic/api/moveit_tutorials/html/): [![build farm](http://build.ros.org/buildStatus/icon?job=Mdoc__moveit_tutorials__ubuntu_bionic_amd64)](http://build.ros.org/job/Mdoc__moveit_tutorials__ubuntu_bionic_amd64/)
 - [ROS Kinetic](http://docs.ros.org/kinetic/api/moveit_tutorials/html/): [![build farm](http://build.ros.org/buildStatus/icon?job=Kdoc__moveit_tutorials__ubuntu_xenial_amd64)](http://build.ros.org/job/Kdoc__moveit_tutorials__ubuntu_xenial_amd64/)
 
@@ -43,7 +43,7 @@ For deploying documentation changes to the web, [Section 3 of the rosdoc_lite wi
 
 ## Contributing
 
-We rely on the community to keep these tutorials up-to-date and bug-free. If you find an issue with the tutorials please [open an issue on GitHub](https://github.com/ros-planning/moveit_tutorials/issues/new) or open a PR with the proposed changes.
+We rely on the community to keep these tutorials up-to-date and bug-free. If you find an issue with the tutorials please [open an issue on GitHub](https://github.com/moveit/moveit_tutorials/issues/new) or open a PR with the proposed changes.
 
 ### Formatting and Style
 

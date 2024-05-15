@@ -120,7 +120,7 @@ Such a constraint is compactly defined like this::
 Running the database generator
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Assuming MoveIt itself is already launched (via eg. ``roslaunch X_moveit_config demo.launch``), you can use a launch file similar to `generate_state_database.launch <https://github.com/ros-planning/moveit/blob/master/moveit_planners/ompl/launch/generate_state_database.launch>`_
+Assuming MoveIt itself is already launched (via eg. ``roslaunch X_moveit_config demo.launch``), you can use a launch file similar to `generate_state_database.launch <https://github.com/moveit/moveit/blob/master/moveit_planners/ompl/launch/generate_state_database.launch>`_
 
 The file with the constraint definitions can be passed to the launch file::
 

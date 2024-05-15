@@ -65,7 +65,7 @@ The cache size can be controlled with an absolute cap (``max_cache_size``) or wi
 - *cached_ik_kinematics_plugin/CachedTRACKinematicsPlugin*: a wrapper for the `TRAC IK solver <https://bitbucket.org/traclabs/trac_ik>`_. This solver is only available if the TRAC IK kinematics plugin is detected at compile time.
 - *cached_ik_kinematics_plugin/CachedUR5KinematicsPlugin*: a wrapper for the analytic IK solver for the UR5 arm (similar solvers exist for the UR3 and UR10). This is only for illustrative purposes; the caching just adds extra overhead to the solver.
 
-See the `Cached IK README <https://github.com/ros-planning/moveit/blob/master/moveit_kinematics/cached_ik_kinematics_plugin/README.md>`_ for more information.
+See the `Cached IK README <https://github.com/moveit/moveit/blob/master/moveit_kinematics/cached_ik_kinematics_plugin/README.md>`_ for more information.
 
 Position Only IK
 ----------------

@@ -13,8 +13,8 @@
   <maintainer email="mike@picknik.ai">Mike Lautman</maintainer>
 
   <url type="website">https://moveit.github.io/moveit_tutorials</url>
-  <url type="repository">https://github.com/ros-planning/moveit_tutorials</url>
-  <url type="bugtracker">https://github.com/ros-planning/moveit_tutorials/issues</url>
+  <url type="repository">https://github.com/moveit/moveit_tutorials</url>
+  <url type="bugtracker">https://github.com/moveit/moveit_tutorials/issues</url>
 
   <buildtool_depend>catkin</buildtool_depend>
 

@@ -41,13 +41,13 @@ Test Robots
 
 **Panda**
 
-From the package `panda_moveit_config <https://github.com/ros-planning/panda_moveit_config>`_: ::
+From the package `panda_moveit_config <https://github.com/moveit/panda_moveit_config>`_: ::
 
   roslaunch panda_moveit_config demo.launch
 
 **Fanuc M-10iA**
 
-From the package `moveit_resources <https://github.com/ros-planning/moveit_resources>`_: ::
+From the package `moveit_resources <https://github.com/moveit/moveit_resources>`_: ::
 
   roslaunch moveit_resources demo.launch
 
