@@ -39,15 +39,15 @@ Prerequisites
 --------------
 To use TrajOpt with your robot you must already have a MoveIt configuration package for your robot. For example, if you have a Panda robot, it's called ``panda_moveit_config``. This is typically configured using the `MoveIt Setup Assistant <../setup_assistant/setup_assistant_tutorial.html>`_.
 
-**Note:** in this tutorial, we use ``panda_moveit_config`` from the `ros-planning/panda_moveit_config <https://github.com/ros-planning/panda_moveit_config>`_ repository which contains the necessary config files for trajopt planner.
+**Note:** in this tutorial, we use ``panda_moveit_config`` from the `moveit/panda_moveit_config <https://github.com/moveit/panda_moveit_config>`_ repository which contains the necessary config files for trajopt planner.
 
 Running the Demo
 ----------------
-To run the example, you need to run ``panda_moveit_config`` from the `ros-planning/panda_moveit_config <https://github.com/ros-planning/panda_moveit_config>`_ repository at first by passing ``trajopt`` as the planner: ::
+To run the example, you need to run ``panda_moveit_config`` from the `moveit/panda_moveit_config <https://github.com/moveit/panda_moveit_config>`_ repository at first by passing ``trajopt`` as the planner: ::
 
   roslaunch panda_moveit_config demo.launch  pipeline:=trajopt
 
-Then you can run the trajopt example from `ros-planning/moveit_tutorials <https://github.com/ros-planning/moveit_tutorials>`_: ::
+Then you can run the trajopt example from `moveit/moveit_tutorials <https://github.com/moveit/moveit_tutorials>`_: ::
 
   roslaunch moveit_tutorials trajopt_example_launch.launch
 

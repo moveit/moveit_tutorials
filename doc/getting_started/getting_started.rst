@@ -36,7 +36,7 @@ To this end, follow the instructions below. However, building MoveIt from source
 Come back to this step, if building of your workspace fails due to unknown symbols! ::
 
   wstool init .
-  wstool merge -t . https://raw.githubusercontent.com/ros-planning/moveit/master/moveit.rosinstall
+  wstool merge -t . https://raw.githubusercontent.com/moveit/moveit/master/moveit.rosinstall
   wstool remove moveit_tutorials  # this is cloned in the next section
   wstool update -t .
 
@@ -48,8 +48,8 @@ To easily follow along with these tutorials, you will need a **ROBOT_moveit_conf
 Within your `catkin <http://wiki.ros.org/catkin>`_ workspace, download the tutorials as well as the ``panda_moveit_config`` package. You may safely ignore any :code:`git clone` errors saying the destination already exists: ::
 
   cd ~/ws_moveit/src
-  git clone https://github.com/ros-planning/moveit_tutorials.git -b master
-  git clone https://github.com/ros-planning/panda_moveit_config.git -b noetic-devel
+  git clone https://github.com/moveit/moveit_tutorials.git -b master
+  git clone https://github.com/moveit/panda_moveit_config.git -b noetic-devel
 
 .. note:: For now we will use a pre-generated ``panda_moveit_config`` package but later we will learn how to make our own in the `MoveIt Setup Assistant tutorial <../setup_assistant/setup_assistant_tutorial.html>`_.
 

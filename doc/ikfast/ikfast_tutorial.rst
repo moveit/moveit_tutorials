@@ -54,7 +54,7 @@ Install the MoveIt IKFast package either from Debian packages or from source.
 
 Inside your catkin workspace's ``./src`` directory: ::
 
- git clone https://github.com/ros-planning/moveit.git
+ git clone https://github.com/moveit/moveit.git
  rosdep install -y --from-paths . --ignore-src --rosdistro ${ROS_DISTRO}
  catkin build
 

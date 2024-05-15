@@ -20,10 +20,10 @@ Installing MoveIt Grasps
 Install From Source
 ^^^^^^^^^^^^^^^^^^^
 
-Clone the `moveit_grasps <https://github.com/ros-planning/moveit_grasps>`_ repository into a `catkin workspace <https://ros-planning.github.io/moveit_tutorials/doc/getting_started/getting_started.html#create-a-catkin-workspace>`_. For this tutorial we use Franka Emika's Panda robot setup from `panda_moveit_config <https://github.com/ros-planning/panda_moveit_config>`_::
+Clone the `moveit_grasps <https://github.com/moveit/moveit_grasps>`_ repository into a `catkin workspace <https://moveit.github.io/moveit_tutorials/doc/getting_started/getting_started.html#create-a-catkin-workspace>`_. For this tutorial we use Franka Emika's Panda robot setup from `panda_moveit_config <https://github.com/moveit/panda_moveit_config>`_::
 
     cd ~/ws_moveit/src
-    git clone -b $ROS_DISTRO-devel https://github.com/ros-planning/moveit_grasps.git
+    git clone -b $ROS_DISTRO-devel https://github.com/moveit/moveit_grasps.git
 
 Use the rosdep tool to automatically install its dependencies::
 
@@ -54,7 +54,7 @@ For running Demos using a suction gripper, specify the gripper when launching Rv
 
     roslaunch moveit_grasps rviz.launch gripper:=suction
 
-**NOTE:** The released versions of `panda_moveit_config <https://github.com/ros-planning/panda_moveit_config>`_ may lag behind the source versions. If you have issues with the demos, a good first step would be to download and build `panda_moveit_config <https://github.com/ros-planning/panda_moveit_config>`_ from source.
+**NOTE:** The released versions of `panda_moveit_config <https://github.com/moveit/panda_moveit_config>`_ may lag behind the source versions. If you have issues with the demos, a good first step would be to download and build `panda_moveit_config <https://github.com/moveit/panda_moveit_config>`_ from source.
 
 1) The Entire MoveIt Grasps Pipeline
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -135,7 +135,7 @@ In addition, the *Grasp Generator* uses the following component:
 
  - *Grasp Scorer* supports a number of heuristics for judging which grasps are favorable, given known information about the problem / application
 
-An example for generating, filtering and planning grasp motions can be found inside the file `src/grasp_pipeline_demo.cpp  <https://github.com/ros-planning/moveit_grasps/blob/melodic-devel/src/demo/grasp_pipeline_demo.cpp>`_. Instructions for running are below.
+An example for generating, filtering and planning grasp motions can be found inside the file `src/grasp_pipeline_demo.cpp  <https://github.com/moveit/moveit_grasps/blob/melodic-devel/src/demo/grasp_pipeline_demo.cpp>`_. Instructions for running are below.
 
 Robot-Agnostic Configuration
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -149,7 +149,7 @@ In addition to this tutorial, see the comments in the following example files fo
 
 **ROBOT_grasp_data.yaml**
 
-The canonical example end effector configuration uses Franka Emika's Panda: `config_robot/panda_grasp_data.yaml <https://github.com/ros-planning/moveit_grasps/blob/melodic-devel/config_robot/panda_grasp_data.yaml>`_.
+The canonical example end effector configuration uses Franka Emika's Panda: `config_robot/panda_grasp_data.yaml <https://github.com/moveit/moveit_grasps/blob/melodic-devel/config_robot/panda_grasp_data.yaml>`_.
 
 In that file you will find all of the gripper specific parameters necessary for customizing MoveIt Grasps with suction or finger grippers.
 
@@ -171,13 +171,13 @@ Illustration diagrams for the parameters inside *ROBOT_grasp_data.yaml* file
 
 **moveit_grasps_config.yaml**
 
-An example configuration file for the *Grasp Generator*, *Grasp Filter* and *Grasp Planner* can be found in `config/moveit_grasps_config.yaml <https://github.com/ros-planning/moveit_grasps/blob/melodic-devel/config/moveit_grasps_config.yaml>`_.
+An example configuration file for the *Grasp Generator*, *Grasp Filter* and *Grasp Planner* can be found in `config/moveit_grasps_config.yaml <https://github.com/moveit/moveit_grasps/blob/melodic-devel/config/moveit_grasps_config.yaml>`_.
 
 Applying Robot-Agnostic Configuration
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 To apply your yaml configurations, load them as rosparams with your grasping application / ROS node.
-For an example, see the segment below from the file `launch/grasp_pipeline_demo.launch <https://github.com/ros-planning/moveit_grasps/blob/melodic-devel/launch/grasp_pipeline_demo.launch>`_::
+For an example, see the segment below from the file `launch/grasp_pipeline_demo.launch <https://github.com/moveit/moveit_grasps/blob/melodic-devel/launch/grasp_pipeline_demo.launch>`_::
 
     <node name="moveit_grasps_demo" pkg="moveit_grasps" type="moveit_grasps_pipeline_demo">
       <param name="ee_group_name" value="panda_hand"/>

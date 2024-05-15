@@ -45,7 +45,7 @@ In this step we use git and wstool to get the code we will be testing.  You'll r
 
   cd ${CATKIN_WS}/src
   wstool init .
-  git clone https://github.com/ros-planning/moveit.git -b master
+  git clone https://github.com/moveit/moveit.git -b master
   wstool merge -t . moveit/moveit.rosinstall
   wstool update
 

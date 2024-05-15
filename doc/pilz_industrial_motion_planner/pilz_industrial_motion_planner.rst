@@ -295,7 +295,7 @@ defined at ``/robot_description_planning``.
 
 An example showing the cartesian limits which have to be defined can be
 found in `prbt_moveit_config
-<https://github.com/ros-planning/moveit_resources/blob/master/prbt_moveit_config/config/cartesian_limits.yaml>`_.
+<https://github.com/moveit/moveit_resources/blob/master/prbt_moveit_config/config/cartesian_limits.yaml>`_.
 
 Sequence of multiple segments
 =============================
@@ -329,7 +329,7 @@ the trajectory it would have taken without blending.
    :alt: blend figure
 
 Implementation details are available `as pdf
-<https://github.com/ros-planning/moveit/blob/master/moveit_planners/pilz_industrial_motion_planner/doc/MotionBlendAlgorithmDescription.pdf>`_.
+<https://github.com/moveit/moveit/blob/master/moveit_planners/pilz_industrial_motion_planner/doc/MotionBlendAlgorithmDescription.pdf>`_.
 
 Restrictions for ``MotionSequenceRequest``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

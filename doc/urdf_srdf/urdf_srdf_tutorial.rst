@@ -25,7 +25,7 @@ We hope to be able to get rid of these restrictions on the joint names soon.
 Special Characters in Link Names
 """""""""""""""""""""""""""""""""
 Link names should not contain any of the following characters:  ``-``, ``[``, ``]``, ``(``, ``)``.
-Link names also should not include any ``/`` character, as Moveit will interpret any such slash as a separator for a subframe (see `Subframes <https://ros-planning.github.io/moveit_tutorials/doc/subframes/subframes_tutorial.html#/>`_). We suggest to use ``_``, ``:``, or ``\`` instead.
+Link names also should not include any ``/`` character, as Moveit will interpret any such slash as a separator for a subframe (see `Subframes <https://moveit.github.io/moveit_tutorials/doc/subframes/subframes_tutorial.html#/>`_). We suggest to use ``_``, ``:``, or ``\`` instead.
 
 Safety Limits
 """""""""""""

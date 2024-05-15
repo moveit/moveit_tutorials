@@ -38,7 +38,7 @@ Running OMPL as a pre-processor for CHOMP
 Here, it is demonstrated that CHOMP can be used as a post-processing optimization technique for plans obtained by other planning algorithms. The intuition behind this is that some randomized planning algorithm produces an initial guess for CHOMP. CHOMP then takes this initial guess and further optimizes the trajectory.
 To achieve this, follow the steps:
 
-#. Open the ``ompl_planning_pipeline.launch`` file in the ``<robot_moveit_config>/launch`` folder of your robot. For the Panda robot it is this `file <https://github.com/ros-planning/panda_moveit_config/blob/melodic-devel/launch/ompl_planning_pipeline.launch.xml>`_. Edit this launch file, find the lines where ``<arg name="planning_adapters">`` is mentioned and change it to: ::
+#. Open the ``ompl_planning_pipeline.launch`` file in the ``<robot_moveit_config>/launch`` folder of your robot. For the Panda robot it is this `file <https://github.com/moveit/panda_moveit_config/blob/melodic-devel/launch/ompl_planning_pipeline.launch.xml>`_. Edit this launch file, find the lines where ``<arg name="planning_adapters">`` is mentioned and change it to: ::
 
     <arg name="planning_adapters"
          value="default_planner_request_adapters/AddTimeParameterization
@@ -74,7 +74,7 @@ Running CHOMP as a post-processor for STOMP
 Now, it is demonstrated that CHOMP can be used as a post-processing optimization technique for plans obtained by STOMP. The intuition behind this is that STOMP produces an initial path for CHOMP. CHOMP then takes this initial path and further optimizes this trajectory.
 To achieve this, follow the steps:
 
-#. Open the ``stomp_planning_pipeline.launch`` file in the ``<robot_moveit_config>/launch`` folder of your robot. For the Panda robot it is `this <https://github.com/ros-planning/panda_moveit_config/blob/melodic-devel/launch/stomp_planning_pipeline.launch.xml>`_ file. Edit this launch file, find the lines where ``<arg name="planning_adapters">`` is mentioned and change it to: ::
+#. Open the ``stomp_planning_pipeline.launch`` file in the ``<robot_moveit_config>/launch`` folder of your robot. For the Panda robot it is `this <https://github.com/moveit/panda_moveit_config/blob/melodic-devel/launch/stomp_planning_pipeline.launch.xml>`_ file. Edit this launch file, find the lines where ``<arg name="planning_adapters">`` is mentioned and change it to: ::
 
     <arg name="planning_adapters" value="default_planner_request_adapters/AddTimeParameterization
                    default_planner_request_adapters/FixWorkspaceBounds
@@ -111,7 +111,7 @@ NOTE: The STOMP Smoothing Adapter is a work in progress.
 Here, it is demonstrated that STOMP can be used as a post-processing smoothing technique for plans obtained by other planning algorithms. The intuition behind this is that some randomized planning algorithm produces an initial path for STOMP. STOMP then takes this initial path and further smoothens the trajectory.
 To achieve this, follow the steps:
 
-#. Open the ``ompl_planning_pipeline.launch`` file in the ``<robot_moveit_config>/launch`` folder of your robot. For the Panda robot it is this `file <https://github.com/ros-planning/panda_moveit_config/blob/melodic-devel/launch/ompl_planning_pipeline.launch.xml>`_. Edit this launch file, find the lines where ``<arg name="planning_adapters">`` is mentioned and change it to: ::
+#. Open the ``ompl_planning_pipeline.launch`` file in the ``<robot_moveit_config>/launch`` folder of your robot. For the Panda robot it is this `file <https://github.com/moveit/panda_moveit_config/blob/melodic-devel/launch/ompl_planning_pipeline.launch.xml>`_. Edit this launch file, find the lines where ``<arg name="planning_adapters">`` is mentioned and change it to: ::
 
     <arg name="planning_adapters" value="default_planner_request_adapters/AddTimeParameterization
                    default_planner_request_adapters/FixWorkspaceBounds
@@ -152,7 +152,7 @@ NOTE: The STOMP Smoothing Adapter is a work in progress.
 Here, it is demonstrated that STOMP can be used as a post-processing smoothing technique for plans obtained by CHOMP.
 To achieve this, follow the steps:
 
-#. Open the ``chomp_planning_pipeline.launch`` file in the ``<robot_moveit_config>/launch`` folder of your robot. For the Panda robot it is `this file <https://github.com/ros-planning/panda_moveit_config/blob/melodic-devel/launch/chomp_planning_pipeline.launch.xml>`_. Edit this launch file, find the lines where ``<arg name="planning_plugins">`` is mentioned and add the following lines below it: ::
+#. Open the ``chomp_planning_pipeline.launch`` file in the ``<robot_moveit_config>/launch`` folder of your robot. For the Panda robot it is `this file <https://github.com/moveit/panda_moveit_config/blob/melodic-devel/launch/chomp_planning_pipeline.launch.xml>`_. Edit this launch file, find the lines where ``<arg name="planning_plugins">`` is mentioned and add the following lines below it: ::
 
     <arg name="planning_adapters" value="stomp_moveit/StompSmoothingAdapter" />
     <param name="request_adapters" value="$(arg planning_adapters)" />

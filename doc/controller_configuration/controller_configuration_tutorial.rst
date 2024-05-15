@@ -53,7 +53,7 @@ The `ROS Controller Manager <http://wiki.ros.org/controller_manager>`_ loads the
     type: position_controllers/GripperActionController
     joint: panda_finger_joint1
 
-The ``MoveItSimpleControllerManager`` configured by MSA `as the default <https://github.com/ros-planning/moveit/blob/master/moveit_setup_assistant/templates/moveit_config_pkg_template/launch/move_group.launch#L17>`_ MoveIt controller manager will bridge these controllers with MoveIt pipeline by reading the ``simple_moveit_controllers.yaml`` configuration file, for example:
+The ``MoveItSimpleControllerManager`` configured by MSA `as the default <https://github.com/moveit/moveit/blob/master/moveit_setup_assistant/templates/moveit_config_pkg_template/launch/move_group.launch#L17>`_ MoveIt controller manager will bridge these controllers with MoveIt pipeline by reading the ``simple_moveit_controllers.yaml`` configuration file, for example:
 
 .. code-block:: yaml
 
@@ -201,19 +201,19 @@ Integrating Controllers
 
 MoveIt Controller Managers only support controllers that implement the ``FollowJointTrajectory`` action out of the box.
 
-This is because only a `ControllerHandleAllocator <https://github.com/ros-planning/moveit/blob/master/moveit_plugins/moveit_ros_control_interface/src/joint_trajectory_controller_plugin.cpp>`_ for this action type is `exported <https://github.com/ros-planning/moveit/blob/master/moveit_plugins/moveit_ros_control_interface/moveit_ros_control_interface_plugins.xml>`_ as a plugin. Even though there is a `ControllerHandle <https://github.com/ros-planning/moveit/blob/master/moveit_plugins/moveit_simple_controller_manager/include/moveit_simple_controller_manager/gripper_controller_handle.h>`__ for ``GripperCommand`` actions, a corresponding ``ControllerHandleAllocator`` plugin that enables the controller handle to be dynamically created from the ROS controller type name, does not exist.
+This is because only a `ControllerHandleAllocator <https://github.com/moveit/moveit/blob/master/moveit_plugins/moveit_ros_control_interface/src/joint_trajectory_controller_plugin.cpp>`_ for this action type is `exported <https://github.com/moveit/moveit/blob/master/moveit_plugins/moveit_ros_control_interface/moveit_ros_control_interface_plugins.xml>`_ as a plugin. Even though there is a `ControllerHandle <https://github.com/moveit/moveit/blob/master/moveit_plugins/moveit_simple_controller_manager/include/moveit_simple_controller_manager/gripper_controller_handle.h>`__ for ``GripperCommand`` actions, a corresponding ``ControllerHandleAllocator`` plugin that enables the controller handle to be dynamically created from the ROS controller type name, does not exist.
 
 ROS Controllers with a ``FollowJointTrajectory`` action interface
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 *Controller handles* implemented by MoveIt bridge ROS Controllers with the MoveIt motion planning pipeline by means of an `Action Client <http://wiki.ros.org/actionlib>`_, as long as the controller starts an *Action Server* that handles one of the two types of supported action interfaces:
 
-* The `Joint Trajectory Controller Handle <https://github.com/ros-planning/moveit/blob/master/moveit_plugins/moveit_simple_controller_manager/include/moveit_simple_controller_manager/follow_joint_trajectory_controller_handle.h>`_ can be used for controllers that support the `Follow Joint Trajectory Action <https://docs.ros.org/en/noetic/api/control_msgs/html/action/FollowJointTrajectory.html>`_.
-* The `Gripper Controller Handle <https://github.com/ros-planning/moveit/blob/master/moveit_plugins/moveit_simple_controller_manager/include/moveit_simple_controller_manager/gripper_controller_handle.h>`_ can be used for controllers that support the `Gripper Command Action <https://docs.ros.org/en/jade/api/control_msgs/html/action/GripperCommand.html>`_.
+* The `Joint Trajectory Controller Handle <https://github.com/moveit/moveit/blob/master/moveit_plugins/moveit_simple_controller_manager/include/moveit_simple_controller_manager/follow_joint_trajectory_controller_handle.h>`_ can be used for controllers that support the `Follow Joint Trajectory Action <https://docs.ros.org/en/noetic/api/control_msgs/html/action/FollowJointTrajectory.html>`_.
+* The `Gripper Controller Handle <https://github.com/moveit/moveit/blob/master/moveit_plugins/moveit_simple_controller_manager/include/moveit_simple_controller_manager/gripper_controller_handle.h>`_ can be used for controllers that support the `Gripper Command Action <https://docs.ros.org/en/jade/api/control_msgs/html/action/GripperCommand.html>`_.
 
 The *MoveIt ROS Control Controller Manager* will regard any controllers loaded by ROS Controller Manager as *managed* if it finds a plugin registration that links the ``type`` of the ROS controller with a MoveIt Controller Handle Allocator. If no such registration is found, the controller is regarded as *unmanaged* (merely *active*) and cannot be used to receive trajectory commands from MoveIt.
 
-For example, see the stock Joint Trajectory Controller `plugin registration <https://github.com/ros-planning/moveit/blob/master/moveit_plugins/moveit_ros_control_interface/moveit_ros_control_interface_plugins.xml>`_, which links several flavors of this controller exported from ``ros_controllers`` package with the corresponding MoveIt Controller Handle that supports `Follow Joint Trajectory Action <https://docs.ros.org/en/noetic/api/control_msgs/html/action/FollowJointTrajectory.html>`_ via an exported MoveIt *Controller Handle Allocator* plugin.
+For example, see the stock Joint Trajectory Controller `plugin registration <https://github.com/moveit/moveit/blob/master/moveit_plugins/moveit_ros_control_interface/moveit_ros_control_interface_plugins.xml>`_, which links several flavors of this controller exported from ``ros_controllers`` package with the corresponding MoveIt Controller Handle that supports `Follow Joint Trajectory Action <https://docs.ros.org/en/noetic/api/control_msgs/html/action/FollowJointTrajectory.html>`_ via an exported MoveIt *Controller Handle Allocator* plugin.
 
 The same pattern can be followed to link any other ROS controller that exposes a `Follow Joint Trajectory Action <https://docs.ros.org/en/noetic/api/control_msgs/html/action/FollowJointTrajectory.html>`_ server with an existing MoveIt *Controller Handle* so that it can receive trajectory commands.
 
@@ -243,7 +243,7 @@ Reference this plugin description file in your package.xml's ``export`` section:
 
 After building the package, any controllers in ``ros_controllers.yaml`` that reference ``controller_package_name/controller_type_name`` will become available for use with MoveIt.
 
-The *MoveIt ROS Control Controller Manager* can be configured by changing the ``moveit_controller_manager`` setting to ``ros_control``. The MoveIt configuration package auto-generated by MSA includes the `demo_gazebo.launch <https://github.com/ros-planning/moveit/blob/master/moveit_setup_assistant/templates/moveit_config_pkg_template/launch/demo_gazebo.launch#L19>`_ file that already configures this manager type in addition to launching `Gazebo <https://classic.gazebosim.org/tutorials?tut=ros_control&cat=connect_ros>`_ simulation and visualizing the robot state in `RViz <https://moveit.picknik.ai/main/doc/tutorials/quickstart_in_rviz/quickstart_in_rviz_tutorial.html>`_.
+The *MoveIt ROS Control Controller Manager* can be configured by changing the ``moveit_controller_manager`` setting to ``ros_control``. The MoveIt configuration package auto-generated by MSA includes the `demo_gazebo.launch <https://github.com/moveit/moveit/blob/master/moveit_setup_assistant/templates/moveit_config_pkg_template/launch/demo_gazebo.launch#L19>`_ file that already configures this manager type in addition to launching `Gazebo <https://classic.gazebosim.org/tutorials?tut=ros_control&cat=connect_ros>`_ simulation and visualizing the robot state in `RViz <https://moveit.picknik.ai/main/doc/tutorials/quickstart_in_rviz/quickstart_in_rviz_tutorial.html>`_.
 
 To test ROS controller integration with *MoveIt ROS Control Controller Manager*, launch the package generated by MSA by using the ``demo_gazebo.launch`` file. This will load your robot description, start the motion planning pipeline hosted in ``move_group`` node, and enable you to use the `Motion Planning Plugin <../quickstart_in_rviz/quickstart_in_rviz_tutorial.html>`_ in RViz to send goals to MoveIt, simulating the effect your ROS controllers will have on the real robot in Gazebo.
 
@@ -295,11 +295,11 @@ The following headers declare the relevant classes and macros:
 
 Two example *controller handle* implementations are included with MoveIt:
 
-* `follow_joint_trajectory_controller_handle.h <https://github.com/ros-planning/moveit/blob/master/moveit_plugins/moveit_simple_controller_manager/include/moveit_simple_controller_manager/follow_joint_trajectory_controller_handle.h>`_ implemented in the `corresponding .cpp file <https://github.com/ros-planning/moveit/blob/master/moveit_plugins/moveit_simple_controller_manager/src/follow_joint_trajectory_controller_handle.cpp>`_
+* `follow_joint_trajectory_controller_handle.h <https://github.com/moveit/moveit/blob/master/moveit_plugins/moveit_simple_controller_manager/include/moveit_simple_controller_manager/follow_joint_trajectory_controller_handle.h>`_ implemented in the `corresponding .cpp file <https://github.com/moveit/moveit/blob/master/moveit_plugins/moveit_simple_controller_manager/src/follow_joint_trajectory_controller_handle.cpp>`_
 
-* `gripper_controller_handle.h <https://github.com/ros-planning/moveit/blob/master/moveit_plugins/moveit_simple_controller_manager/include/moveit_simple_controller_manager/gripper_controller_handle.h>`_
+* `gripper_controller_handle.h <https://github.com/moveit/moveit/blob/master/moveit_plugins/moveit_simple_controller_manager/include/moveit_simple_controller_manager/gripper_controller_handle.h>`_
 
-As you can see, writing a `controller handle <https://github.com/ros-planning/moveit/blob/master/moveit_core/controller_manager/include/moveit/controller_manager/controller_manager.h#L104>`__ comes down to implementing:
+As you can see, writing a `controller handle <https://github.com/moveit/moveit/blob/master/moveit_core/controller_manager/include/moveit/controller_manager/controller_manager.h#L104>`__ comes down to implementing:
 
 * ``sendTrajectory`` method that translates `moveit_msgs::RobotTrajectory <http://docs.ros.org/en/noetic/api/moveit_msgs/html/msg/RobotTrajectory.html>`_ to a format the controller can understand
 * ``cancelExecution`` method to tell the controller to stop any active trajectories
@@ -308,7 +308,7 @@ As you can see, writing a `controller handle <https://github.com/ros-planning/mo
 
 One example *controller handle allocator* plugin implementation is included with MoveIt:
 
-* `joint_trajectory_controller_plugin.cpp <https://github.com/ros-planning/moveit/blob/master/moveit_plugins/moveit_ros_control_interface/src/joint_trajectory_controller_plugin.cpp>`_
+* `joint_trajectory_controller_plugin.cpp <https://github.com/moveit/moveit/blob/master/moveit_plugins/moveit_ros_control_interface/src/joint_trajectory_controller_plugin.cpp>`_
 
 The only job of a controller handle allocator is to create a new instance of the controller handle. The following example implements an allocator for a custom controller handle of type ``example::controller_handle_example`` (the code listing for this class is provided in the following section):
 

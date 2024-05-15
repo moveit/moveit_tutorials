@@ -22,7 +22,7 @@ Install From Source
 Go into your catkin workspace and initialize wstool if necessary (assuming `~/ws_moveit` as workspace path): ::
 
   cd ~/ws_moveit/src
-  git clone https://github.com/ros-planning/moveit_task_constructor.git
+  git clone https://github.com/moveit/moveit_task_constructor.git
 
 Install missing packages with rosdep: ::
 
