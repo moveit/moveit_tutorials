@@ -98,6 +98,7 @@ Miscellaneous
    doc/benchmarking/benchmarking_tutorial
    doc/tests/tests_tutorial
    doc/test_debugging/test_debugging_tutorial
+   doc/simultaneous_trajectory_execution/simultaneous_trajectory_execution_tutorial
 
 Attribution
 -----------

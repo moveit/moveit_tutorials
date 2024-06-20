@@ -1,0 +1,10 @@
+<launch>
+
+  <node name="simultaneous_trajectory_execution_tutorial"
+        pkg="moveit_tutorials"
+        type="simultaneous_trajectory_execution_tutorial"
+        respawn="false"
+        output="screen">
+  </node>
+
+</launch>
