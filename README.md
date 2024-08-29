@@ -10,18 +10,16 @@ These tutorials use the [reStructuredText](http://www.sphinx-doc.org/en/stable/r
 
 All content in this repository is open source and released under the [BSD License v3](https://opensource.org/licenses/BSD-3-Clause). Each individual source code file should contain a copy of the license.
 
-This repository is currently built automatically by two systems. Github Actions builds the documentation for Noetic, and ROS Build Farm builds the documentation for older versions:
+Github Actions builds and deploys the documentation for Noetic:
 
-- [ROS Noetic](https://moveit.github.io/moveit_tutorials/): [![CI](https://github.com/moveit/moveit_tutorials/actions/workflows/ci.yaml/badge.svg?branch=master)](https://github.com/moveit/moveit_tutorials/actions/workflows/ci.yaml?query=branch%3Amaster) [![Deploy](https://github.com/moveit/moveit_tutorials/actions/workflows/deploy.yaml/badge.svg?branch=master)](https://github.com/moveit/moveit_tutorials/actions/workflows/deploy.yaml?query=branch%3Amaster) [![Formatting](https://github.com/moveit/moveit_tutorials/actions/workflows/format.yaml/badge.svg?branch=master)](https://github.com/moveit/moveit_tutorials/actions/workflows/format.yaml?query=branch%3Amaster)
-- [ROS Melodic](http://docs.ros.org/melodic/api/moveit_tutorials/html/): [![build farm](http://build.ros.org/buildStatus/icon?job=Mdoc__moveit_tutorials__ubuntu_bionic_amd64)](http://build.ros.org/job/Mdoc__moveit_tutorials__ubuntu_bionic_amd64/)
-- [ROS Kinetic](http://docs.ros.org/kinetic/api/moveit_tutorials/html/): [![build farm](http://build.ros.org/buildStatus/icon?job=Kdoc__moveit_tutorials__ubuntu_xenial_amd64)](http://build.ros.org/job/Kdoc__moveit_tutorials__ubuntu_xenial_amd64/)
+[![CI](https://github.com/moveit/moveit_tutorials/actions/workflows/ci.yaml/badge.svg?branch=master)](https://github.com/moveit/moveit_tutorials/actions/workflows/ci.yaml?query=branch%3Amaster) [![Deploy](https://github.com/moveit/moveit_tutorials/actions/workflows/deploy.yaml/badge.svg?branch=master)](https://github.com/moveit/moveit_tutorials/actions/workflows/deploy.yaml?query=branch%3Amaster) [![Formatting](https://github.com/moveit/moveit_tutorials/actions/workflows/format.yaml/badge.svg?branch=master)](https://github.com/moveit/moveit_tutorials/actions/workflows/format.yaml?query=branch%3Amaster)
 
 ## Versions
 
-- ``indigo-devel`` usage is discouraged
-- ``kinetic-devel`` stable
-- ``melodic-devel`` stable
-- ``master`` latest, changes should target this branch
+- [``indigo-devel``](http://docs.ros.org/indigo/api/moveit_tutorials/html/) usage is discouraged
+- [``kinetic-devel``](http://docs.ros.org/kinetic/api/moveit_tutorials/html/) stable
+- [``melodic-devel``](http://docs.ros.org/melodic/api/moveit_tutorials/html/) stable
+- [``master``](https://moveit.github.io/moveit_tutorials/) latest, used for Noetic
 
 ## Build Locally
 
