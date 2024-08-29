@@ -16,7 +16,7 @@ Getting Started
 
 * Clone the `Universal Robot package <https://github.com/ros-industrial/universal_robot>`_ to your workspace for Melodic. Remember to rebuild your workspace after cloning.
 
-* Install `Gazebo <http://gazebosim.org/tutorials?tut=install_ubuntu&cat=install>`_. You need to install ros-${ROS_DISTRO}-gazebo-plugins too.
+* Install `Gazebo <http://classic.gazebosim.org/tutorials?tut=install_ubuntu&cat=install>`_. You need to install ros-${ROS_DISTRO}-gazebo-plugins too.
 
 
 Running the Demo

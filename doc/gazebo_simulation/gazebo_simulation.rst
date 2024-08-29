@@ -1,7 +1,7 @@
 Gazebo Simulation Integration
 =============================
 
-`Gazebo <http://gazebosim.org/>`_ is the most popular robotics simulator in the ROS ecosystem, so it is naturally a good fit to integrate with MoveIt.
+`Gazebo <http://classic.gazebosim.org/>`_ is the most popular robotics simulator in the ROS ecosystem, so it is naturally a good fit to integrate with MoveIt.
 
 The `MoveIt Setup Assistant <../setup_assistant/setup_assistant_tutorial.html>`_ helps setup your robot to work with Gazebo, but there are still some additional steps required to successfully run MoveIt with Gazebo.
 
@@ -49,7 +49,7 @@ For correct physical simulation of your joints, we need to add dynamics paramete
 3. Add inertia matrices and masses to the links
 -----------------------------------------------
 For correct physical simulation of your links, we need to define inertia properties for every link.
-If your robot manufacturer doesn't provide the corresponding values, you can estimate them via :code:`MeshLab` as explained in the relevant `Gazebo documentation page <http://gazebosim.org/tutorials?tut=inertia&cat=build_robot>`_.
+If your robot manufacturer doesn't provide the corresponding values, you can estimate them via :code:`MeshLab` as explained in the relevant `Gazebo documentation page <https://classic.gazebosim.org/tutorials?tut=inertia&cat=build_robot>`_.
 Add the following XML snippet to your URDF link definitions:
 
 .. code-block:: xml
