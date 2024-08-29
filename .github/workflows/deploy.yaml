@@ -21,7 +21,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Setup Pages
-      uses: actions/configure-pages@v4
+      uses: actions/configure-pages@v5
       if: github.repository_owner == 'moveit'
     - uses: ruby/setup-ruby@v1
       with:
