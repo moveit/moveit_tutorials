@@ -278,8 +278,8 @@ class MoveGroupPythonInterfaceTutorial(object):
         # ignoring the check for infeasible jumps in joint space, which is sufficient
         # for this tutorial.
         (plan, fraction) = move_group.compute_cartesian_path(
-            waypoints, 0.01, 0.0  # waypoints to follow  # eef_step
-        )  # jump_threshold
+            waypoints, 0.01  # waypoints to follow  # eef_step
+        )
 
         # Note: We are just planning, not asking move_group to actually move the robot yet:
         return plan, fraction
