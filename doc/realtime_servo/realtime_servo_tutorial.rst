@@ -114,7 +114,7 @@ An `rqt_graph` of the servo node is shown below (Enlarge by clicking it). Most o
 .. image:: servo_rqt_graph.png
    :width: 700px
 
-Configuring Control Devices (Gamepads, Joysticks, etc)
+Configuring Control Devices (Gamepads etc.)
 ------------------------------------------------------
 The ``moveit_servo/config`` folder contains two examples of converting `SpaceNavigator <https://www.3dconnexion.com/spacemouse_compact/en/>`_ 3D mouse commands to servo commands. ``spacenav_teleop_tools.launch`` loads a config file then publishes commands to the servo node on the ``spacenav/joy topic``. It is easy to create your own config file for a particular joystick or gamepad.
 
@@ -152,7 +152,19 @@ See the following video for an example usage:
         <iframe width="700" height="385" src="https://www.youtube.com/embed/BOcKcjQli3o?si=w0dULrQFJ6G7sIJ9" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
     </div>
 
+Configuring Joystick as a Control Device
+------------------------------------------------------
+As an alternative, you can use a joystick to control the robot. Assuming you have already compiled the workspace and sourced it, simply run. ::
 
+    roslaunch ur5_moveit_tutorials ur5_moveit_servo_w_joy.launch
+
+See the following video for an example usage:
+
+.. raw:: html
+
+    <div style="position: relative; padding-bottom: 5%; height: 0; overflow: hidden; max-width: 100%; height: auto;">
+        <iframe width="700" height="385" src="https://www.youtube.com/embed/aad-QAYJP2c?si=B-kePIpuu0dpc8gq" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
 
 Integration Testing
 -------------------
