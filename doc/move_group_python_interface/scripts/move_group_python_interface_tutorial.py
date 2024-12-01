@@ -419,7 +419,7 @@ class MoveGroupPythonInterfaceTutorial(object):
         ## robot be able to touch them without the planning scene reporting the contact as a
         ## collision. By adding link names to the ``touch_links`` array, we are telling the
         ## planning scene to ignore collisions between those links and the box. For the Panda
-        ## robot, we set ``grasping_group = 'hand'``. If you are using a different robot,
+        ## robot, we set ``grasping_group = 'panda_hand'``. If you are using a different robot,
         ## you should change this value to the name of your end effector group name.
         grasping_group = "panda_hand"
         touch_links = robot.get_link_names(group=grasping_group)
