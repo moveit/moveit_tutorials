@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Start Mesh Filter -->
+  <node pkg="nodelet" type="nodelet" name="standalone_nodelet" args="manager" output="screen"/>
+  <node pkg="nodelet" type="nodelet" name="mesh_filter" args="load mesh_filter/DepthSelfFiltering standalone_nodelet" output="screen">
+    <remap to="/camera/depth/image_raw" from="/depth"/>
+    <remap to="/camera/depth/camera_info" from="/camera_info"/>
+    <param name="near_clipping_plane_distance" value="0.05"/>
+    <param name="far_clipping_plane_distance" value="1.5"/>
+    <param name="shadow_threshold" value="0.1"/>
+    <param name="padding_scale" value="1.0"/>
+    <param name="padding_offset" value="0.001"/>
+  </node>
+
+</launch>
