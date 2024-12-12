@@ -1,13 +1,17 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="ur5_world">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="panda">
 
-  <!-- Include UR5 -->
-  <xacro:arg name="joint_limit_params" default="$(find ur_description)/config/ur5/joint_limits.yaml"/>
-  <xacro:arg name="kinematics_params" default="$(find ur_description)/config/ur5/default_kinematics.yaml"/>
-  <xacro:arg name="physical_params" default="$(find ur_description)/config/ur5/physical_parameters.yaml"/>
-  <xacro:arg name="visual_params" default="$(find ur_description)/config/ur5/visual_parameters.yaml"/>
-  <xacro:arg name="robot_model" default="ur5"/>
-  <xacro:include filename="$(find ur_gazebo)/urdf/ur.xacro"/>
+  <!-- Include Franka Panda -->
+  <xacro:arg name="hand" default="true"/>
+  <xacro:arg name="gazebo" default="true"/>
+  <xacro:arg name="arm_id" default="panda"/>
+  <xacro:arg name="x" default="0"/>
+  <xacro:arg name="y" default="0"/>
+  <xacro:arg name="z" default="0"/>
+  <xacro:arg name="roll" default="0"/>
+  <xacro:arg name="pitch" default="0"/>
+  <xacro:arg name="yaw" default="0"/>
+  <xacro:include filename="$(find franka_description)/robots/panda/panda.urdf.xacro"/>
 
   <!-- Define the grey material -->
   <material name="grey">
@@ -16,7 +20,7 @@
 
 <!-- Attach Kinect to world -->
   <joint type="fixed" name="world_camera_joint">
-    <origin xyz="0.15 -1 0.1" rpy="0 0 1.57"/>
+    <origin xyz="0.15 -1 0.5" rpy="0 0 1.57"/>
     <child link="camera_rgb_frame"/>
     <parent link="world"/>
     <axis xyz="0 0 0" rpy="0 0 0"/>
@@ -156,6 +160,5 @@
       </plugin>
     </sensor>
   </gazebo>
-
 </robot>
 
