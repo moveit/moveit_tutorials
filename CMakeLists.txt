@@ -8,6 +8,7 @@ find_package(catkin REQUIRED
     moveit_ros_planning
     moveit_ros_planning_interface
     moveit_ros_perception
+    rviz
     rviz_visual_tools
     moveit_visual_tools
     pluginlib
