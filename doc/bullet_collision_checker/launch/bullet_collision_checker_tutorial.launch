@@ -3,7 +3,7 @@
 
   <!-- load URDF -->
   <param name="robot_description"
-    command="$(find xacro)/xacro '$(find franka_description)/robots/panda/panda.urdf.xacro hand:=true'"/>
+    command="$(find xacro)/xacro '$(find franka_description)/robots/panda/panda.urdf.xacro' hand:=true"/>
 
   <!-- load SRDF -->
   <param name="robot_description_semantic" command="$(find xacro)/xacro '$(find panda_moveit_config)/config/panda.srdf.xacro' hand:=true"/>
