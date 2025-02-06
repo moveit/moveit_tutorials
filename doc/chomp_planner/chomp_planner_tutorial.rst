@@ -142,7 +142,7 @@ To achieve this, follow the steps:
 
     sudo apt install ros-noetic-moveit-chomp-optimizer-adapter
 
-#. Create a new launch file ``ompl-chomp_planning_pipeline.launch`` in the ``<robot_moveit_config>/launch`` folder of your robot with the following contents: ::
+#. Create a new launch file ``ompl_chomp_planning_pipeline.launch`` in the ``<robot_moveit_config>/launch`` folder of your robot with the following contents: ::
 
     <launch>
       <!-- load OMPL planning pipeline, but add the CHOMP planning adapter. -->
@@ -162,11 +162,11 @@ To achieve this, follow the steps:
       <param name="trajectory_initialization_method" value="fillTrajectory"/>
     </launch>
 
-#. This launch file defines the new planning pipeline ``ompl-chomp``, deriving from the ``ompl`` pipeline,
+#. This launch file defines the new planning pipeline ``ompl_chomp``, deriving from the ``ompl`` pipeline,
    but adding the CHOMP post-processor as a planning adapter. Also, the ``trajectory_initialization_method`` is overridden to use the OMPL-generated trajectory.
 
 #. Now you can launch the newly configure planning pipeline as follows: ::
 
-    roslaunch panda_moveit_config demo.launch pipeline:=ompl-chomp
+    roslaunch panda_moveit_config demo.launch pipeline:=ompl_chomp
 
 This will launch RViz, select OMPL in the Motion Planning panel under the Context tab. Set the desired start and goal states by moving the end-effector around in the same way as was done for CHOMP above. Finally click on the Plan button to start planning. The planner will now first run OMPL, then run CHOMP on OMPL's output to produce an optimized path.
