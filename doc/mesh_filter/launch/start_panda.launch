@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="arm_id" default="panda"/>
+  <arg name="robot" default="panda"/>
+  <arg name="paused"      default="false" doc="Should the simulation directly be stopped at 0s?" />
+  <arg name="initial_joint_positions"
+       doc="Initial joint configuration of the panda. Specify as a list of name/value pairs in form of '-J [name-of-joint] [value-in-rad]'. Default is a 90 degree bend in the elbow"
+       default="-J panda_joint1 0
+                -J panda_joint2 -0.785398163
+                -J panda_joint3 0
+                -J panda_joint4 -2.35619449
+                -J panda_joint5 0
+                -J panda_joint6 1.57079632679
+                -J panda_joint7 0.785398163397
+                -J panda_finger_joint1 0.001
+                -J panda_finger_joint2 0.001"
+       />
+  <arg name="controller"  default="effort_joint_trajectory_controller"/>
+
+  <!-- Start Gazebo -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="worlds/empty.world"/>
+    <!-- Always start in paused mode, and only unpause when spawning the model -->
+    <arg name="paused" value="true"/>
+    <arg name="gui" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+  </include>
+
+  <!-- Load robot description -->
+  <param name="robot_description" command="$(find xacro)/xacro '$(find moveit_tutorials)/doc/mesh_filter/urdf/panda_sensor.xacro'"/>
+
+  <!-- Load Controllers -->
+  <rosparam file="$(find franka_gazebo)/config/franka_hw_sim.yaml" subst_value="true" />
+  <rosparam file="$(find franka_gazebo)/config/sim_controllers.yaml" subst_value="true" />
+
+  <!-- Spawn Robot -->
+  <arg name="unpause" value="$(eval '' if arg('paused') else '-unpause')" />
+  <node name="panda_model_spawner"
+        pkg="gazebo_ros"
+        type="spawn_model"
+        args="-param robot_description -urdf -model panda $(arg unpause)
+              $(arg initial_joint_positions)
+              "/>
+
+  <!-- spawns the controller after the robot was put into its initial joint pose -->
+  <node pkg="controller_manager"
+        type="spawner"
+        name="panda_controller_spawner"
+        respawn="false" output="screen"
+        args="--wait-for initialized franka_state_controller $(arg controller)"
+  />
+
+  <!-- Robot state publisher -->
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher"/>
+  <node name="joint_state_publisher" type="joint_state_publisher" pkg="joint_state_publisher">
+    <rosparam param="source_list">[franka_state_controller/joint_states] </rosparam>
+    <param name="rate" value="30"/>
+  </node>
+
+
+  <!-- Start rviz -->
+  <node name="$(anon rviz)" pkg="rviz" type="rviz" respawn="false"
+    args="-d $(find moveit_tutorials)/doc/mesh_filter/rviz/mesh_filter.rviz" output="screen">
+  </node>
+</launch>
