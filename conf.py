@@ -83,6 +83,12 @@ extlinks = {
         + "/api/moveit_core/html/classmoveit_1_1core_1_1%s.html",
         "",
     ),
+    "moveit_python": (
+        "http://docs.ros.org/"
+        + ros_distro
+        + "/api/moveit_core/html/python/_autosummary/moveit.%s.html",
+        "",
+    ),
     "planning_scene": (
         "http://docs.ros.org/"
         + ros_distro
