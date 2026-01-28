@@ -6,7 +6,7 @@ These tutorials will step you through using and learning the MoveIt Motion Plann
 .. image:: doc/quickstart_in_rviz/rviz_plugin_head.png
    :width: 700px
 
-In these tutorials, the Franka Emika Panda robot is used as a quick-start demo. Alternatively, you can easily use any robot that has already been configured to work with MoveIt - check the `list of robots running MoveIt <http://moveit.ros.org/robots/>`_ to see whether MoveIt is already available for your robot. Otherwise, you can setup MoveIt to work with your custom robot in the tutorial section "Integration with a New Robot", below.
+In these tutorials, the Franka Emika Panda robot is used as a quick-start demo. Alternatively, you can easily use any robot that has already been configured to work with MoveIt - check the `list of robots running MoveIt <http://moveit.ai/robots/>`_ to see whether MoveIt is already available for your robot. Otherwise, you can setup MoveIt to work with your custom robot in the tutorial section "Integration with a New Robot", below.
 
 Getting Started with MoveIt and RViz
 -------------------------------------
@@ -46,7 +46,7 @@ Building more complex applications with MoveIt often requires developers to dig 
 
 Integration with a New Robot
 ----------------------------
-Before attempting to integrate a new robot with MoveIt, check whether your robot has already been setup (see the `list of robots running MoveIt <http://moveit.ros.org/robots/>`_). Otherwise, follow the tutorials in this section to integrate your robot with MoveIt (and share your results on the MoveIt mailing list)
+Before attempting to integrate a new robot with MoveIt, check whether your robot has already been setup (see the `list of robots running MoveIt <http://moveit.ai/robots/>`_). Otherwise, follow the tutorials in this section to integrate your robot with MoveIt (and share your results on the MoveIt mailing list)
 
 .. toctree::
    :maxdepth: 1
@@ -86,7 +86,7 @@ Attribution
 -----------
 Major contributors to the MoveIt tutorials are listed in chronological order: Sachin Chitta, Dave Hershberger, Acorn Pooley, Dave Coleman, Michael Gorner, Francisco Suarez, Mike Lautman. Help us improve these docs and we'll be happy to include you here also!
 
-The tutorials had a major update in 2018 during a code sprint sponsored by Franka Emika in collaboration with PickNik (`Check out the blog post! <http://moveit.ros.org/moveit!/ros/2018/02/26/tutorials-documentation-codesprint.html>`_)
+The tutorials had a major update in 2018 during a code sprint sponsored by Franka Emika in collaboration with PickNik (`Check out the blog post! <http://moveit.ai/moveit!/ros/2018/02/26/tutorials-documentation-codesprint.html>`_)
 
 .. image:: ./_static/franka_logo.png
    :width: 300px

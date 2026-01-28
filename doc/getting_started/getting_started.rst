@@ -22,7 +22,7 @@ The simplest way to install MoveIt is from pre-built binaries (Debian): ::
 
   sudo apt install ros-melodic-moveit
 
-Advanced users might want to `install MoveIt from source <http://moveit.ros.org/install/source/>`_.
+Advanced users might want to `install MoveIt from source <http://moveit.ai/install/source/>`_.
 If you want to build your own MoveIt fork, replace the repository uri in the .rosinstall file with your own.
 
 Create A Catkin Workspace

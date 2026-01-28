@@ -21,7 +21,7 @@ As you add and remove packages from your workspace you will need to clean your w
   cd ~/ws_moveit/src
   catkin clean
 
-Now follow the instructions on the MoveIt homepage for `installing MoveIt Melodic from source <http://moveit.ros.org/install/source/>`_. Note that you can skip the **Prerequisites** section since you should already have a Catkin workspace.
+Now follow the instructions on the MoveIt homepage for `installing MoveIt Melodic from source <http://moveit.ai/install/source/>`_. Note that you can skip the **Prerequisites** section since you should already have a Catkin workspace.
 
 Re-source the setup files: ::
 
