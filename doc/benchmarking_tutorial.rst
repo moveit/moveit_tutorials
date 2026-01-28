@@ -3,7 +3,7 @@ Benchmarking Tutorial
 
 .. note:: This is the new benchmarking method only available in ROS Kinetic, onward. Documentation is lacking for the previous benchmarking tutorial for Jade and earlier.
 
-.. note:: To use this benchmarking method, you will need to download and install the ROS Warehouse plugin. Currently this is not available from debians and requires a source install for at least some aspects. For source instructions, see `this page <http://moveit.ros.org/install/source/dependencies/>`_
+.. note:: To use this benchmarking method, you will need to download and install the ROS Warehouse plugin. Currently this is not available from debians and requires a source install for at least some aspects. For source instructions, see `this page <http://moveit.ai/install/source/dependencies/>`_
 
 The `benchmarking package <https://github.com/ros-planning/moveit/tree/kinetic-devel/moveit_ros/benchmarks>`_ provides methods to benchmark motion planning algorithms and aggregate/plot statistics using the OMPL Planner Arena.
 The example below demonstrates how the benchmarking can be run for a Fanuc M-10iA.
