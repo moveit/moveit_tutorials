@@ -117,7 +117,7 @@ extlinks = {
         "http://docs.ros.org/" + ros_distro + "/api/moveit_core/html/%s.html",
         "",
     ),
-    "moveit_website": ("http://moveit.ros.org/%s/", ""),
+    "moveit_website": ("http://moveit.ai/%s/", ""),
     "locked_planning_scene": (
         "http://docs.ros.org/"
         + ros_distro
