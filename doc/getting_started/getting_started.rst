@@ -22,7 +22,7 @@ The simplest way to install MoveIt is from pre-built binaries (Debian): ::
 
   sudo apt install ros-kinetic-moveit
 
-Advanced users might want to `install MoveIt from source <http://moveit.ros.org/install/source/>`_.
+Advanced users might want to `install MoveIt from source <http://moveit.ai/install/source/>`_.
 
 Create A Catkin Workspace
 ^^^^^^^^^^^^^^^^^^^^^^^^^

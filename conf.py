@@ -64,7 +64,7 @@ extlinks = {'codedir': ('https://github.com/' + html_context["github_user"] + '/
             'kinematic_constraints': ('http://docs.ros.org/kinetic/api/moveit_core/html/classkinematic__constraints_1_1%s.html', ''),
             'moveit_core_files': ('http://docs.ros.org/kinetic/api/moveit_core/html/%s.html', ''),
             'move_group_interface': ('http://docs.ros.org/kinetic/api/moveit_ros_planning_interface/html/classmoveit_1_1planning__interface_1_1%s.html', ''),
-            'moveit_website': ('http://moveit.ros.org/%s/', '')}
+            'moveit_website': ('http://moveit.ai/%s/', '')}
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'MoveItDocumentation'
