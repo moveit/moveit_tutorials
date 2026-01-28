@@ -1,11 +1,11 @@
 MoveIt! Tutorials
 =================
 
-These tutorials will run you through how to use MoveIt! with your robot. It is assumed that you have already configured MoveIt! for your robot - check the `list of robots running MoveIt! <http://moveit.ros.org/robots/>`_ to see whether MoveIt! is already available for your robot. Otherwise, skip to the tutorial on Setting up MoveIt! for your robot. If you just want to test MoveIt!, use the PR2 as your quick-start robot.
+These tutorials will run you through how to use MoveIt! with your robot. It is assumed that you have already configured MoveIt! for your robot - check the `list of robots running MoveIt! <http://moveit.ai/robots/>`_ to see whether MoveIt! is already available for your robot. Otherwise, skip to the tutorial on Setting up MoveIt! for your robot. If you just want to test MoveIt!, use the PR2 as your quick-start robot.
 
 .. note:: All tutorials referencing the PR2 have only been tested with ROS Indigo but likely work with ROS Jade. See `issue <https://github.com/ros-planning/moveit/issues/110>`_ for more information.
 
-Before beginning the tutorials it is recommended that you read through the `Concepts <http://moveit.ros.org/documentation/concepts/>`_ page to get a general overview of how MoveIt! works. This page runs through some of the basic concepts underlying the MoveIt! system architecture, interfaces and usage.
+Before beginning the tutorials it is recommended that you read through the `Concepts <http://moveit.ai/documentation/concepts/>`_ page to get a general overview of how MoveIt! works. This page runs through some of the basic concepts underlying the MoveIt! system architecture, interfaces and usage.
 
 Beginner
 --------
@@ -41,7 +41,7 @@ This set of advanced tutorials is meant for developers who are using MoveIt!’s
 Integration with New Robot
 --------------------------
 
-Before attempting to integrate a new robot with MoveIt!, check whether your robot has already been setup (see the `list of robots running MoveIt! <http://moveit.ros.org/robots/>`_). Otherwise, follow the tutorials in this section to integrate your robot with MoveIt! (and share your results on the MoveIt! mailing list)
+Before attempting to integrate a new robot with MoveIt!, check whether your robot has already been setup (see the `list of robots running MoveIt! <http://moveit.ai/robots/>`_). Otherwise, follow the tutorials in this section to integrate your robot with MoveIt! (and share your results on the MoveIt! mailing list)
 
 .. toctree::
    :maxdepth: 1
