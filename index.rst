@@ -1,7 +1,7 @@
 MoveIt Tutorials
 =================
 
-These tutorials will step you through using MoveIt with your robot. It is assumed the robot you are working with has already been configured to work with MoveIt - check the `list of robots running MoveIt <http://moveit.ros.org/robots/>`_ to see whether MoveIt is already available for your robot. Otherwise, skip to the "Integration with a New Robot" tutorials, below. If you just want to quickly try MoveIt, use the default Panda robot as your quick-start demo.
+These tutorials will step you through using MoveIt with your robot. It is assumed the robot you are working with has already been configured to work with MoveIt - check the `list of robots running MoveIt <http://moveit.ai/robots/>`_ to see whether MoveIt is already available for your robot. Otherwise, skip to the "Integration with a New Robot" tutorials, below. If you just want to quickly try MoveIt, use the default Panda robot as your quick-start demo.
 
 To follow along with these tutorials you will need a **ROBOT_moveit_config** package. This tutorial will use the Panda robot from Franka Emika. To get a working **panda_moveit_config** package you can install from source, create your own, or install from Debian. We will walk through each method in the following Getting Started tutorial:
 
@@ -44,7 +44,7 @@ Building more complex applications with MoveIt often requires developers to dig 
 
 Integration with a New Robot
 ----------------------------
-Before attempting to integrate a new robot with MoveIt, check whether your robot has already been setup (see the `list of robots running MoveIt <http://moveit.ros.org/robots/>`_). Otherwise, follow the tutorials in this section to integrate your robot with MoveIt (and share your results on the MoveIt mailing list)
+Before attempting to integrate a new robot with MoveIt, check whether your robot has already been setup (see the `list of robots running MoveIt <http://moveit.ai/robots/>`_). Otherwise, follow the tutorials in this section to integrate your robot with MoveIt (and share your results on the MoveIt mailing list)
 
 .. toctree::
    :maxdepth: 1
@@ -83,7 +83,7 @@ Attribution
 -----------
 Major contributors to the MoveIt tutorials are listed in chronological order: Sachin Chitta, Dave Hershberger, Acorn Pooley, Dave Coleman, Michael Gorner, Francisco Suarez, Mike Lautman. Help us improve these docs and we'll be happy to include you here also!
 
-The tutorials had a major update in 2018 during a code sprint sponsored by Franka Emika in collaboration with PickNik (`Check out the blog post! <http://moveit.ros.org/MoveIt/ros/2018/02/26/tutorials-documentation-codesprint.html>`_)
+The tutorials had a major update in 2018 during a code sprint sponsored by Franka Emika in collaboration with PickNik (`Check out the blog post! <http://moveit.ai/MoveIt/ros/2018/02/26/tutorials-documentation-codesprint.html>`_)
 
 .. image:: ./_static/franka_logo.png
    :width: 300px
