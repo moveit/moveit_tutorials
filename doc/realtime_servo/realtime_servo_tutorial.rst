@@ -24,7 +24,7 @@ Clone `universal_robot melodic-devel branch <https://github.com/ros-industrial/u
 
     cd ~/ws_moveit/src
 
-    git clone -b 1.2.7 https://github.com/ros-industrial/universal_robot
+    git clone -b melodic-devel https://github.com/ros-industrial/universal_robot
 
 Install any new dependencies that may be missing: ::
 
@@ -40,25 +40,25 @@ Re-build and re-source the workspace. ::
 
 Launch the Gazebo simulation: ::
 
-    roslaunch ur_gazebo ur5.launch
+    roslaunch ur_gazebo ur5_bringup.launch
 
-    roslaunch ur5_moveit_config ur5_moveit_planning_execution.launch sim:=true
+    roslaunch ur5_moveit_config moveit_planning_execution.launch sim:=true
 
-    roslaunch ur5_moveit_config moveit_rviz.launch config:=true
+    roslaunch ur5_moveit_config moveit_rviz.launch
 
 In RViz, grab the red/blue/green "interactive marker" and drag the robot to a non-singular position (not all zero joint angles) that is not close to a joint limit. Click "plan and execute" to move the robot to that pose.
 
 Switch to a compatible type of `ros-control` controller. It should be a `JointGroupVelocityController` or a `JointGroupPositionController`, not a trajectory controller like MoveIt usually requires. ::
 
     rosservice call /controller_manager/switch_controller "start_controllers: ['joint_group_position_controller']
-    stop_controllers: ['arm_controller']
+    stop_controllers: ['eff_joint_traj_controller']
     strictness: 0
     start_asap: false
     timeout: 0.0"
 
 Launch the servo node. This example uses commands from a `SpaceNavigator <https://www.3dconnexion.com/spacemouse_compact/en/>`_ joystick-like device: ::
 
-    roslaunch moveit_servo spacenav_cpp.launch
+    roslaunch moveit_servo spacenav_cpp.launch config:=$(rospack find moveit_tutorials)/doc/realtime_servo/ur_config.yaml
 
 If you do not have a SpaceNav 3D mouse, you can publish example servo commands from the command line with: ::
 
