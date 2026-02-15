@@ -7,7 +7,11 @@ export REPOSITORY_NAME=${PWD##*/}
 echo "Testing branch ${GITHUB_BASE_REF:-$GITHUB_HEAD_REF} of $REPOSITORY_NAME"
 
 # Install htmlpoofer
-sudo gem update --system --no-document
+# sudo gem update --system --no-document # Can't update all gems ruby on 18.04 is EOL
+sudo gem install rubygems-update -v '<3' --no-document
+sudo gem install nokogiri:1.12.5 --no-document
+sudo gem install public_suffix -v 4.0.7
+
 gem --version
 sudo gem install html-proofer -v 3.19 # newer 4.x requires different cmdline options
 # Install ROS's version of sphinx
