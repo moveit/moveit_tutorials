@@ -49,9 +49,13 @@ public:
   {
   }
 
-  bool sendTrajectory(const moveit_msgs::RobotTrajectory& /*t*/) override
+  bool sendTrajectory(const moveit_msgs::RobotTrajectory& /*t*/, const ExecutionCompleteCallback& cb) override
   {
     // do whatever is needed to actually execute this trajectory
+
+    // then if there is a callback, return the status of the execution. For example, signal success
+    if (cb)
+      cb(moveit_controller_manager::ExecutionStatus::SUCCEEDED);
     return true;
   }
 
