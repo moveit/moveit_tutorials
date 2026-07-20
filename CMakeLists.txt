@@ -21,7 +21,7 @@ find_package(catkin REQUIRED
 )
 
 find_package(Eigen3 REQUIRED)
-find_package(Boost REQUIRED system filesystem date_time thread)
+find_package(Boost REQUIRED filesystem date_time thread)
 
 set(THIS_PACKAGE_INCLUDE_DIRS
   doc/interactivity/include
